@@ -7,39 +7,38 @@
 
     <f:view contentType="text/html">
         <h:head>
+            <link href="../../css/style.css"/>
+            <script type="text/javascript" src="../../js/jquery-2.1.4.min.js"></script> 
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-                <title>PrimeFaces</title>
+                <title>SIENI</title>
             </f:facet>
         </h:head>
 
         <h:body>
-
             <p:layout fullPage="true">
-
-                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
-                    Header
+                <p:layoutUnit position="north" resizable="false" closable="true" collapsible="true">
+                    <p:graphicImage alt="logo_mined" url="../../images/mined.jpg" class="ui-grid-col-2"/>
+                    <p:outputLabel value="Centro escolar San Ram&oacute;n" class="ui-grid-col-8" style="font-size: 2.4rem; text-align: center"/>
+                    <p:outputLabel value="SIENI" class="ui-grid-col-8" style="font-size: 2.4rem;text-align: center"/>
                 </p:layoutUnit>
-
                 <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
-                    Footer
+                    <p:outputLabel value="Copyrigth &copy; 2015 " class="ui-grid-col-12" style="text-align: center"  />
                 </p:layoutUnit>
 
-                <p:layoutUnit position="west" size="175" header="Left" collapsible="true">
+                <p:layoutUnit position="west" size="175" header="Menu opciones" collapsible="true">
                     <p:menu>
                         <p:submenu label="Resources">
                             <p:menuitem value="Demo" url="http://www.primefaces.org/showcase-labs/ui/home.jsf" />
                             <p:menuitem value="Documentation" url="http://www.primefaces.org/documentation.html" />
                             <p:menuitem value="Forum" url="http://forum.primefaces.org/" />
                             <p:menuitem value="Themes" url="http://www.primefaces.org/themes.html" />
-
                         </p:submenu>
-
                     </p:menu>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center">
-                    Welcome to PrimeFaces
+                    Contenido central
                 </p:layoutUnit>
 
             </p:layout>

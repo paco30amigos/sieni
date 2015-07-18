@@ -1,0 +1,3 @@
+﻿mvn install:install-file -DgroupId=org.primefaces -DartifactId=rio -Dversion=2.0 -Dpackaging=war -DgeneratePom=true -Dfile=rio-2.0.war
+
+mvn install:install-file -DgroupId=org.primefaces -DartifactId=rio-theme -Dversion=2.0 -Dpackaging=jar -DgeneratePom=true -Dfile=rio-theme-2.0.war

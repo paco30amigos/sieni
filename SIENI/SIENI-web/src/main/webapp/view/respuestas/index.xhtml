@@ -38,44 +38,22 @@
                     </p:dataTable>
                 </h:form>
             </p:tab>
-            <p:tab title="Formulario de registro de clases en vivo" >
+            <p:tab title="Registro de respuesta" >
                 <h:form>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="hora" value="Hora: " class="Container10 Responsive"></p:outputLabel>
-                    <p:inputMask id="hora" mask="99:99 " class="Container10 Responsive " value="99:99"/>
-                    <!--<p:inputMask id="hora" mask="99:99 " class="Container10 Responsive "/>-->
-                    <p:selectOneMenu tabindex="1" class="Container10 Responsive">
-                        <f:selectItem itemValue ="1" itemLabel="Xm" />
-                        <f:selectItem itemValue ="1" itemLabel="am" />
-                        <f:selectItem itemValue="0" itemLabel="pm"/>
+                    <p:outputLabel for="titulo" value="Titulo de Pregunta: " class="Container10 Responsive"></p:outputLabel>
+                    <p:inputText  id="titulo" value="XX--100--XX"></p:inputText>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="curso" value="Curso: " class="Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="1" id="curso" class="Container10 Responsive">
+                        <f:selectItem itemValue="0" itemLabel="XX--100--XX"/>
+                        <f:selectItem itemValue="0" itemLabel="Matemáticas"/>
+                        <f:selectItem itemValue ="1" itemLabel="Ciencias Naturales"/>
+                        <f:selectItem itemValue="2" itemLabel="Sociales"/>
                     </p:selectOneMenu>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="1" id="estado" class="Container10 Responsive">
-                        <f:selectItem itemValue="0" itemLabel="XX--15--XX"/>
-                        <f:selectItem itemValue="0" itemLabel="No Publicada"/>
-                        <f:selectItem itemValue ="1" itemLabel="Publicada"/>
-                        <f:selectItem itemValue="2" itemLabel="Eliminada"/>
-                    </p:selectOneMenu>
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="tipo" value="Tipo: " class="Container10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="1" id="tipo" class="Container10 Responsive">
-                        <f:selectItem itemValue="0" itemLabel="XX--50--XX"/>
-                        <f:selectItem itemValue="0" itemLabel="Video-Clase"/>
-                        <f:selectItem itemValue ="1" itemLabel="Clase en vivo"/>
-                        <f:selectItem itemValue="2" itemLabel="Clase interactiva"/>
-                    </p:selectOneMenu>
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="horario" value="Horario:  " class=" Container10 Responsive"></p:outputLabel>
-                    <p:selectManyButton id="horario" class=" Responsive">
-                        <f:selectItem itemValue="1" itemLabel="Lunes"/>
-                        <f:selectItem itemValue="2" itemLabel="Martes"/>
-                        <f:selectItem itemValue="3" itemLabel="Miercoles"/>
-                        <f:selectItem itemValue="4" itemLabel="Jueves"/>
-                        <f:selectItem itemValue="5" itemLabel="Viernes"/>
-<!--                        <f:selectItem itemValue="6" itemLabel="Sabado"/>
-                        <f:selectItem itemValue="7" itemLabel="Domingo"/>-->
-                    </p:selectManyButton>
+                    <p:outputLabel for="consulta" value="Consulta: " class="Container10 Responsive"></p:outputLabel>
+                    <p:inputTextarea value="XX--200--XX" id="consulta"></p:inputTextarea>
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Guardar"/>
                     <p:commandButton value="Limpiar"/>

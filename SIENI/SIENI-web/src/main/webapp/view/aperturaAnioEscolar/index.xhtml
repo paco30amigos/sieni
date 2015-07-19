@@ -13,6 +13,7 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
+        <h:form>
         <p:panel header="Apertura de año escolar" class="Container100 ">
             <div class="EmptyBox20"></div>
             <p:outputLabel for="anio" value="Año: " class="Container10 Responsive"></p:outputLabel>
@@ -27,15 +28,23 @@
             <!--<p:calendar id="fFin" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class=" Container10 Responsive"></p:calendar>-->
             <div class="EmptyBox20"></div>
             <p:outputLabel for="estado" value="Estado: " class=" Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu id="estado">
+            <p:selectOneMenu id="estado" class="Container10 Responsive">
                 <f:selectItem itemValue ="1" itemLabel="XX--15--XX"/>
                 <f:selectItem itemValue ="1" itemLabel="Activo"/>
                 <f:selectItem itemValue="0" itemLabel="Inactivo"/>
             </p:selectOneMenu>
             <div class="EmptyBox20"></div>
             <p:commandButton value="Guardar"/>
+            <p:commandButton value="Limpiar"/>
             <p:commandButton value="Cancelar"/>
-            <p:commandButton value="Modificar"/>
+            <div class="EmptyBox20"></div>
+            <p:splitButton value="Otras acciones">
+                <p:menuitem value="Registrar Alumno"></p:menuitem>
+                <p:menuitem value="Registrar Docente"></p:menuitem>
+                <p:menuitem value="Registrar Curso"></p:menuitem>
+            </p:splitButton>            
+            
         </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>

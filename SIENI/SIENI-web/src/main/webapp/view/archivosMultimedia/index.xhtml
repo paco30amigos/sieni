@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Mantenimiento de Archivos multimedia" url="/faces/view/archivosMultimedia/index.xhtml"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:panel header="Archivos Multimedia" class="Container100 ">
+            <div class="EmptyBox20"></div>
+            <p:outputLabel for="nombre" value="Nombre: " class="Container10 Responsive"></p:outputLabel>
+            <p:inputText id="nombre" value="XX--100--XX" class="Container10 Responsive"></p:inputText>
+            <!--<p:inputText id="nombre" value="" class="Container10 Responsive"></p:inputText>-->
+            <div class="EmptyBox20"></div>
+            <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
+            <p:selectOneMenu id="estado" class="Container10 Responsive">
+                <f:selectItem itemValue ="1" itemLabel="XX--15--XX"/>
+                <f:selectItem itemValue ="1" itemLabel="Disponible"/>
+                <f:selectItem itemValue="0" itemLabel="No Disponible"/>
+            </p:selectOneMenu>
+            <div class="EmptyBox20"></div>
+            <p:outputLabel for="tipo" value="Tipo: " class="Container10 Responsive"></p:outputLabel>
+            <p:selectOneMenu id="tipo" class="Container10 Responsive">
+                <f:selectItem itemValue ="1" itemLabel="XX--30--XX"/>
+                <f:selectItem itemValue ="0" itemLabel="Audio"/>
+                <f:selectItem itemValue ="1" itemLabel="Video"/>
+                <f:selectItem itemValue ="2" itemLabel="Imagen"/>
+            </p:selectOneMenu>
+            <div class="EmptyBox20"></div>
+            <p:fileUpload id="archivo" label="Subir archivo" mode="simple" skinSimple="true" allowTypes="/(\.|\/)(mp3)$/" class="Container20 Responsive" />
+            <p:outputLabel for="archivo" value="XX--100--XX " class="Container10 Responsive"></p:outputLabel>
+            <div class="EmptyBox20"></div>
+            <p:commandButton value="Guardar"/>
+            <p:commandButton value="Limpiar"/>
+            <p:commandButton value="Cancelar"/>
+        </p:panel>
+    </ui:define>
+</ui:composition>

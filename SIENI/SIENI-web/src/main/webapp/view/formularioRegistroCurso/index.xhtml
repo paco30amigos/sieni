@@ -24,29 +24,29 @@
             <!--<p:inputMask id="capacidad" mask="999" class="Container10 Responsive" />-->
             <div class="EmptyBox20"></div>
             <p:outputLabel for="docente" value="Docente: " class=" Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu id="docente">
+            <p:selectOneMenu id="docente" class="Container10 Responsive">
                 <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
                 <f:selectItem itemValue ="1" itemLabel="Juan Pérez"/>
                 <f:selectItem itemValue="0" itemLabel="Canario Martinez"/>
             </p:selectOneMenu>
             <div class="EmptyBox20"></div>
             <p:outputLabel for="seccion" value="Seccion: " class=" Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu id="seccion">
+            <p:selectOneMenu id="seccion" class="Container10 Responsive">
                 <f:selectItem itemValue ="1" itemLabel="XX--50--XX"/>
                 <f:selectItem itemValue ="1" itemLabel="1° Grado"/>
                 <f:selectItem itemValue="0" itemLabel="2° Grado"/>
             </p:selectOneMenu>
             <div class="EmptyBox20"></div>
             <p:outputLabel for="materia" value="Materia: " class=" Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu id="materia">
+            <p:selectOneMenu id="materia" class="Container10 Responsive">
                 <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
                 <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
                 <f:selectItem itemValue="0" itemLabel="Ciencias Naturales"/>
             </p:selectOneMenu>
             <div class="EmptyBox20"></div>
             <p:commandButton value="Guardar"/>
+            <p:commandButton value="Limpiar"/>
             <p:commandButton value="Cancelar"/>
-            <p:commandButton value="Modificar"/>
         </p:panel>
     </ui:define>
 </ui:composition>

@@ -38,10 +38,10 @@
                     </p:dataTable>
                 </h:form>
             </p:tab>
-            <p:tab title="Formulario de registro de clases en vivo" >
+            <p:tab title="Formulario de registro de clases" >
                 <h:form>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="hora" value="Hora: " class="Container10 Responsive"></p:outputLabel>
+                    <p:outputLabel for="hora" value="Hora inicio: " class="Container10 Responsive"></p:outputLabel>
                     <p:inputMask id="hora" mask="99:99 " class="Container10 Responsive " value="99:99"/>
                     <!--<p:inputMask id="hora" mask="99:99 " class="Container10 Responsive "/>-->
                     <p:selectOneMenu tabindex="1" class="Container10 Responsive">
@@ -65,9 +65,18 @@
                         <f:selectItem itemValue ="1" itemLabel="Clase en vivo"/>
                         <f:selectItem itemValue="2" itemLabel="Clase interactiva"/>
                     </p:selectOneMenu>
+                    
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="docente" value="Docente: " class="Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="1" id="docente" class="Container10 Responsive">
+                        <f:selectItem itemValue="0" itemLabel="XX--100--XX"/>
+                        <f:selectItem itemValue="0" itemLabel="Julio Pérez"/>
+                        <f:selectItem itemValue ="1" itemLabel="Felipe Barahona"/>
+                    </p:selectOneMenu>
+                    
                     <div class="EmptyBox20"></div>
                     <p:outputLabel for="horario" value="Horario:  " class=" Container10 Responsive"></p:outputLabel>
-                    <p:selectManyButton id="horario" class=" Responsive">
+                    <p:selectManyButton id="horario" class="Responsive">
                         <f:selectItem itemValue="1" itemLabel="Lunes"/>
                         <f:selectItem itemValue="2" itemLabel="Martes"/>
                         <f:selectItem itemValue="3" itemLabel="Miercoles"/>

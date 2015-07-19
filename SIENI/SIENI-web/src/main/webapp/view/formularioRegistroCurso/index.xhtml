@@ -16,25 +16,30 @@
         <p:panel header="Formulario de registro de un curso nuevo" class="Container100 ">
             <div class="EmptyBox20"></div>
             <p:outputLabel for="nombre" value="Nombre del Curso:  " class="Container10 Responsive"></p:outputLabel>
-            <p:inputText id="nombre" class="Container10 Responsive"/>
+            <p:inputText id="nombre" class="Container10 Responsive" value="XX--50--XX"/>
+            <!--<p:inputText id="nombre" class="Container10 Responsive"/>-->
             <div class="EmptyBox20"></div>
             <p:outputLabel for="capacidad" value="Capacidad: " class="Container10 Responsive"></p:outputLabel>
-            <p:inputMask id="capacidad" mask="999" class="Container10 Responsive" />
+            <p:inputMask id="capacidad" mask="999" class="Container10 Responsive" value="999" />
+            <!--<p:inputMask id="capacidad" mask="999" class="Container10 Responsive" />-->
             <div class="EmptyBox20"></div>
             <p:outputLabel for="docente" value="Docente: " class=" Container10 Responsive"></p:outputLabel>
             <p:selectOneMenu id="docente">
+                <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
                 <f:selectItem itemValue ="1" itemLabel="Juan Pérez"/>
                 <f:selectItem itemValue="0" itemLabel="Canario Martinez"/>
             </p:selectOneMenu>
             <div class="EmptyBox20"></div>
             <p:outputLabel for="seccion" value="Seccion: " class=" Container10 Responsive"></p:outputLabel>
             <p:selectOneMenu id="seccion">
+                <f:selectItem itemValue ="1" itemLabel="XX--50--XX"/>
                 <f:selectItem itemValue ="1" itemLabel="1° Grado"/>
                 <f:selectItem itemValue="0" itemLabel="2° Grado"/>
             </p:selectOneMenu>
             <div class="EmptyBox20"></div>
             <p:outputLabel for="materia" value="Materia: " class=" Container10 Responsive"></p:outputLabel>
             <p:selectOneMenu id="materia">
+                <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
                 <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
                 <f:selectItem itemValue="0" itemLabel="Ciencias Naturales"/>
             </p:selectOneMenu>

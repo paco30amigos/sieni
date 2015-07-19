@@ -16,16 +16,19 @@
         <p:panel header="Apertura de año escolar" class="Container100 ">
             <div class="EmptyBox20"></div>
             <p:outputLabel for="anio" value="Año: " class="Container10 Responsive"></p:outputLabel>
-            <p:inputMask id="anio" mask="9,999" class="Container10 Responsive"/>
+            <p:inputMask id="anio" mask="9,999" class="Container10 Responsive" value="9,999"/>
             <div class="EmptyBox20"></div>
             <p:outputLabel for="fInicio" value="Fecha de inicio: " class="Container10 Responsive"></p:outputLabel>
-            <p:calendar id="fInicio" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class="Container10 Responsive"></p:calendar>
+            <p:inputMask id="fInicio" mask="99/99/9999" class="Container10 Responsive" value="99/99/9999"/>
+            <!--<p:calendar id="fInicio" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class="Container10 Responsive"></p:calendar>-->
             <div class="EmptyBox20"></div>
             <p:outputLabel for="fFin" value="Fecha de Fin: " class="Container10 Responsive"></p:outputLabel>
-            <p:calendar id="fFin" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class=" Container10 Responsive"></p:calendar>
+            <p:inputMask id="fFin" mask="99/99/9999" class="Container10 Responsive" value="99/99/9999"/>
+            <!--<p:calendar id="fFin" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class=" Container10 Responsive"></p:calendar>-->
             <div class="EmptyBox20"></div>
             <p:outputLabel for="estado" value="Estado: " class=" Container10 Responsive"></p:outputLabel>
             <p:selectOneMenu id="estado">
+                <f:selectItem itemValue ="1" itemLabel="XX--15--XX"/>
                 <f:selectItem itemValue ="1" itemLabel="Activo"/>
                 <f:selectItem itemValue="0" itemLabel="Inactivo"/>
             </p:selectOneMenu>

@@ -1,0 +1,58 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Mantenimiento de clase" url="#"/>
+            <p:menuitem value="Formulario de registro de clases" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:panel header="Formulario de registro de clases" class="Container100 ">
+            <div class="EmptyBox20"></div>
+            <p:outputLabel for="hora" value="Hora: " class="Container10 Responsive"></p:outputLabel>
+            <p:inputMask id="hora" mask="99:99 " class="Container10 Responsive"/>
+            <p:selectOneMenu tabindex="1">
+                <f:selectItem itemValue ="1" itemLabel="am"/>
+                <f:selectItem itemValue="0" itemLabel="pm"/>
+            </p:selectOneMenu>
+            <div class="EmptyBox20"></div>
+            <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
+            <p:selectOneMenu tabindex="1" id="estado">
+                <f:selectItem itemValue="0" itemLabel="No Publicada"/>
+                <f:selectItem itemValue ="1" itemLabel="Publicada"/>
+                <f:selectItem itemValue="2" itemLabel="Eliminada"/>
+            </p:selectOneMenu>
+            <div class="EmptyBox20"></div>
+            <p:outputLabel for="tipo" value="Tipo: " class="Container10 Responsive"></p:outputLabel>
+            <p:selectOneMenu tabindex="1" id="tipo">                
+                <f:selectItem itemValue="0" itemLabel="Video-Clase"/>
+                <f:selectItem itemValue ="1" itemLabel="Clase en vivo"/>
+                <f:selectItem itemValue="2" itemLabel="Clase interactiva"/>
+            </p:selectOneMenu>
+            <div class="EmptyBox20"></div>
+            <p:outputLabel for="horario" value="Horario:  " class=" Container10 Responsive"></p:outputLabel>
+            <p:selectOneMenu id="horario">
+                <f:selectItem itemValue ="1" itemLabel="Lunes-Miercoles"/>
+                <f:selectItem itemValue="0" itemLabel="Martes-Jueves"/>
+                <f:selectItem itemValue="2" itemLabel="Miercoles-Viernes"/>
+                <f:selectItem itemValue="3" itemLabel="Viernes"/>
+                <f:selectItem itemValue="4" itemLabel="Lunes"/>
+                <f:selectItem itemValue="5" itemLabel="Martes"/>
+                <f:selectItem itemValue="6" itemLabel="Miercoles"/>
+                <f:selectItem itemValue="7" itemLabel="Jueves"/>
+                <f:selectItem itemValue="8" itemLabel="Viernes"/>
+            </p:selectOneMenu>
+            <div class="EmptyBox20"></div>
+            <p:commandButton value="Guardar"/>
+            <p:commandButton value="Cancelar"/>
+            <p:commandButton value="Modificar"/>
+        </p:panel>
+    </ui:define>
+</ui:composition>

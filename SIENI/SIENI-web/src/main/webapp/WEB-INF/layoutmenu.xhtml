@@ -21,29 +21,66 @@
             </li>
         </ul>
         <div class="Separator"></div>
-
-        <pr:menu>
-            <p:submenu label="Gestionar alumnos">
-                <p:menuitem value="Expediente alumno" url="#" />
-                <p:menuitem value="Historial alumno" url="#" />
-            </p:submenu>
-            <p:submenu label="Gestionar docentes">
-                <p:menuitem value="Mantenimiento Docente" url="#" />
-                <p:menuitem value="Perfil Docente" url="#" />
-            </p:submenu>
-            <p:submenu label="Administración de Sistema">
-                <p:menuitem value="Mantenimiento de usuarios" url="#" />
-                <p:menuitem value="Perfil control permisos" url="#" />
-                <p:menuitem value="Bítacora" url="#" />
-            </p:submenu>
-            <p:submenu label="Gestión Año Escolar">
-                <p:menuitem value="Apertura Año escolar" url="#" />
-                <p:menuitem value="Mantenimiento Materias" url="#" />
-                <p:menuitem value="Mantenimiento Secciones" url="#" />
-                <p:menuitem value="Matricula de Alumno" url="#" />
-            </p:submenu>
-            <p:separator />
-        </pr:menu>
+        <h:form>
+            <pr:menu >
+                <p:submenu label="Gestionar alumnos">
+                    <p:menuitem value="Expediente alumno" url="#"/>
+                    <p:menuitem value="Historial alumno" url="#" />
+                </p:submenu>
+                <p:submenu label="Gestionar docentes">
+                    <p:menuitem value="Mantenimiento Docente" url="#" />
+                    <p:menuitem value="Perfil Docente" url="#" />
+                </p:submenu>
+                <p:submenu label="Administración de Sistema">
+                    <p:menuitem value="Mantenimiento de usuarios" url="#" />
+                    <p:menuitem value="Perfil control permisos" url="#" />
+                    <p:menuitem value="Bítacora" url="#" />
+                </p:submenu>
+                <p:submenu label="Gestión Año Escolar">
+                    <p:menuitem value="Apertura Año escolar" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
+                    <p:menuitem value="Mantenimiento Materias" url="#" />
+                    <p:menuitem value="Mantenimiento Secciones" url="#" />
+                    <p:menuitem value="Matricula de Alumno" url="#" />
+                </p:submenu>
+                <p:submenu label="Gestión Curso">
+                    <p:menuitem value="Mantenimiento Curso" url="#" />
+                    <p:submenu label="Mantenimiento Clases">
+                        <p:menuitem value="Video-Clase Almacenada" url="#" />
+                        <p:menuitem value="Clase en Vivo" url="#" />
+                        <p:submenu label="Ejercicios" >                        
+                            <p:menuitem value="Ejercicios Resueltos" url="#" />
+                        </p:submenu>
+                    </p:submenu>
+                    <p:submenu label="Mantenimiento Evaluaciones">
+                        <p:menuitem value="Evaluaciones" url="#" />
+                    </p:submenu>
+                    <p:menuitem value="Control de Notas" url="#" />
+                </p:submenu>
+                <p:submenu label="Portal de Noticias">
+                    <p:menuitem value="Mantenimiento Noticias" url="#" />
+                </p:submenu>
+                <p:submenu label="Portal de Consultas">
+                    <p:menuitem value="Mantenimiento Consultas" url="#" />
+                </p:submenu>
+                <p:submenu label="Buzon de Notificaciones">
+                    <p:menuitem value="Mantenimiento Consultas" url="#" />
+                </p:submenu>
+                <p:submenu label="Generar Reportes">
+                    <p:menuitem value="Reporte de Matricula" url="#" />
+                    <p:menuitem value="Reporte de Rendimiento" url="#" />
+                    <p:menuitem value="Reporte de Avance" url="#" />
+                    <p:menuitem value="Reporte de Notas" url="#" />
+                    <p:menuitem value="Reporte de Usuarios" url="#" />
+                    <p:menuitem value="Reporte de Reporte de Clases" url="#" />
+                    <p:menuitem value="Reporte de Reporte de Notas" url="#" />
+                    <p:menuitem value="Reporte de Reporte de Participación" url="#" />
+                    <p:menuitem value="Reporte de Reporte de Cursos" url="#" />
+                    <p:menuitem value="Reporte de Reporte de Alumnos" url="#" />
+                    <p:menuitem value="Reporte de Reporte de Docentes" url="#" />
+                </p:submenu>
+                <p:separator />
+            </pr:menu>
+        </h:form>
     </div>
 
 </ui:composition>

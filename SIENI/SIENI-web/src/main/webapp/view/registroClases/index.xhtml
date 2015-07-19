@@ -14,45 +14,68 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:panel header="Formulario de registro de clases" class="Container100 ">
-            <div class="EmptyBox20"></div>
-            <p:outputLabel for="hora" value="Hora: " class="Container10 Responsive"></p:outputLabel>
-            <p:inputMask id="hora" mask="99:99 " class="Container10 Responsive"/>
-            <p:selectOneMenu tabindex="1">
-                <f:selectItem itemValue ="1" itemLabel="am"/>
-                <f:selectItem itemValue="0" itemLabel="pm"/>
-            </p:selectOneMenu>
-            <div class="EmptyBox20"></div>
-            <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu tabindex="1" id="estado">
-                <f:selectItem itemValue="0" itemLabel="No Publicada"/>
-                <f:selectItem itemValue ="1" itemLabel="Publicada"/>
-                <f:selectItem itemValue="2" itemLabel="Eliminada"/>
-            </p:selectOneMenu>
-            <div class="EmptyBox20"></div>
-            <p:outputLabel for="tipo" value="Tipo: " class="Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu tabindex="1" id="tipo">                
-                <f:selectItem itemValue="0" itemLabel="Video-Clase"/>
-                <f:selectItem itemValue ="1" itemLabel="Clase en vivo"/>
-                <f:selectItem itemValue="2" itemLabel="Clase interactiva"/>
-            </p:selectOneMenu>
-            <div class="EmptyBox20"></div>
-            <p:outputLabel for="horario" value="Horario:  " class=" Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu id="horario">
-                <f:selectItem itemValue ="1" itemLabel="Lunes-Miercoles"/>
-                <f:selectItem itemValue="0" itemLabel="Martes-Jueves"/>
-                <f:selectItem itemValue="2" itemLabel="Miercoles-Viernes"/>
-                <f:selectItem itemValue="3" itemLabel="Viernes"/>
-                <f:selectItem itemValue="4" itemLabel="Lunes"/>
-                <f:selectItem itemValue="5" itemLabel="Martes"/>
-                <f:selectItem itemValue="6" itemLabel="Miercoles"/>
-                <f:selectItem itemValue="7" itemLabel="Jueves"/>
-                <f:selectItem itemValue="8" itemLabel="Viernes"/>
-            </p:selectOneMenu>
-            <div class="EmptyBox20"></div>
-            <p:commandButton value="Guardar"/>
-            <p:commandButton value="Cancelar"/>
-            <p:commandButton value="Modificar"/>
-        </p:panel>
+
+        <p:tabView>
+            <p:tab title="Consultar clases registradas" >
+                <h:form>
+                    <p:remoteCommand  onstart="alert('Modificar')" update="clases" name="modificar"/>
+                    <p:remoteCommand  onstart="alert('Eliminar')" update="clases" name="eliminar"/>
+                    <p:dataTable id="clases" var="car" value="" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true"
+                                 >
+                        <p:column headerText="Docente"></p:column>
+                        <p:column headerText="Hora"></p:column>
+                        <p:column headerText="Estado"></p:column>
+                        <p:column headerText="Tipo"></p:column>
+                        <p:column headerText="Horario"></p:column>
+                        <p:column headerText="Acciones">
+                            <i class="icon-compose Fs30" style="cursor: pointer" onclick="modificar()" title="Modificar"></i>
+                            <i class="icon-close Fs30 Red" style="cursor: pointer" onclick="eliminar()" title="Eliminar"></i>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:tab>
+            <p:tab title="Formulario de registro de clases" >
+                <h:form>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="hora" value="Hora: " class="Container10 Responsive"></p:outputLabel>
+                    <p:inputMask id="hora" mask="99:99 " class="Container10 Responsive "/>
+                    <p:selectOneMenu tabindex="1" class="Container10 Responsive">
+                        <f:selectItem itemValue ="1" itemLabel="am" />
+                        <f:selectItem itemValue="0" itemLabel="pm"/>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="1" id="estado">
+                        <f:selectItem itemValue="0" itemLabel="No Publicada"/>
+                        <f:selectItem itemValue ="1" itemLabel="Publicada"/>
+                        <f:selectItem itemValue="2" itemLabel="Eliminada"/>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="tipo" value="Tipo: " class="Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="1" id="tipo">                
+                        <f:selectItem itemValue="0" itemLabel="Video-Clase"/>
+                        <f:selectItem itemValue ="1" itemLabel="Clase en vivo"/>
+                        <f:selectItem itemValue="2" itemLabel="Clase interactiva"/>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="horario" value="Horario:  " class=" Container10 Responsive"></p:outputLabel>
+                    <p:selectManyButton id="horario">
+                        <f:selectItem itemValue="4" itemLabel="Lunes"/>
+                        <f:selectItem itemValue="5" itemLabel="Martes"/>
+                        <f:selectItem itemValue="6" itemLabel="Miercoles"/>
+                        <f:selectItem itemValue="7" itemLabel="Jueves"/>
+                        <f:selectItem itemValue="8" itemLabel="Viernes"/>
+                    </p:selectManyButton>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Guardar"/>
+                    <p:commandButton value="Cancelar"/>
+                    <p:commandButton value="Modificar"/>                
+                </h:form>
+            </p:tab>
+        </p:tabView>        
     </ui:define>
 </ui:composition>

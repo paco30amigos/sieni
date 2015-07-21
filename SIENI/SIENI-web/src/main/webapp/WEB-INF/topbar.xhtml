@@ -4,19 +4,18 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    
-    
+
+
     <div id="layout-topbar">
         <style type="text/css">
             #logo img{height:55px; max-width:123px; margin-top:5px; margin-left:8%;}
         </style>
-    	<div id="logo" class="Fleft">
-        	<a href="#"><h:graphicImage name="mined.jpg" styleClass="Fleft" library="images" /></a>
+        <div id="logo" class="Fleft">
+            <a href="#"><h:graphicImage name="mined.jpg" styleClass="Fleft" library="images" /></a>
             <a id="mobile-menu-button" class="Fright ShowOnMobile ripplelink Unselectable ShadowEffect"><i class="icon-add186"></i></a>
         </div>
-        
-        <a class="ripplelink WhiteBlue Fright ShowOnMobile" id="show-top-menu"><i class="icon-show8"></i></a>
-        
+        <a class="ripplelink WhiteBlue Fright ShowOnMobile" id="show-top-menu"><i class="icon-show8"></i></a>       
+
         <ul id="top-menu" class="ShowOnDesktop">
             <li>
                 <a class="ripplelink"><i class="icon-search100"></i> <span class="Txt">Buscar</span></a>
@@ -38,6 +37,15 @@
             </li>
             <li><a href="#" class="ripplelink"><i class="icon-wifi83"></i> <span class="Txt">System Settings</span></a></li>
         </ul>
+        
+        <div id="Info" style="text-align: center;color: white;font-size: 1.5em" class="ShowOnDesktop">
+            Centro Escolar San Ramón                        
+            <br/>
+        </div>
+        
+        <div id="Info" style="text-align: center; color: white;font-size: 2.0em" >
+            SIENI
+        </div>
     </div>
-    
+
 </ui:composition>

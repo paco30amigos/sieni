@@ -40,12 +40,14 @@ public class crearClaseForm {
     private Combo estadoClase;
     private String temaClase;
     private String hora;
+    private String min;
     private List<Combo> horariosSelected;
     private Combo tipoPublicacion;
     private Combo amPm;
 
     @PostConstruct
     private void init() {
+//        org.primefaces.rio.convert a;
         docentes = new ArrayList<>();
         RandomNombre rn = new RandomNombre();
         StringBuilder s = new StringBuilder();
@@ -82,7 +84,7 @@ public class crearClaseForm {
         cursos.add(new Combo("3", "Lenguaje", null));
         cursos.add(new Combo("4", "Ingles", null));
         cursos.add(new Combo("5", "Computacion", null));
-        
+
         tipoPublicaciones = new ArrayList<>();
         tipoPublicaciones.add(new Combo("0", "Manual", null));
         tipoPublicaciones.add(new Combo("1", "Automático", null));
@@ -215,5 +217,13 @@ public class crearClaseForm {
 
     public void setCurso(Combo curso) {
         this.curso = curso;
+    }
+
+    public String getMin() {
+        return min;
+    }
+
+    public void setMin(String min) {
+        this.min = min;
     }
 }

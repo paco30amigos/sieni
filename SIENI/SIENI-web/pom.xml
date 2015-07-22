@@ -17,6 +17,7 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jasypt.version>1.9.2</jasypt.version>
     </properties>
     
     <dependencies>
@@ -33,9 +34,20 @@
         </dependency>
         <dependency>
             <groupId>org.primefaces</groupId>
+            <artifactId>rio</artifactId>
+            <version>2.0</version>
+            <type>war</type>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces</groupId>
             <artifactId>rio-theme</artifactId>
             <version>2.0</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>${jasypt.version}</version>
         </dependency>
     </dependencies>
 

@@ -16,25 +16,22 @@
         <p:panel header="Archivos Multimedia" class="Container100 ">
             <div class="EmptyBox20"></div>
             <p:outputLabel for="nombre" value="Nombre: " class="Container10 Responsive"></p:outputLabel>
-            <p:inputText id="nombre" value="XX--100--XX" class="Container10 Responsive"></p:inputText>
-            <!--<p:inputText id="nombre" value="" class="Container10 Responsive"></p:inputText>-->
+            <p:inputText id="nombre" class="Container10 Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
             <div class="EmptyBox20"></div>
             <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu id="estado" class="Container10 Responsive">
-                <f:selectItem itemValue ="1" itemLabel="XX--15--XX"/>
+            <p:selectOneMenu id="estado" class="Container10 Responsive" value="#{archivosMultimediaForm.estado}">
                 <f:selectItem itemValue ="1" itemLabel="Disponible"/>
                 <f:selectItem itemValue="0" itemLabel="No Disponible"/>
             </p:selectOneMenu>
             <div class="EmptyBox20"></div>
             <p:outputLabel for="tipo" value="Tipo: " class="Container10 Responsive"></p:outputLabel>
-            <p:selectOneMenu id="tipo" class="Container10 Responsive">
-                <f:selectItem itemValue ="1" itemLabel="XX--30--XX"/>
+            <p:selectOneMenu id="tipo" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
                 <f:selectItem itemValue ="0" itemLabel="Audio"/>
                 <f:selectItem itemValue ="1" itemLabel="Video"/>
                 <f:selectItem itemValue ="2" itemLabel="Imagen"/>
             </p:selectOneMenu>
             <div class="EmptyBox20"></div>
-            <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" >
+            <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
             </p:fileUpload>            
             <div class="EmptyBox20"></div>
             <p:commandButton value="Guardar"/>

@@ -16,7 +16,7 @@
     <ui:define name="content">
 
         <p:tabView>
-            <p:tab title="Consultar clases registradas" >
+            <p:tab title="Consultar consultas registradas" >
                 <h:form>
                     <p:remoteCommand  onstart="alert('Modificar')" update="clases" name="modificar"/>
                     <p:remoteCommand  onstart="alert('Eliminar')" update="clases" name="eliminar"/>
@@ -38,7 +38,7 @@
                     </p:dataTable>
                 </h:form>
             </p:tab>
-            <p:tab title="Formulario de registro de clases" >
+            <p:tab title="Formulario de registro de consultas" >
                 <h:form>
                     <div class="EmptyBox20"></div>
                     <p:outputLabel for="titulo" value="Titulo de Consulta: " class="Container10 Responsive"></p:outputLabel>

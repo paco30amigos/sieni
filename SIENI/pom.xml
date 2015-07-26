@@ -12,5 +12,6 @@
     <module>SIENI-ejb</module>
     <module>persistence</module>
     <module>client</module>
+    <module>SIENI-model</module>
   </modules>
 </project>

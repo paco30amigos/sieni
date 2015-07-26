@@ -1,0 +1,91 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Mantenimiento de Curso" url="${siteUrls.gestionarCursos}"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Consulta de cursos">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <p:dataTable value="">
+                        <p:column headerText="Nombre"></p:column>
+                        <p:column headerText="Capacidad"></p:column>
+                        <p:column headerText="Docente"></p:column>
+                        <p:column headerText="Seccion"></p:column>
+                        <p:column headerText="Materia"></p:column>
+                        <p:column headerText="Acciones">
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Curso"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Curso"></i>
+                        </p:column>
+                    </p:dataTable>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Registrar Curso"></p:commandButton>
+                    <p:commandButton value="Refrescar"></p:commandButton>
+                </h:form>
+            </p:tab>
+            <p:tab title="Registro de Curso">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="nombre" value="Nombre del Curso:  " class="Container10 Responsive"></p:outputLabel>
+                    <p:inputText id="nombre" class="Container10 Responsive" value="XX--50--XX"/>
+                    <!--<p:inputText id="nombre" class="Container10 Responsive"/>-->
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="capacidad" value="Capacidad: " class="Container10 Responsive"></p:outputLabel>
+                    <p:inputMask id="capacidad" mask="999" class="Container10 Responsive" value="999" />
+                    <!--<p:inputMask id="capacidad" mask="999" class="Container10 Responsive" />-->
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="docente" value="Docente: " class=" Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="docente" class="Container10 Responsive">
+                        <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
+                        <f:selectItem itemValue ="1" itemLabel="Juan Pérez"/>
+                        <f:selectItem itemValue="0" itemLabel="Canario Martinez"/>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="seccion" value="Seccion: " class=" Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="seccion" class="Container10 Responsive">
+                        <f:selectItem itemValue ="1" itemLabel="XX--50--XX"/>
+                        <f:selectItem itemValue ="1" itemLabel="1° Grado"/>
+                        <f:selectItem itemValue="0" itemLabel="2° Grado"/>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="materia" value="Materia: " class=" Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="materia" class="Container10 Responsive">
+                        <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
+                        <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
+                        <f:selectItem itemValue="0" itemLabel="Ciencias Naturales"/>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Guardar"/>
+                    <p:commandButton value="Limpiar"/>
+                    <p:commandButton value="Cancelar"/>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Secciones">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Materias">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Clases">
+                        </p:menuitem>
+                    </p:splitButton>          
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

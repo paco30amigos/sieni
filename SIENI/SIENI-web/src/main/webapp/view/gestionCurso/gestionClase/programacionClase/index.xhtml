@@ -8,8 +8,8 @@
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
-            <p:menuitem value="Mantenimiento de clase" url="#"/>
-            <p:menuitem value="Formulario de registro de clases" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
+            <p:menuitem value="Gestionar Clases" url="#"/>
+            <p:menuitem value="Programación de clases" url="#{siteUrls.programacionClases}"/>
             <p:separator />
         </p:breadCrumb>
     </ui:define>
@@ -28,25 +28,28 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true"
+                                 filteredValue=""
                                  >
-                        <p:column headerText="Docente">
+                        <p:column headerText="Docente" filterBy="" filterMatchMode="contains" filterable="true">
                         </p:column>
-                        <p:column headerText="Tipo">
+                        <p:column headerText="Tipo" filterBy="" filterMatchMode="contains" filterable="true">
                         </p:column>
-                        <p:column headerText="Estado">
+                        <p:column headerText="Curso" filterBy="" filterMatchMode="contains" filterable="true">
                         </p:column>
-                        <p:column headerText="Tema">
+                        <p:column headerText="Tema" filterBy="" filterMatchMode="contains" filterable="true">
                         </p:column>
-                        <p:column headerText="Hora">
+                        <p:column headerText="Hora" filterBy="" filterMatchMode="contains">
                         </p:column>
-                        <p:column headerText="Horario">
+                        <p:column headerText="Horario" filterBy="" filterMatchMode="contains">
                         </p:column>
-                        <p:column headerText="Tipo Publicación">
+                        <p:column headerText="Tipo Publicación" filterBy="" filterMatchMode="contains">
+                        </p:column>
+                        <p:column headerText="Estado" filterBy="" filterMatchMode="contains" filterable="true">
                         </p:column>
                         <p:column headerText="Acciones">
                             <i class="icon-forbid-1 Fs25 Red" style="cursor: pointer" title="Consultar Clase"></i>
                             <i class="icon-list Fs25 Red" style="cursor: pointer" title="Consultar Plantilla de Clase"></i>
-                            <i class="icon-clock Fs25 Red" style="cursor: pointer" title="Modificar Programación de Clase"></i>
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Programación de Clase"></i>
                             <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Programación de Clase"></i>
                         </p:column>
                     </p:dataTable>
@@ -80,12 +83,6 @@
                     </p:selectOneMenu>
                     <p:tooltip for="curso" value="Ejemplo: Matemáticas" />
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="estadoClase" value="Estado de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="estadoClase" value="#{crearClaseForm.estadoClase}" class="Contanier10 Responsive">
-                        <f:selectItems var="estadoClase" value="#{crearClaseForm.estadoClases}" itemLabel="#{estadoClase.description}" itemValue="#{estadoClase.self}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:tooltip for="estadoClase" value="Estado en el que se encuentra la programación de una clase" />
-                    <div class="EmptyBox20"></div>
                     <p:outputLabel for="temaClase" value="Tema de Clase: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:inputText id="temaClase" value="#{crearClaseForm.temaClase}"></p:inputText>
                     <p:tooltip for="temaClase" value="Ejemplo: Caso 1 de factoreo" />
@@ -112,9 +109,24 @@
                     </p:selectOneMenu>
                     <p:tooltip for="tipoPublicacion" value="Tipo de publicación de la clase"/>
                     <div class="EmptyBox20"></div>
+                    <p:outputLabel for="estadoClase" value="Estado de Clase: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="estadoClase" value="#{crearClaseForm.estadoClase}" class="Contanier10 Responsive">
+                        <f:selectItems var="estadoClase" value="#{crearClaseForm.estadoClases}" itemLabel="#{estadoClase.description}" itemValue="#{estadoClase.self}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:tooltip for="estadoClase" value="Estado en el que se encuentra la programación de una clase" />
+                    <div class="EmptyBox20"></div>
                     <p:commandButton value="Crear"></p:commandButton>
                     <p:commandButton value="Limpiar"></p:commandButton>
                     <p:commandButton value="Cancelar"></p:commandButton>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Secciones">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Materias">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Clases">
+                        </p:menuitem>
+                    </p:splitButton>
                 </h:form>
             </p:tab>
         </p:tabView>

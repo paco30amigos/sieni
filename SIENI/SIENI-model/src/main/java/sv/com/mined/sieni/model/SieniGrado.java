@@ -1,0 +1,124 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package sv.com.mined.sieni.model;
+
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author bugtraq
+ */
+@Entity
+@Table(name = "sieni_grado", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"id_grado"})})
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "SieniGrado.findAll", query = "SELECT s FROM SieniGrado s"),
+    @NamedQuery(name = "SieniGrado.findByIdGrado", query = "SELECT s FROM SieniGrado s WHERE s.idGrado = :idGrado"),
+    @NamedQuery(name = "SieniGrado.findByGrNombre", query = "SELECT s FROM SieniGrado s WHERE s.grNombre = :grNombre"),
+    @NamedQuery(name = "SieniGrado.findByGrNumero", query = "SELECT s FROM SieniGrado s WHERE s.grNumero = :grNumero")})
+public class SieniGrado implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "id_grado", nullable = false)
+    private Long idGrado;
+    @Column(name = "gr_nombre", length = 50)
+    private String grNombre;
+    @Column(name = "gr_numero")
+    private Integer grNumero;
+    @OneToMany(mappedBy = "idGrado")
+    private List<SieniMateria> sieniMateriaList;
+    @OneToMany(mappedBy = "idGrado")
+    private List<SieniSeccion> sieniSeccionList;
+
+    public SieniGrado() {
+    }
+
+    public SieniGrado(Long idGrado) {
+        this.idGrado = idGrado;
+    }
+
+    public Long getIdGrado() {
+        return idGrado;
+    }
+
+    public void setIdGrado(Long idGrado) {
+        this.idGrado = idGrado;
+    }
+
+    public String getGrNombre() {
+        return grNombre;
+    }
+
+    public void setGrNombre(String grNombre) {
+        this.grNombre = grNombre;
+    }
+
+    public Integer getGrNumero() {
+        return grNumero;
+    }
+
+    public void setGrNumero(Integer grNumero) {
+        this.grNumero = grNumero;
+    }
+
+    @XmlTransient
+    public List<SieniMateria> getSieniMateriaList() {
+        return sieniMateriaList;
+    }
+
+    public void setSieniMateriaList(List<SieniMateria> sieniMateriaList) {
+        this.sieniMateriaList = sieniMateriaList;
+    }
+
+    @XmlTransient
+    public List<SieniSeccion> getSieniSeccionList() {
+        return sieniSeccionList;
+    }
+
+    public void setSieniSeccionList(List<SieniSeccion> sieniSeccionList) {
+        this.sieniSeccionList = sieniSeccionList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idGrado != null ? idGrado.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof SieniGrado)) {
+            return false;
+        }
+        SieniGrado other = (SieniGrado) object;
+        if ((this.idGrado == null && other.idGrado != null) || (this.idGrado != null && !this.idGrado.equals(other.idGrado))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "sv.com.mined.sieni.model.SieniGrado[ idGrado=" + idGrado + " ]";
+    }
+    
+}

@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Mantenimiento de Archivos multimedia" url="#{siteUrls.gestionArchivosMultimedia}"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Consulta de Archivos Multimedia">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <p:dataTable value="">
+                        <p:column headerText="Nombre">
+
+                        </p:column>
+                        <p:column headerText="Estado">
+
+                        </p:column>
+                        <p:column headerText="Tipo">
+
+                        </p:column>
+                        <p:column headerText="Acciones">
+                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Ver Archivo Multimedia"></i>
+                            <i class="icon-clock Fs25 Red" style="cursor: pointer" title="Modificar Archivo Multimedia"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Archivo Multimedia"></i>
+                        </p:column>
+                    </p:dataTable>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Registrar Archivo Multimedia"></p:commandButton>
+                    <p:commandButton value="Refrescar"></p:commandButton>
+                </h:form>
+            </p:tab>
+            <p:tab title="Registrar Archivo Multimedia">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="nombre" value="Nombre: " class="Container10 Responsive"></p:outputLabel>
+                    <p:inputText id="nombre" class="Container10 Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="estado" class="Container10 Responsive" value="#{archivosMultimediaForm.estado}">
+                        <f:selectItem itemValue ="1" itemLabel="Disponible"/>
+                        <f:selectItem itemValue="0" itemLabel="No Disponible"/>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="tipo" value="Tipo: " class="Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="tipo" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
+                        <f:selectItem itemValue ="0" itemLabel="Audio"/>
+                        <f:selectItem itemValue ="1" itemLabel="Video"/>
+                        <f:selectItem itemValue ="2" itemLabel="Imagen"/>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
+                    </p:fileUpload>            
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Guardar"/>
+                    <p:commandButton value="Limpiar"/>
+                    <p:commandButton value="Cancelar"/>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Secciones">    
+                        </p:menuitem>
+                        <p:menuitem value="Programación de clases">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Clases">
+                        </p:menuitem>
+                    </p:splitButton>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

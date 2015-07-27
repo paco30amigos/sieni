@@ -32,6 +32,7 @@ public class ClasesForm {
     public void init() {
         RandomNombre rn = new RandomNombre();
         StringBuilder s = new StringBuilder();
+        docentes=new ArrayList<>();
         docentes.add(new Combo("" + -1, "XX--100--XX", null));
         for (int i = 0; i < 10; i++) {
             docentes.add(new Combo("" + i, rn.getRandomNombre(), null));

@@ -22,17 +22,18 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <p:remoteCommand  onstart="alert('Modificar')" update="clases" name="modificar"/>
                     <p:remoteCommand  onstart="alert('Eliminar')" update="clases" name="eliminar"/>
-                    <p:dataTable id="clases" var="car" value="" rows="10"
+                    <p:dataTable id="clases" var="car" value="#{clasesForm.plantillas}" 
+                                 rows="10"
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true"
                                  >
-                        <p:column headerText="Docente">
+                        <p:column headerText="Docentes" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
                         </p:column>
-                        <p:column headerText="Título">
+                        <p:column headerText="Título" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
                         </p:column>
-                        <p:column headerText="Elementos">
+                        <p:column headerText="Elementos" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
                         </p:column>
                         <p:column headerText="Acciones">
                             <i class="icon-forbid-1 Fs25 Red" style="cursor: pointer" title="Consultar Clase"></i>

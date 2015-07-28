@@ -21,6 +21,7 @@ public class siteUrls {
     private final String programacionClases = "/faces/view/gestionCurso/gestionClase/programacionClase/index.xhtml";
     private final String gestionArchivosMultimedia = "/faces/view/gestionCurso/gestionArchivosMultimedia/index.xhtml";
     private final String gestionConsulta = "/faces/view/portalConsultas/gestionConsultas/index.xhtml";
+    private final String gestionEvaluacion = "/faces/view/gestionCurso/gestionEvaluaciones/index.xhtml";
 
     public String getGestionarAnioEscolar() {
         return gestionarAnioEscolar;
@@ -48,6 +49,10 @@ public class siteUrls {
 
     public String getGestionConsulta() {
         return gestionConsulta;
+    }
+
+    public String getGestionEvaluacion() {
+        return gestionEvaluacion;
     }
 
 }

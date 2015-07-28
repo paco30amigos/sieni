@@ -1,0 +1,126 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Consultar Evaluaciones"> 
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <p:remoteCommand  onstart="alert('Modificar')" update="clases" name="modificar"/>
+                    <p:remoteCommand  onstart="alert('Eliminar')" update="clases" name="eliminar"/>
+                    <p:dataTable id="clases" rows="10" var="car" value="#{clasesForm.plantillas}" 
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true"
+                                 >
+                        <p:column headerText="Título" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                        </p:column>
+                        <p:column headerText="Fecha de Inicio" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                        </p:column>
+                        <p:column headerText="Fecha de cierre" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                        </p:column>
+                        <p:column headerText="Duración" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                        </p:column>
+                        <p:column headerText="Intentos" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                        </p:column>
+                        <p:column headerText="Acciones">
+                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Ver Evaluación"></i>
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Evaluación"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Evaluación"></i>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Crear"></p:commandButton>
+                    <p:commandButton value="Refrescar"></p:commandButton>
+                </h:form>
+            </p:tab>
+            <p:tab title="Crear Evaluación">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda2" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="docente" value="Docente: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="docente" value="#{crearClaseForm.docente}" class="Contanier10 Responsive" filter="true" filterMatchMode="startsWith">
+                        <f:selectItems var="docente" value="#{crearClaseForm.docentes}" itemLabel="#{docente.description}" itemValue="#{docente.self}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:tooltip for="docente" value="Docente que impartirá la clase" />
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="tipoClase" value="Tipo de Clase: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="tipoClase" value="#{crearClaseForm.tipoClase}" class="Contanier10 Responsive">
+                        <f:selectItems var="tipoClase" value="#{crearClaseForm.tipoClases}" itemLabel="#{tipoClase.description}" itemValue="#{tipoClase.self}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:tooltip for="tipoClase" value="Tipo de clase a impartir" />
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="curso" value="Curso: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="curso" value="#{crearClaseForm.curso}" class="Contanier10 Responsive">
+                        <f:selectItems var="curso" value="#{crearClaseForm.cursos}" itemLabel="#{curso.description}" itemValue="#{curso.self}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:tooltip for="curso" value="Ejemplo: Matemáticas" />
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="temaClase" value="Tema de Clase: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:inputText id="temaClase" value="#{crearClaseForm.temaClase}"></p:inputText>
+                    <p:tooltip for="temaClase" value="Ejemplo: Caso 1 de factoreo" />
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="hora" value="Hora: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:spinner id="hora" max="12" min="1" value="#{crearClaseForm.hora}" class="Contanier10 Responsive"></p:spinner>
+                    <p:outputLabel value=":" class="Responsive"></p:outputLabel>
+                    <p:spinner id="min" max="59" min="0" value="#{crearClaseForm.min}" class="Contanier10 Responsive"></p:spinner>
+                    <!--<p:inputMask id="hora" mask="99:99" class="Contanier10 Responsive" value="#{crearClaseForm.hora}"></p:inputMask>-->
+                    <p:selectOneMenu id="ampm" value="#{crearClaseForm.amPm}" class="Contanier10 Responsive">
+                        <f:selectItems var="am" value="#{crearClaseForm.amPms}" itemLabel="#{am.description}" itemValue="#{am.self}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:tooltip for="hora,min,ampm" value="Ejemplo 02:06pm" />
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="horarios" value="Horario : " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:selectManyButton id="horarios" value="#{crearClaseForm.horariosSelected}">
+                        <f:selectItems var="horarios" value="#{crearClaseForm.horarios}" itemLabel="#{horarios.description}" itemValue="#{horarios.self}"/>
+                    </p:selectManyButton>
+                    <p:tooltip for="horarios" value="Dias en los se impartirá la clase" />
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="tipoPublicacion" value="Tipo de publicación: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="tipoPublicacion" value="#{crearClaseForm.tipoPublicacion}">
+                        <f:selectItems var="tipoPublicacion" value="#{crearClaseForm.tipoPublicaciones}" itemLabel="#{tipoPublicacion.description}" itemValue="#{tipoPublicacion.self}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:tooltip for="tipoPublicacion" value="Tipo de publicación de la clase"/>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="estadoClase" value="Estado de Clase: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="estadoClase" value="#{crearClaseForm.estadoClase}" class="Contanier10 Responsive">
+                        <f:selectItems var="estadoClase" value="#{crearClaseForm.estadoClases}" itemLabel="#{estadoClase.description}" itemValue="#{estadoClase.self}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:tooltip for="estadoClase" value="Estado en el que se encuentra la programación de una clase" />
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Crear"></p:commandButton>
+                    <p:commandButton value="Limpiar"></p:commandButton>
+                    <p:commandButton value="Cancelar"></p:commandButton>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Secciones">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Materias">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Clases">
+                        </p:menuitem>
+                    </p:splitButton>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+
+    </ui:define>
+</ui:composition>

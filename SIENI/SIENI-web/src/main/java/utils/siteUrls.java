@@ -22,6 +22,10 @@ public class siteUrls {
     private final String gestionArchivosMultimedia = "/faces/view/gestionCurso/gestionArchivosMultimedia/index.xhtml";
     private final String gestionConsulta = "/faces/view/portalConsultas/gestionConsultas/index.xhtml";
     private final String gestionEvaluacion = "/faces/view/gestionCurso/gestionEvaluaciones/index.xhtml";
+    private final String gestionNoticia = "/faces/view/portalNoticias/gestionNoticias/index.xhtml";
+    private final String gestionMateria = "/faces/view/gestionCurso/gestionMaterias/index.xhtml";
+    private final String gestionNota = "/faces/view/gestionCurso/gestionNotas/index.xhtml";
+    private final String gestionUsuarios = "/faces/view/administracionSistema/gestionUsuarios/index.xhtml";
 
     public String getGestionarAnioEscolar() {
         return gestionarAnioEscolar;
@@ -53,6 +57,22 @@ public class siteUrls {
 
     public String getGestionEvaluacion() {
         return gestionEvaluacion;
+    }
+
+    public String getGestionNoticia() {
+        return gestionNoticia;
+    }
+
+    public String getGestionMateria() {
+        return gestionMateria;
+    }
+
+    public String getGestionNota() {
+        return gestionNota;
+    }
+
+    public String getGestionUsuarios() {
+        return gestionUsuarios;
     }
 
 }

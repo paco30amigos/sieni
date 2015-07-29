@@ -64,16 +64,14 @@
                     <p:tooltip for="titulo" value="Ejemplo: Plantilla de Clases para Matemáticas" />
                     <div class="EmptyBox20"></div>
                     <p:outputLabel for="mostrarTipo" value="Mostrar Secciones: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="mostrarTipo" value="#{plantillaClaseForm.mostrarSeccion}" class="Contanier10 Responsive" filter="true" filterMatchMode="startsWith">
-                        <f:selectItems var="mostrarTipo" value="#{plantillaClaseForm.mostrarSecciones}" itemLabel="#{mostrarTipo.description}" itemValue="#{mostrarTipo.self}"></f:selectItems>
-                    </p:selectOneMenu>
+                    <p:inputSwitch onLabel="Si" offLabel="No"></p:inputSwitch>
                     <p:tooltip for="mostrarTipo" value="Muestra las secciones cuando la clase es publicada" />
                     <div class="EmptyBox20"></div>
                     <p:outputLabel for="elem" value="Secciones de la plantilla a utilizar: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:pickList id="elem" value="#{plantillaClaseForm.elementos}" var="secciones" effect="bounce"
                                 itemValue="#{secciones}" itemLabel="#{secciones.description}" showCheckbox="true"
                                 showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" addLabel="Agregar" addAllLabel="Agregar Todos" removeLabel="Remover" removeAllLabel="Remover Todos">
-                        <p:column headerText="aaaaaaaa" >#{secciones.description}</p:column>
+                        <p:column >#{secciones.description}</p:column>
                     </p:pickList>
 
                     <div class="EmptyBox20"></div>

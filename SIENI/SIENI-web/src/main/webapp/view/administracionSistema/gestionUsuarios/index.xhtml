@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Administración de sistema" url="#"/>
+            <p:menuitem value="Mantenimiento de Usuarios" url="#{siteUrls.gestionUsuarios}"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Consulta de Usuarios">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true">
+                        <p:column headerText="Usuario" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Tipo de usuario" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Nombre Expediente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Acciones">
+                            <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
+                                                        <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Año escolar"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Año escolar"></i>
+                        </p:column>
+                    </p:dataTable>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Crear Usuario"></p:commandButton>
+                    <p:commandButton value="Refrescar"></p:commandButton>
+                </h:form>
+            </p:tab>
+            <p:tab title="Registro de Usuario">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="usuario" value="Usuario: " class="Container10 Responsive"></p:outputLabel>
+                    <p:inputText id="usuario"></p:inputText>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="tipoUsuario" value="Tipo de Usuario: " class="Container10 Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="tipoUsuario">
+                        <f:selectItem itemLabel="Administrador"></f:selectItem>
+                        <f:selectItem itemLabel="Docente"></f:selectItem>
+                        <f:selectItem itemLabel="Alumno"></f:selectItem>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="nombreExpediente" value="Nombre Expediente: " class="Container10 Responsive" ></p:outputLabel>
+                    <p:selectOneMenu id="nombreExpediente" filter="true" filterMatchMode="contains">
+                        <f:selectItem itemLabel="Jose"></f:selectItem>
+                        <f:selectItem itemLabel="Carmen"></f:selectItem>
+                        <f:selectItem itemLabel="Alicia"></f:selectItem>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="contrasenia1" value="Contraseña: " class=" Container10 Responsive"></p:outputLabel>
+                    <p:password id="contrasenia1" value=""  feedback="true" inline="true" autocomplete="false" match="contrasenia2" promptLabel="Ingrese una Contraseña" goodLabel="Media" strongLabel="Alta" weakLabel="Baja" ></p:password>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel for="contrasenia2" value="Repetir Contraseña: " class=" Container10 Responsive"></p:outputLabel>
+                    <p:password id="contrasenia2" value=""></p:password>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Guardar"/>
+                    <p:commandButton value="Limpiar"/>
+                    <p:commandButton value="Cancelar"/>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Docentes">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:splitButton>            
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

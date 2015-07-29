@@ -40,7 +40,7 @@ public class ClasesForm {
         plantillas=new ArrayList<>();
         plantillas.add(new Combo("0", "Clase Matemáticas", null));
         plantillas.add(new Combo("1", "Clase Sociales", null));
-        plantillas.add(new Combo("2", "Clase Ciencias Naturales", null));
+        
         
         estilosPasoPagina=new ArrayList<>();
         estilosPasoPagina.add(new Combo("0", "Deslizante", null));

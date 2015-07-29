@@ -53,74 +53,166 @@
                     <p:dialog widgetVar="dlgAyuda2" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
-
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="docente" value="Docente: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="docente" value="#{crearClaseForm.docente}" class="Contanier10 Responsive" filter="true" filterMatchMode="startsWith">
-                        <f:selectItems var="docente" value="#{crearClaseForm.docentes}" itemLabel="#{docente.description}" itemValue="#{docente.self}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:tooltip for="docente" value="Docente que impartirá la clase" />
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="tipoClase" value="Tipo de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="tipoClase" value="#{crearClaseForm.tipoClase}" class="Contanier10 Responsive">
-                        <f:selectItems var="tipoClase" value="#{crearClaseForm.tipoClases}" itemLabel="#{tipoClase.description}" itemValue="#{tipoClase.self}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:tooltip for="tipoClase" value="Tipo de clase a impartir" />
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="curso" value="Curso: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="curso" value="#{crearClaseForm.curso}" class="Contanier10 Responsive">
-                        <f:selectItems var="curso" value="#{crearClaseForm.cursos}" itemLabel="#{curso.description}" itemValue="#{curso.self}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:tooltip for="curso" value="Ejemplo: Matemáticas" />
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="temaClase" value="Tema de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:inputText id="temaClase" value="#{crearClaseForm.temaClase}"></p:inputText>
-                    <p:tooltip for="temaClase" value="Ejemplo: Caso 1 de factoreo" />
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="hora" value="Hora: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:spinner id="hora" max="12" min="1" value="#{crearClaseForm.hora}" class="Contanier10 Responsive"></p:spinner>
-                    <p:outputLabel value=":" class="Responsive"></p:outputLabel>
-                    <p:spinner id="min" max="59" min="0" value="#{crearClaseForm.min}" class="Contanier10 Responsive"></p:spinner>
-                    <!--<p:inputMask id="hora" mask="99:99" class="Contanier10 Responsive" value="#{crearClaseForm.hora}"></p:inputMask>-->
-                    <p:selectOneMenu id="ampm" value="#{crearClaseForm.amPm}" class="Contanier10 Responsive">
-                        <f:selectItems var="am" value="#{crearClaseForm.amPms}" itemLabel="#{am.description}" itemValue="#{am.self}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:tooltip for="hora,min,ampm" value="Ejemplo 02:06pm" />
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="horarios" value="Horario : " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectManyButton id="horarios" value="#{crearClaseForm.horariosSelected}">
-                        <f:selectItems var="horarios" value="#{crearClaseForm.horarios}" itemLabel="#{horarios.description}" itemValue="#{horarios.self}"/>
-                    </p:selectManyButton>
-                    <p:tooltip for="horarios" value="Dias en los se impartirá la clase" />
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="tipoPublicacion" value="Tipo de publicación: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="tipoPublicacion" value="#{crearClaseForm.tipoPublicacion}">
-                        <f:selectItems var="tipoPublicacion" value="#{crearClaseForm.tipoPublicaciones}" itemLabel="#{tipoPublicacion.description}" itemValue="#{tipoPublicacion.self}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:tooltip for="tipoPublicacion" value="Tipo de publicación de la clase"/>
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="estadoClase" value="Estado de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="estadoClase" value="#{crearClaseForm.estadoClase}" class="Contanier10 Responsive">
-                        <f:selectItems var="estadoClase" value="#{crearClaseForm.estadoClases}" itemLabel="#{estadoClase.description}" itemValue="#{estadoClase.self}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:tooltip for="estadoClase" value="Estado en el que se encuentra la programación de una clase" />
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton value="Crear"></p:commandButton>
-                    <p:commandButton value="Limpiar"></p:commandButton>
-                    <p:commandButton value="Cancelar"></p:commandButton>
-                    <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
-                        <p:menuitem value="Gestionar Secciones">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Materias">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Clases">
-                        </p:menuitem>
-                    </p:splitButton>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel for="titulo" value="Título: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:inputText id="titulo"></p:inputText>
+                        <p:outputLabel for="ponderacionEval" value="Ponderacion de la evaluación (%): " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:spinner id="ponderacionEval" min="0" max="100"></p:spinner>
+                        <p:outputLabel for="estado" value="Estado: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado">
+                            <f:selectItem itemValue="No Disponible"></f:selectItem>
+                            <f:selectItem itemValue="Disponible"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="fInicio" value="Fecha de Inicio: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:calendar id="fInicio" pattern="MM/dd/yyyy HH:mm a"></p:calendar>
+                        <p:outputLabel for="duracion" value="Duración en minutos: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:spinner id="duracion" max="120"></p:spinner>
+                        <p:outputLabel for="intentos" value="Intentos permitidos: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:spinner id="intentos" max="10"></p:spinner>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel for="verNota" value="Ver Nota al finalizar evaluación: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:inputSwitch id="verNota" onLabel="Si" offLabel="No"></p:inputSwitch>
+                        <p:outputLabel for="nPregEval" value="Total de preguntas de la evaluación: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:spinner id="nPregEval" min="1" max="160"></p:spinner>
+                        <p:outputLabel for="pregAleat" value="Preguntas aleatorias: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:inputSwitch id="pregAleat" onLabel="Si" offLabel="No"></p:inputSwitch>
+                        <p:outputLabel for="respAleat" value="Respuestas aleatorias: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:inputSwitch id="respAleat" onLabel="Si" offLabel="No"></p:inputSwitch>
+                        <p:outputLabel for="verRespFinal" value="Ver respuestas al final: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:inputSwitch id="verRespFinal" onLabel="Si" offLabel="No"></p:inputSwitch>
+                        <p:outputLabel for="tipPonder" value="Tipo de ponderación: "></p:outputLabel>
+                        <p:selectOneMenu id="tipPonder">
+                            <f:selectItem itemLabel="Preguntas igual ponderación"></f:selectItem>
+                            <f:selectItem itemLabel="Ponderación personalizada"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="pregPorPag" value="Preguntas por página: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:spinner id="pregPorPag" min="1" max="50"></p:spinner>
+                    </p:panelGrid>
+                    <p:tooltip for="ponderacionEval" value="Ejemplo: 20%" />
+                    <p:tooltip for="estado" value="Estado de evaluación" />
+                    <p:tooltip for="fInicio" value="Fecha y Hora desde cuando estará disponible la evaluación" />
+                    <p:tooltip for="duracion" value="Ejemplo 45 min" />
+                    <p:tooltip for="intentos" value="Numero de veces que puede realizar la evaluación" />
+                    <p:tooltip for="verNota" value="Permite ver el resultado de la evaluación al finalizarla" />
+                    <p:tooltip for="nPregEval" value="Permite ver el resultado de la evaluación al finalizarla" />
+                    <p:tooltip for="pregAleat" value="Muestra las preguntas en diferente orden" />
+                    <p:tooltip for="respAleat" value="Muestra las respuestas en orden aleatorio" />
+                    <p:tooltip for="verRespFinal" value="Muestra las respuestas correctas de la evaluación" />
+                    <p:tooltip for="titulo" value="Ejemplo: Evaluación de Casos de Factoreo" />
+                    <div class="Container100 Responsive">
+                        <p:commandButton value="Crear"></p:commandButton>
+                        <p:commandButton value="Limpiar"></p:commandButton>
+                        <p:commandButton value="Cancelar"></p:commandButton>
+                        <div class="EmptyBox20"></div>
+                        <p:splitButton value="Otras Opciones" action="#">
+                            <p:menuitem value="Gestionar Secciones">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Materias">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Clases">
+                            </p:menuitem>
+                        </p:splitButton>
+                    </div>
+                </h:form>
+            </p:tab>
+            <p:tab title="Preguntas de la evaluación" class="Container100 Responsive">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <p:tabView >
+                        <p:tab title="Preguntas">
+                            <p:dataTable value="#{clasesForm.plantillas}" reflow="true" class="Container100 Responsive"> 
+                                <p:column headerText="N°">
+                                </p:column>
+                                <p:column headerText="Tipo">
+                                </p:column>
+                                <p:column headerText="Pregunta">
+                                </p:column>
+                                <p:column headerText="Disponible para la evaluación">
+                                    <p:inputSwitch onLabel="Si" offLabel="No"></p:inputSwitch>
+                                </p:column>                                
+                                <p:column headerText="Ponderación de Pregunta">
+                                </p:column>
+                                <p:column headerText="Acciones">
+                                    <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Pregunta"></i>
+                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Pregunta"></i>
+                                </p:column>
+                            </p:dataTable>
+                        </p:tab>
+                        <p:tab title="Respuestas de Preguntas">
+                            <p:tabView>
+                                <p:tab title="Respuestas ">
+                                    <p:dataTable value="">
+                                        <p:column headerText="Respuesta"></p:column>
+                                        <p:column headerText="Componente"></p:column>
+                                        <p:column headerText="Correcta">
+                                            <p:inputSwitch onLabel="Si" offLabel="No"></p:inputSwitch>
+                                        </p:column>
+                                        <p:column headerText="Acciones">
+                                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Respuesta"></i>
+                                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Respuesta"></i>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:tab>
+                                <p:tab title="Crear Respuesta">
+                                    <p:panelGrid columns="2">
+                                        <p:outputLabel value="Respuesta:"></p:outputLabel>
+                                        <p:inputText></p:inputText>
+                                        <p:outputLabel value="Componente: "></p:outputLabel>
+                                        <p:panel class="Container50">
+
+                                        </p:panel>
+                                        <p:outputLabel value="Correcta: "></p:outputLabel>
+                                        <p:inputSwitch onLabel="Si" offLabel="No"></p:inputSwitch>
+                                    </p:panelGrid>
+                                    <p:commandButton value="Agregar Respuesta"></p:commandButton>
+                                </p:tab>
+                            </p:tabView>
+                        </p:tab>
+                        <p:tab title="Crear Pregunta">
+                            <p:panelGrid columns="2">
+                                <p:outputLabel value="Pregunta"></p:outputLabel>
+                                <p:editor></p:editor>
+                                <p:outputLabel value="Tipo de Respuesta"></p:outputLabel>
+                                <p:selectOneMenu>
+                                    <f:selectItem itemLabel="Respuesta única"></f:selectItem>
+                                    <f:selectItem itemLabel="Selección múltiple"></f:selectItem>
+                                    <f:selectItem itemLabel="Selección única"></f:selectItem>
+                                    <f:selectItem itemLabel="Arrastrar y soltar"></f:selectItem>
+                                    <f:selectItem itemLabel="Falso y verdadero"></f:selectItem>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Componente"></p:outputLabel>
+                                <p:selectOneMenu>
+                                    <f:selectItem itemLabel="Imagen Ejercicio 1"></f:selectItem>
+                                    <f:selectItem itemLabel="Imagen Ejercicio 2"></f:selectItem>
+                                </p:selectOneMenu>
+                                <p:outputLabel value="Disponible para la evaluación"></p:outputLabel>
+                                <p:inputSwitch onLabel="Si" offLabel="No"></p:inputSwitch>
+                                <p:outputLabel value="Ponderación de pregunta"></p:outputLabel>
+                                <p:spinner max="100" min="0"></p:spinner>
+                            </p:panelGrid>
+                            <p:commandButton value="Agregar Pregunta"></p:commandButton>
+                        </p:tab>
+                    </p:tabView>
+                    <!--                    
+                                        numero de preguntas de la evaluacion
+                                        ponderacion de preguntas-->
+                </h:form>
+            </p:tab>
+            <p:tab title="Visualizar Evaluación">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+
                 </h:form>
             </p:tab>
         </p:tabView>
-
     </ui:define>
 </ui:composition>

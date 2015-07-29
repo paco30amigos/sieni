@@ -87,14 +87,8 @@
                     <p:tooltip for="temaClase" value="Ejemplo: Caso 1 de factoreo" />
                     <div class="EmptyBox20"></div>
                     <p:outputLabel for="hora" value="Hora: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:spinner id="hora" max="12" min="1" value="#{crearClaseForm.hora}" class="Contanier10 Responsive"></p:spinner>
-                    <p:outputLabel value=":" class="Responsive"></p:outputLabel>
-                    <p:spinner id="min" max="59" min="0" value="#{crearClaseForm.min}" class="Contanier10 Responsive"></p:spinner>
-                    <!--<p:inputMask id="hora" mask="99:99" class="Contanier10 Responsive" value="#{crearClaseForm.hora}"></p:inputMask>-->
-                    <p:selectOneMenu id="ampm" value="#{crearClaseForm.amPm}" class="Contanier10 Responsive">
-                        <f:selectItems var="am" value="#{crearClaseForm.amPms}" itemLabel="#{am.description}" itemValue="#{am.self}"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:tooltip for="hora,min,ampm" value="Ejemplo 02:06pm" />
+                    <p:calendar id="hora" value="#{crearClaseForm.hora}" pattern="hh:mm a" timeOnly="true"></p:calendar>
+                    <p:tooltip for="hora" value="Ejemplo 02:06pm" />
                     <div class="EmptyBox20"></div>
                     <p:outputLabel for="horarios" value="Horario : " class="Contanier10 Responsive"></p:outputLabel>
                     <p:selectManyButton id="horarios" value="#{crearClaseForm.horariosSelected}">

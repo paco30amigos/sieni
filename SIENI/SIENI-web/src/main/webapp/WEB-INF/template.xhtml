@@ -4,104 +4,104 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+    <f:view locale="es">
+        <h:head>
+            <f:facet name="first">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+                <meta name="apple-mobile-web-app-capable" content="yes" />
+            </f:facet>
+            <title>SIENI</title>
 
-    <h:head>
-        <f:facet name="first">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-            <meta name="apple-mobile-web-app-capable" content="yes" />
-        </f:facet>
-        <title>SIENI</title>
+            <h:outputScript name="js/ripple-effect.js" library="rio-layout" />
+            <h:outputScript name="js/perfect-scrollbar.js" library="rio-layout" />
+            <h:outputScript name="js/layout.js" library="rio-layout" />
+            <h:outputStylesheet name="style.css" library="css" />
+            <ui:insert name="head" />
+        </h:head>
 
-        <h:outputScript name="js/ripple-effect.js" library="rio-layout" />
-        <h:outputScript name="js/perfect-scrollbar.js" library="rio-layout" />
-        <h:outputScript name="js/layout.js" library="rio-layout" />
-        <h:outputStylesheet name="style.css" library="css" />
-        <ui:insert name="head" />
-    </h:head>
+        <h:body>
+            <style type="text/css">
+                .ui-panel .ui-panel-title { font-family: serif; }
+            </style>
+            <div style="font-family: serif;">
+                <script type="text/javascript">
+                    PrimeFaces.locales['es'] = {
+                        closeText: 'Cerrar',
+                        prevText: 'Anterior',
+                        nextText: 'Siguiente',
+                        monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                        monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                        dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                        dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                        dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+                        weekHeader: 'Semana',
+                        firstDay: 1,
+                        isRTL: false,
+                        showMonthAfterYear: false,
+                        yearSuffix: '',
+                        timeOnlyTitle: 'Sólo hora',
+                        timeText: 'Tiempo',
+                        hourText: 'Hora',
+                        minuteText: 'Minuto',
+                        secondText: 'Segundo',
+                        currentText: 'Fecha actual',
+                        ampm: false,
+                        month: 'Mes',
+                        week: 'Semana',
+                        day: 'Día',
+                        allDayText: 'Todo el día'
+                    };
+                </script>
+                <ui:include src="topbar.xhtml" />
 
-    <h:body>
-        <style type="text/css">
-            .ui-panel .ui-panel-title { font-family: serif; }
-        </style>
-        <div style="font-family: serif;">
-            <script type="text/javascript">
-                PrimeFaces.locales['es'] = {
-                    closeText: 'Cerrar',
-                    prevText: 'Anterior',
-                    nextText: 'Siguiente',
-                    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-                    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
-                    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-                    dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
-                    weekHeader: 'Semana',
-                    firstDay: 1,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: '',
-                    timeOnlyTitle: 'Sólo hora',
-                    timeText: 'Tiempo',
-                    hourText: 'Hora',
-                    minuteText: 'Minuto',
-                    secondText: 'Segundo',
-                    currentText: 'Fecha actual',
-                    ampm: false,
-                    month: 'Mes',
-                    week: 'Semana',
-                    day: 'Día',
-                    allDayText: 'Todo el día'
-                };
-            </script>
-            <ui:include src="topbar.xhtml" />
+                <div id="wrapper">
+                    <div id="wrapperIndent">
 
-            <div id="wrapper">
-                <div id="wrapperIndent">
+                        <ui:include src="layoutmenu.xhtml" />
 
-                    <ui:include src="layoutmenu.xhtml" />
-
-                    <div id="layout-portlets-cover">
-                        <ui:insert name="breadCrumb">
-                            <p:breadCrumb>
-                                <p:menuitem value="Home" url="/"/>
-                                <p:menuitem value="Gestión Año Escolar" url="#"/>
-                                <p:menuitem value="Apertura Año escolar" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
-                                <p:separator />
-                            </p:breadCrumb>
-                        </ui:insert>
-                        <ui:insert name="content">
-                            Template
-                        </ui:insert>
-                        <div class="Container100">
-                            <div class="ContainerIndent Fs12 BoldGray FontRobotoRegular" style="text-align: center">
-                                <div class="EmptyBox10"></div>
-                                Copyright © 2015
-                                <div class="EmptyBox10"></div>
+                        <div id="layout-portlets-cover">
+                            <ui:insert name="breadCrumb">
+                                <p:breadCrumb>
+                                    <p:menuitem value="Home" url="/"/>
+                                    <p:menuitem value="Gestión Año Escolar" url="#"/>
+                                    <p:menuitem value="Apertura Año escolar" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
+                                    <p:separator />
+                                </p:breadCrumb>
+                            </ui:insert>
+                            <ui:insert name="content">
+                                Template
+                            </ui:insert>
+                            <div class="Container100">
+                                <div class="ContainerIndent Fs12 BoldGray FontRobotoRegular" style="text-align: center">
+                                    <div class="EmptyBox10"></div>
+                                    Copyright © 2015
+                                    <div class="EmptyBox10"></div>
+                                </div>
                             </div>
                         </div>
+
+                        <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
+                            <f:facet name="start">
+                                <p:graphicImage name="images/preloader.gif" library="rio-layout"/>
+                            </f:facet>
+
+                            <f:facet name="complete">
+                                <h:outputText value="" />
+                            </f:facet>
+                        </p:ajaxStatus>
                     </div>
-
-                    <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
-                        <f:facet name="start">
-                            <p:graphicImage name="images/preloader.gif" library="rio-layout"/>
-                        </f:facet>
-
-                        <f:facet name="complete">
-                            <h:outputText value="" />
-                        </f:facet>
-                    </p:ajaxStatus>
                 </div>
+
+                <h:outputStylesheet name="css/core-layout.css" library="rio-layout" />
+                <h:outputStylesheet name="css/animate.css" library="rio-layout" />
+                <h:outputStylesheet name="css/rio-font.css" library="rio-layout" />
+                <h:outputStylesheet name="css/ripple-effect.css" library="rio-layout" />
+                <h:outputStylesheet name="css/perfect-scrollbar.css" library="rio-layout" />
+                <h:outputStylesheet name="css/font-awesome.css" library="rio-layout" />
+                <h:outputStylesheet name="css/rio-layout.css" library="rio-layout" />
             </div>
-
-            <h:outputStylesheet name="css/core-layout.css" library="rio-layout" />
-            <h:outputStylesheet name="css/animate.css" library="rio-layout" />
-            <h:outputStylesheet name="css/rio-font.css" library="rio-layout" />
-            <h:outputStylesheet name="css/ripple-effect.css" library="rio-layout" />
-            <h:outputStylesheet name="css/perfect-scrollbar.css" library="rio-layout" />
-            <h:outputStylesheet name="css/font-awesome.css" library="rio-layout" />
-            <h:outputStylesheet name="css/rio-layout.css" library="rio-layout" />
-        </div>
-    </h:body>
-
+        </h:body>
+    </f:view>
 </html>

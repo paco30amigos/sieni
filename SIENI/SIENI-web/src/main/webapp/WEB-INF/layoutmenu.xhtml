@@ -32,7 +32,7 @@
                     <p:menuitem value="Perfil Docente" url="#" />
                 </p:submenu>
                 <p:submenu label="Administración de Sistema">
-                    <p:menuitem value="Mantenimiento de usuarios" url="#" />
+                    <p:menuitem value="Mantenimiento de usuarios" url="#{siteUrls.gestionUsuarios}" />
                     <p:menuitem value="Perfil control permisos" url="#" />
                     <p:menuitem value="Bítacora" url="#" />
                 </p:submenu>
@@ -53,11 +53,12 @@
                             <p:menuitem value="Ejercicios Resueltos" url="#" />
                         </p:submenu>
                     </p:submenu>
+                    <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
                     <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" />
-                    <p:menuitem value="Control de Notas" url="#" />
+                    <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}" />
                 </p:submenu>
                 <p:submenu label="Portal de Noticias">
-                    <p:menuitem value="Mantenimiento Noticias" url="#" />
+                    <p:menuitem value="Gestión de Noticias" url="#{siteUrls.gestionNoticia}" />
                 </p:submenu>
                 <p:submenu label="Portal de Consultas">
                     <p:menuitem value="Gestión de Consultas" url="#{siteUrls.gestionConsulta}" />

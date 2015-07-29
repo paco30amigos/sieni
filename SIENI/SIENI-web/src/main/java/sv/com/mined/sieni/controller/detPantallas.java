@@ -41,4 +41,10 @@ public class detPantallas {
 
 		String json3 = "{MTO_PLANT_CLAS{CON_PLAN_CLAS}}";
 		String simb = "% valores posibles, & readonly, $modificable por creador o admin, () botones, # no alumnos, * SOLO ALUMNOS";
+                
+                
+                String paginas="http://www.html5rocks.com/es/tutorials/getusermedia/intro/"
+                        + "http://html5facil.com/tutoriales/como-grabar-audio-con-html5-y-api-nativas-en-chrome/"
+                        + ""
+                        + "";
 }

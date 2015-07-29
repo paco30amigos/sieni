@@ -71,8 +71,18 @@
                     </p:selectOneMenu>
                     <div class="EmptyBox20"></div>
                     <p:outputLabel for="consulta" value="Consulta: " class="Container10 Responsive"></p:outputLabel>
-                    <p:inputTextarea id="consulta">
-                    </p:inputTextarea>
+                    <p:editor id="consulta"></p:editor>
+                    <div class="EmptyBox10"></div>
+                    <p:outputLabel value="Tipo de Archivo:"></p:outputLabel>
+                    <p:selectOneMenu>
+                        <f:selectItem itemValue="-1" itemLabel="No adjuntar"></f:selectItem>
+                        <f:selectItem itemValue="0" itemLabel="Audio"></f:selectItem>
+                        <f:selectItem itemValue="1" itemLabel="Video"></f:selectItem>
+                        <f:selectItem itemValue="2" itemLabel="Imagen"></f:selectItem>
+                    </p:selectOneMenu>
+                    <div class="EmptyBox10"></div>
+                    <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
+                    </p:fileUpload>
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Guardar"/>
                     <p:commandButton value="Limpiar"/>
@@ -106,7 +116,11 @@
                     <div class="Container73">
                         <p:outputLabel value="Consulta" class="Container100">
                         </p:outputLabel>
-                        <div class="Container73" style="cursor: pointer" ><i class="icon-attachment Fs25"></i></div>
+                        <div class="Container73" style="cursor: pointer" >
+                            <i class="fa fa-file-movie-o Fs25"></i>
+                            <i class="fa fa-file-image-o Fs25"></i>
+                            <i class="fa fa-file-audio-o Fs25"></i>
+                        </div>
                     </div>
                     <div class="EmptyBox10"></div>
                     <p:separator></p:separator>
@@ -118,6 +132,14 @@
                     <div class="Container73">
                         <p:editor></p:editor>
                     </div>
+                    <div class="EmptyBox10"></div>
+                    <p:outputLabel value="Tipo de Archivo:"></p:outputLabel>
+                    <p:selectOneMenu>
+                        <f:selectItem itemValue="-1" itemLabel="No adjuntar"></f:selectItem>
+                        <f:selectItem itemValue="0" itemLabel="Audio"></f:selectItem>
+                        <f:selectItem itemValue="1" itemLabel="Video"></f:selectItem>
+                        <f:selectItem itemValue="2" itemLabel="Imagen"></f:selectItem>
+                    </p:selectOneMenu>
                     <div class="EmptyBox10"></div>
                     <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
                     </p:fileUpload> 

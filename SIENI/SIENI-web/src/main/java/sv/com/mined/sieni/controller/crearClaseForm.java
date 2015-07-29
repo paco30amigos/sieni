@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -32,15 +33,14 @@ public class crearClaseForm {
     private List<Combo> estadoClases;
     private List<Combo> horarios;
     private List<Combo> tipoPublicaciones;
-    private List<Combo> amPms;
     //valores seleccionados
     private Combo docente;
     private Combo tipoClase;
     private Combo curso;
+    private Date hora;
     private Combo estadoClase;
     private String temaClase;
-    private String hora;
-    private String min;
+
     private List<Combo> horariosSelected;
     private Combo tipoPublicacion;
     private Combo amPm;
@@ -62,11 +62,6 @@ public class crearClaseForm {
         horarios.add(new Combo("2", "Miercoles", null));
         horarios.add(new Combo("3", "Jueves", null));
         horarios.add(new Combo("4", "Viernes", null));
-
-        amPms = new ArrayList<>();
-        amPms.add(new Combo("-1", "Xm", null));
-        amPms.add(new Combo("0", "am", null));
-        amPms.add(new Combo("1", "pm", null));
 
         tipoClases = new ArrayList<>();
         tipoClases.add(new Combo("0", "Video-clase", null));
@@ -121,14 +116,6 @@ public class crearClaseForm {
 
     public void setTemaClase(String temaClase) {
         this.temaClase = temaClase;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
     }
 
     public List<Combo> getHorarios() {
@@ -195,14 +182,6 @@ public class crearClaseForm {
         this.amPm = amPm;
     }
 
-    public List<Combo> getAmPms() {
-        return amPms;
-    }
-
-    public void setAmPms(List<Combo> amPms) {
-        this.amPms = amPms;
-    }
-
     public List<Combo> getCursos() {
         return cursos;
     }
@@ -219,11 +198,11 @@ public class crearClaseForm {
         this.curso = curso;
     }
 
-    public String getMin() {
-        return min;
+    public Date getHora() {
+        return hora;
     }
 
-    public void setMin(String min) {
-        this.min = min;
+    public void setHora(Date hora) {
+        this.hora = hora;
     }
 }

@@ -23,32 +23,27 @@
         <div class="Separator"></div>
         <h:form>
             <pr:menu >
-                <p:submenu label="Gestionar alumnos">
-                    <p:menuitem value="Expediente alumno" url="#"/>
-                    <p:menuitem value="Historial alumno" url="#" />
+                <p:submenu label="Gestionar Alumnos">
+                    <p:menuitem value="Expediente Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
                 </p:submenu>
-                <p:submenu label="Gestionar docentes">
-                    <p:menuitem value="Mantenimiento Docente" url="#" />
-                    <p:menuitem value="Perfil Docente" url="#" />
-                </p:submenu>
+                <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
                 <p:submenu label="Administración de Sistema">
                     <p:menuitem value="Mantenimiento de usuarios" url="#{siteUrls.gestionUsuarios}" />
-                    <p:menuitem value="Perfil control permisos" url="#" />
                     <p:menuitem value="Bítacora" url="#" />
                 </p:submenu>
                 <p:submenu label="Gestionar Año Escolar">
                     <p:menuitem value="Mantenimiento de Año escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
-                    <p:menuitem value="Mantenimiento Materias" url="#" />
-                    <p:menuitem value="Mantenimiento Secciones" url="#" />
-                    <p:menuitem value="Matricula de Alumno" url="#" />
+
+                    <p:menuitem value="Matricula de Alumno" url="#{siteUrls.gestionAlumnos}" />
                 </p:submenu>
                 <p:submenu label="Gestionar Curso">
                     <p:menuitem value="Mantenimiento de Archivos Multimedia" url="#{siteUrls.gestionArchivosMultimedia}" />
                     <p:menuitem value="Mantenimiento de Curso" url="#{siteUrls.gestionarCursos}" />
                     <p:submenu label="Gestionar Clases">
                         <p:menuitem value="Programación de Clases" url="#{siteUrls.programacionClases}" />
-                        <p:menuitem value="Video-Clase Almacenada" url="#" />
                         <p:menuitem value="Clase en Vivo" url="#" />
+                        <p:menuitem value="Video-Clase Almacenada" url="#" />
+                        <p:menuitem value="Clase Interactiva" url="#" />
                         <p:submenu label="Ejercicios" >                        
                             <p:menuitem value="Ejercicios Resueltos" url="#" />
                         </p:submenu>
@@ -63,9 +58,7 @@
                 <p:submenu label="Portal de Consultas">
                     <p:menuitem value="Gestión de Consultas" url="#{siteUrls.gestionConsulta}" />
                 </p:submenu>
-                <p:submenu label="Buzon de Notificaciones">
-                    <p:menuitem value="Mantenimiento Consultas" url="#" />
-                </p:submenu>
+                <p:menuitem value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
                 <p:submenu label="Generar Reportes">
                     <p:menuitem value="Reporte de Matricula" url="#" />
                     <p:menuitem value="Reporte de Rendimiento" url="#" />

@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Consulta de Docentes">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true">
+                        <p:column headerText="Nombre" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Correo electrónico" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Teléfono" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Celular" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Turno" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Acciones">
+                            <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
+                                                        <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Año escolar"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Año escolar"></i>
+                        </p:column>
+                    </p:dataTable>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Registrar Docente"></p:commandButton>
+                    <p:commandButton value="Refrescar"></p:commandButton>
+                </h:form>
+            </p:tab>
+            <p:tab title="Registro de Docentes">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel for="usuario" value="Primer Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="usuario"></p:inputText>
+                        <p:outputLabel for="usuario2" value="Segundo Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="usuario2"></p:inputText>
+                        <p:outputLabel for="usuario3" value="Tercer Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="usuario3"></p:inputText>
+                        <p:outputLabel for="apellido" value="Primer Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="apellido"></p:inputText>
+                        <p:outputLabel for="apellido2" value="Segundo Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="apellido2"></p:inputText>
+                        <p:outputLabel for="apellido3" value="Tercer Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="apellido3"></p:inputText>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel for="email" value="Correo electrónico: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="email" type="email"></p:inputText>
+                        <p:outputLabel for="telefono" value="Teléfono: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="telefono" mask="(503) 9999-9999" />
+                        <p:outputLabel for="celular" value="Celular: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="celular" mask="(503) 9999-9999" />
+                        <p:outputLabel for="direccion" value="Dirección: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="direccion"></p:inputText>
+                        <p:outputLabel value="Foto"></p:outputLabel>
+                        <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
+                        </p:fileUpload>
+                    </p:panelGrid>
+                    <div class="Container100">
+                        <p:commandButton value="Guardar"/>
+                        <p:commandButton value="Limpiar"/>
+                        <p:commandButton value="Cancelar"/>
+                        <div class="EmptyBox20"></div>
+                        <p:splitButton value="Otras Opciones" action="#">
+                            <p:menuitem value="Gestionar Docentes">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Alumnos">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Cursos">    
+                            </p:menuitem>
+                        </p:splitButton>            
+                    </div>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,182 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Mantenimiento de clase" url="#"/>
+            <p:menuitem value="Formulario de registro de clases" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Consultar Componentes Interactivos">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <p:remoteCommand  onstart="alert('Modificar')" update="clases" name="modificar"/>
+                    <p:remoteCommand  onstart="alert('Eliminar')" update="clases" name="eliminar"/>
+                    <p:dataTable id="clases" var="car" value="" rows="10"
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true"
+                                 >
+                        <p:column headerText="Nombre">
+                        </p:column>
+                        <p:column headerText="Descripción">
+                        </p:column>
+                        <p:column headerText="Acciones">
+                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Consultar Programación de Clase"></i>
+                            <i class="icon-clock Fs25 Red" style="cursor: pointer" title="Modificar Clase"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Clase"></i>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Crear"></p:commandButton>
+                    <p:commandButton value="Refrescar"></p:commandButton>
+                </h:form>
+            </p:tab>
+            <p:tab title="Crear Componente Interactivo">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda2" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+
+                    tipo
+                    nombre
+                    descripcion
+                    Componente interno
+                    
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel for="docente" value="Nombre: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:outputLabel for="plantilla" value="Descripción: " class="Contanier10 Responsive"></p:outputLabel>                                                
+                        <p:outputLabel for="estiloPasoPagina" value="Grupo: "/>
+                    </p:panelGrid>
+                    <p:tooltip for="docente" value="Docente que impartirá la clase" />
+                    <p:tooltip for="plantilla" value="Plantilla a utilizar para la creación de la Clase" />
+                    <p:tooltip for="estiloPasoPagina" value="Efecto cuando se pasan las paginas de la clase" />
+
+                    <div class="EmptyBox20"></div>
+                    <!--                    <p:sticky target="r"/>-->
+
+                    <p:panel id="r"  toggleable="true" header="Menu de Configuración">
+                        <p:ribbon>
+                            <p:tab title="Componentes de esta clase">
+                                <p:ribbonGroup label="Secciones de plantilla" class="Container25">
+                                    <p:orderList value="#{componentesClaseForm.seccionesPlantillas}" var="seccionPlantilla" itemValue="#{seccionPlantilla}"  controlsLocation="none">
+                                        <p:column>#{seccionPlantilla.description}</p:column>
+                                    </p:orderList>
+                                </p:ribbonGroup>
+                                <p:ribbonGroup label="Componentes" class="Container48">
+                                    <p:pickList value="#{componentesClaseForm.componentes}" var="componente" effect="bounce"
+                                                itemValue="#{componente}" itemLabel="#{componente.description}" showCheckbox="true"
+                                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" addLabel="Agregar" addAllLabel="Agregar Todos" removeLabel="Remover" removeAllLabel="Remover Todos">
+                                        <f:facet name="sourceCaption">Disponibles</f:facet>
+                                        <f:facet name="targetCaption">Seleccionados</f:facet>
+                                        <p:column headerText="aaaaaaaa" >#{componente.description}</p:column>
+                                    </p:pickList>
+                                </p:ribbonGroup>
+                            </p:tab>
+                            <p:tab title="Configuración">
+                                <p:ribbonGroup label="Configuración de componente" class="Container20">
+                                    <p:outputLabel value="ancho"></p:outputLabel>
+                                    <p:spinner min="1" max="1080" value="#{configuracionClaseForm.ancho}"></p:spinner>
+                                    <div class="EmptyBox10"></div>
+                                    <p:outputLabel value="alto"></p:outputLabel>
+                                    <p:spinner min="1" max="1920" value="#{configuracionClaseForm.alto}"></p:spinner>
+                                    <div class="EmptyBox10"></div>
+                                    <p:outputLabel value="posicion X"></p:outputLabel>
+                                    <p:spinner min="1" max="1080" value="#{configuracionClaseForm.posicionX}"></p:spinner>
+                                    <div class="EmptyBox10"></div>
+                                    <p:outputLabel value="posicion Y"></p:outputLabel>
+                                    <p:spinner min="1" max="1920" value="#{configuracionClaseForm.posicionY}"></p:spinner>
+                                </p:ribbonGroup>
+                            </p:tab>
+
+                            <p:tab title="Interacción">
+                                <p:ribbonGroup label="Agregar Interacción" class="Container25">
+                                    <p:outputLabel value="Evento"></p:outputLabel>
+                                    <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
+                                        <f:selectItems var="evento" value="#{InteraccionClaseForm.eventos}" itemLabel="#{evento.description}" itemValue="#{evento.self}"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <div class="EmptyBox10"></div>
+                                    <p:outputLabel value="Acción"></p:outputLabel>
+                                    <p:selectOneMenu value="#{InteraccionClaseForm.accion}" class="Contanier10 Responsive">
+                                        <f:selectItems var="accion" value="#{InteraccionClaseForm.acciones}" itemLabel="#{accion.description}" itemValue="#{accion.self}"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <div class="EmptyBox10"></div>
+                                    <p:outputLabel value="Duración"></p:outputLabel>
+                                    <p:spinner min="1" max="1000" value="#{interaccionClaseForm.duracion}"></p:spinner>
+                                    <p:outputLabel value="Siguiente Componente"></p:outputLabel>
+                                    <p:selectOneMenu  value="#{InteraccionClaseForm.sigComponente}" class="Contanier10 Responsive">
+                                        <f:selectItems var="sigComponente" value="#{InteraccionClaseForm.sigsComponente}" itemLabel="#{sigComponente.description}" itemValue="#{sigComponente.self}"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <div class="EmptyBox10"></div>
+                                    <p:outputLabel value="Evento del siguiente Componente"></p:outputLabel>
+                                    <p:selectOneMenu  value="#{InteraccionClaseForm.eventoSigComponente}" class="Contanier10 Responsive">
+                                        <f:selectItems var="eventoSigComponente" value="#{InteraccionClaseForm.eventosSigComponente}" itemLabel="#{eventoSigComponente.description}" itemValue="#{eventoSigComponente.self}"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Tiempo de espera para activar siguiente componente"></p:outputLabel>
+                                    <p:spinner min="1" max="1000" value="#{interaccionClaseForm.tiEsperaActSigComp}"></p:spinner>
+                                    <p:commandButton value="Agregar Interacción"/>
+                                </p:ribbonGroup>
+                                <p:ribbonGroup label="Interacciones del componente" class="Container73">
+                                    <p:dataTable reflow="true" >
+                                        <p:column headerText="Evento"></p:column>
+                                        <p:column headerText="Acción"></p:column>
+                                        <p:column headerText="Duración"></p:column>
+                                        <p:column headerText="Siguiente Componente"></p:column>
+                                        <p:column headerText="Evento del siguiente Componente"></p:column>
+                                        <p:column headerText="Tiempo de espera para activar siguiente componente"></p:column>
+                                        <p:column headerText="acciones"><p:commandButton value="Utilizar"/></p:column>
+                                    </p:dataTable>
+                                </p:ribbonGroup>
+                            </p:tab>
+                        </p:ribbon>
+                    </p:panel>
+                    <p:panel header="Diseño de clase">
+                        <p:fieldset legend="Tema" toggleable="true">
+                            <p:tabView >
+                                <p:tab title="pag 1" >
+                                    <p:editor ></p:editor>
+                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
+                                </p:tab>
+                                <p:tab title="+" >
+                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
+                                </p:tab>
+                            </p:tabView>    
+                        </p:fieldset>
+                        <p:fieldset legend="Descripción del Tema"  toggleable="true">
+                            <p:tabView >
+                                <p:tab title="pag 1" >
+                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
+                                </p:tab>
+                                <p:tab title="pag 2" >
+                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
+                                </p:tab>
+                                <p:tab title="+" >
+
+                                </p:tab>
+                            </p:tabView>    
+                        </p:fieldset>
+                    </p:panel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Vista Previa"></p:commandButton>
+                    <p:commandButton value="Crear"></p:commandButton>
+                    <p:commandButton value="Limpiar"></p:commandButton>
+                    <p:commandButton value="Cancelar"></p:commandButton>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+
+    </ui:define>
+</ui:composition>

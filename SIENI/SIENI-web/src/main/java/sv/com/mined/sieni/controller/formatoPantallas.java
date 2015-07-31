@@ -16,12 +16,16 @@ public class formatoPantallas {
 
     private String campo50 = "XX--50--XX";
     private String campo30 = "XX--30--XX";
+    private String campo80 = "XX--80--XX";
     private String campo15 = "XX--15--XX";
     private String campo2 = "XX--2--XX";
     private String numeroDecimal = "99.99";
     private String numero3 = "999";
     private String numero2 = "9";
     private String anio = "9,999";
+    private String anio2 = "9999";
+    private String matricula = "99999999";
+    private String porcentaje = "%999.99";
     private String fecha = "99/99/9999";
     private String fechaHora = "99/99/9999 99:99 Xm";
     private String campo4000 = "XX--4000--XX";
@@ -98,6 +102,38 @@ public class formatoPantallas {
 
     public String getCampoInfinito() {
         return campoInfinito;
+    }
+
+    public String getAnio2() {
+        return anio2;
+    }
+
+    public void setAnio2(String anio2) {
+        this.anio2 = anio2;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(String porcentaje) {
+        this.porcentaje = porcentaje;
+    }
+
+    public String getCampo80() {
+        return campo80;
+    }
+
+    public void setCampo80(String campo80) {
+        this.campo80 = campo80;
     }
 
 }

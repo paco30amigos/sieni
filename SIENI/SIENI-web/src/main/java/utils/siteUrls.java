@@ -30,6 +30,11 @@ public class siteUrls {
     private final String expedienteAlumnos = "/faces/view/gestionAlumnos/expediente/index.xhtml";
     private final String gestionDocentes = "/faces/view/gestionDocentes/mantenimientoDocentes/index.xhtml";
     private final String buzonNotificacion = "/faces/view/buzonNotificaciones/index.xhtml";
+    private final String reporteMatricula = "/faces/view/rpt/reporteMatricula/index.xhtml";
+    private final String reporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/index.xhtml";
+    private final String reporteNotasAlumnoAnioEscolar = "/faces/view/rpt/reporteNotasAlumnoAnioEscolar/index.xhtml";
+    private final String reporteEvaluaciones = "/faces/view/rpt/reporteEvaluaciones/index.xhtml";
+    
 
     public String getGestionarAnioEscolar() {
         return gestionarAnioEscolar;
@@ -93,6 +98,22 @@ public class siteUrls {
 
     public String getBuzonNotificacion() {
         return buzonNotificacion;
+    }
+
+    public String getReporteMatricula() {
+        return reporteMatricula;
+    }
+
+    public String getReporteEstadisticoAvanceAlumno() {
+        return reporteEstadisticoAvanceAlumno;
+    }
+
+    public String getReporteNotasAlumnoAnioEscolar() {
+        return reporteNotasAlumnoAnioEscolar;
+    }
+
+    public String getReporteEvaluaciones() {
+        return reporteEvaluaciones;
     }
 
 }

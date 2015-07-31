@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Reporte Estadistico de Avance por Alumno" url="#{siteUrls.reporteEstadisticoAvanceAlumno}"/>
+
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Reporete de Matriculas">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <p:outputLabel value="Fecha desde"></p:outputLabel>
+                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <p:outputLabel value="hasta:"></p:outputLabel>
+                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                                 paginator="false"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true">
+
+                        <p:column headerText="Grado" >
+                            #{formatoPantallas.campo30}
+                        </p:column>
+                        <p:column headerText="Materia" >
+                            #{formatoPantallas.campo50}
+                        </p:column>
+                        <p:column headerText="Alumno" >
+                            #{formatoPantallas.campo100}
+                        </p:column>
+                        <p:column headerText="Tipo de Evaluacion" >
+                            #{formatoPantallas.campo50}
+                        </p:column>
+                        <p:column headerText="% Terminado" >
+                            #{formatoPantallas.porcentaje}
+                        </p:column>
+                        <p:column headerText="% No Terminado ">
+                            #{formatoPantallas.porcentaje}
+                        </p:column>
+                        <p:column headerText="Promedio" >
+                            #{formatoPantallas.numeroDecimal}
+                        </p:column>
+                        <p:column headerText="Varianza" >
+                            #{formatoPantallas.numeroDecimal}
+                        </p:column>
+
+                        
+                        <f:facet name="footer">
+                            Total de alumnos 999
+                        </f:facet>
+                    </p:dataTable>
+                    <div class="EmptyBox20"></div>
+                    <div class="TexAlCenter">
+                        
+                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                            <p:selectOneRadio  id="console" value="#{radioView.console}">
+                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
+                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar"></p:commandButton>
+                        <p:commandButton value="Regresar"></p:commandButton>
+                        </h:panelGrid>
+                    </div>
+
+                </h:form>
+            </p:tab>
+
+        </p:tabView>
+    </ui:define>
+
+</ui:composition>

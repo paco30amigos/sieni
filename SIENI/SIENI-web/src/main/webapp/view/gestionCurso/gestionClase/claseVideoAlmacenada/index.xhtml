@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Gestionar Clase" url="#"/>
+            <p:menuitem value="Video Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView class="Container100">
+            <p:tab title="Crear Clase Almacenada">
+                <h:form>
+                    <h:form>
+                        <div class="Container70 Responsive">
+                            <h:outputScript name="videoclase.js" library="js" />                    
+                            <video id="video" class="Container73" autoplay="true" controls="true"></video>                    
+                            <canvas id="canvas" class="Container70" style="display: none"></canvas>
+                        </div>
+                    </h:form>
+                </h:form>
+            </p:tab>
+            <p:tab title="Recibir Video Clase Almacenada">
+                <h:form>
+                    <div class="Container100 Responsive">
+                        <h:outputScript name="videoclase.js" library="js" />                    
+                        <video id="video2" class="Container73" autoplay="true" controls="true"></video>                    
+                        <canvas id="canvas2" class="Container70" style="display: none"></canvas>
+                    </div>
+                </h:form>
+            </p:tab>
+
+        </p:tabView>
+    </ui:define>
+</ui:composition>

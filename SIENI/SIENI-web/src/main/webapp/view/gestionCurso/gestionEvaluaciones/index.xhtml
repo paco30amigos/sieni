@@ -32,7 +32,7 @@
                             #{formatoPantallas.campo100}
                         </p:column>
                         <p:column headerText="Fecha de Inicio" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.fecha}
+                            #{formatoPantallas.fechaHora}
                         </p:column>
                         <p:column headerText="Fecha de cierre" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
                             #{formatoPantallas.fechaHora}
@@ -71,6 +71,8 @@
                             <f:selectItem itemValue="1" itemLabel="Disponible"></f:selectItem>
                         </p:selectOneMenu>
                         <p:outputLabel  value="Fecha de Inicio: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.fechaHora}"></p:inputText>
+                        <p:outputLabel  value="Fecha de Cierre: " class="Contanier10 Responsive"></p:outputLabel>
                         <p:inputText value="#{formatoPantallas.fechaHora}"></p:inputText>
                         <p:outputLabel  value="Duración en minutos: " class="Contanier10 Responsive"></p:outputLabel>
                         <p:spinner value="#{formatoPantallas.numero3}"></p:spinner>
@@ -130,6 +132,8 @@
                         </p:selectOneMenu>
                         <p:outputLabel  value="Fecha de Inicio: " class="Contanier10 Responsive"></p:outputLabel>
                         <p:inputText value="#{formatoPantallas.fechaHora}"></p:inputText>
+                        <p:outputLabel  value="Fecha de Cierre: " class="Contanier10 Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.fechaHora}"></p:inputText>
                         <p:outputLabel  value="Duración en minutos: " class="Contanier10 Responsive"></p:outputLabel>
                         <p:spinner value="#{formatoPantallas.numero3}"></p:spinner>
                         <p:outputLabel  value="Intentos permitidos: " class="Contanier10 Responsive"></p:outputLabel>
@@ -149,7 +153,6 @@
                         <p:outputLabel value="Tipo de ponderación: "></p:outputLabel>
                         <p:selectOneMenu >
                             <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Ponderación personalizada"></f:selectItem>
                         </p:selectOneMenu>
                         <p:outputLabel  value="Preguntas por página: " class="Contanier10 Responsive"></p:outputLabel>
                         <p:spinner  value="#{formatoPantallas.numero3}"></p:spinner>

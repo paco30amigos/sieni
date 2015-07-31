@@ -26,9 +26,11 @@
                 <p:submenu label="Gestionar Alumnos">
                     <p:menuitem value="Expediente Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
                 </p:submenu>
-                <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
+                <p:submenu label="Gestionar Docentes">
+                    <p:menuitem value="Mantenimiento de Docentes" url="#{siteUrls.gestionDocentes}" />
+                </p:submenu>
                 <p:submenu label="Administración de Sistema">
-                    <p:menuitem value="Mantenimiento de usuarios" url="#{siteUrls.gestionUsuarios}" />
+                    <p:menuitem value="Mantenimiento de Usuarios" url="#{siteUrls.gestionUsuarios}" />
                     <p:menuitem value="Bítacora" url="#" />
                 </p:submenu>
                 <p:submenu label="Gestionar Año Escolar">

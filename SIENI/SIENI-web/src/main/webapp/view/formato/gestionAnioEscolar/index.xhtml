@@ -7,14 +7,14 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Administración de sistema" url="#"/>
-            <p:menuitem value="Mantenimiento de Usuarios" url="#{siteUrls.gestionUsuarios}"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Mantenimiento de Año Escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
             <p:separator />
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
         <p:tabView>
-            <p:tab title="Consulta de Usuarios">
+            <p:tab title="Consulta año escolar">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
@@ -25,28 +25,31 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-                        <p:column headerText="Usuario" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo30}
+                        <p:column headerText="Año" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+
                         </p:column>
-                        <p:column headerText="Tipo de usuario" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo30}
+                        <p:column headerText="Fecha Inicio" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+
                         </p:column>
-                        <p:column headerText="Nombre" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo300}
+                        <p:column headerText="Fecha Fin" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+
+                        </p:column>
+                        <p:column headerText="Estado" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+
                         </p:column>
                         <p:column headerText="Acciones">
                             <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
                                                         <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Usuario"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Usuario"></i>
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Año escolar"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Año escolar"></i>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Crear Usuario"></p:commandButton>
+                    <p:commandButton value="Crear año escolar"></p:commandButton>
                     <p:commandButton value="Refrescar"></p:commandButton>
                 </h:form>
             </p:tab>
-            <p:tab title="Registro de Usuario">
+            <p:tab title="Apertura de año escolar">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
@@ -54,33 +57,25 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel value="Usuario: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
-                        <p:outputLabel  value="Tipo de Usuario: " class="Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu>
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
-                            <f:selectItem itemValue="2" itemLabel="Alumno"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel  value="Nombre: " class="Container10 Responsive" ></p:outputLabel>
-                        <p:selectOneMenu  filter="true" filterMatchMode="contains">
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo300}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Carmen"></f:selectItem>
-                            <f:selectItem itemValue="2"  itemLabel="Alicia"></f:selectItem>
-                        </p:selectOneMenu>
+                        <p:outputLabel for="anio" value="Año: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="anio" mask="9,999" class="Container20 Responsive" value="#{aperturaAnioEscolarForm.anio}"/>
+                        <p:outputLabel for="fInicio" value="Fecha de inicio: " class="Container10 Responsive"></p:outputLabel>
+                        <p:calendar id="fInicio" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class="Container10 Responsive" value="#{aperturaAnioEscolarForm.finicio}"></p:calendar>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Contraseña: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
-                        <p:outputLabel  value="Repetir Contraseña: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
+                        <p:outputLabel for="fFin" value="Fecha de Fin: " class="Container10 Responsive" ></p:outputLabel>            
+                        <p:calendar id="fFin" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class=" Container10 Responsive" value="#{aperturaAnioEscolarForm.ffin}"></p:calendar>
+                        <p:outputLabel for="estado" value="Estado: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class="Container10 Responsive" value="#{aperturaAnioEscolarForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="Activo"/>
+                            <f:selectItem itemValue="0" itemLabel="Inactivo"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
                         <p:commandButton value="Guardar"/>
                         <p:commandButton value="Limpiar"/>
                         <p:commandButton value="Cancelar"/>
-                        <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
@@ -92,7 +87,7 @@
                     </div>
                 </h:form>
             </p:tab>
-            <p:tab title="Modificar Usuario">
+            <p:tab title="Modificar año escolar">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
@@ -100,33 +95,25 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel value="Usuario: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
-                        <p:outputLabel  value="Tipo de Usuario: " class="Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu>
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
-                            <f:selectItem itemValue="2" itemLabel="Alumno"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel  value="Nombre: " class="Container10 Responsive" ></p:outputLabel>
-                        <p:selectOneMenu  filter="true" filterMatchMode="contains">
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo300}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Carmen"></f:selectItem>
-                            <f:selectItem itemValue="2"  itemLabel="Alicia"></f:selectItem>
-                        </p:selectOneMenu>
+                        <p:outputLabel for="m_anio" value="Año: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="m_anio" mask="9,999" class="Container20 Responsive" value="#{aperturaAnioEscolarForm.anio}"/>
+                        <p:outputLabel for="m_fInicio" value="Fecha de inicio: " class="Container10 Responsive"></p:outputLabel>
+                        <p:calendar id="m_fInicio" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class="Container10 Responsive" value="#{aperturaAnioEscolarForm.finicio}"></p:calendar>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Contraseña: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
-                        <p:outputLabel  value="Repetir Contraseña: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
+                        <p:outputLabel for="m_fFin" value="Fecha de Fin: " class="Container10 Responsive" ></p:outputLabel>            
+                        <p:calendar id="m_fFin" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class=" Container10 Responsive" value="#{aperturaAnioEscolarForm.ffin}"></p:calendar>
+                        <p:outputLabel for="m_estado" value="Estado: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_estado" class="Container10 Responsive" value="#{aperturaAnioEscolarForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="Activo"/>
+                            <f:selectItem itemValue="0" itemLabel="Inactivo"/>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
                         <p:commandButton value="Guardar"/>
                         <p:commandButton value="Limpiar"/>
                         <p:commandButton value="Cancelar"/>
-                        <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
@@ -138,6 +125,7 @@
                     </div>
                 </h:form>
             </p:tab>
+
         </p:tabView>
     </ui:define>
 </ui:composition>

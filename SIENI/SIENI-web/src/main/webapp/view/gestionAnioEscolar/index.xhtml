@@ -26,16 +26,16 @@
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Año" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-
+                            #{formatoPantallas.anio}
                         </p:column>
                         <p:column headerText="Fecha Inicio" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-
+                            #{formatoPantallas.fecha}
                         </p:column>
                         <p:column headerText="Fecha Fin" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-
+                            #{formatoPantallas.fecha}
                         </p:column>
                         <p:column headerText="Estado" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-
+                            #{formatoPantallas.campo15}
                         </p:column>
                         <p:column headerText="Acciones">
                             <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
@@ -56,35 +56,76 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="anio" value="Año: " class="Container10 Responsive"></p:outputLabel>
-                    <p:inputMask id="anio" mask="9,999" class="Container10 Responsive" value="#{aperturaAnioEscolarForm.anio}"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel  value="Año: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.anio}"></p:inputText>
+                        <p:outputLabel  value="Fecha de inicio: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel  value="Fecha de Fin: " class="Container10 Responsive" ></p:outputLabel>            
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                        <p:outputLabel  value="Estado: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class="Container10 Responsive" >
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                            <f:selectItem itemValue="0" itemLabel="Inactivo"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="fInicio" value="Fecha de inicio: " class="Container10 Responsive"></p:outputLabel>
-                    <p:calendar id="fInicio" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class="Container10 Responsive" value="#{aperturaAnioEscolarForm.finicio}"></p:calendar>
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="fFin" value="Fecha de Fin: " class="Container10 Responsive" ></p:outputLabel>            
-                    <p:calendar id="fFin" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class=" Container10 Responsive" value="#{aperturaAnioEscolarForm.ffin}"></p:calendar>
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel for="estado" value="Estado: " class=" Container10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="estado" class="Container10 Responsive" value="#{aperturaAnioEscolarForm.estado}">
-                        <f:selectItem itemValue ="1" itemLabel="Activo"/>
-                        <f:selectItem itemValue="0" itemLabel="Inactivo"/>
-                    </p:selectOneMenu>
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton value="Guardar"/>
-                    <p:commandButton value="Limpiar"/>
-                    <p:commandButton value="Cancelar"/>
-                    <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
-                        <p:menuitem value="Gestionar Docentes">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Alumnos">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Cursos">    
-                        </p:menuitem>
-                    </p:splitButton>            
+                    <div class="Container100 Responsive">
+                        <p:commandButton value="Guardar"/>
+                        <p:commandButton value="Limpiar"/>
+                        <p:commandButton value="Cancelar"/>
+                        <p:splitButton value="Otras Opciones" action="#">
+                            <p:menuitem value="Gestionar Docentes">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Alumnos">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Cursos">    
+                            </p:menuitem>
+                        </p:splitButton>            
+                    </div>
                 </h:form>
             </p:tab>
+            <p:tab title="Modificar año escolar">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel  value="Año: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.anio}"></p:inputText>
+                        <p:outputLabel  value="Fecha de inicio: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel  value="Fecha de Fin: " class="Container10 Responsive" ></p:outputLabel>            
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                        <p:outputLabel  value="Estado: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class="Container10 Responsive" >
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                            <f:selectItem itemValue="0" itemLabel="Inactivo"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container100 Responsive">
+                        <p:commandButton value="Guardar"/>
+                        <p:commandButton value="Limpiar"/>
+                        <p:commandButton value="Cancelar"/>
+                        <p:splitButton value="Otras Opciones" action="#">
+                            <p:menuitem value="Gestionar Docentes">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Alumnos">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Cursos">    
+                            </p:menuitem>
+                        </p:splitButton>            
+                    </div>
+                </h:form>
+            </p:tab>
+
         </p:tabView>
     </ui:define>
 </ui:composition>

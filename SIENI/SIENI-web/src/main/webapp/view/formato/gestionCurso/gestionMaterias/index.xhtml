@@ -8,13 +8,13 @@
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
-            <p:menuitem value="Mantenimiento de Archivos multimedia" url="#{siteUrls.gestionArchivosMultimedia}"/>
+            <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
             <p:separator />
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
         <p:tabView>
-            <p:tab title="Consulta de Archivos Multimedia">
+            <p:tab title="Consulta de Materias">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
@@ -26,26 +26,28 @@
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Nombre" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
+
                         </p:column>
                         <p:column headerText="Estado" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
+
                         </p:column>
-                        <p:column headerText="Tipo" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="Coordinador" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+
+                        </p:column>
+                        <p:column headerText="Turno" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+
                         </p:column>
                         <p:column headerText="Acciones">
-                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Ver Archivo Multimedia"></i>
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Archivo Multimedia"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Archivo Multimedia"></i>
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Materia"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Materia"></i>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Registrar Archivo Multimedia"></p:commandButton>
+                    <p:commandButton value="Registrar Materia"></p:commandButton>
                     <p:commandButton value="Refrescar"></p:commandButton>
                 </h:form>
             </p:tab>
-            <p:tab title="Registrar Archivo Multimedia">
+            <p:tab title="Registrar Materia">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
@@ -53,31 +55,31 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Nombre: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel  value="Estado: " class="Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class="Container10 Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                        <p:outputLabel for="nombre" value="Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="nombre" class="Container10 Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
+                        <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class="Container10 Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="Disponible"/>
                             <f:selectItem itemValue="0" itemLabel="No Disponible"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Tipo: " class="Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipo" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Video"/>
-                            <f:selectItem itemValue ="2" itemLabel="Imagen"/>
+                        <p:outputLabel for="coordinador" value="Coordinador: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="coordinador" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="Juan "/>
+                            <f:selectItem itemValue ="1" itemLabel="Carlos"/>
                         </p:selectOneMenu>
-                        <p:outputLabel  value="Archivo: " class="Container10 Responsive"></p:outputLabel>
-                        <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
-                        </p:fileUpload>  
+                        <p:outputLabel for="turno" value="Turno: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="turno" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="Matutino"/>
+                            <f:selectItem itemValue ="1" itemLabel="Vespertino"/>
+                        </p:selectOneMenu>   
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
                         <p:commandButton value="Guardar"/>
                         <p:commandButton value="Limpiar"/>
                         <p:commandButton value="Cancelar"/>
-                        <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Secciones">    
                             </p:menuitem>
@@ -89,7 +91,7 @@
                     </div>
                 </h:form>
             </p:tab>
-            <p:tab title="Modificar Archivo Multimedia">
+            <p:tab title="Modificar Materia">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
@@ -97,31 +99,31 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Nombre: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel  value="Estado: " class="Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class="Container10 Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                        <p:outputLabel for="m_nombre" value="Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_nombre" class="Container10 Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
+                        <p:outputLabel for="m_estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_estado" class="Container10 Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="Disponible"/>
                             <f:selectItem itemValue="0" itemLabel="No Disponible"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Tipo: " class="Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipo" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Video"/>
-                            <f:selectItem itemValue ="2" itemLabel="Imagen"/>
+                        <p:outputLabel for="m_coordinador" value="Coordinador: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_coordinador" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="Juan "/>
+                            <f:selectItem itemValue ="1" itemLabel="Carlos"/>
                         </p:selectOneMenu>
-                        <p:outputLabel  value="Archivo: " class="Container10 Responsive"></p:outputLabel>
-                        <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
-                        </p:fileUpload>  
+                        <p:outputLabel for="m_turno" value="Turno: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_turno" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="Matutino"/>
+                            <f:selectItem itemValue ="1" itemLabel="Vespertino"/>
+                        </p:selectOneMenu>   
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
                         <p:commandButton value="Guardar"/>
                         <p:commandButton value="Limpiar"/>
                         <p:commandButton value="Cancelar"/>
-                        <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Secciones">    
                             </p:menuitem>

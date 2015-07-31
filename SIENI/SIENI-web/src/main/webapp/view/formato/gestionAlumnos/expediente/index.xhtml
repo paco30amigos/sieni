@@ -26,25 +26,18 @@
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Foto">
-                            <i class="fa fa-file-image-o Fs25"></i>
                         </p:column>
                         <p:column headerText="Nombre" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo300}
                         </p:column>
                         <p:column headerText="Fecha de Nacimiento" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.fecha}
                         </p:column>
                         <p:column headerText="Correo electrónico" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo100}
                         </p:column>
                         <p:column headerText="Teléfono" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.telefono}
                         </p:column>
                         <p:column headerText="Celular" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.telefono}
                         </p:column>
                         <p:column headerText="Turno" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo15}
                         </p:column>
                         <p:column headerText="Acciones">
                             <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
@@ -72,30 +65,30 @@
                     </h:panelGrid>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Primer Nombre: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Segundo Nombre: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel value="Tercer Nombre: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Primer Apellido: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Segundo Apellido: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Tercer Apellido: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
+                        <p:outputLabel for="usuario" value="Primer Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="usuario"></p:inputText>
+                        <p:outputLabel for="usuario2" value="Segundo Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="usuario2"></p:inputText>
+                        <p:outputLabel for="usuario3" value="Tercer Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="usuario3"></p:inputText>
+                        <p:outputLabel for="apellido" value="Primer Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="apellido"></p:inputText>
+                        <p:outputLabel for="apellido2" value="Segundo Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="apellido2"></p:inputText>
+                        <p:outputLabel for="apellido3" value="Tercer Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="apellido3"></p:inputText>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Fecha de Nacimiento: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel value="Correo electrónico: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel value="Teléfono: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.telefono}"></p:inputText>
-                        <p:outputLabel value="Celular: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.telefono}"></p:inputText>
-                        <p:outputLabel  value="Dirección: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo200}"></p:inputText>
+                        <p:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento: " class="Container10 Responsive"></p:outputLabel>
+                        <p:calendar id="fechaNacimiento" navigator="true"></p:calendar>
+                        <p:outputLabel for="email" value="Correo electrónico: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="email" type="email"></p:inputText>
+                        <p:outputLabel for="telefono" value="Teléfono: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="telefono" mask="(503) 9999-9999" />
+                        <p:outputLabel for="celular" value="Celular: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="celular" mask="(503) 9999-9999" />
+                        <p:outputLabel for="direccion" value="Dirección: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="direccion"></p:inputText>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100">
@@ -120,38 +113,38 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>                   
+                    <div class="EmptyBox20"></div>
                     <h:panelGrid columns="2" class="Container100 Responsive">
                         <p:outputLabel value="Foto:"></p:outputLabel>
-                        <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
+                        <p:fileUpload id="m_archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
                         </p:fileUpload>
                     </h:panelGrid>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Primer Nombre: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Segundo Nombre: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel value="Tercer Nombre: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Primer Apellido: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Segundo Apellido: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Tercer Apellido: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
+                        <p:outputLabel for="m_usuario" value="Primer Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_usuario"></p:inputText>
+                        <p:outputLabel for="m_usuario2" value="Segundo Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_usuario2"></p:inputText>
+                        <p:outputLabel for="m_usuario3" value="Tercer Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_usuario3"></p:inputText>
+                        <p:outputLabel for="m_apellido" value="Primer Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_apellido"></p:inputText>
+                        <p:outputLabel for="m_apellido2" value="Segundo Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_apellido2"></p:inputText>
+                        <p:outputLabel for="m_apellido3" value="Tercer Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_apellido3"></p:inputText>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Fecha de Nacimiento: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel value="Correo electrónico: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel value="Teléfono: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.telefono}"></p:inputText>
-                        <p:outputLabel value="Celular: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.telefono}"></p:inputText>
-                        <p:outputLabel  value="Dirección: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo200}"></p:inputText>
+                        <p:outputLabel for="m_fechaNacimiento" value="Fecha de Nacimiento: " class="Container10 Responsive"></p:outputLabel>
+                        <p:calendar id="m_fechaNacimiento" navigator="true" ></p:calendar>
+                        <p:outputLabel for="m_email" value="Correo electrónico: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_email" type="email"></p:inputText>
+                        <p:outputLabel for="m_telefono" value="Teléfono: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="m_telefono" mask="(503) 9999-9999" />
+                        <p:outputLabel for="m_celular" value="Celular: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="m_celular" mask="(503) 9999-9999" />
+                        <p:outputLabel for="m_direccion" value="Dirección: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_direccion"></p:inputText>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100">

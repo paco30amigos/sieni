@@ -7,7 +7,8 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}"/>
+            <p:menuitem value="Gestionar Docentes" url="#"/>
+            <p:menuitem value="Mantenimiento de Docentes" url="#{siteUrls.gestionDocentes}"/>
             <p:separator />
         </p:breadCrumb>
     </ui:define>
@@ -24,7 +25,11 @@
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
+                        <p:column headerText="Foto">
+                        </p:column>
                         <p:column headerText="Nombre" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        </p:column>
+                        <p:column headerText="Fecha de Nacimiento" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                         </p:column>
                         <p:column headerText="Correo electrónico" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                         </p:column>
@@ -37,8 +42,8 @@
                         <p:column headerText="Acciones">
                             <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
                                                         <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Año escolar"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Año escolar"></i>
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Docente"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Docente"></i>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
@@ -46,12 +51,18 @@
                     <p:commandButton value="Refrescar"></p:commandButton>
                 </h:form>
             </p:tab>
-            <p:tab title="Registro de Docentes">
+            <p:tab title="Registro de Docente">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <h:panelGrid columns="2" class="Container100 Responsive">
+                        <p:outputLabel value="Foto:"></p:outputLabel>
+                        <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
+                        </p:fileUpload>
+                    </h:panelGrid>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
                         <p:outputLabel for="usuario" value="Primer Nombre: " class="Container10 Responsive"></p:outputLabel>
@@ -68,6 +79,8 @@
                         <p:inputText id="apellido3"></p:inputText>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento: " class="Container10 Responsive"></p:outputLabel>
+                        <p:calendar id="fechaNacimiento" navigator="true"></p:calendar>
                         <p:outputLabel for="email" value="Correo electrónico: " class="Container10 Responsive"></p:outputLabel>
                         <p:inputText id="email" type="email"></p:inputText>
                         <p:outputLabel for="telefono" value="Teléfono: " class="Container10 Responsive"></p:outputLabel>
@@ -76,10 +89,64 @@
                         <p:inputMask id="celular" mask="(503) 9999-9999" />
                         <p:outputLabel for="direccion" value="Dirección: " class="Container10 Responsive"></p:outputLabel>
                         <p:inputText id="direccion"></p:inputText>
-                        <p:outputLabel value="Foto"></p:outputLabel>
-                        <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
-                        </p:fileUpload>
                     </p:panelGrid>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container100">
+                        <p:commandButton value="Guardar"/>
+                        <p:commandButton value="Limpiar"/>
+                        <p:commandButton value="Cancelar"/>
+                        <div class="EmptyBox20"></div>
+                        <p:splitButton value="Otras Opciones" action="#">
+                            <p:menuitem value="Gestionar Docentes">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Alumnos">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Cursos">    
+                            </p:menuitem>
+                        </p:splitButton>            
+                    </div>
+                </h:form>
+            </p:tab>
+            <p:tab title="Modificar Docente">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <h:panelGrid columns="2" class="Container100 Responsive">
+                        <p:outputLabel value="Foto:"></p:outputLabel>
+                        <p:fileUpload id="m_archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
+                        </p:fileUpload>
+                    </h:panelGrid>
+                    <div class="EmptyBox20"></div>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel for="m_usuario" value="Primer Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_usuario"></p:inputText>
+                        <p:outputLabel for="m_usuario2" value="Segundo Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_usuario2"></p:inputText>
+                        <p:outputLabel for="m_usuario3" value="Tercer Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_usuario3"></p:inputText>
+                        <p:outputLabel for="m_apellido" value="Primer Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_apellido"></p:inputText>
+                        <p:outputLabel for="m_apellido2" value="Segundo Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_apellido2"></p:inputText>
+                        <p:outputLabel for="m_apellido3" value="Tercer Apellido: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_apellido3"></p:inputText>
+                    </p:panelGrid>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel for="m_fechaNacimiento" value="Fecha de Nacimiento: " class="Container10 Responsive"></p:outputLabel>
+                        <p:calendar id="m_fechaNacimiento" navigator="true"></p:calendar>
+                        <p:outputLabel for="m_email" value="Correo electrónico: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_email" type="email"></p:inputText>
+                        <p:outputLabel for="m_telefono" value="Teléfono: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="m_telefono" mask="(503) 9999-9999" />
+                        <p:outputLabel for="m_celular" value="Celular: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="m_celular" mask="(503) 9999-9999" />
+                        <p:outputLabel for="m_direccion" value="Dirección: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_direccion"></p:inputText>
+                    </p:panelGrid>
+                    <div class="EmptyBox20"></div>
                     <div class="Container100">
                         <p:commandButton value="Guardar"/>
                         <p:commandButton value="Limpiar"/>

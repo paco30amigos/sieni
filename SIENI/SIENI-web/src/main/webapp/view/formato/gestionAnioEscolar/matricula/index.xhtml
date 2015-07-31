@@ -7,7 +7,7 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Gestionar Alumnos" url="#"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Matricula Alumnos" url="#{siteUrls.gestionAlumnos}"/>
             <p:separator />
         </p:breadCrumb>
@@ -27,7 +27,7 @@
                                  reflow="true">
                         <p:column headerText="Carnet" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                         </p:column>
-                        <p:column headerText="Nombre Expediente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        <p:column headerText="Nombre" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                         </p:column>
                         <p:column headerText="Grado" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                         </p:column>
@@ -36,8 +36,8 @@
                         <p:column headerText="Acciones">
                             <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
                                                         <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Año escolar"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Año escolar"></i>
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Matrícula"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Matrícula"></i>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
@@ -51,10 +51,11 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>                    
+                    <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
                         <p:outputLabel for="carnet" value="Carnet: " class="Container10 Responsive"></p:outputLabel>
                         <p:inputText id="carnet"></p:inputText>
-                        <p:outputLabel for="nombreExp" value="Nombre Expediente: " class="Container10 Responsive"></p:outputLabel>
+                        <p:outputLabel for="nombreExp" value="Nombre: " class="Container10 Responsive"></p:outputLabel>
                         <p:selectOneMenu id="nombreExp" filter="true" filterMatchMode="contains">
                             <f:selectItem itemLabel="Mauricio Amilcar"></f:selectItem>
                             <f:selectItem itemLabel="Rafael Antonio"></f:selectItem>
@@ -73,6 +74,53 @@
                             <f:selectItem itemLabel="C"></f:selectItem>
                         </p:selectOneMenu>
                     </p:panelGrid>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container100 Responsive">
+                        <p:commandButton value="Guardar"/>
+                        <p:commandButton value="Limpiar"/>
+                        <p:commandButton value="Cancelar"/>
+                        <div class="EmptyBox20"></div>
+                        <p:splitButton value="Otras Opciones" action="#">
+                            <p:menuitem value="Gestionar Docentes">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Alumnos">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Cursos">    
+                            </p:menuitem>
+                        </p:splitButton>            
+                    </div>
+                </h:form>
+            </p:tab>
+            <p:tab title="Modificar Matrícula de Alumno">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:panelGrid columns="2" class="Container50 Responsive">
+                        <p:outputLabel for="m_carnet" value="Carnet: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_carnet"></p:inputText>
+                        <p:outputLabel for="m_nombreExp" value="Nombre: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_nombreExp" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="Mauricio Amilcar"></f:selectItem>
+                            <f:selectItem itemLabel="Rafael Antonio"></f:selectItem>
+                            <f:selectItem itemLabel="Alberto Daniel"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="m_grado" value="Grado: " class="Container10 Responsive" ></p:outputLabel>
+                        <p:selectOneMenu id="m_grado" filter="true" filterMatchMode="contains">
+                            <f:selectItem itemLabel="7°"></f:selectItem>
+                            <f:selectItem itemLabel="8°"></f:selectItem>
+                            <f:selectItem itemLabel="9°"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="m_seccion" value="Sección del grado: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_seccion">
+                            <f:selectItem itemLabel="A"></f:selectItem>
+                            <f:selectItem itemLabel="B"></f:selectItem>
+                            <f:selectItem itemLabel="C"></f:selectItem>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
                         <p:commandButton value="Guardar"/>
                         <p:commandButton value="Limpiar"/>

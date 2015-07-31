@@ -25,21 +25,11 @@
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-                        <p:column headerText="Nombre" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
-                        </p:column>
-                        <p:column headerText="Capacidad" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.numero3}
-                        </p:column>
-                        <p:column headerText="Docente" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo300}
-                        </p:column>
-                        <p:column headerText="Seccion" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
-                        </p:column>
-                        <p:column headerText="Materia" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo50}
-                        </p:column>
+                        <p:column headerText="Nombre" filterBy="#{car.description}" filterable="true" filterMatchMode="contains"></p:column>
+                        <p:column headerText="Capacidad" filterBy="#{car.description}" filterable="true" filterMatchMode="contains"></p:column>
+                        <p:column headerText="Docente" filterBy="#{car.description}" filterable="true" filterMatchMode="contains"></p:column>
+                        <p:column headerText="Seccion" filterBy="#{car.description}" filterable="true" filterMatchMode="contains"></p:column>
+                        <p:column headerText="Materia" filterBy="#{car.description}" filterable="true" filterMatchMode="contains"></p:column>
                         <p:column headerText="Acciones">
                             <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Curso"></i>
                             <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Curso"></i>
@@ -56,29 +46,30 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Nombre del Curso:  " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  class="Container10 Responsive" value="#{formatoPantallas.campo100}"/>
-                        <p:outputLabel  value="Capacidad: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputMask  mask="999" class="Container10 Responsive" value="#{formatoPantallas.numero3}" />
-                        <p:outputLabel  value="Docente: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:outputLabel for="nombre" value="Nombre del Curso:  " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="nombre" class="Container10 Responsive" value="XX--50--XX"/>
+                        <!--<p:inputText id="nombre" class="Container10 Responsive"/>-->
+                        <p:outputLabel for="capacidad" value="Capacidad: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="capacidad" mask="999" class="Container10 Responsive" value="999" />
+                        <!--<p:inputMask id="capacidad" mask="999" class="Container10 Responsive" />-->
+                        <p:outputLabel for="docente" value="Docente: " class=" Container10 Responsive"></p:outputLabel>
                         <p:selectOneMenu id="docente" class="Container10 Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
+                            <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
                             <f:selectItem itemValue ="1" itemLabel="Juan Pérez"/>
                             <f:selectItem itemValue="0" itemLabel="Canario Martinez"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Seccion: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class="Container10 Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                        <p:outputLabel for="seccion" value="Seccion: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="seccion" class="Container10 Responsive">
+                            <f:selectItem itemValue ="1" itemLabel="XX--50--XX"/>
                             <f:selectItem itemValue ="1" itemLabel="1° Grado"/>
                             <f:selectItem itemValue="0" itemLabel="2° Grado"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Materia: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class="Container10 Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo50}"/>
+                        <p:outputLabel for="materia" value="Materia: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="materia" class="Container10 Responsive">
+                            <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
                             <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
                             <f:selectItem itemValue="0" itemLabel="Ciencias Naturales"/>
                         </p:selectOneMenu>
@@ -105,29 +96,30 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Nombre del Curso:  " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText  class="Container10 Responsive" value="#{formatoPantallas.campo300}"/>
-                        <p:outputLabel  value="Capacidad: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputMask  mask="999" class="Container10 Responsive" value="#{formatoPantallas.numero3}" />
-                        <p:outputLabel  value="Docente: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class="Container10 Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
+                        <p:outputLabel for="m_nombre" value="Nombre del Curso:  " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="m_nombre" class="Container10 Responsive" value="XX--50--XX"/>
+                        <!--<p:inputText id="m_nombre" class="Container10 Responsive"/>-->
+                        <p:outputLabel for="m_capacidad" value="Capacidad: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputMask id="m_capacidad" mask="999" class="Container10 Responsive" value="999" />
+                        <!--<p:inputMask id="m_capacidad" mask="999" class="Container10 Responsive" />-->
+                        <p:outputLabel for="m_docente" value="Docente: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_docente" class="Container10 Responsive">
+                            <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
                             <f:selectItem itemValue ="1" itemLabel="Juan Pérez"/>
                             <f:selectItem itemValue="0" itemLabel="Canario Martinez"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel value="Seccion: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu class="Container10 Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                        <p:outputLabel for="m_seccion" value="Seccion: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_seccion" class="Container10 Responsive">
+                            <f:selectItem itemValue ="1" itemLabel="XX--50--XX"/>
                             <f:selectItem itemValue ="1" itemLabel="1° Grado"/>
                             <f:selectItem itemValue="0" itemLabel="2° Grado"/>
                         </p:selectOneMenu>
-                        <p:outputLabel  value="Materia: " class=" Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class="Container10 Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo50}"/>
+                        <p:outputLabel for="m_materia" value="Materia: " class=" Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="m_materia" class="Container10 Responsive">
+                            <f:selectItem itemValue ="1" itemLabel="XX--100--XX"/>
                             <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
                             <f:selectItem itemValue="0" itemLabel="Ciencias Naturales"/>
                         </p:selectOneMenu>

@@ -25,16 +25,16 @@
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Usuario" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo30}
+
                         </p:column>
                         <p:column headerText="Título" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
+
                         </p:column>
                         <p:column headerText="Estado" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
+
                         </p:column>
                         <p:column headerText="Curso" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
+
                         </p:column>
                         <p:column headerText="Acciones">
                             <i class="icon-chat75 Fs25 Red" style="cursor: pointer" title="Ver Notificación"></i>
@@ -54,26 +54,26 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Título: " class="Container10 Responsive"></p:outputLabel>
-                        <p:inputText class="Container10 Responsive" value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel value="Estado: " class="Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class="Container10 Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                        <p:outputLabel for="titulo" value="Título: " class="Container10 Responsive"></p:outputLabel>
+                        <p:inputText id="titulo" class="Container10 Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
+                        <p:outputLabel for="estado" value="Estado: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class="Container10 Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="Disponible"/>
                             <f:selectItem itemValue="0" itemLabel="No Disponible"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Curso: " class="Container10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo100}"/>
+                        <p:outputLabel for="curso" value="Curso: " class="Container10 Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="curso" class="Container10 Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="Audio"/>
                             <f:selectItem itemValue ="1" itemLabel="Video"/>
                             <f:selectItem itemValue ="2" itemLabel="Imagen"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">                    
-                        <p:outputLabel value="Consulta: " class="Container10 Responsive"></p:outputLabel>
-                        <p:editor value="#{formatoPantallas.campo4000}" ></p:editor>
+                        <p:outputLabel for="consulta" value="Consulta: " class="Container10 Responsive"></p:outputLabel>
+                        <p:editor id="consulta"></p:editor>
                         <p:outputLabel value="Tipo de Archivo:"></p:outputLabel>
                         <p:selectOneMenu>
-                            <f:selectItem itemValue="-1" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
+                            <f:selectItem itemValue="-1" itemLabel="No adjuntar"></f:selectItem>
                             <f:selectItem itemValue="0" itemLabel="Audio"></f:selectItem>
                             <f:selectItem itemValue="1" itemLabel="Video"></f:selectItem>
                             <f:selectItem itemValue="2" itemLabel="Imagen"></f:selectItem>
@@ -106,18 +106,18 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:dataScroller value="#{clasesForm.plantillas}" var="noticia" >
-                    <p:panel  header="#{formatoPantallas.campo100}" closable="true">
-                        <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container73" style="cursor: pointer" >
-                            <i class="fa fa-file-movie-o Fs25"></i>
-                            <i class="fa fa-file-image-o Fs25"></i>
-                            <i class="fa fa-file-audio-o Fs25"></i>
-                        </div>
-                        <div class="EmptyBox20"></div>
-                    </p:panel>
-                </p:dataScroller>
+                    <p:dataScroller value="#{clasesForm.plantillas}" var="noticia" chunkSize="5">
+                        <p:panel  header="Evaluación de matemáticas, reprogramada" closable="true">
+                            <p:outputLabel value="La evaluación de Matemáticas será reprogramada despues de las fiestas agostinas"></p:outputLabel>
+                            <div class="EmptyBox20"></div>
+                            <div class="Container73" style="cursor: pointer" >
+                                <i class="fa fa-file-movie-o Fs25"></i>
+                                <i class="fa fa-file-image-o Fs25"></i>
+                                <i class="fa fa-file-audio-o Fs25"></i>
+                            </div>
+                            <div class="EmptyBox20"></div>
+                        </p:panel>
+                    </p:dataScroller>
                 </h:form>
             </p:tab>
         </p:tabView>

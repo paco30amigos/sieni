@@ -4,14 +4,12 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
-    <ui:define name="breadCrumb">
-        <p:breadCrumb>
-            <p:menuitem value="Home" url="/"/>
-        </p:breadCrumb>
-    </ui:define>
+
     <ui:define name="content">
-        <p:panel class="Container100">
-            <p:outputLabel class="h2 TexAlCenter">Bienvenido</p:outputLabel>
-        </p:panel>
+        
+        <script type="text/javascript" src="../videoClase/videoclase.js"></script>
+        <video id="video" width="640" height="480" autoplay="true"></video>
+        <button id="snap">Snap Photo</button>
+        <canvas id="canvas" width="640" height="480"></canvas>
     </ui:define>
 </ui:composition>

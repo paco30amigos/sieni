@@ -7,14 +7,14 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionDocentes}"/>
-            <p:menuitem value="Expediente Alumnos" url="#{siteUrls.gestionDocentes}"/>
+            <p:menuitem value="Gestionar Docentes" url="#"/>
+            <p:menuitem value="Mantenimiento de Docentes" url="#{siteUrls.gestionDocentes}"/>
             <p:separator />
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
         <p:tabView>
-            <p:tab title="Consulta de Expedientes">
+            <p:tab title="Consulta de Docentes">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
@@ -49,8 +49,8 @@
                         <p:column headerText="Acciones">
                             <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
                                                         <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Expediente"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Expediente"></i>
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Docente"></i>
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Docente"></i>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
@@ -58,13 +58,13 @@
                     <p:commandButton value="Refrescar"></p:commandButton>
                 </h:form>
             </p:tab>
-            <p:tab title="Registro de Expedientes">
+            <p:tab title="Registro de Docente">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>                   
+                    <div class="EmptyBox20"></div>
                     <h:panelGrid columns="2" class="Container100 Responsive">
                         <p:outputLabel value="Foto:"></p:outputLabel>
                         <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
@@ -114,16 +114,16 @@
                     </div>
                 </h:form>
             </p:tab>
-            <p:tab title="Modificar Expediente">
+            <p:tab title="Modificar Docente">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>                   
+                    <div class="EmptyBox20"></div>
                     <h:panelGrid columns="2" class="Container100 Responsive">
                         <p:outputLabel value="Foto:"></p:outputLabel>
-                        <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
+                        <p:fileUpload id="m_archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
                         </p:fileUpload>
                     </h:panelGrid>
                     <div class="EmptyBox20"></div>

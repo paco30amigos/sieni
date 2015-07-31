@@ -36,7 +36,13 @@ public class siteUrls {
     private final String reporteNotasAlumnoAnioEscolar = "/faces/view/rpt/reporteNotasAlumnoAnioEscolar/index.xhtml";
     private final String reporteEvaluaciones = "/faces/view/rpt/reporteEvaluaciones/index.xhtml";
     
+    private final String ejerciciosResueltos="/faces/view/gestionCurso/gestionClase/ejerciciosResueltos/index.xhtml";
 
+    public String getEjerciciosResueltos() {
+        return ejerciciosResueltos;
+    }
+    
+    private final String ejerciciosRes = "/faces/view/gestionCurso/gestionClase/ejerciciosRes/index.xhtml";
     private final String reporteRendimientoAlumno = "/faces/view/reportes/rendimientoAlumno/index.xhtml";
 
     public String getGestionarAnioEscolar() {
@@ -121,6 +127,10 @@ public class siteUrls {
 
     public String getReporteEvaluaciones() {
         return reporteEvaluaciones;
+    }
+    
+    public String getEjerciciosRes() {
+        return ejerciciosRes;
     }
 
 }

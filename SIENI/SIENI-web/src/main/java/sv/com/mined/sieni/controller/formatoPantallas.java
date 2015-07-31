@@ -31,6 +31,7 @@ public class formatoPantallas {
     private String porcentaje = "%999.99";
     private String fecha = "99/99/9999";
     private String fechaHora = "99/99/9999 99:99 Xm";
+    private String hora = "99:99 Xm";
     private String campo4000 = "XX--4000--XX";
     private String campo100 = "XX--100--XX";
     private String campo200 = "XX--200--XX";
@@ -45,6 +46,10 @@ public class formatoPantallas {
 
     public String getCampo20() {
         return campo20;
+    }
+
+    public String getHora() {
+        return hora;
     }
     
     

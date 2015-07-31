@@ -25,6 +25,7 @@ public class formatoPantallas {
     private String numero3 = "999";
     private String numero2 = "99";
     private String numero1 = "9";
+    private String numero4 = "9999";
     private String anio = "9,999";
     private String anio2 = "9999";
     private String matricula = "99999999";
@@ -48,12 +49,6 @@ public class formatoPantallas {
         return campo20;
     }
 
-    public String getHora() {
-        return hora;
-    }
-    
-    
-
     public String getCampo50() {
         return campo50;
     }
@@ -62,20 +57,64 @@ public class formatoPantallas {
         return campo30;
     }
 
+    public String getCampo80() {
+        return campo80;
+    }
+
     public String getCampo15() {
         return campo15;
+    }
+
+    public String getCampo2() {
+        return campo2;
     }
 
     public String getNumeroDecimal() {
         return numeroDecimal;
     }
 
+    public String getNumero3() {
+        return numero3;
+    }
+
+    public String getNumero2() {
+        return numero2;
+    }
+
+    public String getNumero1() {
+        return numero1;
+    }
+
+    public String getNumero4() {
+        return numero4;
+    }
+
     public String getAnio() {
         return anio;
     }
 
+    public String getAnio2() {
+        return anio2;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public String getPorcentaje() {
+        return porcentaje;
+    }
+
     public String getFecha() {
         return fecha;
+    }
+
+    public String getFechaHora() {
+        return fechaHora;
+    }
+
+    public String getHora() {
+        return hora;
     }
 
     public String getCampo4000() {
@@ -90,73 +129,22 @@ public class formatoPantallas {
         return campo200;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
     public String getCampo300() {
         return campo300;
+    }
+
+    public String getTelefono() {
+        return telefono;
     }
 
     public String getCarnet() {
         return Carnet;
     }
 
-    public String getNumero3() {
-        return numero3;
-    }
-
-    public String getFechaHora() {
-        return fechaHora;
-    }
-
-    public String getNumero2() {
-        return numero2;
-    }
-
-    public String getCampo2() {
-        return campo2;
-    }
-
     public String getCampoInfinito() {
         return campoInfinito;
     }
 
-    public String getAnio2() {
-        return anio2;
-    }
-
-    public void setAnio2(String anio2) {
-        this.anio2 = anio2;
-    }
-
-    public String getMatricula() {
-        return matricula;
-    }
-
-    public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
-
-    public String getPorcentaje() {
-        return porcentaje;
-    }
-
-    public void setPorcentaje(String porcentaje) {
-        this.porcentaje = porcentaje;
-    }
-
-    public String getCampo80() {
-        return campo80;
-    }
-
-    public void setCampo80(String campo80) {
-        this.campo80 = campo80;
-    }
-
-    public String getNumero1() {
-        return numero1;
-    }
-
+    
     
 }

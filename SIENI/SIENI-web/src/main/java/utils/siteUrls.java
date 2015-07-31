@@ -34,6 +34,7 @@ public class siteUrls {
     private final String claseOnline = "/faces/view/gestionCurso/gestionClase/claseOnline/index.xhtml";
     private final String claseVideoAlmacenada = "/faces/view/gestionCurso/gestionClase/claseVideoAlmacenada/index.xhtml";
     private final String claseInteractiva = "/faces/view/gestionCurso/gestionClase/claseInteractiva/index.xhtml";
+    private final String componenteInteractiva = "/faces/view/gestionCurso/gestionCompInteract/index.xhtml";
 
     private final String reporteMatricula = "/faces/view/rpt/reporteMatricula/index.xhtml";
     private final String reporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/index.xhtml";
@@ -126,7 +127,7 @@ public class siteUrls {
     public String getBuzonNotificacion() {
         return buzonNotificacion;
     }
-    
+
     public String getReporteRendimientoAlumno() {
         return reporteRendimientoAlumno;
     }
@@ -188,6 +189,10 @@ public class siteUrls {
 
     public String getClaseInteractiva() {
         return claseInteractiva;
+    }
+
+    public String getComponenteInteractiva() {
+        return componenteInteractiva;
     }
 
 }

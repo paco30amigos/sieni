@@ -62,14 +62,11 @@
                         <p:selectOneMenu id="plantilla" value="#{ClasesForm.tipoClase}" class="Contanier10 Responsive">
                             <f:selectItems var="plantilla" value="#{ClasesForm.tipoClases}" itemLabel="#{plantilla.description}" itemValue="#{plantilla.self}"></f:selectItems>
                         </p:selectOneMenu>                                                
-                        <p:outputLabel for="estiloPasoPagina" value="Estilo de Paso de paginas"/>
-                        <p:selectOneMenu id="estiloPasoPagina" value="#{ClasesForm.estiloPasoPagina}" class="Contanier10 Responsive">
-                            <f:selectItems var="estiloPasoPagina" value="#{ClasesForm.estiloPasoPagina}" itemLabel="#{estiloPasoPagina.description}" itemValue="#{estiloPasoPagina.self}"></f:selectItems>
-                        </p:selectOneMenu>
+                        
                     </p:panelGrid>
                     <p:tooltip for="docente" value="Docente que impartirá la clase" />
                     <p:tooltip for="plantilla" value="Plantilla a utilizar para la creación de la Clase" />
-                    <p:tooltip for="estiloPasoPagina" value="Efecto cuando se pasan las paginas de la clase" />
+                    
 
                     <div class="EmptyBox20"></div>
                     <!--                    <p:sticky target="r"/>-->
@@ -92,22 +89,6 @@
                                     </p:pickList>
                                 </p:ribbonGroup>
                             </p:tab>
-                            <p:tab title="Configuración">
-                                <p:ribbonGroup label="Configuración de componente" class="Container20">
-                                    <p:outputLabel value="ancho"></p:outputLabel>
-                                    <p:spinner min="1" max="1080" value="#{configuracionClaseForm.ancho}"></p:spinner>
-                                    <div class="EmptyBox10"></div>
-                                    <p:outputLabel value="alto"></p:outputLabel>
-                                    <p:spinner min="1" max="1920" value="#{configuracionClaseForm.alto}"></p:spinner>
-                                    <div class="EmptyBox10"></div>
-                                    <p:outputLabel value="posicion X"></p:outputLabel>
-                                    <p:spinner min="1" max="1080" value="#{configuracionClaseForm.posicionX}"></p:spinner>
-                                    <div class="EmptyBox10"></div>
-                                    <p:outputLabel value="posicion Y"></p:outputLabel>
-                                    <p:spinner min="1" max="1920" value="#{configuracionClaseForm.posicionY}"></p:spinner>
-                                </p:ribbonGroup>
-                            </p:tab>
-
                             <p:tab title="Interacción">
                                 <p:ribbonGroup label="Agregar Interacción" class="Container25">
                                     <p:outputLabel value="Evento"></p:outputLabel>

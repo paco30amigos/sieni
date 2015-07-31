@@ -18,7 +18,7 @@
             <p:tab title="Transmitir Clase en Vivo">
                 <h:form>
                     <div class="Container73 Responsive">
-                        <h:outputScript name="videoclase.js" library="js" />                    
+                        <h:outputScript name="videoclase.js" library="js" />                                            
                         <video id="video" class="Container73" autoplay="true"></video>                    
                         <canvas id="canvas" class="Container73" style="display: none"></canvas>
                     </div>
@@ -36,7 +36,7 @@
                         </p:panel>
                     </div>
                     <div class="Container100">
-                        <p:commandButton value="Transmitir"></p:commandButton>
+                        <p:commandButton value="Transmitir" onclick="transmit()"></p:commandButton>
                         <p:commandButton value="Parar Transmición"></p:commandButton>
                         <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">

@@ -35,16 +35,25 @@ public class siteUrls {
     private final String reporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/index.xhtml";
     private final String reporteNotasAlumnoAnioEscolar = "/faces/view/rpt/reporteNotasAlumnoAnioEscolar/index.xhtml";
     private final String reporteEvaluaciones = "/faces/view/rpt/reporteEvaluaciones/index.xhtml";
+    private final String reporteClases = "/faces/view/rpt/reporteClases/index.xhtml";
+    private final String reporteDocentes = "/faces/view/rpt/reporteDocentes/index.xhtml";
+    private final String reporteUsuarios = "/faces/view/rpt/reporteUsuarios/index.xhtml";
+    private final String reporteParticipacionClases = "/faces/view/rpt/reporteParticipacionClases/index.xhtml";
+    private final String reporteCursos = "/faces/view/rpt/reporteCursos/index.xhtml";
+    private final String reporteAlumnos = "/faces/view/rpt/reporteAlumnos/index.xhtml";
+    
     
     private final String ejerciciosResueltos="/faces/view/gestionCurso/gestionClase/ejerciciosResueltos/index.xhtml";
 
-    public String getEjerciciosResueltos() {
-        return ejerciciosResueltos;
-    }
     
     private final String ejerciciosRes = "/faces/view/gestionCurso/gestionClase/ejerciciosRes/index.xhtml";
     private final String reporteRendimientoAlumno = "/faces/view/reportes/rendimientoAlumno/index.xhtml";
 
+    
+    public String getEjerciciosResueltos() {
+        return ejerciciosResueltos;
+    }
+    
     public String getGestionarAnioEscolar() {
         return gestionarAnioEscolar;
     }
@@ -132,5 +141,32 @@ public class siteUrls {
     public String getEjerciciosRes() {
         return ejerciciosRes;
     }
+
+    public String getReporteClases() {
+        return reporteClases;
+    }
+
+    public String getReporteDocentes() {
+        return reporteDocentes;
+    }
+
+    public String getReporteUsuarios() {
+        return reporteUsuarios;
+    }
+
+    public String getReporteParticipacionClases() {
+        return reporteParticipacionClases;
+    }
+
+    public String getReporteCursos() {
+        return reporteCursos;
+    }
+
+    public String getReporteAlumnos() {
+        return reporteAlumnos;
+    }
+    
+    
+    
 
 }

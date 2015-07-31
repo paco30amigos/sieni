@@ -14,6 +14,8 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class formatoPantallas {
 
+    private String campo10 = "XX--10--XX";
+    private String campo20 = "XX--20--XX";
     private String campo50 = "XX--50--XX";
     private String campo30 = "XX--30--XX";
     private String campo80 = "XX--80--XX";
@@ -21,7 +23,8 @@ public class formatoPantallas {
     private String campo2 = "XX--2--XX";
     private String numeroDecimal = "99.99";
     private String numero3 = "999";
-    private String numero2 = "9";
+    private String numero2 = "99";
+    private String numero1 = "9";
     private String anio = "9,999";
     private String anio2 = "9999";
     private String matricula = "99999999";
@@ -32,9 +35,19 @@ public class formatoPantallas {
     private String campo100 = "XX--100--XX";
     private String campo200 = "XX--200--XX";
     private String campo300 = "XX--300--XX";
-    private String telefono = "(999) 9999-9999";
+    private String telefono = "9999-9999";
     private String Carnet = "XX99999";
     private String campoInfinito = "XX----XX";
+
+    public String getCampo10() {
+        return campo10;
+    }
+
+    public String getCampo20() {
+        return campo20;
+    }
+    
+    
 
     public String getCampo50() {
         return campo50;
@@ -136,4 +149,9 @@ public class formatoPantallas {
         this.campo80 = campo80;
     }
 
+    public String getNumero1() {
+        return numero1;
+    }
+
+    
 }

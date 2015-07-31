@@ -7,51 +7,42 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Reporte de Evaluaciones por Año Escolar" url="#{siteUrls.reporteEvaluaciones}"/>
+            <p:menuitem value="Reporte de Clases" url="#{siteUrls.reporteClases}"/>
 
             <p:separator />
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
         <p:tabView>
-            <p:tab title="Reporete de Matriculas">
+            <p:tab title="Reporte de Clases">
                 <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <p:outputLabel value="Año"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
                     
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
 
-                        <p:column headerText="Nombre de Plantilla" >
+                        <p:column headerText="Clase" >
                             #{formatoPantallas.campo50}
-                        </p:column>
-                        <p:column headerText="Grado" >
-                            #{formatoPantallas.campo30}
                         </p:column>
                         <p:column headerText="Materia" >
                             #{formatoPantallas.campo50}
                         </p:column>
-                        <p:column headerText="Tipo de Plantilla" >
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="Docente" >
+                            #{formatoPantallas.campo50}
                         </p:column>
-                        <p:column headerText="Estado de la plantilla" >
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="Aula" >
+                            #{formatoPantallas.campo10}
                         </p:column>
-                        <p:column headerText="Elaborada por">
-                            #{formatoPantallas.campo80}
+                        <p:column headerText="Turno" >
+                            #{formatoPantallas.campo10}
                         </p:column>
                         
 
                         
                         <f:facet name="footer">
-                            Total de alumnos 999
+                            Total de Clases 999
                         </f:facet>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>

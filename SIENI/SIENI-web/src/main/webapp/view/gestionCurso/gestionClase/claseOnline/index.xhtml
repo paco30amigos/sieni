@@ -15,6 +15,34 @@
     </ui:define>
     <ui:define name="content">
         <p:tabView class="Container100">
+            <p:tab title="Consultar Clase en Vivo">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true"
+                                 >
+                        <p:column headerText="Docente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo300}
+                        </p:column>
+                        <p:column headerText="Estado"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo15}
+                        </p:column>
+                        <p:column headerText="Acciones"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            <i class="icon-visibility1 Fs25 Red" style="cursor: pointer" title="Recibir Clase en Vivo"></i>
+                            <i class="icon-videocall Fs25 Red" style="cursor: pointer" title="Transmitir Clase en Vivo"></i>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Crear"></p:commandButton>
+                    <p:commandButton value="Refrescar"></p:commandButton>
+                </h:form>
+            </p:tab>
             <p:tab title="Transmitir Clase en Vivo">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
@@ -22,10 +50,10 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <div class="Container73 Responsive">
+                    <div class="Container50 Responsive">
                         <h:outputScript name="videoclase.js" library="js" />                                            
-                        <video id="video" class="Container73" autoplay="true"></video>                    
-                        <canvas id="canvas" class="Container73" style="display: none"></canvas>
+                        <video id="video" class="Container70" autoplay="true"></video>                    
+                        <canvas id="canvas" class="Container70" style="display: none"></canvas>
                     </div>
                     <div class="Container25 Responsive">
                         <p:panel header="Alumnos Conectados" class="Container100 ContainerIndent">
@@ -40,6 +68,7 @@
                             </p:outputLabel>                    
                         </p:panel>
                     </div>
+                    <div class="EmptyBox20"></div>
                     <div class="Container100">
                         <p:commandButton value="Transmitir" onclick="transmit()"></p:commandButton>
                         <p:commandButton value="Parar Transmición"></p:commandButton>

@@ -17,52 +17,62 @@
         <p:tabView>
             <p:tab title="Diseño de Ejercicio">
                 <h:form>
-             <h:graphicImage name="disenioEjer.png" styleClass="Fleft" library="images" />
-             
-             <div class="EmptyBox20"></div>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <h:graphicImage name="disenioEjer.png" styleClass="Fleft" library="images" />
+
+                    <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
                         <p:commandButton value="Guardar"/>
                         <p:commandButton value="Limpiar"/>
                         <p:commandButton value="Cancelar"/>
-                                 
+
                     </div>
                 </h:form>
-               
-                    
-                    
+
+
+
             </p:tab>
-            
+
             <p:tab title="Ejercicio Resuelto">
                 <h:form>
-               <p:outputLabel  value="Algebra " class="  Container20 Responsive"></p:outputLabel>  
-                     <div class="EmptyBox20"></div>
-                       
-        <h:graphicImage name="ejerResuelto.png" styleClass="Fleft" library="images" />
-        
-        <div class="EmptyBox20"></div>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel  value="Algebra " class="  Container20 Responsive"></p:outputLabel>  
+                    <div class="EmptyBox20"></div>
+
+                    <h:graphicImage name="ejerResuelto.png" styleClass="Fleft" library="images" />
+
+                    <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                       <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                            <p:outputLabel value="Exportar a:"></p:outputLabel>
                             <p:selectOneRadio  id="console" value="#{radioView.console}">
-                            <f:selectItem itemLabel="PNG" itemValue="PNG" />
-                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                        </p:selectOneRadio>
-                        <p:commandButton  value="Generar"></p:commandButton>
-                        <p:commandButton value="Regresar"></p:commandButton>
+                                <f:selectItem itemLabel="PNG" itemValue="PNG" />
+                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                            </p:selectOneRadio>
+                            <p:commandButton  value="Generar"></p:commandButton>
+                            <p:commandButton value="Regresar"></p:commandButton>
                         </h:panelGrid>
-                                 
+
                     </div>
-      
-  
+
+
                 </h:form>
-               
-                    
-                    
+
+
+
             </p:tab>
-            
-            
+
+
         </p:tabView>
-        
-        
+
+
     </ui:define>
 </ui:composition>

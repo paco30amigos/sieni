@@ -7,22 +7,28 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Reporte de Notas de Alumnos por Anio Escolar" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}"/>
+            <p:menuitem value="Reporte de Notas de Alumnos por Año Escolar" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}"/>
 
             <p:separator />
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
         <p:tabView>
-            <p:tab title="Reporete de Matriculas">
+            <p:tab title="Reporte de Notas de Alumnos por Año Escolar">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
-                    <p:outputLabel value="Anio"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
-                    
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel value="Año"></p:outputLabel>
+                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel value="Fecha desde"></p:outputLabel>
+                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <p:outputLabel value="hasta:"></p:outputLabel>
+                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <div class="EmptyBox20"></div>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"

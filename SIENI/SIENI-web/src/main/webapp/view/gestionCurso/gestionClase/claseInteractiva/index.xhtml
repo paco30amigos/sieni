@@ -21,20 +21,20 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    
+                    <div class="EmptyBox20"></div>
                     <p:dataTable var="car" value="" rows="10"
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true"
                                  >
-                        <p:column headerText="Docente">
+                        <p:column headerText="Docente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.campo300}
                         </p:column>
-                        <p:column headerText="Plantilla">
+                        <p:column headerText="Plantilla"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.campo100}
                         </p:column>
-                        <p:column headerText="Estado">
+                        <p:column headerText="Estado"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.campo15}
                         </p:column>
                         <p:column headerText="Acciones">
@@ -102,25 +102,25 @@
                                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                      rowsPerPageTemplate="5,10,15"
                                                      reflow="true" >
-                                            <p:column headerText="Evento">
+                                            <p:column headerText="Evento"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Acción">
+                                            <p:column headerText="Acción"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Duración">
+                                            <p:column headerText="Duración"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.numero4}
                                             </p:column>
-                                            <p:column headerText="Siguiente Componente">
+                                            <p:column headerText="Siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo100}
                                             </p:column>
-                                            <p:column headerText="Evento del siguiente Componente">
+                                            <p:column headerText="Evento del siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Acción del siguiente Componente">
+                                            <p:column headerText="Acción del siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Tiempo de espera para activar siguiente componente">
+                                            <p:column headerText="Tiempo de espera para activar siguiente componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.numero4}
                                             </p:column>
                                             <p:column headerText="Acciones">
@@ -288,25 +288,25 @@
                                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                      rowsPerPageTemplate="5,10,15"
                                                      reflow="true" >
-                                            <p:column headerText="Evento">
+                                            <p:column headerText="Evento"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Acción">
+                                            <p:column headerText="Acción"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Duración">
+                                            <p:column headerText="Duración" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.numero4}
                                             </p:column>
-                                            <p:column headerText="Siguiente Componente">
+                                            <p:column headerText="Siguiente Componente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo100}
                                             </p:column>
-                                            <p:column headerText="Evento del siguiente Componente">
+                                            <p:column headerText="Evento del siguiente Componente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Acción del siguiente Componente">
+                                            <p:column headerText="Acción del siguiente Componente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Tiempo de espera para activar siguiente componente">
+                                            <p:column headerText="Tiempo de espera para activar siguiente componente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.numero4}
                                             </p:column>
                                             <p:column headerText="Acciones">
@@ -420,6 +420,11 @@
                 </h:form>
             </p:tab>
             <p:tab title="Vista Previa de Clase">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                <div class="EmptyBox20"></div>
                 <p:fieldset legend="Sección: #{formatoPantallas.campo100}" toggleable="true">
                     <p:tabView>
                         <p:tab title="pag ${formatoPantallas.numero3}">

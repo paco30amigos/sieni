@@ -52,7 +52,7 @@ public class siteUrls {
 
     
     private final String ejerciciosRes = "/faces/view/gestionCurso/gestionClase/ejerciciosRes/index.xhtml";
-    private final String reporteRendimientoAlumno = "/faces/view/reportes/rendimientoAlumno/index.xhtml";
+    private final String reporteRendimientoAlumno = "/faces/view/rpt/rendimientoAlumno/index.xhtml";
 
     
     public String getEjerciciosResueltos() {

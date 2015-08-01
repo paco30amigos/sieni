@@ -19,13 +19,13 @@
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
-                    <p:outputLabel value="Desde:"></p:outputLabel>
-                    <p:calendar showOn="button" ></p:calendar>
-                    <p:outputLabel value="Hasta:"></p:outputLabel>
-                    <p:calendar showOn="button"></p:calendar>
-                    
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel value="Desde:"></p:outputLabel>
+                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <p:outputLabel value="Hasta:"></p:outputLabel>
+                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>                    
+                    <div class="EmptyBox20"></div>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -51,23 +51,23 @@
                             #{formatoPantallas.campo100}
                         </p:column>
 
-                        
+
                         <f:facet name="footer">
                             Total de Transacciones 999
                         </f:facet>
                     </p:dataTable>
-                    
+
                     <div class="EmptyBox20"></div>
                     <div class="TexAlCenter">
-                        
+
                         <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                            <p:outputLabel value="Exportar a:"></p:outputLabel>
                             <p:selectOneRadio  id="console" value="#{radioView.console}">
-                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                        </p:selectOneRadio>
-                        <p:commandButton  value="Generar"></p:commandButton>
-                        <p:commandButton value="Regresar"></p:commandButton>
+                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
+                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                            </p:selectOneRadio>
+                            <p:commandButton  value="Generar"></p:commandButton>
+                            <p:commandButton value="Regresar"></p:commandButton>
                         </h:panelGrid>
                     </div>
 

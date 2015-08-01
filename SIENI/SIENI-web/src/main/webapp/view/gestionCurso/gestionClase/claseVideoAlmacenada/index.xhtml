@@ -22,19 +22,19 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable var="car" value="" rows="10"
+                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="true"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true"
                                  >
-                        <p:column headerText="Docente">
+                        <p:column headerText="Docente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.campo300}
                         </p:column>
-                        <p:column headerText="Estado">
+                        <p:column headerText="Estado"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.campo15}
                         </p:column>
-                        <p:column headerText="Acciones">
+                        <p:column headerText="Acciones"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                             <i class="icon-list Fs25 Red" style="cursor: pointer" title="Visualizar Clase"></i>
                             <i class="icon-clock Fs25 Red" style="cursor: pointer" title="Modificar Clase"></i>
                             <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Clase"></i>
@@ -90,10 +90,10 @@
                                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                      rowsPerPageTemplate="5,10,15"
                                                      reflow="true" >
-                                            <p:column headerText="Tiempo transcurrido para la activación">
+                                            <p:column headerText="Tiempo transcurrido para la activación"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Componente">
+                                            <p:column headerText="Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
                                             <p:column headerText="Acciones">
@@ -148,25 +148,25 @@
                                                      paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                                      rowsPerPageTemplate="5,10,15"
                                                      reflow="true" >
-                                            <p:column headerText="Evento">
+                                            <p:column headerText="Evento"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Acción">
+                                            <p:column headerText="Acción"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Duración">
+                                            <p:column headerText="Duración"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.numero4}
                                             </p:column>
-                                            <p:column headerText="Siguiente Componente">
+                                            <p:column headerText="Siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo100}
                                             </p:column>
-                                            <p:column headerText="Evento del siguiente Componente">
+                                            <p:column headerText="Evento del siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Acción del siguiente Componente">
+                                            <p:column headerText="Acción del siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.campo30}
                                             </p:column>
-                                            <p:column headerText="Tiempo de espera para activar siguiente componente">
+                                            <p:column headerText="Tiempo de espera para activar siguiente componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                                                 #{formatoPantallas.numero4}
                                             </p:column>
                                             <p:column headerText="Acciones">
@@ -459,10 +459,9 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">                        
-                        <video id="video2" class="Container73" autoplay="true" controls="true"></video>                    
-                        <canvas id="canvas2" class="Container70" style="display: none"></canvas>
-                    </div>
+                    <p:panel class="Container50">
+                        <video id="video2" class="Container100" autoplay="true" controls="true"></video>
+                    </p:panel>                        
                 </h:form>
             </p:tab>
 

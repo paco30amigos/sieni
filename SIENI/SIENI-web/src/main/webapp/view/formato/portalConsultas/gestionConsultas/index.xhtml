@@ -55,22 +55,22 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="titulo" value="Título: " class=" Container20 Responsive"></p:outputLabel>
-                        <p:inputText id="titulo" class=" Container20 Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
-                        <p:outputLabel for="estado" value="Estado: " class=" Container20 Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado" class=" Container20 Responsive" value="#{archivosMultimediaForm.estado}">
+                        <p:outputLabel for="titulo" value="Título: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="titulo" class=" Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
+                        <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class=" Responsive" value="#{archivosMultimediaForm.estado}">
                             <f:selectItem itemValue ="1" itemLabel="Disponible"/>
                             <f:selectItem itemValue="0" itemLabel="No Disponible"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="curso" value="Curso: " class=" Container20 Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="curso" class=" Container20 Responsive" value="#{archivosMultimediaForm.tipo}">
+                        <p:outputLabel for="curso" value="Curso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="curso" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
                             <f:selectItem itemValue ="0" itemLabel="Audio"/>
                             <f:selectItem itemValue ="1" itemLabel="Video"/>
                             <f:selectItem itemValue ="2" itemLabel="Imagen"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="consulta" value="Consulta: " class=" Container20 Responsive"></p:outputLabel>
+                        <p:outputLabel for="consulta" value="Consulta: " class=" Responsive"></p:outputLabel>
                         <p:editor id="consulta"></p:editor>
                         <p:outputLabel value="Tipo de Archivo:"></p:outputLabel>
                         <p:selectOneMenu>

@@ -7,7 +7,9 @@ package sv.com.mined.sieni.controller;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+//import sv.com.mined.sieni.dao.SieniAlumnRDudFacade;
 
 /**
  *

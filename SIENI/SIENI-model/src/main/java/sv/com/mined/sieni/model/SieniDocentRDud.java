@@ -16,16 +16,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_docent_r_dud", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_docent_r_dud_"})})
+@Table(name = "sieni_docent_r_dud")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniDocentRDud.findAll", query = "SELECT s FROM SieniDocentRDud s"),
@@ -35,7 +33,7 @@ public class SieniDocentRDud implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_docent_r_dud_", nullable = false, length = 1)
+    @Column(name = "id_docent_r_dud_")
     private String idDocentRDud;
     @Column(name = "f_resol_duda_")
     private BigInteger fResolDuda;

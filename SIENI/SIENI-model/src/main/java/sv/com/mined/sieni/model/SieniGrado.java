@@ -15,17 +15,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_grado", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_grado"})})
+@Table(name = "sieni_grado")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniGrado.findAll", query = "SELECT s FROM SieniGrado s"),
@@ -36,16 +34,16 @@ public class SieniGrado implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_grado", nullable = false)
+    @Column(name = "id_grado")
     private Long idGrado;
-    @Column(name = "gr_nombre", length = 50)
+    @Column(name = "gr_nombre")
     private String grNombre;
     @Column(name = "gr_numero")
     private Integer grNumero;
     @OneToMany(mappedBy = "idGrado")
-    private List<SieniMateria> sieniMateriaList;
-    @OneToMany(mappedBy = "idGrado")
     private List<SieniSeccion> sieniSeccionList;
+    @OneToMany(mappedBy = "idGrado")
+    private List<SieniMateria> sieniMateriaList;
 
     public SieniGrado() {
     }
@@ -79,21 +77,21 @@ public class SieniGrado implements Serializable {
     }
 
     @XmlTransient
-    public List<SieniMateria> getSieniMateriaList() {
-        return sieniMateriaList;
-    }
-
-    public void setSieniMateriaList(List<SieniMateria> sieniMateriaList) {
-        this.sieniMateriaList = sieniMateriaList;
-    }
-
-    @XmlTransient
     public List<SieniSeccion> getSieniSeccionList() {
         return sieniSeccionList;
     }
 
     public void setSieniSeccionList(List<SieniSeccion> sieniSeccionList) {
         this.sieniSeccionList = sieniSeccionList;
+    }
+
+    @XmlTransient
+    public List<SieniMateria> getSieniMateriaList() {
+        return sieniMateriaList;
+    }
+
+    public void setSieniMateriaList(List<SieniMateria> sieniMateriaList) {
+        this.sieniMateriaList = sieniMateriaList;
     }
 
     @Override

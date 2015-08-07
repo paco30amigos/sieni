@@ -13,16 +13,14 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_rol", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_rol"})})
+@Table(name = "sieni_rol")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniRol.findAll", query = "SELECT s FROM SieniRol s"),
@@ -33,11 +31,11 @@ public class SieniRol implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_rol", nullable = false)
+    @Column(name = "id_rol")
     private Long idRol;
     @Column(name = "rl_tipo")
     private Character rlTipo;
-    @Column(name = "rl_descripcion", length = 50)
+    @Column(name = "rl_descripcion")
     private String rlDescripcion;
 
     public SieniRol() {

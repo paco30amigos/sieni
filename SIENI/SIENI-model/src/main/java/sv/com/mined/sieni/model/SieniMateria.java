@@ -20,17 +20,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_materia", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_materia"})})
+@Table(name = "sieni_materia")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniMateria.findAll", query = "SELECT s FROM SieniMateria s"),
@@ -42,11 +40,11 @@ public class SieniMateria implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_materia", nullable = false)
+    @Column(name = "id_materia")
     private Long idMateria;
-    @Column(name = "ma_nombre", length = 100)
+    @Column(name = "ma_nombre")
     private String maNombre;
-    @Column(name = "ma_codigo", length = 6)
+    @Column(name = "ma_codigo")
     private String maCodigo;
     @Column(name = "ma_fecha_ingreso")
     @Temporal(TemporalType.DATE)

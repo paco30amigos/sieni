@@ -12,15 +12,15 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Embeddable
 public class SieniEvalSupCompPK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "id_eval_sup_comp", nullable = false)
+    @Column(name = "id_eval_sup_comp")
     private long idEvalSupComp;
     @Basic(optional = false)
-    @Column(name = "f_sup_comp", nullable = false)
+    @Column(name = "f_sup_comp")
     private long fSupComp;
 
     public SieniEvalSupCompPK() {

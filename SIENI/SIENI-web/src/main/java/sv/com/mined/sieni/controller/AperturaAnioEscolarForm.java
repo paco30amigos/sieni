@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import sv.com.mined.sieni.SieniAnioEscolarFacadeRemote;
 //import sv.com.mined.sieni.dao.SieniAlumnRDudFacade;
 
 /**
@@ -18,12 +19,15 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class AperturaAnioEscolarForm {
 
+    @EJB
+    private SieniAnioEscolarFacadeRemote a;
     private String anio;
     private Date finicio = new GregorianCalendar(2015, 0, 1).getTime();
     private Date ffin = new Date();
     private Integer estado;
 
     public String getAnio() {
+        a.count();
         return anio;
     }
 

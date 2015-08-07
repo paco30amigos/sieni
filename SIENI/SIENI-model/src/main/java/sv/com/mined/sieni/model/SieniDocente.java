@@ -18,17 +18,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_docente", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_docente"})})
+@Table(name = "sieni_docente")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniDocente.findAll", query = "SELECT s FROM SieniDocente s"),
@@ -47,41 +45,41 @@ public class SieniDocente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_docente", nullable = false)
+    @Column(name = "id_docente")
     private Long idDocente;
-    @Column(name = "dc_prim_nombre", length = 50)
+    @Column(name = "dc_prim_nombre")
     private String dcPrimNombre;
-    @Column(name = "dc_segu_nombre", length = 50)
+    @Column(name = "dc_segu_nombre")
     private String dcSeguNombre;
-    @Column(name = "dc_terc_nombre", length = 50)
+    @Column(name = "dc_terc_nombre")
     private String dcTercNombre;
-    @Column(name = "dc_prim_ape", length = 50)
+    @Column(name = "dc_prim_ape")
     private String dcPrimApe;
-    @Column(name = "dc_segu_ape", length = 50)
+    @Column(name = "dc_segu_ape")
     private String dcSeguApe;
-    @Column(name = "dc_terc_ape", length = 50)
+    @Column(name = "dc_terc_ape")
     private String dcTercApe;
-    @Column(name = "dc_tipo", length = 1)
+    @Column(name = "dc_tipo")
     private String dcTipo;
-    @Column(name = "dc_usuario", length = 20)
+    @Column(name = "dc_usuario")
     private String dcUsuario;
-    @Column(name = "dc_contrasenia", length = 130)
+    @Column(name = "dc_contrasenia")
     private String dcContrasenia;
-    @Column(name = "df_correo", length = 1024)
+    @Column(name = "df_correo")
     private String dfCorreo;
     @JoinTable(name = "doc_recibe_noti", joinColumns = {
-        @JoinColumn(name = "id_docente", referencedColumnName = "id_docente", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion", nullable = false)})
+        @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
     @ManyToMany
     private List<SieniNotificacion> sieniNotificacionList;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniDocentRol> sieniDocentRolList;
     @OneToMany(mappedBy = "idDocente")
-    private List<SieniTemaDuda> sieniTemaDudaList;
-    @OneToMany(mappedBy = "idDocente")
     private List<SieniDocentRDud> sieniDocentRDudList;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniCurso> sieniCursoList;
+    @OneToMany(mappedBy = "idDocente")
+    private List<SieniTemaDuda> sieniTemaDudaList;
 
     public SieniDocente() {
     }
@@ -197,15 +195,6 @@ public class SieniDocente implements Serializable {
     }
 
     @XmlTransient
-    public List<SieniTemaDuda> getSieniTemaDudaList() {
-        return sieniTemaDudaList;
-    }
-
-    public void setSieniTemaDudaList(List<SieniTemaDuda> sieniTemaDudaList) {
-        this.sieniTemaDudaList = sieniTemaDudaList;
-    }
-
-    @XmlTransient
     public List<SieniDocentRDud> getSieniDocentRDudList() {
         return sieniDocentRDudList;
     }
@@ -221,6 +210,15 @@ public class SieniDocente implements Serializable {
 
     public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
         this.sieniCursoList = sieniCursoList;
+    }
+
+    @XmlTransient
+    public List<SieniTemaDuda> getSieniTemaDudaList() {
+        return sieniTemaDudaList;
+    }
+
+    public void setSieniTemaDudaList(List<SieniTemaDuda> sieniTemaDudaList) {
+        this.sieniTemaDudaList = sieniTemaDudaList;
     }
 
     @Override

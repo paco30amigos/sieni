@@ -18,17 +18,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_super_compon", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_super_compon"})})
+@Table(name = "sieni_super_compon")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniSuperCompon.findAll", query = "SELECT s FROM SieniSuperCompon s"),
@@ -40,11 +38,11 @@ public class SieniSuperCompon implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_super_compon", nullable = false)
+    @Column(name = "id_super_compon")
     private Long idSuperCompon;
-    @Column(name = "sc_nombre", length = 100)
+    @Column(name = "sc_nombre")
     private String scNombre;
-    @Column(name = "sc_descripcion", length = 200)
+    @Column(name = "sc_descripcion")
     private String scDescripcion;
     @Column(name = "sc_fecha_ingreso")
     @Temporal(TemporalType.DATE)

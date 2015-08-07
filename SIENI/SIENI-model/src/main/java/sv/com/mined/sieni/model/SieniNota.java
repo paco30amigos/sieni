@@ -15,16 +15,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_nota", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_nota"})})
+@Table(name = "sieni_nota")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniNota.findAll", query = "SELECT s FROM SieniNota s"),
@@ -34,17 +32,17 @@ public class SieniNota implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_nota", nullable = false)
+    @Column(name = "id_nota")
     private Long idNota;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "nt_calificacion", precision = 17, scale = 17)
+    @Column(name = "nt_calificacion")
     private Double ntCalificacion;
-    @JoinColumn(name = "id_evaluacion", referencedColumnName = "id_evaluacion")
-    @ManyToOne
-    private SieniEvaluacion idEvaluacion;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
+    @JoinColumn(name = "id_evaluacion", referencedColumnName = "id_evaluacion")
+    @ManyToOne
+    private SieniEvaluacion idEvaluacion;
 
     public SieniNota() {
     }
@@ -69,20 +67,20 @@ public class SieniNota implements Serializable {
         this.ntCalificacion = ntCalificacion;
     }
 
-    public SieniEvaluacion getIdEvaluacion() {
-        return idEvaluacion;
-    }
-
-    public void setIdEvaluacion(SieniEvaluacion idEvaluacion) {
-        this.idEvaluacion = idEvaluacion;
-    }
-
     public SieniAlumno getIdAlumno() {
         return idAlumno;
     }
 
     public void setIdAlumno(SieniAlumno idAlumno) {
         this.idAlumno = idAlumno;
+    }
+
+    public SieniEvaluacion getIdEvaluacion() {
+        return idEvaluacion;
+    }
+
+    public void setIdEvaluacion(SieniEvaluacion idEvaluacion) {
+        this.idEvaluacion = idEvaluacion;
     }
 
     @Override

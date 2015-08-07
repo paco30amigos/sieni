@@ -20,17 +20,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_curso", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_curso"})})
+@Table(name = "sieni_curso")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniCurso.findAll", query = "SELECT s FROM SieniCurso s"),
@@ -42,27 +40,27 @@ public class SieniCurso implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_curso", nullable = false)
+    @Column(name = "id_curso")
     private Long idCurso;
-    @Column(name = "cr_nombre", length = 50)
+    @Column(name = "cr_nombre")
     private String crNombre;
     @Column(name = "cr_capacidad")
     private Integer crCapacidad;
     @Column(name = "cr_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date crFechaIngreso;
-    @JoinColumn(name = "id_materia", referencedColumnName = "id_materia")
-    @ManyToOne
-    private SieniMateria idMateria;
+    @OneToMany(mappedBy = "idCurso")
+    private List<SieniNoticia> sieniNoticiaList;
+    @OneToMany(mappedBy = "idCurso")
+    private List<SieniEvaluacion> sieniEvaluacionList;
     @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
     @ManyToOne
     private SieniDocente idDocente;
+    @JoinColumn(name = "id_materia", referencedColumnName = "id_materia")
+    @ManyToOne
+    private SieniMateria idMateria;
     @OneToMany(mappedBy = "idCurso")
     private List<SieniClase> sieniClaseList;
-    @OneToMany(mappedBy = "idCurso")
-    private List<SieniEvaluacion> sieniEvaluacionList;
-    @OneToMany(mappedBy = "idCurso")
-    private List<SieniNoticia> sieniNoticiaList;
 
     public SieniCurso() {
     }
@@ -103,29 +101,13 @@ public class SieniCurso implements Serializable {
         this.crFechaIngreso = crFechaIngreso;
     }
 
-    public SieniMateria getIdMateria() {
-        return idMateria;
-    }
-
-    public void setIdMateria(SieniMateria idMateria) {
-        this.idMateria = idMateria;
-    }
-
-    public SieniDocente getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(SieniDocente idDocente) {
-        this.idDocente = idDocente;
-    }
-
     @XmlTransient
-    public List<SieniClase> getSieniClaseList() {
-        return sieniClaseList;
+    public List<SieniNoticia> getSieniNoticiaList() {
+        return sieniNoticiaList;
     }
 
-    public void setSieniClaseList(List<SieniClase> sieniClaseList) {
-        this.sieniClaseList = sieniClaseList;
+    public void setSieniNoticiaList(List<SieniNoticia> sieniNoticiaList) {
+        this.sieniNoticiaList = sieniNoticiaList;
     }
 
     @XmlTransient
@@ -137,13 +119,29 @@ public class SieniCurso implements Serializable {
         this.sieniEvaluacionList = sieniEvaluacionList;
     }
 
-    @XmlTransient
-    public List<SieniNoticia> getSieniNoticiaList() {
-        return sieniNoticiaList;
+    public SieniDocente getIdDocente() {
+        return idDocente;
     }
 
-    public void setSieniNoticiaList(List<SieniNoticia> sieniNoticiaList) {
-        this.sieniNoticiaList = sieniNoticiaList;
+    public void setIdDocente(SieniDocente idDocente) {
+        this.idDocente = idDocente;
+    }
+
+    public SieniMateria getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(SieniMateria idMateria) {
+        this.idMateria = idMateria;
+    }
+
+    @XmlTransient
+    public List<SieniClase> getSieniClaseList() {
+        return sieniClaseList;
+    }
+
+    public void setSieniClaseList(List<SieniClase> sieniClaseList) {
+        this.sieniClaseList = sieniClaseList;
     }
 
     @Override

@@ -20,17 +20,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_plantilla", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_plantilla"})})
+@Table(name = "sieni_plantilla")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniPlantilla.findAll", query = "SELECT s FROM SieniPlantilla s"),
@@ -42,9 +40,9 @@ public class SieniPlantilla implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_plantilla", nullable = false)
+    @Column(name = "id_plantilla")
     private Long idPlantilla;
-    @Column(name = "pl_nombre", length = 100)
+    @Column(name = "pl_nombre")
     private String plNombre;
     @Column(name = "pl_fecha_ingreso")
     @Temporal(TemporalType.DATE)
@@ -56,9 +54,9 @@ public class SieniPlantilla implements Serializable {
     @ManyToOne
     private SieniMateria idMateria;
     @OneToMany(mappedBy = "idPlantilla")
-    private List<SieniElemPlantilla> sieniElemPlantillaList;
-    @OneToMany(mappedBy = "idPlantilla")
     private List<SieniClase> sieniClaseList;
+    @OneToMany(mappedBy = "idPlantilla")
+    private List<SieniElemPlantilla> sieniElemPlantillaList;
 
     public SieniPlantilla() {
     }
@@ -108,21 +106,21 @@ public class SieniPlantilla implements Serializable {
     }
 
     @XmlTransient
-    public List<SieniElemPlantilla> getSieniElemPlantillaList() {
-        return sieniElemPlantillaList;
-    }
-
-    public void setSieniElemPlantillaList(List<SieniElemPlantilla> sieniElemPlantillaList) {
-        this.sieniElemPlantillaList = sieniElemPlantillaList;
-    }
-
-    @XmlTransient
     public List<SieniClase> getSieniClaseList() {
         return sieniClaseList;
     }
 
     public void setSieniClaseList(List<SieniClase> sieniClaseList) {
         this.sieniClaseList = sieniClaseList;
+    }
+
+    @XmlTransient
+    public List<SieniElemPlantilla> getSieniElemPlantillaList() {
+        return sieniElemPlantillaList;
+    }
+
+    public void setSieniElemPlantillaList(List<SieniElemPlantilla> sieniElemPlantillaList) {
+        this.sieniElemPlantillaList = sieniElemPlantillaList;
     }
 
     @Override

@@ -17,17 +17,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_componente", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_componente"})})
+@Table(name = "sieni_componente")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniComponente.findAll", query = "SELECT s FROM SieniComponente s"),
@@ -38,20 +36,20 @@ public class SieniComponente implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_componente", nullable = false)
+    @Column(name = "id_componente")
     private Long idComponente;
-    @Column(name = "cp_descripcion", length = 200)
+    @Column(name = "cp_descripcion")
     private String cpDescripcion;
     @Column(name = "cp_estado")
     private Character cpEstado;
     @OneToMany(mappedBy = "idComponente")
     private List<SieniArchivo> sieniArchivoList;
-    @JoinColumn(name = "id_tipo_componente", referencedColumnName = "id_tipo_componente")
-    @ManyToOne
-    private SieniTipoComponente idTipoComponente;
     @JoinColumn(name = "id_super_compon", referencedColumnName = "id_super_compon")
     @ManyToOne
     private SieniSuperCompon idSuperCompon;
+    @JoinColumn(name = "id_tipo_componente", referencedColumnName = "id_tipo_componente")
+    @ManyToOne
+    private SieniTipoComponente idTipoComponente;
 
     public SieniComponente() {
     }
@@ -93,20 +91,20 @@ public class SieniComponente implements Serializable {
         this.sieniArchivoList = sieniArchivoList;
     }
 
-    public SieniTipoComponente getIdTipoComponente() {
-        return idTipoComponente;
-    }
-
-    public void setIdTipoComponente(SieniTipoComponente idTipoComponente) {
-        this.idTipoComponente = idTipoComponente;
-    }
-
     public SieniSuperCompon getIdSuperCompon() {
         return idSuperCompon;
     }
 
     public void setIdSuperCompon(SieniSuperCompon idSuperCompon) {
         this.idSuperCompon = idSuperCompon;
+    }
+
+    public SieniTipoComponente getIdTipoComponente() {
+        return idTipoComponente;
+    }
+
+    public void setIdTipoComponente(SieniTipoComponente idTipoComponente) {
+        this.idTipoComponente = idTipoComponente;
     }
 
     @Override

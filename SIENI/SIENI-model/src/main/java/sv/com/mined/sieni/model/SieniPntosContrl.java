@@ -19,16 +19,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_pntos_contrl", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_pntos_contrl"})})
+@Table(name = "sieni_pntos_contrl")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniPntosContrl.findAll", query = "SELECT s FROM SieniPntosContrl s"),
@@ -45,13 +43,13 @@ public class SieniPntosContrl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_pntos_contrl", nullable = false)
+    @Column(name = "id_pntos_contrl")
     private Long idPntosContrl;
-    @Column(name = "pc_tipo", length = 2)
+    @Column(name = "pc_tipo")
     private String pcTipo;
-    @Column(name = "pc_identificador", length = 50)
+    @Column(name = "pc_identificador")
     private String pcIdentificador;
-    @Column(name = "pc_descripcion", length = 100)
+    @Column(name = "pc_descripcion")
     private String pcDescripcion;
     @Column(name = "pc_tiempo")
     @Temporal(TemporalType.TIME)
@@ -64,12 +62,12 @@ public class SieniPntosContrl implements Serializable {
     private BigInteger pcUltimo;
     @Column(name = "pc_estado")
     private Character pcEstado;
-    @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
-    @ManyToOne
-    private SieniClase idClase;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
+    @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
+    @ManyToOne
+    private SieniClase idClase;
 
     public SieniPntosContrl() {
     }
@@ -150,20 +148,20 @@ public class SieniPntosContrl implements Serializable {
         this.pcEstado = pcEstado;
     }
 
-    public SieniClase getIdClase() {
-        return idClase;
-    }
-
-    public void setIdClase(SieniClase idClase) {
-        this.idClase = idClase;
-    }
-
     public SieniAlumno getIdAlumno() {
         return idAlumno;
     }
 
     public void setIdAlumno(SieniAlumno idAlumno) {
         this.idAlumno = idAlumno;
+    }
+
+    public SieniClase getIdClase() {
+        return idClase;
+    }
+
+    public void setIdClase(SieniClase idClase) {
+        this.idClase = idClase;
     }
 
     @Override

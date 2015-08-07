@@ -18,16 +18,14 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_matricula", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_matricula"})})
+@Table(name = "sieni_matricula")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniMatricula.findAll", query = "SELECT s FROM SieniMatricula s"),
@@ -38,19 +36,19 @@ public class SieniMatricula implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_matricula", nullable = false)
+    @Column(name = "id_matricula")
     private Long idMatricula;
     @Column(name = "mt_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date mtFechaIngreso;
     @Column(name = "mt_estado")
     private Character mtEstado;
-    @JoinColumn(name = "id_seccion", referencedColumnName = "id_seccion")
-    @ManyToOne
-    private SieniSeccion idSeccion;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
+    @JoinColumn(name = "id_seccion", referencedColumnName = "id_seccion")
+    @ManyToOne
+    private SieniSeccion idSeccion;
 
     public SieniMatricula() {
     }
@@ -83,20 +81,20 @@ public class SieniMatricula implements Serializable {
         this.mtEstado = mtEstado;
     }
 
-    public SieniSeccion getIdSeccion() {
-        return idSeccion;
-    }
-
-    public void setIdSeccion(SieniSeccion idSeccion) {
-        this.idSeccion = idSeccion;
-    }
-
     public SieniAlumno getIdAlumno() {
         return idAlumno;
     }
 
     public void setIdAlumno(SieniAlumno idAlumno) {
         this.idAlumno = idAlumno;
+    }
+
+    public SieniSeccion getIdSeccion() {
+        return idSeccion;
+    }
+
+    public void setIdSeccion(SieniSeccion idSeccion) {
+        this.idSeccion = idSeccion;
     }
 
     @Override

@@ -18,17 +18,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_anio_escolar", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_anio_escolar"})})
+@Table(name = "sieni_anio_escolar")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAnioEscolar.findAll", query = "SELECT s FROM SieniAnioEscolar s"),
@@ -40,7 +38,7 @@ public class SieniAnioEscolar implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_anio_escolar", nullable = false)
+    @Column(name = "id_anio_escolar")
     private Long idAnioEscolar;
     @Column(name = "ae_anio")
     private Integer aeAnio;

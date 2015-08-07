@@ -18,17 +18,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_seccion", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_seccion"})})
+@Table(name = "sieni_seccion")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniSeccion.findAll", query = "SELECT s FROM SieniSeccion s"),
@@ -39,20 +37,20 @@ public class SieniSeccion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_seccion", nullable = false)
+    @Column(name = "id_seccion")
     private Long idSeccion;
-    @Column(name = "sc_descripcion", length = 200)
+    @Column(name = "sc_descripcion")
     private String scDescripcion;
     @Column(name = "sc_coordinador")
     private BigInteger scCoordinador;
-    @OneToMany(mappedBy = "idSeccion")
-    private List<SieniMatricula> sieniMatriculaList;
-    @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
-    @ManyToOne
-    private SieniGrado idGrado;
     @JoinColumn(name = "id_anio_escolar", referencedColumnName = "id_anio_escolar")
     @ManyToOne
     private SieniAnioEscolar idAnioEscolar;
+    @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
+    @ManyToOne
+    private SieniGrado idGrado;
+    @OneToMany(mappedBy = "idSeccion")
+    private List<SieniMatricula> sieniMatriculaList;
 
     public SieniSeccion() {
     }
@@ -85,13 +83,12 @@ public class SieniSeccion implements Serializable {
         this.scCoordinador = scCoordinador;
     }
 
-    @XmlTransient
-    public List<SieniMatricula> getSieniMatriculaList() {
-        return sieniMatriculaList;
+    public SieniAnioEscolar getIdAnioEscolar() {
+        return idAnioEscolar;
     }
 
-    public void setSieniMatriculaList(List<SieniMatricula> sieniMatriculaList) {
-        this.sieniMatriculaList = sieniMatriculaList;
+    public void setIdAnioEscolar(SieniAnioEscolar idAnioEscolar) {
+        this.idAnioEscolar = idAnioEscolar;
     }
 
     public SieniGrado getIdGrado() {
@@ -102,12 +99,13 @@ public class SieniSeccion implements Serializable {
         this.idGrado = idGrado;
     }
 
-    public SieniAnioEscolar getIdAnioEscolar() {
-        return idAnioEscolar;
+    @XmlTransient
+    public List<SieniMatricula> getSieniMatriculaList() {
+        return sieniMatriculaList;
     }
 
-    public void setIdAnioEscolar(SieniAnioEscolar idAnioEscolar) {
-        this.idAnioEscolar = idAnioEscolar;
+    public void setSieniMatriculaList(List<SieniMatricula> sieniMatriculaList) {
+        this.sieniMatriculaList = sieniMatriculaList;
     }
 
     @Override

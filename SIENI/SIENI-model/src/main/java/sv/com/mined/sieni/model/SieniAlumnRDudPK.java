@@ -12,15 +12,15 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Embeddable
 public class SieniAlumnRDudPK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "id_alumn_r_dud", nullable = false)
+    @Column(name = "id_alumn_r_dud")
     private long idAlumnRDud;
     @Basic(optional = false)
-    @Column(name = "f_resol_duda", nullable = false)
+    @Column(name = "f_resol_duda")
     private long fResolDuda;
 
     public SieniAlumnRDudPK() {

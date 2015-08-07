@@ -12,15 +12,15 @@ import javax.persistence.Embeddable;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Embeddable
 public class SieniDocentRolPK implements Serializable {
     @Basic(optional = false)
-    @Column(name = "id_docent_r_dud", nullable = false)
+    @Column(name = "id_docent_r_dud")
     private long idDocentRDud;
     @Basic(optional = false)
-    @Column(name = "f_rol_doc", nullable = false)
+    @Column(name = "f_rol_doc")
     private long fRolDoc;
 
     public SieniDocentRolPK() {

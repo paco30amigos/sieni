@@ -18,17 +18,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_alumno", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_alumno"})})
+@Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),
@@ -50,54 +48,54 @@ public class SieniAlumno implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_alumno", nullable = false)
+    @Column(name = "id_alumno")
     private Long idAlumno;
-    @Column(name = "al_prim_nombre", length = 50)
+    @Column(name = "al_prim_nombre")
     private String alPrimNombre;
-    @Column(name = "al_segu_nombre", length = 50)
+    @Column(name = "al_segu_nombre")
     private String alSeguNombre;
-    @Column(name = "al_terc_nombre", length = 50)
+    @Column(name = "al_terc_nombre")
     private String alTercNombre;
-    @Column(name = "al_prim_ape", length = 50)
+    @Column(name = "al_prim_ape")
     private String alPrimApe;
-    @Column(name = "al_segu_ape", length = 50)
+    @Column(name = "al_segu_ape")
     private String alSeguApe;
-    @Column(name = "al_terc_ape", length = 50)
+    @Column(name = "al_terc_ape")
     private String alTercApe;
-    @Column(name = "al_direccion", length = 200)
+    @Column(name = "al_direccion")
     private String alDireccion;
-    @Column(name = "al_telefono_em_1", length = 8)
+    @Column(name = "al_telefono_em_1")
     private String alTelefonoEm1;
-    @Column(name = "al_telefono_em_2", length = 8)
+    @Column(name = "al_telefono_em_2")
     private String alTelefonoEm2;
-    @Column(name = "al_telefono_em_3", length = 8)
+    @Column(name = "al_telefono_em_3")
     private String alTelefonoEm3;
-    @Column(name = "al_usuario", length = 20)
+    @Column(name = "al_usuario")
     private String alUsuario;
-    @Column(name = "al_contrasenia", length = 256)
+    @Column(name = "al_contrasenia")
     private String alContrasenia;
-    @Column(name = "al_correo", length = 50)
+    @Column(name = "al_correo")
     private String alCorreo;
     @JoinTable(name = "tema_duda", joinColumns = {
-        @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "id_tema_duda", referencedColumnName = "id_tema_duda", nullable = false)})
+        @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_tema_duda", referencedColumnName = "id_tema_duda")})
     @ManyToMany
     private List<SieniTemaDuda> sieniTemaDudaList;
     @JoinTable(name = "alumno_recibe_noti", joinColumns = {
-        @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno", nullable = false)}, inverseJoinColumns = {
-        @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion", nullable = false)})
+        @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
+        @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
     @ManyToMany
     private List<SieniNotificacion> sieniNotificacionList;
     @OneToMany(mappedBy = "idAlumno")
-    private List<SieniMatricula> sieniMatriculaList;
-    @OneToMany(mappedBy = "idAlumno")
     private List<SieniAlumnRDud> sieniAlumnRDudList;
     @OneToMany(mappedBy = "idAlumno")
-    private List<SieniNota> sieniNotaList;
+    private List<SieniAlumnRol> sieniAlumnRolList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniPntosContrl> sieniPntosContrlList;
     @OneToMany(mappedBy = "idAlumno")
-    private List<SieniAlumnRol> sieniAlumnRolList;
+    private List<SieniMatricula> sieniMatriculaList;
+    @OneToMany(mappedBy = "idAlumno")
+    private List<SieniNota> sieniNotaList;
 
     public SieniAlumno() {
     }
@@ -237,15 +235,6 @@ public class SieniAlumno implements Serializable {
     }
 
     @XmlTransient
-    public List<SieniMatricula> getSieniMatriculaList() {
-        return sieniMatriculaList;
-    }
-
-    public void setSieniMatriculaList(List<SieniMatricula> sieniMatriculaList) {
-        this.sieniMatriculaList = sieniMatriculaList;
-    }
-
-    @XmlTransient
     public List<SieniAlumnRDud> getSieniAlumnRDudList() {
         return sieniAlumnRDudList;
     }
@@ -255,12 +244,12 @@ public class SieniAlumno implements Serializable {
     }
 
     @XmlTransient
-    public List<SieniNota> getSieniNotaList() {
-        return sieniNotaList;
+    public List<SieniAlumnRol> getSieniAlumnRolList() {
+        return sieniAlumnRolList;
     }
 
-    public void setSieniNotaList(List<SieniNota> sieniNotaList) {
-        this.sieniNotaList = sieniNotaList;
+    public void setSieniAlumnRolList(List<SieniAlumnRol> sieniAlumnRolList) {
+        this.sieniAlumnRolList = sieniAlumnRolList;
     }
 
     @XmlTransient
@@ -273,12 +262,21 @@ public class SieniAlumno implements Serializable {
     }
 
     @XmlTransient
-    public List<SieniAlumnRol> getSieniAlumnRolList() {
-        return sieniAlumnRolList;
+    public List<SieniMatricula> getSieniMatriculaList() {
+        return sieniMatriculaList;
     }
 
-    public void setSieniAlumnRolList(List<SieniAlumnRol> sieniAlumnRolList) {
-        this.sieniAlumnRolList = sieniAlumnRolList;
+    public void setSieniMatriculaList(List<SieniMatricula> sieniMatriculaList) {
+        this.sieniMatriculaList = sieniMatriculaList;
+    }
+
+    @XmlTransient
+    public List<SieniNota> getSieniNotaList() {
+        return sieniNotaList;
+    }
+
+    public void setSieniNotaList(List<SieniNota> sieniNotaList) {
+        this.sieniNotaList = sieniNotaList;
     }
 
     @Override

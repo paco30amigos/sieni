@@ -13,16 +13,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_alumn_r_dud", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_alumn_r_dud", "f_resol_duda"})})
+@Table(name = "sieni_alumn_r_dud")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAlumnRDud.findAll", query = "SELECT s FROM SieniAlumnRDud s"),

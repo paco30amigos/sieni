@@ -17,17 +17,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_clase", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_clase"})})
+@Table(name = "sieni_clase")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniClase.findAll", query = "SELECT s FROM SieniClase s"),
@@ -39,9 +37,9 @@ public class SieniClase implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_clase", nullable = false)
+    @Column(name = "id_clase")
     private Long idClase;
-    @Column(name = "cl_horario", length = 50)
+    @Column(name = "cl_horario")
     private String clHorario;
     @Column(name = "cl_estado")
     private Character clEstado;
@@ -51,12 +49,12 @@ public class SieniClase implements Serializable {
     private List<SieniPntosContrl> sieniPntosContrlList;
     @OneToMany(mappedBy = "idClase")
     private List<SieniClaseSupComp> sieniClaseSupCompList;
-    @JoinColumn(name = "id_plantilla", referencedColumnName = "id_plantilla")
-    @ManyToOne
-    private SieniPlantilla idPlantilla;
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     @ManyToOne
     private SieniCurso idCurso;
+    @JoinColumn(name = "id_plantilla", referencedColumnName = "id_plantilla")
+    @ManyToOne
+    private SieniPlantilla idPlantilla;
 
     public SieniClase() {
     }
@@ -115,20 +113,20 @@ public class SieniClase implements Serializable {
         this.sieniClaseSupCompList = sieniClaseSupCompList;
     }
 
-    public SieniPlantilla getIdPlantilla() {
-        return idPlantilla;
-    }
-
-    public void setIdPlantilla(SieniPlantilla idPlantilla) {
-        this.idPlantilla = idPlantilla;
-    }
-
     public SieniCurso getIdCurso() {
         return idCurso;
     }
 
     public void setIdCurso(SieniCurso idCurso) {
         this.idCurso = idCurso;
+    }
+
+    public SieniPlantilla getIdPlantilla() {
+        return idPlantilla;
+    }
+
+    public void setIdPlantilla(SieniPlantilla idPlantilla) {
+        this.idPlantilla = idPlantilla;
     }
 
     @Override

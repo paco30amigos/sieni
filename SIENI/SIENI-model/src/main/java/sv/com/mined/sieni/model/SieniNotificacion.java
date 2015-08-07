@@ -18,17 +18,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_notificacion", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_notificacion"})})
+@Table(name = "sieni_notificacion")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniNotificacion.findAll", query = "SELECT s FROM SieniNotificacion s"),
@@ -41,9 +39,9 @@ public class SieniNotificacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_notificacion", nullable = false)
+    @Column(name = "id_notificacion")
     private Long idNotificacion;
-    @Column(name = "nf_mensaje", length = 4000)
+    @Column(name = "nf_mensaje")
     private String nfMensaje;
     @Column(name = "nf_fecha_ingreso")
     @Temporal(TemporalType.DATE)
@@ -54,9 +52,9 @@ public class SieniNotificacion implements Serializable {
     @Column(name = "nf_estado")
     private Character nfEstado;
     @ManyToMany(mappedBy = "sieniNotificacionList")
-    private List<SieniDocente> sieniDocenteList;
-    @ManyToMany(mappedBy = "sieniNotificacionList")
     private List<SieniAlumno> sieniAlumnoList;
+    @ManyToMany(mappedBy = "sieniNotificacionList")
+    private List<SieniDocente> sieniDocenteList;
 
     public SieniNotificacion() {
     }
@@ -106,21 +104,21 @@ public class SieniNotificacion implements Serializable {
     }
 
     @XmlTransient
-    public List<SieniDocente> getSieniDocenteList() {
-        return sieniDocenteList;
-    }
-
-    public void setSieniDocenteList(List<SieniDocente> sieniDocenteList) {
-        this.sieniDocenteList = sieniDocenteList;
-    }
-
-    @XmlTransient
     public List<SieniAlumno> getSieniAlumnoList() {
         return sieniAlumnoList;
     }
 
     public void setSieniAlumnoList(List<SieniAlumno> sieniAlumnoList) {
         this.sieniAlumnoList = sieniAlumnoList;
+    }
+
+    @XmlTransient
+    public List<SieniDocente> getSieniDocenteList() {
+        return sieniDocenteList;
+    }
+
+    public void setSieniDocenteList(List<SieniDocente> sieniDocenteList) {
+        this.sieniDocenteList = sieniDocenteList;
     }
 
     @Override

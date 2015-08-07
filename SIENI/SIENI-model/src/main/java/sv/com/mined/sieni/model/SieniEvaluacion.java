@@ -17,17 +17,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_evaluacion", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_evaluacion"})})
+@Table(name = "sieni_evaluacion")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniEvaluacion.findAll", query = "SELECT s FROM SieniEvaluacion s"),
@@ -40,21 +38,21 @@ public class SieniEvaluacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_evaluacion", nullable = false)
+    @Column(name = "id_evaluacion")
     private Long idEvaluacion;
-    @Column(name = "ev_nombre", length = 100)
+    @Column(name = "ev_nombre")
     private String evNombre;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "ev_ponderacion", precision = 17, scale = 17)
+    @Column(name = "ev_ponderacion")
     private Double evPonderacion;
-    @Column(name = "ev_version", length = 20)
+    @Column(name = "ev_version")
     private String evVersion;
     @Column(name = "ev_estado")
     private Character evEstado;
     @OneToMany(mappedBy = "idEvaluacion")
-    private List<SieniNota> sieniNotaList;
-    @OneToMany(mappedBy = "idEvaluacion")
     private List<SieniEvalSupComp> sieniEvalSupCompList;
+    @OneToMany(mappedBy = "idEvaluacion")
+    private List<SieniNota> sieniNotaList;
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     @ManyToOne
     private SieniCurso idCurso;
@@ -109,21 +107,21 @@ public class SieniEvaluacion implements Serializable {
     }
 
     @XmlTransient
-    public List<SieniNota> getSieniNotaList() {
-        return sieniNotaList;
-    }
-
-    public void setSieniNotaList(List<SieniNota> sieniNotaList) {
-        this.sieniNotaList = sieniNotaList;
-    }
-
-    @XmlTransient
     public List<SieniEvalSupComp> getSieniEvalSupCompList() {
         return sieniEvalSupCompList;
     }
 
     public void setSieniEvalSupCompList(List<SieniEvalSupComp> sieniEvalSupCompList) {
         this.sieniEvalSupCompList = sieniEvalSupCompList;
+    }
+
+    @XmlTransient
+    public List<SieniNota> getSieniNotaList() {
+        return sieniNotaList;
+    }
+
+    public void setSieniNotaList(List<SieniNota> sieniNotaList) {
+        this.sieniNotaList = sieniNotaList;
     }
 
     public SieniCurso getIdCurso() {

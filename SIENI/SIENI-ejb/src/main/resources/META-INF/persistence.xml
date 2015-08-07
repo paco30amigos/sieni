@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="sieni_PU" transaction-type="JTA">
+    <jta-data-source>bd_sieni</jta-data-source>
+    <class>sv.com.mined.sieni.model.SieniAlumnRDud</class>
+    <class>sv.com.mined.sieni.model.SieniAlumnRol</class>
+    <class>sv.com.mined.sieni.model.SieniAlumno</class>
+    <class>sv.com.mined.sieni.model.SieniAnioEscolar</class>
+    <class>sv.com.mined.sieni.model.SieniArchivo</class>
+    <class>sv.com.mined.sieni.model.SieniClase</class>
+    <class>sv.com.mined.sieni.model.SieniClaseSupComp</class>
+    <class>sv.com.mined.sieni.model.SieniComponente</class>
+    <class>sv.com.mined.sieni.model.SieniCurso</class>
+    <class>sv.com.mined.sieni.model.SieniDocentRDud</class>
+    <class>sv.com.mined.sieni.model.SieniDocentRol</class>
+    <class>sv.com.mined.sieni.model.SieniDocente</class>
+    <class>sv.com.mined.sieni.model.SieniElemPlantilla</class>
+    <class>sv.com.mined.sieni.model.SieniEvalSoluc</class>
+    <class>sv.com.mined.sieni.model.SieniEvalSupComp</class>
+    <class>sv.com.mined.sieni.model.SieniEvaluacion</class>
+    <class>sv.com.mined.sieni.model.SieniGrado</class>
+    <class>sv.com.mined.sieni.model.SieniMateria</class>
+    <class>sv.com.mined.sieni.model.SieniMatricula</class>
+    <class>sv.com.mined.sieni.model.SieniNota</class>
+    <class>sv.com.mined.sieni.model.SieniNoticia</class>
+    <class>sv.com.mined.sieni.model.SieniNotificacion</class>
+    <class>sv.com.mined.sieni.model.SieniPlantilla</class>
+    <class>sv.com.mined.sieni.model.SieniPntosContrl</class>
+    <class>sv.com.mined.sieni.model.SieniResolDuda</class>
+    <class>sv.com.mined.sieni.model.SieniRol</class>
+    <class>sv.com.mined.sieni.model.SieniSeccion</class>
+    <class>sv.com.mined.sieni.model.SieniSuperCompon</class>
+    <class>sv.com.mined.sieni.model.SieniTemaDuda</class>
+    <class>sv.com.mined.sieni.model.SieniTipoComponente</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties/>
+  </persistence-unit>
+</persistence>

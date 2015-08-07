@@ -18,17 +18,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author bugtraq
+ * @author Laptop
  */
 @Entity
-@Table(name = "sieni_tema_duda", catalog = "BD_SIENI", schema = "public", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"id_tema_duda"})})
+@Table(name = "sieni_tema_duda")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniTemaDuda.findAll", query = "SELECT s FROM SieniTemaDuda s"),
@@ -40,9 +38,9 @@ public class SieniTemaDuda implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
-    @Column(name = "id_tema_duda", nullable = false)
+    @Column(name = "id_tema_duda")
     private Long idTemaDuda;
-    @Column(name = "td_nombre", length = 200)
+    @Column(name = "td_nombre")
     private String tdNombre;
     @Column(name = "td_tipo")
     private Character tdTipo;
@@ -50,11 +48,11 @@ public class SieniTemaDuda implements Serializable {
     private Character tdEstado;
     @ManyToMany(mappedBy = "sieniTemaDudaList")
     private List<SieniAlumno> sieniAlumnoList;
+    @OneToMany(mappedBy = "idTemaDuda")
+    private List<SieniResolDuda> sieniResolDudaList;
     @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
     @ManyToOne
     private SieniDocente idDocente;
-    @OneToMany(mappedBy = "idTemaDuda")
-    private List<SieniResolDuda> sieniResolDudaList;
 
     public SieniTemaDuda() {
     }
@@ -104,14 +102,6 @@ public class SieniTemaDuda implements Serializable {
         this.sieniAlumnoList = sieniAlumnoList;
     }
 
-    public SieniDocente getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(SieniDocente idDocente) {
-        this.idDocente = idDocente;
-    }
-
     @XmlTransient
     public List<SieniResolDuda> getSieniResolDudaList() {
         return sieniResolDudaList;
@@ -119,6 +109,14 @@ public class SieniTemaDuda implements Serializable {
 
     public void setSieniResolDudaList(List<SieniResolDuda> sieniResolDudaList) {
         this.sieniResolDudaList = sieniResolDudaList;
+    }
+
+    public SieniDocente getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(SieniDocente idDocente) {
+        this.idDocente = idDocente;
     }
 
     @Override

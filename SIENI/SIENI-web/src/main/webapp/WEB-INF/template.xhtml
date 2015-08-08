@@ -62,14 +62,16 @@
                         <ui:include src="layoutmenu.xhtml" />
 
                         <div id="layout-portlets-cover">
-                            <ui:insert name="breadCrumb">
-                                <p:breadCrumb>
-                                    <p:menuitem value="Home" url="/"/>
-                                    <p:menuitem value="Gestión Año Escolar" url="#"/>
-                                    <p:menuitem value="Apertura Año escolar" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
-                                    <p:separator />
-                                </p:breadCrumb>
-                            </ui:insert>
+                            <h:form>
+                                <ui:insert name="breadCrumb">
+                                    <p:breadCrumb>
+                                        <p:menuitem value="Home" url="/"/>
+                                        <p:menuitem value="Gestión Año Escolar" url="#"/>
+                                        <p:menuitem value="Apertura Año escolar" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
+                                        <p:separator />
+                                    </p:breadCrumb>
+                                </ui:insert>
+                            </h:form>
                             <ui:insert name="content">
                                 Template
                             </ui:insert>
@@ -93,7 +95,10 @@
                         </p:ajaxStatus>
                     </div>
                 </div>
-
+                <h:form>
+                    <p:remoteCommand name="updatemessages" update="messages"></p:remoteCommand>
+                    <p:growl sticky="true" id="messages" autoUpdate="true"></p:growl>
+                </h:form>
                 <h:outputStylesheet name="css/core-layout.css" library="rio-layout" />
                 <h:outputStylesheet name="css/animate.css" library="rio-layout" />
                 <h:outputStylesheet name="css/rio-font.css" library="rio-layout" />

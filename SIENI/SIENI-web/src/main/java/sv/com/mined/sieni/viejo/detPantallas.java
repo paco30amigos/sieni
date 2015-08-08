@@ -1,4 +1,4 @@
-package sv.com.mined.sieni.controller;
+package sv.com.mined.sieni.viejo;
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.

@@ -16,6 +16,7 @@ import sv.com.mined.sieni.model.SieniAlumno;
  */
 @Stateless
 public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv.com.mined.sieni.SieniAlumnoFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +28,9 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     public SieniAlumnoFacade() {
         super(SieniAlumno.class);
     }
-    
+
+    public void syncronize() {
+        em.flush();
+    }
+
 }

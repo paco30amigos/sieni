@@ -30,4 +30,6 @@ public interface SieniAlumnoFacadeRemote {
 
     int count();
     
+    public void syncronize();
+    
 }

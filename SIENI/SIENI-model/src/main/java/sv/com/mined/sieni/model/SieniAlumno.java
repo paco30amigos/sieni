@@ -5,21 +5,33 @@
  */
 package sv.com.mined.sieni.model;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -45,8 +57,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniAlumno.findByAlContrasenia", query = "SELECT s FROM SieniAlumno s WHERE s.alContrasenia = :alContrasenia"),
     @NamedQuery(name = "SieniAlumno.findByAlCorreo", query = "SELECT s FROM SieniAlumno s WHERE s.alCorreo = :alCorreo")})
 public class SieniAlumno implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_alumno")
+    @SequenceGenerator(name = "sec_sieni_alumno", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_alumno")
     @Basic(optional = false)
     @Column(name = "id_alumno")
     private Long idAlumno;
@@ -76,6 +91,12 @@ public class SieniAlumno implements Serializable {
     private String alContrasenia;
     @Column(name = "al_correo")
     private String alCorreo;
+    @Column(name = "al_fecha_nacimiento")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date alFechaNacimiento;
+    @Lob
+    @Column(name = "al_foto")
+    private byte[] alFoto;
     @JoinTable(name = "tema_duda", joinColumns = {
         @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
         @JoinColumn(name = "id_tema_duda", referencedColumnName = "id_tema_duda")})
@@ -96,6 +117,12 @@ public class SieniAlumno implements Serializable {
     private List<SieniMatricula> sieniMatriculaList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniNota> sieniNotaList;
+    @Transient
+    private String nombreCompleto;
+    @Transient
+    private String fechaNacimientoFiltrable;
+    @Transient
+    private StreamedContent fotoContenido;
 
     public SieniAlumno() {
     }
@@ -216,6 +243,14 @@ public class SieniAlumno implements Serializable {
         this.alCorreo = alCorreo;
     }
 
+    public byte[] getAlFoto() {
+        return alFoto;
+    }
+
+    public void setAlFoto(byte[] alFoto) {
+        this.alFoto = alFoto;
+    }
+
     @XmlTransient
     public List<SieniTemaDuda> getSieniTemaDudaList() {
         return sieniTemaDudaList;
@@ -303,5 +338,44 @@ public class SieniAlumno implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniAlumno[ idAlumno=" + idAlumno + " ]";
     }
-    
+
+    public String getNombreCompleto() {
+        String nombre = this.alPrimNombre + (this.alSeguNombre != null ? " " + this.alSeguNombre : "") + (this.alTercNombre != null ? " " + this.alTercNombre : "");
+        String Apellido = " " + this.alPrimApe + (this.alSeguApe != null ? " " + this.alSeguApe : "") + (this.alTercApe != null ? " " + this.alTercApe : "");
+        nombreCompleto = nombre + Apellido;
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public Date getAlFechaNacimiento() {
+        return alFechaNacimiento;
+    }
+
+    public void setAlFechaNacimiento(Date alFechaNacimiento) {
+        this.alFechaNacimiento = alFechaNacimiento;
+    }
+
+    public String getFechaNacimientoFiltrable() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
+        if (alFechaNacimiento != null) {
+            fechaNacimientoFiltrable = dt1.format(alFechaNacimiento);
+        }
+        return fechaNacimientoFiltrable;
+    }
+
+    public void setFechaNacimientoFiltrable(String fechaNacimientoFiltrable) {
+        this.fechaNacimientoFiltrable = fechaNacimientoFiltrable;
+    }
+
+    public StreamedContent getFotoContenido() {
+        fotoContenido = null;
+        if (alFoto != null) {
+            InputStream input = new ByteArrayInputStream(alFoto);
+            fotoContenido = new DefaultStreamedContent(input, "image/jpg");
+        }
+        return fotoContenido;
+    }
 }

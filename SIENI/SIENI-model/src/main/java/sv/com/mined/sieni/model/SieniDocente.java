@@ -6,18 +6,26 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -42,8 +50,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findByDcContrasenia", query = "SELECT s FROM SieniDocente s WHERE s.dcContrasenia = :dcContrasenia"),
     @NamedQuery(name = "SieniDocente.findByDfCorreo", query = "SELECT s FROM SieniDocente s WHERE s.dfCorreo = :dfCorreo")})
 public class SieniDocente implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sec_sieni_docente")
+    @SequenceGenerator(name = "sec_sieni_docente", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_docente")
     @Basic(optional = false)
     @Column(name = "id_docente")
     private Long idDocente;
@@ -65,8 +76,16 @@ public class SieniDocente implements Serializable {
     private String dcUsuario;
     @Column(name = "dc_contrasenia")
     private String dcContrasenia;
-    @Column(name = "df_correo")
+    @Column(name = "dc_correo")
     private String dfCorreo;
+    @Column(name = "dc_fecha_nacimiento")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date dcFechaNacimiento;
+    @Column(name = "dc_direccion")
+    private String dfDireccion;
+    @Lob
+    @Column(name = "dc_foto")
+    private byte[] dcFoto;
     @JoinTable(name = "doc_recibe_noti", joinColumns = {
         @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")}, inverseJoinColumns = {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
@@ -80,6 +99,10 @@ public class SieniDocente implements Serializable {
     private List<SieniCurso> sieniCursoList;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniTemaDuda> sieniTemaDudaList;
+    @Transient
+    private String nombreCompleto;
+    @Transient
+    private String fechaNacimientoFiltrable;
 
     public SieniDocente() {
     }
@@ -176,6 +199,14 @@ public class SieniDocente implements Serializable {
         this.dfCorreo = dfCorreo;
     }
 
+    public byte[] getDcFoto() {
+        return dcFoto;
+    }
+
+    public void setDcFoto(byte[] dcFoto) {
+        this.dcFoto = dcFoto;
+    }
+
     @XmlTransient
     public List<SieniNotificacion> getSieniNotificacionList() {
         return sieniNotificacionList;
@@ -245,5 +276,51 @@ public class SieniDocente implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniDocente[ idDocente=" + idDocente + " ]";
     }
-    
+
+    public String getNombreCompleto() {
+        String nombre = this.dcPrimNombre + (this.dcSeguNombre != null ? " " + this.dcSeguNombre : "") + (this.dcTercNombre != null ? " " + this.dcTercNombre : "");
+        String Apellido = " " + this.dcPrimApe + (this.dcSeguApe != null ? " " + this.dcSeguApe : "") + (this.dcTercApe != null ? " " + this.dcTercApe : "");
+        nombreCompleto = nombre + Apellido;
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public Date getAlFechaNacimiento() {
+        return dcFechaNacimiento;
+    }
+
+    public void setAlFechaNacimiento(Date alFechaNacimiento) {
+        this.dcFechaNacimiento = alFechaNacimiento;
+    }
+
+    public String getFechaNacimientoFiltrable() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
+        if (dcFechaNacimiento != null) {
+            fechaNacimientoFiltrable = dt1.format(dcFechaNacimiento);
+        }
+        return fechaNacimientoFiltrable;
+    }
+
+    public void setFechaNacimientoFiltrable(String fechaNacimientoFiltrable) {
+        this.fechaNacimientoFiltrable = fechaNacimientoFiltrable;
+    }
+
+    public Date getDcFechaNacimiento() {
+        return dcFechaNacimiento;
+    }
+
+    public void setDcFechaNacimiento(Date dcFechaNacimiento) {
+        this.dcFechaNacimiento = dcFechaNacimiento;
+    }
+
+    public String getDfDireccion() {
+        return dfDireccion;
+    }
+
+    public void setDfDireccion(String dfDireccion) {
+        this.dfDireccion = dfDireccion;
+    }
 }

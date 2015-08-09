@@ -12,58 +12,57 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import org.primefaces.event.FileUploadEvent;
-import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
-import sv.com.mined.sieni.form.GestionarAlumnosForm;
-import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
+import sv.com.mined.sieni.form.GestionarDocentesForm;
+import sv.com.mined.sieni.model.SieniDocente;
 
 /**
  *
  * @author Laptop
  */
 @SessionScoped
-@ManagedBean(name = "gestionarAlumnosController")
-public class GestionarAlumnosController extends GestionarAlumnosForm {
+@ManagedBean(name = "gestionarDocentesController")
+public class GestionarDocentesController extends GestionarDocentesForm {
 
     @EJB
-    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
 
     @PostConstruct
     public void init() {
-        this.setAlumnoNuevo(new SieniAlumno());
-        this.setAlumnoModifica(new SieniAlumno());
-        this.setAlumnosList(new ArrayList<SieniAlumno>());
+        this.setDocenteNuevo(new SieniDocente());
+        this.setDocenteModifica(new SieniDocente());
+        this.setDocentesList(new ArrayList<SieniDocente>());
         fill();
     }
 
     private void fill() {
-        this.setAlumnosList(sieniAlumnoFacadeRemote.findAll());
+        this.setDocentesList(sieniDocenteFacadeRemote.findAll());
     }
 
     public void guardar() {
-        this.getAlumnoNuevo().setAlFoto(this.getFotoArchivo());
-        quitarFormato(this.getAlumnoNuevo());//quita el formato de los campos
-        if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
-            sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
+        this.getDocenteNuevo().setDcFoto(this.getFotoArchivo());
+        quitarFormato(this.getDocenteNuevo());//quita el formato de los campos
+        if (validarNuevo(this.getDocenteNuevo())) {//valida el guardado
+            sieniDocenteFacadeRemote.create(this.getDocenteNuevo());
             FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
         }
-        this.setAlumnoNuevo(new SieniAlumno());
+        this.setDocenteNuevo(new SieniDocente());
         fill();
     }
 
-    public void quitarFormato(SieniAlumno actual) {
-        actual.setAlTelefonoEm1(actual.getAlTelefonoEm1().replaceAll("-", ""));
-        actual.setAlTelefonoEm2(actual.getAlTelefonoEm2().replaceAll("-", ""));
+    public void quitarFormato(SieniDocente actual) {
+        actual.setDcTelefonoEm1(actual.getDcTelefonoEm1().replaceAll("-", ""));
+        actual.setDcTelefonoEm2(actual.getDcTelefonoEm2().replaceAll("-", ""));
     }
 
     public void refresh() {
         fill();
     }
 
-    public boolean validarNuevo(SieniAlumno nuevo) {
+    public boolean validarNuevo(SieniDocente nuevo) {
         boolean ban = true;
 
         return ban;
@@ -78,15 +77,15 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     //metodos para modificacion de datos
-    public void modificar(SieniAlumno modificado) {
-        this.setFotoArchivoModifica(modificado.getAlFoto());
-        this.setFotoUsableModifica(getImage(modificado.getAlFoto()));
-        this.setAlumnoModifica(modificado);
+    public void modificar(SieniDocente modificado) {
+        this.setFotoArchivoModifica(modificado.getDcFoto());
+        this.setFotoUsableModifica(getImage(modificado.getDcFoto()));
+        this.setDocenteModifica(modificado);
         this.setIndexMenu(2);
     }
 
     //metodos para modificacion de datos
-    public void eliminar(SieniAlumno eliminado) {
+    public void eliminar(SieniDocente eliminado) {
         this.setEliminar(eliminado);
     }
 
@@ -96,10 +95,10 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     public void guardarModifica() {
-        this.getAlumnoModifica().setAlFoto(this.getFotoArchivoModifica());
-        quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
-        if (validarModifica(this.getAlumnoModifica())) {//valida el guardado
-            sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
+        this.getDocenteModifica().setDcFoto(this.getFotoArchivoModifica());
+        quitarFormato(this.getDocenteModifica());//quita el formato de los campos
+        if (validarModifica(this.getDocenteModifica())) {//valida el guardado
+            sieniDocenteFacadeRemote.edit(this.getDocenteModifica());
             FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -109,19 +108,19 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     public void resetModificaForm() {
-        this.setAlumnoModifica(new SieniAlumno());
+        this.setDocenteModifica(new SieniDocente());
         this.setFotoArchivoModifica(null);
         this.setFotoUsableModifica(null);
     }
 
-    public boolean validarModifica(SieniAlumno nuevo) {
+    public boolean validarModifica(SieniDocente nuevo) {
         boolean ban = true;
 
         return ban;
     }
 
     public void eliminarExpediente() {
-        sieniAlumnoFacadeRemote.remove(this.getEliminar());
+        sieniDocenteFacadeRemote.remove(this.getEliminar());
         fill(); 
     }
 }

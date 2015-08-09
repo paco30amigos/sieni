@@ -14,10 +14,16 @@
     </ui:define>
     <ui:define name="content">       
         <p:tabView tabindex="#{gestionarAlumnosController.indexMenu}" activeIndex="#{gestionarAlumnosController.indexMenu}" id="tabMenu">
-            <p:tab title="Consulta de Expedientes">
+            <p:tab title="Consulta de Expedientes">               
                 <h:form enctype="multipart/form-data" id="consultaForm" >
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                        <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                        <div class="EmptyBox20"></div>
+                        <p:commandButton value="Si" action="#{gestionarAlumnosController.eliminarExpediente()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                        <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
@@ -51,7 +57,9 @@
                         </p:column>
                         <p:column headerText="Acciones">
                             <p:commandLink action="#{gestionarAlumnosController.modificar(car)}" update="tabMenu" ><i class="icon-compose Fs25 Red" title="Modificar Expediente" ></i></p:commandLink>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Expediente"></i>
+                            <p:commandLink action="#{gestionarAlumnosController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                                <i class="icon-close Fs25 Red" title="Eliminar Expediente"></i>
+                            </p:commandLink>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>

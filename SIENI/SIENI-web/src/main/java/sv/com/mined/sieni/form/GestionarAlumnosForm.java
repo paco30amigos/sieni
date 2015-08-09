@@ -22,6 +22,7 @@ import sv.com.mined.sieni.model.SieniAlumno;
 public class GestionarAlumnosForm {
 
     private int indexMenu;
+    private SieniAlumno eliminar;
 
     // consulta de alumnos
     private List<SieniAlumno> alumnosList;
@@ -129,5 +130,13 @@ public class GestionarAlumnosForm {
 
     public void setFotoArchivoModifica(byte[] fotoArchivoModifica) {
         this.fotoArchivoModifica = fotoArchivoModifica;
+    }
+
+    public SieniAlumno getEliminar() {
+        return eliminar;
+    }
+
+    public void setEliminar(SieniAlumno eliminar) {
+        this.eliminar = eliminar;
     }
 }

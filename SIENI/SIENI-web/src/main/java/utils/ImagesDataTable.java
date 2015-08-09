@@ -6,7 +6,6 @@
 package utils;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -16,7 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniDocente;
 
 /**
  *
@@ -28,23 +29,11 @@ public class ImagesDataTable {
 
     @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
-//
-//    public StreamedContent getImage(byte[] foto) {
-//        StreamedContent ret = null;
-//        if (foto != null) {
-//            InputStream input = new ByteArrayInputStream(foto);
-//            ret = new DefaultStreamedContent(input, "image/jpg");
-//        }
-//        return new DefaultStreamedContent(new ByteArrayInputStream(foto));
-//    }
+    @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
 
     public StreamedContent getImagenAlumno() {
         StreamedContent ret = null;
-//        if (foto != null) {
-//            InputStream input = new ByteArrayInputStream(foto);
-//            ret = new DefaultStreamedContent(input, "image/jpg");
-//        }
-//        return ret;
         FacesContext context = FacesContext.getCurrentInstance();
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
             // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
@@ -62,6 +51,31 @@ public class ImagesDataTable {
             if (seleccionado != null) {
                 if (seleccionado.getAlFoto() != null) {
                     ret = new DefaultStreamedContent(new ByteArrayInputStream(seleccionado.getAlFoto()));
+                }
+            }
+            return ret;
+        }
+    }
+
+    public StreamedContent getImagenDocente() {
+        StreamedContent ret = null;
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
+            return new DefaultStreamedContent();
+        } else {
+            String imageID = (String) ((HttpServletRequest) context.getExternalContext().getRequest()).getParameter("imageID");
+            Long idDocente = Long.parseLong(imageID);
+            SieniDocente seleccionado = null;
+            for (SieniDocente actual : sieniDocenteFacadeRemote.findAll()) {
+                if (actual.getIdDocente().equals(idDocente)) {
+                    seleccionado = actual;
+                    break;
+                }
+            }
+            if (seleccionado != null) {
+                if (seleccionado.getDcFoto() != null) {
+                    ret = new DefaultStreamedContent(new ByteArrayInputStream(seleccionado.getDcFoto()));
                 }
             }
             return ret;

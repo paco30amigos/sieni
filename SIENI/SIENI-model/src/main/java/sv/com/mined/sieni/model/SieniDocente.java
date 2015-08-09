@@ -48,7 +48,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findByDcTipo", query = "SELECT s FROM SieniDocente s WHERE s.dcTipo = :dcTipo"),
     @NamedQuery(name = "SieniDocente.findByDcUsuario", query = "SELECT s FROM SieniDocente s WHERE s.dcUsuario = :dcUsuario"),
     @NamedQuery(name = "SieniDocente.findByDcContrasenia", query = "SELECT s FROM SieniDocente s WHERE s.dcContrasenia = :dcContrasenia"),
-    @NamedQuery(name = "SieniDocente.findByDfCorreo", query = "SELECT s FROM SieniDocente s WHERE s.dfCorreo = :dfCorreo")})
+    @NamedQuery(name = "SieniDocente.findByDcCorreo", query = "SELECT s FROM SieniDocente s WHERE s.dcCorreo = :dcCorreo")})
 public class SieniDocente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -77,15 +77,21 @@ public class SieniDocente implements Serializable {
     @Column(name = "dc_contrasenia")
     private String dcContrasenia;
     @Column(name = "dc_correo")
-    private String dfCorreo;
+    private String dcCorreo;
     @Column(name = "dc_fecha_nacimiento")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dcFechaNacimiento;
     @Column(name = "dc_direccion")
-    private String dfDireccion;
+    private String dcDireccion;
     @Lob
     @Column(name = "dc_foto")
     private byte[] dcFoto;
+    @Column(name = "dc_telefono_em_1")
+    private String dcTelefonoEm1;
+    @Column(name = "dc_telefono_em_2")
+    private String dcTelefonoEm2;
+    @Column(name = "dc_telefono_em_3")
+    private String dcTelefonoEm3;
     @JoinTable(name = "doc_recibe_noti", joinColumns = {
         @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")}, inverseJoinColumns = {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
@@ -189,14 +195,6 @@ public class SieniDocente implements Serializable {
 
     public void setDcContrasenia(String dcContrasenia) {
         this.dcContrasenia = dcContrasenia;
-    }
-
-    public String getDfCorreo() {
-        return dfCorreo;
-    }
-
-    public void setDfCorreo(String dfCorreo) {
-        this.dfCorreo = dfCorreo;
     }
 
     public byte[] getDcFoto() {
@@ -316,11 +314,43 @@ public class SieniDocente implements Serializable {
         this.dcFechaNacimiento = dcFechaNacimiento;
     }
 
-    public String getDfDireccion() {
-        return dfDireccion;
+    public String getDcTelefonoEm1() {
+        return dcTelefonoEm1;
     }
 
-    public void setDfDireccion(String dfDireccion) {
-        this.dfDireccion = dfDireccion;
+    public void setDcTelefonoEm1(String dcTelefonoEm1) {
+        this.dcTelefonoEm1 = dcTelefonoEm1;
+    }
+
+    public String getDcTelefonoEm2() {
+        return dcTelefonoEm2;
+    }
+
+    public void setDcTelefonoEm2(String dcTelefonoEm2) {
+        this.dcTelefonoEm2 = dcTelefonoEm2;
+    }
+
+    public String getDcTelefonoEm3() {
+        return dcTelefonoEm3;
+    }
+
+    public void setDcTelefonoEm3(String dcTelefonoEm3) {
+        this.dcTelefonoEm3 = dcTelefonoEm3;
+    }
+
+    public String getDcCorreo() {
+        return dcCorreo;
+    }
+
+    public void setDcCorreo(String dcCorreo) {
+        this.dcCorreo = dcCorreo;
+    }
+
+    public String getDcDireccion() {
+        return dcDireccion;
+    }
+
+    public void setDcDireccion(String dcDireccion) {
+        this.dcDireccion = dcDireccion;
     }
 }

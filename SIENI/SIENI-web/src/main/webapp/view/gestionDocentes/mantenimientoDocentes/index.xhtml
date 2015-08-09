@@ -12,100 +12,120 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
+        <p:tabView tabindex="#{gestionarDocentesController.indexMenu}" activeIndex="#{gestionarDocentesController.indexMenu}" id="tabMenu">
             <p:tab title="Consulta de Docentes">
-                <h:form>
+                <h:form enctype="multipart/form-data" id="consultaForm" >
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
+                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                        <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                        <div class="EmptyBox20"></div>
+                        <p:commandButton value="Si" action="#{gestionarDocentesController.eliminarExpediente()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                        <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                    </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
-                                 paginator="true"
+                    <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
+                    <p:dataTable id="consulta" var="car" value="#{gestionarDocentesController.docentesList}" 
+                                 paginator="true" rows="5"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Foto">
-                            <i class="fa fa-file-image-o Fs25"></i>
+                            <p:graphicImage value="#{imagesDataTable.imagenDocente}" width="100em" cache="false">
+                                <f:param name="imageID" value="#{car.idDocente}" />
+                            </p:graphicImage>
                         </p:column>
-                        <p:column headerText="Nombre" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo300}
+                        <p:column headerText="Nombre" filterBy="#{car.nombreCompleto}" filterMatchMode="contains" filterable="true">
+                            #{car.nombreCompleto}
                         </p:column>
-                        <p:column headerText="Fecha de Nacimiento" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.fecha}
+                        <p:column headerText="Fecha de Nacimiento" filterBy="#{car.fechaNacimientoFiltrable}" filterMatchMode="contains" filterable="true">
+                            #{car.fechaNacimientoFiltrable}
                         </p:column>
-                        <p:column headerText="Correo electrónico" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo100}
+                        <p:column headerText="Correo electrónico" filterBy="#{car.dcCorreo}" filterMatchMode="contains" filterable="true">
+                            #{car.dcCorreo}
                         </p:column>
-                        <p:column headerText="Teléfono" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.telefono}
+                        <p:column headerText="Teléfono" filterBy="#{car.dcTelefonoEm1}" filterMatchMode="contains" filterable="true">
+                            #{car.dcTelefonoEm1}
                         </p:column>
-                        <p:column headerText="Celular" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.telefono}
+                        <p:column headerText="Celular" filterBy="#{car.dcTelefonoEm2}" filterMatchMode="contains" filterable="true">
+                            #{car.dcTelefonoEm2}
                         </p:column>
-                        <p:column headerText="Dirección" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="Dirección" filterBy="#{car.dcDireccion}" filterMatchMode="contains" filterable="true">
+                            #{car.dcDireccion}
                         </p:column>
                         <p:column headerText="Acciones">
-                            <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
-                                                        <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Docente"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Docente"></i>
+                            <p:commandLink action="#{gestionarDocentesController.modificar(car)}" update="tabMenu" ><i class="icon-compose Fs25 Red" title="Modificar Expediente" ></i></p:commandLink>
+                            <p:commandLink action="#{gestionarDocentesController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                                <i class="icon-close Fs25 Red" title="Eliminar Expediente"></i>
+                            </p:commandLink>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Registrar Docente"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
+                    <p:commandButton value="Refrescar" action="#{gestionarDocentesController.refresh()}" update="consulta"></p:commandButton>
                 </h:form>
             </p:tab>
             <p:tab title="Registro de Docente">
-                <h:form>
+                <h:form enctype="multipart/form-data" >
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <h:panelGrid columns="2" class="Container100 Responsive">
-                        <p:outputLabel value="Foto:"></p:outputLabel>
-                        <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
+                    <div class="Container10">
+                        <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
+                    </div>
+                    <div class="Container70">
+                        <p:graphicImage id="fotoSubida" value="#{gestionarDocentesController.fotoUsable}" width="100em" cache="false"></p:graphicImage>
+                    </div>
+                    <h:panelGrid class="Container100">
+                        <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionarDocentesController.getFotoNueva}"
+                                      uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" 
+                                      value="#{gestionarDocentesController.foto}" update="fotoSubida" >
                         </p:fileUpload>
                     </h:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Primer Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Primer Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
+                        <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
+                        <p:inputText id="primNombreNuevo"  value="#{gestionarDocentesController.docenteNuevo.dcPrimNombre}" maxlength="#{nombreUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
+                        <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="segNombreNuevo" value="#{gestionarDocentesController.docenteNuevo.dcSeguNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                        <p:outputLabel for="tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="tercNombreNuevo" value="#{gestionarDocentesController.docenteNuevo.dcTercNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                        <p:outputLabel for="primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="primApeNuevo" value="#{gestionarDocentesController.docenteNuevo.dcPrimApe}" maxlength="#{nombreUtils.apellidoMax}" required="true" requiredMessage="Debe ingresar Primer Apellido"></p:inputText>
+                        <p:outputLabel for="segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="segApeNuevo" value="#{gestionarDocentesController.docenteNuevo.dcSeguApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                        <p:outputLabel for="tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="tercApeNuevo" value="#{gestionarDocentesController.docenteNuevo.dcTercApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel value="Correo electrónico: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel value="Teléfono: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.telefono}"></p:inputText>
-                        <p:outputLabel value="Celular: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.telefono}"></p:inputText>
-                        <p:outputLabel  value="Dirección: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo200}"></p:inputText>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
+                        <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
+                        <p:calendar id="fechNacimNuevo" value="#{gestionarDocentesController.docenteNuevo.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="emailNuevo" type="email" value="#{gestionarDocentesController.docenteNuevo.dcCorreo}"></p:inputText>
+                        <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteNuevo.dcTelefonoEm1}"  required="true" requiredMessage="Debe ingresar telÃ©fono"></p:inputMask>
+                        <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteNuevo.dcTelefonoEm2}"></p:inputMask>
+                        <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="direccion" value="#{gestionarDocentesController.docenteNuevo.dcDireccion}"></p:inputText>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
+                        <p:commandButton value="Guardar" action="#{gestionarDocentesController.guardar()}" update="p1,p2,tabMenu" />
+                        <p:commandButton value="Limpiar" immediate="true">
+                            <p:ajax update="p1,p2,archivo,fotoSubida" resetValues="true" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true">
+                            <p:ajax update="p1,p2,archivo,fotoSubida,tabMenu" resetValues="true" oncomplete="#{gestionarDocentesController.setIndexMenu(0)}"/>
+                        </p:commandButton>
                         <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
-                            <p:menuitem value="Gestionar Alumnos">    
+                            <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
                             <p:menuitem value="Gestionar Cursos">    
                             </p:menuitem>
@@ -120,48 +140,59 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <h:panelGrid columns="2" class="Container100 Responsive">
-                        <p:outputLabel value="Foto:"></p:outputLabel>
-                        <p:fileUpload id="m_archivo" label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" value="#{archivosMultimediaForm.archivo}" >
+                    <div class="Container10">
+                        <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
+                    </div>
+                    <div class="Container70">
+                        <p:graphicImage id="mod_fotoSubida" value="#{gestionarDocentesController.fotoUsableModifica}" width="100em" cache="false"></p:graphicImage>
+                    </div>
+                    <h:panelGrid class="Container100">
+                        <p:fileUpload id="mod_archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionarDocentesController.getFotoNuevaModifica}"
+                                      uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" 
+                                      value="#{gestionarDocentesController.fotoModifica}" update="mod_fotoSubida" >
                         </p:fileUpload>
                     </h:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Primer Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Primer Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
-                        <p:outputLabel  value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  value="#{formatoPantallas.campo50}"></p:inputText>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
+                        <p:outputLabel for="mod_primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
+                        <p:inputText id="mod_primNombreNuevo"  value="#{gestionarDocentesController.docenteModifica.dcPrimNombre}" maxlength="#{nombreUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
+                        <p:outputLabel for="mod_segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_segNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                        <p:outputLabel for="mod_tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_tercNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                        <p:outputLabel for="mod_primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_primApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcPrimApe}" maxlength="#{nombreUtils.apellidoMax}" required="true" requiredMessage="Debe ingresar Primer Apellido"></p:inputText>
+                        <p:outputLabel for="mod_segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_segApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                        <p:outputLabel for="mod_tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_tercApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel value="Correo electrónico: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel value="Teléfono: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.telefono}"></p:inputText>
-                        <p:outputLabel value="Celular: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.telefono}"></p:inputText>
-                        <p:outputLabel  value="Dirección: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo200}"></p:inputText>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">
+                        <p:outputLabel for="mod_fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
+                        <p:calendar id="mod_fechNacimNuevo" value="#{gestionarDocentesController.docenteModifica.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:outputLabel for="mod_emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_emailNuevo" type="email" value="#{gestionarDocentesController.docenteModifica.dcCorreo}"></p:inputText>
+                        <p:outputLabel for="mod_telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="mod_telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm1}"  required="true" requiredMessage="Debe ingresar telÃ©fono"></p:inputMask>
+                        <p:outputLabel for="mod_celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="mod_celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm2}"></p:inputMask>
+                        <p:outputLabel for="mod_direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}"></p:inputText>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
+                        <p:commandButton value="Guardar" action="#{gestionarDocentesController.guardarModifica()}" update="mod_p1,mod_p2,tabMenu" />
+                        <p:commandButton value="Limpiar" immediate="true">
+                            <p:ajax update="mod_p2,mod_archivo,mod_fotoSubida" resetValues="true" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true">
+                            <p:ajax update="mod_p2,mod_archivo,mod_fotoSubida,tabMenu" resetValues="true" oncomplete="#{gestionarDocentesController.setIndexMenu(0)}"/>
+                        </p:commandButton>
                         <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
-                            <p:menuitem value="Gestionar Alumnos">    
+                            <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
                             <p:menuitem value="Gestionar Cursos">    
                             </p:menuitem>

@@ -20,20 +20,26 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Alumno" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                            #{formatoPantallas.campo300}
                         </p:column>
                         <p:column headerText="Materia" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                            #{formatoPantallas.campo100}
                         </p:column>
                         <p:column headerText="Tipo de Evaluación" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                            #{formatoPantallas.campo100}
                         </p:column>
                         <p:column headerText="Nota" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                            #{formatoPantallas.numeroDecimal}
                         </p:column>
                         <p:column headerText="Tipo de ingreso" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
+                            #{formatoPantallas.campo15}
                         </p:column>
                         <p:column headerText="Acciones">
                             <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Nota"></i>
@@ -51,29 +57,30 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="alumno" class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Juanita Andrea Lopez"/>
+                        <p:outputLabel  value="Alumno: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
                             <f:selectItem itemValue ="0" itemLabel="Pedro Vazques"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="materia" class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
+                        <p:outputLabel value="Materia: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo100}"/>
                             <f:selectItem itemValue="0" itemLabel="Ciencias"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="tipoEval" value="Evaluación: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipoEval" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Examen Trimestral Matemáticas"/>
+                        <p:outputLabel value="Evaluación: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo100}"/>
                             <f:selectItem itemValue ="1" itemLabel="Examen Corto Matemáticas"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="nota" value="Nota: " class=" Responsive"></p:outputLabel>
-                        <p:spinner id="nota" min="0.0" stepFactor="0.1" max="10.0"></p:spinner>
-                        <p:outputLabel for="tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipoIngreso" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Manual"/>
+                        <p:outputLabel  value="Nota: " class=" Responsive"></p:outputLabel>
+                        <p:spinner min="0.0" value="#{formatoPantallas.numeroDecimal}"></p:spinner>
+                        <p:outputLabel  value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue ="1" itemLabel="Automático"/>
                         </p:selectOneMenu>  
                     </p:panelGrid>
@@ -100,29 +107,30 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_alumno" class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Juanita Andrea Lopez"/>
+                        <p:outputLabel  value="Alumno: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
                             <f:selectItem itemValue ="0" itemLabel="Pedro Vazques"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="m_materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_materia" class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
+                        <p:outputLabel value="Materia: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo100}"/>
                             <f:selectItem itemValue="0" itemLabel="Ciencias"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="m_tipoEval" value="Evaluación: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_tipoEval" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Examen Trimestral Matemáticas"/>
+                        <p:outputLabel value="Evaluación: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo100}"/>
                             <f:selectItem itemValue ="1" itemLabel="Examen Corto Matemáticas"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_nota" value="Nota: " class=" Responsive"></p:outputLabel>
-                        <p:spinner id="m_nota" min="0.0" stepFactor="0.1" max="10.0"></p:spinner>
-                        <p:outputLabel for="m_tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_tipoIngreso" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Manual"/>
+                        <p:outputLabel  value="Nota: " class=" Responsive"></p:outputLabel>
+                        <p:spinner min="0.0" value="#{formatoPantallas.numeroDecimal}"></p:spinner>
+                        <p:outputLabel  value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue ="1" itemLabel="Automático"/>
                         </p:selectOneMenu>  
                     </p:panelGrid>

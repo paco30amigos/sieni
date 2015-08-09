@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Reporte de Docentes" url="#{siteUrls.reporteDocentes}"/>
+
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Reporte de Docentes">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel value="Año"></p:outputLabel>
+                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
+                    <div class="EmptyBox20"></div>
+                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                                 paginator="false"
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true">
+
+                        <p:column headerText="Nombre" >
+                            #{formatoPantallas.campo50}
+                        </p:column>
+                        <p:column headerText="Apellido" >
+                            #{formatoPantallas.campo50}
+                        </p:column>
+                        <p:column headerText="Turno" >
+                            #{formatoPantallas.campo10}
+                        </p:column>
+                        <p:column headerText="Materias Asignadas" >
+                            #{formatoPantallas.campo50}
+                        </p:column>
+                        
+
+                        
+                        <f:facet name="footer">
+                            Total de Docentes 999
+                        </f:facet>
+                    </p:dataTable>
+                    
+                    <div class="EmptyBox20"></div>
+                    <div class="TexAlCenter">
+                        
+                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                            <p:selectOneRadio  id="console" value="#{radioView.console}">
+                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
+                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar"></p:commandButton>
+                        <p:commandButton value="Regresar"></p:commandButton>
+                        </h:panelGrid>
+                    </div>
+
+                </h:form>
+            </p:tab>
+
+        </p:tabView>
+    </ui:define>
+
+</ui:composition>

@@ -20,22 +20,23 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Nombre" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-
+                            #{formatoPantallas.campo100}
                         </p:column>
                         <p:column headerText="Estado" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-
+                            #{formatoPantallas.campo15}
                         </p:column>
                         <p:column headerText="Coordinador" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-
+                            #{formatoPantallas.campo300}
                         </p:column>
                         <p:column headerText="Turno" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-
+                            #{formatoPantallas.campo15}
                         </p:column>
                         <p:column headerText="Acciones">
                             <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Materia"></i>
@@ -55,23 +56,23 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="nombre" class=" Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
-                        <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado" class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Disponible"/>
+                        <p:outputLabel  value="Nombre: " class=" Responsive"></p:outputLabel>
+                        <p:inputText class=" Responsive" value="#{formatoPantallas.campo100}"></p:inputText>
+                        <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{formatoPantallas.campo15}">
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue="0" itemLabel="No Disponible"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="coordinador" value="Coordinador: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="coordinador" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Juan "/>
+                        <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{formatoPantallas.campo300}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo300} "/>
                             <f:selectItem itemValue ="1" itemLabel="Carlos"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="turno" value="Turno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="turno" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Matutino"/>
+                        <p:outputLabel value="Turno: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu class=" Responsive" value="#{formatoPantallas.campo15}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue ="1" itemLabel="Vespertino"/>
                         </p:selectOneMenu>   
                     </p:panelGrid>
@@ -99,23 +100,23 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="m_nombre" class=" Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
-                        <p:outputLabel for="m_estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_estado" class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Disponible"/>
+                        <p:outputLabel  value="Nombre: " class=" Responsive"></p:outputLabel>
+                        <p:inputText class=" Responsive" value="#{formatoPantallas.campo100}"></p:inputText>
+                        <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{formatoPantallas.campo15}">
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue="0" itemLabel="No Disponible"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_coordinador" value="Coordinador: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_coordinador" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Juan "/>
+                        <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{formatoPantallas.campo300}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo300} "/>
                             <f:selectItem itemValue ="1" itemLabel="Carlos"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="m_turno" value="Turno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_turno" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Matutino"/>
+                        <p:outputLabel value="Turno: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu class=" Responsive" value="#{formatoPantallas.campo15}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue ="1" itemLabel="Vespertino"/>
                         </p:selectOneMenu>   
                     </p:panelGrid>

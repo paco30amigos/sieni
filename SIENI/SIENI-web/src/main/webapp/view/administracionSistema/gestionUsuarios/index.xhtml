@@ -20,23 +20,24 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                    <p:dataTable rows="10" var="car" value="#{mntoUsuariosController.usuariosList}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-                        <p:column headerText="Usuario" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        <p:column headerText="Usuario" filterBy="#{car.usuario}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.campo30}
                         </p:column>
-                        <p:column headerText="Tipo de usuario" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo30}
+                        <p:column headerText="Tipo de usuario" filterBy="#{car.tipoUsuario}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo15}
                         </p:column>
-                        <p:column headerText="Nombre" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        <p:column headerText="Tipo de permiso" filterBy="#{car.tipoPermiso}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo15}
+                        </p:column>
+                        <p:column headerText="Nombre" filterBy="#{car.nombre}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.campo300}
                         </p:column>
                         <p:column headerText="Acciones">
-                            <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
-                                                        <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
                             <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Usuario"></i>
                             <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Usuario"></i>
                         </p:column>
@@ -59,8 +60,15 @@
                         <p:outputLabel  value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
                         <p:selectOneMenu>
                             <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
+                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
                             <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
-                            <f:selectItem itemValue="2" itemLabel="Alumno"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel  value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu>
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
+                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
+                            <f:selectItem itemValue="2" itemLabel="Adminsitrador"></f:selectItem>
                         </p:selectOneMenu>
                         <p:outputLabel  value="Nombre: " class=" Responsive" ></p:outputLabel>
                         <p:selectOneMenu  filter="true" filterMatchMode="contains">
@@ -107,6 +115,13 @@
                             <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
                             <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
                             <f:selectItem itemValue="2" itemLabel="Alumno"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel  value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu>
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
+                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
+                            <f:selectItem itemValue="2" itemLabel="Adminsitrador"></f:selectItem>
                         </p:selectOneMenu>
                         <p:outputLabel  value="Nombre: " class=" Responsive" ></p:outputLabel>
                         <p:selectOneMenu  filter="true" filterMatchMode="contains">

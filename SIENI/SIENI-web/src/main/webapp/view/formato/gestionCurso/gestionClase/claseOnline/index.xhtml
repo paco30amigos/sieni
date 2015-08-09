@@ -8,20 +8,108 @@
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
-            <p:menuitem value="Mantenimiento de clase" url="#"/>
-            <p:menuitem value="Formulario de registro de clases" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
+            <p:menuitem value="Gestionar Clase" url="#"/>
+            <p:menuitem value="Clase en Vivo" url="#{siteUrls.claseOnline}"/>
             <p:separator />
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <div class="Container73">
-            <script type="text/javascript" src="../videoClase/videoclase.js"></script>
-            <video id="video" width="640" height="480" autoplay="true"></video>
-            <button id="snap">Snap Photo</button>
-            <canvas id="canvas" width="640" height="480"></canvas>        
-        </div>
-        <div class="Container25">
-            <p:outputLabel value=""></p:outputLabel>
-        </div>
+        <p:tabView class="Container100">
+            <p:tab title="Consultar Clase en Vivo">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                                 paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 reflow="true"
+                                 >
+                        <p:column headerText="Docente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo300}
+                        </p:column>
+                        <p:column headerText="Estado"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo15}
+                        </p:column>
+                        <p:column headerText="Acciones"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            <i class="icon-visibility1 Fs25 Red" style="cursor: pointer" title="Recibir Clase en Vivo"></i>
+                            <i class="icon-videocall Fs25 Red" style="cursor: pointer" title="Transmitir Clase en Vivo"></i>
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Crear"></p:commandButton>
+                    <p:commandButton value="Refrescar"></p:commandButton>
+                </h:form>
+            </p:tab>
+            <p:tab title="Transmitir Clase en Vivo">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container50 Responsive">
+                        <h:outputScript name="videoclase.js" library="js" />                                            
+                        <video id="video" class="Container70" autoplay="true"></video>                    
+                        <canvas id="canvas" class="Container70" style="display: none"></canvas>
+                    </div>
+                    <div class="Container25 Responsive">
+                        <p:panel header="Alumnos Conectados" class="Container100 ContainerIndent">
+                            <p:dataScroller value="#{clasesForm.plantillas}" class="Container100">
+                                <p:panelGrid columns="2" class="Container100 ContainerIndent">
+                                    <i class="icon-round58 Fs40"></i>
+                                    <div class="EmptyBox20"></div>
+                                    <p:outputLabel value="#{formatoPantallas.campo30}"></p:outputLabel>
+                                </p:panelGrid>        
+                            </p:dataScroller>
+                            <p:outputLabel value="">
+                            </p:outputLabel>                    
+                        </p:panel>
+                    </div>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container100">
+                        <p:commandButton value="Transmitir" onclick="transmit()"></p:commandButton>
+                        <p:commandButton value="Parar Transmición"></p:commandButton>
+                        <div class="EmptyBox20"></div>
+                        <p:splitButton value="Otras Opciones" action="#">
+                            <p:menuitem value="Gestionar Secciones">    
+                            </p:menuitem>
+                            <p:menuitem value="Programación de clases">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Clases">
+                            </p:menuitem>
+                        </p:splitButton>
+                    </div>
+                </h:form>
+            </p:tab>
+            <p:tab title="Recibir Clase en Vivo">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container73 Responsive">
+                        <h:outputScript name="videoclase.js" library="js" />                    
+                        <video id="video2" class="Container73" autoplay="true" controls="true"></video>                    
+                        <canvas id="canvas2" class="Container70" style="display: none"></canvas>
+                    </div>
+                    <div class="Container25 Responsive">
+                        <p:panel header="Alumnos Conectados" class="Container100 ContainerIndent">
+                            <p:dataScroller value="#{clasesForm.plantillas}" class="Container100">
+                                <p:panelGrid columns="2" class="Container100 ContainerIndent">
+                                    <i class="icon-round58 Fs40"></i>
+                                    <div class="EmptyBox20"></div>
+                                    <p:outputLabel value="#{formatoPantallas.campo30}"></p:outputLabel>
+                                </p:panelGrid>        
+                            </p:dataScroller>
+                        </p:panel>
+                    </div>
+                </h:form>
+            </p:tab>
+
+        </p:tabView>
     </ui:define>
 </ui:composition>

@@ -7,8 +7,7 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Portal de Noticias" url="#"/>
-            <p:menuitem value="Gestión de Noticias" url="#{siteUrls.gestionNoticia}"/>
+            <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}"/>
             <p:separator />
         </p:breadCrumb>
     </ui:define>
@@ -20,22 +19,23 @@
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Usuario" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-
+                            #{formatoPantallas.campo30}
                         </p:column>
                         <p:column headerText="Título" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-
+                            #{formatoPantallas.campo100}
                         </p:column>
                         <p:column headerText="Estado" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-
+                            #{formatoPantallas.campo15}
                         </p:column>
                         <p:column headerText="Curso" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-
+                            #{formatoPantallas.campo100}
                         </p:column>
                         <p:column headerText="Acciones">
                             <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Noticia"></i>
@@ -55,23 +55,23 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="titulo" value="Título: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="titulo" class=" Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
-                        <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado" class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Publicada"/>
+                        <p:outputLabel  value="Título: " class=" Responsive"></p:outputLabel>
+                        <p:inputText class=" Responsive" value="#{formatoPantallas.campo100}"></p:inputText>
+                        <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue="0" itemLabel="No Publicada"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="curso" value="Curso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="curso" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Audio"/>
+                        <p:outputLabel  value="Curso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo100}"/>
                             <f:selectItem itemValue ="1" itemLabel="Video"/>
                             <f:selectItem itemValue ="2" itemLabel="Imagen"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="consulta" value="Noticia: " class=" Responsive"></p:outputLabel>
-                        <p:editor id="consulta"></p:editor>
+                        <p:outputLabel value="Noticia: " class=" Responsive"></p:outputLabel>
+                        <p:editor  value="#{formatoPantallas.campo4000}"></p:editor>
                         <p:outputLabel value="Archivo"></p:outputLabel>
                         <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
                         </p:fileUpload>
@@ -101,23 +101,23 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_titulo" value="Título: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="m_titulo" class=" Responsive" value="#{archivosMultimediaForm.nombre}"></p:inputText>
-                        <p:outputLabel for="m_estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_estado" class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Publicada"/>
+                        <p:outputLabel  value="Título: " class=" Responsive"></p:outputLabel>
+                        <p:inputText class=" Responsive" value="#{formatoPantallas.campo100}"></p:inputText>
+                        <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue="0" itemLabel="No Publicada"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_curso" value="Curso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_curso" class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="Audio"/>
+                        <p:outputLabel  value="Curso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
+                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo100}"/>
                             <f:selectItem itemValue ="1" itemLabel="Video"/>
                             <f:selectItem itemValue ="2" itemLabel="Imagen"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="m_consulta" value="Noticia: " class=" Responsive"></p:outputLabel>
-                        <p:editor id="m_consulta"></p:editor>
+                        <p:outputLabel value="Noticia: " class=" Responsive"></p:outputLabel>
+                        <p:editor  value="#{formatoPantallas.campo4000}"></p:editor>
                         <p:outputLabel value="Archivo"></p:outputLabel>
                         <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
                         </p:fileUpload>
@@ -147,8 +147,8 @@
                 <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                 <div class="EmptyBox20"></div>
                 <p:dataScroller value="#{clasesForm.plantillas}" var="noticia" >
-                    <p:panel  header="Clases suspendidas por paro de buses" closable="true">
-                        <p:outputLabel value="Las actividades escolares quedan suspendidas hasta nuevo aviso"></p:outputLabel>
+                    <p:panel  header="#{formatoPantallas.campo100}" closable="true">
+                        <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
                         <div class="EmptyBox20"></div>
                         <div class="Container73" style="cursor: pointer" >
                             <i class="fa fa-file-movie-o Fs25"></i>

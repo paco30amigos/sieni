@@ -26,10 +26,16 @@
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Usuario" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo30}
                         </p:column>
                         <p:column headerText="Tipo de usuario" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo15}
                         </p:column>
-                        <p:column headerText="Nombre Expediente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        <p:column headerText="Tipo de permiso" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo15}
+                        </p:column>
+                        <p:column headerText="Nombre" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                            #{formatoPantallas.campo300}
                         </p:column>
                         <p:column headerText="Acciones">
                             <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
@@ -51,26 +57,33 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="usuario" value="Usuario: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="usuario"></p:inputText>
-                        <p:outputLabel for="tipoUsuario" value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipoUsuario">
-                            <f:selectItem itemLabel="Administrador"></f:selectItem>
-                            <f:selectItem itemLabel="Docente"></f:selectItem>
-                            <f:selectItem itemLabel="Alumno"></f:selectItem>
+                        <p:outputLabel value="Usuario: " class=" Responsive"></p:outputLabel>
+                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
+                        <p:outputLabel  value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu>
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
+                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
                         </p:selectOneMenu>
-                        <p:outputLabel for="nombreExpediente" value="Nombre: " class=" Responsive" ></p:outputLabel>
-                        <p:selectOneMenu id="nombreExpediente" filter="true" filterMatchMode="contains">
-                            <f:selectItem itemLabel="Jose"></f:selectItem>
-                            <f:selectItem itemLabel="Carmen"></f:selectItem>
-                            <f:selectItem itemLabel="Alicia"></f:selectItem>
+                        <p:outputLabel  value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu>
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
+                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
+                            <f:selectItem itemValue="2" itemLabel="Adminsitrador"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel  value="Nombre: " class=" Responsive" ></p:outputLabel>
+                        <p:selectOneMenu  filter="true" filterMatchMode="contains">
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo300}"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Carmen"></f:selectItem>
+                            <f:selectItem itemValue="2"  itemLabel="Alicia"></f:selectItem>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="contrasenia1" value="Contraseña: " class="  Responsive"></p:outputLabel>
-                        <p:password id="contrasenia1" value=""  feedback="true" inline="true" autocomplete="false" promptLabel="Ingrese una Contraseña" goodLabel="Media" strongLabel="Alta" weakLabel="Baja" ></p:password>                    
-                        <p:outputLabel for="contrasenia2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
-                        <p:password id="contrasenia2" value="" match="contrasenia2"></p:password>
+                        <p:outputLabel  value="Contraseña: " class="  Responsive"></p:outputLabel>
+                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
+                        <p:outputLabel  value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
+                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
@@ -97,26 +110,33 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_usuario" value="Usuario: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="m_usuario"></p:inputText>
-                        <p:outputLabel for="m_tipoUsuario" value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_tipoUsuario">
-                            <f:selectItem itemLabel="Administrador"></f:selectItem>
-                            <f:selectItem itemLabel="Docente"></f:selectItem>
-                            <f:selectItem itemLabel="Alumno"></f:selectItem>
+                        <p:outputLabel value="Usuario: " class=" Responsive"></p:outputLabel>
+                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
+                        <p:outputLabel  value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu>
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
+                            <f:selectItem itemValue="2" itemLabel="Alumno"></f:selectItem>
                         </p:selectOneMenu>
-                        <p:outputLabel for="m_nombreExpediente" value="Nombre: " class=" Responsive" ></p:outputLabel>
-                        <p:selectOneMenu id="m_nombreExpediente" filter="true" filterMatchMode="contains">
-                            <f:selectItem itemLabel="Jose"></f:selectItem>
-                            <f:selectItem itemLabel="Carmen"></f:selectItem>
-                            <f:selectItem itemLabel="Alicia"></f:selectItem>
+                        <p:outputLabel  value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu>
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
+                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
+                            <f:selectItem itemValue="2" itemLabel="Adminsitrador"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel  value="Nombre: " class=" Responsive" ></p:outputLabel>
+                        <p:selectOneMenu  filter="true" filterMatchMode="contains">
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo300}"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Carmen"></f:selectItem>
+                            <f:selectItem itemValue="2"  itemLabel="Alicia"></f:selectItem>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_contrasenia1" value="Contraseña: " class="  Responsive"></p:outputLabel>
-                        <p:password id="m_contrasenia1" value=""  feedback="true" inline="true" autocomplete="false"  promptLabel="Ingrese una Contraseña" goodLabel="Media" strongLabel="Alta" weakLabel="Baja" ></p:password>                    
-                        <p:outputLabel for="m_contrasenia2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
-                        <p:password id="m_contrasenia2" value="" match="m_contrasenia1"></p:password>
+                        <p:outputLabel  value="Contraseña: " class="  Responsive"></p:outputLabel>
+                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
+                        <p:outputLabel  value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
+                        <p:inputText  value="#{formatoPantallas.campo30}"></p:inputText>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">

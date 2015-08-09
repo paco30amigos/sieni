@@ -26,16 +26,16 @@
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
                         <p:column headerText="Año" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-
+                            #{formatoPantallas.anio}
                         </p:column>
                         <p:column headerText="Fecha Inicio" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-
+                            #{formatoPantallas.fecha}
                         </p:column>
                         <p:column headerText="Fecha Fin" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-
+                            #{formatoPantallas.fecha}
                         </p:column>
                         <p:column headerText="Estado" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-
+                            #{formatoPantallas.campo15}
                         </p:column>
                         <p:column headerText="Acciones">
                             <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
@@ -57,17 +57,17 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="anio" value="Año: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="anio" mask="9,999" class="Responsive" value="#{aperturaAnioEscolarForm.anio}"/>
-                        <p:outputLabel for="fInicio" value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
-                        <p:calendar id="fInicio" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class=" Responsive" value="#{aperturaAnioEscolarForm.finicio}"></p:calendar>
+                        <p:outputLabel  value="Año: " class=" Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.anio}"></p:inputText>
+                        <p:outputLabel  value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="fFin" value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
-                        <p:calendar id="fFin" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class="  Responsive" value="#{aperturaAnioEscolarForm.ffin}"></p:calendar>
-                        <p:outputLabel for="estado" value="Estado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado" class=" Responsive" value="#{aperturaAnioEscolarForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Activo"/>
+                        <p:outputLabel  value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                        <p:outputLabel  value="Estado: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class=" Responsive" >
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue="0" itemLabel="Inactivo"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
@@ -95,17 +95,17 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_anio" value="Año: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="m_anio" mask="9,999" class="Responsive" value="#{aperturaAnioEscolarForm.anio}"/>
-                        <p:outputLabel for="m_fInicio" value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
-                        <p:calendar id="m_fInicio" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class=" Responsive" value="#{aperturaAnioEscolarForm.finicio}"></p:calendar>
+                        <p:outputLabel  value="Año: " class=" Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.anio}"></p:inputText>
+                        <p:outputLabel  value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel for="m_fFin" value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
-                        <p:calendar id="m_fFin" pattern="dd/MMMM/yyyy"  label="calendario" locale="es" navigator="true" class="  Responsive" value="#{aperturaAnioEscolarForm.ffin}"></p:calendar>
-                        <p:outputLabel for="m_estado" value="Estado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="m_estado" class=" Responsive" value="#{aperturaAnioEscolarForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="Activo"/>
+                        <p:outputLabel  value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                        <p:outputLabel  value="Estado: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class=" Responsive" >
+                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
                             <f:selectItem itemValue="0" itemLabel="Inactivo"/>
                         </p:selectOneMenu>
                     </p:panelGrid>

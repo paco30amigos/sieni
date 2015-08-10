@@ -6,12 +6,17 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,12 +29,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniDocentRol.findAll", query = "SELECT s FROM SieniDocentRol s"),
-    @NamedQuery(name = "SieniDocentRol.findByIdDocentRDud", query = "SELECT s FROM SieniDocentRol s WHERE s.sieniDocentRolPK.idDocentRDud = :idDocentRDud"),
-    @NamedQuery(name = "SieniDocentRol.findByFRolDoc", query = "SELECT s FROM SieniDocentRol s WHERE s.sieniDocentRolPK.fRolDoc = :fRolDoc")})
+    @NamedQuery(name = "SieniDocentRol.findByIdDocenteRol", query = "SELECT s FROM SieniDocentRol s WHERE s.idDocenteRol = :idDocenteRol"),
+    @NamedQuery(name = "SieniDocentRol.findByFRolDoc", query = "SELECT s FROM SieniDocentRol s WHERE s.fRolDoc = :fRolDoc")})
 public class SieniDocentRol implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected SieniDocentRolPK sieniDocentRolPK;
+    @Id
+    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_docent_rol")
+    @SequenceGenerator(name = "sec_sieni_docent_rol", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_docent_rol")
+    @Column(name = "id_docente_rol")
+    private Long idDocenteRol;
+    @Basic(optional = false)
+    @Column(name = "f_rol_doc")
+    private long fRolDoc;
     @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
     @ManyToOne
     private SieniDocente idDocente;
@@ -37,20 +49,29 @@ public class SieniDocentRol implements Serializable {
     public SieniDocentRol() {
     }
 
-    public SieniDocentRol(SieniDocentRolPK sieniDocentRolPK) {
-        this.sieniDocentRolPK = sieniDocentRolPK;
+    public SieniDocentRol(Long idDocenteRol) {
+        this.idDocenteRol = idDocenteRol;
     }
 
-    public SieniDocentRol(long idDocentRDud, long fRolDoc) {
-        this.sieniDocentRolPK = new SieniDocentRolPK(idDocentRDud, fRolDoc);
+    public SieniDocentRol(Long idDocenteRol, long fRolDoc) {
+        this.idDocenteRol = idDocenteRol;
+        this.fRolDoc = fRolDoc;
     }
 
-    public SieniDocentRolPK getSieniDocentRolPK() {
-        return sieniDocentRolPK;
+    public Long getIdDocenteRol() {
+        return idDocenteRol;
     }
 
-    public void setSieniDocentRolPK(SieniDocentRolPK sieniDocentRolPK) {
-        this.sieniDocentRolPK = sieniDocentRolPK;
+    public void setIdDocenteRol(Long idDocenteRol) {
+        this.idDocenteRol = idDocenteRol;
+    }
+
+    public long getFRolDoc() {
+        return fRolDoc;
+    }
+
+    public void setFRolDoc(long fRolDoc) {
+        this.fRolDoc = fRolDoc;
     }
 
     public SieniDocente getIdDocente() {
@@ -64,7 +85,7 @@ public class SieniDocentRol implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (sieniDocentRolPK != null ? sieniDocentRolPK.hashCode() : 0);
+        hash += (idDocenteRol != null ? idDocenteRol.hashCode() : 0);
         return hash;
     }
 
@@ -75,7 +96,7 @@ public class SieniDocentRol implements Serializable {
             return false;
         }
         SieniDocentRol other = (SieniDocentRol) object;
-        if ((this.sieniDocentRolPK == null && other.sieniDocentRolPK != null) || (this.sieniDocentRolPK != null && !this.sieniDocentRolPK.equals(other.sieniDocentRolPK))) {
+        if ((this.idDocenteRol == null && other.idDocenteRol != null) || (this.idDocenteRol != null && !this.idDocenteRol.equals(other.idDocenteRol))) {
             return false;
         }
         return true;
@@ -83,7 +104,7 @@ public class SieniDocentRol implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.mined.sieni.model.SieniDocentRol[ sieniDocentRolPK=" + sieniDocentRolPK + " ]";
+        return "sv.com.mined.sieni.model.SieniDocentRol[ idDocenteRol=" + idDocenteRol + " ]";
     }
     
 }

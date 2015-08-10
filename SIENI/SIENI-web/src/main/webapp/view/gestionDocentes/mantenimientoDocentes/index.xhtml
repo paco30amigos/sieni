@@ -62,7 +62,7 @@
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Registrar Docente"></p:commandButton>
+                    <p:commandButton value="Registrar Docente" action="#{gestionarDocentesController.setIndexMenu(1)}" update="tabMenu"></p:commandButton>
                     <p:commandButton value="Refrescar" action="#{gestionarDocentesController.refresh()}" update="consulta"></p:commandButton>
                 </h:form>
             </p:tab>
@@ -106,7 +106,7 @@
                         <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
                         <p:inputText id="emailNuevo" type="email" value="#{gestionarDocentesController.docenteNuevo.dcCorreo}"></p:inputText>
                         <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteNuevo.dcTelefonoEm1}"  required="true" requiredMessage="Debe ingresar telÃ©fono"></p:inputMask>
+                        <p:inputMask id="telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteNuevo.dcTelefonoEm1}"  required="true" requiredMessage="Debe ingresar teléfono"></p:inputMask>
                         <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
                         <p:inputMask id="celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteNuevo.dcTelefonoEm2}"></p:inputMask>
                         <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>

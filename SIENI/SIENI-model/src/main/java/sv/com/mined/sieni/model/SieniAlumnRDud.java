@@ -6,8 +6,10 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -24,12 +26,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAlumnRDud.findAll", query = "SELECT s FROM SieniAlumnRDud s"),
-    @NamedQuery(name = "SieniAlumnRDud.findByIdAlumnRDud", query = "SELECT s FROM SieniAlumnRDud s WHERE s.sieniAlumnRDudPK.idAlumnRDud = :idAlumnRDud"),
-    @NamedQuery(name = "SieniAlumnRDud.findByFResolDuda", query = "SELECT s FROM SieniAlumnRDud s WHERE s.sieniAlumnRDudPK.fResolDuda = :fResolDuda")})
+    @NamedQuery(name = "SieniAlumnRDud.findByIdAlumnRDud", query = "SELECT s FROM SieniAlumnRDud s WHERE s.idAlumnRDud = :idAlumnRDud"),
+    @NamedQuery(name = "SieniAlumnRDud.findByFResolDuda", query = "SELECT s FROM SieniAlumnRDud s WHERE s.fResolDuda = :fResolDuda")})
 public class SieniAlumnRDud implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected SieniAlumnRDudPK sieniAlumnRDudPK;
+    @Id
+    @Basic(optional = false)
+    @Column(name = "id_alumn_r_dud")
+    private Long idAlumnRDud;
+    @Basic(optional = false)
+    @Column(name = "f_resol_duda")
+    private long fResolDuda;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
@@ -37,20 +44,29 @@ public class SieniAlumnRDud implements Serializable {
     public SieniAlumnRDud() {
     }
 
-    public SieniAlumnRDud(SieniAlumnRDudPK sieniAlumnRDudPK) {
-        this.sieniAlumnRDudPK = sieniAlumnRDudPK;
+    public SieniAlumnRDud(Long idAlumnRDud) {
+        this.idAlumnRDud = idAlumnRDud;
     }
 
-    public SieniAlumnRDud(long idAlumnRDud, long fResolDuda) {
-        this.sieniAlumnRDudPK = new SieniAlumnRDudPK(idAlumnRDud, fResolDuda);
+    public SieniAlumnRDud(Long idAlumnRDud, long fResolDuda) {
+        this.idAlumnRDud = idAlumnRDud;
+        this.fResolDuda = fResolDuda;
     }
 
-    public SieniAlumnRDudPK getSieniAlumnRDudPK() {
-        return sieniAlumnRDudPK;
+    public Long getIdAlumnRDud() {
+        return idAlumnRDud;
     }
 
-    public void setSieniAlumnRDudPK(SieniAlumnRDudPK sieniAlumnRDudPK) {
-        this.sieniAlumnRDudPK = sieniAlumnRDudPK;
+    public void setIdAlumnRDud(Long idAlumnRDud) {
+        this.idAlumnRDud = idAlumnRDud;
+    }
+
+    public long getFResolDuda() {
+        return fResolDuda;
+    }
+
+    public void setFResolDuda(long fResolDuda) {
+        this.fResolDuda = fResolDuda;
     }
 
     public SieniAlumno getIdAlumno() {
@@ -64,7 +80,7 @@ public class SieniAlumnRDud implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (sieniAlumnRDudPK != null ? sieniAlumnRDudPK.hashCode() : 0);
+        hash += (idAlumnRDud != null ? idAlumnRDud.hashCode() : 0);
         return hash;
     }
 
@@ -75,7 +91,7 @@ public class SieniAlumnRDud implements Serializable {
             return false;
         }
         SieniAlumnRDud other = (SieniAlumnRDud) object;
-        if ((this.sieniAlumnRDudPK == null && other.sieniAlumnRDudPK != null) || (this.sieniAlumnRDudPK != null && !this.sieniAlumnRDudPK.equals(other.sieniAlumnRDudPK))) {
+        if ((this.idAlumnRDud == null && other.idAlumnRDud != null) || (this.idAlumnRDud != null && !this.idAlumnRDud.equals(other.idAlumnRDud))) {
             return false;
         }
         return true;
@@ -83,7 +99,7 @@ public class SieniAlumnRDud implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.mined.sieni.model.SieniAlumnRDud[ sieniAlumnRDudPK=" + sieniAlumnRDudPK + " ]";
+        return "sv.com.mined.sieni.model.SieniAlumnRDud[ idAlumnRDud=" + idAlumnRDud + " ]";
     }
     
 }

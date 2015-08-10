@@ -29,7 +29,7 @@ public interface SieniAlumnoFacadeRemote {
     List<SieniAlumno> findRange(int[] range);
 
     int count();
-    
-    public void syncronize();
-    
+
+    public List<SieniAlumno> findAlumnoSinUsuario();
+
 }

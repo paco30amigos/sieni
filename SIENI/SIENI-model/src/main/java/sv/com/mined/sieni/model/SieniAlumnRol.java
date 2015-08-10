@@ -6,12 +6,17 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -24,12 +29,19 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAlumnRol.findAll", query = "SELECT s FROM SieniAlumnRol s"),
-    @NamedQuery(name = "SieniAlumnRol.findByIdAlumnRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.sieniAlumnRolPK.idAlumnRol = :idAlumnRol"),
-    @NamedQuery(name = "SieniAlumnRol.findByFRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.sieniAlumnRolPK.fRol = :fRol")})
+    @NamedQuery(name = "SieniAlumnRol.findByIdAlumnRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.idAlumnRol = :idAlumnRol"),
+    @NamedQuery(name = "SieniAlumnRol.findByFRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.fRol = :fRol")})
 public class SieniAlumnRol implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected SieniAlumnRolPK sieniAlumnRolPK;
+    @Id
+    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_alumn_rol")
+    @SequenceGenerator(name = "sec_sieni_alumn_rol", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_alumn_rol")
+    @Column(name = "id_alumn_rol")
+    private Long idAlumnRol;
+    @Basic(optional = false)
+    @Column(name = "f_rol")
+    private long fRol;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
@@ -37,20 +49,29 @@ public class SieniAlumnRol implements Serializable {
     public SieniAlumnRol() {
     }
 
-    public SieniAlumnRol(SieniAlumnRolPK sieniAlumnRolPK) {
-        this.sieniAlumnRolPK = sieniAlumnRolPK;
+    public SieniAlumnRol(Long idAlumnRol) {
+        this.idAlumnRol = idAlumnRol;
     }
 
-    public SieniAlumnRol(long idAlumnRol, long fRol) {
-        this.sieniAlumnRolPK = new SieniAlumnRolPK(idAlumnRol, fRol);
+    public SieniAlumnRol(Long idAlumnRol, long fRol) {
+        this.idAlumnRol = idAlumnRol;
+        this.fRol = fRol;
     }
 
-    public SieniAlumnRolPK getSieniAlumnRolPK() {
-        return sieniAlumnRolPK;
+    public Long getIdAlumnRol() {
+        return idAlumnRol;
     }
 
-    public void setSieniAlumnRolPK(SieniAlumnRolPK sieniAlumnRolPK) {
-        this.sieniAlumnRolPK = sieniAlumnRolPK;
+    public void setIdAlumnRol(Long idAlumnRol) {
+        this.idAlumnRol = idAlumnRol;
+    }
+
+    public long getFRol() {
+        return fRol;
+    }
+
+    public void setFRol(long fRol) {
+        this.fRol = fRol;
     }
 
     public SieniAlumno getIdAlumno() {
@@ -64,7 +85,7 @@ public class SieniAlumnRol implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (sieniAlumnRolPK != null ? sieniAlumnRolPK.hashCode() : 0);
+        hash += (idAlumnRol != null ? idAlumnRol.hashCode() : 0);
         return hash;
     }
 
@@ -75,7 +96,7 @@ public class SieniAlumnRol implements Serializable {
             return false;
         }
         SieniAlumnRol other = (SieniAlumnRol) object;
-        if ((this.sieniAlumnRolPK == null && other.sieniAlumnRolPK != null) || (this.sieniAlumnRolPK != null && !this.sieniAlumnRolPK.equals(other.sieniAlumnRolPK))) {
+        if ((this.idAlumnRol == null && other.idAlumnRol != null) || (this.idAlumnRol != null && !this.idAlumnRol.equals(other.idAlumnRol))) {
             return false;
         }
         return true;
@@ -83,7 +104,7 @@ public class SieniAlumnRol implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.mined.sieni.model.SieniAlumnRol[ sieniAlumnRolPK=" + sieniAlumnRolPK + " ]";
+        return "sv.com.mined.sieni.model.SieniAlumnRol[ idAlumnRol=" + idAlumnRol + " ]";
     }
     
 }

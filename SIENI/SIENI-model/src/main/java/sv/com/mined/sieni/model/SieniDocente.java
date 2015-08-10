@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_docente")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s LEFT JOIN s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NULL"),
     @NamedQuery(name = "SieniDocente.findAll", query = "SELECT s FROM SieniDocente s"),
     @NamedQuery(name = "SieniDocente.findByIdDocente", query = "SELECT s FROM SieniDocente s WHERE s.idDocente = :idDocente"),
     @NamedQuery(name = "SieniDocente.findByDcPrimNombre", query = "SELECT s FROM SieniDocente s WHERE s.dcPrimNombre = :dcPrimNombre"),
@@ -76,6 +77,8 @@ public class SieniDocente implements Serializable {
     private String dcUsuario;
     @Column(name = "dc_contrasenia")
     private String dcContrasenia;
+    @Column(name = "dc_estado")
+    private String dcEstado;
     @Column(name = "dc_correo")
     private String dcCorreo;
     @Column(name = "dc_fecha_nacimiento")
@@ -352,5 +355,13 @@ public class SieniDocente implements Serializable {
 
     public void setDcDireccion(String dcDireccion) {
         this.dcDireccion = dcDireccion;
+    }
+
+    public String getDcEstado() {
+        return dcEstado;
+    }
+
+    public void setDcEstado(String dcEstado) {
+        this.dcEstado = dcEstado;
     }
 }

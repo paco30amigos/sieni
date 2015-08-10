@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniAlumno;
 
 /**
@@ -29,8 +31,10 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         super(SieniAlumno.class);
     }
 
-    public void syncronize() {
-        em.flush();
+    @Override
+    public List<SieniAlumno> findAlumnoSinUsuario() {
+        Query q = em.createNamedQuery("SieniAlumno.findAlumnosSinUsuario");
+        return q.getResultList();
     }
 
 }

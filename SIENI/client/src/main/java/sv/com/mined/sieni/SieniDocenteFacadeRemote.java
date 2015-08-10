@@ -29,5 +29,6 @@ public interface SieniDocenteFacadeRemote {
     List<SieniDocente> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniDocente> findDocentesSinUsuario();
 }

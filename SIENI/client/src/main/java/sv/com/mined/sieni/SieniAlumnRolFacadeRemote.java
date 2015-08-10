@@ -29,5 +29,5 @@ public interface SieniAlumnRolFacadeRemote {
     List<SieniAlumnRol> findRange(int[] range);
 
     int count();
-    
+
 }

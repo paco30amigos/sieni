@@ -63,7 +63,7 @@
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Registrar Alumno"></p:commandButton>
+                    <p:commandButton value="Registrar Alumno" action="#{gestionarAlumnosController.setIndexMenu(1)}" update="tabMenu"></p:commandButton>
                     <p:commandButton value="Refrescar" action="#{gestionarAlumnosController.refresh()}" update="consulta"></p:commandButton>
                 </h:form>
             </p:tab>

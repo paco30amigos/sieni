@@ -5,6 +5,11 @@
  */
 package sv.com.mined.sieni.pojos;
 
+import sv.com.mined.sieni.model.SieniAlumnRol;
+import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniDocentRol;
+import sv.com.mined.sieni.model.SieniDocente;
+
 /**
  *
  * @author Laptop
@@ -21,6 +26,12 @@ public class UsuariosPojo {
     private String codTipoUsuario;
     private long codTipoPermiso;
     private String codNombre;
+    private String estado;
+    private String codEstado;
+    private SieniAlumno alumno;
+    private SieniDocente docente;
+    private SieniAlumnRol alumnoRol;
+    private SieniDocentRol docenteRol;
 
     public Long getIdUsuario() {
         return idUsuario;
@@ -100,6 +111,54 @@ public class UsuariosPojo {
 
     public void setCodNombre(String codNombre) {
         this.codNombre = codNombre;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getCodEstado() {
+        return codEstado;
+    }
+
+    public void setCodEstado(String codEstado) {
+        this.codEstado = codEstado;
+    }
+
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
+    }
+
+    public SieniDocente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(SieniDocente docente) {
+        this.docente = docente;
+    }
+
+    public SieniAlumnRol getAlumnoRol() {
+        return alumnoRol;
+    }
+
+    public void setAlumnoRol(SieniAlumnRol alumnoRol) {
+        this.alumnoRol = alumnoRol;
+    }
+
+    public SieniDocentRol getDocenteRol() {
+        return docenteRol;
+    }
+
+    public void setDocenteRol(SieniDocentRol docenteRol) {
+        this.docenteRol = docenteRol;
     }
 
 }

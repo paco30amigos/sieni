@@ -21,8 +21,10 @@ public class MntoUsuariosForm {
     private List<UsuariosPojo> usuariosList;
     //registro de alumnos
     private UsuariosPojo usuarioNuevo;
+    private List<UsuariosPojo> nombresDisponibles;
     //modificacion de alumnos
     private UsuariosPojo usuarioModifica;
+    private List<UsuariosPojo> nombresDisponiblesModifica;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -62,5 +64,21 @@ public class MntoUsuariosForm {
 
     public void setUsuarioModifica(UsuariosPojo usuarioModifica) {
         this.usuarioModifica = usuarioModifica;
+    }
+
+    public List<UsuariosPojo> getNombresDisponibles() {
+        return nombresDisponibles;
+    }
+
+    public void setNombresDisponibles(List<UsuariosPojo> nombresDisponibles) {
+        this.nombresDisponibles = nombresDisponibles;
+    }
+
+    public List<UsuariosPojo> getNombresDisponiblesModifica() {
+        return nombresDisponiblesModifica;
+    }
+
+    public void setNombresDisponiblesModifica(List<UsuariosPojo> nombresDisponiblesModifica) {
+        this.nombresDisponiblesModifica = nombresDisponiblesModifica;
     }
 }

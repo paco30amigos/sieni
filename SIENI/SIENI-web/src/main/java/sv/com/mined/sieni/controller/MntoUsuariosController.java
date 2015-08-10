@@ -13,12 +13,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import sv.com.mined.sieni.SieniAlumnRolFacadeRemote;
+import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocentRolFacadeRemote;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.MntoUsuariosForm;
 import sv.com.mined.sieni.model.SieniAlumnRol;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocentRol;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.UsuariosPojo;
 
 /**
@@ -29,6 +33,10 @@ import sv.com.mined.sieni.pojos.UsuariosPojo;
 @ManagedBean(name = "mntoUsuariosController")
 public class MntoUsuariosController extends MntoUsuariosForm {
 
+    @EJB
+    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
+    @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
     private SieniDocentRolFacadeRemote sieniDocenteRolFacadeRemote;
     @EJB
@@ -46,29 +54,57 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         this.setUsuariosList(new ArrayList<UsuariosPojo>());
         List<SieniAlumnRol> alumnos = sieniAlumnRolFacadeRemote.findAll();
         List<SieniDocentRol> docentes = sieniDocenteRolFacadeRemote.findAll();
-        UsuariosPojo aux = new UsuariosPojo();
+        this.getUsuariosList().addAll(getAlumnosUsuarioPojo(alumnos));
+        this.getUsuariosList().addAll(getDocenteUsuarioPojo(docentes));
+        this.setNombresDisponibles(getNombreUsuarioPojo(this.getUsuarioNuevo().getTipoUsuario()));
+        this.setNombresDisponiblesModifica(getNombreUsuarioPojo(this.getUsuarioModifica().getTipoUsuario()));
+
+    }
+
+    private List<UsuariosPojo> getDocenteUsuarioPojo(List<SieniDocentRol> docentes) {
+        List<UsuariosPojo> ret = new ArrayList<UsuariosPojo>();
+        Integer tipo;
+        UsuariosPojo aux;
+        for (SieniDocentRol actual : docentes) {
+            tipo = 1;
+            aux = new UsuariosPojo();
+            aux.setTipoUsuario(getTipoUsuario(tipo));
+            aux.setCodTipoUsuario(tipo.toString());
+            aux.setCodTipoPermiso(actual.getFRolDoc());
+            aux.setDocenteRol(actual);
+            aux.setNombre(actual.getIdDocente().getNombreCompleto());
+            aux.setUsuario(actual.getIdDocente().getDcUsuario());
+            aux.setEstado(getEstado(actual.getIdDocente().getDcEstado()));
+            aux.setCodEstado(actual.getIdDocente().getDcEstado());
+            aux.setTipoPermiso(getTipoUsuario(tipo));
+            aux.setIdUsuario(actual.getIdDocente().getIdDocente());
+            aux.setDocente(actual.getIdDocente());
+            ret.add(aux);
+        }
+        return ret;
+    }
+
+    private List<UsuariosPojo> getAlumnosUsuarioPojo(List<SieniAlumnRol> alumnos) {
+        List<UsuariosPojo> ret = new ArrayList<UsuariosPojo>();
+        Integer tipo;
+        UsuariosPojo aux;
         for (SieniAlumnRol actual : alumnos) {
+            tipo = 0;
             aux = new UsuariosPojo();
             aux.setNombre(actual.getIdAlumno().getNombreCompleto());
             aux.setUsuario(actual.getIdAlumno().getAlUsuario());
-            aux.setTipoUsuario(getTipoUsuario(0));
-            aux.setTipoPermiso(getTipoUsuario(0));
-            aux.setCodTipoUsuario("0");
-            aux.setCodTipoPermiso(actual.getSieniAlumnRolPK().getFRol());
+            aux.setTipoUsuario(getTipoUsuario(tipo));
+            aux.setCodTipoUsuario(tipo.toString());
+            aux.setEstado(getEstado(actual.getIdAlumno().getAlEstado()));
+            aux.setCodEstado(actual.getIdAlumno().getAlEstado());
+            aux.setTipoPermiso(getTipoUsuario(tipo));
+            aux.setCodTipoPermiso(actual.getFRol());
             aux.setIdUsuario(actual.getIdAlumno().getIdAlumno());
-            this.getUsuariosList().add(aux);
+            aux.setAlumno(actual.getIdAlumno());
+            aux.setAlumnoRol(actual);
+            ret.add(aux);
         }
-        for (SieniDocentRol actual : docentes) {
-            aux = new UsuariosPojo();
-            aux.setNombre(actual.getIdDocente().getNombreCompleto());
-            aux.setUsuario(actual.getIdDocente().getDcUsuario());
-            aux.setTipoUsuario(getTipoUsuario(1));
-            aux.setCodTipoUsuario("1");
-            aux.setTipoPermiso(getTipoUsuario(1));
-            aux.setCodTipoPermiso(actual.getSieniDocentRolPK().getFRolDoc());
-            aux.setIdUsuario(actual.getIdDocente().getIdDocente());
-            this.getUsuariosList().add(aux);
-        }
+        return ret;
     }
 
     public String getTipoUsuario(int cod) {
@@ -87,10 +123,93 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         return ret;
     }
 
+    public String getEstado(String cod) {
+        String ret = "";
+        switch (cod) {
+            case "A":
+                ret = "Activo";
+                break;
+            case "I":
+                ret = "Inactivo";
+                break;
+        }
+        return ret;
+    }
+
+    public void getNombreUsuarios(ValueChangeEvent a) {
+        String cod = a.getNewValue().toString();
+        this.setNombresDisponibles(getNombreUsuarioPojo(cod));
+    }
+
+    private List<UsuariosPojo> getNombreUsuarioPojo(String cod) {
+        List<UsuariosPojo> ret = new ArrayList<>();
+        UsuariosPojo nuevo;
+        if (cod == null || cod.equals("0")) {
+            List<SieniAlumno> listaAlumnos = sieniAlumnoFacadeRemote.findAlumnoSinUsuario();
+            for (SieniAlumno actual : listaAlumnos) {
+                nuevo = new UsuariosPojo();
+                nuevo.setIdUsuario(actual.getIdAlumno());
+                nuevo.setNombre(actual.getNombreCompleto());
+                nuevo.setAlumno(actual);
+                ret.add(nuevo);
+            }
+        } else {
+            List<SieniDocente> listaDocentes = sieniDocenteFacadeRemote.findDocentesSinUsuario();
+            for (SieniDocente actual : listaDocentes) {
+                nuevo = new UsuariosPojo();
+                nuevo.setIdUsuario(actual.getIdDocente());
+                nuevo.setNombre(actual.getNombreCompleto());
+                nuevo.setDocente(actual);
+                ret.add(nuevo);
+            }
+        }
+        return ret;
+    }
+
     public void guardar() {
         if (validarNuevo(this.getUsuarioNuevo())) {//valida el guardado
-//            sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
-            FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
+
+            if (this.getUsuarioNuevo().getCodTipoUsuario().equals("0")) {
+                for (UsuariosPojo actual : this.getNombresDisponibles()) {
+                    if (actual.getIdUsuario().equals(this.getUsuarioNuevo().getIdUsuario())) {
+                        this.getUsuarioNuevo().setAlumno(actual.getAlumno());
+                        break;
+                    }
+                }
+
+                SieniAlumno alumnoEdit = this.getUsuarioNuevo().getAlumno();
+                SieniAlumnRol alumnoRolNuevo = new SieniAlumnRol();
+                alumnoEdit.setAlContrasenia(this.getUsuarioNuevo().getPass1());
+                alumnoEdit.setAlEstado(this.getUsuarioNuevo().getCodEstado());
+                alumnoEdit.setAlUsuario(this.getUsuarioNuevo().getUsuario());
+
+                alumnoRolNuevo.setIdAlumno(alumnoEdit);
+                alumnoRolNuevo.setFRol(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
+                //actualiza la contraseña y usuario
+                sieniAlumnoFacadeRemote.edit(alumnoEdit);
+                //crea el nuevo usuario
+                sieniAlumnRolFacadeRemote.create(alumnoRolNuevo);
+            } else {
+                for (UsuariosPojo actual : this.getNombresDisponibles()) {
+                    if (actual.getIdUsuario().equals(this.getUsuarioNuevo().getIdUsuario())) {
+                        this.getUsuarioNuevo().setDocente(actual.getDocente());
+                        break;
+                    }
+                }
+                SieniDocente docenteEdit = this.getUsuarioNuevo().getDocente();
+                SieniDocentRol docenteRolNuevo = new SieniDocentRol();
+                docenteEdit.setDcContrasenia(this.getUsuarioNuevo().getPass1());
+                docenteEdit.setDcEstado(this.getUsuarioNuevo().getCodEstado());
+                docenteEdit.setDcUsuario(this.getUsuarioNuevo().getUsuario());
+
+                docenteRolNuevo.setIdDocente(docenteEdit);
+                docenteRolNuevo.setFRolDoc(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
+                //actualiza la contraseña y usuario
+                sieniDocenteFacadeRemote.edit(docenteEdit);
+                //crea el nuevo usuario
+                sieniDocenteRolFacadeRemote.create(docenteRolNuevo);
+            }
+            FacesMessage msg = new FacesMessage("Usuario Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
         }
@@ -129,8 +248,43 @@ public class MntoUsuariosController extends MntoUsuariosForm {
 
     public void guardarModifica() {
         if (validarModifica(this.getUsuarioModifica())) {//valida el guardado
-//            sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
-            FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
+
+            if (this.getUsuarioModifica().getCodTipoUsuario().equals("0")) {
+                //valor anterior
+                SieniAlumno alumnoEdit = this.getUsuarioModifica().getAlumno();
+                //valor anterior
+                SieniAlumnRol alumnoRolNuevo = this.getUsuarioModifica().getAlumnoRol();
+
+                if (this.getUsuarioModifica().getPass1() != null && !this.getUsuarioModifica().getPass1().isEmpty()) {
+                    alumnoEdit.setAlContrasenia(this.getUsuarioModifica().getPass1());
+                }
+                alumnoEdit.setAlEstado(this.getUsuarioModifica().getCodEstado());
+                alumnoEdit.setAlUsuario(this.getUsuarioModifica().getUsuario());
+
+                alumnoRolNuevo.setIdAlumno(alumnoEdit);
+                alumnoRolNuevo.setFRol(Long.parseLong(this.getUsuarioModifica().getCodTipoUsuario()));
+                //actualiza la contraseña y usuario
+                sieniAlumnoFacadeRemote.edit(alumnoEdit);
+                //crea el nuevo usuario 
+                sieniAlumnRolFacadeRemote.edit(alumnoRolNuevo);
+            } else {
+                //valor anterior
+                SieniDocente docenteEdit = this.getUsuarioModifica().getDocente();
+                //valor anterior
+                SieniDocentRol docenteRolNuevo = this.getUsuarioModifica().getDocenteRol();
+                if (this.getUsuarioModifica().getPass1() != null && !this.getUsuarioModifica().getPass1().isEmpty()) {
+                    docenteEdit.setDcContrasenia(this.getUsuarioModifica().getPass1());
+                }
+                docenteEdit.setDcEstado(this.getUsuarioModifica().getCodEstado());
+                docenteEdit.setDcUsuario(this.getUsuarioModifica().getUsuario());
+                docenteRolNuevo.setIdDocente(docenteEdit);
+                docenteRolNuevo.setFRolDoc(Long.parseLong(this.getUsuarioModifica().getCodTipoUsuario()));
+                //actualiza la contraseña y usuario
+                sieniDocenteFacadeRemote.edit(docenteEdit);
+                //crea el nuevo usuario
+                sieniDocenteRolFacadeRemote.edit(docenteRolNuevo);
+            }
+            FacesMessage msg = new FacesMessage("Usuario Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
             this.setIndexMenu(0);
@@ -148,8 +302,10 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         return ban;
     }
 
-    public void eliminarExpediente() {
-//        sieniAlumnoFacadeRemote.remove(this.getEliminar());
+    public void eliminarUsuario() {
+        this.getEliminar().getAlumno().setAlEstado("I");
+        sieniAlumnoFacadeRemote.edit(this.getEliminar().getAlumno());
+        sieniAlumnRolFacadeRemote.remove(this.getEliminar().getAlumnoRol());
         fill();
     }
 }

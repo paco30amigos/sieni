@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -28,8 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniArchivo.findAll", query = "SELECT s FROM SieniArchivo s"),
     @NamedQuery(name = "SieniArchivo.findByIdArchivo", query = "SELECT s FROM SieniArchivo s WHERE s.idArchivo = :idArchivo"),
     @NamedQuery(name = "SieniArchivo.findByArRuta", query = "SELECT s FROM SieniArchivo s WHERE s.arRuta = :arRuta"),
-    @NamedQuery(name = "SieniArchivo.findByArTipo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo"),
-    @NamedQuery(name = "SieniArchivo.findByArArchivo", query = "SELECT s FROM SieniArchivo s WHERE s.arArchivo = :arArchivo")})
+    @NamedQuery(name = "SieniArchivo.findByArTipo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo")})
 public class SieniArchivo implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,8 +40,9 @@ public class SieniArchivo implements Serializable {
     private String arRuta;
     @Column(name = "ar_tipo")
     private Character arTipo;
+    @Lob
     @Column(name = "ar_archivo")
-    private Character arArchivo;
+    private byte[] arArchivo;
     @JoinColumn(name = "id_componente", referencedColumnName = "id_componente")
     @ManyToOne
     private SieniComponente idComponente;
@@ -77,11 +78,11 @@ public class SieniArchivo implements Serializable {
         this.arTipo = arTipo;
     }
 
-    public Character getArArchivo() {
+    public byte[] getArArchivo() {
         return arArchivo;
     }
 
-    public void setArArchivo(Character arArchivo) {
+    public void setArArchivo(byte[] arArchivo) {
         this.arArchivo = arArchivo;
     }
 

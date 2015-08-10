@@ -41,6 +41,7 @@ import org.primefaces.model.StreamedContent;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL  "),
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),
     @NamedQuery(name = "SieniAlumno.findByIdAlumno", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :idAlumno"),
     @NamedQuery(name = "SieniAlumno.findByAlPrimNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alPrimNombre = :alPrimNombre"),
@@ -89,6 +90,8 @@ public class SieniAlumno implements Serializable {
     private String alUsuario;
     @Column(name = "al_contrasenia")
     private String alContrasenia;
+    @Column(name = "al_estado")
+    private String alEstado;
     @Column(name = "al_correo")
     private String alCorreo;
     @Column(name = "al_fecha_nacimiento")
@@ -377,5 +380,13 @@ public class SieniAlumno implements Serializable {
             fotoContenido = new DefaultStreamedContent(input, "image/jpg");
         }
         return fotoContenido;
+    }
+
+    public String getAlEstado() {
+        return alEstado;
+    }
+
+    public void setAlEstado(String alEstado) {
+        this.alEstado = alEstado;
     }
 }

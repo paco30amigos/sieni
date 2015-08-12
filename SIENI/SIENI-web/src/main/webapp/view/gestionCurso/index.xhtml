@@ -13,42 +13,52 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
+        <p:tabView tabindex="#{gestionCursoController.indexMenu}" activeIndex="#{gestionarAnioEscolarController.indexMenu}" id="tabMenu"> 
             <p:tab title="Consulta de cursos">
-                <h:form>
+                <h:form id="consultaForm">
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
+                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                        <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                        <div class="EmptyBox20"></div>
+                        <p:commandButton value="Si" action="#{gestionarAnioEscolarController.eliminaraAnioEscolar()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                        <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                    </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                    <p:dataTable rows="10" var="car" value="#{gestionCursoController.cursoList}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-                        <p:column headerText="Nombre" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
+                        <p:column headerText="Nombre" filterBy="#{car.crNombre}" filterable="true" filterMatchMode="contains">
+                            #{car.crNombre}
                         </p:column>
-                        <p:column headerText="Capacidad" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.numero3}
+                        <p:column headerText="Capacidad" filterBy="#{car.crCapacidad}" filterable="true" filterMatchMode="contains">
+                            #{car.crCapacidad}
                         </p:column>
-                        <p:column headerText="Docente" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo300}
+                        <p:column headerText="Docente" filterBy="#{car.idDocente.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                            #{car.idDocente.nombreCompleto}
                         </p:column>
-                        <p:column headerText="Seccion" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="Seccion" filterBy="#{car.idSeccion.scDescripcion}" filterable="true" filterMatchMode="contains">
+                            #{car.idSeccion.scDescripcion}
                         </p:column>
-                        <p:column headerText="Materia" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo50}
+                        <p:column headerText="Materia" filterBy="#{car.idMateria.maNombre}" filterable="true" filterMatchMode="contains">
+                            #{car.idMateria.maNombre}
                         </p:column>
                         <p:column headerText="Acciones">
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Curso"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Curso"></i>
+                            <p:commandLink action="#{gestionCursoController.modificar(car)}" update="tabMenu" >
+                                <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Curso"></i>
+                            </p:commandLink>
+                            <p:commandLink action="#{gestionCursoController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                                <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Curso"></i>
+                            </p:commandLink>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Registrar Curso"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
+                    <p:commandButton value="Registrar Curso" action="#{gestionCursoController.setIndexMenu(1)}" update="tabMenu"></p:commandButton>
+                    <p:commandButton value="Refrescar" action="#{gestionCursoController.refresh()}" update="consulta"></p:commandButton>
                 </h:form>
             </p:tab>
             <p:tab title="Registro de Curso">
@@ -60,11 +70,11 @@
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive">
                         <p:outputLabel  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
-                        <p:inputText  class=" Responsive" value="#{formatoPantallas.campo100}"/>
+                        <p:inputText  class=" Responsive" value="#{gestionCursoController.cursoNuevo.crNombre}"/>
                         <p:outputLabel  value="Capacidad: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask  mask="999" class=" Responsive" value="#{formatoPantallas.numero3}" />
+                        <p:inputMask  mask="999" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crCapacidad}" />
                         <p:outputLabel  value="Docente: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="docente" class=" Responsive">
+                        <p:selectOneMenu id="docente" class=" Responsive" value="#{gestionCursoController.docentesList}">
                             <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
                             <f:selectItem itemValue ="1" itemLabel="Juan Pérez"/>
                             <f:selectItem itemValue="0" itemLabel="Canario Martinez"/>
@@ -73,13 +83,13 @@
                     <p:panelGrid columns="2" class="Container50 Responsive">
                         <p:outputLabel  value="Seccion: " class="  Responsive"></p:outputLabel>
                         <p:selectOneMenu  class=" Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                            <f:selectItem itemValue ="1" itemLabel="#{gestionCursoController.seccionList}"/>
                             <f:selectItem itemValue ="1" itemLabel="1° Grado"/>
                             <f:selectItem itemValue="0" itemLabel="2° Grado"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="Materia: " class="  Responsive"></p:outputLabel>
                         <p:selectOneMenu  class=" Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo50}"/>
+                            <f:selectItem itemValue ="1" itemLabel="#{gestionCursoController.materiaList}"/>
                             <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
                             <f:selectItem itemValue="0" itemLabel="Ciencias Naturales"/>
                         </p:selectOneMenu>

@@ -13,40 +13,47 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
+        <p:tabView tabindex="#{gestionarAnioEscolarController.indexMenu}" activeIndex="#{gestionarAnioEscolarController.indexMenu}" id="tabMenu">
             <p:tab title="Consulta año escolar">
-                <h:form>
+                <h:form id="consultaForm">
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
+                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                        <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                        <div class="EmptyBox20"></div>
+                        <p:commandButton value="Si" action="#{gestionarAnioEscolarController.eliminaraAnioEscolar()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                        <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                    </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                    <p:dataTable rows="10" var="car" value="#{gestionarAnioEscolarController.anioEscolarList}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-                        <p:column headerText="Año" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+                        <p:column headerText="Año" filterBy="#{car.aeAnio}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.anio}
                         </p:column>
-                        <p:column headerText="Fecha Inicio" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.fecha}
+                        <p:column headerText="Fecha Inicio" filterBy="#{dateUtils.getFormatDate(car.aeInicio)}" filterMatchMode="contains" filterable="true">
+                            #{dateUtils.getFormatDate(car.aeInicio)}                 </p:column>
+                        <p:column headerText="Fecha Fin" filterBy="#{dateUtils.getFormatDate(car.aeFin)}" filterMatchMode="contains" filterable="true">
+                            #{dateUtils.getFormatDate(car.aeFin)}
                         </p:column>
-                        <p:column headerText="Fecha Fin" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.fecha}
-                        </p:column>
-                        <p:column headerText="Estado" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="Estado" filterBy="#{car.aeEstado}" filterMatchMode="contains" filterable="true">
+                            #{car.aeEstado}
                         </p:column>
                         <p:column headerText="Acciones">
-                            <!--                            <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
-                                                        <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>-->
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Año escolar"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Año escolar"></i>
+                            <p:commandLink action="#{gestionarAnioEscolarController.modificar(car)}" update="tabMenu" >
+                                <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Año escolar"></i>
+                            </p:commandLink>
+                            <p:commandLink action="#{gestionarAnioEscolarController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                                <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Año escolar"></i>
+                            </p:commandLink>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Crear año escolar"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
+                    <p:commandButton value="Crear año escolar" action="#{gestionarAnioEscolarController.setIndexMenu(1)}" update="tabMenu"></p:commandButton>
+                    <p:commandButton value="Refrescar" action="#{gestionarAnioEscolarController.refresh()}" update="consulta"></p:commandButton>
                 </h:form>
             </p:tab>
             <p:tab title="Apertura de año escolar">
@@ -56,26 +63,31 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Año: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.anio}"></p:inputText>
-                        <p:outputLabel  value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
+                        <p:outputLabel for="anio" value="Año: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="anio" value="#{gestionarAnioEscolarController.anioEscolarNuevo.aeAnio}" converter=""></p:inputText>
+                        <p:outputLabel  for="fInicio" value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
+                        <p:calendar id="fInicio" value="#{gestionarAnioEscolarController.anioEscolarNuevo.aeInicio}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel  value="Estado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado" class=" Responsive" >
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
+                        <p:outputLabel for="fFin" value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
+                        <p:calendar id="fFin" value="#{gestionarAnioEscolarController.anioEscolarNuevo.aeFin}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:outputLabel for="estado" value="Estado: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado" class=" Responsive"  value="#{gestionarAnioEscolarController.anioEscolarNuevo.aeEstado}" >
+                            <f:selectItem itemValue ="1" itemLabel="Activo"/>
                             <f:selectItem itemValue="0" itemLabel="Inactivo"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
+                        <p:commandButton value="Guardar" action="#{gestionarAnioEscolarController.guardar()}" update="p1,p2,tabMenu" />
+                        <p:commandButton value="Limpiar" immediate="true">
+                            <p:ajax update="p1,p2" resetValues="true" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true">
+                            <p:ajax update="p1,p2,tabMenu" resetValues="true" oncomplete="#{gestionarAnioEscolarController.setIndexMenu(0)}"/>
+                        </p:commandButton>
+                        <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
@@ -94,26 +106,31 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Año: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.anio}"></p:inputText>
-                        <p:outputLabel  value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
+                        <p:outputLabel for="mod_anio" value="Año: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_anio" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeAnio}" converter=""></p:inputText>
+                        <p:outputLabel  for="mod_fInicio" value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
+                        <p:calendar id="mod_fInicio" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeInicio}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel  value="Estado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado" class=" Responsive" >
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">
+                        <p:outputLabel for="mod_fFin" value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
+                        <p:calendar id="mod_fFin" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeFin}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:outputLabel for="mod_estado" value="Estado: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="mod_estado" class=" Responsive"  value="#{gestionarAnioEscolarController.anioEscolarModifica.aeEstado}" >
+                            <f:selectItem itemValue ="1" itemLabel="Activo"/>
                             <f:selectItem itemValue="0" itemLabel="Inactivo"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
+                        <p:commandButton value="Guardar" action="#{gestionarAnioEscolarController.guardar()}" update="mod_p1,mod_p2,tabMenu" />
+                        <p:commandButton value="Limpiar" immediate="true">
+                            <p:ajax update="mod_p1,mod_p2" resetValues="true" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true">
+                            <p:ajax update="mod_p1,mod_p2,tabMenu" resetValues="true" oncomplete="#{gestionarAnioEscolarController.setIndexMenu(0)}"/>
+                        </p:commandButton>
+                        <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>

@@ -13,42 +13,46 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
+        <p:tabView tabindex="#{gestionNotaController.indexMenu}" activeIndex="#{gestionarAnioEscolarController.indexMenu}" id="tabMenu">
             <p:tab title="Consulta de Notas">
-                <h:form>
+                <h:form id="consultaForm">
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                    <p:dataTable rows="10" var="car" value="#{gestionNotaController.notaList}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-                        <p:column headerText="Alumno" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo300}
+                        <p:column headerText="Alumno" filterBy="#{car.idAlumno.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                            #{car.idAlumno.nombreCompleto}
                         </p:column>
-                        <p:column headerText="Materia" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
+                        <p:column headerText="Materia" filterBy="#{car.idEvaluacion.evMateria}" filterable="true" filterMatchMode="contains">
+                            #{car.idEvaluacion.evMateria}
                         </p:column>
-                        <p:column headerText="Tipo de Evaluación" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
+                        <p:column headerText="Tipo de Evaluación" filterBy="#{car.idEvaluacion.evTipo}" filterable="true" filterMatchMode="contains">
+                            #{car.idEvaluacion.evTipo}
                         </p:column>
-                        <p:column headerText="Nota" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.numeroDecimal}
+                        <p:column headerText="Nota" filterBy="#{car.idNota}" filterable="true" filterMatchMode="contains">
+                            #{car.ntCalificacion}
                         </p:column>
-                        <p:column headerText="Tipo de ingreso" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="Tipo de ingreso" filterBy="#{car.tipoIngreso}" filterable="true" filterMatchMode="contains">
+                            #{car.ntTipoIngreso}
                         </p:column>
                         <p:column headerText="Acciones">
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Nota"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Nota"></i>
+                            <p:commandLink action="#{gestionNotaController.modificar(car)}" update="tabMenu" >
+                                <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Nota"></i>
+                            </p:commandLink>
+                            <p:commandLink action="#{gestionNotaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                                <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Nota"></i>
+                            </p:commandLink>
                         </p:column>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Registrar Nota"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
+                    <p:commandButton value="Registrar Nota" action="#{gestionNotaController.setIndexMenu(1)}" update="tabMenu"></p:commandButton>
+                    <p:commandButton value="Refrescar" action="#{gestionNotaController.refresh()}" update="consulta"></p:commandButton>
                 </h:form>
             </p:tab>
             <p:tab title="Registrar Nota">
@@ -58,44 +62,45 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Alumno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
-                            <f:selectItem itemValue ="0" itemLabel="Pedro Vazques"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
+                        <p:outputLabel for="alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="alumno"  class=" Responsive" value="#{gestionNotaController.notaNuevo.idAlumno}">
+                            <f:selectItems itemValue ="#{al}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo100}"/>
-                            <f:selectItem itemValue="0" itemLabel="Ciencias"/>
+                        <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionNotaController.notaNuevo.idMateria}">
+                            <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Evaluación: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo100}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Examen Corto Matemáticas"/>
+                        <p:outputLabel for="evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.notaNuevo.idEvaluacion}">
+                            <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Nota: " class=" Responsive"></p:outputLabel>
-                        <p:spinner min="0.0" value="#{formatoPantallas.numeroDecimal}"></p:spinner>
-                        <p:outputLabel  value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Automático"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
+                        <p:outputLabel for="nota" value="Nota: " class=" Responsive"></p:outputLabel>
+                        <p:spinner id="nota" min="0.0" value="#{gestionNotaController.notaNuevo.ntCalificacion}"></p:spinner>
+                        <p:outputLabel for="tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="tipoIngreso"  class=" Responsive" value="#{gestionNotaController.notaNuevo.ntTipoIngreso}">
+                            <f:selectItem itemValue ="M" itemLabel="Manual"/>
+                            <f:selectItem itemValue ="A" itemLabel="Automático"/>
                         </p:selectOneMenu>  
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
+                        <p:commandButton value="Guardar" action="#{gestionNotaController.guardar()}" update="p1,p2,tabMenu" />
+                        <p:commandButton value="Limpiar" immediate="true">
+                            <p:ajax update="p1,p2" resetValues="true" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true">
+                            <p:ajax update="p1,p2,tabMenu" resetValues="true" oncomplete="#{gestionNotaController.setIndexMenu(0)}"/>
+                        </p:commandButton>
                         <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Secciones">    
+                            <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
-                            <p:menuitem value="Programación de clases">    
+                            <p:menuitem value="Gestionar Alumnos">    
                             </p:menuitem>
-                            <p:menuitem value="Gestionar Clases">
+                            <p:menuitem value="Gestionar Cursos">    
                             </p:menuitem>
                         </p:splitButton>
                     </div>
@@ -108,44 +113,45 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Alumno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
-                            <f:selectItem itemValue ="0" itemLabel="Pedro Vazques"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
+                        <p:outputLabel for="mod_alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="mod_alumno"  class=" Responsive" value="#{gestionNotaController.notaNuevo.idAlumno}">
+                            <f:selectItems itemValue ="#{al}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo100}"/>
-                            <f:selectItem itemValue="0" itemLabel="Ciencias"/>
+                        <p:outputLabel for="mod_materia" value="Materia: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionNotaController.notaNuevo.idMateria}">
+                            <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Evaluación: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo100}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Examen Corto Matemáticas"/>
+                        <p:outputLabel for="mod_evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu  id="mod_evaluacion" class=" Responsive" value="#{gestionNotaController.notaNuevo.idEvaluacion}">
+                            <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Nota: " class=" Responsive"></p:outputLabel>
-                        <p:spinner min="0.0" value="#{formatoPantallas.numeroDecimal}"></p:spinner>
-                        <p:outputLabel  value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Automático"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">
+                        <p:outputLabel for="mod_nota" value="Nota: " class=" Responsive"></p:outputLabel>
+                        <p:spinner id="mod_nota" min="0.0" value="#{gestionNotaController.notaNuevo.ntCalificacion}"></p:spinner>
+                        <p:outputLabel for="mod_tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="mod_tipoIngreso"  class=" Responsive" value="#{gestionNotaController.notaNuevo.ntTipoIngreso}">
+                            <f:selectItem itemValue ="M" itemLabel="Manual"/>
+                            <f:selectItem itemValue ="A" itemLabel="Automático"/>
                         </p:selectOneMenu>  
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
+                        <p:commandButton value="Guardar" action="#{gestionNotaController.guardar()}" update="mod_p1,mod_p2,tabMenu" />
+                        <p:commandButton value="Limpiar" immediate="true">
+                            <p:ajax update="mod_p1,mod_p2" resetValues="true" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true">
+                            <p:ajax update="mod_p1,mod_p2,tabMenu" resetValues="true" oncomplete="#{gestionNotaController.setIndexMenu(0)}"/>
+                        </p:commandButton>
                         <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Secciones">    
+                            <p:menuitem value="Gestionar Docentes">    
                             </p:menuitem>
-                            <p:menuitem value="Programación de clases">    
+                            <p:menuitem value="Gestionar Alumnos">    
                             </p:menuitem>
-                            <p:menuitem value="Gestionar Clases">
+                            <p:menuitem value="Gestionar Cursos">    
                             </p:menuitem>
                         </p:splitButton>
                     </div>

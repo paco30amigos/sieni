@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniArchivo.findByArRuta", query = "SELECT s FROM SieniArchivo s WHERE s.arRuta = :arRuta"),
     @NamedQuery(name = "SieniArchivo.findByArTipo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo")})
 public class SieniArchivo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -38,6 +39,10 @@ public class SieniArchivo implements Serializable {
     private Long idArchivo;
     @Column(name = "ar_ruta")
     private String arRuta;
+    @Column(name = "ar_nombre")
+    private String arNombre;
+    @Column(name = "ar_estado")
+    private String arEstado;
     @Column(name = "ar_tipo")
     private Character arTipo;
     @Lob
@@ -118,5 +123,21 @@ public class SieniArchivo implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniArchivo[ idArchivo=" + idArchivo + " ]";
     }
-    
+
+    public String getArNombre() {
+        return arNombre;
+    }
+
+    public void setArNombre(String arNombre) {
+        this.arNombre = arNombre;
+    }
+
+    public String getArEstado() {
+        return arEstado;
+    }
+
+    public void setArEstado(String arEstado) {
+        this.arEstado = arEstado;
+    }
+
 }

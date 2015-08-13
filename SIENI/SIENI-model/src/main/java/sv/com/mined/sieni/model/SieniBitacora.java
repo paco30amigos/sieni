@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -30,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_bitacora")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniBitacora.getBitacorasRangoFecha", query = "SELECT s FROM SieniBitacora s  WHERE s.bitFechaHoraIngreso>=:desde and s.bitFechaHoraIngreso<=:hasta"),
     @NamedQuery(name = "SieniBitacora.findAll", query = "SELECT s FROM SieniBitacora s"),
     @NamedQuery(name = "SieniBitacora.findByIdBitacora", query = "SELECT s FROM SieniBitacora s WHERE s.idBitacora = :idBitacora"),
     @NamedQuery(name = "SieniBitacora.findByBitFechaHoraIngreso", query = "SELECT s FROM SieniBitacora s WHERE s.bitFechaHoraIngreso = :bitFechaHoraIngreso"),
@@ -38,11 +38,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniBitacora.findByBitIdUsuario", query = "SELECT s FROM SieniBitacora s WHERE s.bitIdUsuario = :bitIdUsuario"),
     @NamedQuery(name = "SieniBitacora.findByBitTipoUsuario", query = "SELECT s FROM SieniBitacora s WHERE s.bitTipoUsuario = :bitTipoUsuario")})
 public class SieniBitacora implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
-    @Basic(optional = false)
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_bitacora")
     @SequenceGenerator(name = "sec_sieni_bitacora", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_bitacora")
+    @Basic(optional = false)
     @Column(name = "id_bitacora")
     private Long idBitacora;
     @Column(name = "bit_fecha_hora_ingreso")
@@ -53,7 +54,7 @@ public class SieniBitacora implements Serializable {
     @Column(name = "bit_tabla")
     private String bitTabla;
     @Column(name = "bit_id_usuario")
-    private BigInteger bitIdUsuario;
+    private Long bitIdUsuario;
     @Column(name = "bit_tipo_usuario")
     private Character bitTipoUsuario;
 
@@ -96,16 +97,25 @@ public class SieniBitacora implements Serializable {
         this.bitTabla = bitTabla;
     }
 
-    public BigInteger getBitIdUsuario() {
+    public Long getBitIdUsuario() {
         return bitIdUsuario;
     }
 
-    public void setBitIdUsuario(BigInteger bitIdUsuario) {
+    public void setBitIdUsuario(Long bitIdUsuario) {
         this.bitIdUsuario = bitIdUsuario;
     }
 
     public Character getBitTipoUsuario() {
         return bitTipoUsuario;
+    }
+
+    public SieniBitacora(Long idBitacora, Date bitFechaHoraIngreso, String bitAccion, String bitTabla, Long bitIdUsuario, Character bitTipoUsuario) {
+        this.idBitacora = idBitacora;
+        this.bitFechaHoraIngreso = bitFechaHoraIngreso;
+        this.bitAccion = bitAccion;
+        this.bitTabla = bitTabla;
+        this.bitIdUsuario = bitIdUsuario;
+        this.bitTipoUsuario = bitTipoUsuario;
     }
 
     public void setBitTipoUsuario(Character bitTipoUsuario) {
@@ -136,5 +146,13 @@ public class SieniBitacora implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniBitacora[ idBitacora=" + idBitacora + " ]";
     }
-    
+
+    public SieniBitacora(Date bitFechaHoraIngreso, String bitAccion, String bitTabla, Long bitIdUsuario, Character bitTipoUsuario) {
+        this.bitFechaHoraIngreso = bitFechaHoraIngreso;
+        this.bitAccion = bitAccion;
+        this.bitTabla = bitTabla;
+        this.bitIdUsuario = bitIdUsuario;
+        this.bitTipoUsuario = bitTipoUsuario;
+    }
+
 }

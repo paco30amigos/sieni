@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniMateria.findByMaCodigo", query = "SELECT s FROM SieniMateria s WHERE s.maCodigo = :maCodigo"),
     @NamedQuery(name = "SieniMateria.findByMaFechaIngreso", query = "SELECT s FROM SieniMateria s WHERE s.maFechaIngreso = :maFechaIngreso")})
 public class SieniMateria implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -50,12 +51,16 @@ public class SieniMateria implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date maFechaIngreso;
     @OneToMany(mappedBy = "idMateria")
+    private List<SieniNota> sieniNotaList;
+    @OneToMany(mappedBy = "idMateria")
     private List<SieniPlantilla> sieniPlantillaList;
     @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
     @ManyToOne
     private SieniGrado idGrado;
     @OneToMany(mappedBy = "idMateria")
     private List<SieniCurso> sieniCursoList;
+    @OneToMany(mappedBy = "idMateria")
+    private List<SieniEvaluacion> sieniEvaluacionList;
 
     public SieniMateria() {
     }
@@ -146,5 +151,21 @@ public class SieniMateria implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniMateria[ idMateria=" + idMateria + " ]";
     }
-    
+
+    public List<SieniNota> getSieniNotaList() {
+        return sieniNotaList;
+    }
+
+    public void setSieniNotaList(List<SieniNota> sieniNotaList) {
+        this.sieniNotaList = sieniNotaList;
+    }
+
+    public List<SieniEvaluacion> getSieniEvaluacionList() {
+        return sieniEvaluacionList;
+    }
+
+    public void setSieniEvaluacionList(List<SieniEvaluacion> sieniEvaluacionList) {
+        this.sieniEvaluacionList = sieniEvaluacionList;
+    }
+
 }

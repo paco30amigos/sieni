@@ -37,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniCurso.findByCrCapacidad", query = "SELECT s FROM SieniCurso s WHERE s.crCapacidad = :crCapacidad"),
     @NamedQuery(name = "SieniCurso.findByCrFechaIngreso", query = "SELECT s FROM SieniCurso s WHERE s.crFechaIngreso = :crFechaIngreso")})
 public class SieniCurso implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -56,6 +57,12 @@ public class SieniCurso implements Serializable {
     @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
     @ManyToOne
     private SieniDocente idDocente;
+    @JoinColumn(name = "id_seccion", referencedColumnName = "id_seccion")
+    @ManyToOne
+    private SieniSeccion idSeccion;
+    @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
+    @ManyToOne
+    private SieniGrado idGrado;
     @JoinColumn(name = "id_materia", referencedColumnName = "id_materia")
     @ManyToOne
     private SieniMateria idMateria;
@@ -168,5 +175,21 @@ public class SieniCurso implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniCurso[ idCurso=" + idCurso + " ]";
     }
-    
+
+    public SieniSeccion getIdSeccion() {
+        return idSeccion;
+    }
+
+    public void setIdSeccion(SieniSeccion idSeccion) {
+        this.idSeccion = idSeccion;
+    }
+
+    public SieniGrado getIdGrado() {
+        return idGrado;
+    }
+
+    public void setIdGrado(SieniGrado idGrado) {
+        this.idGrado = idGrado;
+    }
+
 }

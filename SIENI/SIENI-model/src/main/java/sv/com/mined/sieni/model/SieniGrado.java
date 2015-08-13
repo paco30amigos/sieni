@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -31,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniGrado.findByGrNombre", query = "SELECT s FROM SieniGrado s WHERE s.grNombre = :grNombre"),
     @NamedQuery(name = "SieniGrado.findByGrNumero", query = "SELECT s FROM SieniGrado s WHERE s.grNumero = :grNumero")})
 public class SieniGrado implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -44,6 +47,8 @@ public class SieniGrado implements Serializable {
     private List<SieniSeccion> sieniSeccionList;
     @OneToMany(mappedBy = "idGrado")
     private List<SieniMateria> sieniMateriaList;
+    @OneToMany(mappedBy = "idGrado")
+    private List<SieniCurso> sieniCursoList;
 
     public SieniGrado() {
     }
@@ -118,5 +123,13 @@ public class SieniGrado implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniGrado[ idGrado=" + idGrado + " ]";
     }
-    
+
+    public List<SieniCurso> getSieniCursoList() {
+        return sieniCursoList;
+    }
+
+    public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
+        this.sieniCursoList = sieniCursoList;
+    }
+
 }

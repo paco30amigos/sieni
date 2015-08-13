@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniEvaluacion.findByEvVersion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evVersion = :evVersion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvEstado", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado = :evEstado")})
 public class SieniEvaluacion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -45,10 +48,18 @@ public class SieniEvaluacion implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ev_ponderacion")
     private Double evPonderacion;
+    @Column(name = "ev_fecha_inicio")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date evFechaInicio;
+    @Column(name = "ev_fecha_cierre")
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date evFechaCierre;
     @Column(name = "ev_version")
     private String evVersion;
     @Column(name = "ev_estado")
     private Character evEstado;
+    @Column(name = "ev_tipo")
+    private String evTipo;
     @OneToMany(mappedBy = "idEvaluacion")
     private List<SieniEvalSupComp> sieniEvalSupCompList;
     @OneToMany(mappedBy = "idEvaluacion")
@@ -58,6 +69,9 @@ public class SieniEvaluacion implements Serializable {
     private SieniCurso idCurso;
     @OneToMany(mappedBy = "idEvaluacion")
     private List<SieniEvalSoluc> sieniEvalSolucList;
+    @JoinColumn(name = "id_materia", referencedColumnName = "id_materia")
+    @ManyToOne
+    private SieniMateria idMateria;
 
     public SieniEvaluacion() {
     }
@@ -165,5 +179,37 @@ public class SieniEvaluacion implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniEvaluacion[ idEvaluacion=" + idEvaluacion + " ]";
     }
-    
+
+    public SieniMateria getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(SieniMateria idMateria) {
+        this.idMateria = idMateria;
+    }
+
+    public String getEvTipo() {
+        return evTipo;
+    }
+
+    public void setEvTipo(String evTipo) {
+        this.evTipo = evTipo;
+    }
+
+    public Date getEvFechaInicio() {
+        return evFechaInicio;
+    }
+
+    public void setEvFechaInicio(Date evFechaInicio) {
+        this.evFechaInicio = evFechaInicio;
+    }
+
+    public Date getEvFechaCierre() {
+        return evFechaCierre;
+    }
+
+    public void setEvFechaCierre(Date evFechaCierre) {
+        this.evFechaCierre = evFechaCierre;
+    }
+
 }

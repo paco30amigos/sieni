@@ -41,6 +41,9 @@
                         <p:column headerText="Docente" filterBy="#{car.idDocente.nombreCompleto}" filterable="true" filterMatchMode="contains">
                             #{car.idDocente.nombreCompleto}
                         </p:column>
+                        <p:column headerText="Grado" filterBy="#{car.idSeccion.idGrado.grNombre}" filterable="true" filterMatchMode="contains">
+                            #{car.idSeccion.idGrado.grNombre}
+                        </p:column>
                         <p:column headerText="Seccion" filterBy="#{car.idSeccion.scDescripcion}" filterable="true" filterMatchMode="contains">
                             #{car.idSeccion.scDescripcion}
                         </p:column>
@@ -68,37 +71,41 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
-                        <p:inputText  class=" Responsive" value="#{gestionCursoController.cursoNuevo.crNombre}"/>
-                        <p:outputLabel  value="Capacidad: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask  mask="999" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crCapacidad}" />
-                        <p:outputLabel  value="Docente: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="docente" class=" Responsive" value="#{gestionCursoController.docentesList}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Juan Pérez"/>
-                            <f:selectItem itemValue="0" itemLabel="Canario Martinez"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
+                        <p:outputLabel for="nombre"  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="nombre" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crNombre}"/>
+                        <p:outputLabel for="capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="capacidad" mask="999" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crCapacidad}" />
+                        <p:outputLabel for="docente" value="Docente: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="docente" class=" Responsive" value="#{gestionCursoController.cursoNuevo.idDocente}">
+                            <f:selectItems itemValue ="#{docente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesList}" var="docente" />
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Seccion: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{gestionCursoController.seccionList}"/>
-                            <f:selectItem itemValue ="1" itemLabel="1° Grado"/>
-                            <f:selectItem itemValue="0" itemLabel="2° Grado"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
+                        <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
+                        <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{gestionCursoController.cursoNuevo.idGrado}" valueChangeListener="#{gestionCursoController.getSeccionesGrado}">
+                            <f:selectItems itemValue="#{grado}" itemLabel="#{grado.grNombre}" value="#{gestionCursoController.gradoList}" var="grado"></f:selectItems>
+                            <p:ajax event="valueChange" update="seccion"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="Materia: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{gestionCursoController.materiaList}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
-                            <f:selectItem itemValue="0" itemLabel="Ciencias Naturales"/>
+                        <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="seccion" value="#{gestionCursoController.cursoNuevo.idSeccion}">
+                            <f:selectItems itemValue="#{seccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionCursoController.seccionList}" var="seccion"></f:selectItems>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="materia" value="Materia: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionCursoController.cursoNuevo.idMateria}">
+                            <f:selectItems itemValue ="#{materia}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaList}" var="materia" />
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
+                        <p:commandButton value="Guardar" action="#{gestionCursoController.guardar()}" update="p1,p2,tabMenu" />
+                        <p:commandButton value="Limpiar" immediate="true">
+                            <p:ajax update="p1,p2" resetValues="true" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true">
+                            <p:ajax update="p1,p2,tabMenu" resetValues="true" oncomplete="#{gestionCursoController.setIndexMenu(0)}"/>
+                        </p:commandButton>
+                        <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Secciones">    
                             </p:menuitem>
@@ -117,37 +124,36 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
-                        <p:inputText  class=" Responsive" value="#{formatoPantallas.campo300}"/>
-                        <p:outputLabel  value="Capacidad: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask  mask="999" class=" Responsive" value="#{formatoPantallas.numero3}" />
-                        <p:outputLabel  value="Docente: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo300}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Juan Pérez"/>
-                            <f:selectItem itemValue="0" itemLabel="Canario Martinez"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
+                        <p:outputLabel for="nombre"  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="nombre" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crNombre}"/>
+                        <p:outputLabel for="capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="capacidad" mask="999" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crCapacidad}" />
+                        <p:outputLabel for="docente" value="Docente: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="docente" class=" Responsive" value="#{gestionCursoController.cursoNuevo.idDocente}">
+                            <f:selectItems itemValue ="#{docente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesList}" var="docente" />
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel value="Seccion: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu class=" Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
-                            <f:selectItem itemValue ="1" itemLabel="1° Grado"/>
-                            <f:selectItem itemValue="0" itemLabel="2° Grado"/>
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
+                        <p:outputLabel for="seccion" value="Seccion: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="seccion" class=" Responsive" value="#{gestionCursoController.cursoNuevo.idSeccion}">
+                            <f:selectItems itemValue ="#{seccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionCursoController.seccionList}" var="seccion" />
                         </p:selectOneMenu>
-                        <p:outputLabel  value="Materia: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo50}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Matemáticas"/>
-                            <f:selectItem itemValue="0" itemLabel="Ciencias Naturales"/>
+                        <p:outputLabel for="materia" value="Materia: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionCursoController.cursoNuevo.idMateria}">
+                            <f:selectItems itemValue ="#{materia}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaList}" var="materia" />
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
+                        <p:commandButton value="Guardar" action="#{gestionCursoController.guardar()}" update="p1,p2,tabMenu" />
+                        <p:commandButton value="Limpiar" immediate="true">
+                            <p:ajax update="p1,p2" resetValues="true" />
+                        </p:commandButton>
+                        <p:commandButton value="Cancelar" immediate="true">
+                            <p:ajax update="p1,p2,tabMenu" resetValues="true" oncomplete="#{gestionCursoController.setIndexMenu(0)}"/>
+                        </p:commandButton>
+                        <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">
                             <p:menuitem value="Gestionar Secciones">    
                             </p:menuitem>

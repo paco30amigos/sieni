@@ -5,7 +5,9 @@
  */
 package sv.com.mined.sieni.controller;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -16,8 +18,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
+import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.form.GestionarAlumnosForm;
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniBitacora;
 
 /**
  *
@@ -29,7 +33,9 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
 
     @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
-    
+    @EJB
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+
     @PostConstruct
     public void init() {
         this.setAlumnoNuevo(new SieniAlumno());
@@ -43,10 +49,12 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     public void guardar() {
+//        Character tipoUsuario = ;//hay que extraer el del usuario logueado
         this.getAlumnoNuevo().setAlFoto(this.getFotoArchivo());
         quitarFormato(this.getAlumnoNuevo());//quita el formato de los campos
         if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
             sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Alumno", this.getAlumnoNuevo().getIdAlumno(), 'D'));
             FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -100,7 +108,8 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.getAlumnoModifica().setAlFoto(this.getFotoArchivoModifica());
         quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
         if (validarModifica(this.getAlumnoModifica())) {//valida el guardado
-            sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
+            sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica()); 
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Alumno", this.getAlumnoModifica().getIdAlumno(), new Character('D')));
             FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -122,7 +131,8 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     public void eliminarExpediente() {
-        sieniAlumnoFacadeRemote.remove(this.getEliminar());
-        fill(); 
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Alumno", this.getEliminar().getIdAlumno(), 'D'));
+        sieniAlumnoFacadeRemote.remove(this.getEliminar());        
+        fill();
     }
 }

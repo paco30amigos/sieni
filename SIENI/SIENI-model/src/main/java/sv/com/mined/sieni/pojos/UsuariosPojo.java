@@ -27,7 +27,7 @@ public class UsuariosPojo {
     private long codTipoPermiso;
     private String codNombre;
     private String estado;
-    private String codEstado;
+    private Character codEstado;
     private SieniAlumno alumno;
     private SieniDocente docente;
     private SieniAlumnRol alumnoRol;
@@ -121,11 +121,11 @@ public class UsuariosPojo {
         this.estado = estado;
     }
 
-    public String getCodEstado() {
+    public Character getCodEstado() {
         return codEstado;
     }
 
-    public void setCodEstado(String codEstado) {
+    public void setCodEstado(Character codEstado) {
         this.codEstado = codEstado;
     }
 

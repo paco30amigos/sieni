@@ -5,9 +5,12 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniBitacora;
 
 /**
@@ -16,6 +19,7 @@ import sv.com.mined.sieni.model.SieniBitacora;
  */
 @Stateless
 public class SieniBitacoraFacade extends AbstractFacade<SieniBitacora> implements sv.com.mined.sieni.SieniBitacoraFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +31,12 @@ public class SieniBitacoraFacade extends AbstractFacade<SieniBitacora> implement
     public SieniBitacoraFacade() {
         super(SieniBitacora.class);
     }
-    
+
+    @Override
+    public List<SieniBitacora> getBitacorasRangoFecha(Date desde, Date hasta) {
+        Query q = em.createNamedQuery("SieniBitacora.getBitacorasRangoFecha");
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        return q.getResultList();
+    }
 }

@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,9 +36,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniEvaluacion.findByEvNombre", query = "SELECT s FROM SieniEvaluacion s WHERE s.evNombre = :evNombre"),
     @NamedQuery(name = "SieniEvaluacion.findByEvPonderacion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evPonderacion = :evPonderacion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvVersion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evVersion = :evVersion"),
-    @NamedQuery(name = "SieniEvaluacion.findByEvEstado", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado = :evEstado")})
+    @NamedQuery(name = "SieniEvaluacion.findByEvEstado", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado = :evEstado"),
+    @NamedQuery(name = "SieniEvaluacion.findByEvFechaInicio", query = "SELECT s FROM SieniEvaluacion s WHERE s.evFechaInicio = :evFechaInicio"),
+    @NamedQuery(name = "SieniEvaluacion.findByEvFechaCierre", query = "SELECT s FROM SieniEvaluacion s WHERE s.evFechaCierre = :evFechaCierre"),
+    @NamedQuery(name = "SieniEvaluacion.findByEvTipo", query = "SELECT s FROM SieniEvaluacion s WHERE s.evTipo = :evTipo")})
 public class SieniEvaluacion implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -48,16 +51,16 @@ public class SieniEvaluacion implements Serializable {
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ev_ponderacion")
     private Double evPonderacion;
-    @Column(name = "ev_fecha_inicio")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date evFechaInicio;
-    @Column(name = "ev_fecha_cierre")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date evFechaCierre;
     @Column(name = "ev_version")
     private String evVersion;
     @Column(name = "ev_estado")
     private Character evEstado;
+    @Column(name = "ev_fecha_inicio")
+    @Temporal(TemporalType.DATE)
+    private Date evFechaInicio;
+    @Column(name = "ev_fecha_cierre")
+    @Temporal(TemporalType.DATE)
+    private Date evFechaCierre;
     @Column(name = "ev_tipo")
     private String evTipo;
     @OneToMany(mappedBy = "idEvaluacion")
@@ -67,11 +70,11 @@ public class SieniEvaluacion implements Serializable {
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     @ManyToOne
     private SieniCurso idCurso;
-    @OneToMany(mappedBy = "idEvaluacion")
-    private List<SieniEvalSoluc> sieniEvalSolucList;
     @JoinColumn(name = "id_materia", referencedColumnName = "id_materia")
     @ManyToOne
     private SieniMateria idMateria;
+    @OneToMany(mappedBy = "idEvaluacion")
+    private List<SieniEvalSoluc> sieniEvalSolucList;
 
     public SieniEvaluacion() {
     }
@@ -120,6 +123,30 @@ public class SieniEvaluacion implements Serializable {
         this.evEstado = evEstado;
     }
 
+    public Date getEvFechaInicio() {
+        return evFechaInicio;
+    }
+
+    public void setEvFechaInicio(Date evFechaInicio) {
+        this.evFechaInicio = evFechaInicio;
+    }
+
+    public Date getEvFechaCierre() {
+        return evFechaCierre;
+    }
+
+    public void setEvFechaCierre(Date evFechaCierre) {
+        this.evFechaCierre = evFechaCierre;
+    }
+
+    public String getEvTipo() {
+        return evTipo;
+    }
+
+    public void setEvTipo(String evTipo) {
+        this.evTipo = evTipo;
+    }
+
     @XmlTransient
     public List<SieniEvalSupComp> getSieniEvalSupCompList() {
         return sieniEvalSupCompList;
@@ -144,6 +171,14 @@ public class SieniEvaluacion implements Serializable {
 
     public void setIdCurso(SieniCurso idCurso) {
         this.idCurso = idCurso;
+    }
+
+    public SieniMateria getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(SieniMateria idMateria) {
+        this.idMateria = idMateria;
     }
 
     @XmlTransient
@@ -179,37 +214,5 @@ public class SieniEvaluacion implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniEvaluacion[ idEvaluacion=" + idEvaluacion + " ]";
     }
-
-    public SieniMateria getIdMateria() {
-        return idMateria;
-    }
-
-    public void setIdMateria(SieniMateria idMateria) {
-        this.idMateria = idMateria;
-    }
-
-    public String getEvTipo() {
-        return evTipo;
-    }
-
-    public void setEvTipo(String evTipo) {
-        this.evTipo = evTipo;
-    }
-
-    public Date getEvFechaInicio() {
-        return evFechaInicio;
-    }
-
-    public void setEvFechaInicio(Date evFechaInicio) {
-        this.evFechaInicio = evFechaInicio;
-    }
-
-    public Date getEvFechaCierre() {
-        return evFechaCierre;
-    }
-
-    public void setEvFechaCierre(Date evFechaCierre) {
-        this.evFechaCierre = evFechaCierre;
-    }
-
+    
 }

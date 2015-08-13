@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniMatricula;
 
 /**
@@ -16,6 +18,7 @@ import sv.com.mined.sieni.model.SieniMatricula;
  */
 @Stateless
 public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> implements sv.com.mined.sieni.SieniMatriculaFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +30,11 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
     public SieniMatriculaFacade() {
         super(SieniMatricula.class);
     }
-    
+
+    @Override
+    public List<SieniMatricula> getMatriculasAnio(Integer anio) {
+        Query q = em.createNamedQuery("SieniMatricula.findMatriculasByAnio");
+        q.setParameter("anio", anio);
+        return q.getResultList();
+    }
 }

@@ -25,22 +25,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_nota")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniNota.getNotasRangoFecha", query = "SELECT s FROM SieniNota s WHERE s.idEvaluacion.evFechaInicio>=:desde AND s.idEvaluacion.evFechaInicio<=:hasta"),
     @NamedQuery(name = "SieniNota.findAll", query = "SELECT s FROM SieniNota s"),
     @NamedQuery(name = "SieniNota.findByIdNota", query = "SELECT s FROM SieniNota s WHERE s.idNota = :idNota"),
-    @NamedQuery(name = "SieniNota.findByNtCalificacion", query = "SELECT s FROM SieniNota s WHERE s.ntCalificacion = :ntCalificacion")})
+    @NamedQuery(name = "SieniNota.findByNtCalificacion", query = "SELECT s FROM SieniNota s WHERE s.ntCalificacion = :ntCalificacion"),
+    @NamedQuery(name = "SieniNota.findByNtTipoIngreso", query = "SELECT s FROM SieniNota s WHERE s.ntTipoIngreso = :ntTipoIngreso")})
 public class SieniNota implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "id_nota")
     private Long idNota;
-    @Column(name = "nt_tipo_ingreso")
-    private String ntTipoIngreso;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "nt_calificacion")
     private Double ntCalificacion;
+    @Column(name = "nt_tipo_ingreso")
+    private String ntTipoIngreso;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
@@ -69,6 +68,14 @@ public class SieniNota implements Serializable {
 
     public void setNtCalificacion(Double ntCalificacion) {
         this.ntCalificacion = ntCalificacion;
+    }
+
+    public String getNtTipoIngreso() {
+        return ntTipoIngreso;
+    }
+
+    public void setNtTipoIngreso(String ntTipoIngreso) {
+        this.ntTipoIngreso = ntTipoIngreso;
     }
 
     public SieniAlumno getIdAlumno() {
@@ -111,13 +118,5 @@ public class SieniNota implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniNota[ idNota=" + idNota + " ]";
     }
-
-    public String getNtTipoIngreso() {
-        return ntTipoIngreso;
-    }
-
-    public void setNtTipoIngreso(String ntTipoIngreso) {
-        this.ntTipoIngreso = ntTipoIngreso;
-    }
-
+    
 }

@@ -6,16 +6,17 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
-import sv.com.mined.sieni.form.BitacoraForm;
 import sv.com.mined.sieni.form.GestionCursoForm;
+import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCurso;
 
 /**
@@ -29,8 +30,8 @@ public class GestionCursoController extends GestionCursoForm {
     @EJB
     private SieniCursoFacadeRemote sieniCursoFacadeRemote;
 
-    @ManagedProperty(value = "#{bitacoraController}")
-    private BitacoraController bitacoraController;
+    @EJB
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -47,6 +48,7 @@ public class GestionCursoController extends GestionCursoForm {
     public void guardar() {
         if (validarNuevo(this.getCursoNuevo())) {//valida el guardado
             sieniCursoFacadeRemote.create(this.getCursoNuevo());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Curso", this.getCursoNuevo().getIdCurso(), 'D'));
             FacesMessage msg = new FacesMessage("Curso Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -86,6 +88,7 @@ public class GestionCursoController extends GestionCursoForm {
     public void guardarModifica() {
         if (validarModifica(this.getCursoModifica())) {//valida el guardado
             sieniCursoFacadeRemote.edit(this.getCursoModifica());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Curso", this.getCursoModifica().getIdCurso(), 'D'));
             FacesMessage msg = new FacesMessage("Curso Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -105,6 +108,7 @@ public class GestionCursoController extends GestionCursoForm {
     }
 
     public void eliminarCurso() {
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Curso", this.getEliminar().getIdCurso(), 'D'));
         sieniCursoFacadeRemote.remove(this.getEliminar());
         fill();
     }

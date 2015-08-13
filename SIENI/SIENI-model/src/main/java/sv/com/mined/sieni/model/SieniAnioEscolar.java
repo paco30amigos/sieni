@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniAnioEscolar.findByAeInicio", query = "SELECT s FROM SieniAnioEscolar s WHERE s.aeInicio = :aeInicio"),
     @NamedQuery(name = "SieniAnioEscolar.findByAeFin", query = "SELECT s FROM SieniAnioEscolar s WHERE s.aeFin = :aeFin")})
 public class SieniAnioEscolar implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -48,6 +49,8 @@ public class SieniAnioEscolar implements Serializable {
     @Column(name = "ae_fin")
     @Temporal(TemporalType.DATE)
     private Date aeFin;
+    @Column(name = "ae_estado")
+    private Character aeEstado;
     @OneToMany(mappedBy = "idAnioEscolar")
     private List<SieniSeccion> sieniSeccionList;
 
@@ -123,5 +126,13 @@ public class SieniAnioEscolar implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniAnioEscolar[ idAnioEscolar=" + idAnioEscolar + " ]";
     }
-    
+
+    public Character getAeEstado() {
+        return aeEstado;
+    }
+
+    public void setAeEstado(Character aeEstado) {
+        this.aeEstado = aeEstado;
+    }
+
 }

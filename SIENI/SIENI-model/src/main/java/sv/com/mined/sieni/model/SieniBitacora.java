@@ -109,15 +109,6 @@ public class SieniBitacora implements Serializable {
         return bitTipoUsuario;
     }
 
-    public SieniBitacora(Long idBitacora, Date bitFechaHoraIngreso, String bitAccion, String bitTabla, Long bitIdUsuario, Character bitTipoUsuario) {
-        this.idBitacora = idBitacora;
-        this.bitFechaHoraIngreso = bitFechaHoraIngreso;
-        this.bitAccion = bitAccion;
-        this.bitTabla = bitTabla;
-        this.bitIdUsuario = bitIdUsuario;
-        this.bitTipoUsuario = bitTipoUsuario;
-    }
-
     public void setBitTipoUsuario(Character bitTipoUsuario) {
         this.bitTipoUsuario = bitTipoUsuario;
     }

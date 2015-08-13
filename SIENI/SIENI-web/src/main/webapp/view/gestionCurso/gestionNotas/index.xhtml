@@ -30,7 +30,7 @@
                             #{car.idAlumno.nombreCompleto}
                         </p:column>
                         <p:column headerText="Materia" filterBy="#{car.idEvaluacion.evMateria}" filterable="true" filterMatchMode="contains">
-                            #{car.idEvaluacion.evMateria}
+                            #{car.idEvaluacion.idMateria.maNombre}
                         </p:column>
                         <p:column headerText="Tipo de Evaluación" filterBy="#{car.idEvaluacion.evTipo}" filterable="true" filterMatchMode="contains">
                             #{car.idEvaluacion.evTipo}
@@ -38,7 +38,7 @@
                         <p:column headerText="Nota" filterBy="#{car.idNota}" filterable="true" filterMatchMode="contains">
                             #{car.ntCalificacion}
                         </p:column>
-                        <p:column headerText="Tipo de ingreso" filterBy="#{car.tipoIngreso}" filterable="true" filterMatchMode="contains">
+                        <p:column headerText="Tipo de ingreso" filterBy="#{car.ntTipoIngreso}" filterable="true" filterMatchMode="contains">
                             #{car.ntTipoIngreso}
                         </p:column>
                         <p:column headerText="Acciones">
@@ -68,7 +68,7 @@
                             <f:selectItems itemValue ="#{al}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionNotaController.notaNuevo.idMateria}">
+                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionNotaController.notaNuevo.idEvaluacion.idMateria}">
                             <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
@@ -119,7 +119,7 @@
                             <f:selectItems itemValue ="#{al}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="mod_materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionNotaController.notaNuevo.idMateria}">
+                        <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionNotaController.notaNuevo.idEvaluacion.idMateria}">
                             <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="mod_evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>

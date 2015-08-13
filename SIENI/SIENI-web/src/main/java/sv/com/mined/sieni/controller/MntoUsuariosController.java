@@ -42,7 +42,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     private SieniDocentRolFacadeRemote sieniDocenteRolFacadeRemote;
     @EJB
     private SieniAlumnRolFacadeRemote sieniAlumnRolFacadeRemote;
- 
+
     @PostConstruct
     public void init() {
         this.setUsuarioNuevo(new UsuariosPojo());
@@ -124,13 +124,13 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         return ret;
     }
 
-    public String getEstado(String cod) {
+    public String getEstado(Character cod) {
         String ret = "";
         switch (cod) {
-            case "A":
+            case 'A':
                 ret = "Activo";
                 break;
-            case "I":
+            case 'I':
                 ret = "Inactivo";
                 break;
         }
@@ -304,7 +304,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void eliminarUsuario() {
-        this.getEliminar().getAlumno().setAlEstado("I");
+        this.getEliminar().getAlumno().setAlEstado('I');
         sieniAlumnoFacadeRemote.edit(this.getEliminar().getAlumno());
         sieniAlumnRolFacadeRemote.remove(this.getEliminar().getAlumnoRol());
         fill();

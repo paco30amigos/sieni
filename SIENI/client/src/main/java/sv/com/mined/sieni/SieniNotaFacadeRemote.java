@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniNota;
@@ -29,5 +30,6 @@ public interface SieniNotaFacadeRemote {
     List<SieniNota> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniNota> getNotasRangoFecha(Date desde, Date hasta);
 }

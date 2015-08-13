@@ -11,15 +11,19 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
-import sv.com.mined.sieni.form.BitacoraForm;
+import sv.com.mined.sieni.SieniNotaFacadeRemote;
+import sv.com.mined.sieni.form.RptNotasForm;
 
 /**
  *
  * @author francisco_medina
  */
 @SessionScoped
-@ManagedBean(name = "bitacoraController")
-public class BitacoraController extends BitacoraForm {
+@ManagedBean(name = "rptNotasController")
+public class RptNotasController extends RptNotasForm {
+
+    @EJB
+    private SieniNotaFacadeRemote sieniNotasFacadeRemote;
 
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
@@ -31,19 +35,20 @@ public class BitacoraController extends BitacoraForm {
     }
 
     private void fill() {
-        this.setBitacoraList(sieniBitacoraFacadeRemote.findAll());
+        this.setNotasList(sieniNotasFacadeRemote.findAll());
     }
 
     public void generarReporte() {
+
         Date desde = this.getDesde();
         Date hasta = this.getHasta();
-        this.setBitacoraList(sieniBitacoraFacadeRemote.getBitacorasRangoFecha(desde, hasta));
+        this.setNotasList(sieniNotasFacadeRemote.getNotasRangoFecha(desde, hasta));
     }
 
     public void refresh() {
         Date desde = this.getDesde();
         Date hasta = this.getHasta();
-        this.setBitacoraList(sieniBitacoraFacadeRemote.getBitacorasRangoFecha(desde, hasta));
+        this.setNotasList(sieniNotasFacadeRemote.getNotasRangoFecha(desde, hasta));
     }
 
 }

@@ -28,13 +28,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_matricula")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniMatricula.findMatriculasByAnio", query = "SELECT s FROM SieniMatricula s WHERE s.mtAnio=:anio"),
     @NamedQuery(name = "SieniMatricula.findAll", query = "SELECT s FROM SieniMatricula s"),
     @NamedQuery(name = "SieniMatricula.findByIdMatricula", query = "SELECT s FROM SieniMatricula s WHERE s.idMatricula = :idMatricula"),
     @NamedQuery(name = "SieniMatricula.findByMtFechaIngreso", query = "SELECT s FROM SieniMatricula s WHERE s.mtFechaIngreso = :mtFechaIngreso"),
-    @NamedQuery(name = "SieniMatricula.findByMtEstado", query = "SELECT s FROM SieniMatricula s WHERE s.mtEstado = :mtEstado")})
+    @NamedQuery(name = "SieniMatricula.findByMtEstado", query = "SELECT s FROM SieniMatricula s WHERE s.mtEstado = :mtEstado"),
+    @NamedQuery(name = "SieniMatricula.findByMtAnio", query = "SELECT s FROM SieniMatricula s WHERE s.mtAnio = :mtAnio"),
+    @NamedQuery(name = "SieniMatricula.findByMtCarnet", query = "SELECT s FROM SieniMatricula s WHERE s.mtCarnet = :mtCarnet")})
 public class SieniMatricula implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -49,12 +49,12 @@ public class SieniMatricula implements Serializable {
     private String mtAnio;
     @Column(name = "mt_carnet")
     private String mtCarnet;
-    @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
-    @ManyToOne
-    private SieniGrado idGrado;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
+    @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
+    @ManyToOne
+    private SieniGrado idGrado;
     @JoinColumn(name = "id_seccion", referencedColumnName = "id_seccion")
     @ManyToOne
     private SieniSeccion idSeccion;
@@ -90,12 +90,36 @@ public class SieniMatricula implements Serializable {
         this.mtEstado = mtEstado;
     }
 
+    public String getMtAnio() {
+        return mtAnio;
+    }
+
+    public void setMtAnio(String mtAnio) {
+        this.mtAnio = mtAnio;
+    }
+
+    public String getMtCarnet() {
+        return mtCarnet;
+    }
+
+    public void setMtCarnet(String mtCarnet) {
+        this.mtCarnet = mtCarnet;
+    }
+
     public SieniAlumno getIdAlumno() {
         return idAlumno;
     }
 
     public void setIdAlumno(SieniAlumno idAlumno) {
         this.idAlumno = idAlumno;
+    }
+
+    public SieniGrado getIdGrado() {
+        return idGrado;
+    }
+
+    public void setIdGrado(SieniGrado idGrado) {
+        this.idGrado = idGrado;
     }
 
     public SieniSeccion getIdSeccion() {
@@ -130,29 +154,5 @@ public class SieniMatricula implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniMatricula[ idMatricula=" + idMatricula + " ]";
     }
-
-    public String getMtCarnet() {
-        return mtCarnet;
-    }
-
-    public void setMtCarnet(String mtCarnet) {
-        this.mtCarnet = mtCarnet;
-    }
-
-    public SieniGrado getIdGrado() {
-        return idGrado;
-    }
-
-    public void setIdGrado(SieniGrado idGrado) {
-        this.idGrado = idGrado;
-    }
-
-    public String getMtAnio() {
-        return mtAnio;
-    }
-
-    public void setMtAnio(String mtAnio) {
-        this.mtAnio = mtAnio;
-    }
-
+    
 }

@@ -32,6 +32,7 @@
     <class>sv.com.mined.sieni.model.SieniSuperCompon</class>
     <class>sv.com.mined.sieni.model.SieniTemaDuda</class>
     <class>sv.com.mined.sieni.model.SieniTipoComponente</class>
+    <class>sv.com.mined.sieni.model.SieniBitacora</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

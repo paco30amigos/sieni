@@ -9,7 +9,6 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Reportes" url="#"/>
             <p:menuitem value="Reporte de Notas de Alumnos por Año Escolar" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}"/>
-
             <p:separator />
         </p:breadCrumb>
     </ui:define>
@@ -22,60 +21,53 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel value="Año"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
-                    <div class="EmptyBox20"></div>
                     <p:outputLabel value="Fecha desde"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <p:inputText value="#{rptNotasController.desde}"></p:inputText>
                     <p:outputLabel value="hasta:"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <p:inputText value="#{rptNotasController.hasta}"></p:inputText>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                    <p:dataTable rows="10" var="car" value="#{rptNotasController.notasList}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
 
                         <p:column headerText="Alumno" >
-                            #{formatoPantallas.campo100}
+                            #{car.idAlumno.nombreCompleto}
                         </p:column>
                         <p:column headerText="Grado" >
-                            #{formatoPantallas.campo30}
+                            #{car.idEvaluacion.idCurso.idGrado.grNombre}
+                        </p:column>
+                        <p:column headerText="Sección" >
+                            #{car.idEvaluacion.idCurso.idSeccion.scDescripcion}
                         </p:column>
                         <p:column headerText="Materia" >
-                            #{formatoPantallas.campo50}
+                            #{car.idEvaluacion.idMateria.maNombre}
                         </p:column>
-                        <p:column headerText="Materia" >
-                            #{formatoPantallas.campo50}
-                        </p:column>
-                        
                         <p:column headerText="Tipo de Evaluacion" >
-                            #{formatoPantallas.campo50}
+                            #{car.idEvaluacion.evTipo}
                         </p:column>
                         <p:column headerText="Evaluacion" >
-                            #{formatoPantallas.campo15}
+                            #{car.idEvaluacion.evNombre}
                         </p:column>
                         <p:column headerText="Nota ">
-                            #{formatoPantallas.numeroDecimal}
+                            #{car.ntCalificacion}
                         </p:column>
-                        
-
-                        
                         <f:facet name="footer">
-                            Total de alumnos 999
+                            Total de alumnos #{rptNotasController.totalTransacciones}
                         </f:facet>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
                     <div class="TexAlCenter">
-                        
+
                         <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                        <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{radioView.console}">
-                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                        </p:selectOneRadio>
-                        <p:commandButton  value="Generar"></p:commandButton>
-                        <p:commandButton value="Regresar"></p:commandButton>
+                            <p:outputLabel value="Exportar a:"></p:outputLabel>
+                            <p:selectOneRadio  id="console" value="#{rptNotasController.formatoRpt}">
+                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
+                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                            </p:selectOneRadio>
+                            <p:commandButton  value="Generar"></p:commandButton>
+                            <p:commandButton value="Regresar"></p:commandButton>
                         </h:panelGrid>
                     </div>
 

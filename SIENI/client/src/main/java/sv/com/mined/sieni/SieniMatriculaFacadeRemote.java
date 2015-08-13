@@ -29,5 +29,6 @@ public interface SieniMatriculaFacadeRemote {
     List<SieniMatricula> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniMatricula> getMatriculasAnio(Integer anio);
 }

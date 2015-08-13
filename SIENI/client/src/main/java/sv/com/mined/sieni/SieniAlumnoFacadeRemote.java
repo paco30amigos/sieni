@@ -32,4 +32,6 @@ public interface SieniAlumnoFacadeRemote {
 
     public List<SieniAlumno> findAlumnoSinUsuario();
 
+    public List<SieniAlumno> findAlumnosNoMatriculados();
+
 }

@@ -23,54 +23,49 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:outputLabel value="Año"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
+                    <p:inputMask mask="9,999" value="#{rptMatriculaController.anio}"></p:inputMask>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                    <p:dataTable rows="10" var="car" value="#{rptMatriculaController.matriculaList}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-
                         <p:column headerText="Matricula" >
-                            #{formatoPantallas.matricula}
+                            #{car.idMatricula}
                         </p:column>
                         <p:column headerText="Año" >
-                            #{formatoPantallas.anio2}
+                            #{car.mtAnio}
+                        </p:column>
+                        <p:column headerText="carnet" >
+                            #{car.mtCarnet}
                         </p:column>
                         <p:column headerText="Alumno" >
-                            #{formatoPantallas.campo100}
+                            #{car.idAlumno.nombreCompleto}
                         </p:column>
-                        <p:column headerText="Estado" >
-                            #{formatoPantallas.campo30}
+                        <p:column headerText="grado" >
+                            #{car.idGrado.grNombre}
                         </p:column>
-
-                        <!--                        <p:column headerText="Acciones">
-                                                                                <i class="icon-users Fs25 Red" style="cursor: pointer" title="Gestionar Docentes"></i>
-                                                                                <i class="icon-graduate32 Fs25 Red" style="cursor: pointer" title="Gestionar Alumnos"></i>
-                                                  
-                                                </p:column>-->
+                        <p:column headerText="seccion" >
+                            #{car.idSeccion.scDescripcion}
+                        </p:column>
                         <f:facet name="footer">
-                            Total de alumnos 999
+                            Total de alumnos #{rptMatriculaController.totalTransacciones}
                         </f:facet>
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
                     <div class="TexAlCenter">
-                        
                         <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                        <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{radioView.console}">
-                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                        </p:selectOneRadio>
-                        <p:commandButton  value="Generar"></p:commandButton>
-                        <p:commandButton value="Regresar"></p:commandButton>
+                            <p:outputLabel value="Exportar a:"></p:outputLabel>
+                            <p:selectOneRadio  id="console" value="#{rptMatriculaController.formatoRpt}">
+                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
+                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                            </p:selectOneRadio>
+                            <p:commandButton  value="Generar"></p:commandButton>
+                            <p:commandButton value="Regresar"></p:commandButton>
                         </h:panelGrid>
                     </div>
-
                 </h:form>
             </p:tab>
-
         </p:tabView>
     </ui:define>
-
 </ui:composition>

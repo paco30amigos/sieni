@@ -8,6 +8,7 @@ package sv.com.mined.sieni.form;
 import java.util.List;
 import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.model.SieniDocente;
+import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniSeccion;
 
@@ -25,6 +26,7 @@ public class GestionCursoForm {
     //registro de curso
     private SieniCurso cursoNuevo;
     private List<SieniDocente> docentesList;
+    private List<SieniGrado> gradoList;
     private List<SieniSeccion> seccionList;
     private List<SieniMateria> materiaList;
     //modificacion de curso
@@ -119,5 +121,13 @@ public class GestionCursoForm {
 
     public void setMateriaModificaList(List<SieniMateria> materiaModificaList) {
         this.materiaModificaList = materiaModificaList;
+    }
+
+    public List<SieniGrado> getGradoList() {
+        return gradoList;
+    }
+
+    public void setGradoList(List<SieniGrado> gradoList) {
+        this.gradoList = gradoList;
     }
 }

@@ -29,9 +29,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniArchivo.findAll", query = "SELECT s FROM SieniArchivo s"),
     @NamedQuery(name = "SieniArchivo.findByIdArchivo", query = "SELECT s FROM SieniArchivo s WHERE s.idArchivo = :idArchivo"),
     @NamedQuery(name = "SieniArchivo.findByArRuta", query = "SELECT s FROM SieniArchivo s WHERE s.arRuta = :arRuta"),
-    @NamedQuery(name = "SieniArchivo.findByArTipo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo")})
+    @NamedQuery(name = "SieniArchivo.findByArTipo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo"),
+    @NamedQuery(name = "SieniArchivo.findByArNombre", query = "SELECT s FROM SieniArchivo s WHERE s.arNombre = :arNombre"),
+    @NamedQuery(name = "SieniArchivo.findByArEstado", query = "SELECT s FROM SieniArchivo s WHERE s.arEstado = :arEstado")})
 public class SieniArchivo implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -39,15 +40,15 @@ public class SieniArchivo implements Serializable {
     private Long idArchivo;
     @Column(name = "ar_ruta")
     private String arRuta;
-    @Column(name = "ar_nombre")
-    private String arNombre;
-    @Column(name = "ar_estado")
-    private String arEstado;
     @Column(name = "ar_tipo")
     private Character arTipo;
     @Lob
     @Column(name = "ar_archivo")
     private byte[] arArchivo;
+    @Column(name = "ar_nombre")
+    private String arNombre;
+    @Column(name = "ar_estado")
+    private String arEstado;
     @JoinColumn(name = "id_componente", referencedColumnName = "id_componente")
     @ManyToOne
     private SieniComponente idComponente;
@@ -91,6 +92,22 @@ public class SieniArchivo implements Serializable {
         this.arArchivo = arArchivo;
     }
 
+    public String getArNombre() {
+        return arNombre;
+    }
+
+    public void setArNombre(String arNombre) {
+        this.arNombre = arNombre;
+    }
+
+    public String getArEstado() {
+        return arEstado;
+    }
+
+    public void setArEstado(String arEstado) {
+        this.arEstado = arEstado;
+    }
+
     public SieniComponente getIdComponente() {
         return idComponente;
     }
@@ -123,21 +140,5 @@ public class SieniArchivo implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniArchivo[ idArchivo=" + idArchivo + " ]";
     }
-
-    public String getArNombre() {
-        return arNombre;
-    }
-
-    public void setArNombre(String arNombre) {
-        this.arNombre = arNombre;
-    }
-
-    public String getArEstado() {
-        return arEstado;
-    }
-
-    public void setArEstado(String arEstado) {
-        this.arEstado = arEstado;
-    }
-
+    
 }

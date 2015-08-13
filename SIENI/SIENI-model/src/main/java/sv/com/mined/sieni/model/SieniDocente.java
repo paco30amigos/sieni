@@ -25,6 +25,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -49,7 +50,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findByDcTipo", query = "SELECT s FROM SieniDocente s WHERE s.dcTipo = :dcTipo"),
     @NamedQuery(name = "SieniDocente.findByDcUsuario", query = "SELECT s FROM SieniDocente s WHERE s.dcUsuario = :dcUsuario"),
     @NamedQuery(name = "SieniDocente.findByDcContrasenia", query = "SELECT s FROM SieniDocente s WHERE s.dcContrasenia = :dcContrasenia"),
-    @NamedQuery(name = "SieniDocente.findByDcCorreo", query = "SELECT s FROM SieniDocente s WHERE s.dcCorreo = :dcCorreo")})
+    @NamedQuery(name = "SieniDocente.findByDcCorreo", query = "SELECT s FROM SieniDocente s WHERE s.dcCorreo = :dcCorreo"),
+    @NamedQuery(name = "SieniDocente.findByDcDireccion", query = "SELECT s FROM SieniDocente s WHERE s.dcDireccion = :dcDireccion"),
+    @NamedQuery(name = "SieniDocente.findByDcFechaNacimiento", query = "SELECT s FROM SieniDocente s WHERE s.dcFechaNacimiento = :dcFechaNacimiento"),
+    @NamedQuery(name = "SieniDocente.findByDcTelefonoEm1", query = "SELECT s FROM SieniDocente s WHERE s.dcTelefonoEm1 = :dcTelefonoEm1"),
+    @NamedQuery(name = "SieniDocente.findByDcTelefonoEm2", query = "SELECT s FROM SieniDocente s WHERE s.dcTelefonoEm2 = :dcTelefonoEm2"),
+    @NamedQuery(name = "SieniDocente.findByDcTelefonoEm3", query = "SELECT s FROM SieniDocente s WHERE s.dcTelefonoEm3 = :dcTelefonoEm3"),
+    @NamedQuery(name = "SieniDocente.findByDcEstado", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado = :dcEstado")})
 public class SieniDocente implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -77,24 +84,24 @@ public class SieniDocente implements Serializable {
     private String dcUsuario;
     @Column(name = "dc_contrasenia")
     private String dcContrasenia;
-    @Column(name = "dc_estado")
-    private String dcEstado;
     @Column(name = "dc_correo")
     private String dcCorreo;
-    @Column(name = "dc_fecha_nacimiento")
-    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date dcFechaNacimiento;
     @Column(name = "dc_direccion")
     private String dcDireccion;
     @Lob
     @Column(name = "dc_foto")
     private byte[] dcFoto;
+    @Column(name = "dc_fecha_nacimiento")
+    @Temporal(TemporalType.DATE)
+    private Date dcFechaNacimiento;
     @Column(name = "dc_telefono_em_1")
     private String dcTelefonoEm1;
     @Column(name = "dc_telefono_em_2")
     private String dcTelefonoEm2;
     @Column(name = "dc_telefono_em_3")
     private String dcTelefonoEm3;
+    @Column(name = "dc_estado")
+    private Character dcEstado;
     @JoinTable(name = "doc_recibe_noti", joinColumns = {
         @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")}, inverseJoinColumns = {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
@@ -200,12 +207,68 @@ public class SieniDocente implements Serializable {
         this.dcContrasenia = dcContrasenia;
     }
 
+    public String getDcCorreo() {
+        return dcCorreo;
+    }
+
+    public void setDcCorreo(String dcCorreo) {
+        this.dcCorreo = dcCorreo;
+    }
+
+    public String getDcDireccion() {
+        return dcDireccion;
+    }
+
+    public void setDcDireccion(String dcDireccion) {
+        this.dcDireccion = dcDireccion;
+    }
+
     public byte[] getDcFoto() {
         return dcFoto;
     }
 
     public void setDcFoto(byte[] dcFoto) {
         this.dcFoto = dcFoto;
+    }
+
+    public Date getDcFechaNacimiento() {
+        return dcFechaNacimiento;
+    }
+
+    public void setDcFechaNacimiento(Date dcFechaNacimiento) {
+        this.dcFechaNacimiento = dcFechaNacimiento;
+    }
+
+    public String getDcTelefonoEm1() {
+        return dcTelefonoEm1;
+    }
+
+    public void setDcTelefonoEm1(String dcTelefonoEm1) {
+        this.dcTelefonoEm1 = dcTelefonoEm1;
+    }
+
+    public String getDcTelefonoEm2() {
+        return dcTelefonoEm2;
+    }
+
+    public void setDcTelefonoEm2(String dcTelefonoEm2) {
+        this.dcTelefonoEm2 = dcTelefonoEm2;
+    }
+
+    public String getDcTelefonoEm3() {
+        return dcTelefonoEm3;
+    }
+
+    public void setDcTelefonoEm3(String dcTelefonoEm3) {
+        this.dcTelefonoEm3 = dcTelefonoEm3;
+    }
+
+    public Character getDcEstado() {
+        return dcEstado;
+    }
+
+    public void setDcEstado(Character dcEstado) {
+        this.dcEstado = dcEstado;
     }
 
     @XmlTransient
@@ -307,61 +370,5 @@ public class SieniDocente implements Serializable {
 
     public void setFechaNacimientoFiltrable(String fechaNacimientoFiltrable) {
         this.fechaNacimientoFiltrable = fechaNacimientoFiltrable;
-    }
-
-    public Date getDcFechaNacimiento() {
-        return dcFechaNacimiento;
-    }
-
-    public void setDcFechaNacimiento(Date dcFechaNacimiento) {
-        this.dcFechaNacimiento = dcFechaNacimiento;
-    }
-
-    public String getDcTelefonoEm1() {
-        return dcTelefonoEm1;
-    }
-
-    public void setDcTelefonoEm1(String dcTelefonoEm1) {
-        this.dcTelefonoEm1 = dcTelefonoEm1;
-    }
-
-    public String getDcTelefonoEm2() {
-        return dcTelefonoEm2;
-    }
-
-    public void setDcTelefonoEm2(String dcTelefonoEm2) {
-        this.dcTelefonoEm2 = dcTelefonoEm2;
-    }
-
-    public String getDcTelefonoEm3() {
-        return dcTelefonoEm3;
-    }
-
-    public void setDcTelefonoEm3(String dcTelefonoEm3) {
-        this.dcTelefonoEm3 = dcTelefonoEm3;
-    }
-
-    public String getDcCorreo() {
-        return dcCorreo;
-    }
-
-    public void setDcCorreo(String dcCorreo) {
-        this.dcCorreo = dcCorreo;
-    }
-
-    public String getDcDireccion() {
-        return dcDireccion;
-    }
-
-    public void setDcDireccion(String dcDireccion) {
-        this.dcDireccion = dcDireccion;
-    }
-
-    public String getDcEstado() {
-        return dcEstado;
-    }
-
-    public void setDcEstado(String dcEstado) {
-        this.dcEstado = dcEstado;
     }
 }

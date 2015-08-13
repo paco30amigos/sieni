@@ -11,8 +11,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -33,7 +31,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniGrado.findByGrNombre", query = "SELECT s FROM SieniGrado s WHERE s.grNombre = :grNombre"),
     @NamedQuery(name = "SieniGrado.findByGrNumero", query = "SELECT s FROM SieniGrado s WHERE s.grNumero = :grNumero")})
 public class SieniGrado implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -45,6 +42,8 @@ public class SieniGrado implements Serializable {
     private Integer grNumero;
     @OneToMany(mappedBy = "idGrado")
     private List<SieniSeccion> sieniSeccionList;
+    @OneToMany(mappedBy = "idGrado")
+    private List<SieniMatricula> sieniMatriculaList;
     @OneToMany(mappedBy = "idGrado")
     private List<SieniMateria> sieniMateriaList;
     @OneToMany(mappedBy = "idGrado")
@@ -91,12 +90,30 @@ public class SieniGrado implements Serializable {
     }
 
     @XmlTransient
+    public List<SieniMatricula> getSieniMatriculaList() {
+        return sieniMatriculaList;
+    }
+
+    public void setSieniMatriculaList(List<SieniMatricula> sieniMatriculaList) {
+        this.sieniMatriculaList = sieniMatriculaList;
+    }
+
+    @XmlTransient
     public List<SieniMateria> getSieniMateriaList() {
         return sieniMateriaList;
     }
 
     public void setSieniMateriaList(List<SieniMateria> sieniMateriaList) {
         this.sieniMateriaList = sieniMateriaList;
+    }
+
+    @XmlTransient
+    public List<SieniCurso> getSieniCursoList() {
+        return sieniCursoList;
+    }
+
+    public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
+        this.sieniCursoList = sieniCursoList;
     }
 
     @Override
@@ -123,13 +140,5 @@ public class SieniGrado implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniGrado[ idGrado=" + idGrado + " ]";
     }
-
-    public List<SieniCurso> getSieniCursoList() {
-        return sieniCursoList;
-    }
-
-    public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
-        this.sieniCursoList = sieniCursoList;
-    }
-
+    
 }

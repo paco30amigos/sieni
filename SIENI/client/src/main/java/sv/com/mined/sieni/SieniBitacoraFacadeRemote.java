@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniBitacora;
@@ -29,5 +30,6 @@ public interface SieniBitacoraFacadeRemote {
     List<SieniBitacora> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniBitacora> getBitacorasRangoFecha(Date desde, Date hasta);
 }

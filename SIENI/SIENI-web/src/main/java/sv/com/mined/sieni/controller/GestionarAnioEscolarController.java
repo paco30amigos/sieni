@@ -6,16 +6,18 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import sv.com.mined.sieni.SieniAnioEscolarFacadeRemote;
+import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.form.GestionarAnioEscolarForm;
 import sv.com.mined.sieni.model.SieniAnioEscolar;
+import sv.com.mined.sieni.model.SieniBitacora;
 
 /**
  *
@@ -28,8 +30,8 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     @EJB
     private SieniAnioEscolarFacadeRemote sieniAnioEscolarFacadeRemote;
 
-    @ManagedProperty(value = "#{bitacoraController}")
-    private BitacoraController bitacoraController;
+    @EJB
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -46,6 +48,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     public void guardar() {
         if (validarNuevo(this.getAnioEscolarNuevo())) {//valida el guardado
             sieniAnioEscolarFacadeRemote.create(this.getAnioEscolarNuevo());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Año Escolar", this.getAnioEscolarNuevo().getIdAnioEscolar(), new Character('D')));
             FacesMessage msg = new FacesMessage("Año escolar Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -85,6 +88,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     public void guardarModifica() {
         if (validarModifica(this.getAnioEscolarModifica())) {//valida el guardado
             sieniAnioEscolarFacadeRemote.edit(this.getAnioEscolarModifica());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Año Escolar", this.getAnioEscolarModifica().getIdAnioEscolar(), new Character('D')));
             FacesMessage msg = new FacesMessage("Año escolar Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -104,6 +108,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     }
 
     public void eliminaraAnioEscolar() {
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Año Escolar", this.getEliminar().getIdAnioEscolar(), new Character('D')));
         sieniAnioEscolarFacadeRemote.remove(this.getEliminar());
         fill();
     }

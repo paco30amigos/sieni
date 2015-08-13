@@ -6,16 +6,18 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.FileUploadEvent;
+import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.GestionarDocentesForm;
+import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 
 /**
@@ -28,6 +30,8 @@ public class GestionarDocentesController extends GestionarDocentesForm {
 
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
+    @EJB
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -46,6 +50,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         quitarFormato(this.getDocenteNuevo());//quita el formato de los campos
         if (validarNuevo(this.getDocenteNuevo())) {//valida el guardado
             sieniDocenteFacadeRemote.create(this.getDocenteNuevo());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guarda", "Docente", this.getDocenteNuevo().getIdDocente(), new Character('D')));
             FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -100,6 +105,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         quitarFormato(this.getDocenteModifica());//quita el formato de los campos
         if (validarModifica(this.getDocenteModifica())) {//valida el guardado
             sieniDocenteFacadeRemote.edit(this.getDocenteModifica());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Docente", this.getDocenteModifica().getIdDocente(), new Character('D')));
             FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -121,7 +127,8 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public void eliminarExpediente() {
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Docente", this.getEliminar().getIdDocente(), new Character('D')));
         sieniDocenteFacadeRemote.remove(this.getEliminar());
-        fill(); 
+        fill();
     }
 }

@@ -5,9 +5,12 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniNota;
 
 /**
@@ -16,6 +19,7 @@ import sv.com.mined.sieni.model.SieniNota;
  */
 @Stateless
 public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com.mined.sieni.SieniNotaFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +31,13 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
     public SieniNotaFacade() {
         super(SieniNota.class);
     }
-    
+
+    @Override
+    public List<SieniNota> getNotasRangoFecha(Date desde, Date hasta) {
+        Query q = em.createNamedQuery("SieniNota.getNotasRangoFecha");
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        return q.getResultList();
+    }
+
 }

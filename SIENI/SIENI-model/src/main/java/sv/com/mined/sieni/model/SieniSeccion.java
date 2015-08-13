@@ -34,7 +34,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniSeccion.findByScDescripcion", query = "SELECT s FROM SieniSeccion s WHERE s.scDescripcion = :scDescripcion"),
     @NamedQuery(name = "SieniSeccion.findByScCoordinador", query = "SELECT s FROM SieniSeccion s WHERE s.scCoordinador = :scCoordinador")})
 public class SieniSeccion implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -111,6 +110,15 @@ public class SieniSeccion implements Serializable {
         this.sieniMatriculaList = sieniMatriculaList;
     }
 
+    @XmlTransient
+    public List<SieniCurso> getSieniCursoList() {
+        return sieniCursoList;
+    }
+
+    public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
+        this.sieniCursoList = sieniCursoList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -135,13 +143,5 @@ public class SieniSeccion implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniSeccion[ idSeccion=" + idSeccion + " ]";
     }
-
-    public List<SieniCurso> getSieniCursoList() {
-        return sieniCursoList;
-    }
-
-    public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
-        this.sieniCursoList = sieniCursoList;
-    }
-
+    
 }

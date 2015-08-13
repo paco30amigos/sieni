@@ -5,21 +5,24 @@
  */
 package sv.com.mined.sieni.controller;
 
-import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
-import sv.com.mined.sieni.form.BitacoraForm;
+import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
+import sv.com.mined.sieni.form.RptMatriculaForm;
 
 /**
  *
  * @author francisco_medina
  */
 @SessionScoped
-@ManagedBean(name = "bitacoraController")
-public class BitacoraController extends BitacoraForm {
+@ManagedBean(name = "rptMatriculaController")
+public class RptMatriculaController extends RptMatriculaForm {
+
+    @EJB
+    private SieniMatriculaFacadeRemote sieniMatriculaFacadeRemote;
 
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
@@ -27,23 +30,25 @@ public class BitacoraController extends BitacoraForm {
     @PostConstruct
     public void init() {
         this.setFormatoRpt("PDF");
+        this.setAnio("2,015");
         fill();
     }
 
     private void fill() {
-        this.setBitacoraList(sieniBitacoraFacadeRemote.findAll());
+        this.setMatriculaList(sieniMatriculaFacadeRemote.findAll());
     }
 
     public void generarReporte() {
-        Date desde = this.getDesde();
-        Date hasta = this.getHasta();
-        this.setBitacoraList(sieniBitacoraFacadeRemote.getBitacorasRangoFecha(desde, hasta));
+
+        String anio = this.getAnio().replaceAll(",", "");
+        Integer anioInt = Integer.parseInt(anio);
+        this.setMatriculaList(sieniMatriculaFacadeRemote.getMatriculasAnio(anioInt));
     }
 
     public void refresh() {
-        Date desde = this.getDesde();
-        Date hasta = this.getHasta();
-        this.setBitacoraList(sieniBitacoraFacadeRemote.getBitacorasRangoFecha(desde, hasta));
+        String anio = this.getAnio().replaceAll(",", "");
+        Integer anioInt = Integer.parseInt(anio);
+        this.setMatriculaList(sieniMatriculaFacadeRemote.getMatriculasAnio(anioInt));
     }
 
 }

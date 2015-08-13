@@ -26,7 +26,7 @@
                         <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <p:dataTable rows="10" var="car" value="#{gestionarAnioEscolarController.anioEscolarList}" 
+                    <p:dataTable id="consulta" rows="10" var="car" value="#{gestionarAnioEscolarController.anioEscolarList}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"

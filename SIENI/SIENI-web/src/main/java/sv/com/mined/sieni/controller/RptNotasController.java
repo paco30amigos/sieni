@@ -13,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.form.RptNotasForm;
+import sv.com.mined.sieni.model.SieniBitacora;
 
 /**
  *
@@ -39,10 +40,10 @@ public class RptNotasController extends RptNotasForm {
     }
 
     public void generarReporte() {
-
         Date desde = this.getDesde();
         Date hasta = this.getHasta();
         this.setNotasList(sieniNotasFacadeRemote.getNotasRangoFecha(desde, hasta));
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Reporte de Notas", 1L, new Character('D')));
     }
 
     public void refresh() {

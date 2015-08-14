@@ -42,6 +42,7 @@ import org.primefaces.model.StreamedContent;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL  "),
     @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL"),// or s.alEstado=3 eliminado
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),

@@ -21,7 +21,7 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{gestionNotaController.notaList}" 
+                    <p:dataTable id="consulta" rows="10" var="car" value="#{gestionNotaController.notaList}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"

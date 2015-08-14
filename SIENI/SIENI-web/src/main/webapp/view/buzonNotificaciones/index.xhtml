@@ -70,8 +70,9 @@
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive">                    
-                        <p:outputLabel value="Consulta: " class=" Responsive"></p:outputLabel>
+                        <p:outputLabel value="Notificación: " class=" Responsive"></p:outputLabel>
                         <p:editor value="#{formatoPantallas.campo4000}" ></p:editor>
+                        <p:outputLabel for="mod_archivo" value="Archivo: " class=" Responsive"></p:outputLabel>
                         <p:outputLabel value="Tipo de Archivo:"></p:outputLabel>
                         <p:selectOneMenu>
                             <f:selectItem itemValue="-1" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
@@ -108,17 +109,17 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:dataScroller value="#{clasesForm.plantillas}" var="noticia" >
-                    <p:panel  header="#{formatoPantallas.campo100}" closable="true">
-                        <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container73" style="cursor: pointer" >
-                            <i class="fa fa-file-movie-o Fs25"></i>
-                            <i class="fa fa-file-image-o Fs25"></i>
-                            <i class="fa fa-file-audio-o Fs25"></i>
-                        </div>
-                        <div class="EmptyBox20"></div>
-                    </p:panel>
-                </p:dataScroller>
+                        <p:panel  header="#{formatoPantallas.campo100}" closable="true">
+                            <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
+                            <div class="EmptyBox20"></div>
+                            <div class="Container73" style="cursor: pointer" >
+                                <i class="fa fa-file-movie-o Fs25"></i>
+                                <i class="fa fa-file-image-o Fs25"></i>
+                                <i class="fa fa-file-audio-o Fs25"></i>
+                            </div>
+                            <div class="EmptyBox20"></div>
+                        </p:panel>
+                    </p:dataScroller>
                 </h:form>
             </p:tab>
         </p:tabView>

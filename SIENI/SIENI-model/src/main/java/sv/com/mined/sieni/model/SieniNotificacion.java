@@ -51,6 +51,7 @@ public class SieniNotificacion implements Serializable {
     private Date nfFechaFin;
     @Column(name = "nf_estado")
     private Character nfEstado;
+    //curso
     @ManyToMany(mappedBy = "sieniNotificacionList")
     private List<SieniAlumno> sieniAlumnoList;
     @ManyToMany(mappedBy = "sieniNotificacionList")

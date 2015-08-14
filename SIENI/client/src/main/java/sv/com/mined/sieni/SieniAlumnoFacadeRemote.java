@@ -34,4 +34,6 @@ public interface SieniAlumnoFacadeRemote {
 
     public List<SieniAlumno> findAlumnosNoMatriculados();
 
+    public SieniAlumno findAlumnoUsuario(String usuario, String password);
+
 }

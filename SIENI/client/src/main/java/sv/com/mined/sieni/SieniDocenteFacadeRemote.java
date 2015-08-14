@@ -31,4 +31,6 @@ public interface SieniDocenteFacadeRemote {
     int count();
 
     public List<SieniDocente> findDocentesSinUsuario();
+
+    public SieniDocente findDocenteUsuario(String usuario, String pass);
 }

@@ -24,9 +24,10 @@ public class GestionArchivoMultimediaForm {
     private int indexMenu;
     private SieniArchivo eliminar;
     private SieniArchivo ver;
-    private final String formatosVideo = "mp4";
-    private final String formatosAudio = "mp3";
-    private final String formatosImagen = "jpg";
+    private StreamedContent archivoVer;
+    private final String formatosVideo = "/(\\.|\\/)(mp4)$/";
+    private final String formatosAudio = "/(\\.|\\/)(mp3)$/";
+    private final String formatosImagen = "/(\\.|\\/)(jpg)$/";
 
     // consulta de archivo
     private List<SieniArchivo> archivoList;
@@ -128,12 +129,18 @@ public class GestionArchivoMultimediaForm {
     }
 
     public StreamedContent getArchivo(byte[] foto) {
-        StreamedContent ret = null;
-        if (foto != null) {
-            InputStream input = new ByteArrayInputStream(foto);
-            ret = new DefaultStreamedContent(input);
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
+            return new DefaultStreamedContent();
+        } else {
+            StreamedContent ret = null;
+            if (foto != null) {
+                InputStream input = new ByteArrayInputStream(foto);
+                ret = new DefaultStreamedContent(input);
+            }
+            return ret;
         }
-        return ret;
     }
 
     public UploadedFile getArchivoSubidoNuevo() {
@@ -186,6 +193,30 @@ public class GestionArchivoMultimediaForm {
 
     public void setVer(SieniArchivo ver) {
         this.ver = ver;
+    }
+
+    public StreamedContent getArchivoVer() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+            // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
+            return new DefaultStreamedContent();
+        } else {
+            if (this.getVer().getArArchivo() != null) {
+                InputStream input = new ByteArrayInputStream(this.getVer().getArArchivo());
+                if (ver.getArTipo().equals(new Character('A'))) {
+                    archivoVer = new DefaultStreamedContent(input, "audio/mpeg");
+                } else if (ver.getArTipo().equals(new Character('V'))) {
+                    archivoVer = new DefaultStreamedContent(input, "video/mp4"); 
+                } else {
+                    archivoVer = new DefaultStreamedContent(input);
+                }
+            }
+            return archivoVer;
+        }
+    }
+
+    public void setArchivoVer(StreamedContent archivoVer) {
+        this.archivoVer = archivoVer;
     }
 
 }

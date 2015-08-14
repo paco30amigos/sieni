@@ -21,17 +21,18 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel value="Fecha desde"></p:outputLabel>
-                    <p:inputText value="#{rptNotasController.desde}"></p:inputText>
-                    <p:outputLabel value="hasta:"></p:outputLabel>
-                    <p:inputText value="#{rptNotasController.hasta}"></p:inputText>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="Fecha desde"></p:outputLabel>
+                        <p:inputText value="#{rptNotasController.desde}"></p:inputText>
+                        <p:outputLabel value="hasta:"></p:outputLabel>
+                        <p:inputText value="#{rptNotasController.hasta}"></p:inputText>
+                    </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{rptNotasController.notasList}" 
+                    <p:dataTable id="consulta" rows="10" var="car" value="#{rptNotasController.notasList}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-
                         <p:column headerText="Alumno" >
                             #{car.idAlumno.nombreCompleto}
                         </p:column>
@@ -59,22 +60,18 @@
                     </p:dataTable>
                     <div class="EmptyBox20"></div>
                     <div class="TexAlCenter">
-
                         <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
                             <p:outputLabel value="Exportar a:"></p:outputLabel>
                             <p:selectOneRadio  id="console" value="#{rptNotasController.formatoRpt}">
                                 <f:selectItem itemLabel="Excel" itemValue="Excel" />
                                 <f:selectItem itemLabel="PDF" itemValue="PDF" />
                             </p:selectOneRadio>
-                            <p:commandButton  value="Generar"></p:commandButton>
-                            <p:commandButton value="Regresar"></p:commandButton>
+                            <p:commandButton  value="Generar" action="#{rptNotasController.generarReporte()}" update="consulta"></p:commandButton>
+                            <p:commandButton value="Refrescar" action="#{rptNotasController.refresh()}" update="consulta"></p:commandButton>
                         </h:panelGrid>
                     </div>
-
                 </h:form>
             </p:tab>
-
         </p:tabView>
     </ui:define>
-
 </ui:composition>

@@ -22,10 +22,20 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel value="Año"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="Año Escolar:"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
+                        <p:outputLabel value="Grado:"></p:outputLabel>
+                        <p:selectOneMenu >
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Seccion:"></p:outputLabel>
+                        <p:selectOneMenu >
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:inputText value=""></p:inputText>
                     <div class="EmptyBox20"></div>
-                    
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -33,47 +43,39 @@
                                  reflow="true">
 
                         <p:column headerText="Alumno" >
-                            #{formatoPantallas.campo100}
+                            #{formatoPantallas.campo300}
                         </p:column>
                         <p:column headerText="Fecha Nacimiento" >
                             #{formatoPantallas.fecha}
                         </p:column>
                         <p:column headerText="Edad" >
                             #{formatoPantallas.numero2}
-                        </p:column>
-                        <p:column headerText="Sexo" >
-                            #{formatoPantallas.campo10}
-                        </p:column>
+                        </p:column>                        
                         <p:column headerText="Direccion" >
-                            #{formatoPantallas.campo100}
+                            #{formatoPantallas.campo200}
                         </p:column>
-                        <p:column headerText="Tel Emergencia" >
+                        <p:column headerText="Telefono" >
                             #{formatoPantallas.telefono}
                         </p:column>
                         <p:column headerText="Grado Actual" >
-                            #{formatoPantallas.numero1}
+                            #{formatoPantallas.campo30}
                         </p:column>
-
-                        
                         <f:facet name="footer">
                             Total de Alumnos 999
                         </f:facet>
                     </p:dataTable>
-                    
                     <div class="EmptyBox20"></div>
                     <div class="TexAlCenter">
-                        
                         <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                            <p:outputLabel value="Exportar a:"></p:outputLabel>
                             <p:selectOneRadio  id="console" value="#{radioView.console}">
-                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                        </p:selectOneRadio>
-                        <p:commandButton  value="Generar"></p:commandButton>
-                        <p:commandButton value="Regresar"></p:commandButton>
+                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
+                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                            </p:selectOneRadio>
+                            <p:commandButton  value="Generar"></p:commandButton>
+                            <p:commandButton value="Refrescar"></p:commandButton>
                         </h:panelGrid>
                     </div>
-
                 </h:form>
             </p:tab>
 

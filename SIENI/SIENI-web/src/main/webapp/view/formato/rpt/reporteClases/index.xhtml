@@ -22,38 +22,47 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel value="Año"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel value="Fecha desde"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                    <p:outputLabel value="hasta:"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="Fecha desde:"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                        <p:outputLabel value="hasta:"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
+                        <p:outputLabel value="Tipo de Clase:"></p:outputLabel>
+                        <p:selectOneMenu >
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Curso:"></p:outputLabel>
+                        <p:selectOneMenu >
+                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
                                  reflow="true">
-
                         <p:column headerText="Clase" >
-                            #{formatoPantallas.campo50}
+                            #{formatoPantallas.campo100}
                         </p:column>
-                        <p:column headerText="Materia" >
-                            #{formatoPantallas.campo50}
+                        <p:column headerText="Tipo" >
+                            #{formatoPantallas.campo30}
                         </p:column>
-                        <p:column headerText="Docente" >
-                            #{formatoPantallas.campo50}
+                        <p:column headerText="Plantilla de clase" >
+                            #{formatoPantallas.campo100}
                         </p:column>
-                        <p:column headerText="Aula" >
-                            #{formatoPantallas.campo10}
+                        <p:column headerText="Curso" >
+                            #{formatoPantallas.campo100}
                         </p:column>
-                        <p:column headerText="Turno" >
-                            #{formatoPantallas.campo10}
+                        <p:column headerText="Hora" >
+                            #{formatoPantallas.hora}
                         </p:column>
-
-
-
+                        <p:column headerText="Horario" >
+                            #{formatoPantallas.campo100}
+                        </p:column>
+                        <p:column headerText="Estado" >
+                            #{formatoPantallas.campo15}
+                        </p:column>
                         <f:facet name="footer">
                             Total de Clases 999
                         </f:facet>
@@ -68,7 +77,7 @@
                                 <f:selectItem itemLabel="PDF" itemValue="PDF" />
                             </p:selectOneRadio>
                             <p:commandButton  value="Generar"></p:commandButton>
-                            <p:commandButton value="Regresar"></p:commandButton>
+                            <p:commandButton value="Refrescar"></p:commandButton>
                         </h:panelGrid>
                     </div>
 

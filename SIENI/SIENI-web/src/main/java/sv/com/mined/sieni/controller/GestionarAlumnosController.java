@@ -5,17 +5,14 @@
  */
 package sv.com.mined.sieni.controller;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;

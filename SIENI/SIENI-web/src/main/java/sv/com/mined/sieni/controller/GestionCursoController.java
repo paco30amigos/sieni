@@ -13,11 +13,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.form.GestionCursoForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniGrado;
 
 /**
  *
@@ -111,6 +113,16 @@ public class GestionCursoController extends GestionCursoForm {
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Curso", this.getEliminar().getIdCurso(), 'D'));
         sieniCursoFacadeRemote.remove(this.getEliminar());
         fill();
+    }
+
+    public void getSeccionesGrado(ValueChangeEvent a) {
+        SieniGrado cod = (SieniGrado) a.getNewValue();
+        this.setSeccionList(cod.getSieniSeccionList());
+    }
+
+    public void getSeccionesGradoModifica(ValueChangeEvent a) {
+        SieniGrado cod = (SieniGrado) a.getNewValue();
+        this.setSeccionModificaList(cod.getSieniSeccionList());
     }
 
 }

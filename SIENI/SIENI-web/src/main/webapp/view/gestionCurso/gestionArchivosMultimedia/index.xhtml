@@ -3,7 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
@@ -22,7 +23,7 @@
                     <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                         <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                         <div class="EmptyBox20"></div>
-                        <p:commandButton value="Si" action="#{gestionarAlumnosController.eliminarExpediente()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                        <p:commandButton value="Si" action="#{gestionArchivoMultimediaController.eliminarArchivo()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                         <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
@@ -78,7 +79,7 @@
                         <p:outputLabel for="tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
                         <p:selectOneMenu id="tipo" class=" Responsive" 
                                          value="#{gestionArchivoMultimediaController.archivoNuevo.arTipo}" 
-                                         valueChangeListener="#{gestionArchivoMultimediaController.getFormatosSubidaModifica}">
+                                         valueChangeListener="#{gestionArchivoMultimediaController.getFormatosSubidaNuevo}">
                             <f:selectItem itemValue ="A" itemLabel="Audio"/>
                             <f:selectItem itemValue ="V" itemLabel="Video"/>
                             <f:selectItem itemValue ="I" itemLabel="Imagen"/>
@@ -86,7 +87,7 @@
                         </p:selectOneMenu>
                         <p:outputLabel for="archivo" value="Archivo: " class=" Responsive"></p:outputLabel>
                         <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionArchivoMultimediaController.getArchivoNuevo}"
-                                      uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(#{gestionArchivoMultimediaController.formatoArchivo})$/" 
+                                      uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="#{gestionArchivoMultimediaController.formatoArchivo}" 
                                       value="#{gestionArchivoMultimediaController.archivoSubidoNuevo}">
                         </p:fileUpload>
                     </p:panelGrid>
@@ -139,13 +140,13 @@
                         </p:selectOneMenu>
                         <p:outputLabel for="mod_archivo" value="Archivo: " class=" Responsive"></p:outputLabel>
                         <p:fileUpload id="mod_archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionArchivoMultimediaController.getArchivoModifica}"
-                                      uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(#{gestionArchivoMultimediaController.formatoArchivoModifica})$/" 
+                                      uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="#{gestionArchivoMultimediaController.formatoArchivoModifica}" 
                                       value="#{gestionArchivoMultimediaController.archivoSubidoModifica}">
                         </p:fileUpload>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardar()}" update="mod_p1,mod_p2,tabMenu" />
+                        <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardarModifica()}" update="mod_p1,mod_p2,tabMenu" />
                         <p:commandButton value="Limpiar" immediate="true">
                             <p:ajax update="mod_p1,mod_p2" resetValues="true" />
                         </p:commandButton>
@@ -165,10 +166,24 @@
                 </h:form>
             </p:tab>
             <p:tab title="Ver Archivo Multimedia">
-                <p:media value="#{gestionArchivoMultimediaController.ver}}" width="200" height="20" player="quicktime">
-                    <f:param name="autoPlay" value="false" />
-                </p:media>
-                <p:graphicImage ></p:graphicImage>
+                <c:choose>
+                    <c:when test="#{gestionArchivoMultimediaController.ver.arTipo=='I'}">
+                        imagen
+                        <p:graphicImage value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" cache="false" ></p:graphicImage>
+                    </c:when>
+                    <c:when test="#{gestionArchivoMultimediaController.ver.arTipo=='A'}">
+                        audio
+                        <p:media value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" player="quicktime">
+                            <f:param name="autoPlay" value="true" />
+                        </p:media>
+                    </c:when>
+                    <c:otherwise>
+                        NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+                        <p:media value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" player="quicktime" >
+                            <f:param name="autoPlay" value="true" />
+                        </p:media>
+                    </c:otherwise>
+                </c:choose>
             </p:tab>
         </p:tabView>
     </ui:define>

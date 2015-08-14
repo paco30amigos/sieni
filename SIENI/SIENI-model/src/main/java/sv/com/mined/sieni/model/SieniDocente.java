@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_docente")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniDocente.findDocenteUsuario", query = "SELECT s FROM SieniDocente s  WHERE s.dcUsuario=:usuario AND s.dcContrasenia=:pass"),
     @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s LEFT JOIN s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NULL"),
     @NamedQuery(name = "SieniDocente.findAll", query = "SELECT s FROM SieniDocente s"),
     @NamedQuery(name = "SieniDocente.findByIdDocente", query = "SELECT s FROM SieniDocente s WHERE s.idDocente = :idDocente"),

@@ -11,10 +11,13 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -39,6 +42,8 @@ public class SieniAnioEscolar implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sec_sieni_anio_escolar")
+    @SequenceGenerator(name = "sec_sieni_anio_escolar", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_anio_escolar")
     @Column(name = "id_anio_escolar")
     private Long idAnioEscolar;
     @Column(name = "ae_anio")

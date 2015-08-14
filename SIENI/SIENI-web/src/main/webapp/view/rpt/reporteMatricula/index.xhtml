@@ -22,10 +22,12 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel value="Año"></p:outputLabel>
-                    <p:inputMask mask="9,999" value="#{rptMatriculaController.anio}"></p:inputMask>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="Año Escolar:"></p:outputLabel>
+                        <p:inputMask mask="9,999" value="#{rptMatriculaController.anio}"></p:inputMask>
+                    </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{rptMatriculaController.matriculaList}" 
+                    <p:dataTable id="consulta" rows="10" var="car" value="#{rptMatriculaController.matriculaList}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
@@ -60,8 +62,8 @@
                                 <f:selectItem itemLabel="Excel" itemValue="Excel" />
                                 <f:selectItem itemLabel="PDF" itemValue="PDF" />
                             </p:selectOneRadio>
-                            <p:commandButton  value="Generar"></p:commandButton>
-                            <p:commandButton value="Regresar"></p:commandButton>
+                            <p:commandButton  value="Generar" action="#{rptMatriculaController.generarReporte()}" update="consulta"></p:commandButton>
+                            <p:commandButton value="Refrescar" action="#{rptMatriculaController.refresh()}" update="consulta"></p:commandButton>
                         </h:panelGrid>
                     </div>
                 </h:form>

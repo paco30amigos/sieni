@@ -20,8 +20,9 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean
 public class DateUtils {
 
-    String formatoFecha = "dd/mm/yyyy";
+    String formatoFecha = "dd/MM/yyyy";
     private Date fechaActual;
+    private Date fechaFinAnioActual;
     private Date fechaMinima;
     private Date fechaMaxima;
 
@@ -31,7 +32,7 @@ public class DateUtils {
     }
 
     public Date getFechaMinima() {
-        fechaMinima = getFormatDate("01/01/1900");
+        fechaMinima = getFormatDate("01/01/1980");
         return fechaMinima;
     }
 
@@ -53,5 +54,29 @@ public class DateUtils {
             }
         }
         return ret;
+    }
+
+    public String getFormatedDate(Date fecha) {
+        SimpleDateFormat dt1 = new SimpleDateFormat(formatoFecha);
+        String ret = null;
+        if (fecha != null) {
+            try {
+                ret = dt1.format(fecha);
+            } catch (Exception ex) {
+                Logger.getLogger(DateUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return ret;
+    }
+
+    public Date getFechaFinAnioActual() {
+        Calendar actual = Calendar.getInstance();
+        int anio = actual.get(Calendar.YEAR);//siguiente anio
+        fechaFinAnioActual = getFormatDate("31/12/" + anio);
+        return fechaFinAnioActual;
+    }
+
+    public void setFechaFinAnioActual(Date fechaFinAnioActual) {
+        this.fechaFinAnioActual = fechaFinAnioActual;
     }
 }

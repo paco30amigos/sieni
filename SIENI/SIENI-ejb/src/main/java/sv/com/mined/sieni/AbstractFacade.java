@@ -7,12 +7,15 @@ package sv.com.mined.sieni;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import sv.com.mined.sieni.pojos.PagedResult;
 
 /**
  *
  * @author Laptop
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -59,5 +62,13 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
+    PagedResult<T> paginate(Query query, PagedResult<T> a) {
+        int pageNumber = a.getPageNumber();
+        int pageSize = a.getPageSize();
+        query.setFirstResult((pageNumber - 1) * pageSize);
+        query.setMaxResults(pageSize);
+        a.setList(query.getResultList());
+        return a;
+    }
 }

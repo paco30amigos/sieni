@@ -9,11 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -30,8 +33,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniNota.findByNtCalificacion", query = "SELECT s FROM SieniNota s WHERE s.ntCalificacion = :ntCalificacion"),
     @NamedQuery(name = "SieniNota.findByNtTipoIngreso", query = "SELECT s FROM SieniNota s WHERE s.ntTipoIngreso = :ntTipoIngreso")})
 public class SieniNota implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sec_sieni_nota")
+    @SequenceGenerator(name = "sec_sieni_nota", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_nota")
     @Basic(optional = false)
     @Column(name = "id_nota")
     private Long idNota;
@@ -118,5 +124,5 @@ public class SieniNota implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniNota[ idNota=" + idNota + " ]";
     }
-    
+
 }

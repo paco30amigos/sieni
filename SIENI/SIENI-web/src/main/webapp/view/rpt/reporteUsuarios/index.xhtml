@@ -22,8 +22,10 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel value="Año"></p:outputLabel>
-                    <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel value="Año Escolar:"></p:outputLabel>
+                        <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
+                    </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="false"
@@ -61,7 +63,7 @@
                                 <f:selectItem itemLabel="PDF" itemValue="PDF" />
                             </p:selectOneRadio>
                             <p:commandButton  value="Generar"></p:commandButton>
-                            <p:commandButton value="Regresar"></p:commandButton>
+                            <p:commandButton value="Refrescar"></p:commandButton>
                         </h:panelGrid>
                     </div>
 

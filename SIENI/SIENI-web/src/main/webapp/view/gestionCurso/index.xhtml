@@ -27,7 +27,7 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{gestionCursoController.cursoList}" 
+                    <p:dataTable id="consulta" rows="10" var="car" value="#{gestionCursoController.cursoList}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
@@ -124,34 +124,39 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
-                        <p:outputLabel for="nombre"  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="nombre" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crNombre}"/>
-                        <p:outputLabel for="capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="capacidad" mask="999" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crCapacidad}" />
-                        <p:outputLabel for="docente" value="Docente: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="docente" class=" Responsive" value="#{gestionCursoController.cursoNuevo.idDocente}">
-                            <f:selectItems itemValue ="#{docente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesList}" var="docente" />
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
+                        <p:outputLabel for="mod_nombre"  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="mod_nombre" class=" Responsive" value="#{gestionCursoController.cursoModifica.crNombre}"/>
+                        <p:outputLabel for="mod_capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="mod_capacidad" mask="999" class=" Responsive" value="#{gestionCursoController.cursoModifica.crCapacidad}" />
+                        <p:outputLabel for="mod_docente" value="Docente: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="mod_docente" class=" Responsive" value="#{gestionCursoController.cursoModifica.idDocente}">
+                            <f:selectItems itemValue ="#{docente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesModificaList}" var="docente" />
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
-                        <p:outputLabel for="seccion" value="Seccion: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="seccion" class=" Responsive" value="#{gestionCursoController.cursoNuevo.idSeccion}">
-                            <f:selectItems itemValue ="#{seccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionCursoController.seccionList}" var="seccion" />
+                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">
+                        <p:outputLabel for="mod_grado" value="Grado: " class=" Responsive" ></p:outputLabel>
+                        <p:selectOneMenu id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionCursoController.cursoModifica.idGrado}" valueChangeListener="#{gestionCursoController.getSeccionesGradoModifica}">
+                            <f:selectItems itemValue="#{grado}" itemLabel="#{grado.grNombre}" value="#{gestionCursoController.gradoList}" var="grado"></f:selectItems>
+                            <p:ajax event="valueChange" update="mod_seccion"/>
                         </p:selectOneMenu>
-                        <p:outputLabel for="materia" value="Materia: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionCursoController.cursoNuevo.idMateria}">
-                            <f:selectItems itemValue ="#{materia}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaList}" var="materia" />
+                        <p:outputLabel for="mod_seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="mod_seccion" value="#{gestionCursoController.cursoModifica.idSeccion}">
+                            <f:selectItems itemValue="#{seccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionCursoController.seccionModificaList}" var="seccion"></f:selectItems>
+                        </p:selectOneMenu>
+                        <p:outputLabel for="mod_materia" value="Materia: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionCursoController.cursoModifica.idMateria}">
+                            <f:selectItems itemValue ="#{materia}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaModificaList}" var="materia" />
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionCursoController.guardar()}" update="p1,p2,tabMenu" />
+                        <p:commandButton value="Guardar" action="#{gestionCursoController.guardar()}" update="mod_p1,mod_p2,tabMenu" />
                         <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="p1,p2" resetValues="true" />
+                            <p:ajax update="mod_p1,mod_p2" resetValues="true" />
                         </p:commandButton>
                         <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="p1,p2,tabMenu" resetValues="true" oncomplete="#{gestionCursoController.setIndexMenu(0)}"/>
+                            <p:ajax update="mod_p1,mod_p2,tabMenu" resetValues="true" oncomplete="#{gestionCursoController.setIndexMenu(0)}"/>
                         </p:commandButton>
                         <div class="EmptyBox20"></div>
                         <p:splitButton value="Otras Opciones" action="#">

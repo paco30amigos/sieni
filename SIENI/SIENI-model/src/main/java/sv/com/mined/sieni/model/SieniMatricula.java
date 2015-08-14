@@ -10,11 +10,14 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,8 +38,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniMatricula.findByMtAnio", query = "SELECT s FROM SieniMatricula s WHERE s.mtAnio = :mtAnio"),
     @NamedQuery(name = "SieniMatricula.findByMtCarnet", query = "SELECT s FROM SieniMatricula s WHERE s.mtCarnet = :mtCarnet")})
 public class SieniMatricula implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sec_sieni_matricula")
+    @SequenceGenerator(name = "sec_sieni_matricula", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_matricula")
     @Basic(optional = false)
     @Column(name = "id_matricula")
     private Long idMatricula;
@@ -154,5 +160,5 @@ public class SieniMatricula implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniMatricula[ idMatricula=" + idMatricula + " ]";
     }
-    
+
 }

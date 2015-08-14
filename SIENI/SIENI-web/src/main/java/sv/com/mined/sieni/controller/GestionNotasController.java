@@ -6,15 +6,17 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.form.GestionNotasForm;
+import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniNota;
 
 /**
@@ -28,8 +30,8 @@ public class GestionNotasController extends GestionNotasForm {
     @EJB
     private SieniNotaFacadeRemote sieniNotaFacadeRemote;
 
-    @ManagedProperty(value = "#{bitacoraController}")
-    private BitacoraController bitacoraController;
+    @EJB
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -46,7 +48,8 @@ public class GestionNotasController extends GestionNotasForm {
     public void guardar() {
         if (validarNuevo(this.getNotaNuevo())) {//valida el guardado
             sieniNotaFacadeRemote.create(this.getNotaNuevo());
-            FacesMessage msg = new FacesMessage("Nota Creado Exitosamente");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
+            FacesMessage msg = new FacesMessage("Nota Creada Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
         }
@@ -85,6 +88,7 @@ public class GestionNotasController extends GestionNotasForm {
     public void guardarModifica() {
         if (validarModifica(this.getNotaModifica())) {//valida el guardado
             sieniNotaFacadeRemote.edit(this.getNotaModifica());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
             FacesMessage msg = new FacesMessage("Nota Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -104,6 +108,7 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void eliminarNota() {
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
         sieniNotaFacadeRemote.remove(this.getEliminar());
         fill();
     }

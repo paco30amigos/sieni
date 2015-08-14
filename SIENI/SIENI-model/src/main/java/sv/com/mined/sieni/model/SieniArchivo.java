@@ -9,12 +9,15 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -33,8 +36,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniArchivo.findByArNombre", query = "SELECT s FROM SieniArchivo s WHERE s.arNombre = :arNombre"),
     @NamedQuery(name = "SieniArchivo.findByArEstado", query = "SELECT s FROM SieniArchivo s WHERE s.arEstado = :arEstado")})
 public class SieniArchivo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_alumno")
+    @SequenceGenerator(name = "sec_sieni_archivo", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_archivo")
     @Basic(optional = false)
     @Column(name = "id_archivo")
     private Long idArchivo;
@@ -140,5 +146,5 @@ public class SieniArchivo implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniArchivo[ idArchivo=" + idArchivo + " ]";
     }
-    
+
 }

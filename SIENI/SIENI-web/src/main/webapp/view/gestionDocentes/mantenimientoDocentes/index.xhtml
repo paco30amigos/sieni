@@ -102,7 +102,7 @@
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
                         <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
-                        <p:calendar id="fechNacimNuevo" value="#{gestionarDocentesController.docenteNuevo.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:calendar id="fechNacimNuevo" value="#{gestionarDocentesController.docenteNuevo.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                         <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
                         <p:inputText id="emailNuevo" type="email" value="#{gestionarDocentesController.docenteNuevo.dcCorreo}"></p:inputText>
                         <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>

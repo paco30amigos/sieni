@@ -60,7 +60,7 @@
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
                         <p:outputLabel for="carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="carnet" mask="AA999999" value="#{gestionMatriculaController.matriculaModifica.mtCarnet}"></p:inputMask>
+                        <p:inputMask id="carnet" mask="99999999" value="#{gestionMatriculaController.matriculaModifica.mtCarnet}"></p:inputMask>
                         <p:outputLabel for="nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
                         <p:selectOneMenu id="nombre" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.matriculaModifica.idAlumno}">
                             <f:selectItems itemValue="#{alumnos}" itemLabel="#{alumnos.nombreCompleto}" value="#{gestionMatriculaController.alumnosList}" var="alumnos"></f:selectItems>

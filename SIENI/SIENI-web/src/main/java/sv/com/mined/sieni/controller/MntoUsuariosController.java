@@ -5,23 +5,27 @@
  */
 package sv.com.mined.sieni.controller;
 
+import java.security.MessageDigest;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import sv.com.mined.sieni.SieniAlumnRolFacadeRemote;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
+import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocentRolFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.MntoUsuariosForm;
 import sv.com.mined.sieni.model.SieniAlumnRol;
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocentRol;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.UsuariosPojo;
@@ -42,6 +46,8 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     private SieniDocentRolFacadeRemote sieniDocenteRolFacadeRemote;
     @EJB
     private SieniAlumnRolFacadeRemote sieniAlumnRolFacadeRemote;
+    @EJB
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -180,7 +186,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
 
                 SieniAlumno alumnoEdit = this.getUsuarioNuevo().getAlumno();
                 SieniAlumnRol alumnoRolNuevo = new SieniAlumnRol();
-                alumnoEdit.setAlContrasenia(this.getUsuarioNuevo().getPass1());
+                alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioNuevo().getPass1()));
                 alumnoEdit.setAlEstado(this.getUsuarioNuevo().getCodEstado());
                 alumnoEdit.setAlUsuario(this.getUsuarioNuevo().getUsuario());
 
@@ -210,12 +216,23 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 //crea el nuevo usuario
                 sieniDocenteRolFacadeRemote.create(docenteRolNuevo);
             }
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Usuario", this.getUsuarioNuevo().getIdUsuario(), new Character('D')));
             FacesMessage msg = new FacesMessage("Usuario Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
         }
         this.setUsuarioNuevo(new UsuariosPojo());
         fill();
+    }
+
+    public String encriptarContrasenia(String pass) {
+        String passEncriptado = "";
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            passEncriptado = Base64.getEncoder().encodeToString((digest.digest(pass.getBytes("UTF-8"))));
+        } catch (Exception e) {
+        }
+        return passEncriptado;
     }
 
     public void quitarFormato(SieniAlumno actual) {
@@ -257,7 +274,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 SieniAlumnRol alumnoRolNuevo = this.getUsuarioModifica().getAlumnoRol();
 
                 if (this.getUsuarioModifica().getPass1() != null && !this.getUsuarioModifica().getPass1().isEmpty()) {
-                    alumnoEdit.setAlContrasenia(this.getUsuarioModifica().getPass1());
+                    alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioModifica().getPass1()));
                 }
                 alumnoEdit.setAlEstado(this.getUsuarioModifica().getCodEstado());
                 alumnoEdit.setAlUsuario(this.getUsuarioModifica().getUsuario());
@@ -285,6 +302,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 //crea el nuevo usuario
                 sieniDocenteRolFacadeRemote.edit(docenteRolNuevo);
             }
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Usuario", this.getUsuarioModifica().getIdUsuario(), new Character('D')));
             FacesMessage msg = new FacesMessage("Usuario Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -304,9 +322,16 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void eliminarUsuario() {
-        this.getEliminar().getAlumno().setAlEstado('I');
-        sieniAlumnoFacadeRemote.edit(this.getEliminar().getAlumno());
-        sieniAlumnRolFacadeRemote.remove(this.getEliminar().getAlumnoRol());
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Usuario", this.getEliminar().getIdUsuario(), new Character('D')));
+        if (this.getEliminar().getTipoUsuario().equals("Alumno")) {
+            this.getEliminar().getAlumno().setAlEstado('I');
+            sieniAlumnoFacadeRemote.edit(this.getEliminar().getAlumno());
+            sieniAlumnRolFacadeRemote.remove(this.getEliminar().getAlumnoRol());
+        } else {
+            this.getEliminar().getAlumno().setAlEstado('I');
+            sieniDocenteFacadeRemote.edit(this.getEliminar().getDocente());
+            sieniDocenteRolFacadeRemote.remove(this.getEliminar().getDocenteRol());
+        }
         fill();
     }
 }

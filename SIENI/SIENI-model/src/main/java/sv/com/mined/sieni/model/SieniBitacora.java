@@ -47,7 +47,7 @@ public class SieniBitacora implements Serializable {
     @Column(name = "id_bitacora")
     private Long idBitacora;
     @Column(name = "bit_fecha_hora_ingreso")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date bitFechaHoraIngreso;
     @Column(name = "bit_accion")
     private String bitAccion;

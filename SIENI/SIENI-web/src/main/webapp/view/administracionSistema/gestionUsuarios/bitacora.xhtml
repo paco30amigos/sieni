@@ -21,15 +21,14 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="desde" value="Desde:"></p:outputLabel>
-                    <p:calendar id="desde" value="#{bitacoraController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
-                    <p:outputLabel for="hasta" value="Hasta:"></p:outputLabel>
-                    <p:calendar id="hasta" value="#{bitacoraController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                    <p:panelGrid columns="4">
+                        <p:outputLabel for="desde" value="Fecha desde:"></p:outputLabel>
+                        <p:calendar id="desde" value="#{bitacoraController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:outputLabel for="hasta" value="hasta:"></p:outputLabel>
+                        <p:calendar id="hasta" value="#{bitacoraController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                    </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta" rows="10" var="car" value="#{bitacoraController.bitacoraList}" 
-                                 paginator="false"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15"
+                    <p:dataTable id="consulta"  var="car" value="#{bitacoraController.bitacoraList}" 
                                  reflow="true"
                                  >
                         <p:column headerText="Accion" >
@@ -69,7 +68,6 @@
                             <p:commandButton value="Refrescar" action="#{bitacoraController.refresh()}" update="consulta"></p:commandButton>
                         </h:panelGrid>
                     </div>
-
                 </h:form>
             </p:tab>
         </p:tabView>

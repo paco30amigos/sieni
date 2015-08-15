@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -51,7 +52,7 @@ public class SieniMateria implements Serializable {
     private Date maFechaIngreso;
     @OneToMany(mappedBy = "idMateria")
     private List<SieniPlantilla> sieniPlantillaList;
-    @OneToMany(mappedBy = "idMateria")
+    @OneToMany(mappedBy = "idMateria",fetch = FetchType.EAGER)
     private List<SieniEvaluacion> sieniEvaluacionList;
     @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
     @ManyToOne

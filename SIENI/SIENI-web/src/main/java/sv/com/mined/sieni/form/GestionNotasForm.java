@@ -27,11 +27,19 @@ public class GestionNotasForm {
     private List<SieniAlumno> alumnosList;
     private List<SieniMateria> materiasList;
     private List<SieniEvaluacion> evaluacionesList;
+    private Long idAlumno;
+    private Long idMateria;
+    private Long idEvaluacion;
+    private SieniMateria materia;
     //modificacion de nota
     private SieniNota notaModifica;
     private List<SieniAlumno> alumnosModificaList;
     private List<SieniMateria> materiasModificaList;
     private List<SieniEvaluacion> evaluacionesModificaList;
+    private Long idAlumnoModifica;
+    private Long idMateriaModifica;
+    private Long idEvaluacionModifica;
+    private SieniMateria materiaModifica;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -119,6 +127,70 @@ public class GestionNotasForm {
 
     public void setEvaluacionesModificaList(List<SieniEvaluacion> evaluacionesModificaList) {
         this.evaluacionesModificaList = evaluacionesModificaList;
+    }
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public Long getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(Long idMateria) {
+        this.idMateria = idMateria;
+    }
+
+    public Long getIdEvaluacion() {
+        return idEvaluacion;
+    }
+
+    public void setIdEvaluacion(Long idEvaluacion) {
+        this.idEvaluacion = idEvaluacion;
+    }
+
+    public Long getIdAlumnoModifica() {
+        return idAlumnoModifica;
+    }
+
+    public void setIdAlumnoModifica(Long idAlumnoModifica) {
+        this.idAlumnoModifica = idAlumnoModifica;
+    }
+
+    public Long getIdMateriaModifica() {
+        return idMateriaModifica;
+    }
+
+    public void setIdMateriaModifica(Long idMateriaModifica) {
+        this.idMateriaModifica = idMateriaModifica;
+    }
+
+    public Long getIdEvaluacionModifica() {
+        return idEvaluacionModifica;
+    }
+
+    public void setIdEvaluacionModifica(Long idEvaluacionModifica) {
+        this.idEvaluacionModifica = idEvaluacionModifica;
+    }
+
+    public SieniMateria getMateria() {
+        return materia;
+    }
+
+    public void setMateria(SieniMateria materia) {
+        this.materia = materia;
+    }
+
+    public SieniMateria getMateriaModifica() {
+        return materiaModifica;
+    }
+
+    public void setMateriaModifica(SieniMateria materiaModifica) {
+        this.materiaModifica = materiaModifica;
     }
 
 }

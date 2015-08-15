@@ -6,6 +6,8 @@
 package sv.com.mined.sieni.pojos;
 
 import java.util.List;
+import java.util.Map;
+import org.primefaces.model.SortOrder;
 
 /**
  *
@@ -14,19 +16,20 @@ import java.util.List;
  */
 public class PagedResult<T> {
 
-    private int pageNumber;
+    private int first;
     private int pageSize;
-    private List<T> list;
-    private int total;
-    private String SortField;
-    private String sortOrder;
+    private String sortField;
+    private SortOrder sortOrder;
+    private Map<String, String> filters;
+    private List<T> resutl;
+    private int count;
 
-    public int getPageNumber() {
-        return pageNumber;
+    public int getFirst() {
+        return first;
     }
 
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
+    public void setFirst(int first) {
+        this.first = first;
     }
 
     public int getPageSize() {
@@ -37,36 +40,44 @@ public class PagedResult<T> {
         this.pageSize = pageSize;
     }
 
-    public List<T> getList() {
-        return list;
-    }
-
-    public void setList(List<T> list) {
-        this.list = list;
-    }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
     public String getSortField() {
-        return SortField;
+        return sortField;
     }
 
-    public void setSortField(String SortField) {
-        this.SortField = SortField;
+    public void setSortField(String sortField) {
+        this.sortField = sortField;
     }
 
-    public String getSortOrder() {
+    public SortOrder getSortOrder() {
         return sortOrder;
     }
 
-    public void setSortOrder(String sortOrder) {
+    public void setSortOrder(SortOrder sortOrder) {
         this.sortOrder = sortOrder;
+    }
+
+    public Map<String, String> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(Map<String, String> filters) {
+        this.filters = filters;
+    }
+
+    public List<T> getResutl() {
+        return resutl;
+    }
+
+    public void setResutl(List<T> resutl) {
+        this.resutl = resutl;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
 }

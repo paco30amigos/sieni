@@ -6,8 +6,13 @@
 package sv.com.mined.sieni;
 
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import org.primefaces.model.SortOrder;
 import sv.com.mined.sieni.pojos.PagedResult;
 
 /**
@@ -63,12 +68,48 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    PagedResult<T> paginate(Query query, PagedResult<T> a) {
-        int pageNumber = a.getPageNumber();
-        int pageSize = a.getPageSize();
-        query.setFirstResult((pageNumber - 1) * pageSize);
-        query.setMaxResults(pageSize);
-        a.setList(query.getResultList());
-        return a;
+    private Predicate getFilterCondition(CriteriaBuilder cb, Root<T> myObj, Map<String, String> filters) {
+        Predicate filterCondition = cb.conjunction();
+        String wildCard = "%";
+        for (Map.Entry<String, String> filter : filters.entrySet()) {
+            String value = wildCard + filter.getValue() + wildCard;
+            if (!filter.getValue().equals("")) {
+                javax.persistence.criteria.Path<String> path = myObj.get(filter.getKey());
+                filterCondition = cb.and(filterCondition, cb.like(path, value));
+            }
+        }
+        return filterCondition;
+    }
+
+    public int countAllResultList(Map<String, String> filters) {
+
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<T> myObj = cq.from(entityClass);
+        //filters
+        cq.where(this.getFilterCondition(cb, myObj, filters));
+        //count
+        cq.select(cb.count(myObj));
+        return getEntityManager().createQuery(cq).getSingleResult().intValue();
+    }
+
+    public PagedResult<T> getAllResultList(PagedResult<T> ret) {
+        //query
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<T> cq = cb.createQuery(entityClass);
+        Root<T> myObj = cq.from(entityClass);
+        //filters
+        cq.where(this.getFilterCondition(cb, myObj, ret.getFilters()));
+        //sort
+        if (ret.getSortField() != null) {
+            if (ret.getSortOrder() == SortOrder.ASCENDING) {
+                cq.orderBy(cb.asc(myObj.get(ret.getSortField())));
+            } else if (ret.getSortOrder() == SortOrder.DESCENDING) {
+                cq.orderBy(cb.desc(myObj.get(ret.getSortField())));
+            }
+        }
+        //pagination
+        ret.setResutl(getEntityManager().createQuery(cq).setFirstResult(ret.getFirst()).setMaxResults(ret.getPageSize()).getResultList());
+        return ret;
     }
 }

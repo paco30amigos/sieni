@@ -20,9 +20,11 @@ import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionMatriculaForm;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMatricula;
+import sv.com.mined.sieni.model.SieniSeccion;
 
 /**
  *
@@ -55,9 +57,46 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         this.setMatriculaList(sieniMatriculaFacadeRemote.findAll());
         this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosNoMatriculados());
         this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosNoMatriculados());
+        //nuevo
+        this.setGradosList(sieniGradoFacadeRemote.findAll());
+        this.setSeccionesList(new ArrayList<SieniSeccion>());
+        if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
+            if (this.getGradosList().get(0).getSieniSeccionList() != null
+                    && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
+                this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
+            }
+        }
+        //modifica
+        this.setGradosModificaList(sieniGradoFacadeRemote.findAll());
+        this.setSeccionesModificaList(new ArrayList<SieniSeccion>());
+        if (this.getGradosModificaList() != null && !this.getGradosModificaList().isEmpty()) {
+            if (this.getGradosModificaList().get(0).getSieniSeccionList() != null
+                    && !this.getGradosModificaList().get(0).getSieniSeccionList().isEmpty()) {
+                this.setSeccionesModificaList(this.getGradosModificaList().get(0).getSieniSeccionList());
+            }
+        }
     }
 
     public void guardar() {
+        for (SieniAlumno actual : this.getAlumnosList()) {
+            if (actual.getIdAlumno().equals(this.getIdAlumno())) {
+                this.getMatriculaNuevo().setIdAlumno(actual);
+                break;
+            }
+        }
+        for (SieniGrado actual : this.getGradosList()) {
+            if (actual.getIdGrado().equals(this.getIdGrado())) {
+                this.getMatriculaNuevo().setIdGrado(actual);
+                break;
+            }
+        }
+        for (SieniSeccion actual : this.getSeccionesList()) {
+            if (actual.getIdSeccion().equals(this.getIdSeccion())) {
+                this.getMatriculaNuevo().setIdSeccion(actual);
+                break;
+            }
+        }
+
         if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado
             sieniMatriculaFacadeRemote.create(this.getMatriculaNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Matricula", this.getMatriculaNuevo().getIdMatricula(), 'D'));
@@ -98,6 +137,24 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public void guardarModifica() {
+        for (SieniAlumno actual : this.getAlumnosModificaList()) {
+            if (actual.getIdAlumno().equals(this.getIdAlumnoModifica())) {
+                this.getMatriculaModifica().setIdAlumno(actual);
+                break;
+            }
+        } 
+        for (SieniGrado actual : this.getGradosModificaList()) {
+            if (actual.getIdGrado().equals(this.getIdGradoModifica())) {
+                this.getMatriculaModifica().setIdGrado(actual);
+                break;
+            }
+        }
+        for (SieniSeccion actual : this.getSeccionesModificaList()) {
+            if (actual.getIdSeccion().equals(this.getIdSeccionModifica())) {
+                this.getMatriculaModifica().setIdSeccion(actual);
+                break;
+            }
+        }
         if (validarModifica(this.getMatriculaModifica())) {//valida el guardado
             sieniMatriculaFacadeRemote.edit(this.getMatriculaModifica());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Matricula", this.getMatriculaModifica().getIdMatricula(), 'D'));
@@ -126,8 +183,26 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public void getSeccionesGrado(ValueChangeEvent a) {
-        SieniGrado cod = (SieniGrado) a.getNewValue();
+        Long idGrado = (Long) a.getNewValue();
+        SieniGrado cod = new SieniGrado();
+        for (SieniGrado actual : this.getGradosList()) {
+            if (actual.getIdGrado().equals(idGrado)) {
+                cod = actual;
+                break;
+            }
+        }
         this.setSeccionesList(cod.getSieniSeccionList());
+    }
+    public void getSeccionesGradoModifica(ValueChangeEvent a) {
+        Long idGrado = (Long) a.getNewValue();
+        SieniGrado cod = new SieniGrado();
+        for (SieniGrado actual : this.getGradosModificaList()) {
+            if (actual.getIdGrado().equals(idGrado)) {
+                cod = actual;
+                break;
+            }
+        }
+        this.setSeccionesModificaList(cod.getSieniSeccionList());
     }
 
 }

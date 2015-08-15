@@ -74,6 +74,22 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     public void cancelar() {
     }
 
+    public String getEstadoCurso(String estado) {
+        String ret = "";
+        switch (estado) {
+            case "0":
+                ret = "Inactivo";
+                break;
+            case "1":
+                ret = "Activo";
+                break;
+            default:
+                ret = "Inactivo";
+                break;
+        }
+        return ret;
+    }
+
     //metodos para modificacion de datos
     public void modificar(SieniAnioEscolar modificado) {
         this.setAnioEscolarModifica(modificado);

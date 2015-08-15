@@ -19,6 +19,12 @@
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
+                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                        <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                        <div class="EmptyBox20"></div>
+                        <p:commandButton value="Si" action="#{gestionMatriculaController.eliminarMatricula()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                        <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                    </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <p:dataTable id="consulta" rows="10" var="car" value="#{gestionMatriculaController.matriculaList}" 
                                  paginator="true"
@@ -60,19 +66,19 @@
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
                         <p:outputLabel for="carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="carnet" mask="99999999" value="#{gestionMatriculaController.matriculaModifica.mtCarnet}"></p:inputMask>
+                        <p:inputMask id="carnet" mask="AA999999" value="#{gestionMatriculaController.matriculaNuevo.mtCarnet}"></p:inputMask>
                         <p:outputLabel for="nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="nombre" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.matriculaModifica.idAlumno}">
-                            <f:selectItems itemValue="#{alumnos}" itemLabel="#{alumnos.nombreCompleto}" value="#{gestionMatriculaController.alumnosList}" var="alumnos"></f:selectItems>
+                        <p:selectOneMenu id="nombre" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idAlumno}">
+                            <f:selectItems itemValue="#{alumnos.idAlumno}" itemLabel="#{alumnos.nombreCompleto}" value="#{gestionMatriculaController.alumnosList}" var="alumnos"></f:selectItems>
                         </p:selectOneMenu>
                         <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
-                        <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.matriculaModifica.idGrado}" valueChangeListener="#{gestionMatriculaController.getSeccionesGrado}">
-                            <f:selectItems itemValue="#{grado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosList}" var="grado"></f:selectItems>
+                        <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idGrado}" valueChangeListener="#{gestionMatriculaController.getSeccionesGrado}">
+                            <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosList}" var="grado"></f:selectItems>
                             <p:ajax event="valueChange" update="seccion"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="seccion" value="#{gestionMatriculaController.matriculaModifica.idSeccion}">
-                            <f:selectItems itemValue="#{seccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionMatriculaController.seccionesList}" var="seccion"></f:selectItems>
+                        <p:selectOneMenu id="seccion" value="#{gestionMatriculaController.idSeccion}">
+                            <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionMatriculaController.seccionesList}" var="seccion"></f:selectItems>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
@@ -107,22 +113,22 @@
                         <p:outputLabel for="mod_carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
                         <p:inputMask id="mod_carnet" mask="AA999999" value="#{gestionMatriculaController.matriculaModifica.mtCarnet}"></p:inputMask>
                         <p:outputLabel for="mod_nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_nombre" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.matriculaModifica.idAlumno}">
-                            <f:selectItems itemValue="#{alumnos}" itemLabel="#{alumnos.nombreCompleto}" value="#{gestionMatriculaController.alumnosList}" var="alumnos"></f:selectItems>
+                        <p:selectOneMenu id="mod_nombre" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idAlumnoModifica}">
+                            <f:selectItems itemValue="#{alumnos.idAlumno}" itemLabel="#{alumnos.nombreCompleto}" value="#{gestionMatriculaController.alumnosModificaList}" var="alumnos"></f:selectItems>
                         </p:selectOneMenu>
                         <p:outputLabel for="mod_grado" value="Grado: " class=" Responsive" ></p:outputLabel>
-                        <p:selectOneMenu id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.matriculaModifica.idGrado}" valueChangeListener="#{gestionMatriculaController.getSeccionesGrado}">
-                            <f:selectItems itemValue="#{grado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosList}" var="grado"></f:selectItems>
+                        <p:selectOneMenu id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idGradoModifica}" valueChangeListener="#{gestionMatriculaController.getSeccionesGradoModifica}">
+                            <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosModificaList}" var="grado"></f:selectItems>
                             <p:ajax event="valueChange" update="mod_seccion"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="mod_seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_seccion" value="#{gestionMatriculaController.matriculaModifica.idSeccion}">
-                            <f:selectItems itemValue="#{seccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionMatriculaController.seccionesList}" var="seccion"></f:selectItems>
+                        <p:selectOneMenu id="mod_seccion" value="#{gestionMatriculaController.idSeccionModifica}">
+                            <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionMatriculaController.seccionesModificaList}" var="seccion"></f:selectItems>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionMatriculaController.guardar()}" update="mod_p1,tabMenu" />
+                        <p:commandButton value="Guardar" action="#{gestionMatriculaController.guardarModifica()}" update="mod_p1,tabMenu" />
                         <p:commandButton value="Limpiar" immediate="true">
                             <p:ajax update="mod_p1" resetValues="true" />
                         </p:commandButton>

@@ -29,11 +29,20 @@ public class GestionCursoForm {
     private List<SieniGrado> gradoList;
     private List<SieniSeccion> seccionList;
     private List<SieniMateria> materiaList;
+    private Long idDocente;
+    private Long idGrado;
+    private Long idSeccion;
+    private Long idMateria;
     //modificacion de curso
     private SieniCurso cursoModifica;
     private List<SieniDocente> docentesModificaList;
+    private List<SieniGrado> gradoModificaList;
     private List<SieniSeccion> seccionModificaList;
     private List<SieniMateria> materiaModificaList;
+    private Long idDocenteModifica;
+    private Long idGradoModifica;
+    private Long idSeccionModifica;
+    private Long idMateriaModifica;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -129,5 +138,77 @@ public class GestionCursoForm {
 
     public void setGradoList(List<SieniGrado> gradoList) {
         this.gradoList = gradoList;
+    }
+
+    public List<SieniGrado> getGradoModificaList() {
+        return gradoModificaList;
+    }
+
+    public void setGradoModificaList(List<SieniGrado> gradoModificaList) {
+        this.gradoModificaList = gradoModificaList;
+    }
+
+    public Long getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(Long idDocente) {
+        this.idDocente = idDocente;
+    }
+
+    public Long getIdGrado() {
+        return idGrado;
+    }
+
+    public void setIdGrado(Long idGrado) {
+        this.idGrado = idGrado;
+    }
+
+    public Long getIdSeccion() {
+        return idSeccion;
+    }
+
+    public void setIdSeccion(Long idSeccion) {
+        this.idSeccion = idSeccion;
+    }
+
+    public Long getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(Long idMateria) {
+        this.idMateria = idMateria;
+    }
+
+    public Long getIdDocenteModifica() {
+        return idDocenteModifica;
+    }
+
+    public void setIdDocenteModifica(Long idDocenteModifica) {
+        this.idDocenteModifica = idDocenteModifica;
+    }
+
+    public Long getIdGradoModifica() {
+        return idGradoModifica;
+    }
+
+    public void setIdGradoModifica(Long idGradoModifica) {
+        this.idGradoModifica = idGradoModifica;
+    }
+
+    public Long getIdSeccionModifica() {
+        return idSeccionModifica;
+    }
+
+    public void setIdSeccionModifica(Long idSeccionModifica) {
+        this.idSeccionModifica = idSeccionModifica;
+    }
+
+    public Long getIdMateriaModifica() {
+        return idMateriaModifica;
+    }
+
+    public void setIdMateriaModifica(Long idMateriaModifica) {
+        this.idMateriaModifica = idMateriaModifica;
     }
 }

@@ -13,10 +13,18 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
+import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.form.GestionNotasForm;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniEvaluacion;
+import sv.com.mined.sieni.model.SieniGrado;
+import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
 
 /**
@@ -33,6 +41,15 @@ public class GestionNotasController extends GestionNotasForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
+    @EJB
+    private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
+
+    @EJB
+    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
+
+    @EJB
+    private SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
+
     @PostConstruct
     public void init() {
         this.setNotaNuevo(new SieniNota());
@@ -43,9 +60,24 @@ public class GestionNotasController extends GestionNotasForm {
 
     private void fill() {
         this.setNotaList(sieniNotaFacadeRemote.findAll());
+        this.setMateriasList(sieniMateriaFacadeRemote.findAll());
+        this.setAlumnosList(sieniAlumnoFacadeRemote.findAll());
+        this.setEvaluacionesList(sieniEvaluacionFacadeRemote.findAll());
     }
 
     public void guardar() {
+        for (SieniAlumno actual : this.getAlumnosList()) {
+            if (actual.getIdAlumno().equals(this.getIdAlumno())) {
+                this.getNotaNuevo().setIdAlumno(actual);
+                break;
+            }
+        }
+        for (SieniEvaluacion actual : this.getEvaluacionesList()) {
+            if (actual.getIdEvaluacion().equals(this.getIdEvaluacion())) {
+                this.getNotaNuevo().setIdEvaluacion(actual);
+                break;
+            }
+        }
         if (validarNuevo(this.getNotaNuevo())) {//valida el guardado
             sieniNotaFacadeRemote.create(this.getNotaNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
@@ -86,6 +118,18 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void guardarModifica() {
+        for (SieniAlumno actual : this.getAlumnosModificaList()) {
+            if (actual.getIdAlumno().equals(this.getIdAlumnoModifica())) {
+                this.getNotaModifica().setIdAlumno(actual);
+                break;
+            }
+        }
+        for (SieniEvaluacion actual : this.getEvaluacionesModificaList()) {
+            if (actual.getIdEvaluacion().equals(this.getIdEvaluacionModifica())) {
+                this.getNotaModifica().setIdEvaluacion(actual);
+                break;
+            }
+        }
         if (validarModifica(this.getNotaModifica())) {//valida el guardado
             sieniNotaFacadeRemote.edit(this.getNotaModifica());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
@@ -111,6 +155,30 @@ public class GestionNotasController extends GestionNotasForm {
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
         sieniNotaFacadeRemote.remove(this.getEliminar());
         fill();
+    }
+
+    public void getSeccionesGrado(ValueChangeEvent a) {
+        Long idMateria = (Long) a.getNewValue();
+        SieniMateria cod = new SieniMateria();
+        for (SieniMateria actual : this.getMateriasList()) {
+            if (actual.getIdMateria().equals(idMateria)) {
+                cod = actual;
+                break;
+            }
+        }
+        this.setEvaluacionesList(cod.getSieniEvaluacionList());
+    }
+ 
+    public void getSeccionesGradoModifica(ValueChangeEvent a) {
+        Long idMateria = (Long) a.getNewValue();
+        SieniMateria cod = new SieniMateria();
+        for (SieniMateria actual : this.getMateriasModificaList()) {
+            if (actual.getIdMateria().equals(idMateria)) {
+                cod = actual;
+                break;
+            }
+        }
+        this.setEvaluacionesModificaList(cod.getSieniEvaluacionList());
     }
 
 }

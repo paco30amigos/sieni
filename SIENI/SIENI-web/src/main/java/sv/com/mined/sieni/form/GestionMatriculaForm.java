@@ -28,11 +28,17 @@ public class GestionMatriculaForm {
     private List<SieniAlumno> alumnosList;
     private List<SieniSeccion> seccionesList;
     private List<SieniGrado> gradosList;
+    private Long idAlumno;
+    private Long idSeccion;
+    private Long idGrado;
     //modificacion de matricula
     private SieniMatricula matriculaModifica;
     private List<SieniAlumno> alumnosModificaList;
     private List<SieniSeccion> seccionesModificaList;
     private List<SieniGrado> gradosModificaList;
+    private Long idAlumnoModifica;
+    private Long idSeccionModifica;
+    private Long idGradoModifica;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -120,6 +126,54 @@ public class GestionMatriculaForm {
 
     public void setGradosModificaList(List<SieniGrado> gradosModificaList) {
         this.gradosModificaList = gradosModificaList;
+    }
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public Long getIdSeccion() {
+        return idSeccion;
+    }
+
+    public void setIdSeccion(Long idSeccion) {
+        this.idSeccion = idSeccion;
+    }
+
+    public Long getIdGrado() {
+        return idGrado;
+    }
+
+    public void setIdGrado(Long idGrado) {
+        this.idGrado = idGrado;
+    }
+
+    public Long getIdAlumnoModifica() {
+        return idAlumnoModifica;
+    }
+
+    public void setIdAlumnoModifica(Long idAlumnoModifica) {
+        this.idAlumnoModifica = idAlumnoModifica;
+    }
+
+    public Long getIdSeccionModifica() {
+        return idSeccionModifica;
+    }
+
+    public void setIdSeccionModifica(Long idSeccionModifica) {
+        this.idSeccionModifica = idSeccionModifica;
+    }
+
+    public Long getIdGradoModifica() {
+        return idGradoModifica;
+    }
+
+    public void setIdGradoModifica(Long idGradoModifica) {
+        this.idGradoModifica = idGradoModifica;
     }
 
 }

@@ -25,7 +25,7 @@ public class GestionArchivoMultimediaForm {
     private SieniArchivo eliminar;
     private SieniArchivo ver;
     private StreamedContent archivoVer;
-    private final String formatosVideo = "/(\\.|\\/)(mp4)$/";
+    private final String formatosVideo = "/(\\.|\\/)(mp4|wmv|mp4)$/";
     private final String formatosAudio = "/(\\.|\\/)(mp3)$/";
     private final String formatosImagen = "/(\\.|\\/)(jpg)$/";
 
@@ -206,7 +206,7 @@ public class GestionArchivoMultimediaForm {
                 if (ver.getArTipo().equals(new Character('A'))) {
                     archivoVer = new DefaultStreamedContent(input, "audio/mpeg");
                 } else if (ver.getArTipo().equals(new Character('V'))) {
-                    archivoVer = new DefaultStreamedContent(input, "video/mp4"); 
+                    archivoVer = new DefaultStreamedContent(input, "video/wmv"); 
                 } else {
                     archivoVer = new DefaultStreamedContent(input);
                 }

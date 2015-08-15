@@ -16,10 +16,17 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
+import sv.com.mined.sieni.SieniGradoFacadeRemote;
+import sv.com.mined.sieni.SieniMateriaFacadeRemote;
+import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionCursoForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniGrado;
+import sv.com.mined.sieni.model.SieniMateria;
+import sv.com.mined.sieni.model.SieniSeccion;
 
 /**
  *
@@ -35,6 +42,15 @@ public class GestionCursoController extends GestionCursoForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
+    @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
+    @EJB
+    private SieniGradoFacadeRemote sieniGradoFacadeRemote;
+    @EJB
+    private SieniSeccionFacadeRemote sieniSeccionFacadeRemote;
+    @EJB
+    private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
+
     @PostConstruct
     public void init() {
         this.setCursoNuevo(new SieniCurso());
@@ -45,9 +61,56 @@ public class GestionCursoController extends GestionCursoForm {
 
     private void fill() {
         this.setCursoList(sieniCursoFacadeRemote.findAll());
+        //nuevo
+        this.setDocentesList(sieniDocenteFacadeRemote.findAll());
+        this.setGradoList(sieniGradoFacadeRemote.findAll());
+        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
+        this.setSeccionList(new ArrayList<SieniSeccion>());
+        if (this.getGradoList() != null && !this.getGradoList().isEmpty()) {
+            if (this.getGradoList().get(0).getSieniSeccionList() != null
+                    && !this.getGradoList().get(0).getSieniSeccionList().isEmpty()) {
+                this.setSeccionList(this.getGradoList().get(0).getSieniSeccionList());
+            }
+        }
+        //modifica
+        this.setDocentesModificaList(sieniDocenteFacadeRemote.findAll());
+        this.setGradoModificaList(sieniGradoFacadeRemote.findAll());
+        this.setMateriaModificaList(sieniMateriaFacadeRemote.findAll());
+        this.setSeccionModificaList(new ArrayList<SieniSeccion>());
+        if (this.getGradoModificaList() != null && !this.getGradoModificaList().isEmpty()) {
+            if (this.getGradoModificaList().get(0).getSieniSeccionList() != null
+                    && !this.getGradoModificaList().get(0).getSieniSeccionList().isEmpty()) {
+                this.setSeccionModificaList(this.getGradoModificaList().get(0).getSieniSeccionList());
+            }
+        }
     }
 
     public void guardar() {
+        for (SieniDocente actual : this.getDocentesList()) {
+            if (actual.getIdDocente().equals(this.getIdDocente())) {
+                this.getCursoNuevo().setIdDocente(actual);
+                break;
+            }
+        }
+        for (SieniGrado actual : this.getGradoList()) {
+            if (actual.getIdGrado().equals(this.getIdGrado())) {
+                this.getCursoNuevo().setIdGrado(actual);
+                break;
+            }
+        }
+        for (SieniSeccion actual : this.getSeccionList()) {
+            if (actual.getIdSeccion().equals(this.getIdSeccion())) {
+                this.getCursoNuevo().setIdSeccion(actual);
+                break;
+            }
+        }
+        for (SieniMateria actual : this.getMateriaList()) {
+            if (actual.getIdMateria().equals(this.getIdMateria())) {
+                this.getCursoNuevo().setIdMateria(actual);
+                break;
+            }
+        }
+
         if (validarNuevo(this.getCursoNuevo())) {//valida el guardado
             sieniCursoFacadeRemote.create(this.getCursoNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Curso", this.getCursoNuevo().getIdCurso(), 'D'));
@@ -88,6 +151,30 @@ public class GestionCursoController extends GestionCursoForm {
     }
 
     public void guardarModifica() {
+        for (SieniDocente actual : this.getDocentesModificaList()) {
+            if (actual.getIdDocente().equals(this.getIdDocenteModifica())) {
+                this.getCursoModifica().setIdDocente(actual);
+                break;
+            }
+        }
+        for (SieniGrado actual : this.getGradoModificaList()) {
+            if (actual.getIdGrado().equals(this.getIdGradoModifica())) {
+                this.getCursoModifica().setIdGrado(actual);
+                break;
+            }
+        }
+        for (SieniSeccion actual : this.getSeccionModificaList()) {
+            if (actual.getIdSeccion().equals(this.getIdSeccionModifica())) {
+                this.getCursoModifica().setIdSeccion(actual);
+                break;
+            }
+        }
+        for (SieniMateria actual : this.getMateriaModificaList()) {
+            if (actual.getIdMateria().equals(this.getIdMateriaModifica())) {
+                this.getCursoModifica().setIdMateria(actual);
+                break;
+            }
+        }
         if (validarModifica(this.getCursoModifica())) {//valida el guardado
             sieniCursoFacadeRemote.edit(this.getCursoModifica());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Curso", this.getCursoModifica().getIdCurso(), 'D'));
@@ -116,12 +203,26 @@ public class GestionCursoController extends GestionCursoForm {
     }
 
     public void getSeccionesGrado(ValueChangeEvent a) {
-        SieniGrado cod = (SieniGrado) a.getNewValue();
+        Long idGrado = (Long) a.getNewValue();
+        SieniGrado cod = new SieniGrado();
+        for (SieniGrado actual : this.getGradoList()) {
+            if (actual.getIdGrado().equals(idGrado)) {
+                cod = actual;
+                break;
+            }
+        }
         this.setSeccionList(cod.getSieniSeccionList());
     }
 
     public void getSeccionesGradoModifica(ValueChangeEvent a) {
-        SieniGrado cod = (SieniGrado) a.getNewValue();
+        Long idGrado = (Long) a.getNewValue();
+        SieniGrado cod = new SieniGrado();
+        for (SieniGrado actual : this.getGradoModificaList()) {
+            if (actual.getIdGrado().equals(idGrado)) {
+                cod = actual;
+                break;
+            }
+        }
         this.setSeccionModificaList(cod.getSieniSeccionList());
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -40,7 +41,7 @@ public class SieniGrado implements Serializable {
     private String grNombre;
     @Column(name = "gr_numero")
     private Integer grNumero;
-    @OneToMany(mappedBy = "idGrado")
+    @OneToMany(mappedBy = "idGrado",fetch = FetchType.EAGER)
     private List<SieniSeccion> sieniSeccionList;
     @OneToMany(mappedBy = "idGrado")
     private List<SieniMatricula> sieniMatriculaList;

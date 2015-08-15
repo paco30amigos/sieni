@@ -7,7 +7,8 @@ package sv.com.mined.sieni.controller;
 
 import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Base64;
+import java.util.Arrays;
+import org.primefaces.util.Base64;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -229,7 +230,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         String passEncriptado = "";
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            passEncriptado = Base64.getEncoder().encodeToString((digest.digest(pass.getBytes("UTF-8"))));
+            passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(pass.getBytes("UTF-8"))),false));
         } catch (Exception e) {
         }
         return passEncriptado;

@@ -13,7 +13,7 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:tabView tabindex="#{gestionNotaController.indexMenu}" activeIndex="#{gestionarAnioEscolarController.indexMenu}" id="tabMenu">
+        <p:tabView tabindex="#{gestionNotaController.indexMenu}" activeIndex="#{gestionNotaController.indexMenu}" id="tabMenu">
             <p:tab title="Consulta de Notas">
                 <h:form id="consultaForm">
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
@@ -29,7 +29,7 @@
                         <p:column headerText="Alumno" filterBy="#{car.idAlumno.nombreCompleto}" filterable="true" filterMatchMode="contains">
                             #{car.idAlumno.nombreCompleto}
                         </p:column>
-                        <p:column headerText="Materia" filterBy="#{car.idEvaluacion.evMateria}" filterable="true" filterMatchMode="contains">
+                        <p:column headerText="Materia" filterBy="#{car.idEvaluacion.idMateria.maNombre}" filterable="true" filterMatchMode="contains">
                             #{car.idEvaluacion.idMateria.maNombre}
                         </p:column>
                         <p:column headerText="Tipo de Evaluación" filterBy="#{car.idEvaluacion.evTipo}" filterable="true" filterMatchMode="contains">
@@ -64,16 +64,17 @@
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
                         <p:outputLabel for="alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="alumno"  class=" Responsive" value="#{gestionNotaController.notaNuevo.idAlumno}">
-                            <f:selectItems itemValue ="#{al}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
+                        <p:selectOneMenu id="alumno"  class=" Responsive" value="#{gestionNotaController.idAlumno}">
+                            <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionNotaController.notaNuevo.idEvaluacion.idMateria}">
-                            <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionNotaController.idMateria}" valueChangeListener="#{gestionNotaController.getSeccionesGrado}">
+                            <f:selectItems itemValue ="#{mat.idMateria}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                            <p:ajax event="valueChange" update="evaluacion"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.notaNuevo.idEvaluacion}">
-                            <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
+                        <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.idEvaluacion}">
+                            <f:selectItems itemValue ="#{eval.idEvaluacion}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
@@ -115,16 +116,17 @@
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
                         <p:outputLabel for="mod_alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_alumno"  class=" Responsive" value="#{gestionNotaController.notaNuevo.idAlumno}">
-                            <f:selectItems itemValue ="#{al}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
+                        <p:selectOneMenu id="mod_alumno"  class=" Responsive" value="#{gestionNotaController.idAlumno}">
+                            <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="mod_materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionNotaController.notaNuevo.idEvaluacion.idMateria}">
-                            <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                        <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionNotaController.idMateriaModifica}" valueChangeListener="#{gestionNotaController.getSeccionesGradoModifica}">
+                            <f:selectItems itemValue ="#{mat.idMateria}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                            <p:ajax event="valueChange" update="mod_evaluacion"/>
                         </p:selectOneMenu>
                         <p:outputLabel for="mod_evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  id="mod_evaluacion" class=" Responsive" value="#{gestionNotaController.notaNuevo.idEvaluacion}">
-                            <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
+                        <p:selectOneMenu  id="mod_evaluacion" class=" Responsive" value="#{gestionNotaController.idEvaluacionModifica}">
+                            <f:selectItems itemValue ="#{eval.idEvaluacion}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">

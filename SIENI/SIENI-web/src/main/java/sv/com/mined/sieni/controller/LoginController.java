@@ -6,7 +6,8 @@
 package sv.com.mined.sieni.controller;
 
 import java.security.MessageDigest;
-import java.util.Base64;
+import java.util.Arrays;
+
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +16,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
+import org.primefaces.util.Base64;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.LoginForm;
@@ -35,11 +37,10 @@ public class LoginController extends LoginForm {
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
 
     public void login(ActionEvent actionEvent) {
-        RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage msg = null;
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            String passEncriptado = Base64.getEncoder().encodeToString((digest.digest(this.getPassword().getBytes("UTF-8"))));
+            String passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(this.getPassword().getBytes("UTF-8"))), false));;
             SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoUsuario(this.getUsuario(), passEncriptado);
             if (alumno == null) {
                 SieniDocente docente = sieniDocenteFacadeRemote.findDocenteUsuario(this.getUsuario(), passEncriptado);

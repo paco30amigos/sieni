@@ -26,10 +26,10 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
-                    <p:dataTable id="consulta" var="car" value="#{gestionarDocentesController.docentesList}" 
+                    <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionarDocentesController.docentesList}" 
                                  paginator="true" rows="5"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15"
+                                 rowsPerPageTemplate="10,20,40"
                                  reflow="true">
                         <p:column headerText="Foto">
                             <p:graphicImage value="#{imagesDataTable.imagenDocente}" width="100em" cache="false">
@@ -169,7 +169,7 @@
                     </p:panelGrid>
                     <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">
                         <p:outputLabel for="mod_fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
-                        <p:calendar id="mod_fechNacimNuevo" value="#{gestionarDocentesController.docenteModifica.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/mm/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:calendar id="mod_fechNacimNuevo" value="#{gestionarDocentesController.docenteModifica.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                         <p:outputLabel for="mod_emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
                         <p:inputText id="mod_emailNuevo" type="email" value="#{gestionarDocentesController.docenteModifica.dcCorreo}"></p:inputText>
                         <p:outputLabel for="mod_telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>

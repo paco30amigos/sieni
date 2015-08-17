@@ -24,7 +24,7 @@
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15"
+                                 rowsPerPageTemplate="10,20,40"
                                  reflow="true">
                         <p:column headerText="Alumno" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
                             #{formatoPantallas.campo300}

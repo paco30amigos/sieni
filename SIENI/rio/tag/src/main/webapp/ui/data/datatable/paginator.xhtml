@@ -11,7 +11,7 @@
             <p:dataTable var="car" value="#{dtPaginatorView.cars}" rows="10" 
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="5,10,15">
+                         rowsPerPageTemplate="10,20,40">
                 <p:column headerText="Id">
                     <h:outputText value="#{car.id}" />
                 </p:column>

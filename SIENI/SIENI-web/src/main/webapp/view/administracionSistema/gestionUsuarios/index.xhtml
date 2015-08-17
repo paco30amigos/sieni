@@ -26,10 +26,10 @@
                         <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <p:dataTable rows="10" var="car" value="#{mntoUsuariosController.usuariosList}" 
+                    <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{mntoUsuariosController.usuariosList}" 
                                  paginator="true"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15"
+                                 rowsPerPageTemplate="10,20,40"
                                  reflow="true">
                         <p:column headerText="Usuario" filterBy="#{car.usuario}" filterMatchMode="contains" filterable="true">
                             #{car.usuario}

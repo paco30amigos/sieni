@@ -90,6 +90,12 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.setAlumnoModifica(modificado);
         this.setIndexMenu(2);
     }
+    public void ver(SieniAlumno modificado) {
+        this.setFotoArchivoModifica(modificado.getAlFoto());
+        this.setFotoUsableModifica(getImage(modificado.getAlFoto()));
+        this.setAlumnoModifica(modificado);
+        this.setIndexMenu(3);
+    }
 
     //metodos para modificacion de datos
     public void eliminar(SieniAlumno eliminado) {

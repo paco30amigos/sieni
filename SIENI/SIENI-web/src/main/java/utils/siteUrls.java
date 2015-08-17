@@ -5,7 +5,10 @@
  */
 package utils;
 
+import java.io.IOException;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -46,19 +49,68 @@ public class siteUrls {
     private final String reporteParticipacionClases = "/faces/view/rpt/reporteParticipacionClases/index.xhtml";
     private final String reporteCursos = "/faces/view/rpt/reporteCursos/index.xhtml";
     private final String reporteAlumnos = "/faces/view/rpt/reporteAlumnos/index.xhtml";
-    
-    
-    private final String ejerciciosResueltos="/faces/view/gestionCurso/gestionClase/ejerciciosResueltos/index.xhtml";
 
-    
+    private final String ejerciciosResueltos = "/faces/view/gestionCurso/gestionClase/ejerciciosResueltos/index.xhtml";
+
     private final String ejerciciosRes = "/faces/view/gestionCurso/gestionClase/ejerciciosRes/index.xhtml";
     private final String reporteRendimientoAlumno = "/faces/view/rpt/rendimientoAlumno/index.xhtml";
 
-    
+    ////
+    private final String basegestionarAnioEscolar = "/faces/view/gestionAnioEscolar/";
+    private final String basegestionarAlumnos = "/faces/view/gestionarAlumnos/";
+    private final String basegestionarDocentes = "/faces/view/gestionarDocentes/";
+    private final String basegestionarCursos = "/faces/view/gestionCurso/";
+    private final String baseprogramacionClases = "/faces/view/gestionCurso/gestionClase/programacionClase/";
+    private final String basegestionArchivosMultimedia = "/faces/view/gestionCurso/gestionArchivosMultimedia/";
+    private final String basegestionConsulta = "/faces/view/portalConsultas/gestionConsultas/";
+    private final String basegestionEvaluacion = "/faces/view/gestionCurso/gestionEvaluaciones/";
+    private final String basegestionNoticia = "/faces/view/portalNoticias/gestionNoticias/";
+    private final String basegestionMateria = "/faces/view/gestionCurso/gestionMaterias/";
+    private final String basegestionNota = "/faces/view/gestionCurso/gestionNotas/";
+    private final String basegestionUsuarios = "/faces/view/administracionSistema/gestionUsuarios/";
+    private final String basebitacora = "/faces/view/administracionSistema/gestionUsuarios/bitacora.xhtml";
+    private final String basegestionAlumnos = "/faces/view/gestionAnioEscolar/matricula/";
+    private final String baseexpedienteAlumnos = "/faces/view/gestionAlumnos/expediente/";
+    private final String basegestionDocentes = "/faces/view/gestionDocentes/mantenimientoDocentes/";
+    private final String basebuzonNotificacion = "/faces/view/buzonNotificaciones/";
+    private final String baseclaseOnline = "/faces/view/gestionCurso/gestionClase/claseOnline/";
+    private final String baseclaseVideoAlmacenada = "/faces/view/gestionCurso/gestionClase/claseVideoAlmacenada/";
+    private final String baseclaseInteractiva = "/faces/view/gestionCurso/gestionClase/claseInteractiva/";
+    private final String basecomponenteInteractiva = "/faces/view/gestionCurso/gestionCompInteract/";
+
+    private final String basereporteMatricula = "/faces/view/rpt/reporteMatricula/";
+    private final String basereporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/";
+    private final String basereporteNotasAlumnoAnioEscolar = "/faces/view/rpt/reporteNotasAlumnoAnioEscolar/";
+    private final String basereporteEvaluaciones = "/faces/view/rpt/reporteEvaluaciones/";
+    private final String basereporteClases = "/faces/view/rpt/reporteClases/";
+    private final String basereporteDocentes = "/faces/view/rpt/reporteDocentes/";
+    private final String basereporteUsuarios = "/faces/view/rpt/reporteUsuarios/";
+    private final String basereporteParticipacionClases = "/faces/view/rpt/reporteParticipacionClases/";
+    private final String basereporteCursos = "/faces/view/rpt/reporteCursos/";
+    private final String basereporteAlumnos = "/faces/view/rpt/reporteAlumnos/";
+
+    private final String baseejerciciosResueltos = "/faces/view/gestionCurso/gestionClase/ejerciciosResueltos/";
+
+    private final String baseejerciciosRes = "/faces/view/gestionCurso/gestionClase/ejerciciosRes/";
+    private final String basereporteRendimientoAlumno = "/faces/view/rpt/rendimientoAlumno/";
+
+    public void redirect(String url) {
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
+        String contextPath = origRequest.getContextPath();
+        try {
+            FacesContext.getCurrentInstance().getExternalContext()
+                    .redirect(contextPath + url);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getEjerciciosResueltos() {
         return ejerciciosResueltos;
     }
-    
+
     public String getGestionarAnioEscolar() {
         return gestionarAnioEscolar;
     }
@@ -111,7 +163,6 @@ public class siteUrls {
         return bitacora;
     }
 
-    
     public String getGestionAlumnos() {
         return gestionAlumnos;
     }
@@ -147,7 +198,7 @@ public class siteUrls {
     public String getReporteEvaluaciones() {
         return reporteEvaluaciones;
     }
-    
+
     public String getEjerciciosRes() {
         return ejerciciosRes;
     }
@@ -175,9 +226,6 @@ public class siteUrls {
     public String getReporteAlumnos() {
         return reporteAlumnos;
     }
-    
-    
-    
 
     public String getClaseOnline() {
         return claseOnline;
@@ -193,6 +241,142 @@ public class siteUrls {
 
     public String getComponenteInteractiva() {
         return componenteInteractiva;
+    }
+
+    public String getBasegestionarAnioEscolar() {
+        return basegestionarAnioEscolar;
+    }
+
+    public String getBasegestionarAlumnos() {
+        return basegestionarAlumnos;
+    }
+
+    public String getBasegestionarDocentes() {
+        return basegestionarDocentes;
+    }
+
+    public String getBasegestionarCursos() {
+        return basegestionarCursos;
+    }
+
+    public String getBaseprogramacionClases() {
+        return baseprogramacionClases;
+    }
+
+    public String getBasegestionArchivosMultimedia() {
+        return basegestionArchivosMultimedia;
+    }
+
+    public String getBasegestionConsulta() {
+        return basegestionConsulta;
+    }
+
+    public String getBasegestionEvaluacion() {
+        return basegestionEvaluacion;
+    }
+
+    public String getBasegestionNoticia() {
+        return basegestionNoticia;
+    }
+
+    public String getBasegestionMateria() {
+        return basegestionMateria;
+    }
+
+    public String getBasegestionNota() {
+        return basegestionNota;
+    }
+
+    public String getBasegestionUsuarios() {
+        return basegestionUsuarios;
+    }
+
+    public String getBasebitacora() {
+        return basebitacora;
+    }
+
+    public String getBasegestionAlumnos() {
+        return basegestionAlumnos;
+    }
+
+    public String getBaseexpedienteAlumnos() {
+        return baseexpedienteAlumnos;
+    }
+
+    public String getBasegestionDocentes() {
+        return basegestionDocentes;
+    }
+
+    public String getBasebuzonNotificacion() {
+        return basebuzonNotificacion;
+    }
+
+    public String getBaseclaseOnline() {
+        return baseclaseOnline;
+    }
+
+    public String getBaseclaseVideoAlmacenada() {
+        return baseclaseVideoAlmacenada;
+    }
+
+    public String getBaseclaseInteractiva() {
+        return baseclaseInteractiva;
+    }
+
+    public String getBasecomponenteInteractiva() {
+        return basecomponenteInteractiva;
+    }
+
+    public String getBasereporteMatricula() {
+        return basereporteMatricula;
+    }
+
+    public String getBasereporteEstadisticoAvanceAlumno() {
+        return basereporteEstadisticoAvanceAlumno;
+    }
+
+    public String getBasereporteNotasAlumnoAnioEscolar() {
+        return basereporteNotasAlumnoAnioEscolar;
+    }
+
+    public String getBasereporteEvaluaciones() {
+        return basereporteEvaluaciones;
+    }
+
+    public String getBasereporteClases() {
+        return basereporteClases;
+    }
+
+    public String getBasereporteDocentes() {
+        return basereporteDocentes;
+    }
+
+    public String getBasereporteUsuarios() {
+        return basereporteUsuarios;
+    }
+
+    public String getBasereporteParticipacionClases() {
+        return basereporteParticipacionClases;
+    }
+
+    public String getBasereporteCursos() {
+        return basereporteCursos;
+    }
+
+    public String getBasereporteAlumnos() {
+        return basereporteAlumnos;
+    }
+
+    public String getBaseejerciciosResueltos() {
+        return baseejerciciosResueltos;
+    }
+
+    public String getBaseejerciciosRes() {
+        return baseejerciciosRes;
+    }
+
+    public String getBasereporteRendimientoAlumno() {
+        return basereporteRendimientoAlumno;
     }
 
 }

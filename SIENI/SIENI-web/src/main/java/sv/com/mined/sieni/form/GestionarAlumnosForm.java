@@ -14,6 +14,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniAlumno;
+import utils.siteUrls;
 
 /**
  *
@@ -82,9 +83,18 @@ public class GestionarAlumnosForm {
         FacesContext context = FacesContext.getCurrentInstance();
         if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
             // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
-            return new DefaultStreamedContent();
+            if (fotoUsable != null) {
+                return new DefaultStreamedContent();
+            } else {
+                return null;
+            }
         } else {
-            return fotoUsable;
+            if (fotoUsable != null) {
+                return fotoUsable;
+            } else {
+                return null;
+            }
+
         }
     }
 
@@ -105,6 +115,21 @@ public class GestionarAlumnosForm {
     }
 
     public void setIndexMenu(int indexMenu) {
+        siteUrls sU = new siteUrls();
+        switch (indexMenu) {
+            case 0:
+                sU.redirect(sU.getBaseexpedienteAlumnos() + "index.xhtml");
+                break;
+            case 1:
+                sU.redirect(sU.getBaseexpedienteAlumnos() + "crear.xhtml");
+                break;
+            case 2:
+                sU.redirect(sU.getBaseexpedienteAlumnos() + "editar.xhtml");
+                break;
+            case 3:
+                sU.redirect(sU.getBaseexpedienteAlumnos() + "ver.xhtml");
+                break;
+        }
         this.indexMenu = indexMenu;
     }
 

@@ -10,7 +10,7 @@
         <h:form id="form">
             <p:dataTable var="car" value="#{dtLazyView.lazyModel}" paginator="true" rows="10"
                          paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}"
-                         rowsPerPageTemplate="5,10,15" selectionMode="single" selection="#{dtLazyView.selectedCar}" id="carTable" lazy="true">
+                         rowsPerPageTemplate="10,20,40" selectionMode="single" selection="#{dtLazyView.selectedCar}" id="carTable" lazy="true">
                 <p:ajax event="rowSelect" listener="#{dtLazyView.onRowSelect}" update=":form:carDetail" oncomplete="PF('carDialog').show()" />
                 <p:column headerText="Id" sortBy="#{car.id}" filterBy="#{car.id}">
                     <h:outputText value="#{car.id}" />

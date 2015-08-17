@@ -205,6 +205,7 @@ input[type="text"], input[type="password"], textarea{ -webkit-appearance: none; 
 .Container20{ width:20%; float:left;}
 .Container10{ width:10%; float:left;}
 .Container5{ width:5%; float:left;}
+.Container2{ width:2%; float:left;}
 
 .ContainerIndent{display:block; margin:0px auto; padding:10px;}
 

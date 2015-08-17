@@ -386,7 +386,7 @@ public class SieniAlumno implements Serializable {
     }
 
     public String getFechaNacimientoFiltrable() {
-        SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
         if (alFechaNacimiento != null) {
             fechaNacimientoFiltrable = dt1.format(alFechaNacimiento);
         }

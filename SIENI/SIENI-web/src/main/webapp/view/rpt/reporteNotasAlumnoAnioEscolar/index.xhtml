@@ -28,10 +28,10 @@
                         <p:inputText value="#{rptNotasController.hasta}"></p:inputText>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta" rows="10" var="car" value="#{rptNotasController.notasList}" 
+                    <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{rptNotasController.notasList}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="5,10,15"
+                                 rowsPerPageTemplate="10,20,40"
                                  reflow="true">
                         <p:column headerText="Alumno" >
                             #{car.idAlumno.nombreCompleto}

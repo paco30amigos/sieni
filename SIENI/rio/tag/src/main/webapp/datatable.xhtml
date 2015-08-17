@@ -17,7 +17,7 @@
                             <h:form id="form">
                                 <p:dataTable id="singleDT" var="car" value="#{dtSelectionView.cars7}" selectionMode="single" selection="#{dtSelectionView.selectedCar}" rowKey="#{car.id}"
                                              rows="10" paginator="true" paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                             rowsPerPageTemplate="5,10,15" emptyMessage="No cars found with given criteria" reflow="true">
+                                             rowsPerPageTemplate="10,20,40" emptyMessage="No cars found with given criteria" reflow="true">
                                     <f:facet name="header">
                                         Car Sales Ranks
                                     </f:facet>

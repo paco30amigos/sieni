@@ -42,7 +42,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     private void fill() {
-        this.setAlumnosList(sieniAlumnoFacadeRemote.findAll());
+        this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnoActivos());
     }
 
     public void guardar() {
@@ -50,6 +50,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.getAlumnoNuevo().setAlFoto(this.getFotoArchivo());
         quitarFormato(this.getAlumnoNuevo());//quita el formato de los campos
         if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
+            this.getAlumnoNuevo().setAlEstado('A');
             sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Alumno", this.getAlumnoNuevo().getIdAlumno(), 'D'));
             FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
@@ -90,6 +91,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.setAlumnoModifica(modificado);
         this.setIndexMenu(2);
     }
+
     public void ver(SieniAlumno modificado) {
         this.setFotoArchivoModifica(modificado.getAlFoto());
         this.setFotoUsableModifica(getImage(modificado.getAlFoto()));
@@ -111,7 +113,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.getAlumnoModifica().setAlFoto(this.getFotoArchivoModifica());
         quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
         if (validarModifica(this.getAlumnoModifica())) {//valida el guardado
-            sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica()); 
+            sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Alumno", this.getAlumnoModifica().getIdAlumno(), new Character('D')));
             FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -135,7 +137,8 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
 
     public void eliminarExpediente() {
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Alumno", this.getEliminar().getIdAlumno(), 'D'));
-        sieniAlumnoFacadeRemote.remove(this.getEliminar());        
+        this.getEliminar().setAlEstado(new Character('I'));
+        sieniAlumnoFacadeRemote.edit(this.getEliminar());
         fill();
     }
 }

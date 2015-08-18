@@ -8,7 +8,7 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionDocentes}"/>
+            <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
             <p:menuitem value="Consultar Expediente"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
@@ -17,9 +17,15 @@
     <ui:define name="content">  
         <div class="EmptyBox5"></div>
         <p:panel>
-            <h:form>
+            <h:form id="consultaForm">
                 <p:dialog widgetVar="dlgAyuda1" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton Modifica"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionarAlumnosController.eliminarExpediente()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <div class="Container10" style="margin-top: 20px;margin-left: 40px;">
                     <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
@@ -54,7 +60,10 @@
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton value="Eliminar" update="p1" />
+                    <p:commandButton value="Modificar" action="#{gestionarAlumnosController.modificar(gestionarAlumnosController.alumnoModifica)}" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Eliminar" action="#{gestionarAlumnosController.eliminar(gestionarAlumnosController.alumnoModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
                         <p:ajax update="p1,fotoSubida" resetValues="true" listener="#{gestionarAlumnosController.setIndexMenu(0)}"/>
                     </p:commandButton>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-08-18T22:04:18 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Blank_Letter" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
+	<queryString>
+		<![CDATA[select al_prim_nombre,al_segu_nombre,al_terc_nombre,al_prim_ape,al_segu_ape,al_terc_ape from sieni_alumno]]>
+	</queryString>
+	<field name="al_prim_nombre" class="java.lang.String"/>
+	<field name="al_segu_nombre" class="java.lang.String"/>
+	<field name="al_terc_nombre" class="java.lang.String"/>
+	<field name="al_prim_ape" class="java.lang.String"/>
+	<field name="al_segu_ape" class="java.lang.String"/>
+	<field name="al_terc_ape" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="30" width="100" height="30" uuid="94c12ccb-6f5e-4b02-bf5a-f26b3c3e53ce"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Alumno]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="1" width="110" height="19" uuid="93954315-b21d-4ebd-8b92-601d8f0ccfb5"/>
+				<textFieldExpression><![CDATA[$F{al_prim_nombre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

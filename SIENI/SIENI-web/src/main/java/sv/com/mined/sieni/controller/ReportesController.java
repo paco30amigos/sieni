@@ -14,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
@@ -34,11 +33,31 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
  *
  * @author Laptop
  */
+@ManagedBean(name = "reportesController")
 public class ReportesController {
 
+    @Resource(name = "bd_sieni")
+    private javax.sql.DataSource origenDatos;
     public static final int PDF_REPORT = 0;
     public static final int DOCX_REPORT = 1;
     public static final int XLSX_REPORT = 2;
+    int tipo = 0;
+
+    public void GenerarDocentePera() {
+        String path = "resources/reportes/Blank_Letter.jasper";
+        Map parameterMap = new HashMap();
+        try {
+            Connection con = origenDatos.getConnection();
+            generateReport(path, "DocentePera", con, parameterMap, tipo);
+            con.close();
+        } catch (JRException ex) {
+            Logger.getLogger("error 1").log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger("error 2").log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger("error 3").log(Level.SEVERE, null, ex);
+        }
+    }
 
     public static void generateReport(String path, String fileName, Connection connection, Map parameters, int format) throws JRException, IOException {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

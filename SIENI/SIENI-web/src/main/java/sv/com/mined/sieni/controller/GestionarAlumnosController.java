@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
@@ -52,7 +53,9 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
             this.getAlumnoNuevo().setAlEstado('A');
             sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Alumno", this.getAlumnoNuevo().getIdAlumno(), 'D'));
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -114,7 +117,9 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
         if (validarModifica(this.getAlumnoModifica())) {//valida el guardado
             sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Alumno", this.getAlumnoModifica().getIdAlumno(), new Character('D')));
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -134,9 +139,11 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
 
         return ban;
     }
-
+ 
     public void eliminarExpediente() {
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Alumno", this.getEliminar().getIdAlumno(), 'D'));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
         this.getEliminar().setAlEstado(new Character('I'));
         sieniAlumnoFacadeRemote.edit(this.getEliminar());
         fill();

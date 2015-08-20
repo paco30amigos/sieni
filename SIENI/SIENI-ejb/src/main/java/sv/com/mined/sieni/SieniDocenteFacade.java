@@ -42,7 +42,12 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
         Query q = em.createNamedQuery("SieniDocente.findDocenteUsuario");
         q.setParameter("usuario", usuario);
         q.setParameter("pass", pass);
-        return (SieniDocente) q.getSingleResult();
+        List<SieniDocente> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
     }
 
 }

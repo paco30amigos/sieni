@@ -15,13 +15,13 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
-import org.primefaces.context.RequestContext;
 import org.primefaces.util.Base64;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.LoginForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
+import utils.siteUrls;
 
 /**
  *
@@ -40,22 +40,27 @@ public class LoginController extends LoginForm {
         FacesMessage msg = null;
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            String passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(this.getPassword().getBytes("UTF-8"))), false));;
+            String passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(this.getPassword().getBytes("UTF-8"))), false));
             SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoUsuario(this.getUsuario(), passEncriptado);
             if (alumno == null) {
                 SieniDocente docente = sieniDocenteFacadeRemote.findDocenteUsuario(this.getUsuario(), passEncriptado);
                 if (docente != null) {
                     this.setLogeado(true);
                     this.setTipoUsuario("D");
+                    this.setTipoRol(docente.getSieniDocentRolList().get(0).getFRolDoc() + "");
+                    this.setIdUsuario(docente.getIdDocente());
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
+                    this.getsU().redirect("/faces/index.xhtml");
                 } else {
-                    msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error",
-                            "Credenciales no válidas");
+                    msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Credenciales no válidas", this.getUsuario());
                 }
             } else {
                 this.setLogeado(true);
                 this.setTipoUsuario("A");
+                this.setTipoRol(alumno.getSieniAlumnRolList().get(0).getFRol() + "");
+                this.setIdUsuario(alumno.getIdAlumno());
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
+                this.getsU().redirect("/");
             }
         } catch (Exception e) {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrió un error inesperado", this.getUsuario());
@@ -67,6 +72,7 @@ public class LoginController extends LoginForm {
         HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
                 .getExternalContext().getSession(false);
         session.invalidate();
+        this.getsU().redirect("/faces/login.xhtml");
         this.setLogeado(false);
     }
 }

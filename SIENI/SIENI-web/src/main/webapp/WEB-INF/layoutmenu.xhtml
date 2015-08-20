@@ -11,10 +11,16 @@
             <li>
                 <a class="menulink ripplelink">
                     <i class="icon-round58 Fs40"></i>
-                    <span class="Fs18">Usuario<i class="icon-downwards Fright Fs20"></i><br /><span class="Fs12 FontRobotoLight">Administrador del sistema</span><div class="EmptyBox5"></div><span class="MarAuto Fs12 FontRobotoLight" style="margin-left: 40px;">Fecha:#{formatUtils.getFormatedDate(dateUtils.fechaActual)}</span></span>
+                    <span class="Fs18">#{loginController.usuario}<i class="icon-downwards Fright Fs20"></i><br /><span class="Fs12 FontRobotoLight">#{loginController.getTipoUsuario(loginController.tipoRol)}</span><div class="EmptyBox5"></div><span class="MarAuto Fs12 FontRobotoLight" style="margin-left: 40px;">Fecha:#{formatUtils.getFormatedDate(dateUtils.fechaActual)}</span></span>
                 </a>
                 <ul>
-                    <li><a href="#" class="menulink ripplelink"><i class="icon-thermostat1 Fs16"></i>Salir</a></li>
+                    <li>
+                        <h:form>
+                            <p:commandLink actionListener="#{loginController.logout()}" class="menulink ripplelink">
+                                <i class="icon-thermostat1 Fs16"></i>Salir
+                            </p:commandLink>
+                        </h:form>
+                    </li>
                 </ul>
             </li>
         </ul>

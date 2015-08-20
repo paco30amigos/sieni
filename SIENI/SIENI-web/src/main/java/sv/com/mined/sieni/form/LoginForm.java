@@ -7,6 +7,7 @@ package sv.com.mined.sieni.form;
 
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
+import utils.siteUrls;
 
 /**
  *
@@ -14,6 +15,8 @@ import sv.com.mined.sieni.model.SieniDocente;
  */
 public class LoginForm {
 
+    private siteUrls sU = new siteUrls();
+    private Long idUsuario;
     private String usuario;
     private String password;
     private boolean logeado;
@@ -21,6 +24,22 @@ public class LoginForm {
     private SieniAlumno alumno;
     private String tipoUsuario;
     private String tipoRol;
+
+    public String getTipoUsuario(String cod) {
+        String ret = "";
+        switch (cod) {
+            case "0":
+                ret = "Alumno";
+                break;
+            case "1":
+                ret = "Docente";
+                break;
+            case "2":
+                ret = "Administrador";
+                break;
+        }
+        return ret;
+    }
 
     public String getUsuario() {
         return usuario;
@@ -76,6 +95,18 @@ public class LoginForm {
 
     public void setTipoRol(String tipoRol) {
         this.tipoRol = tipoRol;
+    }
+
+    public siteUrls getsU() {
+        return sU;
+    }
+
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
 }

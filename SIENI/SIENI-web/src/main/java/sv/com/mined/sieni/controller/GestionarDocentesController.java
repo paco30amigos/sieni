@@ -89,6 +89,13 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         this.setDocenteModifica(modificado);
         this.setIndexMenu(2);
     }
+    
+    public void ver(SieniDocente modificado) {
+        this.setFotoArchivoModifica(modificado.getDcFoto());
+        this.setFotoUsableModifica(getImage(modificado.getDcFoto()));
+        this.setDocenteModifica(modificado);
+        this.setIndexMenu(3);
+    }
 
     //metodos para modificacion de datos
     public void eliminar(SieniDocente eliminado) {

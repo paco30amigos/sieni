@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-08-21T00:04:56 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
+	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="alumno" class="java.lang.String"/>
+	<field name="fechaNacimiento" class="java.lang.String"/>
+	<field name="edad" class="java.lang.String"/>
+	<field name="direccion" class="java.lang.String"/>
+	<field name="telefono" class="java.lang.String"/>
+	<field name="gradoActual" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="98" splitType="Stretch">
+			<staticText>
+				<reportElement x="180" y="10" width="205" height="30" uuid="6380fbb6-acf1-4bc4-9e77-3c16f32331f2"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Centro Escolar San Ramón]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="40" width="205" height="30" uuid="b79a3114-94b7-4203-9a10-9c1efd94e65e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Reporte de Alumnos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="430" y="40" width="80" height="30" uuid="46e126d4-11a7-42e2-ba51-3128b20da3e3"/>
+				<text><![CDATA[Fecha de generación:]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="42" y="0" width="80" height="30" uuid="530bda54-0aca-4464-a702-6f7435a107c2"/>
+				<text><![CDATA[alumno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="122" y="0" width="80" height="30" uuid="2d5f1b4b-bf3a-40e6-8413-63426e21580b"/>
+				<text><![CDATA[fechaNacimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="202" y="0" width="80" height="30" uuid="1069d5f3-cdc2-4f9c-950e-1de74d6d9623"/>
+				<text><![CDATA[edad]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="282" y="0" width="80" height="30" uuid="f2207e9a-4870-47af-bfeb-f5ce1e4c4939"/>
+				<text><![CDATA[direccion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="362" y="0" width="80" height="30" uuid="d6778a95-b1fe-4a1d-a65a-b0e6d799b2c7"/>
+				<text><![CDATA[telefono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="442" y="0" width="80" height="30" uuid="a3d5f371-394c-4dd6-92c7-0c481cd09a43"/>
+				<text><![CDATA[gradoActual]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="83" splitType="Stretch">
+			<textField>
+				<reportElement x="42" y="0" width="80" height="30" uuid="86df671e-2b3c-481f-81a3-19cc7bdae722"/>
+				<textFieldExpression><![CDATA[$F{alumno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="122" y="0" width="80" height="30" uuid="41ec8b5b-0a04-4bc0-8357-049423460f7d"/>
+				<textFieldExpression><![CDATA[$F{fechaNacimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="202" y="0" width="80" height="30" uuid="2e5b58ec-11ed-4769-a89c-1db7b8553d42"/>
+				<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="282" y="0" width="80" height="30" uuid="2005aca6-dfaa-44ca-bb41-e909c8b78818"/>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="362" y="0" width="80" height="30" uuid="595e14ef-9c02-4b87-8cb0-be2dded3ff6c"/>
+				<textFieldExpression><![CDATA[$F{telefono}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="442" y="0" width="80" height="30" uuid="817135f9-9545-4839-8ee5-4746ddf32348"/>
+				<textFieldExpression><![CDATA[$F{gradoActual}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -31,42 +31,20 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
-import sv.com.mined.sieni.pojos.rpt.AlumnosRptPojo;
+import sv.com.mined.sieni.pojos.rpt.RptAlumnosPojo;
 
 /**
  *
  * @author Laptop
  */
-@ManagedBean(name = "reportesController")
 public class ReportesController {
 
-    @Resource(name = "bd_sieni")
-    private javax.sql.DataSource origenDatos;
+//    @Resource(name = "bd_sieni")
+//    private javax.sql.DataSource origenDatos;
     public static final int PDF_REPORT = 0;
     public static final int DOCX_REPORT = 1;
     public static final int XLSX_REPORT = 2;
-    int tipo = 1;
-
-    public void GenerarDocentePera() {
-        String path = "resources/reportes/Blank_Letter.jasper";
-        Map parameterMap = new HashMap();
-        List<AlumnosRptPojo> alumnos = new ArrayList<AlumnosRptPojo>();
-        AlumnosRptPojo nuevo = new AlumnosRptPojo();
-        nuevo.setAl_prim_nombre("nombre");
-        nuevo.setAl_segu_ape("aja");
-        alumnos.add(nuevo);
-        try {
-            Connection con = origenDatos.getConnection();
-            generateReport(path, "Blank_Letter", alumnos, parameterMap, tipo);
-            con.close();
-        } catch (JRException ex) {
-            Logger.getLogger("error 1").log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger("error 2").log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger("error 3").log(Level.SEVERE, null, ex);
-        }
-    }
+    public int tipo = 0;
 
     public static void generateReport(String path, String fileName, Connection connection, Map parameters, int format) throws JRException, IOException {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

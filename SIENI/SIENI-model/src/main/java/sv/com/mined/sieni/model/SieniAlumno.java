@@ -43,6 +43,9 @@ import org.primefaces.model.StreamedContent;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat where mat.mtAnio=:anio"),
+    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat where mat.mtAnio=:anio and mat.idGrado.idGrado=:grado"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat where mat.mtAnio=:anio and mat.idGrado.idGrado=:grado and mat.idSeccion.idSeccion=:seccion"),
     @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A'"),
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL  "),
@@ -119,11 +122,11 @@ public class SieniAlumno implements Serializable {
     private List<SieniNotificacion> sieniNotificacionList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniAlumnRDud> sieniAlumnRDudList;
-    @OneToMany(mappedBy = "idAlumno",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.EAGER)
     private List<SieniAlumnRol> sieniAlumnRolList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniPntosContrl> sieniPntosContrlList;
-    @OneToMany(mappedBy = "idAlumno")
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.EAGER)
     private List<SieniMatricula> sieniMatriculaList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniNota> sieniNotaList;
@@ -135,6 +138,8 @@ public class SieniAlumno implements Serializable {
     private String fechaNacimientoFiltrable;
     @Transient
     private StreamedContent fotoContenido;
+    @Transient
+    private SieniGrado gradoActual;
 
     public SieniAlumno() {
     }
@@ -406,5 +411,21 @@ public class SieniAlumno implements Serializable {
             fotoContenido = new DefaultStreamedContent(input, "image/jpg");
         }
         return fotoContenido;
+    }
+
+    public SieniGrado getGradoActual() {
+        int max = 0, anioActual = 0;
+        for (SieniMatricula actual : this.getSieniMatriculaList()) {
+            anioActual = Integer.parseInt(actual.getMtAnio());
+            if (max < anioActual) {
+                max=anioActual;
+                gradoActual = actual.getIdGrado();
+            }
+        }
+        return gradoActual;
+    }
+
+    public void setGradoActual(SieniGrado gradoActual) {
+        this.gradoActual = gradoActual;
     }
 }

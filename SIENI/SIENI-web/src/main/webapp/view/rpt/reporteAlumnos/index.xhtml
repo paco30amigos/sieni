@@ -5,24 +5,75 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Reportes" url="#"/>
             <p:menuitem value="Reporte de Alumnos" url="#{siteUrls.reporteAlumnos}"/>
-
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+            <p:outputLabel value="Esta ayuda sirve un monton"/>
+        </p:dialog>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Reporte de Alumnos">
-                <h:form>
-                    
-                            <p:commandButton action="#{reportesController.GenerarDocentePera()}" value="Generar reporte Docente asignado a PERA" ajax="false" style="width: 250px"/>
-                </h:form>
-            </p:tab>
+        <div class="EmptyBox5"></div>
+        <h:form>            
+            <p:panel>
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="anio" value="Año Escolar:"></p:outputLabel>
+                    <p:inputText id="anio" value="#{rptAlumnosController.anioEscolar}"></p:inputText>
+                    <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
+                    <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{rptAlumnosController.idGrado}" valueChangeListener="#{rptAlumnosController.getSeccionesGrado}">
+                        <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosList}" var="grado"></f:selectItems>
+                        <p:ajax event="valueChange" update="seccion"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="seccion" value="#{rptAlumnosController.idSeccion}">
+                        <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptAlumnosController.seccionesList}" var="seccion"></f:selectItems>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta"  var="car" value="#{rptAlumnosController.listDatos}" 
+                             paginator="false"
+                             reflow="true">
 
-        </p:tabView>
+                    <p:column headerText="Alumno" >
+                        #{car.alumno}
+                    </p:column>
+                    <p:column headerText="Fecha Nacimiento" >
+                        #{car.fechaNacimiento}
+                    </p:column>
+                    <p:column headerText="Edad" >
+                        #{car.edad}
+                    </p:column>                        
+                    <p:column headerText="Direccion" >
+                        #{car.direccion}
+                    </p:column>
+                    <p:column headerText="Telefono" >
+                        #{car.telefono}
+                    </p:column>
+                    <p:column headerText="Grado Actual" >
+                        #{car.gradoActual}
+                    </p:column>
+                    <f:facet name="footer">
+                        Total de Alumnos #{rptAlumnosController.totalAlumnos}
+                    </f:facet>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptAlumnosController.tipoRpt}">
+                            <f:selectItem itemValue="2" itemLabel="Excel" />
+                            <f:selectItem itemValue="0" itemLabel="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar" ajax="false" actionListener="#{rptAlumnosController.generarReporte()}"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptAlumnosController.refresh()}" update="consulta"></p:commandButton>
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+        </h:form>
     </ui:define>
 
 </ui:composition>

@@ -62,4 +62,37 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         }
     }
 
+    @Override
+    public List<SieniAlumno> findAlumnoRpt(String anio, Long grado, Long seccion) {
+        int tipo = 0;
+        if (grado != null) {
+            tipo = 1;
+            if (seccion != null) {
+                tipo = 2;
+            }
+        }
+        Query q;
+        switch (tipo) {
+            case 1:
+                q = em.createNamedQuery("SieniAlumno.findAnioGrado");
+                break;
+            case 2:
+                q = em.createNamedQuery("SieniAlumno.findAnioGradoSeccion");
+                break;
+            default:
+                q = em.createNamedQuery("SieniAlumno.findAnio");
+                break;
+        }
+        q.setParameter("anio", anio);
+        if (grado != null) {
+            q.setParameter("grado", grado);
+            if (seccion != null) {
+                q.setParameter("seccion", seccion);
+            }
+        }
+
+        List<SieniAlumno> res = q.getResultList();
+        return res;
+    }
+
 }

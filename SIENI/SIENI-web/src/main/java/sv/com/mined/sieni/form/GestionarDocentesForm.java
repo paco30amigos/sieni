@@ -14,6 +14,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniDocente;
+import utils.siteUrls;
 
 /**
  *
@@ -105,6 +106,21 @@ public class GestionarDocentesForm {
     }
 
     public void setIndexMenu(int indexMenu) {
+        siteUrls sU = new siteUrls();
+        switch (indexMenu) {
+            case 0:
+                sU.redirect(sU.getBasegestionDocentes() + "index.xhtml");
+                break;
+            case 1:
+                sU.redirect(sU.getBasegestionDocentes() + "crear.xhtml");
+                break;
+            case 2:
+                sU.redirect(sU.getBasegestionDocentes() + "editar.xhtml");
+                break;
+            case 3:
+                sU.redirect(sU.getBasegestionDocentes() + "ver.xhtml");
+                break;
+        }
         this.indexMenu = indexMenu;
     }
 

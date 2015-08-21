@@ -1,0 +1,87 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}"/>
+            <p:menuitem value="Consulta de Docentes"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarDocentesController.indexMenu}').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+                <h:form id="consultaForm">
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionarAlumnosController.eliminarExpediente()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                    
+                    <div class="Container10">
+                        <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
+                    </div>
+                    <div class="Container70">
+                        <p:graphicImage id="fotoSubida" value="#{gestionarDocentesController.fotoUsableModifica}" width="100em" cache="false"></p:graphicImage>
+                    </div>
+                   <div class="EmptyBox20"></div>
+                    <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
+                        <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
+                        <p:inputText id="primNombreNuevo"  value="#{gestionarDocentesController.docenteModifica.dcPrimNombre}" maxlength="#{nombreUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
+                        <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="segNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                        <p:outputLabel for="tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="tercNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                        <p:outputLabel for="primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="primApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcPrimApe}" maxlength="#{nombreUtils.apellidoMax}" required="true" requiredMessage="Debe ingresar Primer Apellido"></p:inputText>
+                        <p:outputLabel for="segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="segApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                        <p:outputLabel for="tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="tercApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                   
+                        <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
+                        <p:calendar id="fechNacimNuevo" value="#{gestionarDocentesController.docenteModifica.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="emailNuevo" type="email" value="#{gestionarDocentesController.docenteModifica.dcCorreo}"></p:inputText>
+                        <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm1}"  required="true" requiredMessage="Debe ingresar teléfono"></p:inputMask>
+                        <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
+                        <p:inputMask id="celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm2}"></p:inputMask>
+                        <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
+                        <p:inputText id="direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}"></p:inputText>
+                    </p:panelGrid>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container100">
+                        <p:commandButton value="Modificar" action="#{gestionarDocentesController.modificar(gestionarDocentesController.docenteModifica)}" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Eliminar" action="#{gestionarDocentesController.eliminar(gestionarDocentesController.docenteModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Regresar" immediate="true">
+                        <p:ajax update="p1,fotoSubida" resetValues="true" listener="#{gestionarDocentesController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                        
+                        
+                        <div class="EmptyBox20"></div>
+                        <p:splitButton value="Otras Opciones" action="#">
+                            <p:menuitem value="Gestionar Docentes">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Docentes">    
+                            </p:menuitem>
+                            <p:menuitem value="Gestionar Cursos">    
+                            </p:menuitem>
+                        </p:splitButton>            
+                    </div>
+                </h:form>
+            </p:panel>
+    </ui:define>
+</ui:composition>
+            

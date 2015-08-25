@@ -206,7 +206,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 }
                 SieniDocente docenteEdit = this.getUsuarioNuevo().getDocente();
                 SieniDocentRol docenteRolNuevo = new SieniDocentRol();
-                docenteEdit.setDcContrasenia(this.getUsuarioNuevo().getPass1());
+                docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioNuevo().getPass1()));
                 docenteEdit.setDcEstado(this.getUsuarioNuevo().getCodEstado());
                 docenteEdit.setDcUsuario(this.getUsuarioNuevo().getUsuario());
 
@@ -292,7 +292,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 //valor anterior
                 SieniDocentRol docenteRolNuevo = this.getUsuarioModifica().getDocenteRol();
                 if (this.getUsuarioModifica().getPass1() != null && !this.getUsuarioModifica().getPass1().isEmpty()) {
-                    docenteEdit.setDcContrasenia(this.getUsuarioModifica().getPass1());
+                    docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioModifica().getPass1()));
                 }
                 docenteEdit.setDcEstado(this.getUsuarioModifica().getCodEstado());
                 docenteEdit.setDcUsuario(this.getUsuarioModifica().getUsuario());

@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -108,7 +109,7 @@ public class SieniDocente implements Serializable {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
     @ManyToMany
     private List<SieniNotificacion> sieniNotificacionList;
-    @OneToMany(mappedBy = "idDocente")
+    @OneToMany(mappedBy = "idDocente",fetch = FetchType.EAGER)
     private List<SieniDocentRol> sieniDocentRolList;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniDocentRDud> sieniDocentRDudList;

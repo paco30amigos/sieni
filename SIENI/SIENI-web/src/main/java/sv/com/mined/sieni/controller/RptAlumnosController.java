@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ import utils.FormatUtils;
  *
  * @author Laptop
  */
+@SessionScoped
 @ManagedBean(name = "rptAlumnosController")
 public class RptAlumnosController extends RptAlumnosForm {
 
@@ -55,11 +57,18 @@ public class RptAlumnosController extends RptAlumnosForm {
         this.setTipoRpt(0);
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
         fill();
-    } 
+    }  
 
     public void fill() { 
         RptAlumnosPojo elem=new RptAlumnosPojo();
+        if(this.getIdGrado()!=null&&this.getIdGrado().equals(0L)){
+            this.setIdGrado(null);
+        }
+        if(this.getIdSeccion()!=null&&this.getIdSeccion().equals(0L)){
+            this.setIdSeccion(null);
+        }
         List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findAlumnoRpt(this.getAnioEscolar(), this.getIdGrado(), this.getIdSeccion());
+        this.setListDatos(new ArrayList<RptAlumnosPojo>());
         for (SieniAlumno actual : alumnos) {
             elem=new RptAlumnosPojo(actual, actual.getGradoActual(), actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), "15", actual.getAlDireccion(), actual.getAlTelefonoEm1(), actual.getGradoActual().getGrNombre());
             this.getListDatos().add(elem);
@@ -105,6 +114,7 @@ public class RptAlumnosController extends RptAlumnosForm {
                 break;
             }
         }
+        this.setIdSeccion(0L);
         this.setSeccionesList(cod.getSieniSeccionList());
     }
 }

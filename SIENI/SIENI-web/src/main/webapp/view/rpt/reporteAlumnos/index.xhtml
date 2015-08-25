@@ -25,11 +25,13 @@
                     <p:inputText id="anio" value="#{rptAlumnosController.anioEscolar}"></p:inputText>
                     <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
                     <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{rptAlumnosController.idGrado}" valueChangeListener="#{rptAlumnosController.getSeccionesGrado}">
-                        <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosList}" var="grado"></f:selectItems>
+                        <f:selectItem itemValue="0" itemLabel="Seleccionar todos"></f:selectItem>
+                        <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{rptAlumnosController.gradosList}" var="grado"></f:selectItems>
                         <p:ajax event="valueChange" update="seccion"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
                     <p:selectOneMenu id="seccion" value="#{rptAlumnosController.idSeccion}">
+                        <f:selectItem itemValue="0" itemLabel="Seleccionar todos"></f:selectItem>
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptAlumnosController.seccionesList}" var="seccion"></f:selectItems>
                     </p:selectOneMenu>
                 </p:panelGrid>
@@ -37,7 +39,6 @@
                 <p:dataTable id="consulta"  var="car" value="#{rptAlumnosController.listDatos}" 
                              paginator="false"
                              reflow="true">
-
                     <p:column headerText="Alumno" >
                         #{car.alumno}
                     </p:column>
@@ -69,11 +70,10 @@
                             <f:selectItem itemValue="0" itemLabel="PDF" />
                         </p:selectOneRadio>
                         <p:commandButton  value="Generar" ajax="false" actionListener="#{rptAlumnosController.generarReporte()}"></p:commandButton>
-                        <p:commandButton value="Refrescar" actionListener="#{rptAlumnosController.refresh()}" update="consulta"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptAlumnosController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                     </h:panelGrid>
                 </div>
             </p:panel>
         </h:form>
     </ui:define>
-
 </ui:composition>

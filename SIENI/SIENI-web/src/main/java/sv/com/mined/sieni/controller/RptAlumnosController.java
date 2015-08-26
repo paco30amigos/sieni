@@ -71,7 +71,7 @@ public class RptAlumnosController extends RptAlumnosForm {
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
         for (SieniAlumno actual : alumnos) {
             SieniGrado grado=sieniGradoFacadeRemote.getGradoActualAlumno(actual.getIdAlumno(),new FormatUtils().getFormatedAnio(new Date()));
-            elem = new RptAlumnosPojo(actual, grado, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getAlFechaNacimiento()), actual.getAlDireccion(), actual.getAlTelefonoEm1(), grado.getGrNombre());
+            elem = new RptAlumnosPojo(actual, grado, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getAlFechaNacimiento()), actual.getAlDireccion(), new FormatUtils().getFormatedPhone(actual.getAlTelefonoEm1()), grado.getGrNombre());
             this.getListDatos().add(elem);
         }
         this.setGradosList(sieniGradoFacadeRemote.findAll());

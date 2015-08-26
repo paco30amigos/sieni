@@ -57,20 +57,21 @@ public class RptAlumnosController extends RptAlumnosForm {
         this.setTipoRpt(0);
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
         fill();
-    }  
+    }
 
-    public void fill() { 
-        RptAlumnosPojo elem=new RptAlumnosPojo();
-        if(this.getIdGrado()!=null&&this.getIdGrado().equals(0L)){
+    public void fill() {
+        RptAlumnosPojo elem = new RptAlumnosPojo();
+        if (this.getIdGrado() != null && this.getIdGrado().equals(0L)) {
             this.setIdGrado(null);
         }
-        if(this.getIdSeccion()!=null&&this.getIdSeccion().equals(0L)){
+        if (this.getIdSeccion() != null && this.getIdSeccion().equals(0L)) {
             this.setIdSeccion(null);
         }
         List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findAlumnoRpt(this.getAnioEscolar(), this.getIdGrado(), this.getIdSeccion());
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
         for (SieniAlumno actual : alumnos) {
-            elem=new RptAlumnosPojo(actual, actual.getGradoActual(), actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), "15", actual.getAlDireccion(), actual.getAlTelefonoEm1(), actual.getGradoActual().getGrNombre());
+            SieniGrado grado=sieniGradoFacadeRemote.getGradoActualAlumno(actual.getIdAlumno(),new FormatUtils().getFormatedAnio(new Date()));
+            elem = new RptAlumnosPojo(actual, grado, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getAlFechaNacimiento()), actual.getAlDireccion(), actual.getAlTelefonoEm1(), grado.getGrNombre());
             this.getListDatos().add(elem);
         }
         this.setGradosList(sieniGradoFacadeRemote.findAll());
@@ -84,11 +85,14 @@ public class RptAlumnosController extends RptAlumnosForm {
     }
 
     public void generarReporte() {
+        fill();
         String path = "resources/reportes/rtpAlumnos.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("anio", this.getAnioEscolar());
-        parameterMap.put("grado", this.getGrado());
-        parameterMap.put("seccion", this.getSeccion());
+        parameterMap.put("grado", this.getGrado() != null ? this.getGrado() : "Todos");
+        parameterMap.put("seccion", this.getSeccion() != null ? this.getSeccion() : "Todos");
+        parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
+
         try {
             RptAlumnosController.generateReport(path, "rtpAlumnos" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

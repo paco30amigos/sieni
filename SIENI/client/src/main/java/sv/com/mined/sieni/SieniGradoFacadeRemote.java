@@ -29,5 +29,6 @@ public interface SieniGradoFacadeRemote {
     List<SieniGrado> findRange(int[] range);
 
     int count();
-    
+
+    public SieniGrado getGradoActualAlumno(Long idAlumno, String anio);
 }

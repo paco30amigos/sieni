@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniGrado;
 
 /**
@@ -27,5 +29,16 @@ public class SieniGradoFacade extends AbstractFacade<SieniGrado> implements sv.c
     public SieniGradoFacade() {
         super(SieniGrado.class);
     }
-    
+    @Override
+    public SieniGrado getGradoActualAlumno(Long idAlumno, String anio){
+        Query q = em.createNamedQuery("SieniGrado.findGradoActualAlumno");
+        q.setParameter("idAlumno", idAlumno);
+        q.setParameter("anio", anio);
+        List<SieniGrado> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
+    }
 }

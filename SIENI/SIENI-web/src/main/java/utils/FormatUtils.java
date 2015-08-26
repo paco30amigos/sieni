@@ -23,8 +23,35 @@ public class FormatUtils {
     private String formatoTelefono = "####-####";
     private String formatoNumero = "###,###,###.##";
     private String formatoFecha = "dd/MM/yyyy";
+    private String formatoAnio = "yyyy";
+
+    public String getFormatedAnio(Date fecha) {
+        SimpleDateFormat dt1 = new SimpleDateFormat(formatoAnio);
+        String ret = null;
+        if (fecha != null) {
+            try {
+                ret = dt1.format(fecha);
+            } catch (Exception ex) {
+                Logger.getLogger(DateUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return ret;
+    }
 
     public Date getFormatDate(String fecha) {
+        SimpleDateFormat dt1 = new SimpleDateFormat(formatoFecha);
+        Date ret = null;
+        if (fecha != null) {
+            try {
+                ret = dt1.parse(fecha);
+            } catch (ParseException ex) {
+                Logger.getLogger(DateUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return ret;
+    }
+
+    public Date getFormatDate(String fecha, String formatoFecha) {
         SimpleDateFormat dt1 = new SimpleDateFormat(formatoFecha);
         Date ret = null;
         if (fecha != null) {
@@ -50,6 +77,19 @@ public class FormatUtils {
         return ret;
     }
 
+    public String getFormatedDate(Date fecha, String formatoFecha) {
+        SimpleDateFormat dt1 = new SimpleDateFormat(formatoFecha);
+        String ret = null;
+        if (fecha != null) {
+            try {
+                ret = dt1.format(fecha);
+            } catch (Exception ex) {
+                Logger.getLogger(DateUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return ret;
+    }
+
     public String getFormatedNumber(Double numero) {
         DecimalFormat formateador = new DecimalFormat(formatoNumero);
         return formateador.format(numero);
@@ -60,7 +100,7 @@ public class FormatUtils {
         String ret = "";
         int sigPatron = 0;
         int antPatron = 0;
-        if (telefono != null && !telefono.isEmpty()) { 
+        if (telefono != null && !telefono.isEmpty()) {
             for (String actual : formato) {
                 sigPatron += actual.length();
                 ret += telefono.substring(antPatron, sigPatron) + "-";

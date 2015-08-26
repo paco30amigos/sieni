@@ -43,9 +43,9 @@ import org.primefaces.model.StreamedContent;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat where mat.mtAnio=:anio"),
-    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat where mat.mtAnio=:anio and mat.idGrado.idGrado=:grado"),
-    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat where mat.mtAnio=:anio and mat.idGrado.idGrado=:grado and mat.idSeccion.idSeccion=:seccion"),
+    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where mat.mtAnio=:anio"),
+    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where mat.mtAnio=:anio and mat.idGrado.idGrado=:grado"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where mat.mtAnio=:anio and mat.idGrado.idGrado=:grado and mat.idSeccion.idSeccion=:seccion"),
     @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A'"),
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL  "),

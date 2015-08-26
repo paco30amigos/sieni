@@ -23,6 +23,25 @@ public class DateUtils {
     private Date fechaMinima;
     private Date fechaMaxima;
 
+    public String getEdad(Date edad) {
+        String ret = "";
+        String anioNacimiento = format.getFormatedAnio(edad);
+        String anioActual = format.getFormatedAnio(new Date());
+
+        Integer anioNacimientoInt = Integer.parseInt(anioNacimiento);
+        Integer anioActualInt = Integer.parseInt(anioActual);
+        Integer anio = anioActualInt - anioNacimientoInt;
+
+        String cumpleActual = format.getFormatedDate(edad, "dd/MM/") + anioActual;
+        Date cumpleAniosActual = format.getFormatDate(cumpleActual);
+
+        if (cumpleAniosActual.after(new Date())) {
+            anio++;
+        }
+        ret = anio.toString();
+        return ret;
+    }
+
     public Date getFechaActual() {
         fechaActual = new Date();
         return fechaActual;

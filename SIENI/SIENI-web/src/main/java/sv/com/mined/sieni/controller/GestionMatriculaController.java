@@ -25,6 +25,7 @@ import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniSeccion;
+import utils.FormatUtils;
 
 /**
  *
@@ -98,6 +99,8 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         }
 
         if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado
+            String anioActual=new FormatUtils().getFormatedAnio(new Date());
+            this.getMatriculaNuevo().setMtAnio(anioActual);
             sieniMatriculaFacadeRemote.create(this.getMatriculaNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Matricula", this.getMatriculaNuevo().getIdMatricula(), 'D'));
             FacesMessage msg = new FacesMessage("Matricula Creado Exitosamente");

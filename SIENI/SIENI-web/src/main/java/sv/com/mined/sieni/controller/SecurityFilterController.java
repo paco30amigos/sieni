@@ -28,6 +28,7 @@ public class SecurityFilterController implements Filter {
 
     private static final boolean debug = true;
     private FilterConfig filterConfig = null;
+    siteUrls su = new siteUrls();
 
     public SecurityFilterController() {
     }
@@ -102,9 +103,20 @@ public class SecurityFilterController implements Filter {
     private boolean validarAlumno(String urlStr, HttpServletRequest req) {
         boolean ban = false;
         //url validas para alumno protegidas
-        String[] urls = {"index.xhtml"};
+        String[] urls = {"/faces/index.xhtml",
+            su.getBaseprogramacionClases(),
+            su.getBaseclaseOnline(),
+            su.getBaseclaseVideoAlmacenada(),
+            su.getBaseclaseInteractiva(),
+            su.getBaseejerciciosResueltos(),
+            su.getBasegestionEvaluacion(),
+            su.getBasegestionNota(),
+            su.getBasegestionNoticia(),
+            su.getBasegestionConsulta(),
+            su.getBasebuzonNotificacion()
+        };
         for (String actual : urls) {
-            if (urlStr.endsWith("/faces/" + actual)) {
+            if (urlStr.contains(actual)) {
                 ban = true;
                 break;
             }
@@ -118,9 +130,35 @@ public class SecurityFilterController implements Filter {
     private boolean validarDocente(String urlStr, HttpServletRequest req) {
         boolean ban = false;
         //url validas para alumno protegidas
-        String[] urls = {"index.xhtml"};
+        String[] urls = {"/faces/index.xhtml",
+            su.getBaseexpedienteAlumnos(),
+            su.getBasegestionarAnioEscolar(),
+            su.getBasegestionAlumnos(),
+            su.getBasegestionArchivosMultimedia(),
+            su.getBasegestionarCursos(),
+            su.getBaseprogramacionClases(),
+            su.getBaseclaseOnline(),
+            su.getBaseclaseVideoAlmacenada(),
+            su.getBaseclaseInteractiva(),
+            su.getBaseejerciciosResueltos(),
+            su.getBasecomponenteInteractiva(),
+            su.getBasegestionMateria(),
+            su.getBasegestionNota(),
+            su.getBasegestionNoticia(),
+            su.getBasegestionConsulta(),
+            su.getBasebuzonNotificacion(),
+            su.getBasereporteMatricula(),
+            su.getBasereporteRendimientoAlumno(),
+            su.getBasereporteEstadisticoAvanceAlumno(),
+            su.getBasereporteNotasAlumnoAnioEscolar(),
+            su.getBasereporteEvaluaciones(),
+            su.getBasereporteClases(),
+            su.getBasereporteParticipacionClases(),
+            su.getBasereporteCursos(),
+            su.getBasereporteAlumnos()
+        };
         for (String actual : urls) {
-            if (urlStr.endsWith("/faces/" + actual)) {
+            if (urlStr.contains(actual)) {
                 ban = true;
                 break;
             }

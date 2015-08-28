@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -52,6 +53,8 @@ public class SieniNota implements Serializable {
     @JoinColumn(name = "id_evaluacion", referencedColumnName = "id_evaluacion")
     @ManyToOne
     private SieniEvaluacion idEvaluacion;
+    @Transient
+    private String tipoIngreso;
 
     public SieniNota() {
     }
@@ -123,6 +126,19 @@ public class SieniNota implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniNota[ idNota=" + idNota + " ]";
+    }
+
+    public String getTipoIngreso() {
+        if(ntTipoIngreso.equals("A")){
+            tipoIngreso="Automático";
+        }else{
+            tipoIngreso="Manual";
+        }
+        return tipoIngreso;
+    }
+
+    public void setTipoIngreso(String tipoIngreso) {
+        this.tipoIngreso = tipoIngreso;
     }
 
 }

@@ -97,8 +97,7 @@ public class GestionNotasController extends GestionNotasForm {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
         }
-        this.setNotaNuevo(new SieniNota());
-        fill();
+        init();
     }
 
     public void quitarFormato(SieniNota actual) {
@@ -134,6 +133,23 @@ public class GestionNotasController extends GestionNotasForm {
         }
         this.setNotaModifica(modificado);
         this.setIndexMenu(2);
+    }
+    
+    public void ver(SieniNota modificado) {
+        for (SieniAlumno actual : this.getAlumnosList()) {
+            if (actual.getIdAlumno().equals(this.getIdAlumno())) {
+                this.getNotaNuevo().setIdAlumno(actual);
+                break;
+            }
+        }
+        for (SieniEvaluacion actual : this.getEvaluacionesList()) {
+            if (actual.getIdEvaluacion().equals(this.getIdEvaluacion())) {
+                this.getNotaNuevo().setIdEvaluacion(actual);
+                break;
+            }
+        }
+        this.setNotaModifica(modificado);
+        this.setIndexMenu(3);
     }
 
     //metodos para modificacion de datos
@@ -178,7 +194,8 @@ public class GestionNotasController extends GestionNotasForm {
     public void eliminarNota() {
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
         sieniNotaFacadeRemote.remove(this.getEliminar());
-        fill();
+        fill();        
+        this.setIndexMenu(0);
     }
 
     public void getSeccionesGrado(ValueChangeEvent a) {

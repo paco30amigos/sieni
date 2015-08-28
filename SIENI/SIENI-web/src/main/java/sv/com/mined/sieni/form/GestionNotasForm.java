@@ -10,6 +10,7 @@ import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
+import utils.siteUrls;
 
 /**
  *
@@ -46,6 +47,21 @@ public class GestionNotasForm {
     }
 
     public void setIndexMenu(int indexMenu) {
+        siteUrls sU = new siteUrls();
+        switch (indexMenu) {
+            case 0:
+                sU.redirect(sU.getBasegestionNota()+ "index.xhtml");
+                break;
+            case 1:
+                sU.redirect(sU.getBasegestionNota() + "crear.xhtml");
+                break;
+            case 2:
+                sU.redirect(sU.getBasegestionNota() + "editar.xhtml");
+                break;
+            case 3:
+                sU.redirect(sU.getBasegestionNota() + "ver.xhtml");
+                break;
+        }
         this.indexMenu = indexMenu;
     }
 

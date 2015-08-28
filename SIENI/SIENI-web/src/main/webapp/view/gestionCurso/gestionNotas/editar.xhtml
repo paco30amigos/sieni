@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}"/>
+            <p:menuitem value="Modificar Nota"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda.show();"></i>
+    </ui:define>
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:panelGrid columns="4" class="Container50 Responsive" id="mod_p1">
+                    <p:outputLabel for="mod_alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="mod_alumno"  class=" Responsive" value="#{gestionNotaController.idAlumnoModifica}">
+                        <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosModificaList}" var="al"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_materia" value="Materia: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionNotaController.idMateriaModifica}" valueChangeListener="#{gestionNotaController.getSeccionesGradoModifica}">
+                        <f:selectItems itemValue ="#{mat.idMateria}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                        <p:ajax event="valueChange" update="mod_evaluacion"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu  id="mod_evaluacion" class=" Responsive" value="#{gestionNotaController.idEvaluacionModifica}">
+                        <f:selectItems itemValue ="#{eval.idEvaluacion}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesModificaList}" var="eval"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_nota" value="Nota: " class=" Responsive"></p:outputLabel>
+                    <p:spinner id="mod_nota" min="0.0" value="#{gestionNotaController.notaModifica.ntCalificacion}" max="10"></p:spinner>
+                    <p:outputLabel for="mod_tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="mod_tipoIngreso"  class=" Responsive" value="#{gestionNotaController.notaModifica.ntTipoIngreso}">
+                        <f:selectItem itemValue ="M" itemLabel="Manual"/>
+                        <f:selectItem itemValue ="A" itemLabel="Automático"/>
+                    </p:selectOneMenu>  
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar" action="#{gestionNotaController.guardarModifica()}" update="mod_p1" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="mod_p1" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="mod_p1" resetValues="true" listener="#{gestionNotaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Docentes">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:splitButton>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

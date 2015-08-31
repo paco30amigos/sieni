@@ -6,185 +6,58 @@
                 template="/WEB-INF/template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Mantenimiento de Archivos multimedia" url="#{siteUrls.gestionArchivosMultimedia}"/>
+            <p:menuitem value="Busqueda de Archivos Multimedia" url="#"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        <div class="EmptyBox5"></div>
     </ui:define>
     <ui:define name="content">
-        <p:tabView tabindex="#{gestionArchivoMultimediaController.indexMenu}" activeIndex="#{gestionArchivoMultimediaController.indexMenu}" id="tabMenu">
-            <p:tab title="Consulta de Archivos Multimedia">
-                <h:form id="consultaForm">
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
-                        <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <p:commandButton value="Si" action="#{gestionArchivoMultimediaController.eliminarArchivo()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
-                        <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionArchivoMultimediaController.archivoList}" 
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true">
-                        <p:column headerText="Nombre" filterBy="#{car.arNombre}" filterable="true" filterMatchMode="contains">
-                            #{car.arNombre}
-                        </p:column>
-                        <p:column headerText="Estado" filterBy="#{car.arEstado}" filterable="true" filterMatchMode="contains">
-                            #{car.arEstado}
-                        </p:column>
-                        <p:column headerText="Tipo" filterBy="#{car.arTipo}" filterable="true" filterMatchMode="contains">
-                            #{car.arTipo}
-                        </p:column>
-                        <p:column headerText="Acciones">
-                            <p:commandLink action="#{gestionArchivoMultimediaController.mostrar(car)}" update="tabMenu" >
-                                <i class="icon-list Fs25 Red" style="cursor: pointer" title="Ver Archivo Multimedia"></i>
-                            </p:commandLink>
-                            <p:commandLink action="#{gestionArchivoMultimediaController.modificar(car)}" update="tabMenu" >
-                                <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Archivo Multimedia"></i>
-                            </p:commandLink>
-                            <p:commandLink action="#{gestionArchivoMultimediaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                                <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Archivo Multimedia"></i>
-                            </p:commandLink>
-                        </p:column>
-                    </p:dataTable>
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton value="Registrar Archivo Multimedia" action="#{gestionArchivoMultimediaController.setIndexMenu(1)}" update="tabMenu"></p:commandButton>
-                    <p:commandButton value="Refrescar" action="#{gestionArchivoMultimediaController.refresh()}" update="consulta"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Registrar Archivo Multimedia">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
-                        <p:outputLabel for="nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="nombre" value="#{gestionArchivoMultimediaController.archivoNuevo.arNombre}"></p:inputText>
-                        <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoNuevo.arEstado}">
-                            <f:selectItem itemValue ="D" itemLabel="Disponible"/>
-                            <f:selectItem itemValue="N" itemLabel="No Disponible"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
-                        <p:outputLabel for="tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipo" class=" Responsive" 
-                                         value="#{gestionArchivoMultimediaController.archivoNuevo.arTipo}" 
-                                         valueChangeListener="#{gestionArchivoMultimediaController.getFormatosSubidaNuevo}">
-                            <f:selectItem itemValue ="A" itemLabel="Audio"/>
-                            <f:selectItem itemValue ="V" itemLabel="Video"/>
-                            <f:selectItem itemValue ="I" itemLabel="Imagen"/>
-                            <p:ajax event="valueChange" update="archivo"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="archivo" value="Archivo: " class=" Responsive"></p:outputLabel>
-                        <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionArchivoMultimediaController.getArchivoNuevo}"
-                                      uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="#{gestionArchivoMultimediaController.formatoArchivo}" 
-                                      value="#{gestionArchivoMultimediaController.archivoSubidoNuevo}">
-                        </p:fileUpload>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardar()}" update="p1,p2,tabMenu" />
-                        <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="p1,p2" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="p1,p2,tabMenu" resetValues="true" oncomplete="#{gestionArchivoMultimediaController.setIndexMenu(0)}"/>
-                        </p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Secciones">    
-                            </p:menuitem>
-                            <p:menuitem value="Programación de clases">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Clases">
-                            </p:menuitem>
-                        </p:splitButton>
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Modificar Archivo Multimedia">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
-                        <p:outputLabel for="mod_nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="mod_nombre" value="#{gestionArchivoMultimediaController.archivoModifica.arNombre}"></p:inputText>
-                        <p:outputLabel for="mod_estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoModifica.arEstado}">
-                            <f:selectItem itemValue ="D" itemLabel="Disponible"/>
-                            <f:selectItem itemValue="N" itemLabel="No Disponible"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">
-                        <p:outputLabel for="mod_tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_tipo" class=" Responsive" 
-                                         value="#{gestionArchivoMultimediaController.archivoModifica.arTipo}" 
-                                         valueChangeListener="#{gestionArchivoMultimediaController.getFormatosSubidaModifica}">
-                            <f:selectItem itemValue ="A" itemLabel="Audio"/>
-                            <f:selectItem itemValue ="V" itemLabel="Video"/>
-                            <f:selectItem itemValue ="I" itemLabel="Imagen"/>
-                            <p:ajax event="valueChange" update="mod_archivo"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="mod_archivo" value="Archivo: " class=" Responsive"></p:outputLabel>
-                        <p:fileUpload id="mod_archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionArchivoMultimediaController.getArchivoModifica}"
-                                      uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="#{gestionArchivoMultimediaController.formatoArchivoModifica}" 
-                                      value="#{gestionArchivoMultimediaController.archivoSubidoModifica}">
-                        </p:fileUpload>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardarModifica()}" update="mod_p1,mod_p2,tabMenu" />
-                        <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="mod_p1,mod_p2" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="mod_p1,mod_p2,tabMenu" resetValues="true" oncomplete="#{gestionArchivoMultimediaController.setIndexMenu(0)}"/>
-                        </p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Secciones">    
-                            </p:menuitem>
-                            <p:menuitem value="Programación de clases">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Clases">
-                            </p:menuitem>
-                        </p:splitButton>
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Ver Archivo Multimedia">
-                <c:choose>
-                    <c:when test="#{gestionArchivoMultimediaController.ver.arTipo=='I'}">
-                        imagen
-                        <p:graphicImage value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" cache="false" ></p:graphicImage>
-                    </c:when>
-                    <c:when test="#{gestionArchivoMultimediaController.ver.arTipo=='A'}">
-                        audio
-                        <p:media value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" player="quicktime">
-                            <f:param name="autoPlay" value="true" />
-                        </p:media>
-                    </c:when>
-                    <c:otherwise>
-                        NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-                        <p:media value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" player="windows" >
-                            <f:param name="autoPlay" value="true" />
-                        </p:media>
-                    </c:otherwise>
-                </c:choose>
-            </p:tab>
-        </p:tabView>
+                    <p:commandButton value="Si" action="#{gestionArchivoMultimediaController.eliminarArchivo()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionArchivoMultimediaController.archivoList}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Nombre" filterBy="#{car.arNombre}" filterable="true" filterMatchMode="contains">
+                        #{car.arNombre}
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{car.arEstado}" filterable="true" filterMatchMode="contains">
+                        #{car.arEstado}
+                    </p:column>
+                    <p:column headerText="Tipo" filterBy="#{car.arTipo}" filterable="true" filterMatchMode="contains">
+                        #{car.arTipo}
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandLink action="#{gestionArchivoMultimediaController.mostrar(car)}" >
+                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Ver Archivo Multimedia"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionArchivoMultimediaController.modificar(car)}">
+                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Archivo Multimedia"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionArchivoMultimediaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Archivo Multimedia"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Registrar Archivo Multimedia" action="#{gestionArchivoMultimediaController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{gestionArchivoMultimediaController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

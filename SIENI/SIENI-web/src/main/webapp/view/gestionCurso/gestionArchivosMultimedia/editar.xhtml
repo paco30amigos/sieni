@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Mantenimiento de Archivos multimedia" url="#{siteUrls.gestionArchivosMultimedia}"/>
+            <p:menuitem value="Modificar Archivo Multimedia" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" >
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:panelGrid columns="4" class="Container100 Responsive" id="mod_p1">
+                    <p:outputLabel for="mod_nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
+                    <p:inputText id="mod_nombre" value="#{gestionArchivoMultimediaController.archivoModifica.arNombre}"></p:inputText>
+                    <p:outputLabel for="mod_estado" value="Estado: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="mod_estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoModifica.arEstado}">
+                        <f:selectItem itemValue ="D" itemLabel="Disponible"/>
+                        <f:selectItem itemValue="N" itemLabel="No Disponible"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="mod_tipo" class=" Responsive" 
+                                     value="#{gestionArchivoMultimediaController.archivoModifica.arTipo}" 
+                                     valueChangeListener="#{gestionArchivoMultimediaController.getFormatosSubidaModifica}">
+                        <f:selectItem itemValue ="A" itemLabel="Audio"/>
+                        <f:selectItem itemValue ="V" itemLabel="Video"/>
+                        <f:selectItem itemValue ="I" itemLabel="Imagen"/>
+                        <p:ajax event="valueChange" update="mod_archivo"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_archivo" value="Archivo: " class=" Responsive"></p:outputLabel>
+                    <p:fileUpload id="mod_archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionArchivoMultimediaController.getArchivoModifica}"
+                                  uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="#{gestionArchivoMultimediaController.formatoArchivoModifica}" 
+                                  value="#{gestionArchivoMultimediaController.archivoSubidoModifica}">
+                    </p:fileUpload>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardarModifica()}" update="mod_p1" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="mod_p1" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="mod_p1" resetValues="true" listener="#{gestionArchivoMultimediaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Secciones">    
+                        </p:menuitem>
+                        <p:menuitem value="Programación de clases">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Clases">
+                        </p:menuitem>
+                    </p:splitButton>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

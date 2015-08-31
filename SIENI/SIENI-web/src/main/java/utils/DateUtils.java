@@ -69,4 +69,9 @@ public class DateUtils {
     public void setFechaFinAnioActual(Date fechaFinAnioActual) {
         this.fechaFinAnioActual = fechaFinAnioActual;
     }
+
+    public String getTime() {
+        Long time = new Date().getTime();
+        return time.toString();
+    }
 }

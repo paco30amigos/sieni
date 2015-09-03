@@ -5,66 +5,59 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Reportes" url="#"/>
             <p:menuitem value="Reporte de Docentes" url="#{siteUrls.reporteDocentes}"/>
-
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+            <p:outputLabel value="Esta ayuda sirve un monton"/>
+        </p:dialog>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Reporte de Docentes">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="Año Escolar:"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
-                                 paginator="false"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true">
-
-                        <p:column headerText="Docente" >
-                            #{formatoPantallas.campo300}
-                        </p:column>
-                        <p:column headerText="Materias Asignadas" >
-                            #{formatoPantallas.campo50}
-                        </p:column>
-                        <p:column headerText="Clases impartidas" >
-                            #{formatoPantallas.numero3}
-                        </p:column>
-                        <f:facet name="footer">
-                            Total de Docentes 999
-                        </f:facet>
-                    </p:dataTable>
-
-                    <div class="EmptyBox20"></div>
-                    <div class="TexAlCenter">
-
-                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{radioView.console}">
-                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                            </p:selectOneRadio>
-                            <p:commandButton  value="Generar"></p:commandButton>
-                            <p:commandButton value="Refrescar"></p:commandButton>
-                        </h:panelGrid>
-                    </div>
-
-                </h:form>
-            </p:tab>
-
-        </p:tabView>
+        <div class="EmptyBox5"></div>
+        <h:form>            
+            <p:panel>
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="anio" value="Año Escolar:"></p:outputLabel>
+                    <p:inputText id="anio" value="#{rptAlumnosController.anioEscolar}"></p:inputText>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta"  var="car" value="#{rptDocentesController.listDatos}" 
+                             paginator="false"
+                             reflow="true">
+                    <p:column headerText="Docente" >
+                        #{car.docente}
+                    </p:column>
+                    <p:column headerText="Fecha Nacimiento" >
+                        #{car.fechaNacimiento}
+                    </p:column>
+                    <p:column headerText="Edad" >
+                        #{car.edad}
+                    </p:column>                        
+                    <p:column headerText="Direccion" >
+                        #{car.direccion}
+                    </p:column>
+                    <p:column headerText="Telefono" >
+                        #{car.telefono}
+                    </p:column>
+                   
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptDocentesController.tipoRpt}">
+                            <f:selectItem itemValue="2" itemLabel="Excel" />
+                            <f:selectItem itemValue="0" itemLabel="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar" ajax="false" actionListener="#{rptDocentesController.generarReporte()}"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptDocentesController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+        </h:form>
     </ui:define>
-
 </ui:composition>

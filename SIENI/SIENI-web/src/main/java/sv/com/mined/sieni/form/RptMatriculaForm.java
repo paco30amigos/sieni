@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import org.primefaces.model.StreamedContent;
 import sv.com.mined.sieni.model.SieniMatricula;
+import sv.com.mined.sieni.pojos.rpt.RptMatriculasPojo;
 
 /**
  *
@@ -23,6 +24,7 @@ public class RptMatriculaForm {
     private Date desde;
     private Date hasta;
     private String anio;
+    private List<RptMatriculasPojo> listDatos;
 
     public List<SieniMatricula> getMatriculaList() {
         return matriculaList;
@@ -78,6 +80,14 @@ public class RptMatriculaForm {
 
     public void setAnio(String anio) {
         this.anio = anio;
+    }
+
+    public List<RptMatriculasPojo> getListDatos() {
+        return listDatos;
+    }
+
+    public void setListDatos(List<RptMatriculasPojo> listDatos) {
+        this.listDatos = listDatos;
     }
 
 }

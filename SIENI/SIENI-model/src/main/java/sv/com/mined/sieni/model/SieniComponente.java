@@ -6,16 +6,22 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -28,13 +34,30 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_componente")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniComponente.findByIdSuperComp", query = "SELECT s FROM SieniComponente s where s.idSuperCompon.idSuperCompon=:idSuperCompon ORDER BY s.cpOrden"),
     @NamedQuery(name = "SieniComponente.findAll", query = "SELECT s FROM SieniComponente s"),
     @NamedQuery(name = "SieniComponente.findByIdComponente", query = "SELECT s FROM SieniComponente s WHERE s.idComponente = :idComponente"),
     @NamedQuery(name = "SieniComponente.findByCpDescripcion", query = "SELECT s FROM SieniComponente s WHERE s.cpDescripcion = :cpDescripcion"),
     @NamedQuery(name = "SieniComponente.findByCpEstado", query = "SELECT s FROM SieniComponente s WHERE s.cpEstado = :cpEstado")})
 public class SieniComponente implements Serializable {
+
+    @Column(name = "id_archivo")
+    private Long idArchivo;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "cp_ancho")
+    private BigDecimal cpAncho;
+    @Column(name = "cp_alto")
+    private BigDecimal cpAlto;
+    @Column(name = "cp_visible")
+    private Character cpVisible;
+    @Column(name = "cp_orden")
+    private Integer cpOrden;
+    @OneToMany(mappedBy = "idComponente")
+    private List<SieniCompInteraccion> sieniCompInteraccionList;
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_componente")
+    @SequenceGenerator(name = "sec_sieni_componente", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_componente")
     @Basic(optional = false)
     @Column(name = "id_componente")
     private Long idComponente;
@@ -42,7 +65,7 @@ public class SieniComponente implements Serializable {
     private String cpDescripcion;
     @Column(name = "cp_estado")
     private Character cpEstado;
-    @OneToMany(mappedBy = "idComponente")
+    @OneToMany(mappedBy = "idComponente",fetch = FetchType.EAGER)
     private List<SieniArchivo> sieniArchivoList;
     @JoinColumn(name = "id_super_compon", referencedColumnName = "id_super_compon")
     @ManyToOne
@@ -131,5 +154,54 @@ public class SieniComponente implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniComponente[ idComponente=" + idComponente + " ]";
     }
-    
+
+    public Long getIdArchivo() {
+        return idArchivo;
+    }
+
+    public void setIdArchivo(Long idArchivo) {
+        this.idArchivo = idArchivo;
+    }
+
+    public BigDecimal getCpAncho() {
+        return cpAncho;
+    }
+
+    public void setCpAncho(BigDecimal cpAncho) {
+        this.cpAncho = cpAncho;
+    }
+
+    public BigDecimal getCpAlto() {
+        return cpAlto;
+    }
+
+    public void setCpAlto(BigDecimal cpAlto) {
+        this.cpAlto = cpAlto;
+    }
+
+    public Character getCpVisible() {
+        return cpVisible;
+    }
+
+    public void setCpVisible(Character cpVisible) {
+        this.cpVisible = cpVisible;
+    }
+
+    @XmlTransient
+    public List<SieniCompInteraccion> getSieniCompInteraccionList() {
+        return sieniCompInteraccionList;
+    }
+
+    public void setSieniCompInteraccionList(List<SieniCompInteraccion> sieniCompInteraccionList) {
+        this.sieniCompInteraccionList = sieniCompInteraccionList;
+    }
+
+    public Integer getCpOrden() {
+        return cpOrden;
+    }
+
+    public void setCpOrden(Integer cpOrden) {
+        this.cpOrden = cpOrden;
+    }
+
 }

@@ -14,6 +14,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniArchivo;
+import utils.siteUrls;
 
 /**
  *
@@ -49,6 +50,21 @@ public class GestionArchivoMultimediaForm {
     }
 
     public void setIndexMenu(int indexMenu) {
+        siteUrls sU = new siteUrls();
+        switch (indexMenu) {
+            case 0:
+                sU.redirect(sU.getBasegestionArchivosMultimedia()+ "index.xhtml");
+                break;
+            case 1:
+                sU.redirect(sU.getBasegestionArchivosMultimedia() + "crear.xhtml");
+                break;
+            case 2:
+                sU.redirect(sU.getBasegestionArchivosMultimedia() + "editar.xhtml");
+                break;
+            case 3:
+                sU.redirect(sU.getBasegestionArchivosMultimedia() + "ver.xhtml");
+                break;
+        }
         this.indexMenu = indexMenu;
     }
 
@@ -206,7 +222,7 @@ public class GestionArchivoMultimediaForm {
                 if (ver.getArTipo().equals(new Character('A'))) {
                     archivoVer = new DefaultStreamedContent(input, "audio/mpeg");
                 } else if (ver.getArTipo().equals(new Character('V'))) {
-                    archivoVer = new DefaultStreamedContent(input, "video/wmv"); 
+                    archivoVer = new DefaultStreamedContent(input, "video/mp4"); 
                 } else {
                     archivoVer = new DefaultStreamedContent(input);
                 }

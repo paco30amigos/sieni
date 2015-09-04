@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Mantenimiento de Archivos multimedia" url="#{siteUrls.gestionArchivosMultimedia}"/>
+            <p:menuitem value="Ver Archivo Multimedia" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="head">
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:remoteCommand name="redirect" actionListener="#{gestionArchivoMultimediaController.setIndexMenu(0)}"></p:remoteCommand>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionArchivoMultimediaController.eliminarArchivo()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide();redirect();"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:panelGrid columns="4" class="Container100 Responsive" id="mod_p1">
+                    <p:outputLabel for="mod_nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_nombre" value="#{gestionArchivoMultimediaController.ver.arNombre}"></p:outputLabel>
+                    <p:outputLabel for="mod_estado" value="Estado: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_estado" value="#{gestionArchivoMultimediaController.ver.estado}"></p:outputLabel>
+                    <p:outputLabel for="mod_tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_tipo" value="#{gestionArchivoMultimediaController.ver.tipoArchivo}"></p:outputLabel>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <p:outputLabel value="Archivo: " class="Container100 Responsive"></p:outputLabel>
+                <c:choose>
+                    <c:when test="#{gestionArchivoMultimediaController.ver.arTipo=='I'}">
+                        <p:graphicImage value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" cache="false" ></p:graphicImage>
+                    </c:when>
+                    <c:when test="#{gestionArchivoMultimediaController.ver.arTipo=='A'}">
+                        <p:media value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" player="quicktime" cache="false">
+                            <f:param name="autoPlay" value="true" />
+                        </p:media>
+                    </c:when>
+                    <c:otherwise>
+                        <p:media value="#{gestionArchivoMultimediaController.archivoVer}" class="Container50" player="quicktime" cache="false">
+                            <f:param name="autoPlay" value="true" />
+                        </p:media>
+                        <!--                        <video height="180" width="300" id="ourvideo" controls="true">
+                                                    <source src="/SIENI-web/faces/javax.faces.resource/dynamiccontent.properties?ln=primefaces&amp;pfdrid=x6WxIRb5PgOzxPKUMtn0oLN0D4Kl84TadcGXgzweDy%2FLBJg1AysNmRUNoYaTYKIZlXyShbLlRRs%3D&amp;pfdrt=sc&amp;pfdrid_c=true;time=#{dateUtils.time}"></source>
+                                                </video>-->
+                    </c:otherwise>
+                </c:choose>
+                <div class="EmptyBox20"></div>
+                <div class="Container100">
+                    <p:commandButton value="Modificar" action="#{gestionArchivoMultimediaController.modificar(gestionArchivoMultimediaController.ver)}" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Eliminar" action="#{gestionArchivoMultimediaController.eliminar(gestionArchivoMultimediaController.ver)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Regresar" immediate="true">
+                        <p:ajax resetValues="true" listener="#{gestionArchivoMultimediaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Docentes">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:splitButton>            
+                </div>
+            </h:form>        
+        </p:panel>
+    </ui:define>
+</ui:composition>

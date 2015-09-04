@@ -10,8 +10,8 @@
     <module>SIENI-ear</module>
     <module>SIENI-web</module>
     <module>SIENI-ejb</module>
-    <module>persistence</module>
     <module>client</module>
     <module>SIENI-model</module>
+    <module>Sieni-persistence</module>
   </modules>
 </project>

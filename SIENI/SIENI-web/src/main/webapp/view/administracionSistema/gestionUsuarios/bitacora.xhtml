@@ -13,63 +13,61 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:tabView tabindex="#{gestionarAlumnosController.indexMenu}" activeIndex="#{gestionarAlumnosController.indexMenu}" id="tabMenu">
-            <p:tab title="Bitacora del Sistema">
-                <h:form id="consultaForm">
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel for="desde" value="Fecha desde:"></p:outputLabel>
-                        <p:calendar id="desde" value="#{bitacoraController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
-                        <p:outputLabel for="hasta" value="hasta:"></p:outputLabel>
-                        <p:calendar id="hasta" value="#{bitacoraController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta"  var="car" value="#{bitacoraController.bitacoraList}" 
-                                 reflow="true" paginatorPosition="bottom"
-                                 >
-                        <p:column headerText="Accion" >
-                            #{car.bitAccion}
-                        </p:column>
-                        <p:column headerText="Fecha" >
-                            <p:outputLabel value="#{car.bitFechaHoraIngreso}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" ></f:convertDateTime>
-                            </p:outputLabel>
-                        </p:column>
-                        <p:column headerText="Hora" >
-                            <p:outputLabel value="#{car.bitFechaHoraIngreso}">
-                                <f:convertDateTime pattern="hh:mm a" ></f:convertDateTime>
-                            </p:outputLabel>
-                        </p:column>
-                        <p:column headerText="Fuente de datos" >
-                            #{car.bitTabla}
-                        </p:column>
-                        <p:column headerText="Responsable" >
-                            #{car.bitIdUsuario}
-                        </p:column>
-                        <f:facet name="footer">
-                            Total de Registros #{bitacoraController.totalTransacciones}
-                        </f:facet>
-                    </p:dataTable>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="desde" value="Fecha desde:"></p:outputLabel>
+                    <p:calendar id="desde" value="#{bitacoraController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                    <p:outputLabel for="hasta" value="hasta:"></p:outputLabel>
+                    <p:calendar id="hasta" value="#{bitacoraController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta"  var="car" value="#{bitacoraController.bitacoraList}" 
+                             reflow="true" paginatorPosition="bottom"
+                             >
+                    <p:column headerText="Accion" >
+                        #{car.bitAccion}
+                    </p:column>
+                    <p:column headerText="Fecha" >
+                        <p:outputLabel value="#{car.bitFechaHoraIngreso}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" ></f:convertDateTime>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Hora" >
+                        <p:outputLabel value="#{car.bitFechaHoraIngreso}">
+                            <f:convertDateTime pattern="hh:mm a" ></f:convertDateTime>
+                        </p:outputLabel>
+                    </p:column>
+                    <p:column headerText="Fuente de datos" >
+                        #{car.bitTabla}
+                    </p:column>
+                    <p:column headerText="Responsable" >
+                        #{car.bitIdUsuario}
+                    </p:column>
+                    <f:facet name="footer">
+                        Total de Registros #{bitacoraController.totalTransacciones}
+                    </f:facet>
+                </p:dataTable>
 
-                    <div class="EmptyBox20"></div>
-                    <div class="TexAlCenter">
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
 
-                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{bitacoraController.formatoRpt}" tabindex="0">
-                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                            </p:selectOneRadio>
-                            <p:commandButton  value="Generar" action="#{bitacoraController.generarReporte()}" update="consulta"></p:commandButton>
-                            <p:commandButton value="Refrescar" action="#{bitacoraController.refresh()}" update="consulta"></p:commandButton>
-                        </h:panelGrid>
-                    </div>
-                </h:form>
-            </p:tab>
-        </p:tabView>
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{bitacoraController.formatoRpt}" tabindex="0">
+                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
+                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar" action="#{bitacoraController.generarReporte()}" update="consulta"></p:commandButton>
+                        <p:commandButton value="Refrescar" action="#{bitacoraController.refresh()}" update="consulta"></p:commandButton>
+                    </h:panelGrid>
+                </div>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

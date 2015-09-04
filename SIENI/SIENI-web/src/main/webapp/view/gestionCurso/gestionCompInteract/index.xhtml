@@ -5,228 +5,66 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/> 
             <p:menuitem value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}"/>
+            <p:menuitem value="Busqueda de Componentes Interactivos" url="#"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Consultar Componentes Interactivos">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:remoteCommand  onstart="alert('Modificar')" update="clases" name="modificar"/>
-                    <p:remoteCommand  onstart="alert('Eliminar')" update="clases" name="eliminar"/>
-                    <p:dataTable id="clases" var="car" value="" rows="10"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true"
-                                 >
-                        <p:column headerText="Nombre">
-                            #{formatoPantallas.campo100}
-                        </p:column>
-                        <p:column headerText="Tipo de Componente">
-                            #{formatoPantallas.campo30}
-                        </p:column>
-                        <p:column headerText="Descripción">
-                            #{formatoPantallas.campo200}
-                        </p:column>
-                        <p:column headerText="Archivo">
-                            <i class="fa fa-file-movie-o Fs25"></i>
-                        </p:column>
-                        <p:column headerText="Estado">
-                            #{formatoPantallas.campo15}
-                        </p:column>
-                        <p:column headerText="Acciones">
-                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Mostrar Componente"></i>
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Componente"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Componente"></i>
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton value="Crear Componenete Interactivo"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Crear Componente Interactivo">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value="Nombre: "></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel value="Descripción: "></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo200}"></p:inputText>
-                        <p:outputLabel value="Tipo de Componente: "></p:outputLabel>
-                        <p:selectOneMenu>
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel  value="Archivo: " class=" Responsive"></p:outputLabel>
-                        <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
-                        </p:fileUpload>
-                        <p:outputLabel value="Estado: " class="Responsive"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Disponible"></f:selectItem>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100">
-                        <p:commandButton value="Guardar"></p:commandButton>
-                        <p:commandButton value="Limpiar"></p:commandButton>
-                        <p:commandButton value="Cancelar"></p:commandButton>
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Modificar Componente Interactivo">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-
-                    <p:panelGrid columns="2">
-                        <p:outputLabel value="Nombre: "></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel value="Descripción: "></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo200}"></p:inputText>
-                        <p:outputLabel value="Tipo de Componente: "></p:outputLabel>
-                        <p:selectOneMenu>
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel  value="Archivo: " class=" Responsive"></p:outputLabel>
-                        <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
-                        </p:fileUpload>
-                        <p:outputLabel value="Estado: " class="Responsive"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Disponible"></f:selectItem>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100">
-                        <p:commandButton value="Guardar"></p:commandButton>
-                        <p:commandButton value="Limpiar"></p:commandButton>
-                        <p:commandButton value="Cancelar"></p:commandButton>
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Configuración">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="ancho"></p:outputLabel>
-                        <p:spinner min="1" max="1080" value="#{formatoPantallas.numero3}"></p:spinner>
-                        <p:outputLabel value="alto"></p:outputLabel>
-                        <p:spinner min="1" max="1920" value="#{formatoPantallas.numero3}"></p:spinner>
-                        <p:outputLabel value="posicion X"></p:outputLabel>
-                        <p:spinner min="1" max="1080" value="#{formatoPantallas.numero3}"></p:spinner>
-                        <p:outputLabel value="posicion Y"></p:outputLabel>
-                        <p:spinner min="1" max="1920" value="#{formatoPantallas.numero3}"></p:spinner>
-                        <p:outputLabel value="volumen"></p:outputLabel>
-                        <p:spinner min="0" max="100" value="#{formatoPantallas.numero3}"></p:spinner>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100">
-                        <p:commandButton value="Guardar"></p:commandButton>
-                        <p:commandButton value="Limpiar"></p:commandButton>
-                        <p:commandButton value="Cancelar"></p:commandButton>
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Interacción">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
-                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                <div class="EmptyBox20"></div>
-                <p:tabView>
-                    <p:tab title="Consultar Interacciones">
-                        <h:form>
-                            <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
-                                         paginator="true"
-                                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                         rowsPerPageTemplate="10,20,40"
-                                         reflow="true" >
-                                <p:column headerText="Evento" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                                    #{formatoPantallas.campo30}
-                                </p:column>
-                                <p:column headerText="Acción" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                                    #{formatoPantallas.campo30}
-                                </p:column>
-                                <p:column headerText="Duración" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                                    #{formatoPantallas.numero4}
-                                </p:column>
-                                <p:column headerText="Acciones">
-                                    <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Interacción"></i>
-                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Interacción"></i>
-                                </p:column>
-                            </p:dataTable>
-                            <p:commandButton value="Crear Interacción"></p:commandButton>
-                            <p:commandButton value="Refrescar"></p:commandButton>
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="Crear Interacción">
-                        <h:form>
-                            <p:panelGrid columns="4">
-                                <p:outputLabel value="Evento"></p:outputLabel>
-                                <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                    <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Acción"></p:outputLabel>
-                                <p:selectOneMenu value="#{InteraccionClaseForm.accion}" class="Contanier10 Responsive">
-                                    <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Duración en milisegundos"></p:outputLabel>
-                                <p:spinner min="1" max="1000" value="#{formatoPantallas.numero4}" ></p:spinner>
-                            </p:panelGrid>
-                            <div class="EmptyBox10"></div>
-                            <div class="Container100">
-                                <p:commandButton value="Guardar"></p:commandButton>
-                                <p:commandButton value="Limpiar"></p:commandButton>
-                                <p:commandButton value="Cancelar"></p:commandButton>
-                            </div>
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="Modificar Interacción">
-                        <h:form>
-                            <p:panelGrid columns="4">
-                                <p:outputLabel value="Evento"></p:outputLabel>
-                                <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                    <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Acción"></p:outputLabel>
-                                <p:selectOneMenu value="#{InteraccionClaseForm.accion}" class="Contanier10 Responsive">
-                                    <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-                                </p:selectOneMenu>
-                                <p:outputLabel value="Duración en milisegundos"></p:outputLabel>
-                                <p:spinner min="1" max="1000" value="#{formatoPantallas.numero4}" ></p:spinner>
-                            </p:panelGrid>
-                            <div class="EmptyBox10"></div>
-                            <div class="Container100">
-                                <p:commandButton value="Guardar"></p:commandButton>
-                                <p:commandButton value="Limpiar"></p:commandButton>
-                                <p:commandButton value="Cancelar"></p:commandButton>
-                            </div>
-                        </h:form>
-                    </p:tab>
-                </p:tabView>
-            </p:tab>
-        </p:tabView>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionComponentesInteractivosController.eliminarArchivo()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dataTable id="consulta" var="car" value="#{gestionComponentesInteractivosController.datosList}" rows="10"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true"
+                             >
+                    <p:column headerText="Nombre" filterBy="#{car.scNombre}" filterMatchMode="contains">
+                        #{car.scNombre}
+                    </p:column>
+                    <p:column headerText="Tipo de Componente" filterBy="#{car.idTipoSuperCompon.tscDescripcion}" filterMatchMode="contains">
+                        #{car.idTipoSuperCompon.tscDescripcion}
+                    </p:column>
+                    <p:column headerText="Descripción" filterBy="#{car.scDescripcion}" filterMatchMode="contains">
+                        #{car.scDescripcion}
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{car.estado}" filterMatchMode="contains">
+                        #{car.estado}
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:column headerText="Acciones">
+                            <p:commandLink action="#{gestionComponentesInteractivosController.mostrar(car)}" >
+                                <i class="icon-visibility1 Fs25 Red" style="cursor: pointer" title="Mostrar Componente"></i>
+                            </p:commandLink>
+                            <p:commandLink action="#{gestionComponentesInteractivosController.modificar(car)}">
+                                <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Componente"></i>
+                            </p:commandLink>
+                            <p:commandLink action="#{gestionComponentesInteractivosController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                                <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Componente"></i>
+                            </p:commandLink>
+                            <p:commandLink action="#{gestionComponentesInteractivosController.configurar(car)}"  >
+                                <i class="icon-settings Fs25 Red" style="cursor: pointer" title="Configurar Componente"></i>
+                            </p:commandLink>
+                        </p:column>                        
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Registrar Componente Interactivo" action="#{gestionComponentesInteractivosController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{gestionComponentesInteractivosController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import utils.Combo;
+import sv.com.mined.sieni.pojos.controller.Combo;
 import utils.RandomNombre;
 
 

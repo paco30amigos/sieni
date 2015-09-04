@@ -15,7 +15,7 @@ import sv.com.mined.sieni.pojos.rpt.RptAlumnosPojo;
  *
  * @author Laptop
  */
-public class RptAlumnosForm extends ReportesController {
+public class RptAlumnosForm  extends ReportesController{
 
     private String anioEscolar;
     private Long idGrado;

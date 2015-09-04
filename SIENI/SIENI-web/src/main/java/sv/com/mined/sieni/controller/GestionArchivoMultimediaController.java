@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
@@ -52,7 +53,9 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         this.getArchivoNuevo().setArArchivo(this.getArchivoUsable());
         if (validarNuevo(this.getArchivoNuevo())) {//valida el guardado
             sieniArchivoFacadeRemote.create(this.getArchivoNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Archivo", this.getArchivoNuevo().getIdArchivo(), 'D'));
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             FacesMessage msg = new FacesMessage("Archivo Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -91,15 +94,22 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     //metodos para modificacion de datos
     public void mostrar(SieniArchivo ver) {
+        byte[] archivo = sieniArchivoFacadeRemote.getArchivoLazy(ver.getIdArchivo());
+        ver.setArArchivo(archivo);
         this.setVer(ver);
         this.setIndexMenu(3);
     }
 
     public void guardarModifica() {
-        this.getArchivoModifica().setArArchivo(this.getArchivoUsableModifica());
+
         if (validarModifica(this.getArchivoModifica())) {//valida el guardado
+            if (this.getArchivoUsableModifica() != null) {
+                this.getArchivoModifica().setArArchivo(this.getArchivoUsableModifica());
+            }
             sieniArchivoFacadeRemote.edit(this.getArchivoModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Archivo", this.getArchivoModifica().getIdArchivo(), 'D'));
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -119,7 +129,9 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     }
 
     public void eliminarArchivo() {
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Archivo", this.getEliminar().getIdArchivo(), 'D'));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
         sieniArchivoFacadeRemote.remove(this.getEliminar());
         fill();
     }

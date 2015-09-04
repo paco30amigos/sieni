@@ -34,6 +34,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniTipoComponente.findByTcDescripcion", query = "SELECT s FROM SieniTipoComponente s WHERE s.tcDescripcion = :tcDescripcion"),
     @NamedQuery(name = "SieniTipoComponente.findByTcFechaIngreso", query = "SELECT s FROM SieniTipoComponente s WHERE s.tcFechaIngreso = :tcFechaIngreso")})
 public class SieniTipoComponente implements Serializable {
+    @Column(name = "tc_estado")
+    private Character tcEstado;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -110,6 +112,14 @@ public class SieniTipoComponente implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniTipoComponente[ idTipoComponente=" + idTipoComponente + " ]";
+    }
+
+    public Character getTcEstado() {
+        return tcEstado;
+    }
+
+    public void setTcEstado(Character tcEstado) {
+        this.tcEstado = tcEstado;
     }
     
 }

@@ -92,7 +92,7 @@ public class SecurityFilterController implements Filter {
             if (urlStr.endsWith("/faces/" + actual)) {
                 ban = true;
                 break;
-            }
+            } 
         }
         if (urlStr.contains("/javax.faces.resource/")) {
             ban = true;

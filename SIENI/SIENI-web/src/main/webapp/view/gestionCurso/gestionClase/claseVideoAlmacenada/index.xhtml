@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <!--paginas usadas-->
     <!--http://iswwwup.com/t/ae68d91b9ec0/mongodb-how-to-get-popcorn-js-working-on-dynamically-loaded-content.html-->
     <!--http://nosmoke.cycle-it.com/2013/07/18/popcorn/-->
@@ -29,7 +30,7 @@
                         target: "footnotediv"
                     });
                     video.on('play', function () {
-                        
+
                     });
                     // play the video right away
                     video.preload("auto");
@@ -44,7 +45,7 @@
                 }, false);
             </script>            
             <video height="180" width="300" id="ourvideo" controls="true">
-                <source src="/SIENI-web/faces/javax.faces.resource/dynamiccontent.properties?ln=primefaces&amp;pfdrid=5E5CHMFh8dKA5GMu2kfdaA%3D%3D&amp;pfdrt=sc&amp;pfdrid_c=true"></source>
+                <source src="/SIENI-web/faces/javax.faces.resource/dynamiccontent.properties?ln=primefaces&amp;pfdrid=5E5CHMFh8dKA5GMu2kfdaA%3D%3D&amp;pfdrt=sc&amp;pfdrid_c=true&amp;time=#{dateUtils.time}"></source>
             </video>
             <p:commandButton onclick="video.play()" value="c"></p:commandButton>
             <p:commandButton onclick="video.pause()" value="p"></p:commandButton>
@@ -56,6 +57,35 @@
                 <p:outputLabel value="Mensaje"></p:outputLabel>
                 <p:commandButton onclick="video.play();
                         PF('dialog').hide();" value="continuar"></p:commandButton>
+            </p:dialog>
+            
+            <p:dialog id="compon">
+                <c:choose>
+                    <c:when test="#{gestionComponentesInteractivosController.nuevo.idTipoSuperCompon=='1'}"><!-- galeria de imagenes-->
+                        <p:galleria value="#{gestionComponentesInteractivosController.listaArchivos}" var="imgs">
+                            <p:graphicImage value="#{gestionComponentesInteractivosController.getFile(imgs.arArchivo)}" title="#{imgs.arNombre}" >
+                            </p:graphicImage>
+                        </p:galleria>
+                    </c:when>
+                    <c:when test="#{gestionComponentesInteractivosController.nuevo.idTipoSuperCompon=='2'}"><!-- imagen-->
+                        <c:forEach items="#{gestionComponentesInteractivosController.listaArchivos}" var="img">
+                            <p:graphicImage value="#{gestionComponentesInteractivosController.getFile(img.arArchivo)}" title="#{imgs.arNombre}" >
+                            </p:graphicImage>
+                        </c:forEach>
+                    </c:when>
+                    <c:when test="#{gestionComponentesInteractivosController.nuevo.idTipoSuperCompon=='3'}"><!-- Audio-->
+                        <c:forEach items="#{gestionComponentesInteractivosController.listaArchivos}" var="audio">
+                            <p:media value="#{gestionComponentesInteractivosController.getFile(audio.arArchivo)}" player="quicktime" >    
+                            </p:media>
+                        </c:forEach>
+                    </c:when>
+                    <c:when test="#{gestionComponentesInteractivosController.nuevo.idTipoSuperCompon=='4'}"><!-- Audio-->
+                        <c:forEach items="#{gestionComponentesInteractivosController.listaArchivos}" var="video">
+                            <p:media value="#{gestionComponentesInteractivosController.getFile(video.arArchivo)}" player="quicktime" >    
+                            </p:media>
+                        </c:forEach>
+                    </c:when>
+                </c:choose>
             </p:dialog>
         </h:form>
     </h:body>

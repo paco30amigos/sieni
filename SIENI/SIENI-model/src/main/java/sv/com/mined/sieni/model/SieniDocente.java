@@ -102,6 +102,9 @@ public class SieniDocente implements Serializable {
     private String dcTelefonoEm2;
     @Column(name = "dc_telefono_em_3")
     private String dcTelefonoEm3;
+    @Column(name = "dc_fecha_baja")
+    @Temporal(TemporalType.DATE)
+    private Date dcFechaBaja;
     @Column(name = "dc_estado")
     private Character dcEstado;
     @JoinTable(name = "doc_recibe_noti", joinColumns = {
@@ -109,7 +112,7 @@ public class SieniDocente implements Serializable {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
     @ManyToMany
     private List<SieniNotificacion> sieniNotificacionList;
-    @OneToMany(mappedBy = "idDocente",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idDocente", fetch = FetchType.EAGER)
     private List<SieniDocentRol> sieniDocentRolList;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniDocentRDud> sieniDocentRDudList;
@@ -372,5 +375,13 @@ public class SieniDocente implements Serializable {
 
     public void setFechaNacimientoFiltrable(String fechaNacimientoFiltrable) {
         this.fechaNacimientoFiltrable = fechaNacimientoFiltrable;
+    }
+
+    public Date getDcFechaBaja() {
+        return dcFechaBaja;
+    }
+
+    public void setDcFechaBaja(Date dcFechaBaja) {
+        this.dcFechaBaja = dcFechaBaja;
     }
 }

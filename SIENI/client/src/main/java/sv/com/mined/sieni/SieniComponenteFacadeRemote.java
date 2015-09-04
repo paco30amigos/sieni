@@ -30,4 +30,7 @@ public interface SieniComponenteFacadeRemote {
 
     int count();
     
+    public void merge(List<SieniComponente> comps,List<SieniComponente> eliminados);
+    
+    public List<SieniComponente> findByIdSuperComp(Long idSuperCompon);
 }

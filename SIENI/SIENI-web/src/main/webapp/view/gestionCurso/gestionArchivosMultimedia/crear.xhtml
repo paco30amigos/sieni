@@ -26,7 +26,7 @@
                     <p:outputLabel for="nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
                     <p:inputText id="nombre" value="#{gestionArchivoMultimediaController.archivoNuevo.arNombre}"></p:inputText>
                     <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoNuevo.arEstado}">
+                    <p:selectOneMenu id="estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoNuevo.arEstado}" tabindex="0">
                         <f:selectItem itemValue ="D" itemLabel="Disponible"/>
                         <f:selectItem itemValue="N" itemLabel="No Disponible"/>
                     </p:selectOneMenu>                

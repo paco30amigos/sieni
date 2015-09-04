@@ -11,13 +11,19 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,13 +41,25 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniSuperCompon.findByScDescripcion", query = "SELECT s FROM SieniSuperCompon s WHERE s.scDescripcion = :scDescripcion"),
     @NamedQuery(name = "SieniSuperCompon.findByScFechaIngreso", query = "SELECT s FROM SieniSuperCompon s WHERE s.scFechaIngreso = :scFechaIngreso")})
 public class SieniSuperCompon implements Serializable {
+
+    @JoinColumn(name = "id_tipo_super_compon", referencedColumnName = "id_tipo_super_compon")
+    @ManyToOne
+    private SieniTipoSuperCompon idTipoSuperCompon;
+    @Column(name = "sc_estado")
+    private Character scEstado;
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_super_compon")
+    @SequenceGenerator(name = "sec_sieni_super_compon", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_super_compon")
     @Basic(optional = false)
     @Column(name = "id_super_compon")
     private Long idSuperCompon;
     @Column(name = "sc_nombre")
     private String scNombre;
+    @Column(name = "sc_ancho")
+    private Integer scAncho;
+    @Column(name = "sc_alto")
+    private Integer scAlto;
     @Column(name = "sc_descripcion")
     private String scDescripcion;
     @Column(name = "sc_fecha_ingreso")
@@ -49,6 +67,9 @@ public class SieniSuperCompon implements Serializable {
     private Date scFechaIngreso;
     @OneToMany(mappedBy = "idSuperCompon")
     private List<SieniComponente> sieniComponenteList;
+
+    @Transient
+    private String estado;
 
     public SieniSuperCompon() {
     }
@@ -122,5 +143,53 @@ public class SieniSuperCompon implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniSuperCompon[ idSuperCompon=" + idSuperCompon + " ]";
     }
-    
+
+    public Character getScEstado() {
+        return scEstado;
+    }
+
+    public void setScEstado(Character scEstado) {
+        this.scEstado = scEstado;
+    }
+
+    public SieniTipoSuperCompon getIdTipoSuperCompon() {
+        return idTipoSuperCompon;
+    }
+
+    public void setIdTipoSuperCompon(SieniTipoSuperCompon idTipoSuperCompon) {
+        this.idTipoSuperCompon = idTipoSuperCompon;
+    }
+
+    public String getEstado() {
+        switch (scEstado) {
+            case 'D':
+                estado = "Disponible";
+                break;
+            case 'N':
+                estado = "No disponible";
+                break;
+        }
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public Integer getScAncho() {
+        return scAncho;
+    }
+
+    public void setScAncho(Integer scAncho) {
+        this.scAncho = scAncho;
+    }
+
+    public Integer getScAlto() {
+        return scAlto;
+    }
+
+    public void setScAlto(Integer scAlto) {
+        this.scAlto = scAlto;
+    }
+
 }

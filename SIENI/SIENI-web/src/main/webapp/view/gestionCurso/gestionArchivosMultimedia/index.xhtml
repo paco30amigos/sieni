@@ -14,9 +14,9 @@
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
-        <div class="EmptyBox5"></div>
     </ui:define>
     <ui:define name="content">
+        <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
@@ -37,14 +37,14 @@
                         #{car.arNombre}
                     </p:column>
                     <p:column headerText="Estado" filterBy="#{car.arEstado}" filterable="true" filterMatchMode="contains">
-                        #{car.arEstado}
+                        #{car.estado}
                     </p:column>
                     <p:column headerText="Tipo" filterBy="#{car.arTipo}" filterable="true" filterMatchMode="contains">
-                        #{car.arTipo}
+                        #{car.tipoArchivo}
                     </p:column>
                     <p:column headerText="Acciones">
                         <p:commandLink action="#{gestionArchivoMultimediaController.mostrar(car)}" >
-                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Ver Archivo Multimedia"></i>
+                            <i class="icon-visibility1 Fs25 Red" style="cursor: pointer" title="Ver Archivo Multimedia"></i>
                         </p:commandLink>
                         <p:commandLink action="#{gestionArchivoMultimediaController.modificar(car)}">
                             <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Archivo Multimedia"></i>

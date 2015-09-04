@@ -110,6 +110,9 @@ public class SieniAlumno implements Serializable {
     private Date alFechaNacimiento;
     @Column(name = "al_estado")
     private Character alEstado;
+    @Column(name = "al_fecha_baja")
+    @Temporal(TemporalType.DATE)
+    private Date alFechaBaja;
     @JoinTable(name = "tema_duda", joinColumns = {
         @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
         @JoinColumn(name = "id_tema_duda", referencedColumnName = "id_tema_duda")})
@@ -418,7 +421,7 @@ public class SieniAlumno implements Serializable {
         for (SieniMatricula actual : this.getSieniMatriculaList()) {
             anioActual = Integer.parseInt(actual.getMtAnio());
             if (max < anioActual) {
-                max=anioActual;
+                max = anioActual;
                 gradoActual = actual.getIdGrado();
             }
         }
@@ -427,5 +430,13 @@ public class SieniAlumno implements Serializable {
 
     public void setGradoActual(SieniGrado gradoActual) {
         this.gradoActual = gradoActual;
+    }
+
+    public Date getAlFechaBaja() {
+        return alFechaBaja;
+    }
+
+    public void setAlFechaBaja(Date alFechaBaja) {
+        this.alFechaBaja = alFechaBaja;
     }
 }

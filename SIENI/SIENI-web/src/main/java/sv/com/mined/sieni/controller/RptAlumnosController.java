@@ -20,7 +20,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
-import net.sf.jasperreports.engine.JRException;
+//import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
@@ -93,16 +93,16 @@ public class RptAlumnosController extends RptAlumnosForm {
         parameterMap.put("seccion", this.getSeccion() != null ? this.getSeccion() : "Todos");
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
 
-        try {
-            RptAlumnosController.generateReport(path, "rtpAlumnos" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-        } catch (JRException ex) {
-            Logger.getLogger("error 1").log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger("error 2").log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            RptAlumnosController.generateReport(path, "rtpAlumnos" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
+//            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+//            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+//            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+//        } catch (JRException ex) {
+//            Logger.getLogger("error 1").log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger("error 2").log(Level.SEVERE, null, ex);
+//        }
     }
 
     public void refresh() {

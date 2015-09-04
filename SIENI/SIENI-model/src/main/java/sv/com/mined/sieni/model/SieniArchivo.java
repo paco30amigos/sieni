@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,10 +31,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_archivo")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniArchivo.findByIdSuperComp", query = "SELECT s FROM SieniArchivo s,SieniComponente c where s.idArchivo=c.idArchivo and c.idSuperCompon.idSuperCompon=:idSuperCompon ORDER BY C.cpOrden"),
+    @NamedQuery(name = "SieniArchivo.findArchivoLazy", query = "SELECT s.arArchivo FROM SieniArchivo s where s.idArchivo=:idArchivo"),
     @NamedQuery(name = "SieniArchivo.findAll", query = "SELECT s FROM SieniArchivo s"),
     @NamedQuery(name = "SieniArchivo.findByIdArchivo", query = "SELECT s FROM SieniArchivo s WHERE s.idArchivo = :idArchivo"),
     @NamedQuery(name = "SieniArchivo.findByArRuta", query = "SELECT s FROM SieniArchivo s WHERE s.arRuta = :arRuta"),
-    @NamedQuery(name = "SieniArchivo.findByArTipo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo"),
+    @NamedQuery(name = "SieniArchivo.findByArTipoActivo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo and s.arEstado='D'"),
     @NamedQuery(name = "SieniArchivo.findByArNombre", query = "SELECT s FROM SieniArchivo s WHERE s.arNombre = :arNombre"),
     @NamedQuery(name = "SieniArchivo.findByArEstado", query = "SELECT s FROM SieniArchivo s WHERE s.arEstado = :arEstado")})
 public class SieniArchivo implements Serializable {
@@ -48,6 +52,7 @@ public class SieniArchivo implements Serializable {
     private String arRuta;
     @Column(name = "ar_tipo")
     private Character arTipo;
+    @Basic(fetch = LAZY)
     @Lob
     @Column(name = "ar_archivo")
     private byte[] arArchivo;
@@ -58,6 +63,10 @@ public class SieniArchivo implements Serializable {
     @JoinColumn(name = "id_componente", referencedColumnName = "id_componente")
     @ManyToOne
     private SieniComponente idComponente;
+    @Transient
+    private String estado;
+    @Transient
+    private String tipoArchivo;
 
     public SieniArchivo() {
     }
@@ -110,8 +119,47 @@ public class SieniArchivo implements Serializable {
         return arEstado;
     }
 
-    public void setArEstado(String arEstado) {
-        this.arEstado = arEstado;
+    public void setArEstado(String estado) {
+        this.arEstado = estado;
+    }
+
+    public String getEstado() {
+        if (arEstado != null) {
+            switch (arEstado) {
+                case "D":
+                    estado = "Disponible";
+                    break;
+                case "N":
+                    estado = "No Disponible";
+                    break;
+            }
+        }
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = arEstado;
+    }
+
+    public String getTipoArchivo() {
+        if (arTipo != null) {
+            switch (arTipo) {
+                case 'I':
+                    tipoArchivo = "Imagen";
+                    break;
+                case 'A':
+                    tipoArchivo = "Audio";
+                    break;
+                case 'V':
+                    tipoArchivo = "Video";
+                    break;
+            }
+        }
+        return tipoArchivo;
+    }
+
+    public void setTipoArchivo(String tipoArchivo) {
+        this.tipoArchivo = tipoArchivo;
     }
 
     public SieniComponente getIdComponente() {

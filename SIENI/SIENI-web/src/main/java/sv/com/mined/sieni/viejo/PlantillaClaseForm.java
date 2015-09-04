@@ -11,7 +11,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import org.primefaces.model.DualListModel;
-import utils.Combo;
+import sv.com.mined.sieni.pojos.controller.Combo;
 import utils.RandomNombre;
 
 

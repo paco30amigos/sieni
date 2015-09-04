@@ -57,6 +57,8 @@ public class SieniBitacora implements Serializable {
     private Long bitIdUsuario;
     @Column(name = "bit_tipo_usuario")
     private Character bitTipoUsuario;
+    @Column(name = "bit_ip")
+    private String bitIp;
 
     public SieniBitacora() {
     }
@@ -144,6 +146,14 @@ public class SieniBitacora implements Serializable {
         this.bitTabla = bitTabla;
         this.bitIdUsuario = bitIdUsuario;
         this.bitTipoUsuario = bitTipoUsuario;
+    }
+
+    public String getBitIp() {
+        return bitIp;
+    }
+
+    public void setBitIp(String bitIp) {
+        this.bitIp = bitIp;
     }
 
 }

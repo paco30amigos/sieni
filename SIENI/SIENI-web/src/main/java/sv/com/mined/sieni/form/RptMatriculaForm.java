@@ -8,6 +8,7 @@ package sv.com.mined.sieni.form;
 import java.util.Date;
 import java.util.List;
 import org.primefaces.model.StreamedContent;
+import sv.com.mined.sieni.controller.ReportesController;
 import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.pojos.rpt.RptMatriculasPojo;
 
@@ -15,7 +16,7 @@ import sv.com.mined.sieni.pojos.rpt.RptMatriculasPojo;
  *
  * @author francisco_medina
  */
-public class RptMatriculaForm {
+public class RptMatriculaForm extends ReportesController{
 
     private List<SieniMatricula> matriculaList;
     private StreamedContent reporte;

@@ -5,15 +5,21 @@
  */
 package sv.com.mined.sieni.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.form.RptMatriculaForm;
@@ -68,10 +74,10 @@ public class RptMatriculaController extends RptMatriculaForm {
         parameterMap.put("anio", this.getAnio());
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
         try {
-            RptMatriculaController.generateReport(path, "rtpMatriculas"  + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());             
-             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            RptMatriculaController.generateReport(path, "rtpMatriculas" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
         } catch (JRException ex) {
             Logger.getLogger("error 1").log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

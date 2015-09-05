@@ -121,6 +121,12 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     public void resetModificaForm() {
         this.setArchivoModifica(new SieniArchivo());
     }
+    
+    public void resetNuevoForm() {
+        this.setArchivoNuevo(new SieniArchivo());
+        this.setArchivoUsable(null);
+        
+    }
 
     public boolean validarModifica(SieniArchivo nuevo) {
         boolean ban = true;

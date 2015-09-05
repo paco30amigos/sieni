@@ -7,6 +7,13 @@ package utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -97,20 +104,47 @@ public class ImagesDataTable {
         } else {
             String fileId = (String) ((HttpServletRequest) context.getExternalContext().getRequest()).getParameter("fileId");
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            GestionComponentesInteractivosController controller = (GestionComponentesInteractivosController) req.getSession().getAttribute("gestionComponentesInteractivosController");
+//            GestionComponentesInteractivosController controller = (GestionComponentesInteractivosController) req.getSession().getAttribute("gestionComponentesInteractivosController");
             Long idArchivo = Long.parseLong(fileId);
-            byte[] archivo = sieniArchivoFacadeRemote.getArchivoLazy(idArchivo);
+//            byte[] archivo = sieniArchivoFacadeRemote.getArchivoLazy(idArchivo);
             SieniArchivo archivoEntity = new SieniArchivo();
             archivoEntity.setIdArchivo(idArchivo);
             archivoEntity = sieniArchivoFacadeRemote.find(idArchivo);
-            InputStream input = new ByteArrayInputStream(archivo);
-            if (archivoEntity.getArTipo().equals(new Character('A'))) {
-                ret = new DefaultStreamedContent(input, "audio/mpeg");
-            } else if (archivoEntity.getArTipo().equals(new Character('V'))) {
-                ret = new DefaultStreamedContent(input, "video/mp4");
-            } else {
-                ret = new DefaultStreamedContent(input);
+            String driver = "org.postgresql.Driver";
+            String connectString = "jdbc:postgresql://localhost:5432/bd_sieni";
+            String user = "postgres";
+            String password = "postgres";
+            InputStream input = null;
+
+            java.sql.Blob data = null;
+            try {
+                Class.forName(driver);
+                Connection con = DriverManager.getConnection(connectString, user, password);
+                PreparedStatement stmt = con.prepareStatement("select * from sieni_archivo where id_archivo=" + idArchivo.toString());
+                ResultSet res = stmt.executeQuery();
+                con.setAutoCommit(false);
+                while (res.next()) {
+                    input = res.getBinaryStream("ar_archivo");
+                }
+                if (input != null) {
+                    try {
+//                        input = data.getBinaryStream();
+                        if (archivoEntity.getArTipo().equals(new Character('A'))) {
+                            ret = new DefaultStreamedContent(input, "audio/mpeg");
+                        } else if (archivoEntity.getArTipo().equals(new Character('V'))) {
+                            ret = new DefaultStreamedContent(input, "video/mp4");
+                        } else {
+                            ret = new DefaultStreamedContent(input);
+                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(ImagesDataTable.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                stmt.close();
+                con.close();
+            } catch (Exception e) {
             }
+            System.gc();
             return ret;
         }
     }

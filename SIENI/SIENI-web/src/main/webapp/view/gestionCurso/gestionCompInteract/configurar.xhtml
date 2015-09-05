@@ -123,7 +123,7 @@
                                 <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
                                     <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="video">
                                         <p:media value="#{imagesDataTable.archivo}" player="quicktime" height="#{gestionComponentesInteractivosController.config.scAlto}"
-                                                 width="#{gestionComponentesInteractivosController.config.scAncho}">
+                                                 width="#{gestionComponentesInteractivosController.config.scAncho}" cache="false">
                                             <f:param name="fileId" value="#{video.archivoBD.idArchivo}"/>
                                         </p:media>
                                     </ui:repeat>
@@ -157,7 +157,7 @@
                                 <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
                                     <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="video">
                                         <p:media value="#{imagesDataTable.archivo}" player="quicktime" height="#{gestionComponentesInteractivosController.config.scAlto}"
-                                                 width="#{gestionComponentesInteractivosController.config.scAncho}">
+                                                 width="#{gestionComponentesInteractivosController.config.scAncho}" cache="false">
                                             <f:param name="fileId" value="#{video.archivoBD.idArchivo}"/>
                                         </p:media>
                                     </ui:repeat>

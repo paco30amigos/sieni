@@ -25,6 +25,7 @@ public class RptMatriculaForm {
     private Date hasta;
     private String anio;
     private List<RptMatriculasPojo> listDatos;
+    private Integer tipoRpt;
 
     public List<SieniMatricula> getMatriculaList() {
         return matriculaList;
@@ -88,6 +89,14 @@ public class RptMatriculaForm {
 
     public void setListDatos(List<RptMatriculasPojo> listDatos) {
         this.listDatos = listDatos;
+    }
+
+    public Integer getTipoRpt() {
+        return tipoRpt;
+    }
+
+    public void setTipoRpt(Integer tipoRpt) {
+        this.tipoRpt = tipoRpt;
     }
 
 }

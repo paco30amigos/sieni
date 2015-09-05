@@ -52,8 +52,7 @@ public class RptMatriculaController extends RptMatriculaForm {
         this.setListDatos(new ArrayList<RptMatriculasPojo>());
         
         for (SieniMatricula actual : matriculas) {
-            elem = new RptMatriculasPojo(actual.getIdMatricula().toString(), actual.getMtAnio(), actual.getIdAlumno().toString(), null, actual.getIdGrado().toString(), actual.getIdSeccion().toString());
-            
+            elem = new RptMatriculasPojo(actual.getIdMatricula().toString(), actual.getMtAnio(), actual.getIdAlumno().toString(), actual.getIdAlumno().getNombreCompleto(), actual.getIdGrado().toString(), actual.getIdSeccion().toString());
             this.getListDatos().add(elem);
         }
     }
@@ -69,9 +68,14 @@ public class RptMatriculaController extends RptMatriculaForm {
         parameterMap.put("anio", this.getAnio());
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
         try {
-            
-        } catch (Exception e) {
-            
+            RptMatriculaController.generateReport(path, "rtpMatriculas"  + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());             
+             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        } catch (JRException ex) {
+            Logger.getLogger("error 1").log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger("error 2").log(Level.SEVERE, null, ex);
         }
     }
 

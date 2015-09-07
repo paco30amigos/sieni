@@ -33,22 +33,22 @@
                                  rowsPerPageTemplate="10,20,40"
                                  reflow="true">
                         <p:column headerText="Matricula" >
-                            #{car.idMatricula}
+                            #{car.matricula}
                         </p:column>
                         <p:column headerText="Año" >
-                            #{car.mtAnio}
+                            #{car.anio}
                         </p:column>
                         <p:column headerText="carnet" >
-                            #{car.mtCarnet}
+                            #{car.carnet}
                         </p:column>
                         <p:column headerText="Alumno" >
-                            #{car.idAlumno.nombreCompleto}
+                            #{car.alumno}
                         </p:column>
                         <p:column headerText="grado" >
-                            #{car.idGrado.grNombre}
+                            #{car.grado}
                         </p:column>
                         <p:column headerText="seccion" >
-                            #{car.idSeccion.scDescripcion}
+                            #{car.seccion}
                         </p:column>
                         <f:facet name="footer">
                             Total de alumnos #{rptMatriculaController.totalTransacciones}

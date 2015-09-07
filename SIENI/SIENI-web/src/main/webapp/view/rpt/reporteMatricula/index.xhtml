@@ -27,7 +27,7 @@
                         <p:inputMask mask="9,999" value="#{rptMatriculaController.anio}"></p:inputMask>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{rptMatriculaController.matriculaList}" 
+                    <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{rptMatriculaController.listDatos}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10,20,40"

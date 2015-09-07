@@ -58,11 +58,11 @@
                     <div class="TexAlCenter">
                         <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
                             <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{rptMatriculaController.formatoRpt}">
-                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                            <p:selectOneRadio  id="console" value="#{rptMatriculaController.tipoRpt}">
+                                <f:selectItem itemLabel="Excel" itemValue="2" />
+                                <f:selectItem itemLabel="PDF" itemValue="0" />
                             </p:selectOneRadio>
-                            <p:commandButton  value="Generar" action="#{rptMatriculaController.generarReporte()}" update="consulta"></p:commandButton>
+                            <p:commandButton  value="Generar" action="#{rptMatriculaController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
                             <p:commandButton value="Refrescar" action="#{rptMatriculaController.refresh()}" update="consulta"></p:commandButton>
                         </h:panelGrid>
                     </div>

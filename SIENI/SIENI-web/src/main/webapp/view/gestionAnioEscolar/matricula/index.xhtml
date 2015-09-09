@@ -13,6 +13,7 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
+        <div class="EmptyBox5"></div>
         <p:tabView tabindex="#{gestionMatriculaController.indexMenu}" activeIndex="#{gestionMatriculaController.indexMenu}" id="tabMenu">
             <p:tab title="Consulta de Matrícula de Alumnos">
                 <h:form id="consultaForm">
@@ -44,9 +45,8 @@
                             #{car.idSeccion.scDescripcion}
                         </p:column>
                         <p:column headerText="Acciones">
-                            <p:commandLink action="#{gestionMatriculaController.modificar(car)}" update="tabMenu" >
-                                <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Matrícula"></i>
-                            </p:commandLink>
+                            <p:commandLink action="#{gestionMatriculaController.ver(car)}"><i class="icon-visibility1 Fs25 Red" title="Ver Matricula" ></i></p:commandLink>
+                            <p:commandLink action="#{gestionMatriculaController.modificar(car)}" update="tabMenu" ><i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Matrícula"></i></p:commandLink>
                             <p:commandLink action="#{gestionMatriculaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                                 <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Matrícula"></i>
                             </p:commandLink>
@@ -57,7 +57,7 @@
                     <p:commandButton value="Refrescar" action="#{gestionMatriculaController.refresh()}" update="consulta"></p:commandButton>
                 </h:form>
             </p:tab>
-            <p:tab title="Registro de Matrícula de Alumno">
+<!--            <p:tab title="Registro de Matrícula de Alumno">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
@@ -146,7 +146,7 @@
                         </p:splitButton>            
                     </div>
                 </h:form>
-            </p:tab>
+            </p:tab>-->
         </p:tabView>
     </ui:define>
 </ui:composition>

@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar M<atriculas" url="#{siteUrls.gestionAnioEscolar}"/>
+            <p:menuitem value="Consulta de Matriculas"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionMatriculaController.indexMenu}').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

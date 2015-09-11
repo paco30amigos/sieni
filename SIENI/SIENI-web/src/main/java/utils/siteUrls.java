@@ -33,7 +33,7 @@ public class siteUrls {
     private final String gestionAlumnos = "/faces/view/gestionAnioEscolar/matricula/index.xhtml";
     private final String expedienteAlumnos = "/faces/view/gestionAlumnos/expediente/index.xhtml";
     private final String gestionDocentes = "/faces/view/gestionDocentes/mantenimientoDocentes/index.xhtml";
-    private final String gestionAnioEscolar = "/faces/view/gestionDocentes/matricula/index.xhtml";
+    private final String gestionAnioEscolar = "/faces/view/gestionAnioEscolar/matricula/index.xhtml";
     private final String buzonNotificacion = "/faces/view/buzonNotificaciones/index.xhtml";
     private final String claseOnline = "/faces/view/gestionCurso/gestionClase/claseOnline/index.xhtml";
     private final String claseVideoAlmacenada = "/faces/view/gestionCurso/gestionClase/claseVideoAlmacenada/index.xhtml";

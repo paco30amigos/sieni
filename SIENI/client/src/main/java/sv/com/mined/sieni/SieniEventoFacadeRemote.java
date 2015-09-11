@@ -29,5 +29,7 @@ public interface SieniEventoFacadeRemote {
     List<SieniEvento> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniEvento> findByTipoSuperComponente(Long tipoComponente);
+
 }

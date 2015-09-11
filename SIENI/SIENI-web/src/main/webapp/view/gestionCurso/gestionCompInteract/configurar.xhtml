@@ -19,328 +19,309 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form enctype="multipart/form-data">
+                <p:tabView>
+                    <p:tab title="Configuración Componente">
+                        <c:choose>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==1}">
+                                <p:panelGrid columns="4" class="Container100">
+                                    <p:outputLabel value="Alto"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
+                                    <p:outputLabel value="Ancho"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
+                                    <p:outputLabel value="Archivo:"></p:outputLabel>
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                        <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('I')}" var="archivo"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivo()}" update="pick" oncomplete="refrescarImagen()"></p:commandButton>
+                                </p:panelGrid>
+                                <div class="Container50 Responsive">
+                                    <p:pickList id="pick" value="#{gestionComponentesInteractivosController.listaOrdenable}"
+                                                itemLabel="#{orden.archivoBD.arNombre}" var="orden" itemValue="#{orden}" converter="fileStreamedPojo">
+                                        <p:ajax event="reorder" oncomplete="refrescarImagen()"></p:ajax>
+                                        <p:ajax event="transfer" oncomplete="refrescarImagen()"/>
+                                        <f:facet name="sourceCaption">Agregados</f:facet>
+                                        <f:facet name="targetCaption">Eliminados</f:facet>
+                                    </p:pickList>                        
+                                </div>
+                            </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==2}">
+                                <p:panelGrid columns="4" class="Container100">
+                                    <p:outputLabel value="Alto"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
+                                    <p:outputLabel value="Ancho"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
+                                    <p:outputLabel value="Archivo:"></p:outputLabel>
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                        <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('I')}" var="archivo"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" oncomplete="refrescarImagen()"></p:commandButton>
+                                </p:panelGrid>
+                            </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==3}">
+                                <p:panelGrid columns="4" class="Container100">
+                                    <p:outputLabel value="Alto"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
+                                    <p:outputLabel value="Ancho"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
+                                    <p:outputLabel value="Archivo:"></p:outputLabel>
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                        <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('V')}" var="archivo"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" oncomplete="refrescarImagen()"></p:commandButton>
+                                </p:panelGrid>
+                            </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==4}">
+                                Imagenes agarrar/soltar
+                            </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==5}">
+                                Audio
+                                <p:panelGrid columns="4" class="Container100">
+                                    <p:outputLabel value="Alto"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
+                                    <p:outputLabel value="Ancho"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
+                                    <p:outputLabel value="Archivo:"></p:outputLabel>
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                        <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('A')}" var="archivo"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" oncomplete="refrescarImagen()"></p:commandButton>
+                                </p:panelGrid>
+                            </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==6}">
+                                Carrusel de imagenes
+                                <p:panelGrid columns="4">
+                                    <p:outputLabel value="Alto"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
+                                    <p:outputLabel value="Ancho"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
+                                </p:panelGrid>
+                                <p:panelGrid columns="2">
+                                    <p:outputLabel value="Archivo:"></p:outputLabel>
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                        <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.listaArchivos}" var="archivo"></f:selectItems>
+                                    </p:selectOneMenu>
+                                    <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivo()}" oncomplete="refrescarImagen()"></p:commandButton>
+                                </p:panelGrid>
+                                <p:panel id="archivos">
+                                    <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                        <p:contentFlow   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
+                                                         var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px" styleClass="content">
+                                            <p:graphicImage value="#{imagesDataTable.archivo}" class="Container100" cache="false" title="#{imgs.archivoBD.arNombre}">
+                                                <f:param name="fileId" value="#{imgs.archivoBD.idArchivo}"/>
+                                            </p:graphicImage>
+                                        </p:contentFlow>
+                                    </c:if>
+                                    <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
+                                        <p:contentFlow   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
+                                                         var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px" styleClass="content">
+                                        </p:contentFlow>
+                                    </c:if>
+                                </p:panel>
+                                <p:pickList value="#{gestionComponentesInteractivosController.listaOrdenable}"
+                                            itemLabel="#{orden.archivoBD.arNombre}" var="orden" itemValue="#{orden}" converter="fileStreamedPojo"> 
+                                    <p:ajax event="reorder" update="archivos"></p:ajax>
+                                    <p:ajax event="transfer" update="archivos" />                            
+                                    <f:facet name="sourceCaption">Agregados</f:facet>
+                                    <f:facet name="targetCaption">Eliminados</f:facet>
+                                </p:pickList>
+                            </c:when>
+                        </c:choose>
+                    </p:tab>
+                    <p:tab title="Configurar acciones">
+                        <p:panelGrid columns="4">
+                            <p:outputLabel value="Evento:"></p:outputLabel>
+                            <p:selectOneMenu value="#{gestionComponentesInteractivosController.nuevaInterac.idEvento}" converter="evento">
+                                <f:selectItems value="#{gestionComponentesInteractivosController.eventos}" var="evtos" itemLabel="#{evtos.evDescripcion}" itemValue="#{evtos}" ></f:selectItems>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Acción:"></p:outputLabel>
+                            <p:selectOneMenu value="#{gestionComponentesInteractivosController.nuevaInterac.idAccion}" converter="accion">
+                                <f:selectItems value="#{gestionComponentesInteractivosController.acciones}" var="accnes" itemLabel="#{accnes.acDescripcion}" itemValue="#{accnes}"></f:selectItems>
+                            </p:selectOneMenu>
+                            <p:outputLabel value="Duración:"></p:outputLabel>
+                            <p:spinner value="#{gestionComponentesInteractivosController.nuevaInterac.inDuracion}">
+                            </p:spinner>
+                            <p:commandButton value="Agregar" update="acciones" actionListener="#{gestionComponentesInteractivosController.agregarInteraccion()}" oncomplete="refrescarImagen()"></p:commandButton>
+                        </p:panelGrid>
+                        <p:dataTable id="acciones" value="#{gestionComponentesInteractivosController.listaInteraccion}" editable="true" var="interac">
+                            <p:ajax event="rowEdit" listener="#{gestionComponentesInteractivosController.interaccEdit}" update="acciones" oncomplete="refrescarImagen()" />
+                            <p:column style="width:32px">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column headerText="Evento">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        #{interac.idEvento.evDescripcion}
+                                    </f:facet>
+                                    <f:facet name="input"> 
+                                        <p:selectOneMenu value="#{interac.idEvento}" converter="evento">
+                                            <f:selectItems value="#{gestionComponentesInteractivosController.eventos}" var="evtos" itemLabel="#{evtos.evDescripcion}" itemValue="#{evtos}"></f:selectItems>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Accion">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        #{interac.idAccion.acDescripcion}
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:selectOneMenu value="#{interac.idAccion}" converter="accion">
+                                            <f:selectItems value="#{gestionComponentesInteractivosController.acciones}" var="accnes" itemLabel="#{accnes.acDescripcion}" itemValue="#{accnes}"></f:selectItems>
+                                        </p:selectOneMenu>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="Duracion">
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        #{interac.inDuracion}
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:spinner value="#{interac.inDuracion}"></p:spinner>
+                                    </f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <p:commandLink update="acciones" actionListener="#{gestionComponentesInteractivosController.eliminarInteraccion(interac)}" oncomplete="refrescarImagen()">
+                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar"></i>
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                </p:tabView>
                 <c:choose>
                     <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==1}">
-                        <p:panelGrid columns="4" class="Container100">
-                            <p:outputLabel value="Alto"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
-                            <p:outputLabel value="Ancho"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
-                            <p:outputLabel value="Archivo:"></p:outputLabel>
-                            <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
-                                <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('I')}" var="archivo"></f:selectItems>
-                            </p:selectOneMenu>
-                            <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivo()}" update="archivos,pick"></p:commandButton>
-                        </p:panelGrid>
-                        <div class="Container50 Responsive">
-                            <p:pickList id="pick" value="#{gestionComponentesInteractivosController.listaOrdenable}"
-                                        itemLabel="#{orden.archivoBD.arNombre}" var="orden" itemValue="#{orden}" converter="fileStreamedPojo">
-                                <p:ajax event="reorder" update="archivos"></p:ajax>
-                                <p:ajax event="transfer" update="archivos" />
-                                <f:facet name="sourceCaption">Agregados</f:facet>
-                                <f:facet name="targetCaption">Eliminados</f:facet>
-                            </p:pickList>                        
-                        </div>
-                        <div class="Container50 Responsive">
-                            <p:panel id="archivos" style="height: #{gestionComponentesInteractivosController.config.scAlto+10};width: #{gestionComponentesInteractivosController.config.scAncho+10}">
-                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                    <p:galleria  value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
-                                                 var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
-                                                 panelWidth="#{gestionComponentesInteractivosController.config.scAncho}" showCaption="true" showFilmstrip="true">
-                                        <p:graphicImage value="#{imagesDataTable.archivo}" class="Container100" cache="false" title="#{imgs.archivoBD.arNombre}">
-                                            <f:param name="fileId" value="#{imgs.archivoBD.idArchivo}"/>
-                                        </p:graphicImage>
-                                    </p:galleria>
-                                </c:if>
-                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
-                                    <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
-                                                  var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
-                                                  panelWidth="#{gestionComponentesInteractivosController.config.scAncho}">
-                                    </p:galleria>
-                                </c:if>
-                            </p:panel>
-                        </div>
                         <div class="EmptyBox20"></div>
-                        <div class="Container100 Responsive">
-                            <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
-                            <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" update="archivos,pick" ajax="true"></p:commandButton>
-                        </div>
-                    </c:when>
-
-                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==2}">
-                        Imagen
-                        <p:panelGrid columns="4" class="Container100">
-                            <p:outputLabel value="Alto"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
-                            <p:outputLabel value="Ancho"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
-                            <p:outputLabel value="Archivo:"></p:outputLabel>
-                            <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
-                                <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('I')}" var="archivo"></f:selectItems>
-                            </p:selectOneMenu>
-                            <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" update="archivos"></p:commandButton>
-                        </p:panelGrid>
-                        <div class="Container100 Responsive">
-                            <p:panel id="archivos" style="height: #{gestionComponentesInteractivosController.config.scAlto+10};width: #{gestionComponentesInteractivosController.config.scAncho+10}">
-                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                    <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
-                                                  var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
-                                                  panelWidth="#{gestionComponentesInteractivosController.config.scAncho}" showCaption="true" showFilmstrip="false">
-                                        <p:graphicImage value="#{imagesDataTable.archivo}" class="Container100" cache="false" title="#{imgs.archivoBD.arNombre}">
-                                            <f:param name="fileId" value="#{imgs.archivoBD.idArchivo}"/>
-                                        </p:graphicImage>
-                                    </p:galleria>
-                                </c:if>
-                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
-                                    <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
-                                                  var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
-                                                  panelWidth="#{gestionComponentesInteractivosController.config.scAncho}">
-                                    </p:galleria>
-                                </c:if>
-                            </p:panel>
-                        </div>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container100 Responsive">
-                            <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
-                            <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" update="archivos" ajax="true"></p:commandButton>
-                        </div>
-                    </c:when>
-                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==3}">
-                        Video
-                        <p:panelGrid columns="4" class="Container100">
-                            <p:outputLabel value="Alto"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
-                            <p:outputLabel value="Ancho"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
-                            <p:outputLabel value="Archivo:"></p:outputLabel>
-                            <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
-                                <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('V')}" var="archivo"></f:selectItems>
-                            </p:selectOneMenu>
-                            <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" update="archivos"></p:commandButton>
-                        </p:panelGrid>
-                        <div class="Container100 Responsive">
-                            <p:panel id="archivos">
-                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                    <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="video">
-                                        <p:media value="#{imagesDataTable.archivo}" player="quicktime" height="#{gestionComponentesInteractivosController.config.scAlto}"
-                                                 width="#{gestionComponentesInteractivosController.config.scAncho}" cache="false">
-                                            <f:param name="fileId" value="#{video.archivoBD.idArchivo}"/>
-                                        </p:media>
-                                    </ui:repeat>
-                                </c:if>
-                            </p:panel>
-                        </div>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container100 Responsive">
-                            <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
-                            <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" update="archivos" ajax="true"></p:commandButton>
-                        </div>
-                    </c:when>
-                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==4}">
-                        Imagenes agarrar/soltar
-                    </c:when>
-                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==5}">
-                        Audio
-                        <p:panelGrid columns="4" class="Container100">
-                            <p:outputLabel value="Alto"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
-                            <p:outputLabel value="Ancho"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
-                            <p:outputLabel value="Archivo:"></p:outputLabel>
-                            <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
-                                <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('A')}" var="archivo"></f:selectItems>
-                            </p:selectOneMenu>
-                            <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" update="archivos"></p:commandButton>
-                        </p:panelGrid>
-                        <div class="Container100 Responsive">
-                            <p:panel id="archivos">
-                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                    <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="video">
-                                        <p:media value="#{imagesDataTable.archivo}" player="quicktime" height="#{gestionComponentesInteractivosController.config.scAlto}"
-                                                 width="#{gestionComponentesInteractivosController.config.scAncho}" cache="false">
-                                            <f:param name="fileId" value="#{video.archivoBD.idArchivo}"/>
-                                        </p:media>
-                                    </ui:repeat>
-                                </c:if>
-                            </p:panel>
-                        </div>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container100 Responsive">
-                            <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
-                            <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" update="archivos" ajax="true"></p:commandButton>
-                        </div>
-                    </c:when>
-                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==6}">
-                        Carrusel de imagenes
-                        <p:panelGrid columns="4">
-                            <p:outputLabel value="Alto"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
-                            <p:outputLabel value="Ancho"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
-                        </p:panelGrid>
-                        <p:panelGrid columns="2">
-                            <p:outputLabel value="Archivo:"></p:outputLabel>
-                            <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
-                                <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.listaArchivos}" var="archivo"></f:selectItems>
-                            </p:selectOneMenu>
-                            <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivo()}" update="archivos"></p:commandButton>
-                            <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}"></p:commandButton>
-                            <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" update="archivos"></p:commandButton>
-                        </p:panelGrid>
-                        <p:panel id="archivos">
+                        <p:remoteCommand name="refrescarImagen" update="panel"></p:remoteCommand>
+                        <p:panel id="panel" style="height: #{gestionComponentesInteractivosController.config.scAlto+10}px;width: #{gestionComponentesInteractivosController.config.scAncho+10}px">
                             <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                <p:contentFlow   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
-                                                 var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px" styleClass="content">
+                                <p:galleria id="archivosEvnt"  value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
+                                            var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
+                                            panelWidth="#{gestionComponentesInteractivosController.config.scAncho}" showCaption="true" showFilmstrip="true">
                                     <p:graphicImage value="#{imagesDataTable.archivo}" class="Container100" cache="false" title="#{imgs.archivoBD.arNombre}">
                                         <f:param name="fileId" value="#{imgs.archivoBD.idArchivo}"/>
                                     </p:graphicImage>
-                                </p:contentFlow>
+                                </p:galleria>
+                                <c:forEach items="#{gestionComponentesInteractivosController.listaInteraccion}" var="acciones">
+                                    <c:choose>
+                                        <c:when test="#{acciones.idAccion.evCodigo=='show'}">
+                                            <p:effect event="#{acciones.idEvento.evCodigo}" type="blind" for="archivosEvnt" speed="#{acciones.inDuracion}">
+                                                <f:param name="mode" value="'show'" /> 
+                                            </p:effect>
+                                        </c:when>
+                                        <c:when test="#{acciones.idAccion.evCodigo=='hide'}">
+                                            <p:effect event="#{acciones.idEvento.evCodigo}" type="explode" for="archivosEvnt" speed="#{acciones.inDuracion}">
+                                                <f:param name="mode" value="'hide'" /> 
+                                            </p:effect>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p:effect event="#{acciones.idEvento.evCodigo}" type="#{acciones.idAccion.evCodigo}" for="archivosEvnt" speed="#{acciones.inDuracion}">
+                                            </p:effect>
+                                        </c:otherwise>
+                                    </c:choose>                                    
+                                </c:forEach>
                             </c:if>
                             <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
-                                <p:contentFlow   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
-                                                 var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px" styleClass="content">
-                                </p:contentFlow>
+                                <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
+                                              var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
+                                              panelWidth="#{gestionComponentesInteractivosController.config.scAncho}">
+                                </p:galleria>
                             </c:if>
                         </p:panel>
-                        <p:pickList value="#{gestionComponentesInteractivosController.listaOrdenable}"
-                                    itemLabel="#{orden.archivoBD.arNombre}" var="orden" itemValue="#{orden}" converter="fileStreamedPojo"> 
-                            <p:ajax event="reorder" update="archivos"></p:ajax>
-                            <p:ajax event="transfer" update="archivos" />                            
-                            <f:facet name="sourceCaption">Agregados</f:facet>
-                            <f:facet name="targetCaption">Eliminados</f:facet>
-                        </p:pickList>
+                    </c:when>
+                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==2}">
+                        <p:remoteCommand name="refrescarImagen" update="panel"></p:remoteCommand>
+                        <p:panel id="panel" style="height: #{gestionComponentesInteractivosController.config.scAlto+10};width: #{gestionComponentesInteractivosController.config.scAncho+10}">
+                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                <p:galleria id="archivosEvnt"  value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
+                                            var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
+                                            panelWidth="#{gestionComponentesInteractivosController.config.scAncho}" showCaption="true" showFilmstrip="false">
+                                    <p:graphicImage value="#{imagesDataTable.archivo}" class="Container100" cache="false" title="#{imgs.archivoBD.arNombre}">
+                                        <f:param name="fileId" value="#{imgs.archivoBD.idArchivo}"/>
+                                    </p:graphicImage>
+                                </p:galleria>
+                                <c:forEach items="#{gestionComponentesInteractivosController.listaInteraccion}" var="acciones">
+                                    <c:choose>
+                                        <c:when test="#{acciones.idAccion.evCodigo=='show'}">
+                                            <p:effect event="#{acciones.idEvento.evCodigo}" type="blind" for="archivosEvnt" speed="#{acciones.inDuracion}">
+                                                <f:param name="mode" value="'show'" /> 
+                                            </p:effect>
+                                        </c:when>
+                                        <c:when test="#{acciones.idAccion.evCodigo=='hide'}">
+                                            <p:effect event="#{acciones.idEvento.evCodigo}" type="explode" for="archivosEvnt" speed="#{acciones.inDuracion}">
+                                                <f:param name="mode" value="'hide'" /> 
+                                            </p:effect>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <p:effect event="#{acciones.idEvento.evCodigo}" type="#{acciones.idAccion.evCodigo}" for="archivosEvnt" speed="#{acciones.inDuracion}">
+                                            </p:effect>
+                                        </c:otherwise>
+                                    </c:choose>                                    
+                                </c:forEach>
+                            </c:if>
+                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
+                                <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
+                                              var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
+                                              panelWidth="#{gestionComponentesInteractivosController.config.scAncho}">
+                                </p:galleria>
+                            </c:if>
+                        </p:panel>
+                    </c:when>
+                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==3}">
+                        <p:remoteCommand name="refrescarImagen" update="panel"></p:remoteCommand>
+                        <p:panel id="panel">
+                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="video">
+                                    <p:media value="#{imagesDataTable.archivo}" player="quicktime" height="#{gestionComponentesInteractivosController.config.scAlto}"
+                                             width="#{gestionComponentesInteractivosController.config.scAncho}" cache="false">
+                                        <f:param name="fileId" value="#{video.archivoBD.idArchivo}"/>
+                                    </p:media>
+                                </ui:repeat>
+                            </c:if>
+                            <c:forEach items="#{gestionComponentesInteractivosController.listaInteraccion}" var="acciones">
+                                <c:choose>
+                                    <c:when test="#{acciones.idAccion.evCodigo=='show'}">
+                                        <p:effect event="#{acciones.idEvento.evCodigo}" type="blind" for="panel" speed="#{acciones.inDuracion}">
+                                            <f:param name="mode" value="'show'" /> 
+                                        </p:effect>
+                                    </c:when>
+                                    <c:when test="#{acciones.idAccion.evCodigo=='hide'}">
+                                        <p:effect event="#{acciones.idEvento.evCodigo}" type="explode" for="panel" speed="#{acciones.inDuracion}">
+                                            <f:param name="mode" value="'hide'" /> 
+                                        </p:effect>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <p:effect event="#{acciones.idEvento.evCodigo}" type="#{acciones.idAccion.evCodigo}" for="panel" speed="#{acciones.inDuracion}">
+                                        </p:effect>
+                                    </c:otherwise>
+                                </c:choose>                                    
+                            </c:forEach>
+                        </p:panel>
+                    </c:when>
+                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==4}">
+                    </c:when>
+                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==5}">
+                        <p:remoteCommand name="refrescarImagen" update="panel"></p:remoteCommand>
+                        <p:panel id="panel">
+                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="video">
+                                    <p:media value="#{imagesDataTable.archivo}" player="quicktime" height="#{gestionComponentesInteractivosController.config.scAlto}"
+                                             width="#{gestionComponentesInteractivosController.config.scAncho}" cache="false">
+                                        <f:param name="fileId" value="#{video.archivoBD.idArchivo}"/>
+                                    </p:media>
+                                </ui:repeat>
+                            </c:if>
+                        </p:panel>
+                    </c:when>
+                    <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==6}">
                     </c:when>
                 </c:choose>
+                <div class="EmptyBox50"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" ajax="true" oncomplete="refrescarImagen()"></p:commandButton>
+                </div>
             </h:form>
         </p:panel>
-        <!--        //galerÃ­a de imagenes
-                agregar imagenes
-                titulo
-                alto
-                ancho
-                preview
-                
-                //video
-                nombre
-                video
-                alto
-                ancho
-                
-                //audio
-                reproductor visible
-                
-                //imagen
-                imagen
-                alto 
-                ancho
-                
-                <p:tabView>
-                    <p:tab title="ConfiguraciÃ³n">
-                        <p:draggable appendTo="@(body)" ></p:draggable>
-                        <h:form>
-                            <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                                <p:outputLabel value="Esta ayuda sirve un monton"/>
-                            </p:dialog>
-                            <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                            <div class="EmptyBox20"></div>
-                            <p:panelGrid columns="4">
-                                <p:outputLabel value="ancho"></p:outputLabel>
-                                <p:spinner min="1" max="1080" value="#{formatoPantallas.numero3}"></p:spinner>
-                                <p:outputLabel value="alto"></p:outputLabel>
-                                <p:spinner min="1" max="1920" value="#{formatoPantallas.numero3}"></p:spinner>
-                                <p:outputLabel value="posicion X"></p:outputLabel>
-                                <p:spinner min="1" max="1080" value="#{formatoPantallas.numero3}"></p:spinner>
-                                <p:outputLabel value="posicion Y"></p:outputLabel>
-                                <p:spinner min="1" max="1920" value="#{formatoPantallas.numero3}"></p:spinner>
-                                <p:outputLabel value="volumen"></p:outputLabel>
-                                <p:spinner min="0" max="100" value="#{formatoPantallas.numero3}"></p:spinner>
-                            </p:panelGrid>
-                            <div class="EmptyBox20"></div>
-                            <div class="Container100">
-                                <p:commandButton value="Guardar"></p:commandButton>
-                                <p:commandButton value="Limpiar"></p:commandButton>
-                                <p:commandButton value="Cancelar"></p:commandButton>
-                            </div>
-                        </h:form>
-                    </p:tab>
-                    <p:tab title="InteracciÃ³n">
-                        <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                            <p:outputLabel value="Esta ayuda sirve un monton"/>
-                        </p:dialog>
-                        <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                        <div class="EmptyBox20"></div>
-                        <p:tabView>
-                            <p:tab title="Consultar Interacciones">
-                                <h:form>
-                                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
-                                                 paginator="true"
-                                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                 rowsPerPageTemplate="10,20,40"
-                                                 reflow="true" >
-                                        <p:column headerText="Evento" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-        #{formatoPantallas.campo30}
-    </p:column>
-    <p:column headerText="AcciÃ³n" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-        #{formatoPantallas.campo30}
-    </p:column>
-    <p:column headerText="DuraciÃ³n" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-        #{formatoPantallas.numero4}
-    </p:column>
-    <p:column headerText="Acciones">
-        <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar InteracciÃ³n"></i>
-        <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar InteracciÃ³n"></i>
-    </p:column>
-</p:dataTable>
-<p:commandButton value="Crear InteracciÃ³n"></p:commandButton>
-<p:commandButton value="Refrescar"></p:commandButton>
-</h:form>
-</p:tab>
-<p:tab title="Crear InteracciÃ³n">
-<h:form>
-<p:panelGrid columns="4">
-    <p:outputLabel value="Evento"></p:outputLabel>
-    <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-        <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-    </p:selectOneMenu>
-    <p:outputLabel value="AcciÃ³n"></p:outputLabel>
-    <p:selectOneMenu value="#{InteraccionClaseForm.accion}" class="Contanier10 Responsive">
-        <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-    </p:selectOneMenu>
-    <p:outputLabel value="DuraciÃ³n en milisegundos"></p:outputLabel>
-    <p:spinner min="1" max="1000" value="#{formatoPantallas.numero4}" ></p:spinner>
-</p:panelGrid>
-<div class="EmptyBox10"></div>
-<div class="Container100">
-    <p:commandButton value="Guardar"></p:commandButton>
-    <p:commandButton value="Limpiar"></p:commandButton>
-    <p:commandButton value="Cancelar"></p:commandButton>
-</div>
-</h:form>
-</p:tab>
-<p:tab title="Modificar InteracciÃ³n">
-<h:form>
-<p:panelGrid columns="4">
-    <p:outputLabel value="Evento"></p:outputLabel>
-    <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-        <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-    </p:selectOneMenu>
-    <p:outputLabel value="AcciÃ³n"></p:outputLabel>
-    <p:selectOneMenu value="#{InteraccionClaseForm.accion}" class="Contanier10 Responsive">
-        <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-    </p:selectOneMenu>
-    <p:outputLabel value="DuraciÃ³n en milisegundos"></p:outputLabel>
-    <p:spinner min="1" max="1000" value="#{formatoPantallas.numero4}" ></p:spinner>
-</p:panelGrid>
-<div class="EmptyBox10"></div>
-<div class="Container100">
-    <p:commandButton value="Guardar"></p:commandButton>
-    <p:commandButton value="Limpiar"></p:commandButton>
-    <p:commandButton value="Cancelar"></p:commandButton>
-</div>
-</h:form>
-</p:tab>
-</p:tabView>
-</p:tab>
-</p:tabView>-->
     </ui:define>
 </ui:composition>

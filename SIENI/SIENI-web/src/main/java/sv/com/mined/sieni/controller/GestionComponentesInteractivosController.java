@@ -5,10 +5,8 @@
  */
 package sv.com.mined.sieni.controller;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,18 +15,23 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.SieniAccionFacadeRemote;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniComponenteFacadeRemote;
 import sv.com.mined.sieni.SieniEventoFacadeRemote;
 import sv.com.mined.sieni.SieniSuperComponFacadeRemote;
 import sv.com.mined.sieni.SieniTipoSuperComponFacadeRemote;
 import sv.com.mined.sieni.form.GestionComponentesInteractivosForm;
+import sv.com.mined.sieni.model.SieniAccion;
 import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniComponente;
+import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.model.SieniTipoComponente;
 import sv.com.mined.sieni.model.SieniTipoSuperCompon;
@@ -56,10 +59,13 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     private SieniTipoSuperComponFacadeRemote sieniTipoSuperComponFacadeRemote;
     @EJB
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
+    @EJB
+    private SieniCompInteraccionFacadeRemote sieniCompInteraccionFacadeRemote;
 
     @PostConstruct
     public void init() {
         this.setListaArchivosEliminados(new ArrayList<SieniComponente>());
+        this.setListaInteraccionesElimn(new ArrayList<SieniCompInteraccion>());
         this.setNuevo(new SieniSuperCompon());
         this.setListaOrdenable(new DualListModel<FileStreamedPojo>());
         this.getListaOrdenable().setSource(new ArrayList<FileStreamedPojo>());
@@ -71,6 +77,9 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.setDatosList(sieniSuperComponFacadeRemote.findAll());
         this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setListaTipoModifica(this.sieniTipoSuperComponFacadeRemote.findAll());
+        this.setNuevaInterac(new SieniCompInteraccion());
+        this.getNuevaInterac().setIdAccion(new SieniAccion());
+        this.getNuevaInterac().setIdEvento(new SieniEvento());
     }
 
     public void guardar() {
@@ -143,6 +152,11 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         for (SieniComponente actual : componentes) {
             addArchivoExistente(actual);
         }
+        List<SieniCompInteraccion> interaccion = sieniCompInteraccionFacadeRemote.findByIdSuperComp(configura.getIdSuperCompon());
+        this.setListaInteraccion(interaccion);
+
+        this.setEventos(this.sieniEventoFacadeRemote.findByTipoSuperComponente(this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon()));
+        this.setAcciones(this.sieniAccionFacadeRemote.findByTipoSuperComponente(this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon()));
         this.setIndexMenu(4);
     }
 
@@ -264,6 +278,31 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void guardarConfiguracion() {
+        guardarConfiguracionComponente();
+        guardarConfiguracionInteraccion();
+        configurar(this.getConfig());
+    }
+
+    private void guardarConfiguracionInteraccion() {
+        List<SieniComponente> componentes = sieniComponenteFacadeRemote.findByIdSuperComp(this.getConfig().getIdSuperCompon());
+        //limpia los id temporales
+        if (componentes != null && !componentes.isEmpty()) {
+            for (int i = 0; i < this.getListaInteraccion().size(); i++) {
+                this.getListaInteraccion().get(i).setIdComponente(componentes.get(0));
+                if (this.getListaInteraccion().get(i).getIdCompInteraccion() != null && this.getListaInteraccion().get(i).getIdCompInteraccion() < 0) {
+                    this.getListaInteraccion().get(i).setIdCompInteraccion(null);
+                }
+            }
+            for (int i = 0; i < this.getListaInteraccionesElimn().size(); i++) {
+                if (this.getListaInteraccionesElimn().get(i).getIdCompInteraccion() != null && this.getListaInteraccionesElimn().get(i).getIdCompInteraccion() < 0) {
+                    this.getListaInteraccionesElimn().get(i).setIdCompInteraccion(null);
+                }
+            }
+            sieniCompInteraccionFacadeRemote.merge(this.getListaInteraccion(), this.getListaInteraccionesElimn());
+        }
+    }
+
+    private void guardarConfiguracionComponente() {
         List<SieniComponente> lista = new ArrayList<>();
         List<SieniComponente> listaEliminados = new ArrayList<>();
         SieniComponente nuevo;
@@ -286,7 +325,6 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         }
         sieniComponenteFacadeRemote.merge(lista, listaEliminados);
         sieniSuperComponFacadeRemote.edit(this.getConfig());
-        configurar(this.getConfig());
     }
 
     public SieniTipoComponente getTipoComponente(Integer tipo) {
@@ -329,5 +367,31 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         ret = sieniArchivoFacadeRemote.findByTipoArchivo(tipo);
         this.setListaArchivos(ret);
         return ret;
+    }
+
+    public void agregarInteraccion() {
+        this.getNuevaInterac().setIdCompInteraccion(-(new Date().getTime()));
+        this.getListaInteraccion().add(this.getNuevaInterac());
+        this.setNuevaInterac(new SieniCompInteraccion());
+    }
+
+    public void eliminarInteraccion(SieniCompInteraccion eliminado) {
+        this.getListaInteraccionesElimn().add(eliminado);
+        for (int i = 0; i < this.getListaInteraccion().size(); i++) {
+            if (this.getListaInteraccion().get(i).getIdCompInteraccion().equals(eliminado.getIdCompInteraccion())) {
+                this.getListaInteraccion().remove(i);
+                break;
+            }
+        }
+    }
+
+    public void interaccEdit(RowEditEvent e) {
+        SieniCompInteraccion editado = (SieniCompInteraccion) e.getObject();
+        for (int i = 0; i < this.getListaInteraccion().size(); i++) {
+            if (editado.getIdCompInteraccion().equals(this.getListaInteraccion().get(i).getIdCompInteraccion())) {
+                this.getListaInteraccion().set(i, editado);
+                break;
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniAccion;
 import sv.com.mined.sieni.model.SieniArchivo;
+import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniComponente;
 import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniSuperCompon;
@@ -57,6 +58,9 @@ public class GestionComponentesInteractivosForm {
     private List<SieniArchivo> listaArchivosComponente;
     private List<SieniComponente> listaArchivosEliminados;
     private DualListModel<FileStreamedPojo> listaOrdenable;
+    private List<SieniCompInteraccion> listaInteraccion;
+    private List<SieniCompInteraccion> listaInteraccionesElimn;
+    private SieniCompInteraccion nuevaInterac;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -276,6 +280,39 @@ public class GestionComponentesInteractivosForm {
 
     public void setListaArchivosComponente(List<SieniArchivo> listaArchivosComponente) {
         this.listaArchivosComponente = listaArchivosComponente;
+    }
+
+    public List<SieniCompInteraccion> getListaInteraccion() {
+        return listaInteraccion;
+    }
+
+    public void setListaInteraccion(List<SieniCompInteraccion> listaInteraccion) {
+        this.listaInteraccion = listaInteraccion;
+    }
+
+    public SieniCompInteraccion getNuevaInterac() {
+        if (nuevaInterac == null) {
+            nuevaInterac = new SieniCompInteraccion();
+        }
+        if (nuevaInterac.getIdAccion() == null) {
+            nuevaInterac.setIdAccion(new SieniAccion());
+        }
+        if (nuevaInterac.getIdEvento() == null) {
+            nuevaInterac.setIdEvento(new SieniEvento());
+        }
+        return nuevaInterac;
+    }
+
+    public void setNuevaInterac(SieniCompInteraccion nuevaInterac) {
+        this.nuevaInterac = nuevaInterac;
+    }
+
+    public List<SieniCompInteraccion> getListaInteraccionesElimn() {
+        return listaInteraccionesElimn;
+    }
+
+    public void setListaInteraccionesElimn(List<SieniCompInteraccion> listaInteraccionesElimn) {
+        this.listaInteraccionesElimn = listaInteraccionesElimn;
     }
 
 }

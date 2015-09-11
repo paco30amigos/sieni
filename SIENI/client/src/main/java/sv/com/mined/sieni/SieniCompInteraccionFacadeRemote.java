@@ -29,5 +29,9 @@ public interface SieniCompInteraccionFacadeRemote {
     List<SieniCompInteraccion> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniCompInteraccion> findByIdSuperComp(Long idSuperCompon);
+
+    public void merge(List<SieniCompInteraccion> lista, List<SieniCompInteraccion> eliminados);
+
 }

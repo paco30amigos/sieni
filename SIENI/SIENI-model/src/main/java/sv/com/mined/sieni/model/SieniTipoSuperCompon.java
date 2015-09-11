@@ -35,6 +35,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniTipoSuperCompon.findByTscFechaIngreso", query = "SELECT s FROM SieniTipoSuperCompon s WHERE s.tscFechaIngreso = :tscFechaIngreso"),
     @NamedQuery(name = "SieniTipoSuperCompon.findByTscEstado", query = "SELECT s FROM SieniTipoSuperCompon s WHERE s.tscEstado = :tscEstado")})
 public class SieniTipoSuperCompon implements Serializable {
+    @OneToMany(mappedBy = "idTipoSuperCompon")
+    private List<SieniAccion> sieniAccionList;
+    @OneToMany(mappedBy = "idTipoSuperCompon")
+    private List<SieniEvento> sieniEventoList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -121,6 +125,24 @@ public class SieniTipoSuperCompon implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniTipoSuperCompon[ idTipoSuperCompon=" + idTipoSuperCompon + " ]";
+    }
+
+    @XmlTransient
+    public List<SieniAccion> getSieniAccionList() {
+        return sieniAccionList;
+    }
+
+    public void setSieniAccionList(List<SieniAccion> sieniAccionList) {
+        this.sieniAccionList = sieniAccionList;
+    }
+
+    @XmlTransient
+    public List<SieniEvento> getSieniEventoList() {
+        return sieniEventoList;
+    }
+
+    public void setSieniEventoList(List<SieniEvento> sieniEventoList) {
+        this.sieniEventoList = sieniEventoList;
     }
     
 }

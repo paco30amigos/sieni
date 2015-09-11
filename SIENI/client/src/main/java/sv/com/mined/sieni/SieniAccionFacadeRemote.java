@@ -29,5 +29,6 @@ public interface SieniAccionFacadeRemote {
     List<SieniAccion> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniAccion> findByTipoSuperComponente(Long tipoComponente);
 }

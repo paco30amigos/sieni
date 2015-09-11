@@ -21,6 +21,7 @@ import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.form.GestionArchivoMultimediaForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniArchivo;
+import utils.CopiaArchivos;
 
 /**
  *
@@ -52,6 +53,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     public void guardar() {
         this.getArchivoNuevo().setArArchivo(this.getArchivoUsable());
         if (validarNuevo(this.getArchivoNuevo())) {//valida el guardado
+            guardarCopia();
             sieniArchivoFacadeRemote.create(this.getArchivoNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
@@ -62,6 +64,20 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         }
         this.setArchivoNuevo(new SieniArchivo());
         fill();
+    }
+
+    public void guardarCopia() {
+        CopiaArchivos cpa = new CopiaArchivos();
+        SieniArchivo arch = this.getArchivoNuevo();
+        this.setArchivoNuevo(cpa.updateDataToResource(arch));
+        System.gc();
+    }
+
+    public void actualizarCopia() {
+        CopiaArchivos cpa = new CopiaArchivos();
+        SieniArchivo arch = this.getArchivoModifica();
+        this.setArchivoModifica(cpa.updateDataToResource(arch));
+        System.gc();
     }
 
     public void quitarFormato(SieniArchivo actual) {
@@ -83,6 +99,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     //metodos para modificacion de datos
     public void modificar(SieniArchivo modificado) {
+        this.setFormatoArchivoModifica(getFormatoArchivoByCod(modificado.getArTipo() + ""));
         this.setArchivoModifica(modificado);
         this.setIndexMenu(2);
     }
@@ -94,10 +111,16 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     //metodos para modificacion de datos
     public void mostrar(SieniArchivo ver) {
-        byte[] archivo = sieniArchivoFacadeRemote.getArchivoLazy(ver.getIdArchivo());
-        ver.setArArchivo(archivo);
-        this.setVer(ver);
-        this.setIndexMenu(3);
+//        byte[] archivo = sieniArchivoFacadeRemote.getArchivoLazy(ver.getIdArchivo());
+//        ver.setArArchivo(archivo);
+        CopiaArchivos ca = new CopiaArchivos();
+        ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
+        if (ca.copyDataToResource(ver)) {
+            this.setVer(ver);
+            this.setIndexMenu(3);
+        } else {
+            //error
+        }
     }
 
     public void guardarModifica() {
@@ -105,6 +128,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         if (validarModifica(this.getArchivoModifica())) {//valida el guardado
             if (this.getArchivoUsableModifica() != null) {
                 this.getArchivoModifica().setArArchivo(this.getArchivoUsableModifica());
+                actualizarCopia();
             }
             sieniArchivoFacadeRemote.edit(this.getArchivoModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -121,11 +145,11 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     public void resetModificaForm() {
         this.setArchivoModifica(new SieniArchivo());
     }
-    
+
     public void resetNuevoForm() {
         this.setArchivoNuevo(new SieniArchivo());
         this.setArchivoUsable(null);
-        
+
     }
 
     public boolean validarModifica(SieniArchivo nuevo) {
@@ -144,17 +168,23 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     public void getFormatosSubidaNuevo(ValueChangeEvent a) {
         String cod = a.getNewValue().toString();
+        this.setFormatoArchivo(getFormatoArchivoByCod(cod));
+    }
+
+    private String getFormatoArchivoByCod(String cod) {
+        String ret = "";
         switch (cod) {
             case "A":
-                this.setFormatoArchivo(this.getFormatosAudio());
+                ret = this.getFormatosAudio();
                 break;
             case "V":
-                this.setFormatoArchivo(this.getFormatosVideo());
+                ret = this.getFormatosVideo();
                 break;
             case "I":
-                this.setFormatoArchivo(this.getFormatosImagen());
+                ret = this.getFormatosImagen();
                 break;
         }
+        return ret;
     }
 
     public void getFormatosSubidaModifica(ValueChangeEvent a) {

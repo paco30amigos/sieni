@@ -9,11 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -25,12 +28,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_comp_interaccion")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniCompInteraccion.findByIdSuperComp", query = "SELECT s FROM SieniCompInteraccion s where s.idComponente.idSuperCompon.idSuperCompon=:idSuperCompon"),
     @NamedQuery(name = "SieniCompInteraccion.findAll", query = "SELECT s FROM SieniCompInteraccion s"),
     @NamedQuery(name = "SieniCompInteraccion.findByIdCompInteraccion", query = "SELECT s FROM SieniCompInteraccion s WHERE s.idCompInteraccion = :idCompInteraccion"),
     @NamedQuery(name = "SieniCompInteraccion.findByInDuracion", query = "SELECT s FROM SieniCompInteraccion s WHERE s.inDuracion = :inDuracion")})
 public class SieniCompInteraccion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_comp_interaccion")
+    @SequenceGenerator(name = "sec_sieni_comp_interaccion", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_comp_interaccion")
     @Basic(optional = false)
     @Column(name = "id_comp_interaccion")
     private Long idCompInteraccion;

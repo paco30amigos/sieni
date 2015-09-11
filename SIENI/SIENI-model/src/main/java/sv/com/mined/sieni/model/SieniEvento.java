@@ -6,42 +6,49 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author francisco_medina
+ * @author Laptop
  */
 @Entity
 @Table(name = "sieni_evento")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniEvento.findByTipoSuperComponente", query = "SELECT s FROM SieniEvento s where s.idTipoSuperCompon.idTipoSuperCompon=:idTipoSuperComponente"),
     @NamedQuery(name = "SieniEvento.findAll", query = "SELECT s FROM SieniEvento s"),
     @NamedQuery(name = "SieniEvento.findByIdEvento", query = "SELECT s FROM SieniEvento s WHERE s.idEvento = :idEvento"),
     @NamedQuery(name = "SieniEvento.findByEvDescripcion", query = "SELECT s FROM SieniEvento s WHERE s.evDescripcion = :evDescripcion"),
     @NamedQuery(name = "SieniEvento.findByEvCodigo", query = "SELECT s FROM SieniEvento s WHERE s.evCodigo = :evCodigo")})
 public class SieniEvento implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id_evento")
     private Long idEvento;
+    @Size(max = 100)
     @Column(name = "ev_descripcion")
     private String evDescripcion;
+    @Size(max = 4000)
     @Column(name = "ev_codigo")
     private String evCodigo;
-    @OneToMany(mappedBy = "idEvento")
-    private List<SieniCompInteraccion> sieniCompInteraccionList;
+    @JoinColumn(name = "id_tipo_super_compon", referencedColumnName = "id_tipo_super_compon")
+    @ManyToOne
+    private SieniTipoSuperCompon idTipoSuperCompon;
 
     public SieniEvento() {
     }
@@ -74,13 +81,12 @@ public class SieniEvento implements Serializable {
         this.evCodigo = evCodigo;
     }
 
-    @XmlTransient
-    public List<SieniCompInteraccion> getSieniCompInteraccionList() {
-        return sieniCompInteraccionList;
+    public SieniTipoSuperCompon getIdTipoSuperCompon() {
+        return idTipoSuperCompon;
     }
 
-    public void setSieniCompInteraccionList(List<SieniCompInteraccion> sieniCompInteraccionList) {
-        this.sieniCompInteraccionList = sieniCompInteraccionList;
+    public void setIdTipoSuperCompon(SieniTipoSuperCompon idTipoSuperCompon) {
+        this.idTipoSuperCompon = idTipoSuperCompon;
     }
 
     @Override
@@ -107,5 +113,5 @@ public class SieniEvento implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniEvento[ idEvento=" + idEvento + " ]";
     }
-    
+
 }

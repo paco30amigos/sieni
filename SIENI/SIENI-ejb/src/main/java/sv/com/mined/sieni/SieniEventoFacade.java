@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniEvento;
 
 /**
@@ -16,6 +18,7 @@ import sv.com.mined.sieni.model.SieniEvento;
  */
 @Stateless
 public class SieniEventoFacade extends AbstractFacade<SieniEvento> implements sv.com.mined.sieni.SieniEventoFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +30,12 @@ public class SieniEventoFacade extends AbstractFacade<SieniEvento> implements sv
     public SieniEventoFacade() {
         super(SieniEvento.class);
     }
-    
+
+    @Override
+    public List<SieniEvento> findByTipoSuperComponente(Long tipoComponente) {
+        Query q = em.createNamedQuery("SieniEvento.findByTipoSuperComponente");
+        q.setParameter("idTipoSuperComponente", tipoComponente);
+        return q.getResultList();
+    }
+
 }

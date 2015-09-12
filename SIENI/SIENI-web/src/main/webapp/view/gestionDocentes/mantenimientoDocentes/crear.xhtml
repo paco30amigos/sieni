@@ -67,15 +67,16 @@
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1,archivo,fotoSubida" resetValues="true" listener="#{gestionarDocentesController.setIndexMenu(0)}"/>
                     </p:commandButton>
-                    <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
+                    <p:splitButton value="Otras Opciones" action= "#">
                         <p:menuitem value="Gestionar Docentes">    
                         </p:menuitem>
                         <p:menuitem value="Gestionar Alumnos">    
                         </p:menuitem>
                         <p:menuitem value="Gestionar Cursos">    
                         </p:menuitem>
-                    </p:splitButton>            
+                    </p:splitButton> 
+                    
+                               
                 </div>
             </h:form>
         </p:panel>

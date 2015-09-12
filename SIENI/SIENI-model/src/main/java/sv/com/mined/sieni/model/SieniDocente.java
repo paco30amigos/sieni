@@ -23,6 +23,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -42,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findDocenteUsuario", query = "SELECT s FROM SieniDocente s  WHERE s.dcUsuario=:usuario AND s.dcContrasenia=:pass"),
     @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s LEFT JOIN s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NULL"),
     @NamedQuery(name = "SieniDocente.findAll", query = "SELECT s FROM SieniDocente s"),
+    @NamedQuery(name = "SieniDocente.findDocenteActivo", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A'"),
+    @NamedQuery(name = "SieniDocente.findByDesdeHasta", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A' AND s.dcFechaCrea BETWEEN :desde AND :hasta"),
     @NamedQuery(name = "SieniDocente.findByIdDocente", query = "SELECT s FROM SieniDocente s WHERE s.idDocente = :idDocente"),
     @NamedQuery(name = "SieniDocente.findByDcPrimNombre", query = "SELECT s FROM SieniDocente s WHERE s.dcPrimNombre = :dcPrimNombre"),
     @NamedQuery(name = "SieniDocente.findByDcSeguNombre", query = "SELECT s FROM SieniDocente s WHERE s.dcSeguNombre = :dcSeguNombre"),
@@ -107,6 +110,18 @@ public class SieniDocente implements Serializable {
     private Date dcFechaBaja;
     @Column(name = "dc_estado")
     private Character dcEstado;
+    @Column(name="dc_fecha_crea", nullable=false)
+@Temporal(TemporalType.TIMESTAMP)
+private Date dcFechaCrea;
+
+@PrePersist
+protected void onCreate() {
+    dcFechaCrea = new Date();
+}
+    
+//    @Column(name = "dc_fecha_crea")
+//    @Temporal(TemporalType.DATE)
+//    private Date dcFechaCrea;
     @JoinTable(name = "doc_recibe_noti", joinColumns = {
         @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")}, inverseJoinColumns = {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
@@ -366,7 +381,7 @@ public class SieniDocente implements Serializable {
     }
 
     public String getFechaNacimientoFiltrable() {
-        SimpleDateFormat dt1 = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
         if (dcFechaNacimiento != null) {
             fechaNacimientoFiltrable = dt1.format(dcFechaNacimiento);
         }
@@ -384,4 +399,14 @@ public class SieniDocente implements Serializable {
     public void setDcFechaBaja(Date dcFechaBaja) {
         this.dcFechaBaja = dcFechaBaja;
     }
+
+    public Date getDcFechaCrea() {
+        return dcFechaCrea;
+    }
+
+    public void setDcFechaCrea(Date dcFechaCrea) {
+        this.dcFechaCrea = dcFechaCrea;
+    }
+    
+    
 }

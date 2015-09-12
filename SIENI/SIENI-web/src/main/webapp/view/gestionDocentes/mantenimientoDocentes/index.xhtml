@@ -43,10 +43,10 @@
                             #{car.dcCorreo}
                         </p:column>
                         <p:column headerText="Teléfono" style="width: 8%" filterBy="#{car.dcTelefonoEm1}" filterMatchMode="contains" filterable="true">
-                            #{car.dcTelefonoEm1}
+                            #{formatUtils.getFormatedPhone(car.dcTelefonoEm1)}
                         </p:column>
                         <p:column headerText="Teléfono" style="width: 8%" filterBy="#{car.dcTelefonoEm2}" filterMatchMode="contains" filterable="true">
-                            #{car.dcTelefonoEm2}
+                            #{formatUtils.getFormatedPhone(car.dcTelefonoEm2)}
                         </p:column>
                         <p:column headerText="Dirección" filterBy="#{car.dcDireccion}" filterMatchMode="contains" filterable="true">
                             #{car.dcDireccion}

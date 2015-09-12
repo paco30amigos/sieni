@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
@@ -42,7 +43,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     private void fill() {
-        this.setDocentesList(sieniDocenteFacadeRemote.findAll());
+        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
     }
 
     public void guardar() {
@@ -134,8 +135,12 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public void eliminarExpediente() {
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Docente", this.getEliminar().getIdDocente(), new Character('D')));
-        sieniDocenteFacadeRemote.remove(this.getEliminar());
-        fill();
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        this.getEliminar().setDcEstado(new Character('I'));
+        sieniDocenteFacadeRemote.edit(this.getEliminar());
+        fill();      
+        
     }
 }

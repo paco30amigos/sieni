@@ -11,6 +11,7 @@ import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniSeccion;
+import utils.siteUrls;
 
 /**
  *
@@ -45,6 +46,21 @@ public class GestionMatriculaForm {
     }
 
     public void setIndexMenu(int indexMenu) {
+        siteUrls sU = new siteUrls();
+        switch (indexMenu) {
+            case 0:
+                sU.redirect(sU.getBasegestionAlumnos() + "index.xhtml");
+                break;
+            case 1:
+                sU.redirect(sU.getBasegestionAlumnos() + "crear.xhtml");
+                break;
+            case 2:
+                sU.redirect(sU.getBasegestionAlumnos() + "editar.xhtml");
+                break;
+            case 3:
+                sU.redirect(sU.getBasegestionAlumnos() + "ver.xhtml");
+                break;
+        }
         this.indexMenu = indexMenu;
     }
 

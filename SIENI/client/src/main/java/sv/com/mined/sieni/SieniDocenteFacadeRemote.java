@@ -34,8 +34,11 @@ public interface SieniDocenteFacadeRemote {
     public List<SieniDocente> findDocentesSinUsuario();
 
     public SieniDocente findDocenteUsuario(String usuario, String pass);
-    
+
     public List<SieniDocente> findDocentesActivos();
     
     public List<SieniDocente> findDocentesDesdeHasta(Date desde,Date hasta);
+
+    public List<SieniDocente> findUsuariosRpt();
+
 }

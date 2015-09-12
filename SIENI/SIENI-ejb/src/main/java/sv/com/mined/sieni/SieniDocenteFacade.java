@@ -75,4 +75,9 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
         
     }
 
+    @Override
+    public List<SieniDocente> findUsuariosRpt() {
+        Query q = em.createNamedQuery("SieniDocente.findRptUsuariosDocentes");
+        return q.getResultList();
+    }
 }

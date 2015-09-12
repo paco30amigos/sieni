@@ -23,54 +23,57 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="4">
-                        <p:outputLabel value="Año Escolar:"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.anio2}"></p:inputText>
+                        <p:outputLabel value="Tipo Usuario:"></p:outputLabel>
+                        <p:selectOneMenu id="tipoU" value="#{rptUsuariosController.tipoUser}">
+                            <f:selectItem itemValue="1" itemLabel="DOCENTE"></f:selectItem>
+                            <f:selectItem itemValue="2" itemLabel="ALUMNO"></f:selectItem>
+                        </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                    <p:dataTable id="consulta" rows="10" var="user" value="#{rptUsuariosController.listDatos}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10,20,40"
                                  reflow="true">
 
                         <p:column headerText="Usuario" >
-                            #{formatoPantallas.campo30}
+                            #{user.usuario}
                         </p:column>
                         <p:column headerText="Nombre" >
-                            #{formatoPantallas.campo100}
+                            #{user.nombre}
                         </p:column>
                         <p:column headerText="Tipo de usuario" >
-                            #{formatoPantallas.campo15}
+                            #{user.tipo}
                         </p:column>
-                        <p:column headerText="Tipo de permiso" >
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="Activo" >
+                            #{user.activo}
                         </p:column>
-
 
 
                         <f:facet name="footer">
-                            Total de Usuarios 999
+                            Total de Usuarios #{rptUsuariosController.totalUsuarios}
                         </f:facet>
                     </p:dataTable>
 
                     <div class="EmptyBox20"></div>
                     <div class="TexAlCenter">
 
-                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{radioView.console}">
-                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                            </p:selectOneRadio>
-                            <p:commandButton  value="Generar"></p:commandButton>
-                            <p:commandButton value="Refrescar"></p:commandButton>
-                        </h:panelGrid>
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptUsuariosController.tipoRpt}">
+                            <f:selectItem itemValue="2" itemLabel="Excel" />
+                            <f:selectItem itemValue="0" itemLabel="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar" ajax="false" actionListener="#{rptUsuariosController.generarReporte()}"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptUsuariosController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    </h:panelGrid>
                     </div>
 
                 </h:form>
             </p:tab>
 
         </p:tabView>
+
     </ui:define>
 
 </ui:composition>

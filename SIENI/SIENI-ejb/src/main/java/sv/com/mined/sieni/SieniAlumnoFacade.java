@@ -96,5 +96,14 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         List<SieniAlumno> res = q.getResultList();
         return res;
     }
+    
+    
+    @Override
+    public List<SieniAlumno> findUsuariosRpt() {
+        Query q = em.createNamedQuery("SieniAlumno.findRptUsuariosAlumnos");
+        return q.getResultList();
+    }
+    
+    
 
 }

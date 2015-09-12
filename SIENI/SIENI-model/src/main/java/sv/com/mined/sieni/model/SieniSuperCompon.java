@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_super_compon")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniSuperCompon.findAllNoInactivos", query = "SELECT s FROM SieniSuperCompon s where s.scEstado not in (:estado) ORDER BY s.idSuperCompon"),
     @NamedQuery(name = "SieniSuperCompon.findAll", query = "SELECT s FROM SieniSuperCompon s"),
     @NamedQuery(name = "SieniSuperCompon.findByIdSuperCompon", query = "SELECT s FROM SieniSuperCompon s WHERE s.idSuperCompon = :idSuperCompon"),
     @NamedQuery(name = "SieniSuperCompon.findByScNombre", query = "SELECT s FROM SieniSuperCompon s WHERE s.scNombre = :scNombre"),
@@ -167,6 +168,9 @@ public class SieniSuperCompon implements Serializable {
                 break;
             case 'N':
                 estado = "No disponible";
+                break;
+            case 'I':
+                estado = "Eliminado";
                 break;
         }
         return estado;

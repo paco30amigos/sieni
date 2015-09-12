@@ -31,8 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_archivo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniArchivo.findByIdSuperComp", query = "SELECT s FROM SieniArchivo s,SieniComponente c where s.idArchivo=c.idArchivo and c.idSuperCompon.idSuperCompon=:idSuperCompon ORDER BY C.cpOrden"),
-    @NamedQuery(name = "SieniArchivo.findArchivoLazy", query = "SELECT s.arArchivo FROM SieniArchivo s where s.idArchivo=:idArchivo"),
+    @NamedQuery(name = "SieniArchivo.findAllNoInactivos", query = "SELECT s FROM SieniArchivo s,SieniComponente c where s.arEstado NOT IN (:estado) ORDER BY s.idArchivo"),
+    @NamedQuery(name = "SieniArchivo.findByIdSuperComp", query = "SELECT s FROM SieniArchivo s,SieniComponente c where s.idArchivo=c.idArchivo and c.idSuperCompon.idSuperCompon=:idSuperCompon and s.arEstado NOT IN (:estado) ORDER BY C.cpOrden"),
+    @NamedQuery(name = "SieniArchivo.findArchivoLazy", query = "SELECT s.arArchivo FROM SieniArchivo s where s.idArchivo=:idArchivo and s.arEstado NOT IN (:estado)"),
     @NamedQuery(name = "SieniArchivo.findAll", query = "SELECT s FROM SieniArchivo s"),
     @NamedQuery(name = "SieniArchivo.findByIdArchivo", query = "SELECT s FROM SieniArchivo s WHERE s.idArchivo = :idArchivo"),
     @NamedQuery(name = "SieniArchivo.findByArRuta", query = "SELECT s FROM SieniArchivo s WHERE s.arRuta = :arRuta"),
@@ -131,6 +132,9 @@ public class SieniArchivo implements Serializable {
                     break;
                 case "N":
                     estado = "No Disponible";
+                    break;
+                case "I":
+                    estado = "Eliminado";
                     break;
             }
         }

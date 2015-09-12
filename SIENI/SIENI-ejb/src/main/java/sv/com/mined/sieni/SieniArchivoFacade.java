@@ -34,22 +34,36 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
 
     @Override
     public byte[] getArchivoLazy(Long idArchivo) {
+        String estado = "I";
         Query q = em.createNamedQuery("SieniArchivo.findArchivoLazy");
         q.setParameter("idArchivo", idArchivo);
+        q.setParameter("estado", estado);
         return (byte[]) q.getSingleResult();
     }
 
     @Override
+    public List<SieniArchivo> findAllNoInactivos() {
+        String estado = "I";
+        Query q = em.createNamedQuery("SieniArchivo.findAllNoInactivos");
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    @Override
     public List<SieniArchivo> findByIdSuperComp(Long idSuperCompon) {
+        String estado = "I";
         Query q = em.createNamedQuery("SieniArchivo.findByIdSuperComp");
         q.setParameter("idSuperCompon", idSuperCompon);
+        q.setParameter("estado", estado);
         return q.getResultList();
     }
 
     @Override
     public List<SieniArchivo> findByTipoArchivo(String tipo) {
+//        String estado = "I";
         Query q = em.createNamedQuery("SieniArchivo.findByArTipoActivo");
         q.setParameter("arTipo", new Character(tipo.charAt(0)));
+//        q.setParameter("estado", estado);
         return q.getResultList();
     }
 }

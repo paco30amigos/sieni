@@ -10,7 +10,7 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Mantenimiento de Archivos multimedia" url="#{siteUrls.gestionArchivosMultimedia}"/>
-            <p:menuitem value="Registrar Archivo Multimedia" url="#"/>
+            <p:menuitem value="Adicionar Archivo Multimedia" url="#"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -22,14 +22,15 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
+                <p:focus context="p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText id="nombre" value="#{gestionArchivoMultimediaController.archivoNuevo.arNombre}"></p:inputText>
+                    <p:inputText tabindex="1" id="nombre" value="#{gestionArchivoMultimediaController.archivoNuevo.arNombre}"></p:inputText>
                     <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu id="estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoNuevo.arEstado}" tabindex="0">
                         <f:selectItem itemValue ="D" itemLabel="Disponible"/>
                         <f:selectItem itemValue="N" itemLabel="No Disponible"/>
-                    </p:selectOneMenu>                
+                    </p:selectOneMenu>
                     <p:outputLabel for="tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu id="tipo" class=" Responsive" 
                                      value="#{gestionArchivoMultimediaController.archivoNuevo.arTipo}" 

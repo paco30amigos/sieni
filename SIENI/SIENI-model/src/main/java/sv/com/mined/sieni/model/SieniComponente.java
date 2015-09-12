@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_componente")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniComponente.findByIdSuperComp", query = "SELECT s FROM SieniComponente s where s.idSuperCompon.idSuperCompon=:idSuperCompon ORDER BY s.cpOrden"),
+    @NamedQuery(name = "SieniComponente.findByIdSuperComp", query = "SELECT s FROM SieniComponente s where s.idSuperCompon.idSuperCompon=:idSuperCompon and s.cpEstado not in (:estado) ORDER BY s.cpOrden"),
     @NamedQuery(name = "SieniComponente.findAll", query = "SELECT s FROM SieniComponente s"),
     @NamedQuery(name = "SieniComponente.findByIdComponente", query = "SELECT s FROM SieniComponente s WHERE s.idComponente = :idComponente"),
     @NamedQuery(name = "SieniComponente.findByCpDescripcion", query = "SELECT s FROM SieniComponente s WHERE s.cpDescripcion = :cpDescripcion"),
@@ -65,7 +65,7 @@ public class SieniComponente implements Serializable {
     private String cpDescripcion;
     @Column(name = "cp_estado")
     private Character cpEstado;
-    @OneToMany(mappedBy = "idComponente",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idComponente", fetch = FetchType.EAGER)
     private List<SieniArchivo> sieniArchivoList;
     @JoinColumn(name = "id_super_compon", referencedColumnName = "id_super_compon")
     @ManyToOne

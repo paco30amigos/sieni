@@ -43,16 +43,19 @@ public class SieniComponenteFacade extends AbstractFacade<SieniComponente> imple
 
         for (SieniComponente actual : eliminados) {
             if (actual.getIdComponente() != null) {
-                this.remove(actual);
+                actual.setCpEstado('I');//eliminacion logica
+                this.edit(actual);
             }
         }
         em.flush();
     }
 
     @Override
-    public List<SieniComponente> findByIdSuperComp(Long idSuperCompon){
-         Query q = em.createNamedQuery("SieniComponente.findByIdSuperComp");
+    public List<SieniComponente> findByIdSuperComp(Long idSuperCompon) {
+        Character estado='I';
+        Query q = em.createNamedQuery("SieniComponente.findByIdSuperComp");
         q.setParameter("idSuperCompon", idSuperCompon);
-        return q.getResultList(); 
+        q.setParameter("estado", estado);
+        return q.getResultList();
     }
 }

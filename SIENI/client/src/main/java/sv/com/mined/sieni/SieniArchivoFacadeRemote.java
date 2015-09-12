@@ -31,9 +31,11 @@ public interface SieniArchivoFacadeRemote {
 
     int count();
 
+    public List<SieniArchivo> findAllNoInactivos();
+
     public byte[] getArchivoLazy(Long idArchivo);
 
     public List<SieniArchivo> findByIdSuperComp(Long idSuperCompon);
-    
+
     public List<SieniArchivo> findByTipoArchivo(String tipo);
 }

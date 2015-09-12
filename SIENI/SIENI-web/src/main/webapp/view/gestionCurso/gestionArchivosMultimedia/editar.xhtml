@@ -22,9 +22,10 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
+                <p:focus context="mod_p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="mod_p1">
                     <p:outputLabel for="mod_nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText id="mod_nombre" value="#{gestionArchivoMultimediaController.archivoModifica.arNombre}"></p:inputText>
+                    <p:inputText tabindex="1" id="mod_nombre" value="#{gestionArchivoMultimediaController.archivoModifica.arNombre}"></p:inputText>
                     <p:outputLabel for="mod_estado" value="Estado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu id="mod_estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoModifica.arEstado}">
                         <f:selectItem itemValue ="D" itemLabel="Disponible"/>

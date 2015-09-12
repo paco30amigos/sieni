@@ -9,7 +9,7 @@
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
-            <p:menuitem value="Registro de Expedientes"></p:menuitem>
+            <p:menuitem value="Adicionar Expediente"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
@@ -61,7 +61,7 @@
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarAlumnosController.guardar()}" update="p1" />
+                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarAlumnosController.guardar()}" update="p1" oncomplete="configurarEnterTab()" />
                     <p:commandButton value="Limpiar" immediate="true">
                         <p:ajax update="p1,archivo,fotoSubida" resetValues="true" />
                     </p:commandButton>

@@ -13,7 +13,7 @@
                 <meta name="apple-mobile-web-app-capable" content="yes" />
             </f:facet>
             <title>SIENI</title>
-
+            <h:outputScript name="popcorn-complete.min.js" library="js" />
             <h:outputScript name="js/ripple-effect.js" library="rio-layout" />
             <h:outputScript name="js/perfect-scrollbar.js" library="rio-layout" />
             <h:outputScript name="js/layout.js" library="rio-layout" />
@@ -108,13 +108,21 @@
                         day: 'Día',
                         allDayText: 'Todo el día'
                     };
+                    function configurarEnterTab() {
+                        tb = $('input,textarea');
 
+                        if ($.browser.mozilla) {
+                            $(tb).keypress(enter2tab);
+                        } else {
+                            $(tb).keydown(enter2tab);
+                        }
+                    }
                     //tabulacion al precionar enter
                     $(document).ready(function () {
                         /* Aquí podría filtrar que controles necesitará manejar,
                          * en el caso de incluir un dropbox $('input, select');
                          */
-                        tb = $('input');
+                        tb = $('input,textarea');
 
                         if ($.browser.mozilla) {
                             $(tb).keypress(enter2tab);
@@ -137,6 +145,10 @@
                             }
                         }
                     }
+                    //elimina el click derecho en las paginas
+                    $(document).on('contextmenu', function (e) {
+                        e.preventDefault();
+                    });
                 </script>
                 <ui:include src="topbar.xhtml" />
 

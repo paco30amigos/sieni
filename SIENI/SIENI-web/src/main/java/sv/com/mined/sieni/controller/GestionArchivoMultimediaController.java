@@ -47,7 +47,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     }
 
     private void fill() {
-        this.setArchivoList(sieniArchivoFacadeRemote.findAll());
+        this.setArchivoList(sieniArchivoFacadeRemote.findAllNoInactivos());
     }
 
     public void guardar() {
@@ -162,7 +162,8 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-        sieniArchivoFacadeRemote.remove(this.getEliminar());
+        this.getEliminar().setArEstado("I");
+        sieniArchivoFacadeRemote.edit(this.getEliminar());
         fill();
     }
 

@@ -34,8 +34,10 @@ public class SieniCompInteraccionFacade extends AbstractFacade<SieniCompInteracc
     @Override
     public List<SieniCompInteraccion> findByIdSuperComp(Long idSuperCompon) {
         List<SieniCompInteraccion> ret = null;
+        Character estado = 'I';
         Query q = em.createNamedQuery("SieniCompInteraccion.findByIdSuperComp");
         q.setParameter("idSuperCompon", idSuperCompon);
+        q.setParameter("estado", estado);
         ret = q.getResultList();
         return ret;
     }
@@ -51,7 +53,8 @@ public class SieniCompInteraccionFacade extends AbstractFacade<SieniCompInteracc
 
         for (SieniCompInteraccion actual : eliminados) {
             if (actual.getIdCompInteraccion() != null) {
-                this.remove(actual);
+                actual.setInEstado('I');//eliminacion logica
+                this.edit(actual);
             }
         }
         em.flush();

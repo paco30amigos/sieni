@@ -28,11 +28,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_comp_interaccion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniCompInteraccion.findByIdSuperComp", query = "SELECT s FROM SieniCompInteraccion s where s.idComponente.idSuperCompon.idSuperCompon=:idSuperCompon"),
+    @NamedQuery(name = "SieniCompInteraccion.findByIdSuperComp", query = "SELECT s FROM SieniCompInteraccion s where s.idComponente.idSuperCompon.idSuperCompon=:idSuperCompon and s.inEstado not in (:estado) ORDER BY s.inOrden"),
     @NamedQuery(name = "SieniCompInteraccion.findAll", query = "SELECT s FROM SieniCompInteraccion s"),
     @NamedQuery(name = "SieniCompInteraccion.findByIdCompInteraccion", query = "SELECT s FROM SieniCompInteraccion s WHERE s.idCompInteraccion = :idCompInteraccion"),
     @NamedQuery(name = "SieniCompInteraccion.findByInDuracion", query = "SELECT s FROM SieniCompInteraccion s WHERE s.inDuracion = :inDuracion")})
 public class SieniCompInteraccion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_comp_interaccion")
@@ -40,6 +41,10 @@ public class SieniCompInteraccion implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_comp_interaccion")
     private Long idCompInteraccion;
+    @Column(name = "in_orden")
+    private Integer inOrden;
+    @Column(name = "in_estado")
+    private Character inEstado;
     @Column(name = "in_duracion")
     private Integer inDuracion;
     @JoinColumn(name = "id_evento", referencedColumnName = "id_evento")
@@ -123,5 +128,21 @@ public class SieniCompInteraccion implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniCompInteraccion[ idCompInteraccion=" + idCompInteraccion + " ]";
     }
-    
+
+    public Integer getInOrden() {
+        return inOrden;
+    }
+
+    public void setInOrden(Integer inOrden) {
+        this.inOrden = inOrden;
+    }
+
+    public Character getInEstado() {
+        return inEstado;
+    }
+
+    public void setInEstado(Character inEstado) {
+        this.inEstado = inEstado;
+    }
+
 }

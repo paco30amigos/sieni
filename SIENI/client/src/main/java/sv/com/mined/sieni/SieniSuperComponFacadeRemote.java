@@ -27,6 +27,8 @@ public interface SieniSuperComponFacadeRemote {
     List<SieniSuperCompon> findAll();
 
     List<SieniSuperCompon> findRange(int[] range);
+    
+    List<SieniSuperCompon> findAllNoInactivos();
 
     int count();
     

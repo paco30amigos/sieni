@@ -36,6 +36,7 @@ import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.model.SieniTipoComponente;
 import sv.com.mined.sieni.model.SieniTipoSuperCompon;
 import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
+import utils.CopiaArchivos;
 
 /**
  *
@@ -74,7 +75,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     private void fill() {
-        this.setDatosList(sieniSuperComponFacadeRemote.findAll());
+        this.setDatosList(sieniSuperComponFacadeRemote.findAllNoInactivos());
         this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setListaTipoModifica(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setNuevaInterac(new SieniCompInteraccion());
@@ -134,6 +135,8 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void configurar(SieniSuperCompon configura) {
+        CopiaArchivos ca = new CopiaArchivos();
+        ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
         this.setConfig(configura);
         if (configura.getScAlto() == null) {
             configura.setScAlto(240);
@@ -146,6 +149,9 @@ public class GestionComponentesInteractivosController extends GestionComponentes
 
         //archivos de cada componente
         List<SieniArchivo> archivos = sieniArchivoFacadeRemote.findByIdSuperComp(configura.getIdSuperCompon());
+        for (SieniArchivo actual : archivos) {
+            ca.copyDataToResource(actual);
+        }
         this.setListaArchivosComponente(archivos);
         //componentes que integran al super componente
         List<SieniComponente> componentes = sieniComponenteFacadeRemote.findByIdSuperComp(configura.getIdSuperCompon());
@@ -200,7 +206,8 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-        sieniSuperComponFacadeRemote.remove(this.getEliminar());
+        this.getEliminar().setScEstado('I');
+        sieniSuperComponFacadeRemote.edit(this.getEliminar());
         fill();
     }
 
@@ -247,6 +254,9 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         sux.setIndex(this.getListaOrdenable().getSource().size());
         sux.setArchivoBD(actual.getSieniArchivoList().get(0));//archivo unico
         sux.setComponente(actual);
+        CopiaArchivos ca = new CopiaArchivos();
+        ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
+        ca.copyDataToResource(sux.getArchivoBD());
         this.getListaOrdenable().getSource().add(sux);
     }
 
@@ -286,12 +296,15 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     private void guardarConfiguracionInteraccion() {
         List<SieniComponente> componentes = sieniComponenteFacadeRemote.findByIdSuperComp(this.getConfig().getIdSuperCompon());
         //limpia los id temporales
+        int orden = 1;
         if (componentes != null && !componentes.isEmpty()) {
             for (int i = 0; i < this.getListaInteraccion().size(); i++) {
                 this.getListaInteraccion().get(i).setIdComponente(componentes.get(0));
+                this.getListaInteraccion().get(i).setInOrden(orden);
                 if (this.getListaInteraccion().get(i).getIdCompInteraccion() != null && this.getListaInteraccion().get(i).getIdCompInteraccion() < 0) {
                     this.getListaInteraccion().get(i).setIdCompInteraccion(null);
                 }
+                orden++;
             }
             for (int i = 0; i < this.getListaInteraccionesElimn().size(); i++) {
                 if (this.getListaInteraccionesElimn().get(i).getIdCompInteraccion() != null && this.getListaInteraccionesElimn().get(i).getIdCompInteraccion() < 0) {
@@ -313,6 +326,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             nuevo.setIdTipoComponente(getTipoComponenteBySuperCompon(this.getConfig()));
             nuevo.setIdArchivo(actual.getArchivoBD().getIdArchivo());
             nuevo.setCpOrden(nuevoOrden);
+            nuevo.setCpEstado('D');
             lista.add(nuevo);
             nuevoOrden++;
         }
@@ -350,6 +364,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             case 1:
             case 2:
             case 4:
+            case 6:
                 ret = getTipoComponente(1);
                 break;
             case 3:

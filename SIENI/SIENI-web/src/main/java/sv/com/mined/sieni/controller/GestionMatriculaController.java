@@ -55,7 +55,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     private void fill() {
-        this.setMatriculaList(sieniMatriculaFacadeRemote.findAll());
+        this.setMatriculaList(sieniMatriculaFacadeRemote.findAllNoInactivos());//tenes q traer los q no sean I (eliminados)
         this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosNoMatriculados());
         this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosNoMatriculados());
         //nuevo
@@ -99,8 +99,9 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         }
 
         if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado
-            String anioActual=new FormatUtils().getFormatedAnio(new Date());
+            String anioActual = new FormatUtils().getFormatedAnio(new Date());
             this.getMatriculaNuevo().setMtAnio(anioActual);
+            this.getMatriculaNuevo().setMtEstado('D');
             sieniMatriculaFacadeRemote.create(this.getMatriculaNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Matricula", this.getMatriculaNuevo().getIdMatricula(), 'D'));
             FacesMessage msg = new FacesMessage("Matricula Creado Exitosamente");
@@ -145,7 +146,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
                 this.getMatriculaModifica().setIdAlumno(actual);
                 break;
             }
-        } 
+        }
         for (SieniGrado actual : this.getGradosModificaList()) {
             if (actual.getIdGrado().equals(this.getIdGradoModifica())) {
                 this.getMatriculaModifica().setIdGrado(actual);
@@ -181,7 +182,8 @@ public class GestionMatriculaController extends GestionMatriculaForm {
 
     public void eliminarMatricula() {
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Matricula", this.getEliminar().getIdMatricula(), 'D'));
-        sieniMatriculaFacadeRemote.remove(this.getEliminar());
+        this.getEliminar().setMtEstado('I');//I:eliminado,D:disponible,N:no disponible, (I eliminado logico)
+        sieniMatriculaFacadeRemote.edit(this.getEliminar());
         fill();
     }
 
@@ -196,6 +198,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         }
         this.setSeccionesList(cod.getSieniSeccionList());
     }
+
     public void getSeccionesGradoModifica(ValueChangeEvent a) {
         Long idGrado = (Long) a.getNewValue();
         SieniGrado cod = new SieniGrado();
@@ -208,4 +211,8 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         this.setSeccionesModificaList(cod.getSieniSeccionList());
     }
 
+    public void ver(SieniMatricula modificado) {
+        this.setMatriculaModifica(modificado);
+        this.setIndexMenu(3);
+    }
 }

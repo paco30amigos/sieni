@@ -33,8 +33,18 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
 
     @Override
     public List<SieniMatricula> getMatriculasAnio(Integer anio) {
+//        Character estado='I';
         Query q = em.createNamedQuery("SieniMatricula.findMatriculasByAnio");
         q.setParameter("anio", anio);
+//        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<SieniMatricula> findAllNoInactivos(){
+        Character estado='I';
+        Query q = em.createNamedQuery("SieniMatricula.findAllNoInactivos");
+        q.setParameter("estado", estado);
         return q.getResultList();
     }
 }

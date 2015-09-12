@@ -4,20 +4,24 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="breadCrumb">
-    <p:breadCrumb class="Container90">
-        <p:menuitem value="Home" url="/"/>
-        <p:menuitem value="Gestionar Matriculas" url="#{siteUrls.gestionAnioEscolar}"/>
-        <p:menuitem value="Nuevo Matricula"></p:menuitem>
-        <p:separator />
-    </p:breadCrumb>
-    <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Matriculas" url="#{siteUrls.gestionAnioEscolar}"/>
+            <p:menuitem value="Nuevo Matricula"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
-            <h:form enctype="multipart/form-data" >
+            <h:form>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>                    
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
                     <p:outputLabel for="carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
@@ -37,12 +41,23 @@
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
-                <div class="Container100">
+                <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionMatriculaController.guardar()}" update="p1" />
                     <p:commandButton value="Limpiar" immediate="true">
                         <p:ajax update="p1" resetValues="true" />
                     </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{gestionMatriculaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
                     <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Docentes">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:splitButton>            
                 </div>
             </h:form>
         </p:panel>

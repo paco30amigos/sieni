@@ -31,4 +31,6 @@ public interface SieniMatriculaFacadeRemote {
     int count();
 
     public List<SieniMatricula> getMatriculasAnio(Integer anio);
+
+    public List<SieniMatricula> findAllNoInactivos();
 }

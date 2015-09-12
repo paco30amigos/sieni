@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_matricula")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniMatricula.findAllNoInactivos", query = "SELECT s FROM SieniMatricula s where s.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniMatricula.findAll", query = "SELECT s FROM SieniMatricula s"),
     @NamedQuery(name = "SieniMatricula.findByIdMatricula", query = "SELECT s FROM SieniMatricula s WHERE s.idMatricula = :idMatricula"),
     @NamedQuery(name = "SieniMatricula.findByMtFechaIngreso", query = "SELECT s FROM SieniMatricula s WHERE s.mtFechaIngreso = :mtFechaIngreso"),

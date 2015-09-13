@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -48,6 +49,30 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
         } else {
             return null;
         }
+    }
+    
+    @Override
+    public List<SieniDocente> findDocentesActivos(){
+    
+    Query q=em.createNamedQuery("SieniDocente.findDocenteActivo");
+    List<SieniDocente> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res;
+        } else {
+            return null;
+        }
+    }
+    
+    @Override
+    public List<SieniDocente> findDocentesDesdeHasta(Date desde,Date hasta){
+    
+        Query q=em.createNamedQuery("SieniDocente.findByDesdeHasta");
+        q.setParameter("desde", desde);
+         q.setParameter("hasta", hasta);
+    List<SieniDocente> res = q.getResultList();
+    
+    return res;
+        
     }
 
     @Override

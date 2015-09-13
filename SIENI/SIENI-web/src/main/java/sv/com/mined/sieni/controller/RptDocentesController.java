@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sv.com.mined.sieni.controller;
 
 import java.io.IOException;
@@ -18,21 +14,13 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
-import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
-import sv.com.mined.sieni.SieniGradoFacadeRemote;
-import sv.com.mined.sieni.form.RptAlumnosForm;
 import sv.com.mined.sieni.form.RptDocentesForm;
-import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
-import sv.com.mined.sieni.model.SieniGrado;
-import sv.com.mined.sieni.model.SieniSeccion;
-import sv.com.mined.sieni.pojos.rpt.RptAlumnosPojo;
 import sv.com.mined.sieni.pojos.rpt.RptDocentesPojo;
 import utils.DateUtils;
 import utils.FormatUtils;
@@ -56,17 +44,19 @@ public class RptDocentesController extends RptDocentesForm{
        this.setAnioEscolar("2015");
         this.setTipoRpt(0);
          this.setListDatos(new ArrayList<RptDocentesPojo>());
-        fill();
+//        fill();
     }
     public void fill() {
         RptDocentesPojo elem = new RptDocentesPojo();
         
-        List<SieniDocente> docente= sieniDocenteFacadeRemote.findAll();
+//        List<SieniDocente> docente= sieniDocenteFacadeRemote.findAll();
+        List<SieniDocente> docente2= sieniDocenteFacadeRemote.findDocentesDesdeHasta(this.getDesde(), this.getHasta());
+        
         this.setListDatos(new ArrayList<RptDocentesPojo>());
-        for (SieniDocente actual : docente) {
+        for (SieniDocente actual : docente2) {
 //            SieniGrado grado=sieniGradoFacadeRemote.getGradoActualAlumno(actual.getIdAlumno(),new FormatUtils().getFormatedAnio(new Date()));
 //           public RptDocentesPojo(SieniDocente docenteEntity, String docente, String fechaNacimiento, String edad, String direccion, String telefono, String gradoResponsable) {
-            elem = new RptDocentesPojo(actual, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(),actual.getDcTelefonoEm2(),actual.getDcDireccion(), actual.getDcTelefonoEm1(), "5");
+            elem = new RptDocentesPojo(actual, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(),new DateUtils().getEdad(actual.getDcFechaNacimiento()),actual.getDcDireccion(), actual.getDcTelefonoEm1(), "5");
 //        RptAlumnosPojo(actual, grado, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getAlFechaNacimiento()), actual.getAlDireccion(), new FormatUtils().getFormatedPhone(actual.getAlTelefonoEm1()), grado.getGrNombre());
             this.getListDatos().add(elem);
         }
@@ -75,14 +65,17 @@ public class RptDocentesController extends RptDocentesForm{
     }
 
     public void generarReporte() {
-        fill();
-        List<SieniDocente> docente= sieniDocenteFacadeRemote.findAll();
+//        fill();
+//        List<SieniDocente> docente= sieniDocenteFacadeRemote.findAll();
+//         List<SieniDocente> docente2= sieniDocenteFacadeRemote.findDocentesDesdeHasta(this.getDesde(), this.getHasta());
         String path = "resources/reportes/rtpDocentes.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("anio", this.getAnioEscolar());
 //        parameterMap.put("grado", this.getGrado() != null ? this.getGrado() : "Todos");
 //        parameterMap.put("seccion", this.getSeccion() != null ? this.getSeccion() : "Todos");
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
+        parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getDesde()));
+        parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getHasta()));
 
         try {
             RptDocentesController.generateReport(path, "rtpDocentes" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());

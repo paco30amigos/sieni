@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniDocente;
@@ -34,5 +35,10 @@ public interface SieniDocenteFacadeRemote {
 
     public SieniDocente findDocenteUsuario(String usuario, String pass);
     
+    public List<SieniDocente> findDocentesActivos();
+    
+    public List<SieniDocente> findDocentesDesdeHasta(Date desde,Date hasta);
+
     public List<SieniDocente> findUsuariosRpt();
+    
 }

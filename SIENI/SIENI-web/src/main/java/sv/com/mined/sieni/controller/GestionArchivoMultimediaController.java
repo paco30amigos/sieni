@@ -162,6 +162,8 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        CopiaArchivos ca = new CopiaArchivos();
+        ca.deleteDataToResource(this.getEliminar());
         this.getEliminar().setArEstado("I");
         sieniArchivoFacadeRemote.edit(this.getEliminar());
         fill();

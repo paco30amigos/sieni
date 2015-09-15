@@ -98,7 +98,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             FacesMessage msg = new FacesMessage("Componente Interactivo Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setNuevo(new SieniSuperCompon());
-            fill();
+            fill(); 
             this.setIndexMenu(0);
         }
     }

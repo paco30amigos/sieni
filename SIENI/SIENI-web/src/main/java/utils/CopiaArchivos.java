@@ -7,7 +7,6 @@ package utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Date;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -128,7 +127,7 @@ public class CopiaArchivos {
                 sieniArchivoFacadeRemote.edit(archivoEntity);
                 copiaExitosa = true;
             } catch (IOException ex) {
-                Logger.getLogger(ImagesDataTable.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CopiaArchivos.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             copiaExitosa = true;
@@ -159,10 +158,39 @@ public class CopiaArchivos {
                 archivoEntity.setArRuta(rutaRelativa);
 
             } catch (IOException ex) {
-                Logger.getLogger(ImagesDataTable.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CopiaArchivos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return archivoEntity;
+    }
+
+    //Elimina el archivo de la carpeta de recursos
+    public boolean deleteDataToResource(SieniArchivo archivoEntity) {
+        CopiaArchivos cpa = new CopiaArchivos();
+        boolean existe = false, eliminacionExitosa = false;
+        //si no existe el nombre del archivo se crea
+        String rutaRelativa = archivoEntity.getArRuta() != null ? archivoEntity.getArRuta() : cpa.getRutaRelativa(archivoEntity.getArTipo());
+        String ruta = cpa.getResourcesUrl() + cpa.getSeparador() + rutaRelativa;
+        ruta = formatUrl(ruta);
+        rutaRelativa = formatUrl(rutaRelativa);
+        if (archivoEntity.getArRuta() != null) {
+            File archivoCopia = new File(ruta);
+            existe = archivoCopia.exists();
+        }
+
+        if (existe) {//crea la copia para streaming eficiente
+            try {
+                File f = new File(ruta);
+                f.delete();
+                eliminacionExitosa = true;
+            } catch (Exception ex) {
+                Logger.getLogger(CopiaArchivos.class.getName()).log(Level.SEVERE, null, ex);
+                eliminacionExitosa = false;
+            }
+        } else {
+            eliminacionExitosa = true;
+        }
+        return eliminacionExitosa;
     }
 
     public void setSieniArchivoFacadeRemote(SieniArchivoFacadeRemote sieniArchivoFacadeRemote) {

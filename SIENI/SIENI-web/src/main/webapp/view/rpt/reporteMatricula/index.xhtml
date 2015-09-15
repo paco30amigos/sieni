@@ -5,67 +5,60 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Reportes" url="#"/>
             <p:menuitem value="Reporte de Matriculas" url="#{siteUrls.reporteMatricula}"/>
-
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+            <p:outputLabel value="Esta ayuda sirve un monton"/>
+        </p:dialog>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Reporte de Matriculas">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="Año Escolar:"></p:outputLabel>
-                        <p:inputMask mask="9,999" value="#{rptMatriculaController.anio}"></p:inputMask>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta"  var="car" value="#{rptMatriculaController.listDatos}" 
-                                 paginator="false"
-                                 reflow="true">
-                        <p:column headerText="Matricula" >
-                            #{car.matricula}
-                        </p:column>
-                        <p:column headerText="Año" >
-                            #{car.anio}
-                        </p:column>
-                        <p:column headerText="carnet" >
-                            #{car.carnet}
-                        </p:column>
-                        <p:column headerText="Alumno" >
-                            #{car.alumno}
-                        </p:column>
-                        <p:column headerText="grado" >
-                            #{car.grado}
-                        </p:column>
-                        <p:column headerText="seccion" >
-                            #{car.seccion}
-                        </p:column>
-                        <f:facet name="footer">
-                            Total de alumnos #{rptMatriculaController.totalTransacciones}
-                        </f:facet>
-                    </p:dataTable>
-                    <div class="EmptyBox20"></div>
-                    <div class="TexAlCenter">
-                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{rptMatriculaController.tipoRpt}">
-                                <f:selectItem itemLabel="Excel" itemValue="2" />
-                                <f:selectItem itemLabel="PDF" itemValue="0" />
-                            </p:selectOneRadio>
-                            <p:commandButton  value="Generar" action="#{rptMatriculaController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
-                            <p:commandButton value="Refrescar" action="#{rptMatriculaController.refresh()}" update="consulta"></p:commandButton>
-                        </h:panelGrid>
-                    </div>
-                </h:form>
-            </p:tab>
-        </p:tabView>
+        <div class="EmptyBox5"></div>
+        <h:form>
+            <p:panel>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta"  var="car" value="#{rptMatriculaController.listDatos}" 
+                             paginator="false"
+                             reflow="true">
+                    <p:column headerText="Matricula" >
+                        #{car.matricula}
+                    </p:column>
+                    <p:column headerText="Año" >
+                        #{car.anio}
+                    </p:column>
+                    <p:column headerText="carnet" >
+                        #{car.carnet}
+                    </p:column>
+                    <p:column headerText="Alumno" >
+                        #{car.alumno}
+                    </p:column>
+                    <p:column headerText="grado" >
+                        #{car.grado}
+                    </p:column>
+                    <p:column headerText="seccion" >
+                        #{car.seccion}
+                    </p:column>
+                    <f:facet name="footer">
+                        Total de alumnos #{rptMatriculaController.totalTransacciones}
+                    </f:facet>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptMatriculaController.tipoRpt}">
+                            <f:selectItem itemLabel="Excel" itemValue="2" />
+                            <f:selectItem itemLabel="PDF" itemValue="0" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar" action="#{rptMatriculaController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
+                        <p:commandButton value="Refrescar" action="#{rptMatriculaController.refresh()}" update="consulta"></p:commandButton>
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>

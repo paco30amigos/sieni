@@ -56,7 +56,7 @@ public class RptDocentesController extends RptDocentesForm{
         for (SieniDocente actual : docente2) {
 //            SieniGrado grado=sieniGradoFacadeRemote.getGradoActualAlumno(actual.getIdAlumno(),new FormatUtils().getFormatedAnio(new Date()));
 //           public RptDocentesPojo(SieniDocente docenteEntity, String docente, String fechaNacimiento, String edad, String direccion, String telefono, String gradoResponsable) {
-            elem = new RptDocentesPojo(actual, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(),new DateUtils().getEdad(actual.getDcFechaNacimiento()),actual.getDcDireccion(), actual.getDcTelefonoEm1(), "5");
+            elem = new RptDocentesPojo(actual, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(),new DateUtils().getEdad(actual.getDcFechaNacimiento()),actual.getDcDireccion(), new FormatUtils().getFormatedPhone(actual.getDcTelefonoEm1()), "5");
 //        RptAlumnosPojo(actual, grado, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getAlFechaNacimiento()), actual.getAlDireccion(), new FormatUtils().getFormatedPhone(actual.getAlTelefonoEm1()), grado.getGrNombre());
             this.getListDatos().add(elem);
         }

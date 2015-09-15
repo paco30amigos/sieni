@@ -51,9 +51,56 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <div class="Container50 Responsive">
-                        <h:outputScript name="videoclase.js" library="js" />                                            
-                        <video id="video" class="Container70" autoplay="true"></video>                    
-                        <canvas id="canvas" class="Container70" style="display: none"></canvas>
+                        <button id = "ver" type="button"> ver</button>
+                        <button id = "openNewSessionButton" type="button"> Open New Room </button>
+                        <button id = "shareParticipantScreenButton" type="button" >
+                            Share Participant's Screen
+                        </button>
+                        <div id="video"></div>
+                        <script>
+                            document.querySelector('#openNewSessionButton').onclick = function () {
+                                var connection = new RTCMultiConnection('id_clase');
+// easiest way to customize what you need!
+                                connection.session = {
+                                    audio: true,
+                                    video: true,
+                                };
+                                connection.bandwidth = {
+                                    audio: 25,
+                                    video: 128,
+                                    data: 1638400,
+                                    screen: 128      // 300kbps
+                                };
+
+// on getting local or remote media stream
+                                connection.onstream = function (e) {
+                                    if ($("video").html() === "") {
+                                        document.body.appendChild(e.mediaElement);
+                                    }
+                                };
+// setup signaling channel
+                                connection.connect('id_clase');
+// open new session
+                                connection.open('id_clase');
+                            };
+                        </script>
+                        <script>
+                            document.querySelector('#ver').onclick = function () {
+                                var connection = new RTCMultiConnection('id_clase');
+                                connection.dontCaptureUserMedia = true;
+                                connection.bandwidth = {
+                                    audio: 25,
+                                    video: 128,
+                                    data: 1638400,
+                                    screen: 128      // 300kbps
+                                };
+                                connection.onstream = function (e) {
+                                    document.body.appendChild(e.mediaElement);
+                                };
+                                connection.join();
+                            };
+                        </script>
+
                     </div>
                     <div class="Container25 Responsive">
                         <p:panel header="Alumnos Conectados" class="Container100 ContainerIndent">
@@ -109,7 +156,6 @@
                     </div>
                 </h:form>
             </p:tab>
-
         </p:tabView>
     </ui:define>
 </ui:composition>

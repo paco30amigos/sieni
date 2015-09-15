@@ -1,3 +1,5 @@
+eventos futuros
+
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
@@ -262,16 +264,37 @@
                             </c:if>
                         </c:when>
                     </c:choose>
+                    <c:set value="0" var="varID"></c:set>
+                    <c:set value="" var="siguienteEvento"></c:set>
+                    <c:set value="" var="eventoID"></c:set>                    
                     <c:forEach items="#{gestionComponentesInteractivosController.listaInteraccion}" var="acciones">
+                        <c:set value="#{varID+1}" var="varID"></c:set>
+                        <script type="text/javascript">
+                            var func_#{acciones.idEvento.evCodigo} = [];
+                        </script>
+                        <c:choose>
+                            <c:when test="#{varID>=gestionComponentesInteractivosController.listaInteraccion.size()}">
+                                <c:set value="" var="siguienteEvento"></c:set>
+                            </c:when>
+                            <c:otherwise>
+                                <c:set value=",func#{varID+1}" var="siguienteEvento"></c:set>
+                            </c:otherwise>
+                        </c:choose>
                         <c:choose>
                             <c:when test="#{acciones.idEvento.evCodigo=='show'}">
                                 <script type="text/javascript">
-                                    $(".multimedia").show("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
+                                    var func#{varID} = function () {
+                                        $(".multimedia").show("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion}#{siguienteEvento});
+                                    }
+                                    func_#{acciones.idEvento.evCodigo}[func_#{acciones.idEvento.evCodigo}.length] = func#{varID};
                                 </script>
                             </c:when>
                             <c:when test="#{acciones.idEvento.evCodigo=='hide'}">
                                 <script type="text/javascript">
-                                    $(".multimedia").hide("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
+                                    var func#{varID} = function () {
+                                        $(".multimedia").hide("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion}#{siguienteEvento});
+                                    }
+                                    func_#{acciones.idEvento.evCodigo}[func_#{acciones.idEvento.evCodigo}.length] = func#{varID};
                                 </script>
                             </c:when>
                             <c:when test="#{acciones.idEvento.evCodigo=='play'}">
@@ -298,9 +321,10 @@
                             <c:otherwise>
                                 <script type="text/javascript">
                                     var self = $(".multimedia");
-                                    self.on("#{acciones.idEvento.evCodigo}", function () {
-                                        self.effect("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
-                                    });
+                                    var func#{varID} = function () {
+                                        self.effect("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion}#{siguienteEvento});
+                                    }
+                                    func_#{acciones.idEvento.evCodigo}[func_#{acciones.idEvento.evCodigo}.length] = func#{varID};
                                 </script>
                             </c:otherwise>
                         </c:choose>                                    
@@ -310,8 +334,10 @@
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
                     <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" ajax="true" oncomplete="refrescarImagen()"></p:commandButton>
+                    <p:commandButton onclick="(func_click[0])()" value="probar"></p:commandButton>
                 </div>
             </h:form>
         </p:panel>
     </ui:define>
 </ui:composition>
+

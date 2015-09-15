@@ -49,6 +49,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     public void guardar() {
         this.getDocenteNuevo().setDcFoto(this.getFotoArchivo());
         quitarFormato(this.getDocenteNuevo());//quita el formato de los campos
+        this.getDocenteNuevo().setDcEstado('A');
         if (validarNuevo(this.getDocenteNuevo())) {//valida el guardado
             sieniDocenteFacadeRemote.create(this.getDocenteNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guarda", "Docente", this.getDocenteNuevo().getIdDocente(), new Character('D')));

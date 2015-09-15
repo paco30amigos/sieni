@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package sv.com.mined.sieni.controller;
 
 import java.io.IOException;
@@ -35,37 +31,37 @@ import utils.FormatUtils;
  */
 @SessionScoped
 @ManagedBean(name = "rptDocentesController")
-public class RptDocentesController extends RptDocentesForm {
-
-    @EJB
+public class RptDocentesController extends RptDocentesForm{
+    
+     @EJB
     SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
-
-    @EJB
+     
+     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
-
-    @PostConstruct
+     
+     @PostConstruct
     public void init() {
-        this.setAnioEscolar("2015");
+       this.setAnioEscolar("2015");
         this.setTipoRpt(0);
-        this.setListDatos(new ArrayList<RptDocentesPojo>());
+         this.setListDatos(new ArrayList<RptDocentesPojo>());
 //        fill();
     }
-
     public void fill() {
         RptDocentesPojo elem = new RptDocentesPojo();
-
+        
 //        List<SieniDocente> docente= sieniDocenteFacadeRemote.findAll();
-        List<SieniDocente> docente2 = sieniDocenteFacadeRemote.findDocentesDesdeHasta(this.getDesde(), this.getHasta());
-
+        List<SieniDocente> docente2= sieniDocenteFacadeRemote.findDocentesDesdeHasta(this.getDesde(), this.getHasta());
+        
         this.setListDatos(new ArrayList<RptDocentesPojo>());
         for (SieniDocente actual : docente2) {
 //            SieniGrado grado=sieniGradoFacadeRemote.getGradoActualAlumno(actual.getIdAlumno(),new FormatUtils().getFormatedAnio(new Date()));
 //           public RptDocentesPojo(SieniDocente docenteEntity, String docente, String fechaNacimiento, String edad, String direccion, String telefono, String gradoResponsable) {
-            elem = new RptDocentesPojo(actual, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getDcFechaNacimiento()), actual.getDcDireccion(), new FormatUtils().getFormatedPhone(actual.getDcTelefonoEm1()), "5");
+            elem = new RptDocentesPojo(actual, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(),new DateUtils().getEdad(actual.getDcFechaNacimiento()),actual.getDcDireccion(), actual.getDcTelefonoEm1(), "5");
 //        RptAlumnosPojo(actual, grado, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getAlFechaNacimiento()), actual.getAlDireccion(), new FormatUtils().getFormatedPhone(actual.getAlTelefonoEm1()), grado.getGrNombre());
             this.getListDatos().add(elem);
         }
-
+        
+       
     }
 
     public void generarReporte() {

@@ -48,12 +48,12 @@
 				<text><![CDATA[Desde:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="447" y="7" width="80" height="20" uuid="93583e3c-92bc-43fa-81e1-09cda41bee25"/>
+				<reportElement x="449" y="7" width="80" height="20" uuid="93583e3c-92bc-43fa-81e1-09cda41bee25"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="527" y="7" width="40" height="20" uuid="25ed0a8f-fcb5-404a-9104-576653ec13a7"/>
+				<reportElement x="530" y="7" width="40" height="20" uuid="25ed0a8f-fcb5-404a-9104-576653ec13a7"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -206,4 +206,16 @@
 	<lastPageFooter>
 		<band height="50"/>
 	</lastPageFooter>
+	<summary>
+		<band height="50">
+			<staticText>
+				<reportElement x="70" y="13" width="80" height="20" uuid="b94b28dd-dd7d-49cb-ad83-96eb93e8c053"/>
+				<text><![CDATA[Total Docentes:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="154" y="13" width="100" height="20" uuid="3e089dda-3c39-40af-bf73-b822f8c0c473"/>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
 </jasperReport>

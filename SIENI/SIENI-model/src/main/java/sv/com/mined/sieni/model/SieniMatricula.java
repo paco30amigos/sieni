@@ -31,6 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_matricula")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniMatricula.findAnio", query = "SELECT s FROM SieniMatricula s where s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idAlumno.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMatricula.findAnioGrado", query = "SELECT s FROM SieniMatricula s where s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idGrado.idGrado=:grado and s.idAlumno.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMatricula.findAnioGradoSeccion", query = "SELECT s FROM SieniMatricula s  where s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idGrado.idGrado=:grado and s.idSeccion.idSeccion=:seccion and s.idAlumno.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniMatricula.findAllNoInactivos", query = "SELECT s FROM SieniMatricula s where s.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniMatricula.findAll", query = "SELECT s FROM SieniMatricula s"),
     @NamedQuery(name = "SieniMatricula.findByIdMatricula", query = "SELECT s FROM SieniMatricula s WHERE s.idMatricula = :idMatricula"),

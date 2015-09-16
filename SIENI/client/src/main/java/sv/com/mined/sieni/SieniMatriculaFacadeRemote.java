@@ -5,8 +5,10 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniMatricula;
 
 /**
@@ -33,4 +35,6 @@ public interface SieniMatriculaFacadeRemote {
     public List<SieniMatricula> getMatriculasAnio(Integer anio);
 
     public List<SieniMatricula> findAllNoInactivos();
+
+    public List<SieniMatricula> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion);
 }

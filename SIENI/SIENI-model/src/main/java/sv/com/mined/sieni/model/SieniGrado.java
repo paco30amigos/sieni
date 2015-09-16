@@ -27,12 +27,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_grado")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniGrado.findGradoActualAlumno", query = "SELECT s FROM SieniGrado s join fetch s.sieniMatriculaList mt where mt.idAlumno.idAlumno=:idAlumno and mt.mtAnio=:anio"),
+    @NamedQuery(name = "SieniGrado.findGradoActualAlumno", query = "SELECT s FROM SieniGrado s join fetch s.sieniMatriculaList mt where mt.idAlumno.idAlumno=:idAlumno and mt.mtFechaIngreso =:anioDesde and mt.mtFechaIngreso =:anioHasta and mt.mtEstado not in (:estado) and s.grEstado not in (:estado)"),
     @NamedQuery(name = "SieniGrado.findAll", query = "SELECT s FROM SieniGrado s"),
     @NamedQuery(name = "SieniGrado.findByIdGrado", query = "SELECT s FROM SieniGrado s WHERE s.idGrado = :idGrado"),
     @NamedQuery(name = "SieniGrado.findByGrNombre", query = "SELECT s FROM SieniGrado s WHERE s.grNombre = :grNombre"),
     @NamedQuery(name = "SieniGrado.findByGrNumero", query = "SELECT s FROM SieniGrado s WHERE s.grNumero = :grNumero")})
 public class SieniGrado implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -42,7 +43,9 @@ public class SieniGrado implements Serializable {
     private String grNombre;
     @Column(name = "gr_numero")
     private Integer grNumero;
-    @OneToMany(mappedBy = "idGrado",fetch = FetchType.EAGER)
+    @Column(name = "gr_estado")
+    private Character grEstado;
+    @OneToMany(mappedBy = "idGrado", fetch = FetchType.EAGER)
     private List<SieniSeccion> sieniSeccionList;
     @OneToMany(mappedBy = "idGrado")
     private List<SieniMatricula> sieniMatriculaList;
@@ -142,5 +145,12 @@ public class SieniGrado implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniGrado[ idGrado=" + idGrado + " ]";
     }
-    
+
+    public Character getGrEstado() {
+        return grEstado;
+    }
+
+    public void setGrEstado(Character grEstado) {
+        this.grEstado = grEstado;
+    }
 }

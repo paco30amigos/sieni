@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni.form;
 
+import java.util.Date;
 import java.util.List;
 import sv.com.mined.sieni.controller.*;
 import sv.com.mined.sieni.model.SieniGrado;
@@ -15,9 +16,10 @@ import sv.com.mined.sieni.pojos.rpt.RptAlumnosPojo;
  *
  * @author Laptop
  */
-public class RptAlumnosForm  extends ReportesController{
+public class RptAlumnosForm extends ReportesController {
 
-    private String anioEscolar;
+    private Date anioDesde;
+    private Date anioHasta;
     private Long idGrado;
     private Long idSeccion;
     private String grado;
@@ -27,14 +29,6 @@ public class RptAlumnosForm  extends ReportesController{
     private List<RptAlumnosPojo> listDatos;
     private String totalAlumnos;
     private Integer tipoRpt;
-
-    public String getAnioEscolar() {
-        return anioEscolar;
-    }
-
-    public void setAnioEscolar(String anioEscolar) {
-        this.anioEscolar = anioEscolar;
-    }
 
     public Long getIdGrado() {
         return idGrado;
@@ -106,6 +100,22 @@ public class RptAlumnosForm  extends ReportesController{
 
     public void setTipoRpt(Integer tipoRpt) {
         this.tipoRpt = tipoRpt;
+    }
+
+    public Date getAnioDesde() {
+        return anioDesde;
+    }
+
+    public void setAnioDesde(Date anioDesde) {
+        this.anioDesde = anioDesde;
+    }
+
+    public Date getAnioHasta() {
+        return anioHasta;
+    }
+
+    public void setAnioHasta(Date anioHasta) {
+        this.anioHasta = anioHasta;
     }
 
 }

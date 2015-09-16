@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniGrado;
@@ -30,5 +31,5 @@ public interface SieniGradoFacadeRemote {
 
     int count();
 
-    public SieniGrado getGradoActualAlumno(Long idAlumno, String anio);
+    public SieniGrado getGradoActualAlumno(Long idAlumno, Date anioDesde, Date anioHasta);
 }

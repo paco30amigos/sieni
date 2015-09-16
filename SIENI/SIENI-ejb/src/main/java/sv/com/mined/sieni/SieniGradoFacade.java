@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -18,6 +19,7 @@ import sv.com.mined.sieni.model.SieniGrado;
  */
 @Stateless
 public class SieniGradoFacade extends AbstractFacade<SieniGrado> implements sv.com.mined.sieni.SieniGradoFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -29,11 +31,15 @@ public class SieniGradoFacade extends AbstractFacade<SieniGrado> implements sv.c
     public SieniGradoFacade() {
         super(SieniGrado.class);
     }
+
     @Override
-    public SieniGrado getGradoActualAlumno(Long idAlumno, String anio){
+    public SieniGrado getGradoActualAlumno(Long idAlumno, Date anioDesde, Date anioHasta) {
+        Character estado = 'I';
         Query q = em.createNamedQuery("SieniGrado.findGradoActualAlumno");
         q.setParameter("idAlumno", idAlumno);
-        q.setParameter("anio", anio);
+        q.setParameter("anioDesde", anioDesde);
+        q.setParameter("anioHasta", anioHasta);
+        q.setParameter("estado", estado);
         List<SieniGrado> res = q.getResultList();
         if (res != null && !res.isEmpty()) {
             return res.get(0);

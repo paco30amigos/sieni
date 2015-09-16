@@ -43,9 +43,9 @@ import org.primefaces.model.StreamedContent;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where mat.mtAnio=:anio"),
-    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where mat.mtAnio=:anio and mat.idGrado.idGrado=:grado"),
-    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where mat.mtAnio=:anio and mat.idGrado.idGrado=:grado and mat.idSeccion.idSeccion=:seccion"),
+    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s join fetch s.sieniMatriculaList mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and mat.idGrado.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and mat.idGrado.idGrado=:grado and mat.idSeccion.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A'"),
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado "),
@@ -66,8 +66,8 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findByAlContrasenia", query = "SELECT s FROM SieniAlumno s WHERE s.alContrasenia = :alContrasenia"),
     @NamedQuery(name = "SieniAlumno.findByAlCorreo", query = "SELECT s FROM SieniAlumno s WHERE s.alCorreo = :alCorreo"),
     @NamedQuery(name = "SieniAlumno.findByAlFechaNacimiento", query = "SELECT s FROM SieniAlumno s WHERE s.alFechaNacimiento = :alFechaNacimiento"),
-    @NamedQuery(name = "SieniAlumno.findByAlEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alEstado = :alEstado" ),
-    @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr WHERE sr.idAlumnRol IS NOT NULL AND s.alUsuario IS NOT NULL") })
+    @NamedQuery(name = "SieniAlumno.findByAlEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alEstado = :alEstado"),
+    @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr WHERE sr.idAlumnRol IS NOT NULL AND s.alUsuario IS NOT NULL")})
 public class SieniAlumno implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -109,6 +109,9 @@ public class SieniAlumno implements Serializable {
     @Column(name = "al_fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date alFechaNacimiento;
+    @Column(name = "al_fecha_ingreso")
+    @Temporal(TemporalType.DATE)
+    private Date alFechaIngreso;
     @Column(name = "al_estado")
     private Character alEstado;
     @Column(name = "al_fecha_baja")
@@ -417,6 +420,19 @@ public class SieniAlumno implements Serializable {
         return fotoContenido;
     }
 
+    public SieniMatricula getMatriculaActual() {
+        SieniMatricula ret = new SieniMatricula();
+        int max = 0, anioActual = 0;
+        for (SieniMatricula actual : this.getSieniMatriculaList()) {
+            anioActual = Integer.parseInt(actual.getMtAnio());
+            if (max < anioActual) {
+                max = anioActual;
+                ret = actual;
+            }
+        }
+        return ret;
+    }
+
     public SieniGrado getGradoActual() {
         int max = 0, anioActual = 0;
         for (SieniMatricula actual : this.getSieniMatriculaList()) {
@@ -439,5 +455,13 @@ public class SieniAlumno implements Serializable {
 
     public void setAlFechaBaja(Date alFechaBaja) {
         this.alFechaBaja = alFechaBaja;
+    }
+
+    public Date getAlFechaIngreso() {
+        return alFechaIngreso;
+    }
+
+    public void setAlFechaIngreso(Date alFechaIngreso) {
+        this.alFechaIngreso = alFechaIngreso;
     }
 }

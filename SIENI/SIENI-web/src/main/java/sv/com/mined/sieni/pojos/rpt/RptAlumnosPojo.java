@@ -6,8 +6,9 @@
 package sv.com.mined.sieni.pojos.rpt;
 
 import java.io.Serializable;
-import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniGrado;
+import sv.com.mined.sieni.model.SieniMatricula;
 
 /**
  *
@@ -15,7 +16,7 @@ import sv.com.mined.sieni.model.SieniGrado;
  */
 public class RptAlumnosPojo implements Serializable {
 
-    private SieniAlumno alumnoEntity;
+    private SieniMatricula alumnoEntity;
     private SieniGrado gradoActualEntity;
     private String alumno;
     private String fechaNacimiento;
@@ -27,7 +28,7 @@ public class RptAlumnosPojo implements Serializable {
     public RptAlumnosPojo() {
     }
 
-    public RptAlumnosPojo(SieniAlumno alumnoEntity, SieniGrado gradoActualEntity, String alumno, String fechaNacimiento, String edad, String direccion, String telefono, String gradoActual) {
+    public RptAlumnosPojo(SieniMatricula alumnoEntity, SieniGrado gradoActualEntity, String alumno, String fechaNacimiento, String edad, String direccion, String telefono, String gradoActual) {
         this.alumnoEntity = alumnoEntity;
         this.gradoActualEntity = gradoActualEntity;
         this.alumno = alumno;
@@ -86,11 +87,11 @@ public class RptAlumnosPojo implements Serializable {
         this.gradoActual = gradoActual;
     }
 
-    public SieniAlumno getAlumnoEntity() {
+    public SieniMatricula getAlumnoEntity() {
         return alumnoEntity;
     }
 
-    public void setAlumnoEntity(SieniAlumno alumnoEntity) {
+    public void setAlumnoEntity(SieniMatricula alumnoEntity) {
         this.alumnoEntity = alumnoEntity;
     }
 

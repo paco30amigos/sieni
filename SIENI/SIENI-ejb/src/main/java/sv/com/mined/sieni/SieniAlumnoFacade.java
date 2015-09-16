@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -65,7 +66,8 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
-    public List<SieniAlumno> findAlumnoRpt(String anio, Long grado, Long seccion) {
+    public List<SieniAlumno> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion) {
+        Character estado = 'I';
         int tipo = 0;
         if (grado != null) {
             tipo = 1;
@@ -85,7 +87,9 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
                 q = em.createNamedQuery("SieniAlumno.findAnio");
                 break;
         }
-        q.setParameter("anio", anio);
+        q.setParameter("estado", estado);
+        q.setParameter("anioDesde", desde);
+        q.setParameter("anioHasta", hasta);
         if (grado != null) {
             q.setParameter("grado", grado);
             if (seccion != null) {
@@ -96,14 +100,11 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         List<SieniAlumno> res = q.getResultList();
         return res;
     }
-    
-    
+
     @Override
     public List<SieniAlumno> findUsuariosRpt() {
         Query q = em.createNamedQuery("SieniAlumno.findRptUsuariosAlumnos");
         return q.getResultList();
     }
-    
-    
 
 }

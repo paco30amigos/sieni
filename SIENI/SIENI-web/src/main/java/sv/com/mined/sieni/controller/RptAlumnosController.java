@@ -24,10 +24,12 @@ import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
+import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.form.RptAlumnosForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniGrado;
+import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniSeccion;
 import sv.com.mined.sieni.pojos.rpt.RptAlumnosPojo;
 import utils.DateUtils;
@@ -50,9 +52,13 @@ public class RptAlumnosController extends RptAlumnosForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
+    @EJB
+    private SieniMatriculaFacadeRemote sieniMatriculaFacadeRemote;
+
     @PostConstruct
     public void init() {
-        this.setAnioEscolar("2015");
+        this.setAnioDesde(new Date());
+        this.setAnioHasta(new Date());
         this.setTotalAlumnos("0");
         this.setTipoRpt(0);
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
@@ -67,13 +73,13 @@ public class RptAlumnosController extends RptAlumnosForm {
         if (this.getIdSeccion() != null && this.getIdSeccion().equals(0L)) {
             this.setIdSeccion(null);
         }
-        List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findAlumnoRpt(this.getAnioEscolar(), this.getIdGrado(), this.getIdSeccion());
+        List<SieniMatricula> alumnos = sieniMatriculaFacadeRemote.findAlumnoRpt(this.getAnioDesde(), this.getAnioHasta(), this.getIdGrado(), this.getIdSeccion());
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
-        for (SieniAlumno actual : alumnos) {
-            SieniGrado grado=sieniGradoFacadeRemote.getGradoActualAlumno(actual.getIdAlumno(),new FormatUtils().getFormatedAnio(new Date()));
-            elem = new RptAlumnosPojo(actual, grado, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getAlFechaNacimiento()), actual.getAlDireccion(), new FormatUtils().getFormatedPhone(actual.getAlTelefonoEm1()), grado.getGrNombre());
+        for (SieniMatricula actual : alumnos) { 
+            elem = new RptAlumnosPojo(actual, actual.getIdGrado(), actual.getIdAlumno().getNombreCompleto(), actual.getIdAlumno().getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getIdAlumno().getAlFechaNacimiento()), actual.getIdAlumno().getAlDireccion(), new FormatUtils().getFormatedPhone(actual.getIdAlumno().getAlTelefonoEm1()), actual.getIdGrado().getGrNombre()+actual.getIdSeccion().getScDescripcion());
             this.getListDatos().add(elem);
         }
+        this.setTotalAlumnos("" + this.getListDatos().size());
         this.setGradosList(sieniGradoFacadeRemote.findAll());
         this.setSeccionesList(new ArrayList<SieniSeccion>());
         if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
@@ -88,7 +94,8 @@ public class RptAlumnosController extends RptAlumnosForm {
         fill();
         String path = "resources/reportes/rtpAlumnos.jasper";
         Map parameterMap = new HashMap();
-        parameterMap.put("anio", this.getAnioEscolar());
+        parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getAnioDesde()));
+        parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getAnioHasta()));
         parameterMap.put("grado", this.getGrado() != null ? this.getGrado() : "Todos");
         parameterMap.put("seccion", this.getSeccion() != null ? this.getSeccion() : "Todos");
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));

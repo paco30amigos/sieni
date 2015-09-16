@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-09-10T21:59:39 -->
+<!-- 2015-09-15T23:37:31 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 	<parameter name="fechaGeneracion" class="java.lang.String"/>
 	<parameter name="anio" class="java.lang.String"/>
 	<parameter name="grado" class="java.lang.String"/>
 	<parameter name="seccion" class="java.lang.String"/>
+	<parameter name="desde" class="java.lang.String"/>
+	<parameter name="hasta" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -21,7 +23,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="67" splitType="Stretch">
+		<band height="92" splitType="Stretch">
 			<staticText>
 				<reportElement x="180" y="1" width="205" height="19" uuid="6380fbb6-acf1-4bc4-9e77-3c16f32331f2"/>
 				<textElement textAlignment="Center">
@@ -37,45 +39,51 @@
 				<text><![CDATA[Reporte de Alumnos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="390" y="47" width="104" height="20" uuid="46e126d4-11a7-42e2-ba51-3128b20da3e3"/>
-				<text><![CDATA[Fecha de generación:]]></text>
-			</staticText>
-			<image>
-				<reportElement x="22" y="-1" width="105" height="46" uuid="efe7bbf6-afb3-4970-a868-fac4475e6689"/>
-				<imageExpression><![CDATA["../images/mined.jpg"]]></imageExpression>
-			</image>
-			<staticText>
-				<reportElement x="24" y="45" width="40" height="20" uuid="8505d060-dbc4-422d-afcc-1c25c03e8c8c"/>
-				<text><![CDATA[Año:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="134" y="45" width="46" height="20" uuid="cf6c1449-eb70-46db-8031-53e3ab00778c"/>
+				<reportElement x="2" y="71" width="46" height="20" uuid="cf6c1449-eb70-46db-8031-53e3ab00778c"/>
 				<text><![CDATA[Grado:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="240" y="45" width="50" height="20" uuid="22364d60-f8bb-47b5-abad-48aa925cae2f"/>
+				<reportElement x="148" y="71" width="46" height="20" uuid="22364d60-f8bb-47b5-abad-48aa925cae2f"/>
 				<text><![CDATA[Sección:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="64" y="45" width="70" height="20" uuid="487c95c4-a502-48d4-a864-60530568f3f2"/>
-				<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="180" y="45" width="60" height="20" uuid="8a6a66dd-1547-421b-ace8-f719cd598bdb"/>
+				<reportElement x="48" y="71" width="100" height="20" uuid="8a6a66dd-1547-421b-ace8-f719cd598bdb"/>
 				<textFieldExpression><![CDATA[$P{grado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="290" y="45" width="60" height="19" uuid="e5f1852c-6c38-492c-9851-e82d5255b9da"/>
+				<reportElement x="194" y="71" width="100" height="19" uuid="e5f1852c-6c38-492c-9851-e82d5255b9da"/>
 				<textFieldExpression><![CDATA[$P{seccion}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="494" y="47" width="80" height="19" uuid="1a14dd55-a434-428d-a5b8-aee178745964"/>
-				<textFieldExpression><![CDATA[$P{fechaGeneracion}]]></textFieldExpression>
+			<textField evaluationTime="Report">
+				<reportElement x="390" y="10" width="190" height="30" uuid="f3075a9e-7660-48b2-a57d-4195504227e3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de "+$V{PAGE_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="420" y="10" width="160" height="30" uuid="f3075a9e-7660-48b2-a57d-4195504227e3"/>
-				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+"/"+$V{PAGE_COUNT}]]></textFieldExpression>
+				<reportElement x="388" y="40" width="190" height="23" uuid="8b9fa3e0-173f-4bf7-95c6-4a2d89a3f0d6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["F. Generación:"+ $P{fechaGeneracion}]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="194" y="51" width="100" height="20" uuid="c2b0b432-df3f-4be3-afec-15ee71a40ce7"/>
+				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="148" y="50" width="46" height="20" uuid="c093d5fa-20cb-448d-ac26-20a2b5db394d"/>
+				<text><![CDATA[Hasta:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="48" y="50" width="100" height="20" uuid="a5626fbc-6374-4a26-b44a-b21643cbe12c"/>
+				<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="50" width="46" height="20" uuid="095bdecc-1bd2-44c3-9808-02e28b1b4df9"/>
+				<text><![CDATA[Desde:]]></text>
+			</staticText>
+			<image>
+				<reportElement x="5" y="4" width="105" height="46" uuid="afda423e-45cd-48cd-ab27-bd221c5e7414"/>
+				<imageExpression><![CDATA["../images/mined.jpg"]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<columnHeader>
@@ -156,7 +164,7 @@
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Grado actual]]></text>
+				<text><![CDATA[Grado]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -228,7 +236,12 @@
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="36" splitType="Stretch"/>
-	</pageFooter>
+	<summary>
+		<band height="50">
+			<textField>
+				<reportElement stretchType="RelativeToBandHeight" x="70" y="6" width="174" height="20" uuid="e38dca93-10bd-4fdc-b560-3298c47386c9"/>
+				<textFieldExpression><![CDATA["Total de Alumnos: "+ $V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
 </jasperReport>

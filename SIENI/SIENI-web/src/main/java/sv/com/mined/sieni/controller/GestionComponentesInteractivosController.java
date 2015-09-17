@@ -326,7 +326,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             nuevo.setIdTipoComponente(getTipoComponenteBySuperCompon(this.getConfig()));
             nuevo.setIdArchivo(actual.getArchivoBD().getIdArchivo());
             nuevo.setCpOrden(nuevoOrden);
-            nuevo.setCpEstado('D');
+            nuevo.setCpEstado('A');
             lista.add(nuevo);
             nuevoOrden++;
         }

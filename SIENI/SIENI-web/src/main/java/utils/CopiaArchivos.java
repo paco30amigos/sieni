@@ -156,7 +156,16 @@ public class CopiaArchivos {
                 File f = new File(ruta);
                 FileUtils.writeByteArrayToFile(f, archivo);
                 archivoEntity.setArRuta(rutaRelativa);
-
+            } catch (IOException ex) {
+                Logger.getLogger(CopiaArchivos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {//actualizar archivo
+            try {
+                byte[] archivo = archivoEntity.getArArchivo();
+                File f = new File(ruta);
+//                f.delete();
+                FileUtils.writeByteArrayToFile(f, archivo);
+                archivoEntity.setArRuta(rutaRelativa);
             } catch (IOException ex) {
                 Logger.getLogger(CopiaArchivos.class.getName()).log(Level.SEVERE, null, ex);
             }

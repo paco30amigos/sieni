@@ -310,6 +310,15 @@
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
                     <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" ajax="true" oncomplete="refrescarImagen()"></p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu> 
                 </div>
             </h:form>
         </p:panel>

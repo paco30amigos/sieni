@@ -30,40 +30,43 @@
                 <h:panelGrid class="Container100">
                     <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionarAlumnosController.getFotoNuevaModifica(event)}"
                                   uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" 
-                                  value="#{gestionarAlumnosController.fotoModifica}" update="fotoSubida" >
+                                  value="#{gestionarAlumnosController.fotoModifica}" update="fotoSubida" sizeLimit="#{tamanioUtils.imagenMax}" 
+                                  invalidSizeMessage="Archivo muy grande"
+                                  invalidFileMessage="Tipo de archivo no valido"
+                                  >
                     </p:fileUpload>
                 </h:panelGrid>
                 <div class="EmptyBox20"></div>
-                <p:focus context="p1"/>
+                <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
-                    <p:inputText tabindex="1" class="Container100" id="primNombreNuevo"  value="#{gestionarAlumnosController.alumnoModifica.alPrimNombre}" maxlength="#{nombreUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
+                    <p:inputText tabindex="1" class="Container100" id="primNombreNuevo"  value="#{gestionarAlumnosController.alumnoModifica.alPrimNombre}" maxlength="#{tamanioUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
                     <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="2" class="Container100" id="segNombreNuevo" value="#{gestionarAlumnosController.alumnoModifica.alSeguNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                    <p:inputText tabindex="2" class="Container100" id="segNombreNuevo" value="#{gestionarAlumnosController.alumnoModifica.alSeguNombre}" maxlength="#{tamanioUtils.nombreMax}"></p:inputText>
                     <p:outputLabel for="tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="3" class="Container100" id="tercNombreNuevo" value="#{gestionarAlumnosController.alumnoModifica.alTercNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                    <p:inputText tabindex="3" class="Container100" id="tercNombreNuevo" value="#{gestionarAlumnosController.alumnoModifica.alTercNombre}" maxlength="#{tamanioUtils.nombreMax}"></p:inputText>
                     <p:outputLabel for="primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="4" class="Container100" id="primApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alPrimApe}" maxlength="#{nombreUtils.apellidoMax}" required="true" requiredMessage="Debe ingresar Primer Apellido"></p:inputText>
+                    <p:inputText tabindex="4" class="Container100" id="primApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alPrimApe}" maxlength="#{tamanioUtils.apellidoMax}" required="true" requiredMessage="Debe ingresar Primer Apellido"></p:inputText>
                     <p:outputLabel for="segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="5" class="Container100" id="segApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alSeguApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                    <p:inputText tabindex="5" class="Container100" id="segApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alSeguApe}" maxlength="#{tamanioUtils.apellidoMax}"></p:inputText>
                     <p:outputLabel for="tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="6" class="Container100" id="tercApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alTercApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                    <p:inputText tabindex="6" class="Container100" id="tercApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alTercApe}" maxlength="#{tamanioUtils.apellidoMax}"></p:inputText>
                     <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
                     <p:calendar tabindex="7" class="Container100" id="fechNacimNuevo" value="#{gestionarAlumnosController.alumnoModifica.alFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true" widgetVar="calen"></p:calendar>
                     <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
                     <p:inputText tabindex="8" class="Container100" id="emailNuevo" type="email" value="#{gestionarAlumnosController.alumnoModifica.alCorreo}"></p:inputText>
                     <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
-                    <p:inputMask tabindex="9" class="Container100" id="telefonoNuevo" mask="9999-9999" value="#{gestionarAlumnosController.alumnoModifica.alTelefonoEm1}"  required="true" requiredMessage="Debe ingresar telÃ©fono"></p:inputMask>
+                    <p:inputMask tabindex="9" class="Container100" id="telefonoNuevo" mask="9999-9999" value="#{gestionarAlumnosController.alumnoModifica.alTelefonoEm1}"  required="true" requiredMessage="Debe ingresar teléfono"></p:inputMask>
                     <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
                     <p:inputMask tabindex="10" class="Container100" id="celularNuevo" mask="9999-9999" value="#{gestionarAlumnosController.alumnoModifica.alTelefonoEm2}"></p:inputMask>
                     <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
-                    <p:inputTextarea tabindex="11" class="Container100" id="direccion" value="#{gestionarAlumnosController.alumnoModifica.alDireccion}"></p:inputTextarea>
+                    <p:inputTextarea maxlength="#{tamanioUtils.direccionMax}" tabindex="11" class="Container100" id="direccion" value="#{gestionarAlumnosController.alumnoModifica.alDireccion}"></p:inputTextarea>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarAlumnosController.guardarModifica()}" update="p1" />
+                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarAlumnosController.guardarModifica()}" update="p1,focus" />
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,archivo,fotoSubida" resetValues="true" />
+                        <p:ajax update="p1,archivo,fotoSubida,focus" resetValues="true" />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1,archivo,fotoSubida" resetValues="true" listener="#{gestionarAlumnosController.setIndexMenu(0)}"/>

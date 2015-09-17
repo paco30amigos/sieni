@@ -5,8 +5,10 @@
  */
 package sv.com.mined.sieni.controller;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -14,6 +16,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.script.ScriptEngine;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
@@ -21,7 +24,9 @@ import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.form.GestionArchivoMultimediaForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniArchivo;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.CopiaArchivos;
+import utils.TamanioUtils;
 
 /**
  *
@@ -42,6 +47,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         this.setArchivoModifica(new SieniArchivo());
         this.setArchivoList(new ArrayList<SieniArchivo>());
         this.setFormatoArchivo(this.getFormatosAudio());
+        this.setTamanioArchivo(getTamanioMaxArchivoByCod("A"));//tamanio para audio
         this.setFormatoArchivoModifica(this.getFormatosAudio());
         fill();
     }
@@ -60,10 +66,10 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             FacesMessage msg = new FacesMessage("Archivo Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            this.setIndexMenu(0);
+            this.setArchivoNuevo(new SieniArchivo());
+            this.setArchivoUsable(null);
+            fill();
         }
-        this.setArchivoNuevo(new SieniArchivo());
-        fill();
     }
 
     public void guardarCopia() {
@@ -90,8 +96,10 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     public boolean validarNuevo(SieniArchivo nuevo) {
         boolean ban = true;
-
-        return ban;
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        validaciones.add(new ValidationPojo(this.getArchivoUsable() == null, "Debe subir un archivo", FacesMessage.SEVERITY_WARN));
+        ban = ValidationPojo.printErrores(validaciones);
+        return !ban;
     }
 
     public void cancelar() {
@@ -100,6 +108,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     //metodos para modificacion de datos
     public void modificar(SieniArchivo modificado) {
         this.setFormatoArchivoModifica(getFormatoArchivoByCod(modificado.getArTipo() + ""));
+        this.setTamanioArchivo(getTamanioMaxArchivoByCod(modificado.getArTipo() + ""));
         this.setArchivoModifica(modificado);
         this.setIndexMenu(2);
     }
@@ -136,10 +145,8 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            resetModificaForm();
-            this.setIndexMenu(0);
+            fill();
         }
-        fill();
     }
 
     public void resetModificaForm() {
@@ -154,7 +161,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     public boolean validarModifica(SieniArchivo nuevo) {
         boolean ban = true;
-
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         return ban;
     }
 
@@ -172,6 +179,25 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     public void getFormatosSubidaNuevo(ValueChangeEvent a) {
         String cod = a.getNewValue().toString();
         this.setFormatoArchivo(getFormatoArchivoByCod(cod));
+        this.setTamanioArchivo(getTamanioMaxArchivoByCod(cod));
+    }
+
+    private String getTamanioMaxArchivoByCod(String cod) {
+        String ret = "";
+        TamanioUtils tu = new TamanioUtils();
+
+        switch (cod) {
+            case "A":
+                ret = tu.getAudioMax() + "";
+                break;
+            case "V":
+                ret = tu.getVideoMax() + "";
+                break;
+            case "I":
+                ret = tu.getImagenMax() + "";
+                break;
+        }
+        return ret;
     }
 
     private String getFormatoArchivoByCod(String cod) {

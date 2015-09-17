@@ -22,17 +22,17 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
-                <p:focus context="p1"/>
+                <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="1" id="nombre" value="#{gestionArchivoMultimediaController.archivoNuevo.arNombre}"></p:inputText>
+                    <p:inputText tabindex="1" id="nombre" value="#{gestionArchivoMultimediaController.archivoNuevo.arNombre}" required="true" requiredMessage="Debe ingresar un nombre al archivo" maxlength="#{tamanioUtils.nombreArchivoMax}"></p:inputText>
                     <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoNuevo.arEstado}" tabindex="0">
-                        <f:selectItem itemValue ="D" itemLabel="Disponible"/>
-                        <f:selectItem itemValue="N" itemLabel="No Disponible"/>
+                    <p:selectOneMenu tabindex="2" id="estado" class=" Responsive" value="#{gestionArchivoMultimediaController.archivoNuevo.arEstado}">
+                        <f:selectItem itemValue ="A" itemLabel="Activo"/>
+                        <f:selectItem itemValue="P" itemLabel="Trabajando"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="tipo" class=" Responsive" 
+                    <p:selectOneMenu tabindex="3" id="tipo" class=" Responsive" 
                                      value="#{gestionArchivoMultimediaController.archivoNuevo.arTipo}" 
                                      valueChangeListener="#{gestionArchivoMultimediaController.getFormatosSubidaNuevo}">
                         <f:selectItem itemValue ="A" itemLabel="Audio"/>
@@ -43,14 +43,18 @@
                     <p:outputLabel for="archivo" value="Archivo: " class=" Responsive"></p:outputLabel>
                     <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionArchivoMultimediaController.getArchivoNuevo}"
                                   uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="#{gestionArchivoMultimediaController.formatoArchivo}" 
-                                  value="#{gestionArchivoMultimediaController.archivoSubidoNuevo}">
+                                  value="#{gestionArchivoMultimediaController.archivoSubidoNuevo}" sizeLimit="${gestionArchivoMultimediaController.tamanioArchivo}"
+                                  invalidSizeMessage="Archivo muy grande"
+                                  invalidFileMessage="Tipo de archivo no valido"
+                                  >
+
                     </p:fileUpload>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardar()}" update="p1" />
+                    <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"/>
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1" resetValues="true" />
+                        <p:ajax update="p1,focus" resetValues="true" listener="#{gestionArchivoMultimediaController.resetNuevoForm()}" oncomplete="configurarEnterTab()" />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionArchivoMultimediaController.setIndexMenu(0)}"/>

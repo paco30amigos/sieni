@@ -22,39 +22,40 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
+                <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="2" id="p1">
-                    <p:outputLabel value="Nombre: "></p:outputLabel>
-                    <p:inputText value="#{gestionComponentesInteractivosController.nuevo.scNombre}"></p:inputText>
-                    <p:outputLabel value="Descripción: "></p:outputLabel>
-                    <p:inputText value="#{gestionComponentesInteractivosController.nuevo.scDescripcion}"></p:inputText>
-                    <p:outputLabel value="Tipo de Componente: "></p:outputLabel>
-                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.tipoSuperCompon}">
-                        <f:selectItems  itemValue="#{tipo.idTipoSuperCompon}" itemLabel="#{tipo.tscDescripcion}" value="#{gestionComponentesInteractivosController.listaTipo}" var="tipo"></f:selectItems>
-                    </p:selectOneMenu>                        
-                    <p:outputLabel value="Estado: " class="Responsive"></p:outputLabel>
-                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.nuevo.scEstado}" >
-                        <f:selectItem itemValue="N" itemLabel="No disponible"></f:selectItem>
-                        <f:selectItem itemValue="D" itemLabel="Disponible"></f:selectItem>
-                    </p:selectOneMenu>
+                    <p:outputLabel for="nombre" value="Nombre: "></p:outputLabel>
+                    <p:inputText id="nombre" tabindex="1" value="#{gestionComponentesInteractivosController.nuevo.scNombre}" required="true" requiredMessage="Debe ingresar un nombre" maxlength="#{tamanioUtils.nombreSuperCompMax}"></p:inputText>
+                    <p:outputLabel for="descripcion" value="Descripción: "></p:outputLabel>
+                    <p:inputText id="descripcion" tabindex="2" value="#{gestionComponentesInteractivosController.nuevo.scDescripcion}" maxlength="#{tamanioUtils.descSuperCompMax}></p:inputText>
+                                 <p:outputLabel for="tipo" value="Tipo de Componente: "></p:outputLabel>
+                        <p:selectOneMenu id="tipo" tabindex="2" value="#{gestionComponentesInteractivosController.tipoSuperCompon}">
+                            <f:selectItems  itemValue="#{tipo.idTipoSuperCompon}" itemLabel="#{tipo.tscDescripcion}" value="#{gestionComponentesInteractivosController.listaTipo}" var="tipo"></f:selectItems>
+                        </p:selectOneMenu>                        
+                        <p:outputLabel for="estado" value="Estado: " class="Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="estado"  tabindex="4" value="#{gestionComponentesInteractivosController.nuevo.scEstado}" >
+                            <f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
+                            <f:selectItem itemValue="T" itemLabel="Trabajando"></f:selectItem>
+                        </p:selectOneMenu>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{gestionComponentesInteractivosController.guardar()}" update="p1" />
+                    <p:commandButton value="Guardar" action="#{gestionComponentesInteractivosController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"/>
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1" resetValues="true" />
+                        <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()"/>
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionComponentesInteractivosController.setIndexMenu(0)}"/>
                     </p:commandButton>
-                    <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
-                        <p:menuitem value="Gestionar Secciones">    
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
                         </p:menuitem>
-                        <p:menuitem value="Programación de clases">    
+                        <p:menuitem value="Gestionar Alumnos">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Clases">
+                        <p:menuitem value="Gestionar Cursos">    
                         </p:menuitem>
-                    </p:splitButton>
+                    </p:tieredMenu> 
                 </div>
             </h:form>
         </p:panel>

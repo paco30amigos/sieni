@@ -19,51 +19,51 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>                    
-                    <p:panelGrid columns="4" class="Responsive" id="p1">
-                        <p:outputLabel for="alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="alumno"  class=" Responsive" value="#{gestionNotaController.idAlumno}">
-                            <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionNotaController.idMateria}" valueChangeListener="#{gestionNotaController.getSeccionesGrado}">
-                            <f:selectItems itemValue ="#{mat.idMateria}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
-                            <p:ajax event="valueChange" update="evaluacion"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.idEvaluacion}">
-                            <f:selectItems itemValue ="#{eval.idEvaluacion}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="nota" value="Nota: " class=" Responsive"></p:outputLabel>
-                        <p:spinner id="nota" min="0.0" value="#{gestionNotaController.notaNuevo.ntCalificacion}" max="10"></p:spinner>
-                        <p:outputLabel for="tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipoIngreso"  class=" Responsive" value="#{gestionNotaController.notaNuevo.ntTipoIngreso}">
-                            <f:selectItem itemValue ="M" itemLabel="Manual"/>
-                            <f:selectItem itemValue ="A" itemLabel="Automático"/>
-                        </p:selectOneMenu>  
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionNotaController.guardar()}" update="p1" />
-                        <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="p1" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="p1" resetValues="true" listener="#{gestionNotaController.setIndexMenu(0)}"/>
-                        </p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Docentes">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Alumnos">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Cursos">    
-                            </p:menuitem>
-                        </p:splitButton>
-                    </div>
-                </h:form>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>                    
+                <p:panelGrid columns="4" class="Responsive" id="p1">
+                    <p:outputLabel for="alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="alumno"  class=" Responsive" value="#{gestionNotaController.idAlumno}">
+                        <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosList}" var="al"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionNotaController.idMateria}" valueChangeListener="#{gestionNotaController.getSeccionesGrado}">
+                        <f:selectItems itemValue ="#{mat.idMateria}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                        <p:ajax event="valueChange" update="evaluacion"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.idEvaluacion}">
+                        <f:selectItems itemValue ="#{eval.idEvaluacion}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="nota" value="Nota: " class=" Responsive"></p:outputLabel>
+                    <p:spinner id="nota" min="0.0" value="#{gestionNotaController.notaNuevo.ntCalificacion}" max="10"></p:spinner>
+                    <p:outputLabel for="tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="tipoIngreso"  class=" Responsive" value="#{gestionNotaController.notaNuevo.ntTipoIngreso}">
+                        <f:selectItem itemValue ="M" itemLabel="Manual"/>
+                        <f:selectItem itemValue ="A" itemLabel="Automático"/>
+                    </p:selectOneMenu>  
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar" action="#{gestionNotaController.guardar()}" update="p1" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{gestionNotaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu>
+                </div>
+            </h:form>
         </p:panel>
     </ui:define>
 </ui:composition>

@@ -46,15 +46,15 @@
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionComponentesInteractivosController.setIndexMenu(0)}"/>
                     </p:commandButton>
-                    <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
-                        <p:menuitem value="Gestionar Secciones">    
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
                         </p:menuitem>
-                        <p:menuitem value="Programación de clases">    
+                        <p:menuitem value="Gestionar Alumnos">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Clases">
+                        <p:menuitem value="Gestionar Cursos">    
                         </p:menuitem>
-                    </p:splitButton>
+                    </p:tieredMenu> 
                 </div>
             </h:form>
         </p:panel>

@@ -29,6 +29,7 @@ public class GestionArchivoMultimediaForm {
     private final String formatosVideo = "/(\\.|\\/)(mp4|wmv|mp4)$/";
     private final String formatosAudio = "/(\\.|\\/)(mp3)$/";
     private final String formatosImagen = "/(\\.|\\/)(jpg)$/";
+    private String tamanioArchivo;
 
     // consulta de archivo
     private List<SieniArchivo> archivoList;
@@ -53,7 +54,7 @@ public class GestionArchivoMultimediaForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasegestionArchivosMultimedia()+ "index.xhtml");
+                sU.redirect(sU.getBasegestionArchivosMultimedia() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBasegestionArchivosMultimedia() + "crear.xhtml");
@@ -222,7 +223,7 @@ public class GestionArchivoMultimediaForm {
                 if (ver.getArTipo().equals(new Character('A'))) {
                     archivoVer = new DefaultStreamedContent(input, "audio/mpeg");
                 } else if (ver.getArTipo().equals(new Character('V'))) {
-                    archivoVer = new DefaultStreamedContent(input, "video/mp4"); 
+                    archivoVer = new DefaultStreamedContent(input, "video/mp4");
                 } else {
                     archivoVer = new DefaultStreamedContent(input);
                 }
@@ -233,6 +234,14 @@ public class GestionArchivoMultimediaForm {
 
     public void setArchivoVer(StreamedContent archivoVer) {
         this.archivoVer = archivoVer;
+    }
+
+    public String getTamanioArchivo() {
+        return tamanioArchivo;
+    }
+
+    public void setTamanioArchivo(String tamanioArchivo) {
+        this.tamanioArchivo = tamanioArchivo;
     }
 
 }

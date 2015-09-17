@@ -1,0 +1,62 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/> 
+            <p:menuitem value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}"/>
+            <p:menuitem value="Adicionar Componente Interactivo" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:panelGrid columns="2" id="p1">
+                    <p:outputLabel value="Nombre: "></p:outputLabel>
+                    <p:inputText value="#{gestionComponentesInteractivosController.nuevo.scNombre}"></p:inputText>
+                    <p:outputLabel value="Descripción: "></p:outputLabel>
+                    <p:inputText value="#{gestionComponentesInteractivosController.nuevo.scDescripcion}"></p:inputText>
+                    <p:outputLabel value="Tipo de Componente: "></p:outputLabel>
+                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.tipoSuperCompon}">
+                        <f:selectItems  itemValue="#{tipo.idTipoSuperCompon}" itemLabel="#{tipo.tscDescripcion}" value="#{gestionComponentesInteractivosController.listaTipo}" var="tipo"></f:selectItems>
+                    </p:selectOneMenu>                        
+                    <p:outputLabel value="Estado: " class="Responsive"></p:outputLabel>
+                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.nuevo.scEstado}" >
+                        <f:selectItem itemValue="N" itemLabel="No disponible"></f:selectItem>
+                        <f:selectItem itemValue="D" itemLabel="Disponible"></f:selectItem>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar" action="#{gestionComponentesInteractivosController.guardar()}" update="p1" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{gestionComponentesInteractivosController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <div class="EmptyBox20"></div>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Secciones">    
+                        </p:menuitem>
+                        <p:menuitem value="Programación de clases">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Clases">
+                        </p:menuitem>
+                    </p:splitButton>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

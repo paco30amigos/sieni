@@ -163,11 +163,11 @@ public class SieniSuperCompon implements Serializable {
 
     public String getEstado() {
         switch (scEstado) {
-            case 'D':
-                estado = "Disponible";
+            case 'A':
+                estado = "Activo";
                 break;
-            case 'N':
-                estado = "No disponible";
+            case 'T':
+                estado = "Trabajando";
                 break;
             case 'I':
                 estado = "Eliminado";

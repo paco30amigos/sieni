@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniArchivo.findAll", query = "SELECT s FROM SieniArchivo s"),
     @NamedQuery(name = "SieniArchivo.findByIdArchivo", query = "SELECT s FROM SieniArchivo s WHERE s.idArchivo = :idArchivo"),
     @NamedQuery(name = "SieniArchivo.findByArRuta", query = "SELECT s FROM SieniArchivo s WHERE s.arRuta = :arRuta"),
-    @NamedQuery(name = "SieniArchivo.findByArTipoActivo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo and s.arEstado='D'"),
+    @NamedQuery(name = "SieniArchivo.findByArTipoActivo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo and s.arEstado='A'"),
     @NamedQuery(name = "SieniArchivo.findByArNombre", query = "SELECT s FROM SieniArchivo s WHERE s.arNombre = :arNombre"),
     @NamedQuery(name = "SieniArchivo.findByArEstado", query = "SELECT s FROM SieniArchivo s WHERE s.arEstado = :arEstado")})
 public class SieniArchivo implements Serializable {
@@ -127,11 +127,11 @@ public class SieniArchivo implements Serializable {
     public String getEstado() {
         if (arEstado != null) {
             switch (arEstado) {
-                case "D":
-                    estado = "Disponible";
+                case "A":
+                    estado = "Activo";
                     break;
-                case "N":
-                    estado = "No Disponible";
+                case "T":
+                    estado = "Trabajando";
                     break;
                 case "I":
                     estado = "Eliminado";

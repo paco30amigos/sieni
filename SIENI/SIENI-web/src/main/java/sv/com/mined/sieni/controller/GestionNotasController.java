@@ -91,6 +91,7 @@ public class GestionNotasController extends GestionNotasForm {
             }
         }
         if (validarNuevo(this.getNotaNuevo())) {//valida el guardado
+            this.getNotaNuevo().setNtEstado(new Character('A'));
             sieniNotaFacadeRemote.create(this.getNotaNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
             FacesMessage msg = new FacesMessage("Nota Creada Exitosamente");
@@ -134,7 +135,7 @@ public class GestionNotasController extends GestionNotasForm {
         this.setNotaModifica(modificado);
         this.setIndexMenu(2);
     }
-    
+
     public void ver(SieniNota modificado) {
         for (SieniAlumno actual : this.getAlumnosList()) {
             if (actual.getIdAlumno().equals(this.getIdAlumno())) {
@@ -194,7 +195,7 @@ public class GestionNotasController extends GestionNotasForm {
     public void eliminarNota() {
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
         sieniNotaFacadeRemote.remove(this.getEliminar());
-        fill();        
+        fill();
         this.setIndexMenu(0);
     }
 

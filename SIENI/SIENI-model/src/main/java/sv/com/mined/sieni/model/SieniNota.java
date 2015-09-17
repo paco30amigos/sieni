@@ -47,6 +47,8 @@ public class SieniNota implements Serializable {
     private Double ntCalificacion;
     @Column(name = "nt_tipo_ingreso")
     private String ntTipoIngreso;
+    @Column(name = "nt_estado")
+    private Character ntEstado;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
@@ -129,16 +131,24 @@ public class SieniNota implements Serializable {
     }
 
     public String getTipoIngreso() {
-        if(ntTipoIngreso.equals("A")){
-            tipoIngreso="Automático";
-        }else{
-            tipoIngreso="Manual";
+        if (ntTipoIngreso.equals("A")) {
+            tipoIngreso = "Automático";
+        } else {
+            tipoIngreso = "Manual";
         }
         return tipoIngreso;
     }
 
     public void setTipoIngreso(String tipoIngreso) {
         this.tipoIngreso = tipoIngreso;
+    }
+
+    public Character getNtEstado() {
+        return ntEstado;
+    }
+
+    public void setNtEstado(Character ntEstado) {
+        this.ntEstado = ntEstado;
     }
 
 }

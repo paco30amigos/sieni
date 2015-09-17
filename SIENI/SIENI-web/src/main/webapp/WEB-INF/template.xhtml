@@ -110,6 +110,12 @@
                         allDayText: 'Todo el día'
                     };
                     function configurarEnterTab() {
+                        //si ya se registro el valor y no hay errores regresa el focus al primer valor 
+                        if ($(":focus") === null || $(":focus").attr('tabindex') === null) {
+                            cb = 1;
+                            $(':input[tabindex=\'' + (cb + 1) + '\']').focus();
+                            $(':input[tabindex=\'' + (cb + 1) + '\']').select();
+                        }
                         tb = $('input,textarea');
 
                         if ($.browser.mozilla) {
@@ -150,6 +156,15 @@
                     $(document).on('contextmenu', function (e) {
                         e.preventDefault();
                     });
+
+                    function siguienteIndex() {
+                        alert("siguiente");
+                        cb = $(":focus").attr('tabindex');
+                        if (cb !== null) {
+                            $(':input[tabindex=\'' + (cb + 1) + '\']').focus();
+                            $(':input[tabindex=\'' + (cb + 1) + '\']').select();
+                        }
+                    }
                 </script>
                 <ui:include src="topbar.xhtml" />
 

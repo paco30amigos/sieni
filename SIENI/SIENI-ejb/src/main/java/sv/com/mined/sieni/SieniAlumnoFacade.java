@@ -11,6 +11,13 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import sv.com.mined.sieni.model.SieniAlumno;
 
 /**
@@ -105,6 +112,51 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     public List<SieniAlumno> findUsuariosRpt() {
         Query q = em.createNamedQuery("SieniAlumno.findRptUsuariosAlumnos");
         return q.getResultList();
+    }
+
+    @Override
+    public boolean alumnoRegistrado(SieniAlumno alumno) {
+        boolean ret = false;
+        Character estado = 'I';
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<SieniAlumno> q = cb.createQuery(SieniAlumno.class);
+        Root<SieniAlumno> c = q.from(SieniAlumno.class);
+        Predicate p = cb.conjunction();
+        Path<String> primNombre = c.get("alPrimNombre");
+        ParameterExpression<String> paramPrimNombre = cb.parameter(String.class);
+        Path<String> segNombre = c.get("alSeguNombre");
+        ParameterExpression<String> paramSegNombre = cb.parameter(String.class);
+        Path<String> tercNombre = c.get("alTercNombre");
+        ParameterExpression<String> paramTercNombre = cb.parameter(String.class);
+        Path<String> primApellido = c.get("alPrimApe");
+        ParameterExpression<String> paramPrimApellido = cb.parameter(String.class);
+        Path<String> segApellido = c.get("alSeguApe");
+        ParameterExpression<String> paramSegApellido = cb.parameter(String.class);
+        Path<String> tercApellido = c.get("alTercApe");
+        ParameterExpression<String> paramTercApellido = cb.parameter(String.class);
+        Path<Character> pathEstado = c.get("alEstado");
+        ParameterExpression<Character> paramEstado = cb.parameter(Character.class);
+        p = cb.and(p, cb.equal(cb.lower(primNombre), paramPrimNombre));
+        p = cb.and(p, cb.equal(cb.lower(segNombre), paramSegNombre));
+        p = cb.and(p, cb.equal(cb.lower(tercNombre), paramTercNombre));
+        p = cb.and(p, cb.equal(cb.lower(primApellido), paramPrimApellido));
+        p = cb.and(p, cb.equal(cb.lower(segApellido), paramSegApellido));
+        p = cb.and(p, cb.equal(cb.lower(tercApellido), paramTercApellido));
+        p = cb.and(p, cb.notEqual(pathEstado, paramEstado));
+        q.select(c).where(p);
+        TypedQuery<SieniAlumno> query = em.createQuery(q);
+        query.setParameter(paramPrimNombre, alumno.getAlPrimNombre() != null ? alumno.getAlPrimNombre().toLowerCase() : null);
+        query.setParameter(paramSegNombre, alumno.getAlSeguNombre() != null ? alumno.getAlSeguNombre().toLowerCase() : null);
+        query.setParameter(paramTercNombre, alumno.getAlTercNombre() != null ? alumno.getAlTercNombre().toLowerCase() : null);
+        query.setParameter(paramPrimApellido, alumno.getAlPrimApe() != null ? alumno.getAlPrimApe().toLowerCase() : null);
+        query.setParameter(paramSegApellido, alumno.getAlSeguApe() != null ? alumno.getAlSeguApe().toLowerCase() : null);
+        query.setParameter(paramTercApellido, alumno.getAlTercApe() != null ? alumno.getAlTercApe().toLowerCase() : null);
+        query.setParameter(paramEstado, estado);
+        List<SieniAlumno> results = query.getResultList();
+        if (results != null && !results.isEmpty()) {
+            ret = true;
+        }
+        return ret;
     }
 
 }

@@ -86,7 +86,6 @@ public class RptUsuariosController extends RptUsuariosForm {
         String path = "resources/reportes/rtpUsuarios.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
-
         try {
             RptAlumnosController.generateReport(path, "rtpUsuarios" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

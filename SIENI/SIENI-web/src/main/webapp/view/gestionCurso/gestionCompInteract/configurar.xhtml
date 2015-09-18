@@ -7,14 +7,21 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="head">
         <script type="text/javascript">
-            var video;
+            var media;
+            var mediaEv;
             document.addEventListener("DOMContentLoaded", function () {
                 // Create a popcorn instance by calling Popcorn("#id-of-my-video")
                 configurarVideo();
             }, false);
+            function loadScript() {
+                $(".scripGen").each(function () {
+                    eval($(this).html());
+                    console.log("ento");
+                });
+            }
             function configurarVideo() {
                 if ($(".media").size() !== 0) {
-                    video = Popcorn(".media");
+                    media = Popcorn(".media");
                 }
             }
         </script>
@@ -141,13 +148,13 @@
                                 <f:selectItems value="#{gestionComponentesInteractivosController.acciones}" var="accnes" itemLabel="#{accnes.acDescripcion}" itemValue="#{accnes}"></f:selectItems>
                             </p:selectOneMenu>
                             <p:outputLabel value="Duración:"></p:outputLabel>
-                            <p:spinner value="#{gestionComponentesInteractivosController.nuevaInterac.inDuracion}">
+                            <p:spinner value="#{gestionComponentesInteractivosController.nuevaInterac.inDuracion}" min="0" max="10000" stepFactor="500">
                             </p:spinner>
                             <p:commandButton value="Agregar" update="acciones" actionListener="#{gestionComponentesInteractivosController.agregarInteraccion()}" oncomplete="refrescarImagen()"></p:commandButton>
                         </p:panelGrid>
                         <p:dataTable id="acciones" value="#{gestionComponentesInteractivosController.listaInteraccion}" editable="true" var="interac" draggableRows="true">
                             <p:ajax event="rowEdit" listener="#{gestionComponentesInteractivosController.interaccEdit}" update="acciones" oncomplete="refrescarImagen()" />
-                            <p:ajax event="rowReorder" oncomplete="refrescarImagen()"/>
+                            <p:ajax event="rowReorder" listener="#{gestionComponentesInteractivosController.actualizarEventoSelec()}" oncomplete="refrescarImagen()"/>
                             <p:column style="width:32px">
                                 <p:rowEditor />
                             </p:column>
@@ -193,119 +200,151 @@
                         </p:dataTable>
                     </p:tab>
                 </p:tabView>
-                <div class="EmptyBox20"></div>
-                <p:remoteCommand name="refrescarImagen" update="panel" oncomplete="configurarVideo()"></p:remoteCommand>
-                <p:panel class="multimedia" id="panel" style="height: #{gestionComponentesInteractivosController.config.scAlto+10}px;width: #{gestionComponentesInteractivosController.config.scAncho+10}px">
-                    <c:choose>
-                        <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==1}">
-                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                <p:galleria id="archivosEvnt"  value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
-                                            var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
-                                            panelWidth="#{gestionComponentesInteractivosController.config.scAncho}" showCaption="true" showFilmstrip="true">
-                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
-                                </p:galleria>
-                            </c:if>
-                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
-                                <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
-                                              var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
-                                              panelWidth="#{gestionComponentesInteractivosController.config.scAncho}">
-                                </p:galleria>
-                            </c:if>
-                        </c:when>
-                        <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==2}">
-                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                <p:galleria id="archivosEvnt" value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
-                                            var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
-                                            panelWidth="#{gestionComponentesInteractivosController.config.scAncho}" showCaption="true" showFilmstrip="false">
-                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
-                                </p:galleria>
-                            </c:if>
-                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
-                                <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
-                                              var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
-                                              panelWidth="#{gestionComponentesInteractivosController.config.scAncho}">
-                                </p:galleria>
-                            </c:if>
-                        </c:when>
-                        <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==3}">
-                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="video">
-                                    <video class="media" controls="true" width="#{gestionComponentesInteractivosController.config.scAncho}" height="#{gestionComponentesInteractivosController.config.scAlto}" preload="true">
-                                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
-                                    </video>
-                                </ui:repeat>
-                            </c:if>
-                        </c:when>
-                        <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==4}">
-                        </c:when>
-                        <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==5}">
-                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="audio">
-                                    <audio controls="true" preload="true">
-                                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
-                                    </audio>
-                                </ui:repeat>
-                            </c:if>
-                        </c:when>
-                        <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==6}">
-                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
-                                <p:contentFlow  value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
-                                                var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px">
-                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" cache="false" styleClass="content"></p:graphicImage>
-                                    <div class="caption">#{imgs.archivoBD.arNombre}</div>
-                                </p:contentFlow>
-                            </c:if>
-                            <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
-                                <p:contentFlow id="archivosEvnt"  value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
-                                               var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px" styleClass="content">
-                                </p:contentFlow>
-                            </c:if>
-                        </c:when>
-                    </c:choose>
-                    <c:forEach items="#{gestionComponentesInteractivosController.listaInteraccion}" var="acciones">
+                <p:fieldset legend="Vista Previa" toggleable="true" collapsed="true">
+                    <div class="EmptyBox20"></div>
+                    <p:remoteCommand name="refrescarImagen" update="panel,efectos" oncomplete="configurarVideo()" onstart="loadScript()"></p:remoteCommand>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel for="efectos" value="Evento a probar"></p:outputLabel>
+                        <p:selectOneMenu id="efectos" value="#{gestionComponentesInteractivosController.eventoSelect}" valueChangeListener="#{gestionComponentesInteractivosController.actualizarEfectos}" >
+                            <f:selectItem itemLabel="Seleccione un Evento" itemValue="I" ></f:selectItem>
+                            <f:selectItems itemLabel="#{intdif.evDescripcion}" itemValue="#{intdif.evCodigo}" value="#{gestionComponentesInteractivosController.listaEventosDiferentes}" var="intdif"></f:selectItems>
+                            <p:ajax event="valueChange" oncomplete="refrescarImagen()"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:panel class="multimedia" id="panel" style="height: #{gestionComponentesInteractivosController.config.scAlto+10}px;width: #{gestionComponentesInteractivosController.config.scAncho+10}px">
                         <c:choose>
-                            <c:when test="#{acciones.idEvento.evCodigo=='show'}">
-                                <script type="text/javascript">
-                                    $(".multimedia").show("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
-                                </script>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==1}">
+                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                    <p:galleria id="archivosEvnt"  value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
+                                                var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
+                                                panelWidth="#{gestionComponentesInteractivosController.config.scAncho}" showCaption="true" showFilmstrip="true">
+                                        <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                    </p:galleria>
+                                </c:if>
+                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
+                                    <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
+                                                  var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
+                                                  panelWidth="#{gestionComponentesInteractivosController.config.scAncho}">
+                                    </p:galleria>
+                                </c:if>
                             </c:when>
-                            <c:when test="#{acciones.idEvento.evCodigo=='hide'}">
-                                <script type="text/javascript">
-                                    $(".multimedia").hide("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
-                                </script>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==2}">
+                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                    <p:galleria id="archivosEvnt" value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
+                                                var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
+                                                panelWidth="#{gestionComponentesInteractivosController.config.scAncho}" showCaption="true" showFilmstrip="false">
+                                        <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                    </p:galleria>
+                                </c:if>
+                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
+                                    <p:galleria   value="#{gestionComponentesInteractivosController.listaOrdenable.source}" 
+                                                  var="imgs" autoPlay="false" panelHeight="#{gestionComponentesInteractivosController.config.scAlto}" 
+                                                  panelWidth="#{gestionComponentesInteractivosController.config.scAncho}">
+                                    </p:galleria>
+                                </c:if>
                             </c:when>
-                            <c:when test="#{acciones.idEvento.evCodigo=='play'}">
-                                play!!!
-                                <script type="text/javascript">
-                                    configurarVideo();
-                                    video.on('play', function () {
-                                        $(".media").hide("drop", {direction: "down"}, "slow")
-                                    });
-                                    //mostrar
-                                    //ocultar
-                                    //
-                                    //click derecho
-
-
-
-                                    //Reproducir
-                                    //pausar
-                                    //ocultar
-                                    //mostrar
-
-                                </script>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==3}">
+                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                    <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="video">
+                                        <video class="media" controls="true" width="#{gestionComponentesInteractivosController.config.scAncho}" height="#{gestionComponentesInteractivosController.config.scAlto}" preload="true">
+                                            <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
+                                        </video>
+                                    </ui:repeat>
+                                </c:if>
                             </c:when>
-                            <c:otherwise>
-                                <script type="text/javascript">
-                                    var self = $(".multimedia");
-                                    self.on("#{acciones.idEvento.evCodigo}", function () {
-                                        self.effect("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
-                                    });
-                                </script>
-                            </c:otherwise>
-                        </c:choose>                                    
-                    </c:forEach>
-                </p:panel>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==4}">
+                            </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==5}">
+                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                    <ui:repeat value="#{gestionComponentesInteractivosController.listaOrdenable.source}" var="audio">
+                                        <audio class="media" controls="true" preload="true">
+                                            <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
+                                        </audio>
+                                    </ui:repeat>
+                                </c:if>
+                            </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==6}">
+                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()>0}">
+                                    <p:contentFlow  value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
+                                                    var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px">
+                                        <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" cache="false" styleClass="content"></p:graphicImage>
+                                        <div class="caption">#{imgs.archivoBD.arNombre}</div>
+                                    </p:contentFlow>
+                                </c:if>
+                                <c:if test="#{gestionComponentesInteractivosController.listaOrdenable.source.size()==0}">
+                                    <p:contentFlow id="archivosEvnt"  value="#{gestionComponentesInteractivosController.listaOrdenable.source}"
+                                                   var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px" styleClass="content">
+                                    </p:contentFlow>
+                                </c:if>
+                            </c:when>
+                        </c:choose>
+                        <c:set value="0" var="varID"></c:set>
+                        <c:set value="" var="siguienteEvento"></c:set>
+                        <c:forEach items="#{gestionComponentesInteractivosController.listaInteraccionSelect}" var="acciones">
+                            <c:set value="#{varID+1}" var="varID"></c:set>
+                            <c:choose>
+                                <c:when test="#{varID>=gestionComponentesInteractivosController.listaInteraccionSelect.size()}">
+                                    <c:set value="" var="siguienteEvento"></c:set>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set value=",func#{varID+1}" var="siguienteEvento"></c:set>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="#{acciones.idEvento.evCodigo=='show' and varID==1}">
+                                    <script class="scripGen" type="text/javascript">
+                                        mediaEv = $(".multimedia");
+                                        mediaEv.hide();
+                                        mediaEv.show("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion}#{siguienteEvento});
+                                    </script>
+                                </c:when>
+                                <c:when test="#{acciones.idEvento.evCodigo=='show' and varID!=1}">
+                                    <script class="scripGen" type="text/javascript">
+                                        function func#{varID}() {
+                                            mediaEv = $(".multimedia");
+                                            mediaEv.effect("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion}#{siguienteEvento});
+                                        }
+                                    </script>
+                                </c:when>
+                                <c:when test="#{acciones.idEvento.evCodigo=='hide'}">
+                                    <script class="scripGen" type="text/javascript">
+                                        $(".multimedia").effect("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
+                                        $(".multimedia").hide("fade", 1000);
+                                    </script>
+                                </c:when>
+                                <c:when test="#{acciones.idEvento.evCodigo=='play'||
+                                                acciones.idEvento.evCodigo=='ended'||
+                                                acciones.idEvento.evCodigo=='playing'||
+                                                acciones.idEvento.evCodigo=='pause'}">
+                                    <script class="scripGen" type="text/javascript">
+                                        configurarVideo();
+                                        function pausar() {
+                                            media.pause();
+                                        }
+                                        media.on('#{acciones.idEvento.evCodigo}', function () {
+                                            if ('#{acciones.idAccion.evCodigo}' === 'show') {
+                                                $(".multimedia").show("fade", #{acciones.inDuracion});
+                                            } else
+                                            if ('#{acciones.idAccion.evCodigo}' === 'hide') {
+                                                $(".multimedia").hide("fade", #{acciones.inDuracion}, pausar);
+                                            } else {
+                                                $(".multimedia").effect("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
+                                            }
+                                        });
+                                    </script>
+                                </c:when>
+                                <c:otherwise>
+                                    <script class="scripGen" type="text/javascript">
+                                        mediaEv = $(".multimedia");
+                                        mediaEv.on("#{acciones.idEvento.evCodigo}", function () {
+                                            mediaEv.effect("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion});
+                                        });
+                                    </script>
+                                </c:otherwise>
+                            </c:choose>                                    
+                        </c:forEach>
+                    </p:panel>
+                </p:fieldset>
                 <div class="EmptyBox50"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
@@ -321,6 +360,6 @@
                     </p:tieredMenu> 
                 </div>
             </h:form>
-        </p:panel>
+        </p:panel> 
     </ui:define>
 </ui:composition>

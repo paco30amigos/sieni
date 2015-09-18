@@ -61,6 +61,9 @@ public class GestionComponentesInteractivosForm {
     private List<SieniCompInteraccion> listaInteraccion;
     private List<SieniCompInteraccion> listaInteraccionesElimn;
     private SieniCompInteraccion nuevaInterac;
+    private List<SieniEvento> listaEventosDiferentes;
+    private List<SieniCompInteraccion> listaInteraccionSelect;
+    private String eventoSelect;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -313,6 +316,30 @@ public class GestionComponentesInteractivosForm {
 
     public void setListaInteraccionesElimn(List<SieniCompInteraccion> listaInteraccionesElimn) {
         this.listaInteraccionesElimn = listaInteraccionesElimn;
+    }
+
+    public List<SieniEvento> getListaEventosDiferentes() {
+        return listaEventosDiferentes;
+    }
+
+    public void setListaEventosDiferentes(List<SieniEvento> listaEventosDiferentes) {
+        this.listaEventosDiferentes = listaEventosDiferentes;
+    }
+
+    public List<SieniCompInteraccion> getListaInteraccionSelect() {
+        return listaInteraccionSelect;
+    }
+
+    public void setListaInteraccionSelect(List<SieniCompInteraccion> listaInteraccionSelect) {
+        this.listaInteraccionSelect = listaInteraccionSelect;
+    }
+
+    public String getEventoSelect() {
+        return eventoSelect;
+    }
+
+    public void setEventoSelect(String eventoSelect) {
+        this.eventoSelect = eventoSelect;
     }
 
 }

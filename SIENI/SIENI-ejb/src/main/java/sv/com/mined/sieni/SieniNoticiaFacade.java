@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniNoticia;
 
 /**
@@ -26,6 +28,12 @@ public class SieniNoticiaFacade extends AbstractFacade<SieniNoticia> implements 
 
     public SieniNoticiaFacade() {
         super(SieniNoticia.class);
+    }
+    
+    @Override
+    public List<SieniNoticia> findNoticiasActivas() {
+        Query q = em.createNamedQuery("SieniNoticia.findNoticiasActivas");
+        return q.getResultList();
     }
     
 }

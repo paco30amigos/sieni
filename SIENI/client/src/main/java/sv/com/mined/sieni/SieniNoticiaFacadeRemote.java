@@ -30,4 +30,6 @@ public interface SieniNoticiaFacadeRemote {
 
     int count();
     
+    public List<SieniNoticia> findNoticiasActivas();
+    
 }

@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Noticias" url="#{siteUrls.gestionNoticia}"/>
+            <p:menuitem value="Busqueda de Noticias"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarNoticiasController.indexMenu}').show();"></i>
+    </ui:define>
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda1" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton Modifica"/>
+                </p:dialog>
+                <p:remoteCommand name="redirect" actionListener="#{gestionarNoticiasController.setIndexMenu(0)}"></p:remoteCommand>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionarNoticiasController.eliminarNoticia()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide();redirect();"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <div class="Container10" style="margin-top: 20px;margin-left: 40px;">
+                    <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
+                </div>
+                <div class="Container70">
+                    <p:graphicImage id="fotoSubida" value="#{gestionarNoticiasController.fotoUsableModifica}" width="100em" cache="false"></p:graphicImage>
+                </div>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
+                    <p:outputLabel value="Titulo: " class=" Responsive"  ></p:outputLabel>
+                    <p:outputLabel value="#{gestionarNoticiasController.noticiaModifica.ncTitulo}"></p:outputLabel>
+                    <p:outputLabel value="Noticia: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel value="#{gestionarNoticiasController.noticiaModifica.ncMensaje}"></p:outputLabel>
+                    <p:outputLabel for="tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu disabled="true" id="tipo" class=" Responsive" value="#{gestionarNoticiasController.noticiaModifica.ncTipo}" required="true" requiredMessage="Seleccione Tipo de Noticia">
+                        <f:selectItem itemValue="A" itemLabel="ACADEMICA" />
+                        <f:selectItem itemValue="D" itemLabel="DEPORTES" />
+                        <f:selectItem itemValue="O" itemLabel="OTROS" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Curso: " class="  Responsive"></p:outputLabel>
+                    <p:outputLabel value="#{gestionarNoticiasController.noticiaModifica.idCurso.crNombre == null?'TODOS LOS CURSOS':gestionarNoticiasController.noticiaModifica.idCurso.crNombre}"></p:outputLabel>
+                    <p:outputLabel for="prioridad" value="Prioridad: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="prioridad" disabled="true"  class=" Responsive" value="#{gestionarNoticiasController.noticiaModifica.ncPrioridad}" required="true" requiredMessage="Seleccione prioridad de la noticia">
+                        <f:selectItem itemValue="1" itemLabel="BAJA" />
+                        <f:selectItem itemValue="2" itemLabel="MEDIA" />
+                        <f:selectItem itemValue="3" itemLabel="ALTA" />
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100">
+                    <p:commandButton value="Modificar" action="#{gestionarNoticiasController.modificar(gestionarNoticiasController.noticiaModifica)}" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Eliminar" action="#{gestionarNoticiasController.eliminar(gestionarNoticiasController.noticiaModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Regresar" immediate="true">
+                        <p:ajax update="p1,fotoSubida" resetValues="true" listener="#{gestionarNoticiasController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu>            
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

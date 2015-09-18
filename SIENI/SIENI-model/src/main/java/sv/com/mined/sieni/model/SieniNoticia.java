@@ -9,11 +9,15 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -30,13 +34,20 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniNoticia.findByNcMensaje", query = "SELECT s FROM SieniNoticia s WHERE s.ncMensaje = :ncMensaje"),
     @NamedQuery(name = "SieniNoticia.findByNcPrioridad", query = "SELECT s FROM SieniNoticia s WHERE s.ncPrioridad = :ncPrioridad"),
     @NamedQuery(name = "SieniNoticia.findByNcEstado", query = "SELECT s FROM SieniNoticia s WHERE s.ncEstado = :ncEstado"),
-    @NamedQuery(name = "SieniNoticia.findByNcTipo", query = "SELECT s FROM SieniNoticia s WHERE s.ncTipo = :ncTipo")})
+    @NamedQuery(name = "SieniNoticia.findByNcTipo", query = "SELECT s FROM SieniNoticia s WHERE s.ncTipo = :ncTipo"),
+    @NamedQuery(name = "SieniNoticia.findNoticiasActivas", query = "SELECT s FROM SieniNoticia s WHERE s.ncEstado = 'A'") })
 public class SieniNoticia implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_noticia")
+    @SequenceGenerator(name = "sec_sieni_noticia", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_noticia")
     @Basic(optional = false)
     @Column(name = "id_noticia")
     private Long idNoticia;
+    @Column(name = "nc_publica")
+    private String ncPublica;
+    @Column(name = "nc_titulo")
+    private String ncTitulo;
     @Column(name = "nc_mensaje")
     private String ncMensaje;
     @Column(name = "nc_prioridad")
@@ -45,6 +56,10 @@ public class SieniNoticia implements Serializable {
     private Character ncEstado;
     @Column(name = "nc_tipo")
     private Character ncTipo;
+    @Lob
+    @Column(name = "nc_foto")
+    private byte[] ncFoto;
+    
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
     @ManyToOne
     private SieniCurso idCurso;
@@ -64,6 +79,24 @@ public class SieniNoticia implements Serializable {
         this.idNoticia = idNoticia;
     }
 
+    public String getNcPublica() {
+        return ncPublica;
+    }
+
+    public void setNcPublica(String ncPublica) {
+        this.ncPublica = ncPublica;
+    }
+
+    
+    public String getNcTitulo() {
+        return ncTitulo;
+    }
+
+    public void setNcTitulo(String ncTitulo) {
+        this.ncTitulo = ncTitulo;
+    }
+
+    
     public String getNcMensaje() {
         return ncMensaje;
     }
@@ -95,6 +128,16 @@ public class SieniNoticia implements Serializable {
     public void setNcTipo(Character ncTipo) {
         this.ncTipo = ncTipo;
     }
+
+    public byte[] getNcFoto() {
+        return ncFoto;
+    }
+
+    public void setNcFoto(byte[] ncFoto) {
+        this.ncFoto = ncFoto;
+    }
+    
+    
 
     public SieniCurso getIdCurso() {
         return idCurso;

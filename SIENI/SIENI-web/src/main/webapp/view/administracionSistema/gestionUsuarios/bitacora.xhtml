@@ -5,14 +5,16 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Administración de sistema" url="#"/>
             <p:menuitem value="Bitacora del Sistema" url="#{siteUrls.bitacora}"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
+        <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">

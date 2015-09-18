@@ -23,7 +23,7 @@ import sv.com.mined.sieni.model.SieniMateria;
  * @author Alejandro
  */
 @SessionScoped
-@ManagedBean(name = "gestionMateriaController")
+@ManagedBean(name = "gestionMateriasController")
 public class GestionMateriasController extends GestionMateriasForm {
 
     @EJB

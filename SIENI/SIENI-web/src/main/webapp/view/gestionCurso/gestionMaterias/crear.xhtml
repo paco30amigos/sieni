@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#{siteUrls.gestionMateria}"/>
+            <p:menuitem value="Registrar Materia"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" >
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="2" class="Container50 Responsive">
+                    <p:outputLabel  value="Nombre: " class=" Responsive"></p:outputLabel>
+                    <p:inputText class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maNombre}"></p:inputText>
+                    <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu  id="estado" class=" Responsive" value="#{formatoPantallas.campo15}">
+                        <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
+                        <f:selectItem itemValue="0" itemLabel="No Disponible"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:panelGrid columns="2" class="Container50 Responsive">
+                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu  class=" Responsive" value="#{formatoPantallas.campo300}">
+                        <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo300} "/>
+                        <f:selectItem itemValue ="1" itemLabel="Carlos"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Turno: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu class=" Responsive" value="#{formatoPantallas.campo15}">
+                        <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
+                        <f:selectItem itemValue ="1" itemLabel="Vespertino"/>
+                    </p:selectOneMenu>   
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar"/>
+                    <p:commandButton value="Limpiar"/>
+                    <p:commandButton value="Cancelar"/>
+                    <p:splitButton value="Otras Opciones" action="#">
+                        <p:menuitem value="Gestionar Secciones">    
+                        </p:menuitem>
+                        <p:menuitem value="Programación de clases">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Clases">
+                        </p:menuitem>
+                    </p:splitButton>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

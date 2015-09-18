@@ -3,7 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="breadCrumb">
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
@@ -14,8 +15,6 @@
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <!--        <p:tabView>-->
-        <!--            <p:tab title="Consulta de Materias">-->
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
@@ -23,11 +22,13 @@
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
-                    
-                    
-                    
+
+
+
+
                 </p:dialog>
-                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionMateriasController.materiaList}" 
+
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionMateriasController.materiaList}" 
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
@@ -53,9 +54,9 @@
                             <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Materia"></i>
                         </p:commandLink>
                     </p:column>
-                 </p:dataTable>
+                </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Registrar Materia"></p:commandButton>
+                <p:commandButton value="Registrar Materia" action="#{gestionMateriasController.setIndexMenu(1)}"></p:commandButton>
                 <p:commandButton value="Refrescar"></p:commandButton>
             </h:form>
         </p:panel>

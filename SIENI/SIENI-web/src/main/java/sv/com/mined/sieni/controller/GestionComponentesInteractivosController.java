@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DualListModel;
@@ -71,6 +73,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.setListaOrdenable(new DualListModel<FileStreamedPojo>());
         this.getListaOrdenable().setSource(new ArrayList<FileStreamedPojo>());
         this.getListaOrdenable().setTarget(new ArrayList<FileStreamedPojo>());
+        this.setListaEventosDiferentes(new ArrayList());
         fill();
     }
 
@@ -98,8 +101,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             FacesMessage msg = new FacesMessage("Componente Interactivo Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setNuevo(new SieniSuperCompon());
-            fill(); 
-            this.setIndexMenu(0);
+            fill();
         }
     }
 
@@ -134,7 +136,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.setEliminar(eliminado);
     }
 
-    public void configurar(SieniSuperCompon configura) {
+    public void fillConfigura(SieniSuperCompon configura) {
         CopiaArchivos ca = new CopiaArchivos();
         ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
         this.setConfig(configura);
@@ -143,6 +145,9 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         }
         if (configura.getScAncho() == null) {
             configura.setScAncho(320);
+        }
+        if (this.getNuevaInterac().getInDuracion() == null) {
+            this.getNuevaInterac().setInDuracion(1000);
         }
         this.getListaOrdenable().setSource(new ArrayList<FileStreamedPojo>());
         this.getListaOrdenable().setTarget(new ArrayList<FileStreamedPojo>());
@@ -158,11 +163,34 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         for (SieniComponente actual : componentes) {
             addArchivoExistente(actual);
         }
+        //obtiene las interacciones de este super componente
         List<SieniCompInteraccion> interaccion = sieniCompInteraccionFacadeRemote.findByIdSuperComp(configura.getIdSuperCompon());
         this.setListaInteraccion(interaccion);
 
+        //actualiza los eventos para la vista previa
+        actualizarEventoSelec();
+        //obtiene los eventos para probar en el ejemplo
+        this.setListaEventosDiferentes(getEventosDiferentes(interaccion));
+        //eventos para seleccionar
         this.setEventos(this.sieniEventoFacadeRemote.findByTipoSuperComponente(this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon()));
+        //acciones para seleccionar
         this.setAcciones(this.sieniAccionFacadeRemote.findByTipoSuperComponente(this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon()));
+    }
+
+    public List<SieniEvento> getEventosDiferentes(List<SieniCompInteraccion> total) {
+        List<SieniEvento> ret = new ArrayList<>();
+        HashMap map = new HashMap();
+        for (SieniCompInteraccion actual : total) {
+            if (map.get(actual.getIdEvento().getEvCodigo()) == null) {
+                map.put(actual.getIdEvento().getEvCodigo(), new Object());
+                ret.add(actual.getIdEvento());
+            }
+        }
+        return ret;
+    }
+
+    public void configurar(SieniSuperCompon configura) {
+        fillConfigura(configura);
         this.setIndexMenu(4);
     }
 
@@ -186,10 +214,8 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             FacesMessage msg = new FacesMessage("Componente Interactivo Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            resetModificaForm();
-            this.setIndexMenu(0);
+            fill();
         }
-        fill();
     }
 
     public void resetModificaForm() {
@@ -290,7 +316,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     public void guardarConfiguracion() {
         guardarConfiguracionComponente();
         guardarConfiguracionInteraccion();
-        configurar(this.getConfig());
+        fillConfigura(this.getConfig());
     }
 
     private void guardarConfiguracionInteraccion() {
@@ -301,6 +327,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             for (int i = 0; i < this.getListaInteraccion().size(); i++) {
                 this.getListaInteraccion().get(i).setIdComponente(componentes.get(0));
                 this.getListaInteraccion().get(i).setInOrden(orden);
+                this.getListaInteraccion().get(i).setInEstado(new Character(('A')));
                 if (this.getListaInteraccion().get(i).getIdCompInteraccion() != null && this.getListaInteraccion().get(i).getIdCompInteraccion() < 0) {
                     this.getListaInteraccion().get(i).setIdCompInteraccion(null);
                 }
@@ -387,7 +414,10 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     public void agregarInteraccion() {
         this.getNuevaInterac().setIdCompInteraccion(-(new Date().getTime()));
         this.getListaInteraccion().add(this.getNuevaInterac());
+        this.setListaEventosDiferentes(getEventosDiferentes(this.getListaInteraccion()));
+        actualizarEventoSelec();
         this.setNuevaInterac(new SieniCompInteraccion());
+        this.getNuevaInterac().setInDuracion(1000);
     }
 
     public void eliminarInteraccion(SieniCompInteraccion eliminado) {
@@ -398,6 +428,8 @@ public class GestionComponentesInteractivosController extends GestionComponentes
                 break;
             }
         }
+        this.setListaEventosDiferentes(getEventosDiferentes(this.getListaInteraccion()));
+        actualizarEventoSelec();
     }
 
     public void interaccEdit(RowEditEvent e) {
@@ -408,5 +440,43 @@ public class GestionComponentesInteractivosController extends GestionComponentes
                 break;
             }
         }
+        actualizarEventoSelec();
+    }
+
+    public void actualizarEfectos(ValueChangeEvent e) {
+        String evento = (String) e.getNewValue();
+        this.setEventoSelect(evento);
+        actualizarEventoSelec();
+    }
+
+    public void actualizarEventoSelec() {
+
+        List<SieniCompInteraccion> interaccion = this.getListaInteraccion();
+        if (interaccion == null || interaccion.isEmpty()) {
+            this.setEventoSelect("I");
+        }
+        String evento = this.getEventoSelect();
+        if (!existeEvento(evento)) {
+            this.setEventoSelect("I");
+        }
+        this.setListaInteraccionSelect(new ArrayList<SieniCompInteraccion>());
+        for (SieniCompInteraccion actual : interaccion) {
+            if (evento.equals(actual.getIdEvento().getEvCodigo())) {
+                this.getListaInteraccionSelect().add(actual);
+            }
+        }
+    }
+
+    public boolean existeEvento(String evento) {
+        boolean ret = false;
+        List<SieniEvento> eventos = getEventosDiferentes(this.getListaInteraccion());
+        this.setListaEventosDiferentes(eventos);
+        for (SieniEvento actual : eventos) {
+            if (actual.getEvCodigo().equals(evento)) {
+                ret = true;
+                break;
+            }
+        }
+        return ret;
     }
 }

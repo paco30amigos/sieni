@@ -27,7 +27,7 @@
                     <p:outputLabel for="nombre" value="Nombre: "></p:outputLabel>
                     <p:inputText id="nombre" tabindex="1" value="#{gestionComponentesInteractivosController.nuevo.scNombre}" required="true" requiredMessage="Debe ingresar un nombre" maxlength="#{tamanioUtils.nombreSuperCompMax}"></p:inputText>
                     <p:outputLabel for="descripcion" value="Descripción: "></p:outputLabel>
-                    <p:inputText id="descripcion" tabindex="2" value="#{gestionComponentesInteractivosController.nuevo.scDescripcion}" maxlength="#{tamanioUtils.descSuperCompMax}></p:inputText>
+                    <p:inputText id="descripcion" tabindex="2" value="#{gestionComponentesInteractivosController.nuevo.scDescripcion}" maxlength="#{tamanioUtils.descSuperCompMax}"></p:inputText>
                                  <p:outputLabel for="tipo" value="Tipo de Componente: "></p:outputLabel>
                         <p:selectOneMenu id="tipo" tabindex="2" value="#{gestionComponentesInteractivosController.tipoSuperCompon}">
                             <f:selectItems  itemValue="#{tipo.idTipoSuperCompon}" itemLabel="#{tipo.tscDescripcion}" value="#{gestionComponentesInteractivosController.listaTipo}" var="tipo"></f:selectItems>

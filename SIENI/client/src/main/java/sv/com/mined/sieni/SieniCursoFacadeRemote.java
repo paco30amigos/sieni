@@ -27,6 +27,8 @@ public interface SieniCursoFacadeRemote {
     List<SieniCurso> findAll();
 
     List<SieniCurso> findRange(int[] range);
+    
+    List<SieniCurso> findByEstado(Character estado);
 
     int count();
     

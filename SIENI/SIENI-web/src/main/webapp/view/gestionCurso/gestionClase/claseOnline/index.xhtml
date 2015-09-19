@@ -9,153 +9,46 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
-            <p:menuitem value="Clase en Vivo" url="#{siteUrls.claseOnline}"/>
+            <p:menuitem value="Busqueda de Clase en Vivo" url="#{siteUrls.claseOnline}"/>
             <p:separator />
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:tabView class="Container100">
-            <p:tab title="Consultar Clase en Vivo">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true"
-                                 >
-                        <p:column headerText="Docente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo300}
-                        </p:column>
-                        <p:column headerText="Estado"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo15}
-                        </p:column>
-                        <p:column headerText="Acciones"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
+        <p:panel>
+            <h:form>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta" rows="10" var="car" value="#{gestionClasesOnlineController.clasesOnlineList}" 
+                             paginator="true" paginatorPosition="bottom"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true"
+                             >
+                    <p:column headerText="Curso"  filterBy="#{car.idCurso.crNombre}" filterMatchMode="contains" filterable="true">
+                        #{car.idCurso.crNombre}
+                    </p:column>
+                    <p:column headerText="Tema de clase"  filterBy="#{car.clTema}" filterMatchMode="contains" filterable="true">
+                        #{car.clTema}
+                    </p:column>
+                    <p:column headerText="Docente"  filterBy="#{car.idCurso.idDocente.nombreCompleto}" filterMatchMode="contains" filterable="true">
+                        #{car.idCurso.idDocente.nombreCompleto}
+                    </p:column>
+                    <p:column headerText="Estado"  filterBy="#{car.clEstado}" filterMatchMode="contains" filterable="true">
+                        #{car.estado}                </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandLink action="#{gestionClasesOnlineController.recibirClase(car)}"> 
                             <i class="icon-visibility1 Fs25 Red" style="cursor: pointer" title="Recibir Clase en Vivo"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionClasesOnlineController.transmitirClase(car)}" >
                             <i class="icon-videocall Fs25 Red" style="cursor: pointer" title="Transmitir Clase en Vivo"></i>
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton value="Crear"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Transmitir Clase en Vivo">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container50 Responsive">
-                        <button id = "ver" type="button"> ver</button>
-                        <button id = "openNewSessionButton" type="button"> Open New Room </button>
-                        <button id = "shareParticipantScreenButton" type="button" >
-                            Share Participant's Screen
-                        </button>
-                        <div id="video"></div>
-                        <script>
-                            document.querySelector('#openNewSessionButton').onclick = function () {
-                                var connection = new RTCMultiConnection('id_clase');
-// easiest way to customize what you need!
-                                connection.session = {
-                                    audio: true,
-                                    video: true,
-                                };
-                                connection.bandwidth = {
-                                    audio: 25,
-                                    video: 128,
-                                    data: 1638400,
-                                    screen: 128      // 300kbps
-                                };
-
-// on getting local or remote media stream
-                                connection.onstream = function (e) {
-                                    if ($("video").html() === "") {
-                                        document.body.appendChild(e.mediaElement);
-                                    }
-                                };
-// setup signaling channel
-                                connection.connect('id_clase');
-// open new session
-                                connection.open('id_clase');
-                            };
-                        </script>
-                        <script>
-                            document.querySelector('#ver').onclick = function () {
-                                var connection = new RTCMultiConnection('id_clase');
-                                connection.dontCaptureUserMedia = true;
-                                connection.bandwidth = {
-                                    audio: 25,
-                                    video: 128,
-                                    data: 1638400,
-                                    screen: 128      // 300kbps
-                                };
-                                connection.onstream = function (e) {
-                                    document.body.appendChild(e.mediaElement);
-                                };
-                                connection.join();
-                            };
-                        </script>
-
-                    </div>
-                    <div class="Container25 Responsive">
-                        <p:panel header="Alumnos Conectados" class="Container100 ContainerIndent">
-                            <p:dataScroller value="#{clasesForm.plantillas}" class="Container100">
-                                <p:panelGrid columns="2" class="Container100 ContainerIndent">
-                                    <i class="icon-round58 Fs40"></i>
-                                    <div class="EmptyBox20"></div>
-                                    <p:outputLabel value="#{formatoPantallas.campo30}"></p:outputLabel>
-                                </p:panelGrid>        
-                            </p:dataScroller>
-                            <p:outputLabel value="">
-                            </p:outputLabel>                    
-                        </p:panel>
-                    </div>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100">
-                        <p:commandButton value="Transmitir" onclick="transmit()"></p:commandButton>
-                        <p:commandButton value="Parar Transmición"></p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Secciones">    
-                            </p:menuitem>
-                            <p:menuitem value="Programación de clases">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Clases">
-                            </p:menuitem>
-                        </p:splitButton>
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Recibir Clase en Vivo">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container73 Responsive">
-                        <h:outputScript name="videoclase.js" library="js" />                    
-                        <video id="video2" class="Container73" autoplay="true" controls="true"></video>                    
-                        <canvas id="canvas2" class="Container70" style="display: none"></canvas>
-                    </div>
-                    <div class="Container25 Responsive">
-                        <p:panel header="Alumnos Conectados" class="Container100 ContainerIndent">
-                            <p:dataScroller value="#{clasesForm.plantillas}" class="Container100">
-                                <p:panelGrid columns="2" class="Container100 ContainerIndent">
-                                    <i class="icon-round58 Fs40"></i>
-                                    <div class="EmptyBox20"></div>
-                                    <p:outputLabel value="#{formatoPantallas.campo30}"></p:outputLabel>
-                                </p:panelGrid>        
-                            </p:dataScroller>
-                        </p:panel>
-                    </div>
-                </h:form>
-            </p:tab>
-        </p:tabView>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Refrescar" actionListener="#{gestionClasesOnlineController.fill()}" update="consulta" ></p:commandButton>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

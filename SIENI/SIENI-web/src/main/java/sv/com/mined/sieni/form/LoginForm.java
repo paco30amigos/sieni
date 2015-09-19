@@ -24,6 +24,7 @@ public class LoginForm {
     private SieniAlumno alumno;
     private String tipoUsuario;
     private String tipoRol;
+    private String nombreCompleto;
 
     public String getTipoUsuario(String cod) {
         String ret = "";
@@ -107,6 +108,14 @@ public class LoginForm {
 
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
     }
 
 }

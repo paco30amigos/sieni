@@ -62,8 +62,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findByDcTelefonoEm2", query = "SELECT s FROM SieniDocente s WHERE s.dcTelefonoEm2 = :dcTelefonoEm2"),
     @NamedQuery(name = "SieniDocente.findByDcTelefonoEm3", query = "SELECT s FROM SieniDocente s WHERE s.dcTelefonoEm3 = :dcTelefonoEm3"),
     @NamedQuery(name = "SieniDocente.findByDcEstado", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado = :dcEstado"),
-    @NamedQuery(name = "SieniDocente.findRptUsuariosDocentes", query = "SELECT s FROM SieniDocente s LEFT JOIN s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NOT NULL AND s.dcUsuario IS NOT NULL") })
+    @NamedQuery(name = "SieniDocente.findRptUsuariosDocentes", query = "SELECT s FROM SieniDocente s LEFT JOIN s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NOT NULL AND s.dcUsuario IS NOT NULL")})
 public class SieniDocente implements Serializable {
+
+    @Lob
+    @Column(name = "dc_foto")
+    private byte[] dcFoto;
+    @OneToMany(mappedBy = "idDocente")
+    private List<SieniClaseDocente> sieniClaseDocenteList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -94,9 +100,6 @@ public class SieniDocente implements Serializable {
     private String dcCorreo;
     @Column(name = "dc_direccion")
     private String dcDireccion;
-    @Lob
-    @Column(name = "dc_foto")
-    private byte[] dcFoto;
     @Column(name = "dc_fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date dcFechaNacimiento;
@@ -111,15 +114,15 @@ public class SieniDocente implements Serializable {
     private Date dcFechaBaja;
     @Column(name = "dc_estado")
     private Character dcEstado;
-    @Column(name="dc_fecha_crea", nullable=false)
-@Temporal(TemporalType.TIMESTAMP)
-private Date dcFechaCrea;
+    @Column(name = "dc_fecha_crea", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dcFechaCrea;
 
-@PrePersist
-protected void onCreate() {
-    dcFechaCrea = new Date();
-}
-    
+    @PrePersist
+    protected void onCreate() {
+        dcFechaCrea = new Date();
+    }
+
 //    @Column(name = "dc_fecha_crea")
 //    @Temporal(TemporalType.DATE)
 //    private Date dcFechaCrea;
@@ -408,6 +411,13 @@ protected void onCreate() {
     public void setDcFechaCrea(Date dcFechaCrea) {
         this.dcFechaCrea = dcFechaCrea;
     }
-    
-    
+
+    public List<SieniClaseDocente> getSieniClaseDocenteList() {
+        return sieniClaseDocenteList;
+    }
+
+    public void setSieniClaseDocenteList(List<SieniClaseDocente> sieniClaseDocenteList) {
+        this.sieniClaseDocenteList = sieniClaseDocenteList;
+    }
+
 }

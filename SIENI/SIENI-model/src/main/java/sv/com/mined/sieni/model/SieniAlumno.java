@@ -69,6 +69,9 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findByAlEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alEstado = :alEstado"),
     @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr WHERE sr.idAlumnRol IS NOT NULL AND s.alUsuario IS NOT NULL")})
 public class SieniAlumno implements Serializable {
+    @Lob
+    @Column(name = "al_foto")
+    private byte[] alFoto;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -103,9 +106,6 @@ public class SieniAlumno implements Serializable {
     private String alContrasenia;
     @Column(name = "al_correo")
     private String alCorreo;
-    @Lob
-    @Column(name = "al_foto")
-    private byte[] alFoto;
     @Column(name = "al_fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date alFechaNacimiento;

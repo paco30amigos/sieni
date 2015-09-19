@@ -73,7 +73,6 @@ public class GestionNotasController extends GestionNotasForm {
         } else {
             this.setEvaluacionesModificaList(new ArrayList<SieniEvaluacion>());
         }
-
     }
 
     public void guardar() {

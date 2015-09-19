@@ -8,7 +8,9 @@ package utils;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
@@ -24,6 +26,7 @@ public class FormatUtils {
     private String formatoNumero = "###,###,###.##";
     private String formatoFecha = "dd/MM/yyyy";
     private String formatoAnio = "yyyy";
+    private String separadorUsuarios = ",";
 
     public String getFormatedAnio(Date fecha) {
         SimpleDateFormat dt1 = new SimpleDateFormat(formatoAnio);
@@ -133,5 +136,13 @@ public class FormatUtils {
 
     public void setFormatoFecha(String formatoFecha) {
         this.formatoFecha = formatoFecha;
+    }
+
+    public String getSeparadorUsuarios() {
+        return separadorUsuarios;
+    }
+
+    public void setSeparadorUsuarios(String separadorUsuarios) {
+        this.separadorUsuarios = separadorUsuarios;
     }
 }

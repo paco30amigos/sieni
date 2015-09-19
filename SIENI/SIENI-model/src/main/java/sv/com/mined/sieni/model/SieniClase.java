@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -17,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -34,6 +37,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniClase.findByClEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado"),
     @NamedQuery(name = "SieniClase.findByClTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo")})
 public class SieniClase implements Serializable {
+
+    @OneToMany(mappedBy = "idClase")
+    private List<SieniClaseDocente> sieniClaseDocenteList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -45,6 +52,11 @@ public class SieniClase implements Serializable {
     private Character clEstado;
     @Column(name = "cl_tipo")
     private Character clTipo;
+    @Column(name = "cl_tema")
+    private String clTema;
+    @Column(name = "cl_hora")
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date clHora;
     @OneToMany(mappedBy = "idClase")
     private List<SieniPntosContrl> sieniPntosContrlList;
     @OneToMany(mappedBy = "idClase")
@@ -55,6 +67,8 @@ public class SieniClase implements Serializable {
     @JoinColumn(name = "id_plantilla", referencedColumnName = "id_plantilla")
     @ManyToOne
     private SieniPlantilla idPlantilla;
+    @Transient
+    private String estado;
 
     public SieniClase() {
     }
@@ -153,5 +167,51 @@ public class SieniClase implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniClase[ idClase=" + idClase + " ]";
     }
-    
+
+    public String getClTema() {
+        return clTema;
+    }
+
+    public void setClTema(String clTema) {
+        this.clTema = clTema;
+    }
+
+    public String getEstado() {
+        switch (clEstado) {
+            case 'N':
+                estado = "No Iniciada";
+                break;
+            case 'A':
+                estado = "Iniciada";
+                break;
+            case 'T':
+                estado = "Terminada";
+                break;
+            case 'I':
+                estado = "Eliminada";
+                break;
+        }
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public List<SieniClaseDocente> getSieniClaseDocenteList() {
+        return sieniClaseDocenteList;
+    }
+
+    public void setSieniClaseDocenteList(List<SieniClaseDocente> sieniClaseDocenteList) {
+        this.sieniClaseDocenteList = sieniClaseDocenteList;
+    }
+
+    public Date getClHora() {
+        return clHora;
+    }
+
+    public void setClHora(Date clHora) {
+        this.clHora = clHora;
+    }
+
 }

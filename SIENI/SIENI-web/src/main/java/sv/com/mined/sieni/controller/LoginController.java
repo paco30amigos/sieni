@@ -49,6 +49,7 @@ public class LoginController extends LoginForm {
                     this.setTipoUsuario("D");
                     this.setTipoRol(docente.getSieniDocentRolList().get(0).getFRolDoc() + "");
                     this.setIdUsuario(docente.getIdDocente());
+                    this.setNombreCompleto(docente.getNombreCompleto());
                     msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
                     this.getsU().redirect("/faces/index.xhtml");
                 } else {
@@ -59,6 +60,7 @@ public class LoginController extends LoginForm {
                 this.setTipoUsuario("A");
                 this.setTipoRol(alumno.getSieniAlumnRolList().get(0).getFRol() + "");
                 this.setIdUsuario(alumno.getIdAlumno());
+                this.setNombreCompleto(alumno.getNombreCompleto());
                 msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
                 this.getsU().redirect("/");
             }

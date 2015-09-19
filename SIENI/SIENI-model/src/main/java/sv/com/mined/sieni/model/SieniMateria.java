@@ -36,7 +36,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniMateria.findByIdMateria", query = "SELECT s FROM SieniMateria s WHERE s.idMateria = :idMateria"),
     @NamedQuery(name = "SieniMateria.findByMaNombre", query = "SELECT s FROM SieniMateria s WHERE s.maNombre = :maNombre"),
     @NamedQuery(name = "SieniMateria.findByMaCodigo", query = "SELECT s FROM SieniMateria s WHERE s.maCodigo = :maCodigo"),
-    @NamedQuery(name = "SieniMateria.findByMaFechaIngreso", query = "SELECT s FROM SieniMateria s WHERE s.maFechaIngreso = :maFechaIngreso")})
+    @NamedQuery(name = "SieniMateria.findByMaFechaIngreso", query = "SELECT s FROM SieniMateria s WHERE s.maFechaIngreso = :maFechaIngreso"),
+    @NamedQuery(name = "SieniMateria.findByMaEstado", query = "SELECT s FROM SieniMateria s WHERE s.maEstado = :maEstado"),
+    @NamedQuery(name = "SieniMateria.findByMaCoordinador", query = "SELECT s FROM SieniMateria s WHERE s.maCoordinador = :maCoordinador"),
+    @NamedQuery(name = "SieniMateria.findByMaTurno", query = "SELECT s FROM SieniMateria s WHERE s.maTurno = :maTurno")})
 public class SieniMateria implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,6 +53,12 @@ public class SieniMateria implements Serializable {
     @Column(name = "ma_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date maFechaIngreso;
+    @Column(name = "ma_estado")
+    private String maEstado;
+    @Column(name = "ma_coordinador")
+    private String maCoordinador;
+    @Column(name = "ma_turno")
+    private String maTurno;
     @OneToMany(mappedBy = "idMateria")
     private List<SieniPlantilla> sieniPlantillaList;
     @OneToMany(mappedBy = "idMateria",fetch = FetchType.EAGER)
@@ -99,6 +108,30 @@ public class SieniMateria implements Serializable {
         this.maFechaIngreso = maFechaIngreso;
     }
 
+    public String getMaEstado() {
+        return maEstado;
+    }
+
+    public void setMaEstado(String maEstado) {
+        this.maEstado = maEstado;
+    }
+
+    public String getMaCoordinador() {
+        return maCoordinador;
+    }
+
+    public void setMaCoordinador(String maCoordinador) {
+        this.maCoordinador = maCoordinador;
+    }
+
+    public String getMaTurno() {
+        return maTurno;
+    }
+
+    public void setMaTurno(String maTurno) {
+        this.maTurno = maTurno;
+    }
+    
     @XmlTransient
     public List<SieniPlantilla> getSieniPlantillaList() {
         return sieniPlantillaList;

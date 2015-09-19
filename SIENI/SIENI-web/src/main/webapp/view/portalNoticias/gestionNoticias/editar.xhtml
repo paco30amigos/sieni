@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Noticias" url="#{siteUrls.gestionNoticia}"/>
+            <p:menuitem value="Busqueda de Noticias"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarNoticiasController.indexMenu}').show();"></i>
+    </ui:define>
+    
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" >
+                <p:dialog widgetVar="dlgAyuda1" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton Modifica"/>
+                </p:dialog>
+                <div class="Container10" style="margin-top: 20px;margin-left: 40px;">
+                    <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
+                </div>
+                <div class="Container70">
+                    <p:graphicImage id="fotoSubida" value="#{gestionarNoticiasController.fotoUsableModifica}" width="100em" cache="false"></p:graphicImage>
+                </div>
+                <h:panelGrid class="Container100">
+                    <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionarNoticiasController.getFotoNuevaModifica}"
+                                  uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" 
+                                  value="#{gestionarNoticiasController.fotoModifica}" update="fotoSubida" sizeLimit="#{tamanioUtils.imagenMax}" 
+                                  invalidSizeMessage="Archivo muy grande"
+                                  invalidFileMessage="Tipo de archivo no valido"
+                                  >
+                    </p:fileUpload>
+                </h:panelGrid>
+                <div class="EmptyBox20"></div>
+                
+                <p:focus id="focus" context="p1"/>
+                <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
+                    <p:outputLabel for="titulo" value="Titulo: " class=" Responsive"  ></p:outputLabel>
+                    <p:inputText tabindex="1" class="Container100" id="titulo"  value="#{gestionarNoticiasController.noticiaModifica.ncTitulo}" maxlength="#{nombreUtils.nombreMax}" required="true" requiredMessage="Debe ingresar un Titulo de la noticia"></p:inputText>
+                    <p:outputLabel for="mensaje" value="Noticia: " class=" Responsive"></p:outputLabel>
+                    <p:inputTextarea tabindex="2" class="Container100" id="mensaje" value="#{gestionarNoticiasController.noticiaModifica.ncMensaje}" required="true" requiredMessage="Debe ingresar la noticia" ></p:inputTextarea>
+                    <p:outputLabel for="tipo" value="Tipo: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="tipo" class=" Responsive" value="#{gestionarNoticiasController.noticiaModifica.ncTipo}" required="true" requiredMessage="Seleccione Tipo de Noticia">
+                        <f:selectItem itemValue="A" itemLabel="ACADEMICA" />
+                        <f:selectItem itemValue="D" itemLabel="DEPORTES" />
+                        <f:selectItem itemValue="O" itemLabel="OTROS" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="curso" value="Curso: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="curso" class=" Responsive" value="#{gestionarNoticiasController.idCursoModifica}" >
+                        <f:selectItem itemValue="#{null}" itemLabel="TODOS LOS CURSOS" />
+                        <f:selectItems itemValue ="#{curso.idCurso}" itemLabel="#{curso.crNombre}" value="#{gestionarNoticiasController.cursosList}" var="curso" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="prioridad" value="Prioridad: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="prioridad" class=" Responsive" value="#{gestionarNoticiasController.noticiaModifica.ncPrioridad}" required="true" requiredMessage="Seleccione prioridad de la noticia">
+                        <f:selectItem itemValue="1" itemLabel="BAJA" />
+                        <f:selectItem itemValue="2" itemLabel="MEDIA" />
+                        <f:selectItem itemValue="3" itemLabel="ALTA" />
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                
+                <div class="EmptyBox20"></div>
+                <div class="Container100">
+                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarNoticiasController.guardarModifica()}" update="p1,focus" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1,archivo,fotoSubida,focus" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1,archivo,fotoSubida" resetValues="true" listener="#{gestionarNoticiasController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu>           
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

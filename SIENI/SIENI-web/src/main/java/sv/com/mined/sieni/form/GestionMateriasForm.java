@@ -36,16 +36,16 @@ public class GestionMateriasForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasegestionAlumnos() + "index.xhtml");
+                sU.redirect(sU.getBasegestionMateria() + "index.xhtml");
                 break;
             case 1:
-                sU.redirect(sU.getBasegestionAlumnos() + "crear.xhtml");
+                sU.redirect(sU.getBasegestionMateria() + "crear.xhtml");
                 break;
             case 2:
-                sU.redirect(sU.getBasegestionAlumnos() + "editar.xhtml");
+                sU.redirect(sU.getBasegestionMateria() + "editar.xhtml");
                 break;
             case 3:
-                sU.redirect(sU.getBasegestionAlumnos() + "ver.xhtml");
+                sU.redirect(sU.getBasegestionMateria() + "ver.xhtml");
                 break;
         }
         this.indexMenu = indexMenu;

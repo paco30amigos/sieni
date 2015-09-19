@@ -60,7 +60,7 @@ public class GestionCursoController extends GestionCursoForm {
     }
 
     private void fill() {
-        this.setCursoList(sieniCursoFacadeRemote.findAll());
+        this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
         //nuevo
         this.setDocentesList(sieniDocenteFacadeRemote.findAll());
         this.setGradoList(sieniGradoFacadeRemote.findAll());
@@ -111,6 +111,7 @@ public class GestionCursoController extends GestionCursoForm {
             }
         }
 
+        this.getCursoNuevo().setCrEstado('A');
         if (validarNuevo(this.getCursoNuevo())) {//valida el guardado
             sieniCursoFacadeRemote.create(this.getCursoNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Curso", this.getCursoNuevo().getIdCurso(), 'D'));
@@ -143,6 +144,11 @@ public class GestionCursoController extends GestionCursoForm {
     public void modificar(SieniCurso modificado) {
         this.setCursoModifica(modificado);
         this.setIndexMenu(2);
+    }
+    
+    public void ver(SieniCurso modificado) {
+        this.setCursoModifica(modificado);
+             this.setIndexMenu(3);
     }
 
     //metodos para modificacion de datos
@@ -198,7 +204,8 @@ public class GestionCursoController extends GestionCursoForm {
 
     public void eliminarCurso() {
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Curso", this.getEliminar().getIdCurso(), 'D'));
-        sieniCursoFacadeRemote.remove(this.getEliminar());
+        this.getEliminar().setCrEstado('I');
+        sieniCursoFacadeRemote.edit(this.getEliminar());
         fill();
     }
 

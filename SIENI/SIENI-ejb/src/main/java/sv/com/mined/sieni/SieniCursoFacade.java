@@ -5,10 +5,13 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniDocente;
 
 /**
  *
@@ -27,5 +30,16 @@ public class SieniCursoFacade extends AbstractFacade<SieniCurso> implements sv.c
     public SieniCursoFacade() {
         super(SieniCurso.class);
     }
+
+    @Override
+    public List<SieniCurso> findByEstado(Character estado) {
+    Query q=em.createNamedQuery("SieniCurso.findAByEstado");
+        q.setParameter("estado", estado);
+        
+    List<SieniCurso> res = q.getResultList();   
+    return res;
+    }
+    
+    
     
 }

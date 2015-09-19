@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniCurso.findAll", query = "SELECT s FROM SieniCurso s"),
+    @NamedQuery(name = "SieniCurso.findAByEstado", query = "SELECT s FROM SieniCurso s WHERE s.crEstado=:estado"),
     @NamedQuery(name = "SieniCurso.findByIdCurso", query = "SELECT s FROM SieniCurso s WHERE s.idCurso = :idCurso"),
     @NamedQuery(name = "SieniCurso.findByCrNombre", query = "SELECT s FROM SieniCurso s WHERE s.crNombre = :crNombre"),
     @NamedQuery(name = "SieniCurso.findByCrCapacidad", query = "SELECT s FROM SieniCurso s WHERE s.crCapacidad = :crCapacidad"),
@@ -75,6 +77,21 @@ public class SieniCurso implements Serializable {
     private SieniSeccion idSeccion;
     @OneToMany(mappedBy = "idCurso")
     private List<SieniClase> sieniClaseList;
+    @Column(name = "cr_estado")
+    private Character crEstado;
+    
+    @PrePersist
+protected void onCreate() {
+    crFechaIngreso = new Date();
+}
+
+    public Character getCrEstado() {
+        return crEstado;
+    }
+
+    public void setCrEstado(Character crEstado) {
+        this.crEstado = crEstado;
+    }
 
     public SieniCurso() {
     }

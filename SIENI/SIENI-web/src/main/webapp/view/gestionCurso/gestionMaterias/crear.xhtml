@@ -27,21 +27,21 @@
                     <p:outputLabel  value="Nombre: " class=" Responsive"></p:outputLabel>
                     <p:inputText class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maNombre}"></p:inputText>
                     <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu  id="estado" class=" Responsive" value="#{formatoPantallas.campo15}">
-                        <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
-                        <f:selectItem itemValue="0" itemLabel="No Disponible"/>
+                    <p:selectOneMenu  id="estado" class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maEstado}">
+                        <f:selectItem itemValue ="DISPONIBLE" itemLabel="DISPONIBLE"/>
+                        <f:selectItem itemValue="NO DISPONIBLE" itemLabel="NO DISPONIBLE"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <p:panelGrid columns="2" class="Container50 Responsive">
                     <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu  class=" Responsive" value="#{formatoPantallas.campo300}">
+                    <p:selectOneMenu  class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maCoordinador}">
                         <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo300} "/>
                         <f:selectItem itemValue ="1" itemLabel="Carlos"/>
                     </p:selectOneMenu>
                     <p:outputLabel value="Turno: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{formatoPantallas.campo15}">
-                        <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo15}"/>
-                        <f:selectItem itemValue ="1" itemLabel="Vespertino"/>
+                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maTurno}">
+                        <f:selectItem itemValue ="MATUTINO" itemLabel="MATUTINO"/>
+                        <f:selectItem itemValue ="VESPERTINO" itemLabel="VESPERTINO"/>
                     </p:selectOneMenu>   
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>

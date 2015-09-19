@@ -28,7 +28,7 @@
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
-                    <p:outputLabel for="mod_carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel for="mod_carne" value="Carnet: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel id="mod_carne" value="#{gestionMatriculaController.matriculaModifica.mtCarnet}"></p:outputLabel>
                     <p:outputLabel for="mod_nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel id="mod_nombre" value="#{gestionMatriculaController.matriculaModifica.idAlumno.nombreCompleto}"></p:outputLabel>
@@ -44,7 +44,7 @@
                     <p:commandButton value="Eliminar" action="#{gestionMatriculaController.eliminar(gestionMatriculaController.matriculaModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                     </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
-                        <p:ajax update="p1,fotoSubida" resetValues="true" listener="#{gestionMatriculaController.setIndexMenu(0)}"/>
+                        <p:ajax resetValues="true" listener="#{gestionMatriculaController.setIndexMenu(0)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

@@ -13,6 +13,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
@@ -55,18 +56,18 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void guardar() {
-
+       
         if (validarNuevo(this.getMateriaNuevo())) {
-            String anioActual = new FormatUtils().getFormatedAnio(new Date());
             this.getMateriaNuevo().setMaEstado("D");
             sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Materia", this.getMateriaNuevo().getIdMateria(), 'D'));
+            this.setMateriaNuevo(new SieniMateria());
             FacesMessage msg = new FacesMessage("Materia Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
-            this.setIndexMenu(0);
+            fill();
         }
-        this.setMateriaNuevo(new SieniMateria());
-        fill();
     }
     
     public boolean validarNuevo(SieniMateria nuevo) {

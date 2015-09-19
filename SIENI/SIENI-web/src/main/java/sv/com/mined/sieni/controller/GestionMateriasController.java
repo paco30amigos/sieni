@@ -58,7 +58,7 @@ public class GestionMateriasController extends GestionMateriasForm {
     public void guardar() {
        
         if (validarNuevo(this.getMateriaNuevo())) {
-            this.getMateriaNuevo().setMaEstado("D");
+            this.getMateriaNuevo().setMaEstado('A');
             sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");

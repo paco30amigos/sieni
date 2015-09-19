@@ -54,7 +54,7 @@ public class SieniMateria implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date maFechaIngreso;
     @Column(name = "ma_estado")
-    private String maEstado;
+    private Character maEstado;
     @Column(name = "ma_coordinador")
     private String maCoordinador;
     @Column(name = "ma_turno")
@@ -108,11 +108,11 @@ public class SieniMateria implements Serializable {
         this.maFechaIngreso = maFechaIngreso;
     }
 
-    public String getMaEstado() {
+    public Character getMaEstado() {
         return maEstado;
     }
 
-    public void setMaEstado(String maEstado) {
+    public void setMaEstado(Character maEstado) {
         this.maEstado = maEstado;
     }
 

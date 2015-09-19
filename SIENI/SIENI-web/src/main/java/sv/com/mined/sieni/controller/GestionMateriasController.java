@@ -46,6 +46,6 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     private void fill() {
-
+        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
     }
 }

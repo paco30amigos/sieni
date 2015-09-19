@@ -34,6 +34,7 @@
                     </p:fileUpload>
                 </h:panelGrid>
                 <div class="EmptyBox20"></div>
+                <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
                     <p:inputText class="Container100" id="primNombreNuevo"  value="#{gestionarDocentesController.docenteNuevo.dcPrimNombre}" maxlength="#{nombreUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
@@ -60,21 +61,22 @@
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton value="Guardar" action="#{gestionarDocentesController.guardar()}" update="p1" />
+                    <p:commandButton value="Guardar" action="#{gestionarDocentesController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"  />
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,archivo,fotoSubida" resetValues="true" />
+                        <p:ajax update="p1,archivo,fotoSubida,focus" resetValues="true" oncomplete="configurarEnterTab()"  />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1,archivo,fotoSubida" resetValues="true" listener="#{gestionarDocentesController.setIndexMenu(0)}"/>
                     </p:commandButton>
-                    <p:splitButton value="Otras Opciones" action= "#">
-                        <p:menuitem value="Gestionar Docentes">    
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
                         </p:menuitem>
                         <p:menuitem value="Gestionar Alumnos">    
                         </p:menuitem>
                         <p:menuitem value="Gestionar Cursos">    
                         </p:menuitem>
-                    </p:splitButton> 
+                    </p:tieredMenu>
                     
                                
                 </div>

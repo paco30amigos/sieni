@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-09-14T20:57:56 -->
+<!-- 2015-09-19T08:38:12 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -37,27 +37,10 @@
 				</textElement>
 				<text><![CDATA[Reporte de Matriculas]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="447" y="19" width="104" height="20" uuid="46e126d4-11a7-42e2-ba51-3128b20da3e3"/>
-				<text><![CDATA[F. Generación:]]></text>
-			</staticText>
 			<image>
 				<reportElement x="5" y="4" width="105" height="46" uuid="efe7bbf6-afb3-4970-a868-fac4475e6689"/>
 				<imageExpression><![CDATA["../images/mined.jpg"]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="449" y="7" width="80" height="20" uuid="93583e3c-92bc-43fa-81e1-09cda41bee25"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement x="530" y="7" width="40" height="20" uuid="25ed0a8f-fcb5-404a-9104-576653ec13a7"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="527" y="19" width="100" height="20" uuid="fc3eb40b-6b2e-47ed-b0d2-11cbcc092063"/>
-				<textFieldExpression><![CDATA[$P{fechaGeneracion}]]></textFieldExpression>
-			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="60" y="50" width="70" height="20" uuid="d20cf3fb-4fec-4c38-9d51-30c924736b08"/>
 				<textFieldExpression><![CDATA[$P{anio}]]></textFieldExpression>
@@ -66,6 +49,16 @@
 				<reportElement x="20" y="50" width="40" height="20" uuid="f4e12c08-760c-46d5-9bb4-cc3b139a9a74"/>
 				<text><![CDATA[Año:]]></text>
 			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="390" y="10" width="190" height="30" uuid="68367d26-22f3-41f5-aa16-af4165bae160"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de "+$V{PAGE_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="388" y="40" width="190" height="23" uuid="4ef4c651-28e4-4108-b91e-d61b53b75bb7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["F. Generación:"+ $P{fechaGeneracion}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>

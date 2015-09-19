@@ -36,14 +36,14 @@
                     <p:column headerText="Nombre" filterBy="#{car.maNombre}" filterable="true" filterMatchMode="contains">
                         #{car.maNombre}
                     </p:column>
-                    <p:column headerText="Estado" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                        #{formatoPantallas.campo15}
+                    <p:column headerText="Estado" filterBy="#{car.maEstado}" filterable="true" filterMatchMode="contains">
+                        #{car.maEstado}
                     </p:column>
-                    <p:column headerText="Coordinador" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                        #{formatoPantallas.campo300}
+                    <p:column headerText="Coordinador" filterBy="#{car.maCoordinador}" filterable="true" filterMatchMode="contains">
+                        #{car.maCoordinador}
                     </p:column>
-                    <p:column headerText="Turno" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                        #{formatoPantallas.campo15}
+                    <p:column headerText="Turno" filterBy="#{car.maTurno}" filterable="true" filterMatchMode="contains">
+                        #{car.maTurno}
                     </p:column>
                     <p:column headerText="Acciones">
                         <p:commandLink action="#{gestionMateriasController.ver(car)}"><i class="icon-visibility1 Fs25 Red" title="Ver Materia" ></i></p:commandLink>

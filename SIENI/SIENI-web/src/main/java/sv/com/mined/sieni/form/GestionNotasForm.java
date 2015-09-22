@@ -71,6 +71,9 @@ public class GestionNotasForm {
             case 3:
                 sU.redirect(sU.getBasegestionNota() + "ver.xhtml");
                 break;
+            case 4:
+                sU.redirect(sU.getBasegestionNota() + "subir.xhtml");
+                break;
         }
         this.indexMenu = indexMenu;
     }

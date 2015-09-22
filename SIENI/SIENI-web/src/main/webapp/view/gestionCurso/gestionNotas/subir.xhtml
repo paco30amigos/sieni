@@ -18,7 +18,7 @@
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
-            <h:form>
+            <h:form id="form">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>                    
@@ -44,12 +44,6 @@
                     </p:fileUpload>
                 </div>
                 <div class="EmptyBox5"></div>
-                <p:dialog widgetVar="dlgError" modal="true" appendTo="@(body)" header="Errores">
-                    <p:outputLabel value="Se encontraron los siguientes errores"/>
-                    <p:dataList value="#{gestionNotaController.error.errores}" var="errors" type="ordered">
-                        <p:outputLabel value="#{errors}"/>
-                    </p:dataList>
-                </p:dialog>
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionNotaController.listaNotasSubidas}" 
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -62,16 +56,19 @@
                         #{car.ntCalificacion}
                     </p:column>
                     <p:column>
-                        <c:choose>
-                            <c:when test="#{car.errores.size()>0}">
-                                <p:commandLink actionListener="#{gestionNotaController.mostrarErrores(car)}" onclick="PF('dlgError').show()"><i class="icon-problems Fs25 Red"></i></p:commandLink>
-                            </c:when>
-                            <c:otherwise>
-                                <p:commandLink actionListener="#{gestionNotaController.mostrarErrores(car)}" onclick="PF('dlgError').show()"><i class="fa fa-check Fs25 Green"></i></p:commandLink>
-                            </c:otherwise>
-                        </c:choose>
+                        <p:commandLink rendered="#{car.errores.size()==0}"><i class="fa fa-check Fs25 Green"></i></p:commandLink>
+                        <p:commandLink rendered="#{car.errores.size()>0}" action="#{gestionNotaController.mostrarErrores(nota)}" oncomplete="PF('dlgError').show();" update="form:dlErr" ajax="true">
+                            <i class="icon-problems Fs25 Red"></i>
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
+
+                <p:dialog widgetVar="dlgError" modal="true" appendTo="@(body)" header="Errores" id="dlErr">
+                    <p:outputLabel value="Se encontraron los siguientes errores"/>
+                    <p:dataList value="#{gestionNotaController.error.errores}" var="errors" type="ordered">
+                        <p:outputLabel value="#{errors}"/>
+                    </p:dataList>
+                </p:dialog>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionNotaController.guardar()}" update="p1" />

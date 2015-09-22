@@ -98,12 +98,11 @@ public class ExcelUtils {
             }
             if (notaActual.getNombreCompleto() != null || notaActual.getNtCalificacion() != null) {
                 notas.add(notaActual);
-            } else {
-                if (notaActual.getNombreCompleto() == null) {
-                    notaActual.getErrores().add("No se ingresó un nombre para el alumno");
-                } else if (notaActual.getNtCalificacion() == null) {
-                    notaActual.getErrores().add("No se ingresó una nota para el alumno");
-                }
+            }
+            if (notaActual.getNombreCompleto() == null) {
+                notaActual.getErrores().add("No se ingresó un nombre para el alumno");
+            } else if (notaActual.getNtCalificacion() == null) {
+                notaActual.getErrores().add("No se ingresó una nota para el alumno");
             }
         }
         return notas;

@@ -39,6 +39,8 @@
                 <div class="EmptyBox20"></div>
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
+                    <p:outputLabel for="carnet" value="Carnet: " class=" Responsive"  ></p:outputLabel>
+                    <p:outputLabel class="Container100" id="carnet"  value="#{gestionarAlumnosController.alumnoModifica.alCarnet}"></p:outputLabel> 
                     <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
                     <p:inputText tabindex="1" class="Container100" id="primNombreNuevo"  value="#{gestionarAlumnosController.alumnoModifica.alPrimNombre}" maxlength="#{tamanioUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
                     <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
@@ -60,7 +62,7 @@
                     <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
                     <p:inputMask tabindex="10" class="Container100" id="celularNuevo" mask="9999-9999" value="#{gestionarAlumnosController.alumnoModifica.alTelefonoEm2}"></p:inputMask>
                     <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
-                    <p:inputTextarea maxlength="#{tamanioUtils.direccionMax}" tabindex="11" class="Container100" id="direccion" value="#{gestionarAlumnosController.alumnoModifica.alDireccion}"></p:inputTextarea>
+                    <p:inputTextarea maxlength="#{tamanioUtils.direccionMax}" tabindex="11" class="Container100" id="direccion" value="#{gestionarAlumnosController.alumnoModifica.alDireccion}" required="true" requiredMessage="Debe ingresar dirección"></p:inputTextarea>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">

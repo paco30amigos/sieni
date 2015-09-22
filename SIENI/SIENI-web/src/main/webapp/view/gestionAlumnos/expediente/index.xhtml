@@ -42,13 +42,13 @@
                     <p:column headerText="Correo" style="width: 20%" filterBy="#{car.alCorreo}" filterMatchMode="contains" filterable="true">
                         #{car.alCorreo}
                     </p:column>
-                    <p:column headerText="Teléfono" style="width: 8%" filterBy="#{car.alTelefonoEm1}" filterMatchMode="contains" filterable="true">
+                    <p:column headerText="Teléfono" style="width: 10%" filterBy="#{car.alTelefonoEm1}" filterMatchMode="contains" filterable="true">
                         #{formatUtils.getFormatedPhone(car.alTelefonoEm1)}
                     </p:column>
-                    <p:column headerText="Celular" style="width: 8%" filterBy="#{car.alTelefonoEm2}" filterMatchMode="contains" filterable="true">
+                    <p:column headerText="Celular" style="width: 10%" filterBy="#{car.alTelefonoEm2}" filterMatchMode="contains" filterable="true">
                         #{formatUtils.getFormatedPhone(car.alTelefonoEm2)}
                     </p:column>
-                    <p:column headerText="Dirección" filterBy="#{car.alDireccion}" filterMatchMode="contains" filterable="true">
+                    <p:column headerText="Dirección" style="width: 20%" filterBy="#{car.alDireccion}" filterMatchMode="contains" filterable="true">
                         #{car.alDireccion}
                     </p:column>
                     <p:column headerText="Acciones" style="width: 12%">

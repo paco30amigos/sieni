@@ -57,6 +57,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         quitarFormato(this.getAlumnoNuevo());//quita el formato de los campos
         if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
             this.getAlumnoNuevo().setAlEstado('A');
+            generarCarnet(this.getAlumnoNuevo());
             sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
@@ -71,6 +72,12 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     public void quitarFormato(SieniAlumno actual) {
         actual.setAlTelefonoEm1(actual.getAlTelefonoEm1().replaceAll("-", ""));
         actual.setAlTelefonoEm2(actual.getAlTelefonoEm2().replaceAll("-", ""));
+        actual.setAlPrimApe(actual.getAlPrimApe().trim());
+        actual.setAlSeguApe(actual.getAlSeguApe().trim());
+        actual.setAlTercApe(actual.getAlTercApe().trim());
+        actual.setAlPrimNombre(actual.getAlPrimNombre().trim());
+        actual.setAlSeguNombre(actual.getAlSeguNombre().trim());
+        actual.setAlTercNombre(actual.getAlTercNombre().trim());
     }
 
     public void refresh() {
@@ -86,6 +93,8 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         //longitud de contrasenia
 //        validaciones.add(new ValidationPojo(nuevo.getAlContrasenia().length() < 8, "La contraseña debe ser de almenos 8 caracteres", 0));
         //alumno ya registrado
+        validaciones.add(new ValidationPojo(this.getAlumnoNuevo().getAlPrimApe().isEmpty(), "Debe ingresar Primer Apellido", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getAlumnoNuevo().getAlPrimNombre().isEmpty(), "Debe ingresar Primer Nombre", FacesMessage.SEVERITY_ERROR));
         validaciones.add(new ValidationPojo(sieniAlumnoFacadeRemote.alumnoRegistrado(nuevo), "El Alumno ya esta registrado", FacesMessage.SEVERITY_WARN));
         validaciones.add(new ValidationPojo(this.getAlumnoNuevo().getAlFechaNacimiento().before(du.getFechaMinima()), "La fecha de nacimiento es menor que " + fu.getFormatedDate(du.getFechaMinima()), FacesMessage.SEVERITY_WARN));
         validaciones.add(new ValidationPojo(this.getAlumnoNuevo().getAlFechaNacimiento().after(du.getFechaMaxima()), "La fecha de nacimiento es mayor que " + fu.getFormatedDate(du.getFechaMaxima()), FacesMessage.SEVERITY_WARN));
@@ -133,6 +142,9 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.getAlumnoModifica().setAlFoto(this.getFotoArchivoModifica());
         quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
         if (validarModifica(this.getAlumnoModifica())) {//valida el guardado
+            if(this.getAlumnoModifica().getAlCarnet()==null){
+                generarCarnet(this.getAlumnoModifica());
+            }
             sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
@@ -157,6 +169,8 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         //alumno ya registrado
         boolean cambio = true;
+        validaciones.add(new ValidationPojo(this.getAlumnoModifica().getAlPrimApe().isEmpty(), "Debe ingresar Primer Apellido", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getAlumnoModifica().getAlPrimNombre().isEmpty(), "Debe ingresar Primer Nombre", FacesMessage.SEVERITY_ERROR));
         SieniAlumno alOriginal = sieniAlumnoFacadeRemote.find(this.getAlumnoModifica().getIdAlumno());
         cambio = diferencia(alOriginal.getAlPrimApe(), nuevo.getAlPrimApe());
         cambio &= diferencia(alOriginal.getAlSeguApe(), nuevo.getAlSeguApe());
@@ -197,5 +211,31 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.getEliminar().setAlEstado(new Character('I'));
         sieniAlumnoFacadeRemote.edit(this.getEliminar());
         fill();
+    }
+
+    public SieniAlumno generarCarnet(SieniAlumno alumno) {
+        String carnet = "";
+        String inicial = alumno.getAlPrimNombre().charAt(0) + "" + alumno.getAlPrimApe().charAt(0) + "";
+        inicial = inicial.toUpperCase();
+        String anioActual = (new FormatUtils().getFormatedAnio(new Date())).substring(2, 4);
+        //inicial primer nombre+primer apellido+ anio de registro
+        Integer codigo = sieniAlumnoFacadeRemote.findSiguienteCorrelat(inicial + anioActual);//siguiente codigo
+        Integer tamaActual = codigo.toString().length();
+        Integer logitudCodigoCarnet = 4;
+        //agrega ceros al inicio del codigo
+        StringBuffer codigoFormat = new StringBuffer();
+        for (int i = 0; i < logitudCodigoCarnet; i++) {
+            if (tamaActual + codigoFormat.length() < logitudCodigoCarnet) {
+                codigoFormat.append("0");
+            } else {
+                break;
+            }
+        }
+//        carnet="PP150001";
+        carnet = inicial + anioActual + codigoFormat.toString() + codigo;
+        alumno.setAlCodigoCarnet(inicial + anioActual);
+        alumno.setAlCorrelatCarnet(codigo);
+        alumno.setAlCarnet(carnet);
+        return alumno;
     }
 }

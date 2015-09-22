@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.form;
 
 import java.util.List;
+import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniMateria;
@@ -42,6 +43,15 @@ public class GestionNotasForm {
     private Long idEvaluacionModifica;
     private SieniMateria materiaModifica;
 
+    //subida de excel
+    private Integer tamanioMaxExcel = 2 * 1024 * 1024;
+    private String formatoArchivo = "/(\\.|\\/)(xlsx|xls)$/";
+    private List<SieniNota> listaNotasSubidas;
+    private SieniMateria materiaSubir;
+    private SieniEvaluacion evaluacionSubir;
+    private UploadedFile archivoSubidoNuevo;
+    private SieniNota error;
+
     public int getIndexMenu() {
         return indexMenu;
     }
@@ -50,7 +60,7 @@ public class GestionNotasForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasegestionNota()+ "index.xhtml");
+                sU.redirect(sU.getBasegestionNota() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBasegestionNota() + "crear.xhtml");
@@ -207,6 +217,62 @@ public class GestionNotasForm {
 
     public void setMateriaModifica(SieniMateria materiaModifica) {
         this.materiaModifica = materiaModifica;
+    }
+
+    public Integer getTamanioMaxExcel() {
+        return tamanioMaxExcel;
+    }
+
+    public void setTamanioMaxExcel(Integer tamanioMaxExcel) {
+        this.tamanioMaxExcel = tamanioMaxExcel;
+    }
+
+    public String getFormatoArchivo() {
+        return formatoArchivo;
+    }
+
+    public void setFormatoArchivo(String formatoArchivo) {
+        this.formatoArchivo = formatoArchivo;
+    }
+
+    public SieniMateria getMateriaSubir() {
+        return materiaSubir;
+    }
+
+    public void setMateriaSubir(SieniMateria materiaSubir) {
+        this.materiaSubir = materiaSubir;
+    }
+
+    public SieniEvaluacion getEvaluacionSubir() {
+        return evaluacionSubir;
+    }
+
+    public void setEvaluacionSubir(SieniEvaluacion evaluacionSubir) {
+        this.evaluacionSubir = evaluacionSubir;
+    }
+
+    public UploadedFile getArchivoSubidoNuevo() {
+        return archivoSubidoNuevo;
+    }
+
+    public void setArchivoSubidoNuevo(UploadedFile archivoSubidoNuevo) {
+        this.archivoSubidoNuevo = archivoSubidoNuevo;
+    }
+
+    public List<SieniNota> getListaNotasSubidas() {
+        return listaNotasSubidas;
+    }
+
+    public void setListaNotasSubidas(List<SieniNota> listaNotasSubidas) {
+        this.listaNotasSubidas = listaNotasSubidas;
+    }
+
+    public SieniNota getError() {
+        return error;
+    }
+
+    public void setError(SieniNota error) {
+        this.error = error;
     }
 
 }

@@ -61,7 +61,7 @@
                     <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
                     <p:inputMask tabindex="10" class="Container100" id="celularNuevo" mask="9999-9999" value="#{gestionarAlumnosController.alumnoNuevo.alTelefonoEm2}"></p:inputMask>
                     <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
-                    <p:inputTextarea maxlength="#{tamanioUtils.direccionMax}" tabindex="11" class="Container100" id="direccion" value="#{gestionarAlumnosController.alumnoNuevo.alDireccion}"></p:inputTextarea>
+                    <p:inputTextarea maxlength="#{tamanioUtils.direccionMax}" tabindex="11" class="Container100" id="direccion" value="#{gestionarAlumnosController.alumnoNuevo.alDireccion}" required="true" requiredMessage="Debe ingresar dirección"></p:inputTextarea>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">

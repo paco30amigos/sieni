@@ -5,8 +5,11 @@
  */
 package sv.com.mined.sieni.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -14,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
@@ -25,6 +29,7 @@ import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
+import utils.ExcelUtils;
 
 /**
  *
@@ -54,6 +59,8 @@ public class GestionNotasController extends GestionNotasForm {
         this.setNotaNuevo(new SieniNota());
         this.setNotaModifica(new SieniNota());
         this.setNotaList(new ArrayList<SieniNota>());
+        this.setError(new SieniNota());
+        this.getError().setErrores(new ArrayList<String>());
         fill();
     }
 
@@ -221,4 +228,23 @@ public class GestionNotasController extends GestionNotasForm {
         this.setEvaluacionesModificaList(cod.getSieniEvaluacionList());
     }
 
+    public void getArchivoNuevo(FileUploadEvent event) {
+        try {
+            InputStream stream = event.getFile().getInputstream();
+            ExcelUtils eu = new ExcelUtils(stream);
+            List<SieniNota> notasActuales = eu.readNotasExcel(0);
+            this.setListaNotasSubidas(notasActuales);
+            eu.closeWorkbook();
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void buscarAlumnos() {
+
+    }
+
+    public void mostrarErrores(SieniNota nota) {
+        this.setError(nota);
+    }
 }

@@ -116,6 +116,8 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
 
     @Override
     public boolean alumnoRegistrado(SieniAlumno alumno) {
+        // es necesario instalar la siguiente extencion
+        //CREATE EXTENSION unaccent;
         boolean ret = false;
         Character estado = 'I';
         CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -136,12 +138,12 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         ParameterExpression<String> paramTercApellido = cb.parameter(String.class);
         Path<Character> pathEstado = c.get("alEstado");
         ParameterExpression<Character> paramEstado = cb.parameter(Character.class);
-        p = cb.and(p, cb.equal(cb.lower(primNombre), paramPrimNombre));
-        p = cb.and(p, cb.equal(cb.lower(segNombre), paramSegNombre));
-        p = cb.and(p, cb.equal(cb.lower(tercNombre), paramTercNombre));
-        p = cb.and(p, cb.equal(cb.lower(primApellido), paramPrimApellido));
-        p = cb.and(p, cb.equal(cb.lower(segApellido), paramSegApellido));
-        p = cb.and(p, cb.equal(cb.lower(tercApellido), paramTercApellido));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(primNombre)), cb.function("unaccent", String.class, paramPrimNombre)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(segNombre)), cb.function("unaccent", String.class, paramSegNombre)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(tercNombre)), cb.function("unaccent", String.class, paramTercNombre)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(primApellido)), cb.function("unaccent", String.class, paramPrimApellido)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(segApellido)), cb.function("unaccent", String.class, paramSegApellido)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(tercApellido)), cb.function("unaccent", String.class, paramTercApellido)));
         p = cb.and(p, cb.notEqual(pathEstado, paramEstado));
         q.select(c).where(p);
         TypedQuery<SieniAlumno> query = em.createQuery(q);
@@ -159,4 +161,16 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         return ret;
     }
 
+    @Override
+    public Integer findSiguienteCorrelat(String inicial) {
+        Integer ret = 0;
+        Query q = em.createNamedQuery("SieniAlumno.findSiguienteCorrelat");
+        q.setParameter("codigo", inicial);
+        Integer resultado = (Integer) q.getSingleResult();
+        if (resultado != null) {
+            ret = resultado;
+        }
+        ret++;//siguiente correlativo
+        return ret;
+    }
 }

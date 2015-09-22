@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,6 +58,10 @@ public class SieniNota implements Serializable {
     private SieniEvaluacion idEvaluacion;
     @Transient
     private String tipoIngreso;
+    @Transient
+    private String nombreCompleto;
+    @Transient
+    private List<String> errores;
 
     public SieniNota() {
     }
@@ -149,6 +154,22 @@ public class SieniNota implements Serializable {
 
     public void setNtEstado(Character ntEstado) {
         this.ntEstado = ntEstado;
+    }
+
+    public String getNombreCompleto() {
+        return nombreCompleto;
+    }
+
+    public void setNombreCompleto(String nombreCompleto) {
+        this.nombreCompleto = nombreCompleto;
+    }
+
+    public List<String> getErrores() {
+        return errores;
+    }
+
+    public void setErrores(List<String> errores) {
+        this.errores = errores;
     }
 
 }

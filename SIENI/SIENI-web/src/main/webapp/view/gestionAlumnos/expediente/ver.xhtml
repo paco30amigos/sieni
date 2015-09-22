@@ -36,6 +36,8 @@
                 </div>
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
+                    <p:outputLabel for="carnet" value="Carnet: " class=" Responsive"  ></p:outputLabel>
+                    <p:outputLabel class="Container100" id="carnet"  value="#{gestionarAlumnosController.alumnoModifica.alCarnet}"></p:outputLabel>
                     <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
                     <p:outputLabel class="Container100" id="primNombreNuevo"  value="#{gestionarAlumnosController.alumnoModifica.alPrimNombre}"></p:outputLabel>
                     <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>

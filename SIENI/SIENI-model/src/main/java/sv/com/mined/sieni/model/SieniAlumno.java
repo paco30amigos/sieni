@@ -43,6 +43,7 @@ import org.primefaces.model.StreamedContent;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniAlumno.findSiguienteCorrelat", query = "SELECT max(s.alCorrelatCarnet) FROM SieniAlumno s where s.alCodigoCarnet=:codigo"),
     @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s join fetch s.sieniMatriculaList mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and mat.idGrado.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and mat.idGrado.idGrado=:grado and mat.idSeccion.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
@@ -69,6 +70,7 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findByAlEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alEstado = :alEstado"),
     @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr WHERE sr.idAlumnRol IS NOT NULL AND s.alUsuario IS NOT NULL")})
 public class SieniAlumno implements Serializable {
+
     @Lob
     @Column(name = "al_foto")
     private byte[] alFoto;
@@ -112,6 +114,12 @@ public class SieniAlumno implements Serializable {
     @Column(name = "al_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date alFechaIngreso;
+    @Column(name = "al_carnet")
+    private String alCarnet;
+    @Column(name = "al_correlat_carnet")
+    private Integer alCorrelatCarnet;
+    @Column(name = "al_codigo_carnet")
+    private String alCodigoCarnet;
     @Column(name = "al_estado")
     private Character alEstado;
     @Column(name = "al_fecha_baja")
@@ -463,5 +471,29 @@ public class SieniAlumno implements Serializable {
 
     public void setAlFechaIngreso(Date alFechaIngreso) {
         this.alFechaIngreso = alFechaIngreso;
+    }
+
+    public String getAlCarnet() {
+        return alCarnet;
+    }
+
+    public void setAlCarnet(String alCarnet) {
+        this.alCarnet = alCarnet;
+    }
+
+    public Integer getAlCorrelatCarnet() {
+        return alCorrelatCarnet;
+    }
+
+    public void setAlCorrelatCarnet(Integer alCorrelatCarnet) {
+        this.alCorrelatCarnet = alCorrelatCarnet;
+    }
+
+    public String getAlCodigoCarnet() {
+        return alCodigoCarnet;
+    }
+
+    public void setAlCodigoCarnet(String alCodigoCarnet) {
+        this.alCodigoCarnet = alCodigoCarnet;
     }
 }

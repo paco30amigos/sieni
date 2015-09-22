@@ -40,8 +40,10 @@ public interface SieniAlumnoFacadeRemote {
     public SieniAlumno findAlumnoUsuario(String usuario, String password);
 
     public List<SieniAlumno> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion);
-    
+
     public List<SieniAlumno> findUsuariosRpt();
-    
+
     public boolean alumnoRegistrado(SieniAlumno alumno);
+
+    public Integer findSiguienteCorrelat(String inicial);
 }

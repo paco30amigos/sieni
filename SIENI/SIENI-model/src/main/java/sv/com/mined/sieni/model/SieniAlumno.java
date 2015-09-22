@@ -49,7 +49,7 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and mat.idGrado.idGrado=:grado and mat.idSeccion.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A'"),
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado "),
+    @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL"),// or s.alEstado=3 eliminado
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),
     @NamedQuery(name = "SieniAlumno.findByIdAlumno", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :idAlumno"),

@@ -23,6 +23,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniNota;
 
 /**
@@ -33,6 +35,7 @@ public class ExcelUtils {
 
     String fileName;
     Workbook workbook;
+    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
 
     public ExcelUtils() {
     }
@@ -91,13 +94,24 @@ public class ExcelUtils {
             XSSFRow row = (XSSFRow) rows.next();
             notaActual = new SieniNota();
             notaActual.setErrores(new ArrayList<String>());
+
             notaActual.setNombreCompleto(row.getCell(0) != null ? row.getCell(0).getStringCellValue() : null);//nombre
-            notaActual.setNtCalificacion(row.getCell(1) != null ? row.getCell(1).getNumericCellValue() : null);//nota
+            if (row.getCell(1) != null && row.getCell(1).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                notaActual.setNtCalificacion(row.getCell(1) != null ? row.getCell(1).getNumericCellValue() : null);//nota
+            } else {
+                notaActual.getErrores().add("Nota no valida");
+            }
             if (notaActual.getNtCalificacion() != null && (notaActual.getNtCalificacion() < 0.0 || notaActual.getNtCalificacion() > 10.0)) {
                 notaActual.getErrores().add("Nota no valida");
             }
             if (notaActual.getNombreCompleto() != null || notaActual.getNtCalificacion() != null) {
                 notas.add(notaActual);
+                SieniAlumno alumno = sieniAlumnoFacadeRemote.findByNombreCompleto(notaActual.getNombreCompleto());
+                if (alumno == null) {
+                    notaActual.getErrores().add("Nombre de alumno no se encontró");
+                } else {
+                    notaActual.setIdAlumno(alumno);
+                }
             }
             if (notaActual.getNombreCompleto() == null) {
                 notaActual.getErrores().add("No se ingresó un nombre para el alumno");
@@ -165,5 +179,9 @@ public class ExcelUtils {
             throw new RuntimeException("La celda " + cellAddress + " no tiene una cadena de texto");
         }
         return ret;
+    }
+
+    public void setSieniAlumnoFacadeRemote(SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote) {
+        this.sieniAlumnoFacadeRemote = sieniAlumnoFacadeRemote;
     }
 }

@@ -162,6 +162,15 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
+    public boolean alumnoRegistrados(List<SieniAlumno> alumnos) {
+        boolean ret = false;
+        for (SieniAlumno actual : alumnos) {
+
+        }
+        return ret;
+    }
+
+    @Override
     public Integer findSiguienteCorrelat(String inicial) {
         Integer ret = 0;
         Query q = em.createNamedQuery("SieniAlumno.findSiguienteCorrelat");
@@ -172,5 +181,26 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         }
         ret++;//siguiente correlativo
         return ret;
+    }
+
+    @Override
+    public SieniAlumno findByNombreCompleto(String nombreCompleto) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<SieniAlumno> q = cb.createQuery(SieniAlumno.class);
+        Root<SieniAlumno> c = q.from(SieniAlumno.class);
+        Predicate p = cb.conjunction();
+//        nombreCompleto="alberto francisco medina malcía ";
+        Path<String> pathNombreCompleto = c.get("alNombreCompleto");
+        ParameterExpression<String> nombre = cb.parameter(String.class);
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(pathNombreCompleto)), cb.function("unaccent", String.class, nombre)));
+        q.select(c).where(p);
+        TypedQuery<SieniAlumno> query = em.createQuery(q);
+        query.setParameter(nombre, nombreCompleto != null ? nombreCompleto.toLowerCase() : null);
+        List<SieniAlumno> res = query.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
     }
 }

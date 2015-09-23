@@ -33,6 +33,18 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
     }
 
     @Override
+    public void merge(List<SieniNota> notas) {
+        for (SieniNota actual : notas) {
+            if (actual.getIdNota() != null) {
+                edit(actual);
+            } else {
+                create(actual);
+            }
+        }
+        em.flush();
+    }
+
+    @Override
     public List<SieniNota> getNotasRangoFecha(Date desde, Date hasta) {
         Query q = em.createNamedQuery("SieniNota.getNotasRangoFecha");
         q.setParameter("desde", desde);
@@ -40,4 +52,11 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
         return q.getResultList();
     }
 
+    @Override
+    public List<SieniNota> findAllNoEliminadas() {
+        Character estado = new Character('I');
+        Query q = em.createNamedQuery("SieniNota.findAllNoEliminadas");
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
 }

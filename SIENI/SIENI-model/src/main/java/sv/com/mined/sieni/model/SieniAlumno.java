@@ -43,6 +43,7 @@ import org.primefaces.model.StreamedContent;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniAlumno.findByNombreCompleto", query = "SELECT s FROM SieniAlumno s where s.alNombreCompleto=:nombreCompleto"),
     @NamedQuery(name = "SieniAlumno.findSiguienteCorrelat", query = "SELECT max(s.alCorrelatCarnet) FROM SieniAlumno s where s.alCodigoCarnet=:codigo"),
     @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s join fetch s.sieniMatriculaList mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and mat.idGrado.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
@@ -122,6 +123,8 @@ public class SieniAlumno implements Serializable {
     private String alCodigoCarnet;
     @Column(name = "al_estado")
     private Character alEstado;
+    @Column(name = "al_nombre_completo")
+    private String alNombreCompleto;
     @Column(name = "al_fecha_baja")
     @Temporal(TemporalType.DATE)
     private Date alFechaBaja;
@@ -397,8 +400,8 @@ public class SieniAlumno implements Serializable {
     }
 
     public String getNombreCompleto() {
-        String nombre = this.alPrimNombre + (this.alSeguNombre != null ? " " + this.alSeguNombre : "") + (this.alTercNombre != null ? " " + this.alTercNombre : "");
-        String Apellido = " " + this.alPrimApe + (this.alSeguApe != null ? " " + this.alSeguApe : "") + (this.alTercApe != null ? " " + this.alTercApe : "");
+        String nombre = this.alPrimNombre.trim() + (this.alSeguNombre != null && !this.alSeguNombre.isEmpty() ? " " + this.alSeguNombre.trim() : "") + (this.alTercNombre != null && !this.alTercNombre.isEmpty() ? " " + this.alTercNombre.trim() : "");
+        String Apellido = " " + this.alPrimApe.trim() + (this.alSeguApe != null && !this.alSeguApe.isEmpty() ? " " + this.alSeguApe.trim() : "") + (this.alTercApe != null && !this.alTercApe.isEmpty() ? " " + this.alTercApe.trim() : "");
         nombreCompleto = nombre + Apellido;
         return nombreCompleto;
     }
@@ -495,5 +498,13 @@ public class SieniAlumno implements Serializable {
 
     public void setAlCodigoCarnet(String alCodigoCarnet) {
         this.alCodigoCarnet = alCodigoCarnet;
+    }
+
+    public String getAlNombreCompleto() {
+        return alNombreCompleto;
+    }
+
+    public void setAlNombreCompleto(String alNombreCompleto) {
+        this.alNombreCompleto = alNombreCompleto;
     }
 }

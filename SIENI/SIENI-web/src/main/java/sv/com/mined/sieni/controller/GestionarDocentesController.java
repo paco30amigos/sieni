@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -17,9 +18,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
+import sv.com.mined.sieni.SieniMateriaDocenteFacadeRemote;
+import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.form.GestionarDocentesForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
+import sv.com.mined.sieni.model.SieniMateria;
+import sv.com.mined.sieni.model.SieniMateriaDocente;
+import utils.DateUtils;
 
 /**
  *
@@ -33,6 +39,10 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+    @EJB
+    private SieniMateriaDocenteFacadeRemote sieniMateriaDocenteFacadeRemote;
+    @EJB
+    private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -91,7 +101,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         this.setDocenteModifica(modificado);
         this.setIndexMenu(2);
     }
-    
+
     public void ver(SieniDocente modificado) {
         this.setFotoArchivoModifica(modificado.getDcFoto());
         this.setFotoUsableModifica(getImage(modificado.getDcFoto()));
@@ -137,11 +147,70 @@ public class GestionarDocentesController extends GestionarDocentesForm {
 
     public void eliminarExpediente() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
         this.getEliminar().setDcEstado(new Character('I'));
         sieniDocenteFacadeRemote.edit(this.getEliminar());
-        fill();      
-        
+        fill();
+
+    }
+
+    public void gestionarMateriasDocente(SieniDocente docente) {
+        this.setDocenteModifica(docente);
+        this.setMaterias(sieniMateriaFacadeRemote.findAll());
+        fillMateriasDocente();
+        this.setMateria(new SieniMateria());
+        for (int j = 0; j < this.getMaterias().size(); j++) {
+            for (int i = 0; i < this.getMateriasDocente().size(); i++) {
+                if (this.getMateriasDocente().get(i).getIdMateria().getIdMateria().equals(this.getMaterias().get(j).getIdMateria())) {
+                    this.getMaterias().remove(j);
+                }
+            } 
+        }
+        this.setMateriasDocenteEliminadas(new ArrayList<SieniMateriaDocente>());
+        this.setIndexMenu(4);
+    }
+
+    public void agregarMateria() {
+        SieniMateriaDocente nuevo = new SieniMateriaDocente();
+        nuevo.setIdDocente(this.getDocenteModifica());
+        nuevo.setIdMateria(this.getMateria());
+        nuevo.setMdEstado('A');
+        nuevo.setIdMateriaDocente(-Long.parseLong(new DateUtils().getTime()));
+        this.getMateriasDocente().add(nuevo);
+        for (int i = 0; i < this.getMaterias().size(); i++) {
+            if (nuevo.getIdMateria().getIdMateria().equals(this.getMaterias().get(i).getIdMateria())) {
+                this.getMaterias().remove(i);
+                break;
+            }
+        }
+//        sieniMateriaDocenteFacadeRemote.create(nuevo);
+    }
+
+    public void guardarMaterias() {
+        sieniMateriaDocenteFacadeRemote.merge(this.getMateriasDocente(), this.getMateriasDocenteEliminadas());
+        FacesMessage msg = new FacesMessage("Materias guardadas exitosamente");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        fillMateriasDocente();
+    }
+
+    public void eliminarMateria() {
+        SieniMateriaDocente materia = this.getMateriaEliminada();
+        for (int i = 0; i < this.getMateriasDocente().size(); i++) {
+            if (this.getMateriasDocente().get(i).getIdMateriaDocente().equals(materia.getIdMateriaDocente())) {
+                this.getMateriasDocenteEliminadas().add(this.getMateriasDocente().get(i));
+                this.getMateriasDocente().remove(i);
+                break;
+            }
+        }
+    }
+
+    public void eliminarMateria(SieniMateriaDocente materia) {
+        this.setMateriaEliminada(materia);
+    }
+
+    public void fillMateriasDocente() {
+        List<SieniMateriaDocente> mat = sieniMateriaDocenteFacadeRemote.findByDocente(this.getDocenteModifica().getIdDocente());
+        this.setMateriasDocente(mat);
     }
 }

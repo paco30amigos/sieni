@@ -29,18 +29,18 @@ public class GestionNotasForm {
     private List<SieniAlumno> alumnosList;
     private List<SieniMateria> materiasList;
     private List<SieniEvaluacion> evaluacionesList;
-    private Long idAlumno;
-    private Long idMateria;
-    private Long idEvaluacion;
+    private SieniAlumno idAlumno;
+    private SieniMateria idMateria;
+    private SieniEvaluacion idEvaluacion;
     private SieniMateria materia;
     //modificacion de nota
     private SieniNota notaModifica;
     private List<SieniAlumno> alumnosModificaList;
     private List<SieniMateria> materiasModificaList;
     private List<SieniEvaluacion> evaluacionesModificaList;
-    private Long idAlumnoModifica;
-    private Long idMateriaModifica;
-    private Long idEvaluacionModifica;
+    private SieniAlumno idAlumnoModifica;
+    private SieniMateria idMateriaModifica;
+    private SieniEvaluacion idEvaluacionModifica;
     private SieniMateria materiaModifica;
 
     //subida de excel
@@ -102,28 +102,12 @@ public class GestionNotasForm {
         this.notaNuevo = notaNuevo;
     }
 
-    public SieniNota getNotaModifica() {
-        return notaModifica;
-    }
-
-    public void setNotaModifica(SieniNota notaModifica) {
-        this.notaModifica = notaModifica;
-    }
-
     public List<SieniAlumno> getAlumnosList() {
         return alumnosList;
     }
 
     public void setAlumnosList(List<SieniAlumno> alumnosList) {
         this.alumnosList = alumnosList;
-    }
-
-    public List<SieniAlumno> getAlumnosModificaList() {
-        return alumnosModificaList;
-    }
-
-    public void setAlumnosModificaList(List<SieniAlumno> alumnosModificaList) {
-        this.alumnosModificaList = alumnosModificaList;
     }
 
     public List<SieniMateria> getMateriasList() {
@@ -142,6 +126,54 @@ public class GestionNotasForm {
         this.evaluacionesList = evaluacionesList;
     }
 
+    public SieniAlumno getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(SieniAlumno idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public SieniMateria getIdMateria() {
+        return idMateria;
+    }
+
+    public void setIdMateria(SieniMateria idMateria) {
+        this.idMateria = idMateria;
+    }
+
+    public SieniEvaluacion getIdEvaluacion() {
+        return idEvaluacion;
+    }
+
+    public void setIdEvaluacion(SieniEvaluacion idEvaluacion) {
+        this.idEvaluacion = idEvaluacion;
+    }
+
+    public SieniMateria getMateria() {
+        return materia;
+    }
+
+    public void setMateria(SieniMateria materia) {
+        this.materia = materia;
+    }
+
+    public SieniNota getNotaModifica() {
+        return notaModifica;
+    }
+
+    public void setNotaModifica(SieniNota notaModifica) {
+        this.notaModifica = notaModifica;
+    }
+
+    public List<SieniAlumno> getAlumnosModificaList() {
+        return alumnosModificaList;
+    }
+
+    public void setAlumnosModificaList(List<SieniAlumno> alumnosModificaList) {
+        this.alumnosModificaList = alumnosModificaList;
+    }
+
     public List<SieniMateria> getMateriasModificaList() {
         return materiasModificaList;
     }
@@ -158,60 +190,28 @@ public class GestionNotasForm {
         this.evaluacionesModificaList = evaluacionesModificaList;
     }
 
-    public Long getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(Long idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-
-    public Long getIdMateria() {
-        return idMateria;
-    }
-
-    public void setIdMateria(Long idMateria) {
-        this.idMateria = idMateria;
-    }
-
-    public Long getIdEvaluacion() {
-        return idEvaluacion;
-    }
-
-    public void setIdEvaluacion(Long idEvaluacion) {
-        this.idEvaluacion = idEvaluacion;
-    }
-
-    public Long getIdAlumnoModifica() {
+    public SieniAlumno getIdAlumnoModifica() {
         return idAlumnoModifica;
     }
 
-    public void setIdAlumnoModifica(Long idAlumnoModifica) {
+    public void setIdAlumnoModifica(SieniAlumno idAlumnoModifica) {
         this.idAlumnoModifica = idAlumnoModifica;
     }
 
-    public Long getIdMateriaModifica() {
+    public SieniMateria getIdMateriaModifica() {
         return idMateriaModifica;
     }
 
-    public void setIdMateriaModifica(Long idMateriaModifica) {
+    public void setIdMateriaModifica(SieniMateria idMateriaModifica) {
         this.idMateriaModifica = idMateriaModifica;
     }
 
-    public Long getIdEvaluacionModifica() {
+    public SieniEvaluacion getIdEvaluacionModifica() {
         return idEvaluacionModifica;
     }
 
-    public void setIdEvaluacionModifica(Long idEvaluacionModifica) {
+    public void setIdEvaluacionModifica(SieniEvaluacion idEvaluacionModifica) {
         this.idEvaluacionModifica = idEvaluacionModifica;
-    }
-
-    public SieniMateria getMateria() {
-        return materia;
-    }
-
-    public void setMateria(SieniMateria materia) {
-        this.materia = materia;
     }
 
     public SieniMateria getMateriaModifica() {
@@ -238,6 +238,14 @@ public class GestionNotasForm {
         this.formatoArchivo = formatoArchivo;
     }
 
+    public List<SieniNota> getListaNotasSubidas() {
+        return listaNotasSubidas;
+    }
+
+    public void setListaNotasSubidas(List<SieniNota> listaNotasSubidas) {
+        this.listaNotasSubidas = listaNotasSubidas;
+    }
+
     public SieniMateria getMateriaSubir() {
         return materiaSubir;
     }
@@ -260,14 +268,6 @@ public class GestionNotasForm {
 
     public void setArchivoSubidoNuevo(UploadedFile archivoSubidoNuevo) {
         this.archivoSubidoNuevo = archivoSubidoNuevo;
-    }
-
-    public List<SieniNota> getListaNotasSubidas() {
-        return listaNotasSubidas;
-    }
-
-    public void setListaNotasSubidas(List<SieniNota> listaNotasSubidas) {
-        this.listaNotasSubidas = listaNotasSubidas;
     }
 
     public SieniNota getError() {

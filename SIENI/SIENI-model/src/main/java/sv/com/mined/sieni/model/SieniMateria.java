@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_materia")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniMateria.findByAlumno", query = "SELECT s FROM SieniMateria s join fetch s.idGrado.sieniMatriculaList m JOIN FETCH s.sieniEvaluacionList e where m.idAlumno.idAlumno=:idAlumno and s.maEstado not in (:estado)"),
     @NamedQuery(name = "SieniMateria.findAll", query = "SELECT s FROM SieniMateria s"),
     @NamedQuery(name = "SieniMateria.findByIdMateria", query = "SELECT s FROM SieniMateria s WHERE s.idMateria = :idMateria"),
     @NamedQuery(name = "SieniMateria.findByMaNombre", query = "SELECT s FROM SieniMateria s WHERE s.maNombre = :maNombre"),
@@ -41,6 +44,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniMateria.findByMaCoordinador", query = "SELECT s FROM SieniMateria s WHERE s.maCoordinador = :maCoordinador"),
     @NamedQuery(name = "SieniMateria.findByMaTurno", query = "SELECT s FROM SieniMateria s WHERE s.maTurno = :maTurno")})
 public class SieniMateria implements Serializable {
+
+    @OneToMany(mappedBy = "idMateria")
+    private List<SieniMateriaDocente> sieniMateriaDocenteList;
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -61,7 +67,7 @@ public class SieniMateria implements Serializable {
     private String maTurno;
     @OneToMany(mappedBy = "idMateria")
     private List<SieniPlantilla> sieniPlantillaList;
-    @OneToMany(mappedBy = "idMateria",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idMateria", fetch = FetchType.EAGER)
     private List<SieniEvaluacion> sieniEvaluacionList;
     @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
     @ManyToOne
@@ -131,7 +137,7 @@ public class SieniMateria implements Serializable {
     public void setMaTurno(String maTurno) {
         this.maTurno = maTurno;
     }
-    
+
     @XmlTransient
     public List<SieniPlantilla> getSieniPlantillaList() {
         return sieniPlantillaList;
@@ -191,5 +197,12 @@ public class SieniMateria implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniMateria[ idMateria=" + idMateria + " ]";
     }
-    
+
+    public List<SieniMateriaDocente> getSieniMateriaDocenteList() {
+        return sieniMateriaDocenteList;
+    }
+
+    public void setSieniMateriaDocenteList(List<SieniMateriaDocente> sieniMateriaDocenteList) {
+        this.sieniMateriaDocenteList = sieniMateriaDocenteList;
+    }
 }

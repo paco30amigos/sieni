@@ -31,5 +31,9 @@ public interface SieniNotaFacadeRemote {
 
     int count();
 
+    public void merge(List<SieniNota> notas);
+
     public List<SieniNota> getNotasRangoFecha(Date desde, Date hasta);
+    
+    List<SieniNota> findAllNoEliminadas();
 }

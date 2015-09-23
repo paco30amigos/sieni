@@ -18,18 +18,19 @@
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
-            <h:form id="form">
+            <h:form id="dataForm">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
-                </p:dialog>                    
+                </p:dialog> 
+                <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="4" class="Responsive" id="p1">
                     <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="materia" class=" Responsive" value="#{gestionNotaController.materiaSubir}" valueChangeListener="#{gestionNotaController.getSeccionesGrado}" converter="materia">
-                        <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                    <p:selectOneMenu id="materia" class="Responsive" value="#{gestionNotaController.materiaSubir}" valueChangeListener="#{gestionNotaController.getSeccionesGrado}" converter="materia" filterMatchMode="contains" filter="true">
+                        <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre} - #{mat.idGrado.grNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
                         <p:ajax event="valueChange" update="evaluacion"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.evaluacionSubir}" converter="evaluacion">
+                    <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.evaluacionSubir}" converter="evaluacion" filterMatchMode="contains" filter="true">
                         <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
@@ -57,21 +58,21 @@
                     </p:column>
                     <p:column>
                         <p:commandLink rendered="#{car.errores.size()==0}"><i class="fa fa-check Fs25 Green"></i></p:commandLink>
-                        <p:commandLink rendered="#{car.errores.size()>0}" action="#{gestionNotaController.mostrarErrores(nota)}" oncomplete="PF('dlgError').show();" update="form:dlErr" ajax="true">
+                        <p:commandLink rendered="#{car.errores.size()>0}" action="#{gestionNotaController.mostrarErrores(car)}" update="dataForm:dlErr" oncomplete="PF('dlgError').show()" >
                             <i class="icon-problems Fs25 Red"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
 
                 <p:dialog widgetVar="dlgError" modal="true" appendTo="@(body)" header="Errores" id="dlErr">
-                    <p:outputLabel value="Se encontraron los siguientes errores"/>
+                    <p:outputLabel value="Se encontraron los siguientes errores:"/>
                     <p:dataList value="#{gestionNotaController.error.errores}" var="errors" type="ordered">
                         <p:outputLabel value="#{errors}"/>
                     </p:dataList>
                 </p:dialog>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{gestionNotaController.guardar()}" update="p1" />
+                    <p:commandButton value="Guardar" action="#{gestionNotaController.guardarNotasExcel()}" update="p1" />
                     <p:commandButton value="Limpiar" immediate="true">
                         <p:ajax update="p1" resetValues="true" />
                     </p:commandButton>

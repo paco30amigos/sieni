@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniSuperCompon.findByScDescripcion", query = "SELECT s FROM SieniSuperCompon s WHERE s.scDescripcion = :scDescripcion"),
     @NamedQuery(name = "SieniSuperCompon.findByScFechaIngreso", query = "SELECT s FROM SieniSuperCompon s WHERE s.scFechaIngreso = :scFechaIngreso")})
 public class SieniSuperCompon implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fCompSuperCompon")
+    private List<SieniClaseSupComp> sieniClaseSupCompList;
 
     @JoinColumn(name = "id_tipo_super_compon", referencedColumnName = "id_tipo_super_compon")
     @ManyToOne
@@ -194,6 +197,14 @@ public class SieniSuperCompon implements Serializable {
 
     public void setScAlto(Integer scAlto) {
         this.scAlto = scAlto;
+    }
+
+    public List<SieniClaseSupComp> getSieniClaseSupCompList() {
+        return sieniClaseSupCompList;
+    }
+
+    public void setSieniClaseSupCompList(List<SieniClaseSupComp> sieniClaseSupCompList) {
+        this.sieniClaseSupCompList = sieniClaseSupCompList;
     }
 
 }

@@ -30,4 +30,6 @@ public interface SieniMateriaFacadeRemote {
 
     int count();
     
+    public List<SieniMateria> findByAlumno(Long idAlumno);
+    
 }

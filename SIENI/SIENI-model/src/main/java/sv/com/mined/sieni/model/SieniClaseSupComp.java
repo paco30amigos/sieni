@@ -6,30 +6,37 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
-import javax.persistence.EmbeddedId;
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author Laptop
+ * @author francisco_medina
  */
 @Entity
 @Table(name = "sieni_clase_sup_comp")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniClaseSupComp.findAll", query = "SELECT s FROM SieniClaseSupComp s"),
-    @NamedQuery(name = "SieniClaseSupComp.findByIdClaseSupComp", query = "SELECT s FROM SieniClaseSupComp s WHERE s.sieniClaseSupCompPK.idClaseSupComp = :idClaseSupComp"),
-    @NamedQuery(name = "SieniClaseSupComp.findByFCompSuperCompon", query = "SELECT s FROM SieniClaseSupComp s WHERE s.sieniClaseSupCompPK.fCompSuperCompon = :fCompSuperCompon")})
+    @NamedQuery(name = "SieniClaseSupComp.findAll", query = "SELECT s FROM SieniClaseSupComp s")})
 public class SieniClaseSupComp implements Serializable {
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected SieniClaseSupCompPK sieniClaseSupCompPK;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id_clase_sup_comp")
+    private Long idClaseSupComp;
+    @Column(name = "sc_estado")
+    private Character scEstado;
+    @JoinColumn(name = "f_comp_super_compon", referencedColumnName = "id_super_compon")
+    @ManyToOne(optional = false)
+    private SieniSuperCompon fCompSuperCompon;
     @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
     @ManyToOne
     private SieniClase idClase;
@@ -37,20 +44,32 @@ public class SieniClaseSupComp implements Serializable {
     public SieniClaseSupComp() {
     }
 
-    public SieniClaseSupComp(SieniClaseSupCompPK sieniClaseSupCompPK) {
-        this.sieniClaseSupCompPK = sieniClaseSupCompPK;
+    public SieniClaseSupComp(Long idClaseSupComp) {
+        this.idClaseSupComp = idClaseSupComp;
     }
 
-    public SieniClaseSupComp(long idClaseSupComp, long fCompSuperCompon) {
-        this.sieniClaseSupCompPK = new SieniClaseSupCompPK(idClaseSupComp, fCompSuperCompon);
+    public Long getIdClaseSupComp() {
+        return idClaseSupComp;
     }
 
-    public SieniClaseSupCompPK getSieniClaseSupCompPK() {
-        return sieniClaseSupCompPK;
+    public void setIdClaseSupComp(Long idClaseSupComp) {
+        this.idClaseSupComp = idClaseSupComp;
     }
 
-    public void setSieniClaseSupCompPK(SieniClaseSupCompPK sieniClaseSupCompPK) {
-        this.sieniClaseSupCompPK = sieniClaseSupCompPK;
+    public Character getScEstado() {
+        return scEstado;
+    }
+
+    public void setScEstado(Character scEstado) {
+        this.scEstado = scEstado;
+    }
+
+    public SieniSuperCompon getFCompSuperCompon() {
+        return fCompSuperCompon;
+    }
+
+    public void setFCompSuperCompon(SieniSuperCompon fCompSuperCompon) {
+        this.fCompSuperCompon = fCompSuperCompon;
     }
 
     public SieniClase getIdClase() {
@@ -64,7 +83,7 @@ public class SieniClaseSupComp implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (sieniClaseSupCompPK != null ? sieniClaseSupCompPK.hashCode() : 0);
+        hash += (idClaseSupComp != null ? idClaseSupComp.hashCode() : 0);
         return hash;
     }
 
@@ -75,7 +94,7 @@ public class SieniClaseSupComp implements Serializable {
             return false;
         }
         SieniClaseSupComp other = (SieniClaseSupComp) object;
-        if ((this.sieniClaseSupCompPK == null && other.sieniClaseSupCompPK != null) || (this.sieniClaseSupCompPK != null && !this.sieniClaseSupCompPK.equals(other.sieniClaseSupCompPK))) {
+        if ((this.idClaseSupComp == null && other.idClaseSupComp != null) || (this.idClaseSupComp != null && !this.idClaseSupComp.equals(other.idClaseSupComp))) {
             return false;
         }
         return true;
@@ -83,7 +102,7 @@ public class SieniClaseSupComp implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.mined.sieni.model.SieniClaseSupComp[ sieniClaseSupCompPK=" + sieniClaseSupCompPK + " ]";
+        return "sv.com.mined.sieni.model.SieniClaseSupComp[ idClaseSupComp=" + idClaseSupComp + " ]";
     }
     
 }

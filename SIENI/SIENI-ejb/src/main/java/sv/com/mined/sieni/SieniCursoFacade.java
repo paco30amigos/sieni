@@ -10,8 +10,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniCurso;
-import sv.com.mined.sieni.model.SieniDocente;
 
 /**
  *
@@ -19,6 +19,7 @@ import sv.com.mined.sieni.model.SieniDocente;
  */
 @Stateless
 public class SieniCursoFacade extends AbstractFacade<SieniCurso> implements sv.com.mined.sieni.SieniCursoFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -33,13 +34,13 @@ public class SieniCursoFacade extends AbstractFacade<SieniCurso> implements sv.c
 
     @Override
     public List<SieniCurso> findByEstado(Character estado) {
-    Query q=em.createNamedQuery("SieniCurso.findAByEstado");
+        Query q = em.createNamedQuery("SieniCurso.findAByEstado");
         q.setParameter("estado", estado);
-        
-    List<SieniCurso> res = q.getResultList();   
-    return res;
+
+        List<SieniCurso> res = q.getResultList();
+        return res;
     }
-    
-    
+
+
     
 }

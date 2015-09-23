@@ -41,6 +41,21 @@ public class FormatUtils {
         return ret;
     }
 
+    public Integer getFormatedAnioInt(Date fecha) {
+        SimpleDateFormat dt1 = new SimpleDateFormat(formatoAnio);
+        String anio = null;
+        Integer ret = 2015;
+        if (fecha != null) {
+            try {
+                anio = dt1.format(fecha);
+                ret = Integer.parseInt(anio);
+            } catch (Exception ex) {
+                Logger.getLogger(DateUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return ret;
+    }
+
     public Date getFormatDate(String fecha) {
         SimpleDateFormat dt1 = new SimpleDateFormat(formatoFecha);
         Date ret = null;

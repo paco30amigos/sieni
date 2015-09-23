@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}"/>
+            <p:menuitem value="Gestionar Materias Asignadas"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" >
+                <p:focus id="focus" context="p1"></p:focus>
+                <p:panelGrid id="p1" columns="4"> 
+                    <p:outputLabel for="docente" value="Docente:"></p:outputLabel>
+                    <p:outputLabel id="docente" value="#{gestionarDocentesController.docenteModifica.nombreCompleto}"></p:outputLabel>
+                    <p:outputLabel for="materias" value="Materias: "></p:outputLabel>
+                    <p:selectOneMenu tabindex="1" id="materias" value="#{gestionarDocentesController.materia}" converter="materia">
+                        <f:selectItems itemLabel="#{mat.idGrado.grNombre} - #{mat.maNombre}" itemValue="#{mat}" value="#{gestionarDocentesController.materias}" var="mat" ></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Agregar" action="#{gestionarDocentesController.agregarMateria()}" update="consulta,materias"></p:commandButton>
+                </p:panelGrid>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionarDocentesController.eliminarMateria()}" update="consulta" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionarDocentesController.materiasDocente}" 
+                             paginator="true" rows="5"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Materia">
+                        #{car.idMateria.idGrado.grNombre} - #{car.idMateria.maNombre}
+                    </p:column>
+                    <p:column headerText="acciones">
+                        <p:commandLink action="#{gestionarDocentesController.eliminarMateria(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red" title="Eliminar Materia"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <div class="Container100">
+                    <p:commandButton value="Guardar" action="#{gestionarDocentesController.guardarMaterias()}" update="p1,focus,consulta" oncomplete="configurarEnterTab()"  />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()"  />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{gestionarDocentesController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

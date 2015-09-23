@@ -45,5 +45,11 @@ public interface SieniAlumnoFacadeRemote {
 
     public boolean alumnoRegistrado(SieniAlumno alumno);
 
+    public boolean alumnoRegistrados(List<SieniAlumno> alumnos);
+
     public Integer findSiguienteCorrelat(String inicial);
+
+    public SieniAlumno findByNombreCompleto(String nombreCompleto);
+    
+//    public List<SieniAlumno> findByGrado(Long idGrado);
 }

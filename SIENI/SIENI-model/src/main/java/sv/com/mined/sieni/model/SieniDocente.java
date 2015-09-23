@@ -69,6 +69,8 @@ public class SieniDocente implements Serializable {
     @Column(name = "dc_foto")
     private byte[] dcFoto;
     @OneToMany(mappedBy = "idDocente")
+    private List<SieniMateriaDocente> sieniMateriaDocenteList;
+    @OneToMany(mappedBy = "idDocente")
     private List<SieniClaseDocente> sieniClaseDocenteList;
 
     private static final long serialVersionUID = 1L;
@@ -418,6 +420,14 @@ public class SieniDocente implements Serializable {
 
     public void setSieniClaseDocenteList(List<SieniClaseDocente> sieniClaseDocenteList) {
         this.sieniClaseDocenteList = sieniClaseDocenteList;
+    }
+
+    public List<SieniMateriaDocente> getSieniMateriaDocenteList() {
+        return sieniMateriaDocenteList;
+    }
+
+    public void setSieniMateriaDocenteList(List<SieniMateriaDocente> sieniMateriaDocenteList) {
+        this.sieniMateriaDocenteList = sieniMateriaDocenteList;
     }
 
 }

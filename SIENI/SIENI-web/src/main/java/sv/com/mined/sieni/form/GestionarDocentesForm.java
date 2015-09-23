@@ -14,6 +14,8 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniDocente;
+import sv.com.mined.sieni.model.SieniMateria;
+import sv.com.mined.sieni.model.SieniMateriaDocente;
 import utils.siteUrls;
 
 /**
@@ -37,6 +39,13 @@ public class GestionarDocentesForm {
     private UploadedFile fotoModifica;
     private StreamedContent fotoUsableModifica;
     private byte[] fotoArchivoModifica;
+
+    //para gestion de materias
+    private List<SieniMateriaDocente> materiasDocente;
+    private List<SieniMateriaDocente> materiasDocenteEliminadas;
+    private List<SieniMateria> materias;
+    private SieniMateria materia;
+    private SieniMateriaDocente materiaEliminada;
 
     public List<SieniDocente> getDocentesList() {
         return alumnosList;
@@ -120,6 +129,9 @@ public class GestionarDocentesForm {
             case 3:
                 sU.redirect(sU.getBasegestionDocentes() + "ver.xhtml");
                 break;
+            case 4:
+                sU.redirect(sU.getBasegestionDocentes() + "gestionMaterias.xhtml");
+                break;
         }
         this.indexMenu = indexMenu;
     }
@@ -154,5 +166,45 @@ public class GestionarDocentesForm {
 
     public void setEliminar(SieniDocente eliminar) {
         this.eliminar = eliminar;
+    }
+
+    public List<SieniMateriaDocente> getMateriasDocente() {
+        return materiasDocente;
+    }
+
+    public void setMateriasDocente(List<SieniMateriaDocente> materiasDocente) {
+        this.materiasDocente = materiasDocente;
+    }
+
+    public List<SieniMateria> getMaterias() {
+        return materias;
+    }
+
+    public void setMaterias(List<SieniMateria> materias) {
+        this.materias = materias;
+    }
+
+    public SieniMateria getMateria() {
+        return materia;
+    }
+
+    public void setMateria(SieniMateria materia) {
+        this.materia = materia;
+    }
+
+    public List<SieniMateriaDocente> getMateriasDocenteEliminadas() {
+        return materiasDocenteEliminadas;
+    }
+
+    public void setMateriasDocenteEliminadas(List<SieniMateriaDocente> materiasDocenteEliminadas) {
+        this.materiasDocenteEliminadas = materiasDocenteEliminadas;
+    }
+
+    public SieniMateriaDocente getMateriaEliminada() {
+        return materiaEliminada;
+    }
+
+    public void setMateriaEliminada(SieniMateriaDocente materiaEliminada) {
+        this.materiaEliminada = materiaEliminada;
     }
 }

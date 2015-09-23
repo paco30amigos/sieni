@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_nota")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniNota.findAllNoEliminadas", query = "SELECT s FROM SieniNota s where s.ntEstado not in (:estado) and s.idAlumno.alEstado not in (:estado)"),
     @NamedQuery(name = "SieniNota.findAll", query = "SELECT s FROM SieniNota s"),
     @NamedQuery(name = "SieniNota.findByIdNota", query = "SELECT s FROM SieniNota s WHERE s.idNota = :idNota"),
     @NamedQuery(name = "SieniNota.findByNtCalificacion", query = "SELECT s FROM SieniNota s WHERE s.ntCalificacion = :ntCalificacion"),
@@ -43,6 +44,8 @@ public class SieniNota implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_nota")
     private Long idNota;
+    @Column(name = "nt_anio")
+    private Integer ntAnio;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "nt_calificacion")
     private Double ntCalificacion;
@@ -138,8 +141,10 @@ public class SieniNota implements Serializable {
     public String getTipoIngreso() {
         if (ntTipoIngreso.equals("A")) {
             tipoIngreso = "Automático";
-        } else {
+        } else if (ntTipoIngreso.equals("M")) {
             tipoIngreso = "Manual";
+        } else {
+            tipoIngreso = "Excel";
         }
         return tipoIngreso;
     }
@@ -170,6 +175,14 @@ public class SieniNota implements Serializable {
 
     public void setErrores(List<String> errores) {
         this.errores = errores;
+    }
+
+    public Integer getNtAnio() {
+        return ntAnio;
+    }
+
+    public void setNtAnio(Integer ntAnio) {
+        this.ntAnio = ntAnio;
     }
 
 }

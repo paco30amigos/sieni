@@ -58,6 +58,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
             this.getAlumnoNuevo().setAlEstado('A');
             generarCarnet(this.getAlumnoNuevo());
+            this.getAlumnoNuevo().setAlNombreCompleto(this.getAlumnoNuevo().getNombreCompleto());
             sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
@@ -142,9 +143,10 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.getAlumnoModifica().setAlFoto(this.getFotoArchivoModifica());
         quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
         if (validarModifica(this.getAlumnoModifica())) {//valida el guardado
-            if(this.getAlumnoModifica().getAlCarnet()==null){
+            if (this.getAlumnoModifica().getAlCarnet() == null) {
                 generarCarnet(this.getAlumnoModifica());
             }
+            this.getAlumnoModifica().setAlNombreCompleto(this.getAlumnoModifica().getNombreCompleto());
             sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");

@@ -22,33 +22,32 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
+                <p:focus id="focus" context="mod_p1"></p:focus>
                 <p:panelGrid columns="4" class="Container50 Responsive" id="mod_p1">
                     <p:outputLabel for="mod_alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="mod_alumno"  class=" Responsive" value="#{gestionNotaController.idAlumnoModifica}">
-                        <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosModificaList}" var="al"/>
+                    <p:selectOneMenu tabindex="1" id="mod_alumno"  class=" Responsive" value="#{gestionNotaController.idAlumnoModifica}" valueChangeListener="#{gestionNotaController.getMateriasAlumnoModifica}" converter="alumno" filter="true" filterMatchMode="contains">
+                        <f:selectItems itemValue ="#{al}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosModificaList}" var="al"/>
+                        <p:ajax event="valueChange" update="mod_materia,mod_evaluacion"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="mod_materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionNotaController.idMateriaModifica}" valueChangeListener="#{gestionNotaController.getSeccionesGradoModifica}">
-                        <f:selectItems itemValue ="#{mat.idMateria}" itemLabel="#{mat.maNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                    <p:selectOneMenu tabindex="2" id="mod_materia" class=" Responsive" value="#{gestionNotaController.idMateriaModifica}" valueChangeListener="#{gestionNotaController.getSeccionesGradoModifica}" converter="materia" filter="true" filterMatchMode="contains">
+                        <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.idGrado.grNombre} - #{mat.maNombre}" value="#{gestionNotaController.materiasModificaList}" var="mat"/>
                         <p:ajax event="valueChange" update="mod_evaluacion"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="mod_evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu  id="mod_evaluacion" class=" Responsive" value="#{gestionNotaController.idEvaluacionModifica}">
-                        <f:selectItems itemValue ="#{eval.idEvaluacion}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesModificaList}" var="eval"/>
+                    <p:selectOneMenu tabindex="3" id="mod_evaluacion" class=" Responsive" value="#{gestionNotaController.idEvaluacionModifica}" converter="evaluacion" filter="true" filterMatchMode="contains">
+                        <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesModificaList}" var="eval"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="mod_nota" value="Nota: " class=" Responsive"></p:outputLabel>
-                    <p:spinner id="mod_nota" min="0.0" value="#{gestionNotaController.notaModifica.ntCalificacion}" max="10"></p:spinner>
+                    <p:spinner tabindex="4" id="mod_nota" min="0.0" value="#{gestionNotaController.notaModifica.ntCalificacion}" max="10.0" stepFactor="0.5"></p:spinner>
                     <p:outputLabel for="mod_tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="mod_tipoIngreso"  class=" Responsive" value="#{gestionNotaController.notaModifica.ntTipoIngreso}">
-                        <f:selectItem itemValue ="M" itemLabel="Manual"/>
-                        <f:selectItem itemValue ="A" itemLabel="Automático"/>
-                    </p:selectOneMenu>  
+                    <p:outputLabel id="mod_tipoIngreso" value="#{gestionNotaController.notaModifica.tipoIngreso}" class=" Responsive"></p:outputLabel>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{gestionNotaController.guardarModifica()}" update="mod_p1" />
+                    <p:commandButton tabindex="6" value="Guardar" action="#{gestionNotaController.guardarModifica()}" update="mod_p1,focus" oncomplete="configurarEnterTab()" />
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="mod_p1" resetValues="true" />
+                        <p:ajax update="mod_p1,focus" resetValues="true" oncomplete="configurarEnterTab()" />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="mod_p1" resetValues="true" listener="#{gestionNotaController.setIndexMenu(0)}"/>

@@ -25,6 +25,7 @@ public class FormatUtils {
     private String formatoTelefono = "####-####";
     private String formatoNumero = "###,###,###.##";
     private String formatoFecha = "dd/MM/yyyy";
+    private String formatoHora = "hh:mm a";
     private String formatoAnio = "yyyy";
     private String separadorUsuarios = ",";
 
@@ -125,6 +126,19 @@ public class FormatUtils {
                 antPatron += sigPatron;
             }
             ret = ret.substring(0, (ret.length() - 1));
+        }
+        return ret;
+    }
+
+    public String getFormatedTime(Date hora) {
+        SimpleDateFormat dt1 = new SimpleDateFormat(formatoHora);
+        String ret = null;
+        if (hora != null) {
+            try {
+                ret = dt1.format(hora);
+            } catch (Exception ex) {
+                Logger.getLogger(DateUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return ret;
     }

@@ -29,5 +29,6 @@ public interface SieniClaseFacadeRemote {
     List<SieniClase> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniClase> findAllNoInactivos();
 }

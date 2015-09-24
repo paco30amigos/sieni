@@ -34,6 +34,7 @@
     <class>sv.com.mined.sieni.model.SieniSuperCompon</class>
     <class>sv.com.mined.sieni.model.SieniTemaDuda</class>
     <class>sv.com.mined.sieni.model.SieniTipoComponente</class>
+    <class>sv.com.mined.sieni.model.SieniTipoElemPlantilla</class>
     <class>sv.com.mined.sieni.model.SieniBitacora</class>
     <class>sv.com.mined.sieni.model.SieniAccion</class>
     <class>sv.com.mined.sieni.model.SieniCompInteraccion</class>

@@ -5,9 +5,12 @@
  */
 package utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 /**
@@ -61,6 +64,34 @@ public class DateUtils {
         fechaCalendario.setTime(fechaActual);
         String diaSemana = getDayOfWeek(fechaActual);
         ret = getNameDay(diaSemana);
+        return ret;
+    }
+
+    public String getAllNamesOfWeek(String dias) {
+        String ret = "";
+        String[] diasSemana;
+        boolean inicio = true;
+        if (dias != null) {
+            diasSemana = dias.split(",");
+            for (String dia : diasSemana) {
+                if (inicio) {
+                    ret += getNameDay(dia);
+                } else {
+                    ret += ", " + getNameDay(dia);
+                }
+                inicio = false;
+            }
+        }
+        return ret;
+    }
+
+    public List<String> getAllNamesOfWeekList(String dias) {
+        List<String> ret = new ArrayList<>();
+        String[] diasSemana;
+        if (dias != null) {
+            diasSemana = dias.split(",");
+            ret.addAll(Arrays.asList(diasSemana));
+        }
         return ret;
     }
 

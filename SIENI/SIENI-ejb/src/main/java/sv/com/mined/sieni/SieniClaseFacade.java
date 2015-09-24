@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniClase;
 
 /**
@@ -16,6 +18,7 @@ import sv.com.mined.sieni.model.SieniClase;
  */
 @Stateless
 public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.com.mined.sieni.SieniClaseFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +30,12 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
     public SieniClaseFacade() {
         super(SieniClase.class);
     }
-    
+
+    @Override
+    public List<SieniClase> findAllNoInactivos() {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniClase.findAllNoInactivos");
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
 }

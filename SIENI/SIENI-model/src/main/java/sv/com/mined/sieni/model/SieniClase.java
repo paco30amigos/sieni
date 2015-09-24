@@ -11,12 +11,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
@@ -32,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniClase.findAll", query = "SELECT s FROM SieniClase s"),
+    @NamedQuery(name = "SieniClase.findAllNoInactivos", query = "SELECT s FROM SieniClase s where s.clEstado not in (:estado)"),
     @NamedQuery(name = "SieniClase.findByIdClase", query = "SELECT s FROM SieniClase s WHERE s.idClase = :idClase"),
     @NamedQuery(name = "SieniClase.findByClHorario", query = "SELECT s FROM SieniClase s WHERE s.clHorario = :clHorario"),
     @NamedQuery(name = "SieniClase.findByClEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado"),
@@ -43,6 +47,8 @@ public class SieniClase implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_clase")
+    @SequenceGenerator(name = "sec_sieni_clase", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_clase")
     @Basic(optional = false)
     @Column(name = "id_clase")
     private Long idClase;
@@ -52,6 +58,8 @@ public class SieniClase implements Serializable {
     private Character clEstado;
     @Column(name = "cl_tipo")
     private Character clTipo;
+    @Column(name = "cl_tipo_publicacion")
+    private Character clTipoPublicacion;
     @Column(name = "cl_tema")
     private String clTema;
     @Column(name = "cl_hora")
@@ -194,6 +202,35 @@ public class SieniClase implements Serializable {
         return estado;
     }
 
+    public String getTipo() {
+        String tipo = "";
+        switch (clTipo) {
+            case 'O':
+                tipo = "Clase en vivo";
+                break;
+            case 'V':
+                tipo = "Video clase";
+                break;
+            case 'I':
+                tipo = "Clase interactiva";
+                break;
+        }
+        return tipo;
+    }
+
+    public String getTipoPublicacion() {
+        String tipo = "";
+        switch (clTipoPublicacion) {
+            case 'A':
+                tipo = "Automática";
+                break;
+            case 'M':
+                tipo = "Manual";
+                break;
+        }
+        return tipo;
+    }
+
     public void setEstado(String estado) {
         this.estado = estado;
     }
@@ -212,6 +249,14 @@ public class SieniClase implements Serializable {
 
     public void setClHora(Date clHora) {
         this.clHora = clHora;
+    }
+
+    public Character getClTipoPublicacion() {
+        return clTipoPublicacion;
+    }
+
+    public void setClTipoPublicacion(Character clTipoPublicacion) {
+        this.clTipoPublicacion = clTipoPublicacion;
     }
 
 }

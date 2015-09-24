@@ -15,33 +15,34 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  *
- * @author Laptop
+ * @author francisco_medina
  */
 @Entity
 @Table(name = "sieni_elem_plantilla")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniElemPlantilla.findAll", query = "SELECT s FROM SieniElemPlantilla s"),
-    @NamedQuery(name = "SieniElemPlantilla.findByIdElemPlantilla", query = "SELECT s FROM SieniElemPlantilla s WHERE s.idElemPlantilla = :idElemPlantilla"),
-    @NamedQuery(name = "SieniElemPlantilla.findByEpDescripcion", query = "SELECT s FROM SieniElemPlantilla s WHERE s.epDescripcion = :epDescripcion"),
-    @NamedQuery(name = "SieniElemPlantilla.findByEpOrden", query = "SELECT s FROM SieniElemPlantilla s WHERE s.epOrden = :epOrden"),
-    @NamedQuery(name = "SieniElemPlantilla.findByEpTipo", query = "SELECT s FROM SieniElemPlantilla s WHERE s.epTipo = :epTipo")})
+    @NamedQuery(name = "SieniElemPlantilla.findAll", query = "SELECT s FROM SieniElemPlantilla s")})
 public class SieniElemPlantilla implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id_elem_plantilla")
     private Long idElemPlantilla;
+    @Size(max = 100)
     @Column(name = "ep_descripcion")
     private String epDescripcion;
     @Column(name = "ep_orden")
     private Integer epOrden;
-    @Column(name = "ep_tipo")
-    private Character epTipo;
+    @Column(name = "ep_estado")
+    private Character epEstado;
+    @JoinColumn(name = "id_tipo_elem_plantilla", referencedColumnName = "id_tipo_elem_plantilla")
+    @ManyToOne
+    private SieniTipoElemPlantilla idTipoElemPlantilla;
     @JoinColumn(name = "id_plantilla", referencedColumnName = "id_plantilla")
     @ManyToOne
     private SieniPlantilla idPlantilla;
@@ -77,12 +78,20 @@ public class SieniElemPlantilla implements Serializable {
         this.epOrden = epOrden;
     }
 
-    public Character getEpTipo() {
-        return epTipo;
+    public Character getEpEstado() {
+        return epEstado;
     }
 
-    public void setEpTipo(Character epTipo) {
-        this.epTipo = epTipo;
+    public void setEpEstado(Character epEstado) {
+        this.epEstado = epEstado;
+    }
+
+    public SieniTipoElemPlantilla getIdTipoElemPlantilla() {
+        return idTipoElemPlantilla;
+    }
+
+    public void setIdTipoElemPlantilla(SieniTipoElemPlantilla idTipoElemPlantilla) {
+        this.idTipoElemPlantilla = idTipoElemPlantilla;
     }
 
     public SieniPlantilla getIdPlantilla() {

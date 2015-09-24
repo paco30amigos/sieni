@@ -5,179 +5,66 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
-            <p:menuitem value="Programación de clases" url="#{siteUrls.programacionClases}"/>
+            <p:menuitem value="Busqueda Programación de clases" url="#{siteUrls.programacionClases}"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Consultar programación de clases">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:remoteCommand  onstart="alert('Modificar')" update="clases" name="modificar"/>
-                    <p:remoteCommand  onstart="alert('Eliminar')" update="clases" name="eliminar"/>
-                    <p:dataTable id="clases" rows="10" var="car" value="#{clasesForm.plantillas}" 
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true"
-                                 >
-                        <p:column headerText="Docente" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo300}
-                        </p:column>
-                        <p:column headerText="Tipo" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo30}
-                        </p:column>
-                        <p:column headerText="Curso" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
-                        </p:column>
-                        <p:column headerText="Tema" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
-                        </p:column>
-                        <p:column headerText="Hora" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.hora}
-                        </p:column>
-                        <p:column headerText="Horario" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
-                        </p:column>
-                        <p:column headerText="Tipo Publicación" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
-                        </p:column>
-                        <p:column headerText="Estado" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
-                        </p:column>
-                        <p:column headerText="Acciones">
-                            <i class="icon-forbid-1 Fs25 Red" style="cursor: pointer" title="Consultar Clase"></i>
-                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Consultar Plantilla de Clase"></i>
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Programación de Clase"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Programación de Clase"></i>
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton value="Crear"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Crear programación de clase">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda2" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
-                    <div class="EmptyBox20"></div>
-
-                    <p:panelGrid columns="2" class="Container50">
-                        <p:outputLabel  value="Docente: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  value="#{crearClaseForm.docente}" class="Contanier10 Responsive" filter="true" filterMatchMode="startsWith">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo300}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>                    
-                        <p:outputLabel  value="Tipo de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu value="#{crearClaseForm.tipoClase}" class="Contanier10 Responsive">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo100}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>                    
-                        <p:outputLabel  value="Curso: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu value="#{crearClaseForm.curso}" class="Contanier10 Responsive">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo100}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel  value="Tema de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel  value="Hora: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.hora}"></p:inputText>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50">
-                        <p:outputLabel value="Horario : " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectManyButton  value="#{crearClaseForm.horariosSelected}">
-                            <f:selectItems var="horarios" value="#{crearClaseForm.horarios}" itemLabel="#{horarios.description}" itemValue="#{horarios.self}"/>
-                        </p:selectManyButton>                    
-                        <p:outputLabel  value="Tipo de publicación: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu value="#{crearClaseForm.tipoPublicacion}">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>                    
-                        <p:outputLabel  value="Estado de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  value="#{crearClaseForm.estadoClase}" class="Contanier10 Responsive">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo15}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>                    
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton value="Crear"></p:commandButton>
-                    <p:commandButton value="Limpiar"></p:commandButton>
-                    <p:commandButton value="Cancelar"></p:commandButton>
-                    <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
-                        <p:menuitem value="Gestionar Secciones">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Materias">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Clases">
-                        </p:menuitem>
-                    </p:splitButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Modificar programación de clase">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda2" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
-                    <div class="EmptyBox20"></div>
-
-                    <p:panelGrid columns="2" class="Container50">
-                        <p:outputLabel  value="Docente: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  value="#{crearClaseForm.docente}" class="Contanier10 Responsive" filter="true" filterMatchMode="startsWith">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo300}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>                    
-                        <p:outputLabel  value="Tipo de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu value="#{crearClaseForm.tipoClase}" class="Contanier10 Responsive">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo100}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>                    
-                        <p:outputLabel  value="Curso: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu value="#{crearClaseForm.curso}" class="Contanier10 Responsive">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo100}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel  value="Tema de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel  value="Hora: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.hora}"></p:inputText>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50">
-                        <p:outputLabel value="Horario : " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectManyButton  value="#{crearClaseForm.horariosSelected}">
-                            <f:selectItems var="horarios" value="#{crearClaseForm.horarios}" itemLabel="#{horarios.description}" itemValue="#{horarios.self}"/>
-                        </p:selectManyButton>                    
-                        <p:outputLabel  value="Tipo de publicación: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu value="#{crearClaseForm.tipoPublicacion}">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo30}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>                    
-                        <p:outputLabel  value="Estado de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  value="#{crearClaseForm.estadoClase}" class="Contanier10 Responsive">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo15}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>                    
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton value="Crear"></p:commandButton>
-                    <p:commandButton value="Limpiar"></p:commandButton>
-                    <p:commandButton value="Cancelar"></p:commandButton>
-                    <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
-                        <p:menuitem value="Gestionar Secciones">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Materias">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Clases">
-                        </p:menuitem>
-                    </p:splitButton>
-                </h:form>
-            </p:tab>
-        </p:tabView>
-
+        <div class="EmptyBox5"></div>
+        <h:form>
+            <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                <p:outputLabel value="Esta ayuda sirve un monton"/>
+            </p:dialog>
+            <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Si" action="#{programacionClasesController.eliminarExpediente()}" update="consulta" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+            </p:dialog>
+            <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
+            <p:dataTable id="consulta" paginatorPosition="bottom"  var="car" value="#{programacionClasesController.clasesList}" 
+                         paginator="true" rows="5"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,20,40"
+                         reflow="true"
+                         >
+                <p:column headerText="Tipo" filterBy="#{car.tipo}" filterable="true" filterMatchMode="contains">
+                    #{car.tipo}
+                </p:column>
+                <p:column headerText="Curso" filterBy="#{car.idCurso.crNombre}" filterable="true" filterMatchMode="contains">
+                    #{car.idCurso.crNombre}
+                </p:column>
+                <p:column headerText="Tema" filterBy="#{car.clTema}" filterable="true" filterMatchMode="contains">
+                    #{car.clTema}
+                </p:column>
+                <p:column headerText="Hora" filterBy="#{formatUtils.getFormatedTime(car.clHora)}" filterable="true" filterMatchMode="contains">
+                    #{formatUtils.getFormatedTime(car.clHora)}
+                </p:column>
+                <p:column headerText="Horario" filterBy="#{dateUtils.getAllNamesOfWeek(car.clHorario)}" filterable="true" filterMatchMode="contains">
+                    #{dateUtils.getAllNamesOfWeek(car.clHorario)}
+                </p:column>
+                <p:column headerText="Tipo Publicación" filterBy="#{car.tipoPublicacion}" filterable="true" filterMatchMode="contains">
+                    #{car.tipoPublicacion}
+                </p:column>
+                <p:column headerText="Estado" filterBy="#{car.estado}" filterable="true" filterMatchMode="contains">
+                    #{car.estado}
+                </p:column>
+                <p:column headerText="Acciones">
+                    <p:commandLink action="#{programacionClasesController.ver(car)}"><i class="icon-visibility1 Fs25 Red" title="Ver programación" ></i></p:commandLink>
+                    <p:commandLink action="#{programacionClasesController.modificar(car)}"><i class="icon-list Fs25 Red" title="Consultar Plantilla de Clase" ></i></p:commandLink>
+                    <p:commandLink action="#{programacionClasesController.modificar(car)}"><i class="icon-compose Fs25 Red" title="Modificar Programación" ></i></p:commandLink>
+                    <p:commandLink action="#{programacionClasesController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <i class="icon-close Fs25 Red" title="Eliminar Expediente"></i>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton value="Adicionar Programación" action="#{programacionClasesController.setIndexMenu(1)}"></p:commandButton>
+            <p:commandButton value="Refrescar" action="#{programacionClasesController.refresh()}" update="consulta"></p:commandButton>
+        </h:form>
     </ui:define>
 </ui:composition>

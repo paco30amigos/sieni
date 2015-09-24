@@ -21,7 +21,7 @@
         <h:form>            
             <p:panel>
                 <p:panelGrid columns="4">
-                    <p:outputLabel for="anioDesde" value="Matriculado desde:"></p:outputLabel>
+                    <p:outputLabel for="anioDesde" value="Registrado desde:"></p:outputLabel>
                     <p:calendar id="anioDesde" value="#{rptAlumnosController.anioDesde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true">
                         <p:ajax event="dateSelect" update="anioHasta"></p:ajax>
                     </p:calendar>
@@ -37,6 +37,12 @@
                     <p:selectOneMenu id="seccion" value="#{rptAlumnosController.idSeccion}">
                         <f:selectItem itemValue="0" itemLabel="Seleccionar todos"></f:selectItem>
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptAlumnosController.seccionesList}" var="seccion"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Matriculado año actual"></p:outputLabel>
+                    <p:selectOneMenu>
+                        <f:selectItem itemLabel="Seleccionar todos" itemValue="0"></f:selectItem>
+                        <f:selectItem itemLabel="Si" itemValue="1"></f:selectItem>
+                        <f:selectItem itemLabel="No" itemValue="2"></f:selectItem>
                     </p:selectOneMenu>
                     <p:commandButton value="generar" actionListener="#{rptAlumnosController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>

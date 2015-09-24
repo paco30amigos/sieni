@@ -94,13 +94,13 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         //longitud de contrasenia
 //        validaciones.add(new ValidationPojo(nuevo.getAlContrasenia().length() < 8, "La contraseña debe ser de almenos 8 caracteres", 0));
         //alumno ya registrado
-        validaciones.add(new ValidationPojo(this.getAlumnoNuevo().getAlPrimApe().isEmpty(), "Debe ingresar Primer Apellido", FacesMessage.SEVERITY_ERROR));
-        validaciones.add(new ValidationPojo(this.getAlumnoNuevo().getAlPrimNombre().isEmpty(), "Debe ingresar Primer Nombre", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(nuevo.getAlPrimApe().isEmpty(), "Debe ingresar Primer Apellido", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(nuevo.getAlPrimNombre().isEmpty(), "Debe ingresar Primer Nombre", FacesMessage.SEVERITY_ERROR));
         validaciones.add(new ValidationPojo(sieniAlumnoFacadeRemote.alumnoRegistrado(nuevo), "El Alumno ya esta registrado", FacesMessage.SEVERITY_WARN));
-        validaciones.add(new ValidationPojo(this.getAlumnoNuevo().getAlFechaNacimiento().before(du.getFechaMinima()), "La fecha de nacimiento es menor que " + fu.getFormatedDate(du.getFechaMinima()), FacesMessage.SEVERITY_WARN));
-        validaciones.add(new ValidationPojo(this.getAlumnoNuevo().getAlFechaNacimiento().after(du.getFechaMaxima()), "La fecha de nacimiento es mayor que " + fu.getFormatedDate(du.getFechaMaxima()), FacesMessage.SEVERITY_WARN));
-        if (this.getAlumnoNuevo().getAlCorreo() != null) {//si se ingreso un correo lo valida
-            validaciones.add(new ValidationPojo(ev.validate(this.getAlumnoNuevo().getAlCorreo()), "El correo electronico no válido", FacesMessage.SEVERITY_WARN));
+        validaciones.add(new ValidationPojo(nuevo.getAlFechaNacimiento().before(du.getFechaMinima()), "La fecha de nacimiento es menor que " + fu.getFormatedDate(du.getFechaMinima()), FacesMessage.SEVERITY_WARN));
+        validaciones.add(new ValidationPojo(nuevo.getAlFechaNacimiento().after(du.getFechaMaxima()), "La fecha de nacimiento es mayor que " + fu.getFormatedDate(du.getFechaMaxima()), FacesMessage.SEVERITY_WARN));
+        if (nuevo.getAlCorreo() != null && !nuevo.getAlCorreo().isEmpty()) {//si se ingreso un correo lo valida
+            validaciones.add(new ValidationPojo(!ev.validate(nuevo.getAlCorreo()), "El correo electronico no válido", FacesMessage.SEVERITY_WARN));
         }
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
@@ -185,8 +185,8 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         }
         validaciones.add(new ValidationPojo(this.getAlumnoModifica().getAlFechaNacimiento().before(du.getFechaMinima()), "La fecha de nacimiento es menor que " + fu.getFormatedDate(du.getFechaMinima()), FacesMessage.SEVERITY_WARN));
         validaciones.add(new ValidationPojo(this.getAlumnoModifica().getAlFechaNacimiento().after(du.getFechaMaxima()), "La fecha de nacimiento es mayor que " + fu.getFormatedDate(du.getFechaMaxima()), FacesMessage.SEVERITY_WARN));
-        if (this.getAlumnoNuevo().getAlCorreo() != null) {//si se ingreso un correo lo valida
-            validaciones.add(new ValidationPojo(ev.validate(this.getAlumnoModifica().getAlCorreo()), "El correo electronico no válido", FacesMessage.SEVERITY_WARN));
+        if (nuevo.getAlCorreo() != null && !nuevo.getAlCorreo().isEmpty()) {//si se ingreso un correo lo valida
+            validaciones.add(new ValidationPojo(!ev.validate(nuevo.getAlCorreo()), "El correo electronico no válido", FacesMessage.SEVERITY_WARN));
         }
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;

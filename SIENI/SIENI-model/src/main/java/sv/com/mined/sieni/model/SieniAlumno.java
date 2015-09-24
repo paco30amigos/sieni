@@ -75,6 +75,8 @@ public class SieniAlumno implements Serializable {
     @Lob
     @Column(name = "al_foto")
     private byte[] alFoto;
+    @OneToMany(mappedBy = "idAlumno")
+    private List<SieniCursoAlumno> sieniCursoAlumnoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -148,8 +150,6 @@ public class SieniAlumno implements Serializable {
     private List<SieniMatricula> sieniMatriculaList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniNota> sieniNotaList;
-    @OneToMany(mappedBy = "idAlumno")
-    private List<SieniCurso> sieniCursoList;
     @Transient
     private String nombreCompleto;
     @Transient
@@ -365,15 +365,6 @@ public class SieniAlumno implements Serializable {
         this.sieniNotaList = sieniNotaList;
     }
 
-    @XmlTransient
-    public List<SieniCurso> getSieniCursoList() {
-        return sieniCursoList;
-    }
-
-    public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
-        this.sieniCursoList = sieniCursoList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -506,5 +497,14 @@ public class SieniAlumno implements Serializable {
 
     public void setAlNombreCompleto(String alNombreCompleto) {
         this.alNombreCompleto = alNombreCompleto;
+    }
+
+    @XmlTransient
+    public List<SieniCursoAlumno> getSieniCursoAlumnoList() {
+        return sieniCursoAlumnoList;
+    }
+
+    public void setSieniCursoAlumnoList(List<SieniCursoAlumno> sieniCursoAlumnoList) {
+        this.sieniCursoAlumnoList = sieniCursoAlumnoList;
     }
 }

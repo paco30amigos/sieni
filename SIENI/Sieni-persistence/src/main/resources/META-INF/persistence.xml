@@ -40,6 +40,7 @@
     <class>sv.com.mined.sieni.model.SieniCompInteraccion</class>
     <class>sv.com.mined.sieni.model.SieniEvento</class>
     <class>sv.com.mined.sieni.model.SieniTipoSuperCompon</class>
+    <class>sv.com.mined.sieni.model.SieniCursoAlumno</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

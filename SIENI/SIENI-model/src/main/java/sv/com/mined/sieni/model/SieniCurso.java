@@ -42,6 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniCurso.findByCrCapacidad", query = "SELECT s FROM SieniCurso s WHERE s.crCapacidad = :crCapacidad"),
     @NamedQuery(name = "SieniCurso.findByCrFechaIngreso", query = "SELECT s FROM SieniCurso s WHERE s.crFechaIngreso = :crFechaIngreso")})
 public class SieniCurso implements Serializable {
+    @OneToMany(mappedBy = "idCurso")
+    private List<SieniCursoAlumno> sieniCursoAlumnoList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_curso")
@@ -60,9 +62,6 @@ public class SieniCurso implements Serializable {
     private List<SieniNoticia> sieniNoticiaList;
     @OneToMany(mappedBy = "idCurso")
     private List<SieniEvaluacion> sieniEvaluacionList;
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
-    @ManyToOne
-    private SieniAlumno idAlumno;
     @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
     @ManyToOne
     private SieniDocente idDocente;
@@ -150,14 +149,6 @@ protected void onCreate() {
         this.sieniEvaluacionList = sieniEvaluacionList;
     }
 
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-
     public SieniDocente getIdDocente() {
         return idDocente;
     }
@@ -222,6 +213,15 @@ protected void onCreate() {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniCurso[ idCurso=" + idCurso + " ]";
+    }
+
+    @XmlTransient
+    public List<SieniCursoAlumno> getSieniCursoAlumnoList() {
+        return sieniCursoAlumnoList;
+    }
+
+    public void setSieniCursoAlumnoList(List<SieniCursoAlumno> sieniCursoAlumnoList) {
+        this.sieniCursoAlumnoList = sieniCursoAlumnoList;
     }
     
 }

@@ -23,8 +23,9 @@
                     <p:outputLabel for="carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
                     <p:inputText id="carnet" value="#{gestionMatriculaController.idAlumno}" disabled="true"></p:inputText>
                     <p:outputLabel for="nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="nombre" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idAlumno}">
+                    <p:selectOneMenu id="nombre" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idAlumno}" converter="alumno">
                         <f:selectItems itemValue="#{alumnos.idAlumno}" itemLabel="#{alumnos.nombreCompleto}" value="#{gestionMatriculaController.alumnosList}" var="alumnos"></f:selectItems>
+                        <p:ajax event="valueChange" update="carnet"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
                     <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idGrado}" valueChangeListener="#{gestionMatriculaController.getSeccionesGrado}">

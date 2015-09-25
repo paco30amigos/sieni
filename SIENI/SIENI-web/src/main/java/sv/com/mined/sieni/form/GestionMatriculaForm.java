@@ -27,6 +27,7 @@ public class GestionMatriculaForm {
     //registro de matricula
     private SieniMatricula matriculaNuevo;
     private List<SieniAlumno> alumnosList;
+    private SieniAlumno alumno;
     private List<SieniSeccion> seccionesList;
     private List<SieniGrado> gradosList;
     private Long idAlumno;
@@ -192,4 +193,12 @@ public class GestionMatriculaForm {
         this.idGradoModifica = idGradoModifica;
     }
 
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
+    }
+    
 }

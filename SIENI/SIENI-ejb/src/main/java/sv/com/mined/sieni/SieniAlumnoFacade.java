@@ -130,9 +130,9 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         q.setParameter("estado", estado);
         q.setParameter("anioDesde", desde);
         q.setParameter("anioHasta", hasta);
-        if (grado != null) {
+        if (grado != null && matriculadoAnioActual != 2) {
             q.setParameter("grado", grado);
-            if (seccion != null) {
+            if (seccion != null && matriculadoAnioActual != 2) {
                 q.setParameter("seccion", seccion);
             }
         }

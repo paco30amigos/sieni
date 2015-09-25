@@ -5,8 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -73,7 +76,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
-    public List<SieniAlumno> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion) {
+    public List<SieniAlumno> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion, Integer matriculadoAnioActual) {
         Character estado = 'I';
         int tipo = 0;
         if (grado != null) {
@@ -85,13 +88,43 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         Query q;
         switch (tipo) {
             case 1:
-                q = em.createNamedQuery("SieniAlumno.findAnioGrado");
+                switch (matriculadoAnioActual) {
+                    case 0:
+                        q = em.createNamedQuery("SieniAlumno.findAnioGrado");
+                        break;
+                    case 1:
+                        q = em.createNamedQuery("SieniAlumno.findAnioGradoMatriculadoActual");
+                        break;
+                    default:
+                        q = em.createNamedQuery("SieniAlumno.findAnioGradoNoMatriculadoActual");
+                        break;
+                }
                 break;
             case 2:
-                q = em.createNamedQuery("SieniAlumno.findAnioGradoSeccion");
+                switch (matriculadoAnioActual) {
+                    case 0:
+                        q = em.createNamedQuery("SieniAlumno.findAnioGradoSeccion");
+                        break;
+                    case 1:
+                        q = em.createNamedQuery("SieniAlumno.findAnioGradoSeccionMatriculadoActual");
+                        break;
+                    default:
+                        q = em.createNamedQuery("SieniAlumno.findAnioGradoSeccionNoMatriculadoActual");
+                        break;
+                }
                 break;
             default:
-                q = em.createNamedQuery("SieniAlumno.findAnio");
+                switch (matriculadoAnioActual) {
+                    case 0:
+                        q = em.createNamedQuery("SieniAlumno.findAnio");
+                        break;
+                    case 1:
+                        q = em.createNamedQuery("SieniAlumno.findAnioMatriculadoActual");
+                        break;
+                    default:
+                        q = em.createNamedQuery("SieniAlumno.findAnioNoMatriculadoActual");
+                        break;
+                }
                 break;
         }
         q.setParameter("estado", estado);
@@ -103,9 +136,25 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
                 q.setParameter("seccion", seccion);
             }
         }
+        if (matriculadoAnioActual > 0) {
+            q.setParameter("anio", getFormatedAnio(new Date()));
+        }
 
         List<SieniAlumno> res = q.getResultList();
         return res;
+    }
+
+    public String getFormatedAnio(Date fecha) {
+        SimpleDateFormat dt1 = new SimpleDateFormat("yyyy");
+        String ret = null;
+        if (fecha != null) {
+            try {
+                ret = dt1.format(fecha);
+            } catch (Exception ex) {
+                Logger.getLogger(SieniAlumnoFacade.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return ret;
     }
 
     @Override

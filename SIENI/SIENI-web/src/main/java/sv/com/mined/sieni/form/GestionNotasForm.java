@@ -50,6 +50,8 @@ public class GestionNotasForm {
     private SieniMateria materiaSubir;
     private SieniEvaluacion evaluacionSubir;
     private UploadedFile archivoSubidoNuevo;
+    private List<SieniMateria> materiasExcelList;
+    private List<SieniEvaluacion> evaluacionesExcelList;
     private SieniNota error;
 
     public int getIndexMenu() {
@@ -276,6 +278,22 @@ public class GestionNotasForm {
 
     public void setError(SieniNota error) {
         this.error = error;
+    }
+
+    public List<SieniMateria> getMateriasExcelList() {
+        return materiasExcelList;
+    }
+
+    public void setMateriasExcelList(List<SieniMateria> materiasExcelList) {
+        this.materiasExcelList = materiasExcelList;
+    }
+
+    public List<SieniEvaluacion> getEvaluacionesExcelList() {
+        return evaluacionesExcelList;
+    }
+
+    public void setEvaluacionesExcelList(List<SieniEvaluacion> evaluacionesExcelList) {
+        this.evaluacionesExcelList = evaluacionesExcelList;
     }
 
 }

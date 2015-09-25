@@ -39,7 +39,7 @@
                         <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="nota" value="Nota: " class=" Responsive"></p:outputLabel>
-                    <p:spinner tabindex="4" id="nota" min="0.0" value="#{gestionNotaController.notaNuevo.ntCalificacion}" max="10.0" stepFactor="0.5"></p:spinner>
+                    <p:spinner tabindex="4" id="nota" min="0.0" value="#{gestionNotaController.notaNuevo.ntCalificacion}" max="10.0" stepFactor="0.5" required="true" requiredMessage="Debe ingresar nota"></p:spinner>
                     <p:outputLabel for="tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel id="tipoIngreso" value="#{gestionNotaController.notaNuevo.tipoIngreso}" class=" Responsive"></p:outputLabel>
                 </p:panelGrid>

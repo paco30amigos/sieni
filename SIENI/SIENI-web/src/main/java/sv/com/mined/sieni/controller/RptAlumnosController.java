@@ -61,6 +61,7 @@ public class RptAlumnosController extends RptAlumnosForm {
         this.setAnioHasta(new Date());
         this.setTotalAlumnos("0");
         this.setTipoRpt(0);
+        this.setMatriculado(0);
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
         fill();
     }
@@ -73,10 +74,28 @@ public class RptAlumnosController extends RptAlumnosForm {
         if (this.getIdSeccion() != null && this.getIdSeccion().equals(0L)) {
             this.setIdSeccion(null);
         }
-        List<SieniMatricula> alumnos = sieniMatriculaFacadeRemote.findAlumnoRpt(this.getAnioDesde(), this.getAnioHasta(), this.getIdGrado(), this.getIdSeccion());
+        List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findAlumnoRpt(this.getAnioDesde(), this.getAnioHasta(), this.getIdGrado(), this.getIdSeccion(), this.getMatriculado());
+
+//        List<SieniMatricula> alumnos = sieniMatriculaFacadeRemote.findAlumnoRpt(this.getAnioDesde(), this.getAnioHasta(), this.getIdGrado(), this.getIdSeccion());
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
-        for (SieniMatricula actual : alumnos) { 
-            elem = new RptAlumnosPojo(actual, actual.getIdGrado(), actual.getIdAlumno().getNombreCompleto(), actual.getIdAlumno().getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getIdAlumno().getAlFechaNacimiento()), actual.getIdAlumno().getAlDireccion(), new FormatUtils().getFormatedPhone(actual.getIdAlumno().getAlTelefonoEm1()), actual.getIdGrado().getGrNombre()+actual.getIdSeccion().getScDescripcion());
+        String grado = "";
+        String seccion = "";
+        for (SieniAlumno actual : alumnos) {
+            if (actual.getMatriculaActual() != null) {
+                grado = actual.getMatriculaActual().getIdGrado().getGrNombre();
+                seccion = actual.getMatriculaActual().getIdSeccion().getScDescripcion();
+            } else {
+                grado = "";
+                seccion = "";
+            }
+            elem = new RptAlumnosPojo(
+                    actual.getAlCarnet(),
+                    actual.getNombreCompleto(),
+                    actual.getFechaNacimientoFiltrable(),
+                    new DateUtils().getEdad(actual.getAlFechaNacimiento()),
+                    actual.getAlDireccion(),
+                    new FormatUtils().getFormatedPhone(actual.getAlTelefonoEm1()),
+                    grado + seccion);
             this.getListDatos().add(elem);
         }
         this.setTotalAlumnos("" + this.getListDatos().size());
@@ -92,12 +111,26 @@ public class RptAlumnosController extends RptAlumnosForm {
 
     public void generarReporte() {
         fill();
+        String txtMatriculado = "";
+        Integer matriculado = this.getMatriculado();
+        switch (matriculado) {
+            case 0:
+                txtMatriculado = "Todos";
+                break;
+            case 1:
+                txtMatriculado = "Si";
+                break;
+            case 2:
+                txtMatriculado = "No";
+                break;
+        }
         String path = "resources/reportes/rtpAlumnos.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getAnioDesde()));
         parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getAnioHasta()));
-        parameterMap.put("grado", this.getGrado() != null ? this.getGrado() : "Todos");
-        parameterMap.put("seccion", this.getSeccion() != null ? this.getSeccion() : "Todos");
+        parameterMap.put("grado", this.getGrado() != null ? this.getGrado() : "Último matriculado");
+        parameterMap.put("seccion", this.getSeccion() != null ? this.getSeccion() : "Última matriculada");
+        parameterMap.put("matriculado", txtMatriculado);
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
 
         try {

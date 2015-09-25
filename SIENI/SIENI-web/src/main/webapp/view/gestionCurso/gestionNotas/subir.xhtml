@@ -25,13 +25,13 @@
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="4" class="Responsive" id="p1">
                     <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="materia" class="Responsive" value="#{gestionNotaController.materiaSubir}" valueChangeListener="#{gestionNotaController.getSeccionesGrado}" converter="materia" filterMatchMode="contains" filter="true">
-                        <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre} - #{mat.idGrado.grNombre}" value="#{gestionNotaController.materiasList}" var="mat"/>
+                    <p:selectOneMenu id="materia" class="Responsive" value="#{gestionNotaController.materiaSubir}" valueChangeListener="#{gestionNotaController.getSeccionesGradoExcel}" converter="materia" filterMatchMode="contains" filter="true">
+                        <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre} - #{mat.idGrado.grNombre}" value="#{gestionNotaController.materiasExcelList}" var="mat"/>
                         <p:ajax event="valueChange" update="evaluacion"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.evaluacionSubir}" converter="evaluacion" filterMatchMode="contains" filter="true">
-                        <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesList}" var="eval"/>
+                        <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesExcelList}" var="eval"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <div class="Container100">
@@ -56,7 +56,7 @@
                     <p:column headerText="Nota" filterBy="#{car.ntCalificacion}" filterable="true" filterMatchMode="contains">
                         #{car.ntCalificacion}
                     </p:column>
-                    <p:column>
+                    <p:column style="width: 40px">
                         <p:commandLink rendered="#{car.errores.size()==0}"><i class="fa fa-check Fs25 Green"></i></p:commandLink>
                         <p:commandLink rendered="#{car.errores.size()>0}" action="#{gestionNotaController.mostrarErrores(car)}" update="dataForm:dlErr" oncomplete="PF('dlgError').show()" >
                             <i class="icon-problems Fs25 Red"></i>
@@ -72,7 +72,7 @@
                 </p:dialog>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{gestionNotaController.guardarNotasExcel()}" update="p1" />
+                    <p:commandButton value="Guardar" action="#{gestionNotaController.guardarNotasExcel()}" update="p1,consulta" />
                     <p:commandButton value="Limpiar" immediate="true">
                         <p:ajax update="p1" resetValues="true" />
                     </p:commandButton>

@@ -29,6 +29,7 @@ public class RptAlumnosForm extends ReportesController {
     private List<RptAlumnosPojo> listDatos;
     private String totalAlumnos;
     private Integer tipoRpt;
+    private Integer matriculado;
 
     public Long getIdGrado() {
         return idGrado;
@@ -116,6 +117,14 @@ public class RptAlumnosForm extends ReportesController {
 
     public void setAnioHasta(Date anioHasta) {
         this.anioHasta = anioHasta;
+    }
+
+    public Integer getMatriculado() {
+        return matriculado;
+    }
+
+    public void setMatriculado(Integer matriculado) {
+        this.matriculado = matriculado;
     }
 
 }

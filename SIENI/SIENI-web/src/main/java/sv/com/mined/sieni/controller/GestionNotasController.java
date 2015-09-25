@@ -30,6 +30,8 @@ import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
+import utils.DateUtils;
+import utils.EmailValidator;
 import utils.ExcelUtils;
 import utils.FormatUtils;
 
@@ -127,9 +129,20 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public boolean validarNuevo(SieniNota nuevo) {
-        boolean ban = true;
-        //nota ya registrada
-        return ban;
+        boolean valido = true;
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        //alumno->materia->evaluacion no exista
+        //alumno tenga materia 
+        //evaluacion tenga 
+        //nota=>0 &&<=10
+        if (nuevo.getIdEvaluacion() != null && nuevo.getIdEvaluacion().getIdEvaluacion() != null) {
+            validaciones.add(new ValidationPojo(sieniNotaFacadeRemote.findNotaRegistrada(nuevo), "La nota de la evaluación para ese alumno ya esta definida", FacesMessage.SEVERITY_ERROR));
+        }
+        validaciones.add(new ValidationPojo(!(this.getMateriasList() != null && !this.getMateriasList().isEmpty()), "El alumno no tiene materias disponibles", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(!(this.getEvaluacionesList() != null && !this.getEvaluacionesList().isEmpty()), "El alumno no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() < 10.0, "Nota no valida", FacesMessage.SEVERITY_ERROR));
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public void cancelar() {
@@ -181,10 +194,38 @@ public class GestionNotasController extends GestionNotasForm {
         this.setNotaModifica(new SieniNota());
     }
 
-    public boolean validarModifica(SieniNota nuevo) {
-        boolean ban = true;
+    public void cargarDesdeExcel() {
+        this.setMateriasExcelList(sieniMateriaFacadeRemote.findAll());
+        if (this.getMateriasExcelList() != null && !this.getMateriasExcelList().isEmpty()) {
+            this.setIdMateria(this.getMateriasExcelList().get(0));
+            this.setEvaluacionesExcelList(this.getIdMateria().getSieniEvaluacionList());
+        } else {
+            this.setEvaluacionesExcelList(new ArrayList<SieniEvaluacion>());
+        }
+        this.setIndexMenu(4);
+    }
 
-        return ban;
+    public boolean validarModifica(SieniNota nuevo) {
+        boolean valido = true;
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        //alumno->materia->evaluacion no exista
+        //alumno tenga materia 
+        //evaluacion tenga 
+        //nota=>0 &&<=10
+        //validar si alumno sido modificado q la nota no exista
+
+        SieniNota notaOriginal = sieniNotaFacadeRemote.find(nuevo.getIdNota());
+
+        if (!notaOriginal.getIdAlumno().getIdAlumno().equals(nuevo.getIdAlumno().getIdAlumno())) {
+            if (nuevo.getIdEvaluacion() != null && nuevo.getIdEvaluacion().getIdEvaluacion() != null) {
+                validaciones.add(new ValidationPojo(sieniNotaFacadeRemote.findNotaRegistrada(nuevo), "La nota de la evaluación para ese alumno ya esta definida", FacesMessage.SEVERITY_ERROR));
+            }
+        }
+        validaciones.add(new ValidationPojo(!(this.getMateriasList() != null && !this.getMateriasList().isEmpty()), "El alumno no tiene materias disponibles", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(!(this.getEvaluacionesList() != null && !this.getEvaluacionesList().isEmpty()), "El alumno no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() < 10.0, "Nota no valida", FacesMessage.SEVERITY_ERROR));
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public void eliminarNota() {
@@ -221,6 +262,11 @@ public class GestionNotasController extends GestionNotasForm {
         SieniMateria cod = (SieniMateria) a.getNewValue();
         this.setEvaluacionesList(cod.getSieniEvaluacionList());
     }
+    
+    public void getSeccionesGradoExcel(ValueChangeEvent a) {
+        SieniMateria cod = (SieniMateria) a.getNewValue();
+        this.setEvaluacionesExcelList(cod.getSieniEvaluacionList());
+    }
 
     public void getSeccionesGradoModifica(ValueChangeEvent a) {
         SieniMateria cod = (SieniMateria) a.getNewValue();
@@ -244,31 +290,45 @@ public class GestionNotasController extends GestionNotasForm {
         boolean error = false;
         List<SieniNota> notas = new ArrayList<>();
         FormatUtils fu = new FormatUtils();
-        for (SieniNota actual : this.getListaNotasSubidas()) {
-            actual.setIdEvaluacion(this.getEvaluacionSubir());
-            actual.setNtEstado(new Character('A'));
-            actual.setNtTipoIngreso("E");
-            actual.setNtAnio(fu.getFormatedAnioInt(new Date()));
-            notas.add(actual);
-            if (actual.getErrores() != null && !actual.getErrores().isEmpty()) {
-                error = true;
-                break;
+        List<ValidationPojo> validaciones = new ArrayList<>();
+        if (this.getEvaluacionSubir() != null && this.getEvaluacionSubir().getIdEvaluacion() != null) {
+            for (SieniNota actual : this.getListaNotasSubidas()) {
+                actual.setIdEvaluacion(this.getEvaluacionSubir());
+                actual.setNtEstado(new Character('A'));
+                actual.setNtTipoIngreso("E");
+                actual.setNtAnio(fu.getFormatedAnioInt(new Date()));
+                notas.add(actual);
+                if (actual.getErrores() != null && !actual.getErrores().isEmpty()) {
+                    error = true;
+                    break;
+                }
             }
-        }
-        if (!error) {
-//            for(SieniNota actual:notas){
-//                if(!validarNuevo(actual)){
-//                    
-//                }
-//            }
-            sieniNotaFacadeRemote.merge(notas);
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
-            FacesMessage msg = new FacesMessage("Nota Creada Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
+            if (!error) {
+                for (int i = 0; i < notas.size(); i++) {
+                    notas.get(i).setErrores(new ArrayList<String>());
+                    if (sieniNotaFacadeRemote.findNotaRegistrada(notas.get(i))) {
+                        notas.get(i).getErrores().add("La nota de la evaluación para ese alumno ya esta definida");
+                        error = true;
+                        List<ValidationPojo> errores = new ArrayList<>();
+                        errores.add(new ValidationPojo(error, "Debe corregir los errores del archivo excel antes de guardar", FacesMessage.SEVERITY_ERROR));
+                        ValidationPojo.printErrores(errores);
+                    }
+                }
+                if (!error) {
+                    sieniNotaFacadeRemote.merge(notas);
+                    sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
+                    FacesMessage msg = new FacesMessage("Notas creadas Exitosamente");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    fill();
+                }
+            } else {
+                List<ValidationPojo> errores = new ArrayList<>();
+                errores.add(new ValidationPojo(error, "Debe corregir los errores del archivo excel antes de guardar", FacesMessage.SEVERITY_ERROR));
+                ValidationPojo.printErrores(errores);
+            }
         } else {
             List<ValidationPojo> errores = new ArrayList<>();
-            errores.add(new ValidationPojo(error, "Debe corregir los errores del archivo excel antes de guardar", FacesMessage.SEVERITY_ERROR));
+            errores.add(new ValidationPojo(true, "La materia no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
             ValidationPojo.printErrores(errores);
         }
     }

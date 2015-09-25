@@ -43,11 +43,17 @@ import org.primefaces.model.StreamedContent;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and sec.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAnioMatriculadoActual", query = "SELECT s FROM SieniAlumno s join fetch s.sieniMatriculaList mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtAnio=:anio"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoMatriculadoActual", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and mat.mtAnio=:anio "),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccionMatriculadoActual", query = "SELECT s FROM SieniAlumno s  left join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and sec.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and mat.mtAnio=:anio"),
+    @NamedQuery(name = "SieniAlumno.findAnioNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s left join fetch s.sieniMatriculaList mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s left join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccionNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
     @NamedQuery(name = "SieniAlumno.findByNombreCompleto", query = "SELECT s FROM SieniAlumno s where s.alNombreCompleto=:nombreCompleto"),
     @NamedQuery(name = "SieniAlumno.findSiguienteCorrelat", query = "SELECT max(s.alCorrelatCarnet) FROM SieniAlumno s where s.alCodigoCarnet=:codigo"),
-    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s join fetch s.sieniMatriculaList mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
-    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and mat.idGrado.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
-    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and mat.idGrado.idGrado=:grado and mat.idSeccion.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A'"),
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
@@ -423,13 +429,15 @@ public class SieniAlumno implements Serializable {
     }
 
     public SieniMatricula getMatriculaActual() {
-        SieniMatricula ret = new SieniMatricula();
+        SieniMatricula ret = null;
         int max = 0, anioActual = 0;
-        for (SieniMatricula actual : this.getSieniMatriculaList()) {
-            anioActual = Integer.parseInt(actual.getMtAnio());
-            if (max < anioActual) {
-                max = anioActual;
-                ret = actual;
+        if (this.getSieniMatriculaList() != null) {
+            for (SieniMatricula actual : this.getSieniMatriculaList()) {
+                anioActual = Integer.parseInt(actual.getMtAnio());
+                if (max < anioActual) {
+                    max = anioActual;
+                    ret = actual;
+                }
             }
         }
         return ret;

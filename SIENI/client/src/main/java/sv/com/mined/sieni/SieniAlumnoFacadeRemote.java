@@ -39,7 +39,7 @@ public interface SieniAlumnoFacadeRemote {
 
     public SieniAlumno findAlumnoUsuario(String usuario, String password);
 
-    public List<SieniAlumno> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion);
+    public List<SieniAlumno> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion, Integer matriculadoAnioActual);
 
     public List<SieniAlumno> findUsuariosRpt();
 

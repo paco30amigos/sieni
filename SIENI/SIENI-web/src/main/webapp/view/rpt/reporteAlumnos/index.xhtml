@@ -29,17 +29,17 @@
                     <p:calendar id="anioHasta" value="#{rptAlumnosController.anioHasta}" mindate="#{rptAlumnosController.anioDesde}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
                     <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
                     <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{rptAlumnosController.idGrado}" valueChangeListener="#{rptAlumnosController.getSeccionesGrado}">
-                        <f:selectItem itemValue="0" itemLabel="Seleccionar todos"></f:selectItem>
+                        <f:selectItem itemValue="0" itemLabel="Último matriculado"></f:selectItem>
                         <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{rptAlumnosController.gradosList}" var="grado"></f:selectItems>
                         <p:ajax event="valueChange" update="seccion"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
                     <p:selectOneMenu id="seccion" value="#{rptAlumnosController.idSeccion}">
-                        <f:selectItem itemValue="0" itemLabel="Seleccionar todos"></f:selectItem>
+                        <f:selectItem itemValue="0" itemLabel="Última matriculada"></f:selectItem>
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptAlumnosController.seccionesList}" var="seccion"></f:selectItems>
                     </p:selectOneMenu>
                     <p:outputLabel value="Matriculado año actual"></p:outputLabel>
-                    <p:selectOneMenu>
+                    <p:selectOneMenu value="#{rptAlumnosController.matriculado}">
                         <f:selectItem itemLabel="Seleccionar todos" itemValue="0"></f:selectItem>
                         <f:selectItem itemLabel="Si" itemValue="1"></f:selectItem>
                         <f:selectItem itemLabel="No" itemValue="2"></f:selectItem>
@@ -50,6 +50,9 @@
                 <p:dataTable id="consulta"  var="car" value="#{rptAlumnosController.listDatos}" 
                              paginator="false"
                              reflow="true">
+                    <p:column headerText="Alumno" >
+                        #{car.alumno}
+                    </p:column>
                     <p:column headerText="Alumno" >
                         #{car.alumno}
                     </p:column>

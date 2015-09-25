@@ -59,4 +59,19 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
         q.setParameter("estado", estado);
         return q.getResultList();
     }
+
+    @Override
+    public boolean findNotaRegistrada(SieniNota nota) {
+        Character estado = 'I';
+        boolean ret = false;
+        Query q = em.createNamedQuery("SieniNota.findNotaRegistrada");
+        q.setParameter("estado", estado);
+        q.setParameter("idAlumno", nota.getIdAlumno().getIdAlumno());
+        q.setParameter("idEvaluacion", nota.getIdEvaluacion().getIdEvaluacion());
+        List<SieniNota> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            ret = true;
+        }
+        return ret;
+    }
 }

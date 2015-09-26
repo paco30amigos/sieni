@@ -24,6 +24,7 @@ import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.ProgramacionClasesForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniClase;
+import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.pojos.controller.Combo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.DateUtils;
@@ -141,6 +142,11 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     public void mostrar(SieniClase ver) {
         this.setModifica(ver);
         this.setIndexMenu(3);
+    }
+    
+    public void ver(SieniClase modificado) {
+        this.setModifica(modificado);
+             this.setIndexMenu(3);
     }
 
     public void guardarModifica() {

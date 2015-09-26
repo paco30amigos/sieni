@@ -216,4 +216,15 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         this.setMatriculaModifica(modificado);
         this.setIndexMenu(3);
     }
+    
+        public void getCarnetAlumno(ValueChangeEvent a) {
+        Integer cod = new Integer(a.getNewValue().toString());
+        this.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(cod));
+//        if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {
+//            this.setIdMateria(this.getMateriasList().get(0));
+//            this.setEvaluacionesList(this.getIdMateria().getSieniEvaluacionList());
+//        } else {
+//            this.setEvaluacionesList(new ArrayList<SieniEvaluacion>());
+//        }
+    }
 }

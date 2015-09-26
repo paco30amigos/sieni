@@ -165,7 +165,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
                 if (this.getMateriasDocente().get(i).getIdMateria().getIdMateria().equals(this.getMaterias().get(j).getIdMateria())) {
                     this.getMaterias().remove(j);
                 }
-            } 
+            }
         }
         this.setMateriasDocenteEliminadas(new ArrayList<SieniMateriaDocente>());
         this.setIndexMenu(4);
@@ -199,6 +199,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         for (int i = 0; i < this.getMateriasDocente().size(); i++) {
             if (this.getMateriasDocente().get(i).getIdMateriaDocente().equals(materia.getIdMateriaDocente())) {
                 this.getMateriasDocenteEliminadas().add(this.getMateriasDocente().get(i));
+                this.getMaterias().add(this.getMateriasDocente().get(i).getIdMateria());
                 this.getMateriasDocente().remove(i);
                 break;
             }

@@ -54,6 +54,9 @@ public class SieniElemPlantillaFacade extends AbstractFacade<SieniElemPlantilla>
         }
 
         for (SieniElemPlantilla actual : eliminados) {
+            if(actual.getIdElemPlantilla()<0){
+                actual.setIdElemPlantilla(null);
+            }
             if (actual.getIdElemPlantilla() != null) {
                 actual.setEpEstado('I');//eliminacion logica
                 this.edit(actual);

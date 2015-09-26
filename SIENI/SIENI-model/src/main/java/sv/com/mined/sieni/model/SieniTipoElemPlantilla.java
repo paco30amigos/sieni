@@ -34,7 +34,7 @@ public class SieniTipoElemPlantilla implements Serializable {
     @Column(name = "id_tipo_elem_plantilla")
     private Long idTipoElemPlantilla;
     @Column(name = "te_descripcion")
-    private BigInteger teDescripcion;
+    private String teDescripcion;
     @Column(name = "te_estado")
     private Character teEstado;
     @OneToMany(mappedBy = "idTipoElemPlantilla")
@@ -55,11 +55,11 @@ public class SieniTipoElemPlantilla implements Serializable {
         this.idTipoElemPlantilla = idTipoElemPlantilla;
     }
 
-    public BigInteger getTeDescripcion() {
+    public String getTeDescripcion() {
         return teDescripcion;
     }
 
-    public void setTeDescripcion(BigInteger teDescripcion) {
+    public void setTeDescripcion(String teDescripcion) {
         this.teDescripcion = teDescripcion;
     }
 

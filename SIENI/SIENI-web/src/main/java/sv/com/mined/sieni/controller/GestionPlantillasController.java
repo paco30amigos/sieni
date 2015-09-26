@@ -145,11 +145,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void configurar(SieniPlantilla plantilla) {
-        this.setPlantillaModifica(plantilla);
-        this.setTipoPlantilla(sieniTipoElemPlantillaFacadeRemote.findAll());
-        this.setNuevoElem(new SieniTipoElemPlantilla());
-        this.setElemPlantillaEliminados(new ArrayList<SieniElemPlantilla>());
-        this.setElemPlantillaSelected(this.getPlantillaModifica().getSieniElemPlantillaList());
+        fillElemPlantillaPlantilla(plantilla);
         this.setIndexMenu(4);
     }
 
@@ -160,13 +156,20 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         nuevo.setEpEstado('A');
         nuevo.setIdElemPlantilla(-Long.parseLong(new DateUtils().getTime()));
         this.getElemPlantillaSelected().add(nuevo);
+        for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
+            for (int i = 0; i < getTipoPlantilla().size(); i++) {
+                if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
+                    getTipoPlantilla().remove(i);
+                }
+            }
+        }
     }
 
     public void guardarElemPlantilla() {
         sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados());
         FacesMessage msg = new FacesMessage("Elementos de plantilla guardados exitosamente");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        fillElemPlantillaPlantilla();
+        fillElemPlantillaPlantilla(this.getPlantillaModifica());
     }
 
     public void eliminarElemPlantilla() {
@@ -174,6 +177,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         for (int i = 0; i < this.getElemPlantillaSelected().size(); i++) {
             if (this.getElemPlantillaSelected().get(i).getIdElemPlantilla().equals(materia.getIdElemPlantilla())) {
                 this.getElemPlantillaEliminados().add(this.getElemPlantillaSelected().get(i));
+                this.getTipoPlantilla().add(this.getElemPlantillaSelected().get(i).getIdTipoElemPlantilla());
                 this.getElemPlantillaSelected().remove(i);
                 break;
             }
@@ -184,8 +188,22 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         this.setElemPlantillaEliminado(materia);
     }
 
-    public void fillElemPlantillaPlantilla() {
-        List<SieniElemPlantilla> elems = sieniElemPlantillaFacadeRemote.findByIdPlantilla(this.getPlantillaModifica().getIdPlantilla());
-        this.setElemPlantillaSelected(elems);
+    public void fillElemPlantillaPlantilla(SieniPlantilla plantilla) {
+        this.setPlantillaModifica(plantilla);
+        this.setTipoPlantilla(sieniTipoElemPlantillaFacadeRemote.findAll());
+        this.setNuevoElem(new SieniTipoElemPlantilla());
+        this.setElemPlantillaEliminados(new ArrayList<SieniElemPlantilla>());
+        this.setElemPlantillaSelected(this.getPlantillaModifica().getSieniElemPlantillaList());
+        if (this.getElemPlantillaSelected() == null) {
+            this.setElemPlantillaSelected(new ArrayList<SieniElemPlantilla>());
+        } else {
+            for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
+                for (int i = 0; i < getTipoPlantilla().size(); i++) {
+                    if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
+                        getTipoPlantilla().remove(i);
+                    }
+                }
+            }
+        }
     }
 }

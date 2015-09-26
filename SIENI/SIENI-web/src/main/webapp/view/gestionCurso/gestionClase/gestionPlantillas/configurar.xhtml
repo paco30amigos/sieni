@@ -19,21 +19,22 @@
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
-            <h:form enctype="multipart/form-data">
+            <h:form enctype="multipart/form-data" id="f">
                 <p:focus id="focus" context="p1"></p:focus>
+                <p:remoteCommand name="actualizarElem" update="elementos"></p:remoteCommand>
                 <p:panelGrid id="p1" columns="4"> 
                     <p:outputLabel for="nombre" value="Nombre de Plantilla:"></p:outputLabel>
                     <p:outputLabel id="nombre" value="#{gestionPlantillasController.plantillaModifica.plNombre}"></p:outputLabel>
                     <p:outputLabel for="elementos" value="Elementos disponibles de plantilla: "></p:outputLabel>
-                    <p:selectOneMenu tabindex="1" id="elementos" value="#{gestionPlantillasController.tipoPlantilla}" converter="tipoElemPlantilla">
+                    <p:selectOneMenu tabindex="1" id="elementos" value="#{gestionPlantillasController.nuevoElem}" converter="tipoElemPlantilla">
                         <f:selectItems itemLabel="#{tipo.teDescripcion}" itemValue="#{tipo}" value="#{gestionPlantillasController.tipoPlantilla}" var="tipo" ></f:selectItems>
                     </p:selectOneMenu>
-                    <p:commandButton value="Agregar" action="#{gestionPlantillasController.agregarElemPlantilla()}" update="consulta,materias"></p:commandButton>
+                    <p:commandButton value="Agregar" action="#{gestionPlantillasController.agregarElemPlantilla()}" update="consulta,elementos"></p:commandButton>
                 </p:panelGrid>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionPlantillasController.eliminarElemPlantilla()}" update="consulta" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{gestionPlantillasController.eliminarElemPlantilla()}" update="consulta,elementos" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionPlantillasController.elemPlantillaSelected}" 
@@ -42,17 +43,17 @@
                              rowsPerPageTemplate="10,20,40"
                              reflow="true">
                     <p:column headerText="Elemento de Plantilla">
-                        #{car.epDescripcion}
+                        #{car.idTipoElemPlantilla.teDescripcion}
                     </p:column>
                     <p:column headerText="acciones">
-                        <p:commandLink action="#{gestionPlantillasController.eliminarElemPlantilla_(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <p:commandLink action="#{gestionPlantillasController.eliminarElemPlantilla_(car)}" onclick="PF('dlgEliminar').show();" immediate="true" > 
                             <i class="icon-close Fs25 Red" title="Eliminar elemento de plantilla"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton value="Guardar" action="#{gestionPlantillasController.guardarElemPlantilla()}" update="p1,focus,consulta" oncomplete="configurarEnterTab()"  />
+                    <p:commandButton value="Guardar" action="#{gestionPlantillasController.guardarElemPlantilla()}" update="p1,focus,consulta,elementos" oncomplete="configurarEnterTab()"  />
                     <p:commandButton value="Limpiar" immediate="true">
                         <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()"  />
                     </p:commandButton>

@@ -31,11 +31,11 @@
                 </p:dialog>
                 <p:panelGrid columns="2" id="p1">
                     <p:outputLabel for="nombre" value="Nombre de plantilla: "></p:outputLabel>
-                    <p:outputLabel value="#{gestionPlantillasController.plantillaModifica.plNombre}"></p:outputLabel>
+                    <p:outputLabel id="nombre" value="#{gestionPlantillasController.ver.plNombre}"></p:outputLabel>
                     <p:outputLabel for="materia" value="Materia: "></p:outputLabel>
-                    <p:outputLabel value="#{gestionPlantillasController.plantillaModifica.idMateria.maNombre}"></p:outputLabel>
+                    <p:outputLabel id="materia" value="#{gestionPlantillasController.ver.idMateria.maNombre}"></p:outputLabel>
                     <p:outputLabel for="estado" value="Estado: " class="Responsive"></p:outputLabel>
-                    <p:outputLabel value="#{gestionPlantillasController.plantillaModifica.estado}"></p:outputLabel>                       
+                    <p:outputLabel id="estado" value="#{gestionPlantillasController.ver.estado}"></p:outputLabel>                       
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">

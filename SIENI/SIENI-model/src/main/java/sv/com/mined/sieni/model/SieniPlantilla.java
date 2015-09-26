@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -63,7 +64,7 @@ public class SieniPlantilla implements Serializable {
     private SieniMateria idMateria;
     @OneToMany(mappedBy = "idPlantilla")
     private List<SieniClase> sieniClaseList;
-    @OneToMany(mappedBy = "idPlantilla")
+    @OneToMany(mappedBy = "idPlantilla",fetch = FetchType.EAGER)
     private List<SieniElemPlantilla> sieniElemPlantillaList;
 
     public SieniPlantilla() {
@@ -176,22 +177,6 @@ public class SieniPlantilla implements Serializable {
             case 'I':
                 ret = "Eliminada";
                 break;
-        }
-        return ret;
-    }
-
-    public String getElemPlantilla() {
-        String ret = "";
-        if (sieniElemPlantillaList != null && !sieniElemPlantillaList.isEmpty()) {
-            boolean inicio = true;
-            for (SieniElemPlantilla actual : getSieniElemPlantillaList()) {
-                if (inicio) {
-                    ret += actual.getIdTipoElemPlantilla().getTeDescripcion();
-                    inicio = false;
-                } else {
-                    ret += "," + actual.getIdTipoElemPlantilla().getTeDescripcion();
-                }
-            }
         }
         return ret;
     }

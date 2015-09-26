@@ -16,11 +16,13 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionMateriasForm;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniMateria;
 import utils.FormatUtils;
 
@@ -41,6 +43,8 @@ public class GestionMateriasController extends GestionMateriasForm {
     @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
     @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
+    @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
     @PostConstruct
@@ -52,11 +56,13 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     private void fill() {
-        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
+        this.setMateriaList(sieniMateriaFacadeRemote.findAll());        
+        this.setDocentesList(sieniDocenteFacadeRemote.findAll());
+        this.setGradoList(sieniGradoFacadeRemote.findAll());
     }
 
     public void guardar() {
-       
+        
         if (validarNuevo(this.getMateriaNuevo())) {
             this.getMateriaNuevo().setMaEstado('A');
             sieniMateriaFacadeRemote.create(this.getMateriaNuevo());

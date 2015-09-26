@@ -62,7 +62,7 @@ public class SieniMateria implements Serializable {
     @Column(name = "ma_estado")
     private Character maEstado;
     @Column(name = "ma_coordinador")
-    private String maCoordinador;
+    private Long maCoordinador;
     @Column(name = "ma_turno")
     private String maTurno;
     @OneToMany(mappedBy = "idMateria")
@@ -122,11 +122,11 @@ public class SieniMateria implements Serializable {
         this.maEstado = maEstado;
     }
 
-    public String getMaCoordinador() {
+    public Long getMaCoordinador() {
         return maCoordinador;
     }
 
-    public void setMaCoordinador(String maCoordinador) {
+    public void setMaCoordinador(Long maCoordinador) {
         this.maCoordinador = maCoordinador;
     }
 

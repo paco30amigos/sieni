@@ -40,6 +40,24 @@ public class SieniCursoFacade extends AbstractFacade<SieniCurso> implements sv.c
         List<SieniCurso> res = q.getResultList();
         return res;
     }
+    
+    @Override
+    public SieniCurso finByDocGrSecMat(Long idDocente,Long idGrado,Long idSeccion,Long idMateria,String nombre) {
+        Query q = em.createNamedQuery("SieniCurso.finByDocGrSecMat");
+        q.setParameter("idDocente", idDocente);
+        q.setParameter("idGrado", idGrado);
+        q.setParameter("idSeccion", idSeccion);
+        q.setParameter("idMateria", idMateria);
+        q.setParameter("nombre", nombre);
+        SieniCurso  res =new SieniCurso();
+        try {
+           res = (SieniCurso) q.getSingleResult(); 
+        } catch (Exception e) {
+            res =null;
+        }
+        
+        return res;
+    }
 
 
     

@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniCurso.findAll", query = "SELECT s FROM SieniCurso s"),
+    @NamedQuery(name = "SieniCurso.finByDocGrSecMat", query = "SELECT s FROM SieniCurso s WHERE s.idDocente.idDocente=:idDocente AND s.idGrado.idGrado=:idGrado AND s.idSeccion.idSeccion=:idSeccion AND s.idMateria.idMateria=:idMateria AND s.crNombre=:nombre"),
     @NamedQuery(name = "SieniCurso.findAByEstado", query = "SELECT s FROM SieniCurso s WHERE s.crEstado=:estado"),
     @NamedQuery(name = "SieniCurso.findByIdCurso", query = "SELECT s FROM SieniCurso s WHERE s.idCurso = :idCurso"),
     @NamedQuery(name = "SieniCurso.findByCrNombre", query = "SELECT s FROM SieniCurso s WHERE s.crNombre = :crNombre"),

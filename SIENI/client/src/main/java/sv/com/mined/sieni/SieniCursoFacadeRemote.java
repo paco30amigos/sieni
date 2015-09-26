@@ -30,6 +30,8 @@ public interface SieniCursoFacadeRemote {
     List<SieniCurso> findRange(int[] range);
     
     List<SieniCurso> findByEstado(Character estado);
+    
+     public SieniCurso finByDocGrSecMat(Long idDocente,Long idGrado,Long idSeccion,Long idMateria,String nombre);
 
     int count();
     

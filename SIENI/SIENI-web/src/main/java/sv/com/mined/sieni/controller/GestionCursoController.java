@@ -113,11 +113,21 @@ public class GestionCursoController extends GestionCursoForm {
 
         this.getCursoNuevo().setCrEstado('A');
         if (validarNuevo(this.getCursoNuevo())) {//valida el guardado
+            
+            SieniCurso existCurso=new SieniCurso();
+            existCurso=sieniCursoFacadeRemote.finByDocGrSecMat(this.getCursoNuevo().getIdDocente().getIdDocente(), this.getCursoNuevo().getIdGrado().getIdGrado(), this.getCursoNuevo().getIdSeccion().getIdSeccion(), this.getCursoNuevo().getIdMateria().getIdMateria(),this.getCursoNuevo().getCrNombre());
+            if(existCurso!=null)
+            {
+            FacesMessage msg = new FacesMessage("No se puede crear el curso, ya existe para esa materia");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+           
+            }else{
             sieniCursoFacadeRemote.create(this.getCursoNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Curso", this.getCursoNuevo().getIdCurso(), 'D'));
             FacesMessage msg = new FacesMessage("Curso Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
+            }
         }
         this.setCursoNuevo(new SieniCurso());
         fill();

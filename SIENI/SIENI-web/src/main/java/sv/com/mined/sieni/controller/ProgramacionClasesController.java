@@ -136,6 +136,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     //metodos para modificacion de datos
     public void eliminar(SieniClase eliminado) {
         this.setEliminar(eliminado);
+        
     }
 
     //metodos para modificacion de datos
@@ -191,14 +192,10 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     }
 
     public void eliminarArchivo() {
-//        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-//        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-//        CopiaArchivos ca = new CopiaArchivos();
-//        ca.deleteDataToResource(this.getEliminar());
-//        this.getEliminar().setArEstado("I");
-//        sieniArchivoFacadeRemote.edit(this.getEliminar());
-//        fill();
+sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Clase", this.getEliminar().getIdClase(), 'D'));
+        this.getEliminar().setClEstado('I');
+        sieniClaseFacadeRemote.edit(this.getEliminar());
+        fill();
     }
 
     public void getFormatosSubidaNuevo(ValueChangeEvent a) {

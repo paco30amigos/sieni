@@ -120,6 +120,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
             FacesMessage msg = new FacesMessage("Noticia Agregada Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             fill();
+            
         }
     }
     
@@ -145,8 +146,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         if (validarModifica(this.getNoticiaModifica())) {//valida el guardado
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            this.getNoticiaModifica().setNcEstado('A');
-            this.getNoticiaModifica().setNcPublica(loginBean.getUsuario());
+            
             sieniNoticiaFacadeRemote.edit(this.getNoticiaModifica());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Noticia", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             FacesMessage msg = new FacesMessage("Noticia Modificada Exitosamente");

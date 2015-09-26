@@ -15,6 +15,7 @@
             <title>SIENI</title>
             <h:outputScript name="popcorn-complete.min.js" library="js" />
             <h:outputScript name="RTCMultiConnection.js" library="js" />
+            <h:outputScript name="script.js" library="js" />
             <h:outputScript name="js/ripple-effect.js" library="rio-layout" />
             <h:outputScript name="js/perfect-scrollbar.js" library="rio-layout" />
             <h:outputScript name="js/layout.js" library="rio-layout" />
@@ -23,6 +24,7 @@
         </h:head>
 
         <h:body>
+           
             <style type="text/css">
                 .ui-panel .ui-panel-title { font-family: serif; }
                 /*correccion de encabezado de tabs*/
@@ -166,7 +168,13 @@
                         }
                     }
                 </script>
-                <ui:include src="topbar.xhtml" />
+                
+                
+                <p:growl id="msj" widgetVar="wmsj" showDetail="true" />
+
+                <h:form id="frmMenuTopBar">
+                    <ui:include src="topbar.xhtml" />
+                </h:form>
 
                 <div id="wrapper">
                     <div id="wrapperIndent">
@@ -219,6 +227,19 @@
                 <h:outputStylesheet name="css/font-awesome.css" library="rio-layout" />
                 <h:outputStylesheet name="css/rio-layout.css" library="rio-layout" />
             </div>
+            
+           <!-- <p:socket onMessage="handleMessage" channel="/notify" >
+                <p:ajax event="message"  />
+            </p:socket>
+
+        <script type="text/javascript">
+            function handleMessage(facesmessage) {
+                facesmessage.severity = 'info';
+
+                PF('wmsj').show([facesmessage]);
+            }
+        </script>    
+            -->
         </h:body>
     </f:view>
 </html>

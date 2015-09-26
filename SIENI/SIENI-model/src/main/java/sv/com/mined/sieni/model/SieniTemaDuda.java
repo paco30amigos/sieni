@@ -6,18 +6,24 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -31,28 +37,36 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "SieniTemaDuda.findAll", query = "SELECT s FROM SieniTemaDuda s"),
     @NamedQuery(name = "SieniTemaDuda.findByIdTemaDuda", query = "SELECT s FROM SieniTemaDuda s WHERE s.idTemaDuda = :idTemaDuda"),
-    @NamedQuery(name = "SieniTemaDuda.findByTdNombre", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdNombre = :tdNombre"),
     @NamedQuery(name = "SieniTemaDuda.findByTdTipo", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdTipo = :tdTipo"),
-    @NamedQuery(name = "SieniTemaDuda.findByTdEstado", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = :tdEstado")})
+    @NamedQuery(name = "SieniTemaDuda.findConsultasActivas", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A'")})
 public class SieniTemaDuda implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_tema_duda")
+    @SequenceGenerator(name = "sec_sieni_tema_duda", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_tema_duda")
     @Basic(optional = false)
     @Column(name = "id_tema_duda")
     private Long idTemaDuda;
-    @Column(name = "td_nombre")
-    private String tdNombre;
+    @Column(name = "td_fecha")
+    @Temporal(TemporalType.DATE)
+    private Date tdFecha;
+    @Column(name = "td_tema")
+    private String tdTema;
+    @Column(name = "td_consulta")
+    private String tdConsulta;
     @Column(name = "td_tipo")
     private Character tdTipo;
     @Column(name = "td_estado")
     private Character tdEstado;
-    @ManyToMany(mappedBy = "sieniTemaDudaList")
-    private List<SieniAlumno> sieniAlumnoList;
+    
     @OneToMany(mappedBy = "idTemaDuda")
     private List<SieniResolDuda> sieniResolDudaList;
     @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
     @ManyToOne
     private SieniDocente idDocente;
+    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+    @ManyToOne
+    private SieniAlumno idAlumno;
 
     public SieniTemaDuda() {
     }
@@ -69,13 +83,32 @@ public class SieniTemaDuda implements Serializable {
         this.idTemaDuda = idTemaDuda;
     }
 
-    public String getTdNombre() {
-        return tdNombre;
+    public Date getTdFecha() {
+        return tdFecha;
     }
 
-    public void setTdNombre(String tdNombre) {
-        this.tdNombre = tdNombre;
+    public void setTdFecha(Date tdFecha) {
+        this.tdFecha = tdFecha;
     }
+
+    public String getTdTema() {
+        return tdTema;
+    }
+
+    public void setTdTema(String tdTema) {
+        this.tdTema = tdTema;
+    }
+    
+
+    public String getTdConsulta() {
+        return tdConsulta;
+    }
+
+    public void setTdConsulta(String tdConsulta) {
+        this.tdConsulta = tdConsulta;
+    }
+
+    
 
     public Character getTdTipo() {
         return tdTipo;
@@ -93,14 +126,6 @@ public class SieniTemaDuda implements Serializable {
         this.tdEstado = tdEstado;
     }
 
-    @XmlTransient
-    public List<SieniAlumno> getSieniAlumnoList() {
-        return sieniAlumnoList;
-    }
-
-    public void setSieniAlumnoList(List<SieniAlumno> sieniAlumnoList) {
-        this.sieniAlumnoList = sieniAlumnoList;
-    }
 
     @XmlTransient
     public List<SieniResolDuda> getSieniResolDudaList() {
@@ -117,6 +142,24 @@ public class SieniTemaDuda implements Serializable {
 
     public void setIdDocente(SieniDocente idDocente) {
         this.idDocente = idDocente;
+    }
+
+    public SieniAlumno getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(SieniAlumno idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+    
+    
+    public String getFechaFiltrable() {
+        String fechaF = null;
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
+        if (this.tdFecha != null) {
+            fechaF = dt1.format(tdFecha);
+        }
+        return fechaF;
     }
 
     @Override
@@ -143,5 +186,6 @@ public class SieniTemaDuda implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniTemaDuda[ idTemaDuda=" + idTemaDuda + " ]";
     }
+    
     
 }

@@ -62,16 +62,16 @@ public class RptUsuariosController extends RptUsuariosForm {
         this.setListDatos(new ArrayList<RptUsuariosPojo>());
         switch(this.getTipoUser()){
             case 1: //DOCENTES
-                List<SieniDocente> docentes = sieniDocenteFacadeRemote.findAll();
+                List<SieniDocente> docentes = sieniDocenteFacadeRemote.findUsuariosRpt();
                 for (SieniDocente actual : docentes) {
-                     elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(),actual.getNombreCompleto(),"DOCENTE","SI");
+                     elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(),actual.getNombreCompleto(),1,actual.getDcEstado());
                     this.getListDatos().add(elem);
                 }
                 break;
             case 2: //ALUMNOS
-                List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findAlumnoActivos();
+                List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findUsuariosRpt();
                 for (SieniAlumno actual : alumnos) {
-                     elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(),actual.getNombreCompleto(),"ALUMNO","SI");
+                     elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(),actual.getNombreCompleto(),2,actual.getAlEstado());
                     this.getListDatos().add(elem);
                 }
                 break;
@@ -86,6 +86,14 @@ public class RptUsuariosController extends RptUsuariosForm {
         String path = "resources/reportes/rtpUsuarios.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
+        switch(this.getTipoUser()){
+            case 1: //DOCENTES
+                parameterMap.put("tipoUsuario", "DOCENTE");
+                break;
+            case 2: //ALUMNOS
+                parameterMap.put("tipoUsuario", "ALUMNO");
+                break;
+        }
         try {
             RptAlumnosController.generateReport(path, "rtpUsuarios" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

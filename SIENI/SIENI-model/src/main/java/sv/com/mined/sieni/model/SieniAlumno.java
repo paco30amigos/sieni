@@ -76,7 +76,8 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findByAlFechaNacimiento", query = "SELECT s FROM SieniAlumno s WHERE s.alFechaNacimiento = :alFechaNacimiento"),
     @NamedQuery(name = "SieniAlumno.findByAlEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alEstado = :alEstado"),
     @NamedQuery(name = "SieniAlumno.findAlumnoById", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :id"),
-    @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr WHERE sr.idAlumnRol IS NOT NULL AND s.alUsuario IS NOT NULL")})
+    @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario IS NOT NULL AND s.alUsuario <> ''") 
+})
 public class SieniAlumno implements Serializable {
 
     @Lob
@@ -137,18 +138,16 @@ public class SieniAlumno implements Serializable {
     @Column(name = "al_fecha_baja")
     @Temporal(TemporalType.DATE)
     private Date alFechaBaja;
-    @JoinTable(name = "tema_duda", joinColumns = {
-        @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_tema_duda", referencedColumnName = "id_tema_duda")})
-    @ManyToMany
-    private List<SieniTemaDuda> sieniTemaDudaList;
+    
+    
     @JoinTable(name = "alumno_recibe_noti", joinColumns = {
         @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
     @ManyToMany
     private List<SieniNotificacion> sieniNotificacionList;
-    @OneToMany(mappedBy = "idAlumno")
-    private List<SieniAlumnRDud> sieniAlumnRDudList;
+    
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.EAGER)
+    private List<SieniTemaDuda> sieniTemaDudaList;
     @OneToMany(mappedBy = "idAlumno", fetch = FetchType.EAGER)
     private List<SieniAlumnRol> sieniAlumnRolList;
     @OneToMany(mappedBy = "idAlumno")
@@ -327,14 +326,6 @@ public class SieniAlumno implements Serializable {
         this.sieniNotificacionList = sieniNotificacionList;
     }
 
-    @XmlTransient
-    public List<SieniAlumnRDud> getSieniAlumnRDudList() {
-        return sieniAlumnRDudList;
-    }
-
-    public void setSieniAlumnRDudList(List<SieniAlumnRDud> sieniAlumnRDudList) {
-        this.sieniAlumnRDudList = sieniAlumnRDudList;
-    }
 
     @XmlTransient
     public List<SieniAlumnRol> getSieniAlumnRolList() {

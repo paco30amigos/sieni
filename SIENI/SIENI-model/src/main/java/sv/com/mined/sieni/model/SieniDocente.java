@@ -62,7 +62,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findByDcTelefonoEm2", query = "SELECT s FROM SieniDocente s WHERE s.dcTelefonoEm2 = :dcTelefonoEm2"),
     @NamedQuery(name = "SieniDocente.findByDcTelefonoEm3", query = "SELECT s FROM SieniDocente s WHERE s.dcTelefonoEm3 = :dcTelefonoEm3"),
     @NamedQuery(name = "SieniDocente.findByDcEstado", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado = :dcEstado"),
-    @NamedQuery(name = "SieniDocente.findRptUsuariosDocentes", query = "SELECT s FROM SieniDocente s LEFT JOIN s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NOT NULL AND s.dcUsuario IS NOT NULL")})
+    @NamedQuery(name = "SieniDocente.findRptUsuariosDocentes", query = "SELECT s FROM SieniDocente s WHERE s.dcUsuario IS NOT NULL AND s.dcUsuario <> ''")})
 public class SieniDocente implements Serializable {
 
     @Lob
@@ -133,10 +133,9 @@ public class SieniDocente implements Serializable {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
     @ManyToMany
     private List<SieniNotificacion> sieniNotificacionList;
+    
     @OneToMany(mappedBy = "idDocente", fetch = FetchType.EAGER)
     private List<SieniDocentRol> sieniDocentRolList;
-    @OneToMany(mappedBy = "idDocente")
-    private List<SieniDocentRDud> sieniDocentRDudList;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniCurso> sieniCursoList;
     @OneToMany(mappedBy = "idDocente")
@@ -315,14 +314,7 @@ public class SieniDocente implements Serializable {
         this.sieniDocentRolList = sieniDocentRolList;
     }
 
-    @XmlTransient
-    public List<SieniDocentRDud> getSieniDocentRDudList() {
-        return sieniDocentRDudList;
-    }
-
-    public void setSieniDocentRDudList(List<SieniDocentRDud> sieniDocentRDudList) {
-        this.sieniDocentRDudList = sieniDocentRDudList;
-    }
+    
 
     @XmlTransient
     public List<SieniCurso> getSieniCursoList() {

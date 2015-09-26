@@ -3,187 +3,67 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Portal de Consultas" url="#{siteUrls.gestionConsulta}"/>
+            <p:menuitem value="Portal Consultas" url="#{siteUrls.gestionConsulta}"/>
+            <p:menuitem value="Busqueda de Consulta"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarConsultasController.indexMenu}').show();"></i>
     </ui:define>
-    <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Consultas Realizadas">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" id="consultaForm" >
+                
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton consulta"/>
+                </p:dialog>
+                
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true">
-                        <p:column headerText="Usuario" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo30}
+                    <p:commandButton value="Si" action="#{gestionarConsultasController.eliminarConsulta()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                
+                <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
+                
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="consulta" value="#{gestionarConsultasController.consultasList}" 
+                             paginator="true" rows="5" emptyMessage="No hay consultas que mostrar"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    
+                        <p:column headerText="Fecha" filterBy="#{consulta.fechaFiltrable}" filterable="true" filterMatchMode="contains" >
+                            #{consulta.fechaFiltrable}
                         </p:column>
-                        <p:column headerText="Título" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
+                        <p:column headerText="Tema" filterBy="#{consulta.tdTema}" filterable="true" filterMatchMode="contains">
+                            #{consulta.tdTema}
                         </p:column>
-                        <p:column headerText="Estado" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo15}
+                        <p:column headerText="ENVIADA A" filterBy="#{consulta.idDocente.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                            #{consulta.idDocente.nombreCompleto}
                         </p:column>
-                        <p:column headerText="Curso" filterBy="#{car.description}" filterable="true" filterMatchMode="contains">
-                            #{formatoPantallas.campo100}
+                        <p:column headerText="REALIZADA POR" filterBy="#{consulta.idAlumno.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                            #{consulta.idAlumno.nombreCompleto}
                         </p:column>
-                        <p:column headerText="Acciones">
-                            <i class="icon-chat75 Fs25 Red" style="cursor: pointer" title="Ver Consulta"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Consulta"></i>
-                        </p:column>
-                    </p:dataTable>
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton value="Crear Nueva Consulta"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Registrar Nueva Consulta">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel value="Título: " class=" Responsive"></p:outputLabel>
-                        <p:inputText  class=" Responsive" value="#{formatoPantallas.campo100}"></p:inputText>
-                        <p:outputLabel  value="Estado: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.estado}">
-                            <f:selectItem itemValue ="1" itemLabel="#{formatoPantallas.campo15}"/>
-                            <f:selectItem itemValue="0" itemLabel="No Disponible"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel  value="Curso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu  class=" Responsive" value="#{archivosMultimediaForm.tipo}">
-                            <f:selectItem itemValue ="0" itemLabel="#{formatoPantallas.campo100}"/>
-                            <f:selectItem itemValue ="1" itemLabel="Video"/>
-                            <f:selectItem itemValue ="2" itemLabel="Imagen"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive">
-                        <p:outputLabel value="Consulta: " class=" Responsive"></p:outputLabel>
-                        <p:editor value="#{formatoPantallas.campo4000}" ></p:editor>
-                        <p:outputLabel value="Tipo de Archivo:"></p:outputLabel>
-                        <p:selectOneMenu>
-                            <f:selectItem itemValue="-1" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
-                            <f:selectItem itemValue="0" itemLabel="Audio"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Video"></f:selectItem>
-                            <f:selectItem itemValue="2" itemLabel="Imagen"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Archivo"></p:outputLabel>
-                        <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
-                        </p:fileUpload>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar"/>
-                        <p:commandButton value="Limpiar"/>
-                        <p:commandButton value="Cancelar"/>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Secciones">    
-                            </p:menuitem>
-                            <p:menuitem value="Programación de clases">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Clases">
-                            </p:menuitem>
-                        </p:splitButton>
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Ver Consulta">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel value="Tema: #{formatoPantallas.campo100}" class="h2" ></p:outputLabel>
-                    <p:separator></p:separator>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container20">
-                        <i class="icon-round58 Fs40"></i>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="Usuario: #{formatoPantallas.campo30} ,#{formatoPantallas.fechaHora}"></p:outputLabel>
-                    </div>
-                    <div class="Container73">
-                        <p:outputLabel value="Consulta" class="Container100">
-                        </p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container73" style="cursor: pointer" >
-                            <i class="fa fa-file-movie-o Fs25"></i>
-                            <i class="fa fa-file-image-o Fs25"></i>
-                            <i class="fa fa-file-audio-o Fs25"></i>
-                        </div>
-                    </div>
-                    <div class="EmptyBox10"></div>
-                    <p:separator></p:separator>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container20">
-                        <i class="icon-round58 Fs40"></i>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="Usuario: #{formatoPantallas.campo30} ,#{formatoPantallas.fechaHora}"></p:outputLabel>
-                    </div>
-                    <div class="Container73">
-                        <p:outputLabel value="Respuesta" class="Container100">
-                        </p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container73" style="cursor: pointer" >
-                            <i class="fa fa-file-movie-o Fs25"></i>
-                            <i class="fa fa-file-image-o Fs25"></i>
-                            <i class="fa fa-file-audio-o Fs25"></i>
-                        </div>
-                    </div>
-                    <div class="EmptyBox10"></div>
-                    <p:separator></p:separator>
-                    <div class="Container20">
-                        <i class="icon-round58 Fs40"></i>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="Usuario: #{formatoPantallas.campo30} ,#{formatoPantallas.fechaHora}"></p:outputLabel>
-                    </div>
-                    <div class="Container73">
-                        <p:editor></p:editor>
-                    </div>
-                    <div class="EmptyBox10"></div>
-                    <p:outputLabel value="Tipo de Archivo:"></p:outputLabel>
-                    <p:selectOneMenu>
-                        <f:selectItem itemValue="-1" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
-                        <f:selectItem itemValue="0" itemLabel="Audio"></f:selectItem>
-                        <f:selectItem itemValue="1" itemLabel="Video"></f:selectItem>
-                        <f:selectItem itemValue="2" itemLabel="Imagen"></f:selectItem>
-                    </p:selectOneMenu>
-                    <div class="EmptyBox10"></div>
-                    <p:outputLabel value="Archivo"></p:outputLabel>
-                    <div class="EmptyBox20"></div>
-                    <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
-                    </p:fileUpload> 
-                    <div class="EmptyBox10"></div>
-                    <p:separator></p:separator>
-                    <p:commandButton value="Responder"/>
-                    <p:commandButton value="Limpiar"/>
-                    <p:commandButton value="Cancelar"/>
-                    <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
-                        <p:menuitem value="Portal de Noticias">    
-                        </p:menuitem>
-                        <p:menuitem value="Buzón de Notificaciones">
-                        </p:menuitem>
-                    </p:splitButton>
-                </h:form>
-            </p:tab>
-        </p:tabView>
+                        
+                    <p:column headerText="Acciones" style="width: 12%">
+                        <p:commandLink action="#{gestionarConsultasController.ver(consulta)}"><i class="icon-visibility1 Fs25 Red" title="Ver Noticia" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarConsultasController.modificar(consulta)}"><i class="icon-compose Fs25 Red" title="Modificar Noticia" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarConsultasController.eliminar(consulta)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red" title="Eliminar Noticia"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Realizar Consulta" action="#{gestionarConsultasController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{gestionarConsultasController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

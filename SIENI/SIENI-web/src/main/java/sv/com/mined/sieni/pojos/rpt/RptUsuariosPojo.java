@@ -17,19 +17,21 @@ public class RptUsuariosPojo  implements Serializable {
     private SieniDocente docenteEntity;
     private String usuario;
     private String nombre;
+    private Integer tipoUser;
     private String tipo;
+    private Character estado;
     private String activo;
 
     public RptUsuariosPojo() {
     }
 
-    public RptUsuariosPojo(SieniAlumno alumnoEntity, SieniDocente docenteEntity, String usuario, String nombre, String tipo, String activo) {
+    public RptUsuariosPojo(SieniAlumno alumnoEntity, SieniDocente docenteEntity, String usuario, String nombre, Integer tipoUser, Character estado) {
         this.alumnoEntity = alumnoEntity;
         this.docenteEntity = docenteEntity;
         this.usuario = usuario;
         this.nombre = nombre;
-        this.tipo = tipo;
-        this.activo = activo;
+        this.tipoUser = tipoUser;
+        this.estado = estado;
     }
 
     public SieniAlumno getAlumnoEntity() {
@@ -65,20 +67,29 @@ public class RptUsuariosPojo  implements Serializable {
     }
 
     public String getTipo() {
+        switch(this.tipoUser){
+            case 1: //DOCENTES
+                tipo = "DOCENTE";
+                break;
+            case 2: //ALUMNOS
+                tipo = "ALUMNO";
+                break;
+        }
         return tipo;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
 
     public String getActivo() {
+        switch(this.estado){
+            case 'A': //DOCENTES
+                activo = "ACTIVO";
+                break;
+            case 'I': //ALUMNOS
+                activo = "INACTIVO";
+                break;
+        }
         return activo;
     }
 
-    public void setActivo(String activo) {
-        this.activo = activo;
-    }
-    
     
 }

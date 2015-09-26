@@ -6,15 +6,21 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,11 +37,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SieniResolDuda implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_resol_duda")
+    @SequenceGenerator(name = "sec_sieni_resol_duda", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_resol_duda")
     @Basic(optional = false)
     @Column(name = "id_resol_duda")
     private Long idResolDuda;
+    @Column(name = "rd_fecha")
+    @Temporal(TemporalType.DATE)
+    private Date rdFecha;
     @Column(name = "rd_mensaje")
     private String rdMensaje;
+    
     @JoinColumn(name = "id_tema_duda", referencedColumnName = "id_tema_duda")
     @ManyToOne
     private SieniTemaDuda idTemaDuda;
@@ -54,6 +66,15 @@ public class SieniResolDuda implements Serializable {
     public void setIdResolDuda(Long idResolDuda) {
         this.idResolDuda = idResolDuda;
     }
+
+    public Date getRdFecha() {
+        return rdFecha;
+    }
+
+    public void setRdFecha(Date rdFecha) {
+        this.rdFecha = rdFecha;
+    }
+
 
     public String getRdMensaje() {
         return rdMensaje;

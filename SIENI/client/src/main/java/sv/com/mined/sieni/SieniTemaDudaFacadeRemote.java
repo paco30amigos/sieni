@@ -25,6 +25,8 @@ public interface SieniTemaDudaFacadeRemote {
     SieniTemaDuda find(Object id);
 
     List<SieniTemaDuda> findAll();
+    
+    List<SieniTemaDuda> findConsultasActivas();
 
     List<SieniTemaDuda> findRange(int[] range);
 

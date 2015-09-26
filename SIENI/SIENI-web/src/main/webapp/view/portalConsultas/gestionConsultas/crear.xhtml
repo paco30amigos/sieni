@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Portal Consultas" url="#{siteUrls.gestionConsulta}"/>
+            <p:menuitem value="Busqueda de Consulta"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        
+        
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" >
+                <p:dialog widgetVar="dlgAyuda1" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton registrar"/>
+                </p:dialog>
+                
+                <div class="EmptyBox20"></div>
+                <p:focus id="focus" context="p1"/>
+                <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
+                    
+                    <p:outputLabel for="docente" value="Docente: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="docente" class=" Responsive" value="#{gestionarConsultasController.idDocente}" >
+                        <f:selectItems itemValue ="#{doc.idDocente}" itemLabel="#{doc.nombreCompleto}" value="#{gestionarConsultasController.docentesList}" var="doc" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="tema" value="Tema: " class=" Responsive"  ></p:outputLabel>
+                    <p:inputText tabindex="1" class="Container100" id="tema"  value="#{gestionarConsultasController.consultaNueva.tdTema}" maxlength="100" required="true" requiredMessage="Debe ingresar Tema de la consulta"></p:inputText>
+                    <p:outputLabel for="consulta" value="Consulta: " class=" Responsive"></p:outputLabel>
+                    <p:editor class="Container100" id="consulta" value="#{gestionarConsultasController.consultaNueva.tdConsulta}" maxlength="4000"  required="true" requiredMessage="Debe ingresar la consulta" ></p:editor>
+                    
+                </p:panelGrid>
+                
+                <div class="EmptyBox20"></div>
+                <div class="Container100">
+                    <p:commandButton value="Guardar" action="#{gestionarConsultasController.guardar()}" update="p1" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{gestionarConsultasController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:splitButton value="Otras Opciones" action= "#">
+                        <p:menuitem value="Gestionar Docentes">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:splitButton> 
+                    
+                               
+                </div>
+            </h:form>
+            
+            
+        </p:panel>
+    </ui:define>
+</ui:composition>

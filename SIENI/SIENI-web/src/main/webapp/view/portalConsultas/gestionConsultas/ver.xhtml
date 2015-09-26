@@ -91,12 +91,15 @@
                     <p:commandButton value="Limpiar"/>
                     <p:commandButton value="Cancelar"/>
                     <div class="EmptyBox20"></div>
-                    <p:splitButton value="Otras Opciones" action="#">
-                        <p:menuitem value="Portal de Noticias">    
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Portal Noticia" >    
                         </p:menuitem>
-                        <p:menuitem value="Buzón de Notificaciones">
+                        <p:menuitem value="Portal Consulta">    
                         </p:menuitem>
-                    </p:splitButton>
+                        <p:menuitem value="Buzon Notificaciones">    
+                        </p:menuitem>
+                    </p:tieredMenu>  
             </h:form>
         </p:panel>
     </ui:define>

@@ -140,7 +140,7 @@ public class GestionNotasController extends GestionNotasForm {
         }
         validaciones.add(new ValidationPojo(!(this.getMateriasList() != null && !this.getMateriasList().isEmpty()), "El alumno no tiene materias disponibles", FacesMessage.SEVERITY_ERROR));
         validaciones.add(new ValidationPojo(!(this.getEvaluacionesList() != null && !this.getEvaluacionesList().isEmpty()), "El alumno no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
-        validaciones.add(new ValidationPojo(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() < 10.0, "Nota no valida", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(!(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() <= 10.0), "Nota no valida", FacesMessage.SEVERITY_ERROR));
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
@@ -223,7 +223,7 @@ public class GestionNotasController extends GestionNotasForm {
         }
         validaciones.add(new ValidationPojo(!(this.getMateriasList() != null && !this.getMateriasList().isEmpty()), "El alumno no tiene materias disponibles", FacesMessage.SEVERITY_ERROR));
         validaciones.add(new ValidationPojo(!(this.getEvaluacionesList() != null && !this.getEvaluacionesList().isEmpty()), "El alumno no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
-        validaciones.add(new ValidationPojo(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() < 10.0, "Nota no valida", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(!(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() <= 10.0), "Nota no valida", FacesMessage.SEVERITY_ERROR));
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
@@ -260,17 +260,23 @@ public class GestionNotasController extends GestionNotasForm {
 
     public void getSeccionesGrado(ValueChangeEvent a) {
         SieniMateria cod = (SieniMateria) a.getNewValue();
-        this.setEvaluacionesList(cod.getSieniEvaluacionList());
+        if (cod != null) {
+            this.setEvaluacionesList(cod.getSieniEvaluacionList());
+        }
     }
-    
+
     public void getSeccionesGradoExcel(ValueChangeEvent a) {
         SieniMateria cod = (SieniMateria) a.getNewValue();
-        this.setEvaluacionesExcelList(cod.getSieniEvaluacionList());
+        if (cod != null) {
+            this.setEvaluacionesExcelList(cod.getSieniEvaluacionList());
+        }
     }
 
     public void getSeccionesGradoModifica(ValueChangeEvent a) {
         SieniMateria cod = (SieniMateria) a.getNewValue();
-        this.setEvaluacionesModificaList(cod.getSieniEvaluacionList());
+        if (cod != null) {
+            this.setEvaluacionesModificaList(cod.getSieniEvaluacionList());
+        }
     }
 
     public void getArchivoNuevo(FileUploadEvent event) {

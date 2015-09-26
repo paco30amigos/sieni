@@ -32,9 +32,10 @@
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <p:panelGrid columns="2" class="Container50 Responsive">
-                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maCoordinador}">
-                        <f:selectItems itemValue="#{gestionMateriasController.materiaNuevo.maCoordinador}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente"></f:selectItems>
+                    <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu  id="estado" class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maEstado}">
+                        <f:selectItem itemValue ="DISPONIBLE" itemLabel="DISPONIBLE"/>
+                        <f:selectItem itemValue="NO DISPONIBLE" itemLabel="NO DISPONIBLE"/>
                     </p:selectOneMenu>
                     <p:outputLabel value="Turno: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maTurno}">
@@ -42,13 +43,12 @@
                         <f:selectItem itemValue ="VESPERTINO" itemLabel="VESPERTINO"/>
                     </p:selectOneMenu>   
                 </p:panelGrid>
-                <p:panelGrid columns="2" class="Container50 Responsive">
-                    <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu  id="estado" class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maEstado}">
-                        <f:selectItem itemValue ="DISPONIBLE" itemLabel="DISPONIBLE"/>
-                        <f:selectItem itemValue="NO DISPONIBLE" itemLabel="NO DISPONIBLE"/>
+<!--                <p:panelGrid columns="2" class="Container50 Responsive">
+                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maCoordinador}">
+                        <f:selectItems itemValue="#{gestionMateriasController.materiaNuevo.maCoordinador}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente"></f:selectItems>
                     </p:selectOneMenu>
-                </p:panelGrid>
+                </p:panelGrid>-->
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionMateriasController.guardar()}"/>

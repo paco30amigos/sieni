@@ -36,6 +36,9 @@
                     <p:column headerText="Nombre" filterBy="#{car.maNombre}" filterable="true" filterMatchMode="contains">
                         #{car.maNombre}
                     </p:column>
+                    <p:column headerText="Grado" filterBy="#{car.idGrado.grNombre}" filterable="true" filterMatchMode="contains">
+                        #{car.idGrado.grNombre}
+                    </p:column>
                     <p:column headerText="Estado" filterBy="#{car.maEstado}" filterable="true" filterMatchMode="contains">
                         #{car.maEstado}
                     </p:column>

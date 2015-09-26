@@ -1,0 +1,75 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/> 
+            <p:menuitem value="Gestionar Clase" url="#"/>
+            <p:menuitem value="Gestionar Plantillas" url="#{siteUrls.gestionPlantilla}"/>
+            <p:menuitem value="Configurar Plantilla" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data">
+                <p:focus id="focus" context="p1"></p:focus>
+                <p:panelGrid id="p1" columns="4"> 
+                    <p:outputLabel for="nombre" value="Nombre de Plantilla:"></p:outputLabel>
+                    <p:outputLabel id="nombre" value="#{gestionPlantillasController.plantillaModifica.plNombre}"></p:outputLabel>
+                    <p:outputLabel for="elementos" value="Elementos disponibles de plantilla: "></p:outputLabel>
+                    <p:selectOneMenu tabindex="1" id="elementos" value="#{gestionPlantillasController.tipoPlantilla}" converter="tipoElemPlantilla">
+                        <f:selectItems itemLabel="#{tipo.teDescripcion}" itemValue="#{tipo}" value="#{gestionPlantillasController.tipoPlantilla}" var="tipo" ></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Agregar" action="#{gestionPlantillasController.agregarElemPlantilla()}" update="consulta,materias"></p:commandButton>
+                </p:panelGrid>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionPlantillasController.eliminarElemPlantilla()}" update="consulta" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionPlantillasController.elemPlantillaSelected}" 
+                             paginator="true" rows="5"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Elemento de Plantilla">
+                        #{car.epDescripcion}
+                    </p:column>
+                    <p:column headerText="acciones">
+                        <p:commandLink action="#{gestionPlantillasController.eliminarElemPlantilla_(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red" title="Eliminar elemento de plantilla"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <div class="Container100">
+                    <p:commandButton value="Guardar" action="#{gestionPlantillasController.guardarElemPlantilla()}" update="p1,focus,consulta" oncomplete="configurarEnterTab()"  />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()"  />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{gestionPlantillasController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu>
+                </div>
+            </h:form>
+        </p:panel> 
+    </ui:define>
+</ui:composition>

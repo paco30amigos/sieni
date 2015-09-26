@@ -39,8 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniMatricula.findByIdMatricula", query = "SELECT s FROM SieniMatricula s WHERE s.idMatricula = :idMatricula"),
     @NamedQuery(name = "SieniMatricula.findByMtFechaIngreso", query = "SELECT s FROM SieniMatricula s WHERE s.mtFechaIngreso = :mtFechaIngreso"),
     @NamedQuery(name = "SieniMatricula.findByMtEstado", query = "SELECT s FROM SieniMatricula s WHERE s.mtEstado = :mtEstado"),
-    @NamedQuery(name = "SieniMatricula.findByMtAnio", query = "SELECT s FROM SieniMatricula s WHERE s.mtAnio = :mtAnio"),
-    @NamedQuery(name = "SieniMatricula.findByMtCarnet", query = "SELECT s FROM SieniMatricula s WHERE s.mtCarnet = :mtCarnet")})
+    @NamedQuery(name = "SieniMatricula.findByMtAnio", query = "SELECT s FROM SieniMatricula s WHERE s.mtAnio = :mtAnio")})
 public class SieniMatricula implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -56,9 +55,7 @@ public class SieniMatricula implements Serializable {
     @Column(name = "mt_estado")
     private Character mtEstado;
     @Column(name = "mt_anio")
-    private String mtAnio;
-    @Column(name = "mt_carnet")
-    private String mtCarnet;
+    private String mtAnio;    
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
@@ -106,14 +103,6 @@ public class SieniMatricula implements Serializable {
 
     public void setMtAnio(String mtAnio) {
         this.mtAnio = mtAnio;
-    }
-
-    public String getMtCarnet() {
-        return mtCarnet;
-    }
-
-    public void setMtCarnet(String mtCarnet) {
-        this.mtCarnet = mtCarnet;
     }
 
     public SieniAlumno getIdAlumno() {

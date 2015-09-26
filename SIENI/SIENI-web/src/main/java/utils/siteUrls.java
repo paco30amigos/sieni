@@ -39,6 +39,7 @@ public class siteUrls {
     private final String claseVideoAlmacenada = "/faces/view/gestionCurso/gestionClase/claseVideoAlmacenada/index.xhtml";
     private final String claseInteractiva = "/faces/view/gestionCurso/gestionClase/claseInteractiva/index.xhtml";
     private final String componenteInteractiva = "/faces/view/gestionCurso/gestionCompInteract/index.xhtml";
+    private final String gestionPlantilla = "/faces/view/gestionCurso/gestionClase/gestionPlantillas/index.xhtml";
 
     private final String reporteMatricula = "/faces/view/rpt/reporteMatricula/index.xhtml";
     private final String reporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/index.xhtml";
@@ -78,6 +79,7 @@ public class siteUrls {
     private final String baseclaseVideoAlmacenada = "/faces/view/gestionCurso/gestionClase/claseVideoAlmacenada/";
     private final String baseclaseInteractiva = "/faces/view/gestionCurso/gestionClase/claseInteractiva/";
     private final String basecomponenteInteractiva = "/faces/view/gestionCurso/gestionCompInteract/";
+    private final String basegestionPlantilla = "/faces/view/gestionCurso/gestionClase/gestionPlantillas/";
 
     private final String basereporteMatricula = "/faces/view/rpt/reporteMatricula/";
     private final String basereporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/";
@@ -382,6 +384,14 @@ public class siteUrls {
 
     public String getGestionAnioEscolar() {
         return gestionAnioEscolar;
+    }
+
+    public String getGestionPlantilla() {
+        return gestionPlantilla;
+    }
+
+    public String getBasegestionPlantilla() {
+        return basegestionPlantilla;
     }
 
 }

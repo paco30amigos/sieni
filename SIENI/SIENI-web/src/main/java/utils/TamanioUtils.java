@@ -24,6 +24,7 @@ public class TamanioUtils {
     private final String nombreArchivoMax = "100";
     private final int nombreSuperCompMax = 100;
     private final int descSuperCompMax = 200;
+    private final int nombrePlantillaMax = 100;
 
     public int getDireccionMax() {
         return direccionMax;
@@ -63,6 +64,10 @@ public class TamanioUtils {
 
     public int getDescSuperCompMax() {
         return descSuperCompMax;
+    }
+
+    public int getNombrePlantillaMax() {
+        return nombrePlantillaMax;
     }
 
 }

@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s LEFT JOIN s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NULL"),
     @NamedQuery(name = "SieniDocente.findAll", query = "SELECT s FROM SieniDocente s"),
     @NamedQuery(name = "SieniDocente.findDocenteActivo", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A'"),
-    @NamedQuery(name = "SieniDocente.findByDesdeHasta", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A' AND s.dcFechaCrea BETWEEN :desde AND :hasta"),
+    @NamedQuery(name = "SieniDocente.findByDesdeHasta", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A' AND s.dcFechaIngreso BETWEEN :desde AND :hasta"),
     @NamedQuery(name = "SieniDocente.findByIdDocente", query = "SELECT s FROM SieniDocente s WHERE s.idDocente = :idDocente"),
     @NamedQuery(name = "SieniDocente.findByDcPrimNombre", query = "SELECT s FROM SieniDocente s WHERE s.dcPrimNombre = :dcPrimNombre"),
     @NamedQuery(name = "SieniDocente.findByDcSeguNombre", query = "SELECT s FROM SieniDocente s WHERE s.dcSeguNombre = :dcSeguNombre"),
@@ -116,13 +116,13 @@ public class SieniDocente implements Serializable {
     private Date dcFechaBaja;
     @Column(name = "dc_estado")
     private Character dcEstado;
-    @Column(name = "dc_fecha_crea", nullable = false)
+    @Column(name = "dc_fecha_ingreso", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dcFechaCrea;
+    private Date dcFechaIngreso;
 
     @PrePersist
     protected void onCreate() {
-        dcFechaCrea = new Date();
+        dcFechaIngreso = new Date();
     }
 
 //    @Column(name = "dc_fecha_crea")
@@ -406,14 +406,6 @@ public class SieniDocente implements Serializable {
         this.dcFechaBaja = dcFechaBaja;
     }
 
-    public Date getDcFechaCrea() {
-        return dcFechaCrea;
-    }
-
-    public void setDcFechaCrea(Date dcFechaCrea) {
-        this.dcFechaCrea = dcFechaCrea;
-    }
-
     public List<SieniClaseDocente> getSieniClaseDocenteList() {
         return sieniClaseDocenteList;
     }
@@ -428,6 +420,14 @@ public class SieniDocente implements Serializable {
 
     public void setSieniMateriaDocenteList(List<SieniMateriaDocente> sieniMateriaDocenteList) {
         this.sieniMateriaDocenteList = sieniMateriaDocenteList;
+    }
+
+    public Date getDcFechaIngreso() {
+        return dcFechaIngreso;
+    }
+
+    public void setDcFechaIngreso(Date dcFechaIngreso) {
+        this.dcFechaIngreso = dcFechaIngreso;
     }
 
 }

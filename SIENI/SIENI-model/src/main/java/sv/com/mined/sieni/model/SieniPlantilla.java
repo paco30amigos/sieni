@@ -11,12 +11,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,13 +40,18 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniPlantilla.findByPlFechaIngreso", query = "SELECT s FROM SieniPlantilla s WHERE s.plFechaIngreso = :plFechaIngreso"),
     @NamedQuery(name = "SieniPlantilla.findByPlFechaModificacion", query = "SELECT s FROM SieniPlantilla s WHERE s.plFechaModificacion = :plFechaModificacion")})
 public class SieniPlantilla implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_plantilla")
+    @SequenceGenerator(name = "sec_sieni_plantilla", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_plantilla")
     @Basic(optional = false)
     @Column(name = "id_plantilla")
     private Long idPlantilla;
     @Column(name = "pl_nombre")
     private String plNombre;
+    @Column(name = "pl_estado")
+    private Character plEstado;
     @Column(name = "pl_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date plFechaIngreso;
@@ -147,5 +155,44 @@ public class SieniPlantilla implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniPlantilla[ idPlantilla=" + idPlantilla + " ]";
     }
-    
+
+    public Character getPlEstado() {
+        return plEstado;
+    }
+
+    public void setPlEstado(Character plEstado) {
+        this.plEstado = plEstado;
+    }
+
+    public String getEstado() {
+        String ret = "";
+        switch (plEstado) {
+            case 'A':
+                ret = "Activo";
+                break;
+            case 'T':
+                ret = "En Proceso";
+                break;
+            case 'I':
+                ret = "Eliminada";
+                break;
+        }
+        return ret;
+    }
+
+    public String getElemPlantilla() {
+        String ret = "";
+        if (sieniElemPlantillaList != null && !sieniElemPlantillaList.isEmpty()) {
+            boolean inicio = true;
+            for (SieniElemPlantilla actual : getSieniElemPlantillaList()) {
+                if (inicio) {
+                    ret += actual.getIdTipoElemPlantilla().getTeDescripcion();
+                    inicio = false;
+                } else {
+                    ret += "," + actual.getIdTipoElemPlantilla().getTeDescripcion();
+                }
+            }
+        }
+        return ret;
+    }
 }

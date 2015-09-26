@@ -29,5 +29,8 @@ public interface SieniElemPlantillaFacadeRemote {
     List<SieniElemPlantilla> findRange(int[] range);
 
     int count();
-    
+
+    public List<SieniElemPlantilla> findByIdPlantilla(Long idPlantilla);
+
+    public void merge(List<SieniElemPlantilla> lista, List<SieniElemPlantilla> eliminados);
 }

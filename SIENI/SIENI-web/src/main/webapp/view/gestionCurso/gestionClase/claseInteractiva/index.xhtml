@@ -28,8 +28,14 @@
                                  rowsPerPageTemplate="10,20,40"
                                  reflow="true"
                                  >
-                        <p:column headerText="Docente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo300}
+                        <p:column headerText="Curso"  filterBy="#{car.idCurso.crNombre}" filterMatchMode="contains" filterable="true">
+                            #{car.idCurso.crNombre}
+                        </p:column>
+                        <p:column headerText="Tema de clase"  filterBy="#{car.clTema}" filterMatchMode="contains" filterable="true">
+                            #{car.clTema}
+                        </p:column>
+                        <p:column headerText="Docente"  filterBy="#{car.idCurso.idDocente.nombreCompleto}" filterMatchMode="contains" filterable="true">
+                            #{car.idCurso.idDocente.nombreCompleto}
                         </p:column>
                         <p:column headerText="Plantilla"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
                             #{formatoPantallas.campo100}
@@ -56,14 +62,10 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="4">
-                        <p:outputLabel value="Docente: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  value="#{ClasesForm.docente}" class="Contanier10 Responsive" filter="true" filterMatchMode="startsWith">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo300}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>
                         <p:outputLabel  value="Plantilla de clase: " class="Contanier10 Responsive"></p:outputLabel>
                         <p:selectOneMenu  value="#{ClasesForm.tipoClase}" class="Contanier10 Responsive">
                             <f:selectItem itemLabel="#{formatoPantallas.campo100}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>  
+                        </p:selectOneMenu>
                         <p:outputLabel value="Estado: " class="Responsive"></p:outputLabel>
                         <p:selectOneMenu >
                             <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
@@ -80,19 +82,18 @@
                                                  itemValue="#{seccionPlantilla}"  controlsLocation="none" class="Container100">
                                         <p:column>#{formatoPantallas.campo100}</p:column>
                                     </p:orderList>
-                                </div>
-                                <div class="Container40 ContainerIndent Responsive">
-                                    <p:outputLabel value="Componentes en la seccion de la plantilla" class="Container100 TexAlCenter"></p:outputLabel>
-                                    <p:pickList value="#{componentesClaseForm.componentes}" var="componente" effect="bounce"
-                                                itemValue="#{componente}" itemLabel="#{componente.description}" showCheckbox="true"
-                                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
-                                                addLabel="Agregar" addAllLabel="Agregar Todos" removeLabel="Remover" 
-                                                removeAllLabel="Remover Todos" class="Container100">
-                                        <f:facet name="sourceCaption">Disponibles</f:facet>
-                                        <f:facet name="targetCaption">Seleccionados</f:facet>
-                                        <p:column >#{formatoPantallas.campo100}</p:column>
-                                    </p:pickList>
-                                </div>
+                                    <div class="Container40 ContainerIndent Responsive">
+                                        <p:outputLabel value="Componentes en la seccion de la plantilla" class="Container100 TexAlCenter"></p:outputLabel>
+                                        <p:pickList value="#{componentesClaseForm.componentes}" var="componente" effect="bounce"
+                                                    itemValue="#{componente}" itemLabel="#{componente.description}" showCheckbox="true"
+                                                    showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
+                                                    addLabel="Agregar" addAllLabel="Agregar Todos" removeLabel="Remover" 
+                                                    removeAllLabel="Remover Todos" class="Container100">
+                                            <f:facet name="sourceCaption">Disponibles</f:facet>
+                                            <f:facet name="targetCaption">Seleccionados</f:facet>
+                                            <p:column >#{formatoPantallas.campo100}</p:column>
+                                        </p:pickList>
+                                    </div>
                             </p:tab>
                             <p:tab title="Interacción entre componentes">
                                 <p:tabView>

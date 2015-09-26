@@ -27,7 +27,7 @@ public class RptMatriculasPojo implements Serializable {
 
     public RptMatriculasPojo(String matricula, String anio, String carnet, String alumno, String grado, String seccion) {
         this.matricula = matricula;
-        this.anio = anio;
+        this.anio = anio;        
         this.carnet = carnet;
         this.alumno = alumno;
         this.grado = grado;

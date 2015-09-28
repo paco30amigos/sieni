@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -24,6 +25,7 @@ import sv.com.mined.sieni.form.GestionMateriasForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniMateria;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.FormatUtils;
 
 /**
@@ -56,13 +58,13 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     private void fill() {
-        this.setMateriaList(sieniMateriaFacadeRemote.findAll());        
+        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
         this.setDocentesList(sieniDocenteFacadeRemote.findAll());
         this.setGradoList(sieniGradoFacadeRemote.findAll());
     }
 
     public void guardar() {
-        
+
         if (validarNuevo(this.getMateriaNuevo())) {
             this.getMateriaNuevo().setMaEstado('A');
             sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
@@ -75,10 +77,35 @@ public class GestionMateriasController extends GestionMateriasForm {
             fill();
         }
     }
-    
+
     public boolean validarNuevo(SieniMateria nuevo) {
         boolean ban = true;
 
+        return ban;
+    }
+
+    public void modificar(SieniMateria modificado) {
+        this.setMateriaModifica(modificado);
+        this.setIndexMenu(2);
+    }
+
+    public void guardarModifica() {
+
+        if (validarModifica(this.getMateriaModifica())) {//valida el guardado
+
+            sieniMateriaFacadeRemote.edit(this.getMateriaModifica());
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            fill();
+        }
+    }
+
+    public boolean validarModifica(SieniMateria nuevo) {
+        boolean ban = true;
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         return ban;
     }
 }

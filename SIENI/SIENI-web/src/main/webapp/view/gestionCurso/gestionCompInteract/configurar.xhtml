@@ -134,6 +134,9 @@
                                     </p:pickList>                        
                                 </div>
                             </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==7}">
+                                <p:editor value="#{gestionComponentesInteractivosController.texto}"></p:editor>
+                            </c:when>
                         </c:choose>
                     </p:tab>
                     <p:tab title="Configurar acciones">
@@ -276,6 +279,9 @@
                                                    var="imgs" style="height: #{gestionComponentesInteractivosController.config.scAlto}px;width: #{gestionComponentesInteractivosController.config.scAncho}px" styleClass="content">
                                     </p:contentFlow>
                                 </c:if>
+                            </c:when>
+                            <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==7}">
+                                <p:editor disabled="true" value="#{gestionComponentesInteractivosController.texto}" controls=""></p:editor>
                             </c:when>
                         </c:choose>
                         <c:set value="0" var="varID"></c:set>

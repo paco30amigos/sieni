@@ -135,6 +135,13 @@ public class CopiaArchivos {
         return copiaExitosa;
     }
 
+    //cuando el archivo esta creado en la BD pero no existe en la carpeta de recursos
+    public byte[] getData(SieniArchivo archivoEntity) {
+        Long idArchivo = archivoEntity.getIdArchivo();
+        byte[] archivo = sieniArchivoFacadeRemote.getArchivoLazy(idArchivo);
+        return archivo;
+    }
+
     //cuando se quiere actualizar el archivo de un recurso
     public SieniArchivo updateDataToResource(SieniArchivo archivoEntity) {
         CopiaArchivos cpa = new CopiaArchivos();

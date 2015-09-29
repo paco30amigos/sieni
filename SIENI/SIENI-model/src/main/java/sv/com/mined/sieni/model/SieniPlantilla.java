@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniPlantilla.findAll", query = "SELECT s FROM SieniPlantilla s"),
+    @NamedQuery(name = "SieniPlantilla.findByMateria", query = "SELECT s FROM SieniPlantilla s where s.idMateria.idMateria=:idMateria and s.plEstado not in (:estado) and s.idMateria.maEstado not in (:estado)"),
     @NamedQuery(name = "SieniPlantilla.findByIdPlantilla", query = "SELECT s FROM SieniPlantilla s WHERE s.idPlantilla = :idPlantilla"),
     @NamedQuery(name = "SieniPlantilla.findByPlNombre", query = "SELECT s FROM SieniPlantilla s WHERE s.plNombre = :plNombre"),
     @NamedQuery(name = "SieniPlantilla.findByPlFechaIngreso", query = "SELECT s FROM SieniPlantilla s WHERE s.plFechaIngreso = :plFechaIngreso"),
@@ -64,7 +65,7 @@ public class SieniPlantilla implements Serializable {
     private SieniMateria idMateria;
     @OneToMany(mappedBy = "idPlantilla")
     private List<SieniClase> sieniClaseList;
-    @OneToMany(mappedBy = "idPlantilla",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idPlantilla", fetch = FetchType.EAGER)
     private List<SieniElemPlantilla> sieniElemPlantillaList;
 
     public SieniPlantilla() {

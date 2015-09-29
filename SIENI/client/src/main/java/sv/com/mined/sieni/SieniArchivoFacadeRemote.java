@@ -8,7 +8,6 @@ package sv.com.mined.sieni;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniArchivo;
-import sv.com.mined.sieni.pojos.ComponenteArchivoPojo;
 
 /**
  *
@@ -38,4 +37,6 @@ public interface SieniArchivoFacadeRemote {
     public List<SieniArchivo> findByIdSuperComp(Long idSuperCompon);
 
     public List<SieniArchivo> findByTipoArchivo(String tipo);
+
+    public List<SieniArchivo> merge(List<SieniArchivo> lista, List<SieniArchivo> eliminados);
 }

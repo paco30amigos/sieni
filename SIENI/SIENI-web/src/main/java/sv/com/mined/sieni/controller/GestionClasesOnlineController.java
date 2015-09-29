@@ -41,7 +41,7 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
     }
 
     public void fill() {
-        this.setClasesOnlineList(sieniClaseFacadeRemote.findAll());
+        this.setClasesOnlineList(sieniClaseFacadeRemote.findClaseByTipo('O'));
     }
 
     public void transmitirClase(SieniClase claseActual) {

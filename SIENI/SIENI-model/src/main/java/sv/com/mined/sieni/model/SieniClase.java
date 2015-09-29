@@ -35,12 +35,16 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniClase.findAll", query = "SELECT s FROM SieniClase s"),
+    @NamedQuery(name = "SieniClase.findClaseByTipo", query = "SELECT s FROM SieniClase s where s.clEstado not in (:estado) and s.clTipo=:tipoClase"),
     @NamedQuery(name = "SieniClase.findAllNoInactivos", query = "SELECT s FROM SieniClase s where s.clEstado not in (:estado)"),
     @NamedQuery(name = "SieniClase.findByIdClase", query = "SELECT s FROM SieniClase s WHERE s.idClase = :idClase"),
     @NamedQuery(name = "SieniClase.findByClHorario", query = "SELECT s FROM SieniClase s WHERE s.clHorario = :clHorario"),
     @NamedQuery(name = "SieniClase.findByClEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado"),
     @NamedQuery(name = "SieniClase.findByClTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo")})
 public class SieniClase implements Serializable {
+
+    @OneToMany(mappedBy = "idClase")
+    private List<SieniInteEntrComp> sieniInteEntrCompList;
 
     @OneToMany(mappedBy = "idClase")
     private List<SieniClaseDocente> sieniClaseDocenteList;
@@ -231,6 +235,14 @@ public class SieniClase implements Serializable {
         return tipo;
     }
 
+    public String getNombrePlantilla() {
+        String ret = "Plantilla no seleccionada";
+        if (idPlantilla != null && idPlantilla.getIdPlantilla() != null) {
+            ret = idPlantilla.getPlNombre();
+        }
+        return ret;
+    }
+
     public void setEstado(String estado) {
         this.estado = estado;
     }
@@ -257,6 +269,14 @@ public class SieniClase implements Serializable {
 
     public void setClTipoPublicacion(Character clTipoPublicacion) {
         this.clTipoPublicacion = clTipoPublicacion;
+    }
+
+    public List<SieniInteEntrComp> getSieniInteEntrCompList() {
+        return sieniInteEntrCompList;
+    }
+
+    public void setSieniInteEntrCompList(List<SieniInteEntrComp> sieniInteEntrCompList) {
+        this.sieniInteEntrCompList = sieniInteEntrCompList;
     }
 
 }

@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -33,6 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniAccion.findByAcDescripcion", query = "SELECT s FROM SieniAccion s WHERE s.acDescripcion = :acDescripcion"),
     @NamedQuery(name = "SieniAccion.findByEvCodigo", query = "SELECT s FROM SieniAccion s WHERE s.evCodigo = :evCodigo")})
 public class SieniAccion implements Serializable {
+    @OneToMany(mappedBy = "idAccion")
+    private List<SieniCompInteraccion> sieniCompInteraccionList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -112,6 +116,14 @@ public class SieniAccion implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniAccion[ idAccion=" + idAccion + " ]";
+    }
+
+    public List<SieniCompInteraccion> getSieniCompInteraccionList() {
+        return sieniCompInteraccionList;
+    }
+
+    public void setSieniCompInteraccionList(List<SieniCompInteraccion> sieniCompInteraccionList) {
+        this.sieniCompInteraccionList = sieniCompInteraccionList;
     }
 
 }

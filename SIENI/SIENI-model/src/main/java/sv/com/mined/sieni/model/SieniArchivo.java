@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_archivo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniArchivo.findAllNoInactivos", query = "SELECT s FROM SieniArchivo s where s.arEstado NOT IN (:estado) ORDER BY s.idArchivo"),
+    @NamedQuery(name = "SieniArchivo.findAllNoInactivos", query = "SELECT s FROM SieniArchivo s where s.arEstado NOT IN (:estado) and s.arTipo in ('A','V','I') ORDER BY s.idArchivo"),
     @NamedQuery(name = "SieniArchivo.findByIdSuperComp", query = "SELECT s FROM SieniArchivo s,SieniComponente c where s.idArchivo=c.idArchivo and c.idSuperCompon.idSuperCompon=:idSuperCompon and s.arEstado NOT IN (:estado) ORDER BY C.cpOrden"),
     @NamedQuery(name = "SieniArchivo.findArchivoLazy", query = "SELECT s.arArchivo FROM SieniArchivo s where s.idArchivo=:idArchivo and s.arEstado NOT IN (:estado)"),
     @NamedQuery(name = "SieniArchivo.findAll", query = "SELECT s FROM SieniArchivo s"),

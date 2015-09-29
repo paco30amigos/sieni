@@ -66,4 +66,25 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
 //        q.setParameter("estado", estado);
         return q.getResultList();
     }
+
+    @Override
+    public List<SieniArchivo> merge(List<SieniArchivo> lista, List<SieniArchivo> eliminados) {
+        for (SieniArchivo actual : lista) {
+            if (actual.getIdArchivo()!= null) {
+                this.edit(actual);
+            } else {
+                this.create(actual);
+            }
+        }
+
+        for (SieniArchivo actual : eliminados) {
+            if (actual.getIdArchivo() != null) {
+                actual.setArEstado("I");//eliminacion logica
+                this.edit(actual);
+            }
+        }
+        em.flush();
+
+        return lista;
+    }
 }

@@ -32,6 +32,7 @@ public class GestionComponentesInteractivosForm {
     private SieniSuperCompon eliminar;
     private SieniSuperCompon ver;
     private StreamedContent archivoVer;
+    private Character[] archivosCopiables = {'A', 'V', 'I'};//tipos de archivos multimedia, audio, video e imagenes
 
     // consulta de archivo
     private List<SieniSuperCompon> datosList;
@@ -49,6 +50,8 @@ public class GestionComponentesInteractivosForm {
     private List<SieniTipoSuperCompon> listaTipoModifica;
     private Long tipoSuperComponModifica;
     private Long idArchivoModifica;
+    private String texto;
+    private SieniArchivo archivoTexto;
 
     //configuracion de componentes
     private SieniSuperCompon config;
@@ -340,6 +343,30 @@ public class GestionComponentesInteractivosForm {
 
     public void setEventoSelect(String eventoSelect) {
         this.eventoSelect = eventoSelect;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
+    }
+
+    public SieniArchivo getArchivoTexto() {
+        return archivoTexto;
+    }
+
+    public void setArchivoTexto(SieniArchivo archivoTexto) {
+        this.archivoTexto = archivoTexto;
+    }
+
+    public Character[] getArchivosCopiables() {
+        return archivosCopiables;
+    }
+
+    public void setArchivosCopiables(Character[] archivosCopiables) {
+        this.archivosCopiables = archivosCopiables;
     }
 
 }

@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -33,6 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniCompInteraccion.findByIdCompInteraccion", query = "SELECT s FROM SieniCompInteraccion s WHERE s.idCompInteraccion = :idCompInteraccion"),
     @NamedQuery(name = "SieniCompInteraccion.findByInDuracion", query = "SELECT s FROM SieniCompInteraccion s WHERE s.inDuracion = :inDuracion")})
 public class SieniCompInteraccion implements Serializable {
+    @OneToMany(mappedBy = "idCompInteract2")
+    private List<SieniInteEntrComp> sieniInteEntrCompList;
+    @OneToMany(mappedBy = "idCompInterac1")
+    private List<SieniInteEntrComp> sieniInteEntrCompList1;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -143,6 +149,22 @@ public class SieniCompInteraccion implements Serializable {
 
     public void setInEstado(Character inEstado) {
         this.inEstado = inEstado;
+    }
+
+    public List<SieniInteEntrComp> getSieniInteEntrCompList() {
+        return sieniInteEntrCompList;
+    }
+
+    public void setSieniInteEntrCompList(List<SieniInteEntrComp> sieniInteEntrCompList) {
+        this.sieniInteEntrCompList = sieniInteEntrCompList;
+    }
+
+    public List<SieniInteEntrComp> getSieniInteEntrCompList1() {
+        return sieniInteEntrCompList1;
+    }
+
+    public void setSieniInteEntrCompList1(List<SieniInteEntrComp> sieniInteEntrCompList1) {
+        this.sieniInteEntrCompList1 = sieniInteEntrCompList1;
     }
 
 }

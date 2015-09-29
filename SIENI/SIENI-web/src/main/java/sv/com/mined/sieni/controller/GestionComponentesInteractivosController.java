@@ -39,6 +39,7 @@ import sv.com.mined.sieni.model.SieniTipoComponente;
 import sv.com.mined.sieni.model.SieniTipoSuperCompon;
 import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
 import utils.CopiaArchivos;
+import utils.DateUtils;
 
 /**
  *
@@ -74,6 +75,8 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.getListaOrdenable().setSource(new ArrayList<FileStreamedPojo>());
         this.getListaOrdenable().setTarget(new ArrayList<FileStreamedPojo>());
         this.setListaEventosDiferentes(new ArrayList());
+        this.setArchivoTexto(new SieniArchivo());
+        this.setTexto("");
         fill();
     }
 
@@ -154,8 +157,28 @@ public class GestionComponentesInteractivosController extends GestionComponentes
 
         //archivos de cada componente
         List<SieniArchivo> archivos = sieniArchivoFacadeRemote.findByIdSuperComp(configura.getIdSuperCompon());
+        //si es texto
+        if (this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon().equals(new Long("7"))) {
+            if (archivos == null) {
+                archivos = new ArrayList();
+            }
+            if (archivos.isEmpty()) {
+                SieniArchivo archivo = crearArchivo();
+                archivos.add(archivo);
+                getListaArchivos("T");//actualiza los archivos
+                this.setIdArchivo(archivo.getIdArchivo());
+                agregarArchivoUnico();
+                guardarConfiguracionComponente();
+            }
+        }
         for (SieniArchivo actual : archivos) {
-            ca.copyDataToResource(actual);
+            if (actual.getArTipo().equals(this.getArchivosCopiables()[0])
+                    || actual.getArTipo().equals(getArchivosCopiables()[1])
+                    || actual.getArTipo().equals(getArchivosCopiables()[2])) {//si es archivo copiable o multimedia
+                ca.copyDataToResource(actual);
+            } else {//si es de otro tipo (texto por ejemplo)
+                this.setTexto(new String(ca.getData(actual)));
+            }
         }
         this.setListaArchivosComponente(archivos);
         //componentes que integran al super componente
@@ -282,7 +305,11 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         sux.setComponente(actual);
         CopiaArchivos ca = new CopiaArchivos();
         ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
-        ca.copyDataToResource(sux.getArchivoBD());
+        if (sux.getArchivoBD().getArTipo().equals(this.getArchivosCopiables()[0])
+                || sux.getArchivoBD().getArTipo().equals(this.getArchivosCopiables()[1])
+                || sux.getArchivoBD().getArTipo().equals(this.getArchivosCopiables()[2])) {
+            ca.copyDataToResource(sux.getArchivoBD());
+        }
         this.getListaOrdenable().getSource().add(sux);
     }
 
@@ -314,8 +341,11 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void guardarConfiguracion() {
+        guardarTexto();
         guardarConfiguracionComponente();
         guardarConfiguracionInteraccion();
+        FacesMessage msg = new FacesMessage("Configuracion guardada Exitosamente");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
         fillConfigura(this.getConfig());
     }
 
@@ -380,6 +410,9 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             case 3://audio
                 ret.setIdTipoComponente(3L);
                 break;
+            case 4://texto
+                ret.setIdTipoComponente(4L);
+                break;
         }
         return ret;
     }
@@ -399,6 +432,9 @@ public class GestionComponentesInteractivosController extends GestionComponentes
                 break;
             case 5:
                 ret = getTipoComponente(3);
+                break;
+            case 7:
+                ret = getTipoComponente(4);
                 break;
         }
         return ret;
@@ -478,5 +514,38 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             }
         }
         return ret;
+    }
+
+    //guarda texto como archivo
+    public List<SieniArchivo> guardarArchivoNoMultimedia(List<SieniArchivo> list) {
+        list = sieniArchivoFacadeRemote.merge(list, new ArrayList());
+        return list;
+    }
+
+    private void guardarTexto() {
+        List<SieniArchivo> texto = new ArrayList<>();
+        boolean banTxt = false;
+        for (FileStreamedPojo actual : this.getListaOrdenable().getSource()) {
+            if (this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon().equals(new Long("7"))) {
+                actual.getArchivoBD().setArArchivo(getTexto().getBytes());
+                texto.add(actual.getArchivoBD());
+                banTxt = true;
+            }
+        }
+        if (banTxt) {//guarda el texto
+            guardarArchivoNoMultimedia(texto);
+        }
+    }
+
+    private SieniArchivo crearArchivo() {
+        SieniArchivo ret = new SieniArchivo();
+        List<SieniArchivo> list = new ArrayList<>();
+        ret.setArNombre(new DateUtils().getTime());
+        ret.setArTipo('T');
+        ret.setArArchivo("".getBytes());
+        ret.setArEstado("A");
+        list.add(ret);
+        list = sieniArchivoFacadeRemote.merge(list, new ArrayList<SieniArchivo>());
+        return list.get(0);
     }
 }

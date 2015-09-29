@@ -31,4 +31,6 @@ public interface SieniClaseFacadeRemote {
     int count();
 
     public List<SieniClase> findAllNoInactivos();
+    
+    public List<SieniClase> findClaseByTipo(Character tipoClase);
 }

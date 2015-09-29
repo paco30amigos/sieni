@@ -20,6 +20,7 @@
     <class>sv.com.mined.sieni.model.SieniEvalSupComp</class>
     <class>sv.com.mined.sieni.model.SieniEvaluacion</class>
     <class>sv.com.mined.sieni.model.SieniGrado</class>
+    <class>sv.com.mined.sieni.model.SieniInteEntrComp</class>
     <class>sv.com.mined.sieni.model.SieniMateria</class>
     <class>sv.com.mined.sieni.model.SieniMateriaDocente</class>
     <class>sv.com.mined.sieni.model.SieniMatricula</class>

@@ -10,14 +10,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import sv.com.mined.sieni.model.SieniClase;
+import sv.com.mined.sieni.model.SieniInteEntrComp;
 
 /**
  *
- * @author Laptop
+ * @author francisco_medina
  */
 @Stateless
-public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.com.mined.sieni.SieniClaseFacadeRemote {
+public class SieniInteEntrCompFacade extends AbstractFacade<SieniInteEntrComp> implements sv.com.mined.sieni.SieniInteEntrCompFacadeRemote {
 
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
@@ -27,24 +27,16 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         return em;
     }
 
-    public SieniClaseFacade() {
-        super(SieniClase.class);
+    public SieniInteEntrCompFacade() {
+        super(SieniInteEntrComp.class);
     }
 
     @Override
-    public List<SieniClase> findAllNoInactivos() {
+    public List<SieniInteEntrComp> findByClase(Long idClase) {
         Character estado = 'I';
-        Query q = em.createNamedQuery("SieniClase.findAllNoInactivos");
+        Query q = em.createNamedQuery("SieniInteEntrComp.findByClase");
         q.setParameter("estado", estado);
-        return q.getResultList();
-    }
-
-    @Override
-    public List<SieniClase> findClaseByTipo(Character tipoClase) {
-        Character estado = 'I';
-        Query q = em.createNamedQuery("SieniClase.findClaseByTipo");
-        q.setParameter("estado", estado);
-        q.setParameter("tipoClase", tipoClase);
+        q.setParameter("idClase", idClase);
         return q.getResultList();
     }
 }

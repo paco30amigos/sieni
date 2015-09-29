@@ -143,6 +143,10 @@ public class FormatUtils {
         return ret;
     }
 
+    public String getString(byte[] data) {
+        return new String(data);
+    }
+
     public String getFormatoTelefono() {
         return formatoTelefono;
     }

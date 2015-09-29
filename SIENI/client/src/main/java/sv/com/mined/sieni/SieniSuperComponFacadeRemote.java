@@ -32,4 +32,6 @@ public interface SieniSuperComponFacadeRemote {
 
     int count();
     
+    public List<SieniSuperCompon> findByClase(Long idClase);
+    
 }

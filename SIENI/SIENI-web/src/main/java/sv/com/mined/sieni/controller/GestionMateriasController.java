@@ -20,6 +20,7 @@ import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
+import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionMateriasForm;
 import sv.com.mined.sieni.model.SieniBitacora;
@@ -57,9 +58,9 @@ public class GestionMateriasController extends GestionMateriasForm {
         fill();
     }
 
-    private void fill() {
-        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
-        this.setDocentesList(sieniDocenteFacadeRemote.findAll());
+    public void fill() {
+        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
+        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setGradoList(sieniGradoFacadeRemote.findAll());
     }
 
@@ -107,5 +108,18 @@ public class GestionMateriasController extends GestionMateriasForm {
         boolean ban = true;
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         return ban;
+    }
+    
+    public void eliminar(SieniMateria eliminado) {
+        this.setEliminar(eliminado);
+    }
+    
+    public void eliminarArchivo() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Materia", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        this.getEliminar().setMaEstado(new Character('I'));
+        sieniMateriaFacadeRemote.edit(this.getEliminar());
+        fill();
     }
 }

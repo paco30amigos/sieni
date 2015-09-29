@@ -40,4 +40,14 @@ public class SieniMateriaFacade extends AbstractFacade<SieniMateria> implements 
         return q.getResultList();
     }
 
+    @Override
+    public List<SieniMateria> findMateriasActivas() {
+    Query q = em.createNamedQuery("SieniMateria.findMateriasActivas");
+    List<SieniMateria> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res;
+        } else {
+            return null;
+        }
+    }
 }

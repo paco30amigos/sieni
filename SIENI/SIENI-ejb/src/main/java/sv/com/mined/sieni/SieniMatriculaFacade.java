@@ -51,6 +51,16 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
     }
 
     @Override
+    public List<SieniMatricula> findAllNoInactivosRpt(Date desde, Date hasta) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniMatricula.findAllNoInactivos");
+        q.setParameter("estado", estado);
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        return q.getResultList();
+    }
+
+    @Override
     public List<SieniMatricula> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion) {
         Character estado = 'I';
         int tipo = 0;

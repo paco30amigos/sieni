@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -35,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniMatricula.findAnioGrado", query = "SELECT s FROM SieniMatricula s where s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idGrado.idGrado=:grado and s.idAlumno.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniMatricula.findAnioGradoSeccion", query = "SELECT s FROM SieniMatricula s  where s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idGrado.idGrado=:grado and s.idSeccion.idSeccion=:seccion and s.idAlumno.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniMatricula.findAllNoInactivos", query = "SELECT s FROM SieniMatricula s where s.mtEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMatricula.findAllNoInactivosRpt", query = "SELECT s FROM SieniMatricula s where s.mtEstado not in (:estado) AND s.mtFechaIngreso BETWEEN :desde AND :hasta"),
     @NamedQuery(name = "SieniMatricula.findAll", query = "SELECT s FROM SieniMatricula s"),
     @NamedQuery(name = "SieniMatricula.findByIdMatricula", query = "SELECT s FROM SieniMatricula s WHERE s.idMatricula = :idMatricula"),
     @NamedQuery(name = "SieniMatricula.findByMtFechaIngreso", query = "SELECT s FROM SieniMatricula s WHERE s.mtFechaIngreso = :mtFechaIngreso"),
@@ -65,6 +67,11 @@ public class SieniMatricula implements Serializable {
     @JoinColumn(name = "id_seccion", referencedColumnName = "id_seccion")
     @ManyToOne
     private SieniSeccion idSeccion;
+
+    @PrePersist
+    protected void onCreate() {
+        mtFechaIngreso = new Date();
+    }
 
     public SieniMatricula() {
     }

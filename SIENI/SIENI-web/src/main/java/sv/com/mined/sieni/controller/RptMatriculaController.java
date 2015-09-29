@@ -45,16 +45,17 @@ public class RptMatriculaController extends RptMatriculaForm {
 
     @PostConstruct
     public void init() {
-        this.setFormatoRpt("PDF");
-        this.setAnio("2,015");
-        fill();
+        this.setTipoRpt(0);
+        this.setAnio("2015");
+        //fill();
     }
 
     private void fill() {
 //        this.setMatriculaList(sieniMatriculaFacadeRemote.findAll());
         RptMatriculasPojo elem = new RptMatriculasPojo();
 
-        List<SieniMatricula> matriculas = sieniMatriculaFacadeRemote.findAllNoInactivos();
+//        List<SieniMatricula> matriculas = sieniMatriculaFacadeRemote.findAllNoInactivos();
+        List<SieniMatricula> matriculas = sieniMatriculaFacadeRemote.findAllNoInactivosRpt(this.getDesde(), this.getHasta());
         this.setListDatos(new ArrayList<RptMatriculasPojo>());
         for (SieniMatricula actual : matriculas) {
             elem = new RptMatriculasPojo(actual.getIdMatricula().toString(), actual.getMtAnio(), actual.getIdAlumno().getAlCarnet(), actual.getIdAlumno().getNombreCompleto(), actual.getIdGrado().getIdGrado().toString(), actual.getIdSeccion().getIdSeccion().toString());
@@ -67,11 +68,13 @@ public class RptMatriculaController extends RptMatriculaForm {
 //        Integer anioInt = Integer.parseInt(anio);
 //        this.setMatriculaList(sieniMatriculaFacadeRemote.getMatriculasAnio(anioInt));
 //        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Reporte de Matricula", 1L, new Character('D')));
-        fill();
+        //fill();
         String path = "resources/reportes/rtpMatriculas.jasper";
         Map parameterMap = new HashMap();
-        parameterMap.put("anio", this.getAnio());
+//        parameterMap.put("anio", this.getAnio());
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
+        parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getDesde()));
+        parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getHasta()));
         try {
             RptMatriculaController.generateReport(path, "rtpMatriculas" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

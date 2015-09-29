@@ -35,6 +35,8 @@ public interface SieniMatriculaFacadeRemote {
     public List<SieniMatricula> getMatriculasAnio(Integer anio);
 
     public List<SieniMatricula> findAllNoInactivos();
+    
+    public List<SieniMatricula> findAllNoInactivosRpt(Date desde, Date hasta);
 
     public List<SieniMatricula> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion);
 }

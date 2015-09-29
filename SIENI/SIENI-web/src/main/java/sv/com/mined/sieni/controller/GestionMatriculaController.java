@@ -101,10 +101,10 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado
             String anioActual = new FormatUtils().getFormatedAnio(new Date());
             this.getMatriculaNuevo().setMtAnio(anioActual);
-            this.getMatriculaNuevo().setMtEstado('D');
+            this.getMatriculaNuevo().setMtEstado('A');
             this.getMatriculaNuevo().setMtFechaIngreso(new Date());
             sieniMatriculaFacadeRemote.create(this.getMatriculaNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Matricula", this.getMatriculaNuevo().getIdMatricula(), 'D'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Matricula", this.getMatriculaNuevo().getIdMatricula(), 'A'));
             FacesMessage msg = new FacesMessage("Matricula Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -162,7 +162,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         }
         if (validarModifica(this.getMatriculaModifica())) {//valida el guardado
             sieniMatriculaFacadeRemote.edit(this.getMatriculaModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Matricula", this.getMatriculaModifica().getIdMatricula(), 'D'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Matricula", this.getMatriculaModifica().getIdMatricula(), 'A'));
             FacesMessage msg = new FacesMessage("Matricula Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -182,7 +182,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public void eliminarMatricula() {
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Matricula", this.getEliminar().getIdMatricula(), 'D'));
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Matricula", this.getEliminar().getIdMatricula(), 'A'));
         this.getEliminar().setMtEstado('I');//I:eliminado,D:disponible,N:no disponible, (I eliminado logico)
         sieniMatriculaFacadeRemote.edit(this.getEliminar());
         fill();

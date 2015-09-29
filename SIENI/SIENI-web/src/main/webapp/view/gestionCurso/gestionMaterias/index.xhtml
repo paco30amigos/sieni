@@ -22,10 +22,10 @@
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
-
-
-
-
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionMateriasController.eliminarArchivo()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
 
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionMateriasController.materiaList}" 
@@ -43,8 +43,8 @@
                         #{car.maEstado}
                     </p:column>
 <!--                    <p:column headerText="Coordinador" filterBy="#{car.maCoordinador}" filterable="true" filterMatchMode="contains">
-                        #{car.maCoordinador}
-                    </p:column>-->
+                    #{car.maCoordinador}
+                </p:column>-->
                     <p:column headerText="Turno" filterBy="#{car.maTurno}" filterable="true" filterMatchMode="contains">
                         #{car.maTurno}
                     </p:column>

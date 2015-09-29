@@ -50,7 +50,7 @@ public class RptMatriculaController extends RptMatriculaForm {
         //fill();
     }
 
-    private void fill() {
+    public void fill() {
 //        this.setMatriculaList(sieniMatriculaFacadeRemote.findAll());
         RptMatriculasPojo elem = new RptMatriculasPojo();
 

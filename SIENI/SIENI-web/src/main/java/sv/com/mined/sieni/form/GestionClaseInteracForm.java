@@ -10,6 +10,8 @@ import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniSuperCompon;
+import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
+import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
 import utils.siteUrls;
 
 /**
@@ -28,6 +30,8 @@ public class GestionClaseInteracForm {
     private List<SieniInteEntrComp> inteEntrCompList;
     private List<SieniSuperCompon> superCompList;
     private List<SieniPlantilla> plantillaList;
+
+    private List<ComponenteInteractivoPojo> listaSuper;
 
     //modificacion de plantilla
     private SieniClase claseModifica;
@@ -129,6 +133,14 @@ public class GestionClaseInteracForm {
 
     public void setPlantillaModificaList(List<SieniPlantilla> plantillaModificaList) {
         this.plantillaModificaList = plantillaModificaList;
+    }
+
+    public List<ComponenteInteractivoPojo> getListaSuper() {
+        return listaSuper;
+    }
+
+    public void setListaSuper(List<ComponenteInteractivoPojo> listaSuper) {
+        this.listaSuper = listaSuper;
     }
 
 }

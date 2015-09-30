@@ -24,7 +24,7 @@
         </h:head>
 
         <h:body>
-           
+
             <style type="text/css">
                 .ui-panel .ui-panel-title { font-family: serif; }
                 /*correccion de encabezado de tabs*/
@@ -81,6 +81,19 @@
                     border-radius: 0px;
                     -webkit-border-radius: 0px;
                     -moz-border-radius: 0px;
+                }
+
+                /*configuracion para tab horizontal*/
+                .ui-tabs-left > .ui-tabs-panels {
+                    float: right;
+                    width: 90%;
+                }
+                .ui-tabs-left > .ui-tabs-nav {
+                    float: left;
+                    background-image: none;
+                    padding-top: 1px;
+                    height: auto;
+                    width: 80px;
                 }
             </style>
             <div style="font-family: serif;">
@@ -168,8 +181,8 @@
                         }
                     }
                 </script>
-                
-                
+
+
                 <p:growl id="msj" widgetVar="wmsj" showDetail="true" />
 
                 <h:form id="frmMenuTopBar">
@@ -227,18 +240,18 @@
                 <h:outputStylesheet name="css/font-awesome.css" library="rio-layout" />
                 <h:outputStylesheet name="css/rio-layout.css" library="rio-layout" />
             </div>
-            
-           <!-- <p:socket onMessage="handleMessage" channel="/notify" >
-                <p:ajax event="message"  />
-            </p:socket>
 
-        <script type="text/javascript">
-            function handleMessage(facesmessage) {
-                facesmessage.severity = 'info';
-
-                PF('wmsj').show([facesmessage]);
-            }
-        </script>    
+            <!-- <p:socket onMessage="handleMessage" channel="/notify" >
+                 <p:ajax event="message"  />
+             </p:socket>
+ 
+         <script type="text/javascript">
+             function handleMessage(facesmessage) {
+                 facesmessage.severity = 'info';
+ 
+                 PF('wmsj').show([facesmessage]);
+             }
+         </script>    
             -->
         </h:body>
     </f:view>

@@ -20,6 +20,7 @@ public class FileStreamedPojo {
     private SieniArchivo archivoBD;
     private SieniTipoComponente tipoComponente;
     private SieniComponente componente;
+    private String texto;
 
     public FileStreamedPojo() {
     }
@@ -61,5 +62,13 @@ public class FileStreamedPojo {
 
     public void setComponente(SieniComponente componente) {
         this.componente = componente;
+    }
+
+    public String getTexto() {
+        return texto;
+    }
+
+    public void setTexto(String texto) {
+        this.texto = texto;
     }
 }

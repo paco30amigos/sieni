@@ -8,6 +8,7 @@ package sv.com.mined.sieni.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -15,6 +16,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.event.DragDropEvent;
+import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
@@ -24,13 +27,17 @@ import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniSuperComponFacadeRemote;
 import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.form.GestionClaseInteracForm;
+import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniClase;
+import sv.com.mined.sieni.model.SieniComponente;
 import sv.com.mined.sieni.model.SieniElemPlantilla;
 import sv.com.mined.sieni.model.SieniPlantilla;
-import sv.com.mined.sieni.model.SieniTipoElemPlantilla;
+import sv.com.mined.sieni.model.SieniSuperCompon;
+import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
+import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
-import utils.DateUtils;
+import utils.CopiaArchivos;
 
 /**
  *
@@ -56,6 +63,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     private SieniSuperComponFacadeRemote sieniSuperComponFacadeRemote;
     @EJB
     private SieniInteEntrCompFacadeRemote sieniInteEntrCompFacadeRemote;
+    @EJB
+    private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -66,19 +75,58 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         //*******fill
         //clases interact
         this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('I'));//clases interactivas
+        this.setListaSuper(new ArrayList());
     }
 
     public void configurar(SieniClase clase) {
         this.setClaseConfig(clase);
+        if (clase.getClAlto() == null) {
+            clase.setClAlto(600);
+        }
+        if (clase.getClAncho() == null) {
+            clase.setClAncho(800);
+        }
         //******config
         //plantillas por materia
-        this.setPlantillaList(sieniPlantillaFacadeRemote.findByMateria(clase.getIdCurso().getIdMateria().getIdMateria()));        
+        this.setPlantillaList(sieniPlantillaFacadeRemote.findByMateria(clase.getIdCurso().getIdMateria().getIdMateria()));
         //super componentes by clase
+        CopiaArchivos ca = new CopiaArchivos();
+        ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
         this.setSuperCompList(sieniSuperComponFacadeRemote.findByClase(clase.getIdClase()));
+        this.setListaSuper(new ArrayList<ComponenteInteractivoPojo>());
+        for (SieniSuperCompon actual : this.getSuperCompList()) {
+            ComponenteInteractivoPojo nuevo = new ComponenteInteractivoPojo();
+            nuevo.setSuperComp(actual);
+            nuevo.setData(new ArrayList());
+            FileStreamedPojo dataNuevo;
+            //si es archivo multimedia
+            for (SieniComponente comp : actual.getSieniComponenteList()) {
+                dataNuevo = new FileStreamedPojo();
+                dataNuevo.setComponente(comp);
+                List<SieniArchivo> archivos = sieniArchivoFacadeRemote.findByIdSuperComp(actual.getIdSuperCompon());
+                if (archivos != null && !archivos.isEmpty()) {
+                    for (SieniArchivo arch : archivos) {
+                        dataNuevo.setArchivoBD(arch);
+                        if (arch.getArTipo().equals(new Character('I'))
+                                || arch.getArTipo().equals(new Character('V'))
+                                || arch.getArTipo().equals(new Character('A'))) {
+                            ca.copyDataToResource(arch);
+                        } else {
+                            nuevo.setTexto(new String(ca.getData(arch)));
+                        }
+                    }
+                } else {
+                    dataNuevo.setArchivoBD(new SieniArchivo());
+                }
+                nuevo.getData().add(dataNuevo);
+            }
+            this.getListaSuper().add(nuevo);
+
+        }
         //interacciones entre componentes by clase
         this.setInteEntrCompList(sieniInteEntrCompFacadeRemote.findByClase(clase.getIdClase()));
         //********información
-
+        this.setIndexMenu(4);
 //        this.setMaterias(sieniMateriaFacadeRemote.findAll());
     }
 
@@ -168,10 +216,10 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         fill();
     }
 
-    public void configurar(SieniPlantilla plantilla) {
-        fillElemPlantillaPlantilla(plantilla);
-        this.setIndexMenu(4);
-    }
+//    public void configurar(SieniPlantilla plantilla) {
+//        fillElemPlantillaPlantilla(plantilla);
+//        this.setIndexMenu(4);
+//    }
 
     public void agregarElemPlantilla() {
 //        SieniElemPlantilla nuevo = new SieniElemPlantilla();
@@ -229,5 +277,28 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 //                }
 //            }
 //        }
+    }
+
+    public void guardarConfiguracion() {
+    }
+
+    public void refreshConfig() {
+    }
+
+    public void onDrop(DragDropEvent dragDropEvent) {
+        String dargId = dragDropEvent.getDragId();
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        String left = params.get(dargId + "_left");
+        String top = params.get(dargId + "_top");
+        String idComponenteString = dargId.split("id_")[1];
+        Long idSuperComponente = Long.parseLong(idComponenteString);
+
+        for (int i = 0; i < this.getListaSuper().size(); i++) {
+            if (getListaSuper().get(i).getSuperComp().getIdSuperCompon().equals(idSuperComponente)) {
+                getListaSuper().get(i).getSuperComp().setScPosX(new Double(Double.parseDouble(left)).intValue());
+                getListaSuper().get(i).getSuperComp().setScPosY(new Double(Double.parseDouble(top)).intValue());
+                break;
+            }
+        }
     }
 }

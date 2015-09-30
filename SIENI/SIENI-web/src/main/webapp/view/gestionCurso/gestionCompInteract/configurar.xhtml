@@ -37,9 +37,9 @@
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <div class="EmptyBox5"></div>
+        <div class="EmptyBox5"></div> 
         <p:panel>
-            <h:form enctype="multipart/form-data">
+            <h:form >
                 <p:tabView>
                     <p:tab title="Configuración Componente">
                         <c:choose>
@@ -135,6 +135,13 @@
                                 </div>
                             </c:when>
                             <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==7}">
+                                <p:panelGrid columns="4" class="Container100" id="p1">
+                                    <p:outputLabel value="Alto"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
+                                    <p:outputLabel value="Ancho"></p:outputLabel>
+                                    <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
+                                </p:panelGrid>
+                                <div class="EmptyBox5"></div>
                                 <p:editor value="#{gestionComponentesInteractivosController.texto}"></p:editor>
                             </c:when>
                         </c:choose>
@@ -281,7 +288,7 @@
                                 </c:if>
                             </c:when>
                             <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==7}">
-                                <p:editor disabled="true" value="#{gestionComponentesInteractivosController.texto}" controls=""></p:editor>
+                                <h:outputText id="archivosEvnt" escape="false" value="#{gestionComponentesInteractivosController.textoAux}"/>
                             </c:when>
                         </c:choose>
                         <c:set value="0" var="varID"></c:set>

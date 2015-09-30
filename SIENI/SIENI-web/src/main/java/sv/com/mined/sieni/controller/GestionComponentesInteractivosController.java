@@ -77,6 +77,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.setListaEventosDiferentes(new ArrayList());
         this.setArchivoTexto(new SieniArchivo());
         this.setTexto("");
+        this.setTextoAux("");
         fill();
     }
 
@@ -126,6 +127,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void refreshConfig() {
+        actualizarEditor();
     }
 
     //metodos para modificacion de datos
@@ -137,6 +139,10 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     //metodos para modificacion de datos
     public void eliminar(SieniSuperCompon eliminado) {
         this.setEliminar(eliminado);
+    }
+
+    public void actualizarEditor() {
+        this.setTextoAux(this.getTexto());
     }
 
     public void fillConfigura(SieniSuperCompon configura) {
@@ -157,20 +163,20 @@ public class GestionComponentesInteractivosController extends GestionComponentes
 
         //archivos de cada componente
         List<SieniArchivo> archivos = sieniArchivoFacadeRemote.findByIdSuperComp(configura.getIdSuperCompon());
-        //si es texto
-        if (this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon().equals(new Long("7"))) {
-            if (archivos == null) {
-                archivos = new ArrayList();
-            }
-            if (archivos.isEmpty()) {
-                SieniArchivo archivo = crearArchivo();
-                archivos.add(archivo);
-                getListaArchivos("T");//actualiza los archivos
-                this.setIdArchivo(archivo.getIdArchivo());
-                agregarArchivoUnico();
-                guardarConfiguracionComponente();
-            }
-        }
+//        //si es texto
+//        if (this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon().equals(new Long("7"))) {
+//            if (archivos == null) {
+//                archivos = new ArrayList();
+//            }
+//            if (archivos.isEmpty()) {
+//                SieniArchivo archivo = crearArchivo();
+//                archivos.add(archivo);
+//                getListaArchivos("T");//actualiza los archivos
+//                this.setIdArchivo(archivo.getIdArchivo());
+//                agregarArchivoUnico();
+//                guardarConfiguracionComponente();
+//            }
+//        }
         for (SieniArchivo actual : archivos) {
             if (actual.getArTipo().equals(this.getArchivosCopiables()[0])
                     || actual.getArTipo().equals(getArchivosCopiables()[1])
@@ -178,6 +184,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
                 ca.copyDataToResource(actual);
             } else {//si es de otro tipo (texto por ejemplo)
                 this.setTexto(new String(ca.getData(actual)));
+                this.setTextoAux(this.getTexto());
             }
         }
         this.setListaArchivosComponente(archivos);
@@ -213,6 +220,8 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void configurar(SieniSuperCompon configura) {
+        this.setTexto("");
+        this.setTextoAux("");
         fillConfigura(configura);
         this.setIndexMenu(4);
     }
@@ -523,17 +532,22 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     private void guardarTexto() {
-        List<SieniArchivo> texto = new ArrayList<>();
-        boolean banTxt = false;
-        for (FileStreamedPojo actual : this.getListaOrdenable().getSource()) {
-            if (this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon().equals(new Long("7"))) {
-                actual.getArchivoBD().setArArchivo(getTexto().getBytes());
-                texto.add(actual.getArchivoBD());
-                banTxt = true;
+        List<SieniArchivo> archivos = this.getListaArchivosComponente();
+        //si es texto
+        if (this.getConfig().getIdTipoSuperCompon().getIdTipoSuperCompon().equals(new Long("7"))) {
+            if (archivos == null) {
+                archivos = new ArrayList();
             }
-        }
-        if (banTxt) {//guarda el texto
-            guardarArchivoNoMultimedia(texto);
+            if (archivos.isEmpty()) {
+                SieniArchivo archivo = crearArchivo();
+                archivos.add(archivo);
+                getListaArchivos("T");//actualiza los archivos
+                this.setIdArchivo(archivo.getIdArchivo());
+                agregarArchivoUnico();
+            } else {
+                archivos.get(0).setArArchivo(this.getTexto().getBytes());
+                guardarArchivoNoMultimedia(archivos);
+            }
         }
     }
 
@@ -542,7 +556,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         List<SieniArchivo> list = new ArrayList<>();
         ret.setArNombre(new DateUtils().getTime());
         ret.setArTipo('T');
-        ret.setArArchivo("".getBytes());
+        ret.setArArchivo(this.getTexto().getBytes());
         ret.setArEstado("A");
         list.add(ret);
         list = sieniArchivoFacadeRemote.merge(list, new ArrayList<SieniArchivo>());

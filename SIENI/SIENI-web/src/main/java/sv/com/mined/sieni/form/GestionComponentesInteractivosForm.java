@@ -50,6 +50,7 @@ public class GestionComponentesInteractivosForm {
     private List<SieniTipoSuperCompon> listaTipoModifica;
     private Long tipoSuperComponModifica;
     private Long idArchivoModifica;
+    private String textoAux;
     private String texto;
     private SieniArchivo archivoTexto;
 
@@ -367,6 +368,14 @@ public class GestionComponentesInteractivosForm {
 
     public void setArchivosCopiables(Character[] archivosCopiables) {
         this.archivosCopiables = archivosCopiables;
+    }
+
+    public String getTextoAux() {
+        return textoAux;
+    }
+
+    public void setTextoAux(String textoAux) {
+        this.textoAux = textoAux;
     }
 
 }

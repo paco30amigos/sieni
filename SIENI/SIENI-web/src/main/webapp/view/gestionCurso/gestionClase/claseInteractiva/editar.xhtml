@@ -22,10 +22,14 @@
                 </p:dialog>
                 <p:focus id="focus" context="mod_p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="mod_p1">
+                    <p:outputLabel for="materia" value="Materia:"></p:outputLabel>
+                    <p:outputLabel id="materia" value="#{gestionClaseInteracController.claseModifica.idCurso.idMateria.maNombre}"></p:outputLabel>
+                    <p:outputLabel for="curso" value="Curso:"></p:outputLabel>
+                    <p:outputLabel id="curso" value="#{gestionClaseInteracController.claseModifica.idCurso.crNombre}"></p:outputLabel>
                     <p:outputLabel for="tema" value="Tema de clase:"></p:outputLabel>
                     <p:outputLabel id="tema" value="#{gestionClaseInteracController.claseModifica.clTema}"></p:outputLabel>
                     <p:outputLabel for="plantilla" value="Plantilla: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="2" id="plantilla" class=" Responsive" value="#{gestionClaseInteracController.claseModifica.idPlantilla}" converter="plantilla">
+                    <p:selectOneMenu tabindex="2" id="plantilla" class=" Responsive" value="#{gestionClaseInteracController.claseModifica.idPlantilla}" converter="plantilla" filter="true" filterMatchMode="contains">
                         <f:selectItems value="#{gestionClaseInteracController.plantillaModificaList}" var="plantilla" itemLabel="#{plantilla.plNombre}" itemValue="#{plantilla}"></f:selectItems>
                     </p:selectOneMenu>
                     <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>

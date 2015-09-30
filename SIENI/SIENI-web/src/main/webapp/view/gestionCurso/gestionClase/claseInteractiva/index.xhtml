@@ -32,6 +32,9 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              reflow="true">
+                    <p:column headerText="Materia"  filterBy="#{car.idCurso.idMateria.maNombre}" filterMatchMode="contains" filterable="true">
+                        #{car.idCurso.idMateria.maNombre}
+                    </p:column>
                     <p:column headerText="Curso"  filterBy="#{car.idCurso.crNombre}" filterMatchMode="contains" filterable="true">
                         #{car.idCurso.crNombre}
                     </p:column>

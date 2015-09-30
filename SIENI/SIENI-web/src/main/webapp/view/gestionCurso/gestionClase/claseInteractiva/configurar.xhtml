@@ -3,458 +3,178 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/WEB-INF/template.xhtml">
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="head">
+        <script type="text/javascript">
+            PrimeFaces.widget.Droppable.prototype.bindDropListener = function () {
+                var _self = this;
+
+                this.cfg.drop = function (event, ui) {
+                    if (_self.cfg.onDrop) {
+                        _self.cfg.onDrop.call(_self, event, ui);
+                    }
+                    if (_self.cfg.behaviors) {
+                        var dropBehavior = _self.cfg.behaviors['drop'];
+
+                        if (dropBehavior) {
+                            var ext = {
+                                params: [
+                                    {name: _self.id + '_dragId', value: ui.draggable.attr('id')},
+                                    {name: _self.id + '_dropId', value: _self.cfg.target},
+                                    {name: ui.draggable.attr('id') + '_left', value: ui.position.left},
+                                    {name: ui.draggable.attr('id') + '_top', value: ui.position.top}
+                                ]
+                            };
+
+                            dropBehavior.call(_self, ext);
+                        }
+                    }
+                };
+            }
+        </script>
+    </ui:define>
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
             <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}"/>
-            <p:separator />
+            <p:menuitem value="Configuración de Clase Interactiva" url="#"/>
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Consultar clases">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:dataTable var="car" value="" rows="10"
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true"
-                                 >
-                        <p:column headerText="Curso"  filterBy="#{car.idCurso.crNombre}" filterMatchMode="contains" filterable="true">
-                            #{car.idCurso.crNombre}
-                        </p:column>
-                        <p:column headerText="Tema de clase"  filterBy="#{car.clTema}" filterMatchMode="contains" filterable="true">
-                            #{car.clTema}
-                        </p:column>
-                        <p:column headerText="Docente"  filterBy="#{car.idCurso.idDocente.nombreCompleto}" filterMatchMode="contains" filterable="true">
-                            #{car.idCurso.idDocente.nombreCompleto}
-                        </p:column>
-                        <p:column headerText="Plantilla"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo100}
-                        </p:column>
-                        <p:column headerText="Estado"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                            #{formatoPantallas.campo15}
-                        </p:column>
-                        <p:column headerText="Acciones">
-                            <i class="icon-list Fs25 Red" style="cursor: pointer" title="Visualizar Clase"></i>
-                            <i class="icon-clock Fs25 Red" style="cursor: pointer" title="Modificar Clase"></i>
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Clase"></i>
-                        </p:column>
-                    </p:dataTable>
-                    <p:commandButton value="Crear"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Crear clase">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda2" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel  value="Plantilla de clase: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  value="#{ClasesForm.tipoClase}" class="Contanier10 Responsive">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo100}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Estado: " class="Responsive"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Disponible"></f:selectItem>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:panel id="r"  toggleable="true" header="Menu de Configuración" class="Container100">
-                        <p:tabView class="Container100">
-                            <p:tab title="Secciones de plantilla">
-                                <div class="Container30 ContainerIndent Responsive">
-                                    <p:outputLabel value="Secciones de la plantilla" class="Container100 TexAlCenter"></p:outputLabel>
-                                    <p:orderList value="#{componentesClaseForm.seccionesPlantillas}" var="seccionPlantilla" 
-                                                 itemValue="#{seccionPlantilla}"  controlsLocation="none" class="Container100">
-                                        <p:column>#{formatoPantallas.campo100}</p:column>
-                                    </p:orderList>
-                                    <div class="Container40 ContainerIndent Responsive">
-                                        <p:outputLabel value="Componentes en la seccion de la plantilla" class="Container100 TexAlCenter"></p:outputLabel>
-                                        <p:pickList value="#{componentesClaseForm.componentes}" var="componente" effect="bounce"
-                                                    itemValue="#{componente}" itemLabel="#{componente.description}" showCheckbox="true"
-                                                    showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
-                                                    addLabel="Agregar" addAllLabel="Agregar Todos" removeLabel="Remover" 
-                                                    removeAllLabel="Remover Todos" class="Container100">
-                                            <f:facet name="sourceCaption">Disponibles</f:facet>
-                                            <f:facet name="targetCaption">Seleccionados</f:facet>
-                                            <p:column >#{formatoPantallas.campo100}</p:column>
-                                        </p:pickList>
-                                    </div>
-                            </p:tab>
-                            <p:tab title="Interacción entre componentes">
-                                <p:tabView>
-                                    <p:tab title="Consultar Interacciones entre Componentes">
-                                        <p:dataTable var="car" value="" rows="10"
-                                                     paginator="true"
-                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                     rowsPerPageTemplate="10,20,40"
-                                                     reflow="true" >
-                                            <p:column headerText="Evento"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo30}
-                                            </p:column>
-                                            <p:column headerText="Acción"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo30}
-                                            </p:column>
-                                            <p:column headerText="Duración"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.numero4}
-                                            </p:column>
-                                            <p:column headerText="Siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo100}
-                                            </p:column>
-                                            <p:column headerText="Evento del siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo30}
-                                            </p:column>
-                                            <p:column headerText="Acción del siguiente Componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo30}
-                                            </p:column>
-                                            <p:column headerText="Tiempo de espera para activar siguiente componente"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.numero4}
-                                            </p:column>
-                                            <p:column headerText="Acciones">
-                                                <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Interaccion"></i>
-                                                <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Interaccion"></i>
-                                            </p:column>
-                                        </p:dataTable>
-                                        <p:commandButton value="Crear Interacción entre componentes"></p:commandButton>
-                                        <p:commandButton value="Refrescar"></p:commandButton>
-                                    </p:tab>
-                                    <p:tab title="Crear Interación entre componentes">
-                                        <p:panelGrid columns="2" class="Container100">
-                                            <p:outputLabel value="Evento"></p:outputLabel>
-                                            <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Acción"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.campo30}"></p:outputLabel>
-                                            <p:outputLabel value="Duración"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>
-                                            <p:outputLabel value="Siguiente Componente"></p:outputLabel>
-                                            <p:selectOneMenu  value="#{InteraccionClaseForm.sigComponente}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Evento del siguiente Componente"></p:outputLabel>
-                                            <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Accion del siguiente componente"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>                                        
-                                            <p:outputLabel value="Tiempo de espera para activar siguiente componente"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>                                        
-                                        </p:panelGrid>
-                                        <div class="EmptyBox20"></div>
-                                        <div class="Container100">
-                                            <p:commandButton value="Guardar"></p:commandButton>
-                                            <p:commandButton value="Limpiar"></p:commandButton>
-                                            <p:commandButton value="Cancelar"></p:commandButton>
-                                        </div>
-                                    </p:tab>
-                                    <p:tab title="Modificar Interación entre componentes">
-                                        <p:panelGrid columns="2" class="Container100">
-                                            <p:outputLabel value="Evento"></p:outputLabel>
-                                            <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Acción"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.campo30}"></p:outputLabel>
-                                            <p:outputLabel value="Duración"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>
-                                            <p:outputLabel value="Siguiente Componente"></p:outputLabel>
-                                            <p:selectOneMenu  value="#{InteraccionClaseForm.sigComponente}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Evento del siguiente Componente"></p:outputLabel>
-                                            <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Accion del siguiente componente"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>                                        
-                                            <p:outputLabel value="Tiempo de espera para activar siguiente componente"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>                                        
-                                        </p:panelGrid>
-                                        <div class="EmptyBox20"></div>
-                                        <div class="Container100">
-                                            <p:commandButton value="Guardar"></p:commandButton>
-                                            <p:commandButton value="Limpiar"></p:commandButton>
-                                            <p:commandButton value="Cancelar"></p:commandButton>
-                                        </div>
-                                    </p:tab>
-                                </p:tabView>
-                            </p:tab>
-                        </p:tabView>
-                    </p:panel>
-                    <p:panel header="Contenido de la clase" toggleable="true">
-                        <p:fieldset legend="#{formatoPantallas.campo100}" toggleable="true">
-                            <p:tabView >
-                                <p:tab title="pag #{formatoPantallas.numero3}" >
-                                    <div class="Container100">
-                                        <p:outputLabel value="Campo"></p:outputLabel>
-                                    </div>
-                                    <div class="Container100">
-                                        <p:editor value="#{formatoPantallas.campo4000}"></p:editor>
-                                        <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
-                                    </div>
-                                </p:tab>
-                                <p:tab title="+" >
-                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
-                                </p:tab>
-                            </p:tabView>    
-                        </p:fieldset>
-                        <p:fieldset legend="#{formatoPantallas.campo100}"  toggleable="true">
-                            <p:tabView >
-                                <p:tab title="pag #{formatoPantallas.numero3}" >
-                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
-                                </p:tab>
-                                <p:tab title="pag #{formatoPantallas.numero3}" >
-                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
-                                </p:tab>
-                                <p:tab title="+" >
-
-                                </p:tab>
-                            </p:tabView>    
-                        </p:fieldset>
-                    </p:panel>
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton value="Vista Previa"></p:commandButton>
-                    <p:commandButton value="Crear"></p:commandButton>
-                    <p:commandButton value="Limpiar"></p:commandButton>
-                    <p:commandButton value="Cancelar"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Modificar clase">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda2" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="Docente: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  value="#{ClasesForm.docente}" class="Contanier10 Responsive" filter="true" filterMatchMode="startsWith">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo300}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel  value="Plantilla de clase: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:selectOneMenu  value="#{ClasesForm.tipoClase}" class="Contanier10 Responsive">
-                            <f:selectItem itemLabel="#{formatoPantallas.campo100}" itemValue="0"></f:selectItem>
-                        </p:selectOneMenu>  
-                        <p:outputLabel value="Estado: " class="Responsive"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo15}"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Disponible"></f:selectItem>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:panel id="r"  toggleable="true" header="Menu de Configuración" class="Container100">
-                        <p:tabView class="Container100">
-                            <p:tab title="Secciones de plantilla">
-                                <div class="Container30 ContainerIndent Responsive">
-                                    <p:outputLabel value="Secciones de la plantilla" class="Container100 TexAlCenter"></p:outputLabel>
-                                    <p:orderList value="#{componentesClaseForm.seccionesPlantillas}" var="seccionPlantilla" 
-                                                 itemValue="#{seccionPlantilla}"  controlsLocation="none" class="Container100">
-                                        <p:column>#{formatoPantallas.campo100}</p:column>
-                                    </p:orderList>
-                                </div>
-                                <div class="Container40 ContainerIndent Responsive">
-                                    <p:outputLabel value="Componentes en la seccion de la plantilla" class="Container100 TexAlCenter"></p:outputLabel>
-                                    <p:pickList value="#{componentesClaseForm.componentes}" var="componente" effect="bounce"
-                                                itemValue="#{componente}" itemLabel="#{componente.description}" showCheckbox="true"
-                                                showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" 
-                                                addLabel="Agregar" addAllLabel="Agregar Todos" removeLabel="Remover" 
-                                                removeAllLabel="Remover Todos" class="Container100">
-                                        <f:facet name="sourceCaption">Disponibles</f:facet>
-                                        <f:facet name="targetCaption">Seleccionados</f:facet>
-                                        <p:column >#{formatoPantallas.campo100}</p:column>
-                                    </p:pickList>
-                                </div>
-                            </p:tab>
-                            <p:tab title="Interacción entre componentes">
-                                <p:tabView>
-                                    <p:tab title="Consultar Interacciones entre Componentes">
-                                        <p:dataTable var="car" value="" rows="10"
-                                                     paginator="true"
-                                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                                     rowsPerPageTemplate="10,20,40"
-                                                     reflow="true" >
-                                            <p:column headerText="Evento"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo30}
-                                            </p:column>
-                                            <p:column headerText="Acción"  filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo30}
-                                            </p:column>
-                                            <p:column headerText="Duración" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.numero4}
-                                            </p:column>
-                                            <p:column headerText="Siguiente Componente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo100}
-                                            </p:column>
-                                            <p:column headerText="Evento del siguiente Componente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo30}
-                                            </p:column>
-                                            <p:column headerText="Acción del siguiente Componente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.campo30}
-                                            </p:column>
-                                            <p:column headerText="Tiempo de espera para activar siguiente componente" filterBy="#{car.description}" filterMatchMode="contains" filterable="true">
-                                                #{formatoPantallas.numero4}
-                                            </p:column>
-                                            <p:column headerText="Acciones">
-                                                <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Interaccion"></i>
-                                                <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Interaccion"></i>
-                                            </p:column>
-                                        </p:dataTable>
-                                        <p:commandButton value="Crear Interacción entre componentes"></p:commandButton>
-                                        <p:commandButton value="Refrescar"></p:commandButton>
-                                    </p:tab>
-                                    <p:tab title="Crear Interación entre componentes">
-                                        <p:panelGrid columns="2" class="Container100">
-                                            <p:outputLabel value="Evento"></p:outputLabel>
-                                            <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Acción"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.campo30}"></p:outputLabel>
-                                            <p:outputLabel value="Duración"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>
-                                            <p:outputLabel value="Siguiente Componente"></p:outputLabel>
-                                            <p:selectOneMenu  value="#{InteraccionClaseForm.sigComponente}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Evento del siguiente Componente"></p:outputLabel>
-                                            <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Accion del siguiente componente"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>                                        
-                                            <p:outputLabel value="Tiempo de espera para activar siguiente componente"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>                                        
-                                        </p:panelGrid>
-                                        <div class="EmptyBox20"></div>
-                                        <div class="Container100">
-                                            <p:commandButton value="Guardar"></p:commandButton>
-                                            <p:commandButton value="Limpiar"></p:commandButton>
-                                            <p:commandButton value="Cancelar"></p:commandButton>
-                                        </div>
-                                    </p:tab>
-                                    <p:tab title="Modificar Interación entre componentes">
-                                        <p:panelGrid columns="2" class="Container100">
-                                            <p:outputLabel value="Evento"></p:outputLabel>
-                                            <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Acción"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.campo30}"></p:outputLabel>
-                                            <p:outputLabel value="Duración"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>
-                                            <p:outputLabel value="Siguiente Componente"></p:outputLabel>
-                                            <p:selectOneMenu  value="#{InteraccionClaseForm.sigComponente}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Evento del siguiente Componente"></p:outputLabel>
-                                            <p:selectOneMenu value="#{InteraccionClaseForm.evento}" class="Contanier10 Responsive">
-                                                <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
-                                            </p:selectOneMenu>
-                                            <p:outputLabel value="Accion del siguiente componente"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>                                        
-                                            <p:outputLabel value="Tiempo de espera para activar siguiente componente"></p:outputLabel>
-                                            <p:outputLabel value="#{formatoPantallas.numero4}"></p:outputLabel>                                        
-                                        </p:panelGrid>
-                                        <div class="EmptyBox20"></div>
-                                        <div class="Container100">
-                                            <p:commandButton value="Guardar"></p:commandButton>
-                                            <p:commandButton value="Limpiar"></p:commandButton>
-                                            <p:commandButton value="Cancelar"></p:commandButton>
-                                        </div>
-                                    </p:tab>
-                                </p:tabView>
-                            </p:tab>
-                        </p:tabView>
-                    </p:panel>
-                    <p:panel header="Contenido de la clase" toggleable="true">
-                        <p:fieldset legend="#{formatoPantallas.campo100}" toggleable="true">
-                            <p:tabView >
-                                <p:tab title="pag #{formatoPantallas.numero3}" >
-                                    <div class="Container100">
-                                        <p:outputLabel value="Campo"></p:outputLabel>
-                                    </div>
-                                    <div class="Container100">
-                                        <p:editor value="#{formatoPantallas.campo4000}"></p:editor>
-                                        <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
-                                    </div>
-                                </p:tab>
-                                <p:tab title="+" >
-                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
-                                </p:tab>
-                            </p:tabView>    
-                        </p:fieldset>
-                        <p:fieldset legend="#{formatoPantallas.campo100}"  toggleable="true">
-                            <p:tabView >
-                                <p:tab title="pag #{formatoPantallas.numero3}" >
-                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
-                                </p:tab>
-                                <p:tab title="pag #{formatoPantallas.numero3}" >
-                                    <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Página"></i>
-                                </p:tab>
-                                <p:tab title="+" >
-
-                                </p:tab>
-                            </p:tabView>    
-                        </p:fieldset>
-                    </p:panel>
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton value="Vista Previa"></p:commandButton>
-                    <p:commandButton value="Crear"></p:commandButton>
-                    <p:commandButton value="Limpiar"></p:commandButton>
-                    <p:commandButton value="Cancelar"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Vista Previa de Clase">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
-                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                <div class="EmptyBox20"></div>
-                <p:fieldset legend="Sección: #{formatoPantallas.campo100}" toggleable="true">
-                    <p:tabView>
-                        <p:tab title="pag ${formatoPantallas.numero3}">
-                            <div class="Container100">
-                                <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
-                            </div>
+                configuracion de pantalla(alto,ancho),
+
+                secciones tab, menu derecha(componentes disp y selec)
+                agregar(ordenar) componentes a seccion(seleccion de seccion, lista componentes disponibles, seleccionados, vista previa del componente a agregar),
+
+                configurar posicion,
+
+                configurar interaccion entre componentes,
+                preview
+                <p:tabView>
+                    <c:forEach items="#{gestionClaseInteracController.claseConfig.idPlantilla.sieniElemPlantillaList}" var="elemPlantilla">
+                        <p:tab title="#{elemPlantilla.idTipoElemPlantilla.teDescripcion}">
+                            <p:tabView orientation="left">
+                                <p:tab title="Pág1" >
+                                    <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla}" class="Container100" style="height: #{gestionClaseInteracController.claseConfig.clAlto};width: #{gestionClaseInteracController.claseConfig.clAncho}">
+                                        <c:forEach items="#{gestionClaseInteracController.listaSuper}" var="superComponente">
+                                            <p:draggable for="elem_#{elemPlantilla.idElemPlantilla}_id_#{superComponente.superComp.idSuperCompon}" containment="parent" >    
+                                            </p:draggable>
+                                            <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla}" >
+                                                <p:ajax listener="#{gestionClaseInteracController.onDrop}"></p:ajax>
+                                            </p:droppable>
+                                            <p:panel class="multimedia" id="elem_#{elemPlantilla.idElemPlantilla}_id_#{superComponente.superComp.idSuperCompon}" style="position: relative; left: #{superComponente.superComp.scPosX}px;top: #{superComponente.superComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;">
+                                                <c:choose>
+                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==1}">
+                                                        <c:if test="#{superComponente.data.size()>0}">
+                                                            <p:galleria id="archivosEvnt"  value="#{superComponente.data}"
+                                                                        var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                        panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="true">
+                                                                <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                            </p:galleria>
+                                                        </c:if>
+                                                        <c:if test="#{superComponente.data.size()==0}">
+                                                            <p:galleria   value="#{superComponente.data}"
+                                                                          var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                          panelWidth="#{superComponente.superComp.scAncho}">
+                                                            </p:galleria>
+                                                        </c:if>
+                                                    </c:when>
+                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==2}">
+                                                        <c:if test="#{superComponente.data.size()>0}">
+                                                            <p:galleria id="archivosEvnt" value="#{superComponente.data}" 
+                                                                        var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                        panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="false">
+                                                                <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                            </p:galleria>
+                                                        </c:if>
+                                                        <c:if test="#{superComponente.data.size()==0}">
+                                                            <p:galleria   value="#{superComponente.data}" 
+                                                                          var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                          panelWidth="#{superComponente.superComp.scAncho}">
+                                                            </p:galleria>
+                                                        </c:if>
+                                                    </c:when>
+                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==3}">
+                                                        <c:if test="#{superComponente.data.size()>0}">
+                                                            <ui:repeat value="#{superComponente.data}" var="video">
+                                                                <video class="media" controls="true" width="#{superComponente.superComp.scAncho}" height="#{superComponente.superComp.scAlto}" preload="true">
+                                                                    <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
+                                                                </video>
+                                                            </ui:repeat>
+                                                        </c:if>
+                                                    </c:when>
+                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==4}">
+                                                    </c:when>
+                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==5}">
+                                                        <c:if test="#{superComponente.data.size()>0}">
+                                                            <ui:repeat value="#{superComponente.data}" var="audio">
+                                                                <audio class="media" controls="true" preload="true">
+                                                                    <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
+                                                                </audio>
+                                                            </ui:repeat>
+                                                        </c:if>
+                                                    </c:when>
+                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==6}">
+                                                        <c:if test="#{superComponente.data.size()>0}">
+                                                            <p:contentFlow  value="#{superComponente.data}"
+                                                                            var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px">
+                                                                <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" cache="false" styleClass="content"></p:graphicImage>
+                                                                <div class="caption">#{imgs.archivoBD.arNombre}</div>
+                                                            </p:contentFlow>
+                                                        </c:if>
+                                                        <c:if test="#{superComponente.data.size()==0}">
+                                                            <p:contentFlow id="archivosEvnt"  value="#{superComponente.data}"
+                                                                           var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px" styleClass="content">
+                                                            </p:contentFlow>
+                                                        </c:if>
+                                                    </c:when>
+                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==7}">
+                                                        <h:outputText id="archivosEvnt" escape="false" value="#{superComponente.texto}"/>
+                                                    </c:when>
+                                                </c:choose>
+                                            </p:panel>
+                                            <div class="EmptyBox20"></div>
+                                        </c:forEach>
+                                    </p:panel>
+                                </p:tab>
+                                <p:tab title="Pág2">
+
+                                </p:tab>
+                                <p:tab title="Pág 99">
+
+                                </p:tab>
+                            </p:tabView>
                         </p:tab>
-                        <p:tab title="pag ${formatoPantallas.numero3}">
-                            <div class="Container100">
-                                <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
-                            </div>
-                        </p:tab>
-                    </p:tabView>
-                </p:fieldset>
-                <p:fieldset legend="Sección: #{formatoPantallas.campo100}" toggleable="true">
-                    <p:tabView>
-                        <p:tab title="pag ${formatoPantallas.numero3}">
-                            <div class="Container100">
-                                <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
-                            </div>
-                        </p:tab>
-                        <p:tab title="pag ${formatoPantallas.numero3}">
-                            <div class="Container100">
-                                <p:outputLabel value="#{formatoPantallas.campo4000}"></p:outputLabel>
-                            </div>
-                        </p:tab>
-                    </p:tabView>
-                </p:fieldset>
-            </p:tab>
-        </p:tabView>
+                    </c:forEach>
+                </p:tabView>                    
+                <div class="EmptyBox50"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar Configuracion" actionListener="#{gestionClaseInteracController.guardarConfiguracion()}" ajax="true"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.refreshConfig()}" ajax="true" oncomplete="refrescarImagen()"></p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax resetValues="true" listener="#{gestionClaseInteracController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu> 
+                </div>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

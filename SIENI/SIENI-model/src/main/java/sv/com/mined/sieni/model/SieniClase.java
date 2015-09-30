@@ -64,6 +64,10 @@ public class SieniClase implements Serializable {
     private Character clTipo;
     @Column(name = "cl_tipo_publicacion")
     private Character clTipoPublicacion;
+    @Column(name = "cl_ancho")
+    private Integer clAncho;
+    @Column(name = "cl_alto")
+    private Integer clAlto;
     @Column(name = "cl_tema")
     private String clTema;
     @Column(name = "cl_hora")
@@ -277,6 +281,22 @@ public class SieniClase implements Serializable {
 
     public void setSieniInteEntrCompList(List<SieniInteEntrComp> sieniInteEntrCompList) {
         this.sieniInteEntrCompList = sieniInteEntrCompList;
+    }
+
+    public Integer getClAncho() {
+        return clAncho;
+    }
+
+    public void setClAncho(Integer clAncho) {
+        this.clAncho = clAncho;
+    }
+
+    public Integer getClAlto() {
+        return clAlto;
+    }
+
+    public void setClAlto(Integer clAlto) {
+        this.clAlto = clAlto;
     }
 
 }

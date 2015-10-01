@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
 
 /**
@@ -16,6 +18,7 @@ import sv.com.mined.sieni.model.SieniClaseSupComp;
  */
 @Stateless
 public class SieniClaseSupCompFacade extends AbstractFacade<SieniClaseSupComp> implements sv.com.mined.sieni.SieniClaseSupCompFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +30,13 @@ public class SieniClaseSupCompFacade extends AbstractFacade<SieniClaseSupComp> i
     public SieniClaseSupCompFacade() {
         super(SieniClaseSupComp.class);
     }
-    
+
+    @Override
+    public List<SieniClaseSupComp> findByClase(Long idClase) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniClaseSupComp.findByClase");
+        q.setParameter("estado", estado);
+        q.setParameter("idClase", idClase);
+        return q.getResultList();
+    }
 }

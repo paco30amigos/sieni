@@ -19,6 +19,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.script.ScriptEngine;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.TabChangeEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.form.GestionArchivoMultimediaForm;
@@ -240,5 +241,5 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         this.setArchivoUsableModifica(event.getFile().getContents());
         this.setArchivoModificaData(getArchivo(event.getFile().getContents()));
     }
-
+    
 }

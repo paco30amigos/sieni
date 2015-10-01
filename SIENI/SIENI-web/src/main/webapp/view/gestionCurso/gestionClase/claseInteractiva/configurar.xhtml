@@ -56,107 +56,129 @@
                 secciones tab, menu derecha(componentes disp y selec)
                 agregar(ordenar) componentes a seccion(seleccion de seccion, lista componentes disponibles, seleccionados, vista previa del componente a agregar),
 
-                configurar posicion,
+                configurar posicion,--ya
 
-                configurar interaccion entre componentes,
+                configurar interaccion entre componentes (otra pantalla obligatoriamente por los efectos),
                 preview
-                <p:tabView>
-                    <c:forEach items="#{gestionClaseInteracController.claseConfig.idPlantilla.sieniElemPlantillaList}" var="elemPlantilla">
-                        <p:tab title="#{elemPlantilla.idTipoElemPlantilla.teDescripcion}">
-                            <p:tabView orientation="left">
-                                <p:tab title="Pág1" >
-                                    <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla}" class="Container100" style="height: #{gestionClaseInteracController.claseConfig.clAlto};width: #{gestionClaseInteracController.claseConfig.clAncho}">
-                                        <c:forEach items="#{gestionClaseInteracController.listaSuper}" var="superComponente">
-                                            <p:draggable for="elem_#{elemPlantilla.idElemPlantilla}_id_#{superComponente.superComp.idSuperCompon}" containment="parent" >    
-                                            </p:draggable>
-                                            <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla}" >
-                                                <p:ajax listener="#{gestionClaseInteracController.onDrop}"></p:ajax>
-                                            </p:droppable>
-                                            <p:panel class="multimedia" id="elem_#{elemPlantilla.idElemPlantilla}_id_#{superComponente.superComp.idSuperCompon}" style="position: relative; left: #{superComponente.superComp.scPosX}px;top: #{superComponente.superComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;">
-                                                <c:choose>
-                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==1}">
-                                                        <c:if test="#{superComponente.data.size()>0}">
-                                                            <p:galleria id="archivosEvnt"  value="#{superComponente.data}"
-                                                                        var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
-                                                                        panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="true">
-                                                                <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
-                                                            </p:galleria>
-                                                        </c:if>
-                                                        <c:if test="#{superComponente.data.size()==0}">
-                                                            <p:galleria   value="#{superComponente.data}"
-                                                                          var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
-                                                                          panelWidth="#{superComponente.superComp.scAncho}">
-                                                            </p:galleria>
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==2}">
-                                                        <c:if test="#{superComponente.data.size()>0}">
-                                                            <p:galleria id="archivosEvnt" value="#{superComponente.data}" 
-                                                                        var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
-                                                                        panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="false">
-                                                                <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
-                                                            </p:galleria>
-                                                        </c:if>
-                                                        <c:if test="#{superComponente.data.size()==0}">
-                                                            <p:galleria   value="#{superComponente.data}" 
-                                                                          var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
-                                                                          panelWidth="#{superComponente.superComp.scAncho}">
-                                                            </p:galleria>
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==3}">
-                                                        <c:if test="#{superComponente.data.size()>0}">
-                                                            <ui:repeat value="#{superComponente.data}" var="video">
-                                                                <video class="media" controls="true" width="#{superComponente.superComp.scAncho}" height="#{superComponente.superComp.scAlto}" preload="true">
-                                                                    <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
-                                                                </video>
-                                                            </ui:repeat>
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==4}">
-                                                    </c:when>
-                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==5}">
-                                                        <c:if test="#{superComponente.data.size()>0}">
-                                                            <ui:repeat value="#{superComponente.data}" var="audio">
-                                                                <audio class="media" controls="true" preload="true">
-                                                                    <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
-                                                                </audio>
-                                                            </ui:repeat>
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==6}">
-                                                        <c:if test="#{superComponente.data.size()>0}">
-                                                            <p:contentFlow  value="#{superComponente.data}"
-                                                                            var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px">
-                                                                <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" cache="false" styleClass="content"></p:graphicImage>
-                                                                <div class="caption">#{imgs.archivoBD.arNombre}</div>
-                                                            </p:contentFlow>
-                                                        </c:if>
-                                                        <c:if test="#{superComponente.data.size()==0}">
-                                                            <p:contentFlow id="archivosEvnt"  value="#{superComponente.data}"
-                                                                           var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px" styleClass="content">
-                                                            </p:contentFlow>
-                                                        </c:if>
-                                                    </c:when>
-                                                    <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==7}">
-                                                        <h:outputText id="archivosEvnt" escape="false" value="#{superComponente.texto}"/>
-                                                    </c:when>
-                                                </c:choose>
-                                            </p:panel>
-                                            <div class="EmptyBox20"></div>
-                                        </c:forEach>
-                                    </p:panel>
-                                </p:tab>
-                                <p:tab title="Pág2">
 
-                                </p:tab>
-                                <p:tab title="Pág 99">
-
-                                </p:tab>
+                <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
+                    <i class="icon-ascreen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
+                </p:commandLink>
+                
+                <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
+                    <i class="icon-add180 Fs25 Red" style="cursor: pointer" title="Añadir Página a sección Actual"></i>
+                </p:commandLink>
+                <p:commandLink action="#{gestionClaseInteracController.refreshConfig()}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    <i class="icon-trash Fs25 Red" style="cursor: pointer" title="Eliminar última Página sección Actual"></i>
+                </p:commandLink>
+                <p:selectOneMenu value="#{gestionClaseInteracController.nuevoComponente.FCompSuperCompon}" converter="superCompon" filter="true" filterMatchMode="contains">
+                    <f:selectItems value="#{gestionClaseInteracController.componentesInteractDisponibles}" var="comps" itemLabel="#{comps.scNombre}" itemValue="#{comps}"></f:selectItems>
+                </p:selectOneMenu>
+                <p:commandButton value="Agregar Componente" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase"></p:commandButton>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar la pantalla actual y todos sus componentes?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarPantallaActual()}" update="clase" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
+                <p:remoteCommand name="compPagActual" update="listActualComp" actionListener="#{gestionClaseInteracController.refreshConfig()}"></p:remoteCommand>
+                <p:outputLabel value="aa" id="listActualComp" ></p:outputLabel>
+                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}">
+                    <p:ajax event="tabChange" oncomplete="compPagActual()" ></p:ajax>
+                    <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
+                        <p:tab title="#{elemPlantilla.nombre}">
+                            <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}">
+                                <p:ajax event="tabChange" oncomplete="compPagActual()" ></p:ajax>
+                                <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
+                                    <p:tab title="Pág #{pantalla.numPantalla}">
+                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto};width: #{gestionClaseInteracController.claseConfig.clAncho}">
+                                            <c:forEach items="#{pantalla.componentes}" var="superComponente">
+                                                <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" containment="parent" >    
+                                                </p:draggable>
+                                                <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" >
+                                                    <p:ajax listener="#{gestionClaseInteracController.onDrop}"></p:ajax>
+                                                </p:droppable>
+                                                <p:panel class="multimedia" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="position: relative; left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;">
+                                                    <c:choose>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==1}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:galleria id="archivosEvnt"  value="#{superComponente.data}"
+                                                                            var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                            panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="true">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:galleria   value="#{superComponente.data}"
+                                                                              var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                              panelWidth="#{superComponente.superComp.scAncho}">
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <div class="EmptyBox50"></div>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==2}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:galleria id="archivosEvnt" value="#{superComponente.data}" 
+                                                                            var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                            panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="false">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:galleria   value="#{superComponente.data}" 
+                                                                              var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                              panelWidth="#{superComponente.superComp.scAncho}">
+                                                                </p:galleria>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==3}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <ui:repeat value="#{superComponente.data}" var="video">
+                                                                    <video class="media" controls="true" width="#{superComponente.superComp.scAncho}" height="#{superComponente.superComp.scAlto}" preload="true">
+                                                                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
+                                                                    </video>
+                                                                </ui:repeat>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==4}">
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==5}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <ui:repeat value="#{superComponente.data}" var="audio">
+                                                                    <audio class="media" controls="true" preload="true">
+                                                                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
+                                                                    </audio>
+                                                                </ui:repeat>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==6}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:contentFlow  value="#{superComponente.data}"
+                                                                                var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" cache="false" styleClass="content"></p:graphicImage>
+                                                                    <div class="caption">#{imgs.archivoBD.arNombre}</div>
+                                                                </p:contentFlow>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:contentFlow id="archivosEvnt"  value="#{superComponente.data}"
+                                                                               var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px" styleClass="content">
+                                                                </p:contentFlow>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==7}">
+                                                            <h:outputText id="archivosEvnt" escape="false" value="#{superComponente.texto}"/>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </p:panel>
+                                            </c:forEach>
+                                        </p:panel>
+                                    </p:tab>
+                                </c:forEach>
                             </p:tabView>
                         </p:tab>
                     </c:forEach>
-                </p:tabView>                    
+                </p:tabView>
+
                 <div class="EmptyBox50"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar Configuracion" actionListener="#{gestionClaseInteracController.guardarConfiguracion()}" ajax="true"></p:commandButton>

@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "sieni_clase_sup_comp")
 @NamedQueries({
+    @NamedQuery(name = "SieniClaseSupComp.findByClase", query = "SELECT s FROM SieniClaseSupComp s where s.scEstado not in (:estado) and s.idClase.idClase=:idClase and s.idClase.clEstado not in (:estado)"),
     @NamedQuery(name = "SieniClaseSupComp.findAll", query = "SELECT s FROM SieniClaseSupComp s")})
 public class SieniClaseSupComp implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,6 +35,15 @@ public class SieniClaseSupComp implements Serializable {
     private Long idClaseSupComp;
     @Column(name = "sc_estado")
     private Character scEstado;
+    @Column(name = "sc_pos_x")
+    private Integer scPosX;
+    @Column(name = "sc_pos_y")
+    private Integer scPosY;
+    @Column(name = "sc_n_pantalla")
+    private Integer scNPantalla;
+    @JoinColumn(name = "id_tipo_elem_plantilla", referencedColumnName = "id_tipo_elem_plantilla")
+    @ManyToOne
+    private SieniTipoElemPlantilla idTipoElemPlantilla;
     @JoinColumn(name = "f_comp_super_compon", referencedColumnName = "id_super_compon")
     @ManyToOne(optional = false)
     private SieniSuperCompon fCompSuperCompon;
@@ -62,6 +72,22 @@ public class SieniClaseSupComp implements Serializable {
 
     public void setScEstado(Character scEstado) {
         this.scEstado = scEstado;
+    }
+
+    public Integer getScNPantalla() {
+        return scNPantalla;
+    }
+
+    public void setScNPantalla(Integer scNPantalla) {
+        this.scNPantalla = scNPantalla;
+    }
+
+    public SieniTipoElemPlantilla getIdTipoElemPlantilla() {
+        return idTipoElemPlantilla;
+    }
+
+    public void setIdTipoElemPlantilla(SieniTipoElemPlantilla idTipoElemPlantilla) {
+        this.idTipoElemPlantilla = idTipoElemPlantilla;
     }
 
     public SieniSuperCompon getFCompSuperCompon() {
@@ -103,6 +129,22 @@ public class SieniClaseSupComp implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniClaseSupComp[ idClaseSupComp=" + idClaseSupComp + " ]";
+    }
+
+    public Integer getScPosX() {
+        return scPosX;
+    }
+
+    public void setScPosX(Integer scPosX) {
+        this.scPosX = scPosX;
+    }
+
+    public Integer getScPosY() {
+        return scPosY;
+    }
+
+    public void setScPosY(Integer scPosY) {
+        this.scPosY = scPosY;
     }
     
 }

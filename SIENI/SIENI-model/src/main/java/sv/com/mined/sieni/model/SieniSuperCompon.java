@@ -67,10 +67,6 @@ public class SieniSuperCompon implements Serializable {
     private Integer scAncho;
     @Column(name = "sc_alto")
     private Integer scAlto;
-    @Column(name = "sc_pos_x")
-    private Integer scPosX;
-    @Column(name = "sc_pos_y")
-    private Integer scPosY;
     @Column(name = "sc_descripcion")
     private String scDescripcion;
     @Column(name = "sc_fecha_ingreso")
@@ -213,21 +209,4 @@ public class SieniSuperCompon implements Serializable {
     public void setSieniClaseSupCompList(List<SieniClaseSupComp> sieniClaseSupCompList) {
         this.sieniClaseSupCompList = sieniClaseSupCompList;
     }
-
-    public Integer getScPosX() {
-        return scPosX;
-    }
-
-    public void setScPosX(Integer scPosX) {
-        this.scPosX = scPosX;
-    }
-
-    public Integer getScPosY() {
-        return scPosY;
-    }
-
-    public void setScPosY(Integer scPosY) {
-        this.scPosY = scPosY;
-    }
-
 }

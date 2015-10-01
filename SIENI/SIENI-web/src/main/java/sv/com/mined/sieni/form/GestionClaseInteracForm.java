@@ -7,11 +7,13 @@ package sv.com.mined.sieni.form;
 
 import java.util.List;
 import sv.com.mined.sieni.model.SieniClase;
+import sv.com.mined.sieni.model.SieniClaseSupComp;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
-import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
+import sv.com.mined.sieni.pojos.controller.PantallaPojo;
+import sv.com.mined.sieni.pojos.controller.SeccionPlantillaPojo;
 import utils.siteUrls;
 
 /**
@@ -28,10 +30,17 @@ public class GestionClaseInteracForm {
     //registro de plantilla
     private SieniClase claseConfig;
     private List<SieniInteEntrComp> inteEntrCompList;
-    private List<SieniSuperCompon> superCompList;
+//    private List<SieniClaseSupComp> superCompList;
     private List<SieniPlantilla> plantillaList;
+    private List<PantallaPojo> pantallasEliminadas;
+    private List<ComponenteInteractivoPojo> componentesEliminados;
+    private List<SieniSuperCompon> componentesInteractDisponibles;
+    private SieniClaseSupComp nuevoComponente;
 
-    private List<ComponenteInteractivoPojo> listaSuper;
+    private List<SeccionPlantillaPojo> secciones;
+
+    private Integer paginaActive;
+    private Integer idElemenActive;
 
     //modificacion de plantilla
     private SieniClase claseModifica;
@@ -95,14 +104,13 @@ public class GestionClaseInteracForm {
         this.inteEntrCompList = inteEntrCompList;
     }
 
-    public List<SieniSuperCompon> getSuperCompList() {
-        return superCompList;
-    }
-
-    public void setSuperCompList(List<SieniSuperCompon> superCompList) {
-        this.superCompList = superCompList;
-    }
-
+//    public List<SieniClaseSupComp> getSuperCompList() {
+//        return superCompList;
+//    }
+//
+//    public void setSuperCompList(List<SieniClaseSupComp> superCompList) {
+//        this.superCompList = superCompList;
+//    }
     public SieniClase getClaseConfig() {
         return claseConfig;
     }
@@ -135,12 +143,60 @@ public class GestionClaseInteracForm {
         this.plantillaModificaList = plantillaModificaList;
     }
 
-    public List<ComponenteInteractivoPojo> getListaSuper() {
-        return listaSuper;
+    public List<SeccionPlantillaPojo> getSecciones() {
+        return secciones;
     }
 
-    public void setListaSuper(List<ComponenteInteractivoPojo> listaSuper) {
-        this.listaSuper = listaSuper;
+    public void setSecciones(List<SeccionPlantillaPojo> secciones) {
+        this.secciones = secciones;
+    }
+
+    public Integer getPaginaActive() {
+        return paginaActive;
+    }
+
+    public void setPaginaActive(Integer paginaActive) {
+        this.paginaActive = paginaActive;
+    }
+
+    public Integer getIdElemenActive() {
+        return idElemenActive;
+    }
+
+    public void setIdElemenActive(Integer idElemenActive) {
+        this.idElemenActive = idElemenActive;
+    }
+
+    public List<PantallaPojo> getPantallasEliminadas() {
+        return pantallasEliminadas;
+    }
+
+    public void setPantallasEliminadas(List<PantallaPojo> pantallasEliminadas) {
+        this.pantallasEliminadas = pantallasEliminadas;
+    }
+
+    public List<ComponenteInteractivoPojo> getComponentesEliminados() {
+        return componentesEliminados;
+    }
+
+    public void setComponentesEliminados(List<ComponenteInteractivoPojo> componentesEliminados) {
+        this.componentesEliminados = componentesEliminados;
+    }
+
+    public List<SieniSuperCompon> getComponentesInteractDisponibles() {
+        return componentesInteractDisponibles;
+    }
+
+    public void setComponentesInteractDisponibles(List<SieniSuperCompon> componentesInteractDisponibles) {
+        this.componentesInteractDisponibles = componentesInteractDisponibles;
+    }
+
+    public SieniClaseSupComp getNuevoComponente() {
+        return nuevoComponente;
+    }
+
+    public void setNuevoComponente(SieniClaseSupComp nuevoComponente) {
+        this.nuevoComponente = nuevoComponente;
     }
 
 }

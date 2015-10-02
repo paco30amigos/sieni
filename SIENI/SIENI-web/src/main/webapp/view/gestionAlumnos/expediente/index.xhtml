@@ -21,10 +21,16 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton consulta"/>
                 </p:dialog>
+                <p:dialog widgetVar="dlgEliminar2" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está Realmente seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionarAlumnosController.eliminarExpediente()}" update="consultaForm" oncomplete="PF('dlgEliminar2').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar2').hide();" ></p:commandButton>
+                </p:dialog>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionarAlumnosController.eliminarExpediente()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" onclick="PF('dlgEliminar2').show()" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
@@ -55,10 +61,10 @@
                         #{car.alDireccion}
                     </p:column>
                     <p:column headerText="Acciones" style="width: 12%">
-                        <p:commandLink action="#{gestionarAlumnosController.ver(car)}"><i class="icon-visibility1 Fs25 Red" title="Ver Expediente" ></i></p:commandLink>
-                        <p:commandLink action="#{gestionarAlumnosController.modificar(car)}"><i class="icon-compose Fs25 Red" title="Modificar Expediente" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarAlumnosController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Expediente" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarAlumnosController.modificar(car)}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Expediente" ></i></p:commandLink>
                         <p:commandLink action="#{gestionarAlumnosController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                            <i class="icon-close Fs25 Red" title="Eliminar Expediente"></i>
+                            <i class="icon-close Fs25 Red MarRight10" title="Eliminar Expediente"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>

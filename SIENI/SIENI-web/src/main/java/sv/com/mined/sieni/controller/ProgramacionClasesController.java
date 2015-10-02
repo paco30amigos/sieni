@@ -117,7 +117,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     public boolean validarNuevo(SieniClase nuevo) {
         boolean ban = false;
 //        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
-//        validaciones.add(new ValidationPojo(this.getArchivoUsable() == null, "Debe subir un archivo", FacesMessage.SEVERITY_WARN));
+//        validaciones.add(new ValidationPojo(this.getArchivoUsable() == null, "Debe subir un archivo", FacesMessage.SEVERITY_ERROR));
 //        ban = ValidationPojo.printErrores(validaciones);
         return !ban;
     }

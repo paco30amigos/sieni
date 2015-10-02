@@ -59,7 +59,7 @@
                     <p:column style="width: 40px">
                         <p:commandLink rendered="#{car.errores.size()==0}"><i class="fa fa-check Fs25 Green"></i></p:commandLink>
                         <p:commandLink rendered="#{car.errores.size()>0}" action="#{gestionNotaController.mostrarErrores(car)}" update="dataForm:dlErr" oncomplete="PF('dlgError').show()" >
-                            <i class="icon-problems Fs25 Red"></i>
+                            <i class="icon-problems Fs25 Red MarRight10"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>

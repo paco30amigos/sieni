@@ -62,14 +62,14 @@
                 preview
 
                 <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
-                    <i class="icon-ascreen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
+                    <i class="icon-ascreen Fs25 Red MarRight10" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
                 </p:commandLink>
                 
                 <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
-                    <i class="icon-add180 Fs25 Red" style="cursor: pointer" title="Añadir Página a sección Actual"></i>
+                    <i class="icon-add180 Fs25 Red MarRight10" style="cursor: pointer" title="Añadir Página a sección Actual"></i>
                 </p:commandLink>
                 <p:commandLink action="#{gestionClaseInteracController.refreshConfig()}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                    <i class="icon-trash Fs25 Red" style="cursor: pointer" title="Eliminar última Página sección Actual"></i>
+                    <i class="icon-trash Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar última Página sección Actual"></i>
                 </p:commandLink>
                 <p:selectOneMenu value="#{gestionClaseInteracController.nuevoComponente.FCompSuperCompon}" converter="superCompon" filter="true" filterMatchMode="contains">
                     <f:selectItems value="#{gestionClaseInteracController.componentesInteractDisponibles}" var="comps" itemLabel="#{comps.scNombre}" itemValue="#{comps}"></f:selectItems>

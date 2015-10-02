@@ -22,6 +22,7 @@ import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
+import sv.com.mined.sieni.SieniComponenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
@@ -73,6 +74,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     private SieniInteEntrCompFacadeRemote sieniInteEntrCompFacadeRemote;
     @EJB
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
+    @EJB
+    private SieniComponenteFacadeRemote sieniComponenteFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -215,7 +218,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             nuevo.setClaseSuperComp(actual);
             FileStreamedPojo dataNuevo;
             //si es archivo multimedia
-            for (SieniComponente comp : actual.getFCompSuperCompon().getSieniComponenteList()) {
+            List<SieniComponente> superCompon=sieniComponenteFacadeRemote.findByIdSuperComp(nuevo.getSuperComp().getIdSuperCompon());
+            for (SieniComponente comp : superCompon) {
                 dataNuevo = new FileStreamedPojo();
                 dataNuevo.setComponente(comp);
                 List<SieniArchivo> archivos = sieniArchivoFacadeRemote.findByIdSuperComp(actual.getFCompSuperCompon().getIdSuperCompon());

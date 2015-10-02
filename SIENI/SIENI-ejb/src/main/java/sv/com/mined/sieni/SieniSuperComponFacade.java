@@ -36,6 +36,7 @@ public class SieniSuperComponFacade extends AbstractFacade<SieniSuperCompon> imp
         Character estado = 'I';
         Query q = em.createNamedQuery("SieniSuperCompon.findAllNoInactivos");
         q.setParameter("estado", estado);
+        em.flush();
         return q.getResultList();
     }
 

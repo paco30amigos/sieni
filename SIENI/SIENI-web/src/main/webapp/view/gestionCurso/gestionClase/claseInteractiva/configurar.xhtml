@@ -61,10 +61,10 @@
                 configurar interaccion entre componentes (otra pantalla obligatoriamente por los efectos),
                 preview
                 <div class="EmptyBox5"></div>
-                <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}">
-                    <i class="icon-ascreen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
-                </p:commandLink>
-                <p:panelGrid columns="4">
+                <p:panelGrid columns="5">
+                    <p:commandLink onclick="PF('dlgConfPantalla').show()">
+                        <i class="icon-screen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
+                    </p:commandLink>
                     <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
                         <i class="icon-add180 Fs25 Red" style="cursor: pointer" title="Añadir Página a sección Actual"></i>
                     </p:commandLink>
@@ -76,6 +76,15 @@
                     </p:selectOneMenu>
                     <p:commandButton value="Agregar Componente" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase"></p:commandButton>
                 </p:panelGrid>
+                <p:dialog widgetVar="dlgConfPantalla" header="Configurar Pantalla de Clase" modal="true">
+                    <p:outputLabel value="Alto" class="TexAlCenter" ></p:outputLabel>
+                    <p:spinner value="#{gestionClaseInteracController.claseConfig.clAlto}" max="1080" stepFactor="100"></p:spinner>
+                    <p:outputLabel value="Ancho" class="TexAlCenter" ></p:outputLabel>
+                    <p:spinner value="#{gestionClaseInteracController.claseConfig.clAncho}" max="1920" stepFactor="100"></p:spinner>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Guardar" update="clase" oncomplete="PF('dlgConfPantalla').hide()"></p:commandButton>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgConfPantalla').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar la pantalla actual y todos sus componentes?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
@@ -90,14 +99,15 @@
                 </p:dialog>
                 <div class="EmptyBox5"></div>
                 <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
-                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}">
+                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px">
                     <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
                         <p:tab title="#{elemPlantilla.nombre}">
                             <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}">
                                 <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                     <p:tab title="Pág #{pantalla.numPantalla}">
                                         <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px">
-                                            <c:forEach items="#{pantalla.componentes}" var="superComponente">
+                                            <c:forEach items="#{pantalla.componentes}" var="superComponente">                                                
+                                                #{superComponente.data.size()}
                                                 <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" handle=".move" opacity="0.3">
                                                 </p:draggable>
                                                 <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" >

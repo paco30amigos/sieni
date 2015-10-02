@@ -41,6 +41,7 @@ public class GestionClaseInteracForm {
 
     private Integer paginaActive;
     private Integer idElemenActive;
+    private ComponenteInteractivoPojo superCompEliminado;
 
     //modificacion de plantilla
     private SieniClase claseModifica;
@@ -197,6 +198,14 @@ public class GestionClaseInteracForm {
 
     public void setNuevoComponente(SieniClaseSupComp nuevoComponente) {
         this.nuevoComponente = nuevoComponente;
+    }
+
+    public ComponenteInteractivoPojo getSuperCompEliminado() {
+        return superCompEliminado;
+    }
+
+    public void setSuperCompEliminado(ComponenteInteractivoPojo superCompEliminado) {
+        this.superCompEliminado = superCompEliminado;
     }
 
 }

@@ -9,11 +9,14 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -24,11 +27,13 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "sieni_clase_sup_comp")
 @NamedQueries({
-    @NamedQuery(name = "SieniClaseSupComp.findByClase", query = "SELECT s FROM SieniClaseSupComp s where s.scEstado not in (:estado) and s.idClase.idClase=:idClase and s.idClase.clEstado not in (:estado)"),
+    @NamedQuery(name = "SieniClaseSupComp.findByClase", query = "SELECT s FROM SieniClaseSupComp s where s.scEstado not in (:estado) and s.idClase.idClase=:idClase and s.idClase.clEstado not in (:estado) ORDER BY s.scNPantalla"),
     @NamedQuery(name = "SieniClaseSupComp.findAll", query = "SELECT s FROM SieniClaseSupComp s")})
 public class SieniClaseSupComp implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_clase_sup_comp")
+    @SequenceGenerator(name = "sec_sieni_clase_sup_comp", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_clase_sup_comp")
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_clase_sup_comp")

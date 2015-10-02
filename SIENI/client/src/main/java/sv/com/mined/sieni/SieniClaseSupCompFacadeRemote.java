@@ -29,6 +29,8 @@ public interface SieniClaseSupCompFacadeRemote {
     List<SieniClaseSupComp> findRange(int[] range);
 
     int count();
-    
+
     public List<SieniClaseSupComp> findByClase(Long idClase);
+
+    public void merge(List<SieniClaseSupComp> lista, List<SieniClaseSupComp> eliminados);
 }

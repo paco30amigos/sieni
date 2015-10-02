@@ -80,13 +80,14 @@ public class RptAlumnosController extends RptAlumnosForm {
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
         String grado = "";
         String seccion = "";
+        String gradoSeccion = "";
         for (SieniAlumno actual : alumnos) {
             if (actual.getMatriculaActual() != null) {
                 grado = actual.getMatriculaActual().getIdGrado().getGrNombre();
                 seccion = actual.getMatriculaActual().getIdSeccion().getScDescripcion();
+                gradoSeccion = grado + seccion;
             } else {
-                grado = "";
-                seccion = "";
+                gradoSeccion = "N.M.";
             }
             elem = new RptAlumnosPojo(
                     actual.getAlCarnet(),
@@ -95,7 +96,7 @@ public class RptAlumnosController extends RptAlumnosForm {
                     new DateUtils().getEdad(actual.getAlFechaNacimiento()),
                     actual.getAlDireccion(),
                     new FormatUtils().getFormatedPhone(actual.getAlTelefonoEm1()),
-                    grado + seccion);
+                    gradoSeccion);
             this.getListDatos().add(elem);
         }
         this.setTotalAlumnos("" + this.getListDatos().size());

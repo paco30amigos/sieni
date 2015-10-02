@@ -65,8 +65,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-            FacesMessage msg = new FacesMessage("Plantilla Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Plantilla Creada Exitosamente", FacesMessage.SEVERITY_INFO);
             this.setPlantillaNuevo(new SieniPlantilla());
             fill();
         }
@@ -114,8 +113,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-            FacesMessage msg = new FacesMessage("Plantilla Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Plantilla Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
             fill();
         }
     }
@@ -167,8 +165,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
 
     public void guardarElemPlantilla() {
         sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados());
-        FacesMessage msg = new FacesMessage("Elementos de plantilla guardados exitosamente");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        new ValidationPojo().printMsj("Elementos de plantilla guardados exitosamente", FacesMessage.SEVERITY_INFO);
         fillElemPlantillaPlantilla(this.getPlantillaModifica());
     }
 

@@ -64,8 +64,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
             this.setAlumnoNuevo(new SieniAlumno());
-            FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Expediente Creado Exitosamente", FacesMessage.SEVERITY_INFO);
             fill();
         }
     }
@@ -151,8 +150,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-            FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Expediente Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             fill();
         }
     }

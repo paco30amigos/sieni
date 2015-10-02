@@ -404,10 +404,14 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         this.getNuevoComponente().setIdClaseSupComp(-Long.parseLong(new DateUtils().getTime()));
         this.getNuevoComponente().setScEstado('A');
         this.getNuevoComponente().setScNPantalla(index + 1);
+        this.getNuevoComponente().setScPosX(0);
+        this.getNuevoComponente().setScPosY(0);
 
         List<SieniClaseSupComp> auxComp = new ArrayList<>();
         auxComp.add(this.getNuevoComponente());
-        seccionActual.getPantallas().get(index).getComponentes().addAll(getComponentesInteractivos(auxComp));
+        List<ComponenteInteractivoPojo> a = getComponentesInteractivos(auxComp);
+        a.addAll(seccionActual.getPantallas().get(index).getComponentes());
+        seccionActual.getPantallas().get(index).setComponentes(a);
         this.setNuevoComponente(new SieniClaseSupComp());
     }
 

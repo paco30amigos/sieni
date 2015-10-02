@@ -65,8 +65,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-            FacesMessage msg = new FacesMessage("Archivo Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Archivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
             this.setArchivoNuevo(new SieniArchivo());
             this.setArchivoUsable(null);
             fill();
@@ -144,8 +143,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-            FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Archivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);            
             fill();
         }
     }

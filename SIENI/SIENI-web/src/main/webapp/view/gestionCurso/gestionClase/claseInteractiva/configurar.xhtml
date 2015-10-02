@@ -93,12 +93,12 @@
                                     <p:tab title="Pág #{pantalla.numPantalla}">
                                         <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto};width: #{gestionClaseInteracController.claseConfig.clAncho}">
                                             <c:forEach items="#{pantalla.componentes}" var="superComponente">
-                                                <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" containment="parent" >    
+                                                <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" containment="parent" >
                                                 </p:draggable>
                                                 <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" >
                                                     <p:ajax listener="#{gestionClaseInteracController.onDrop}"></p:ajax>
                                                 </p:droppable>
-                                                <p:panel class="multimedia" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="position: relative; left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;">
+                                                <p:panel class="multimedia" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="position: inherit; left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;">
                                                     <c:choose>
                                                         <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==1}">
                                                             <c:if test="#{superComponente.data.size()>0}">

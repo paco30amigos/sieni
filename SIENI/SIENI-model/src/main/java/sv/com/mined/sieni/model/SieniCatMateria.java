@@ -14,6 +14,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,8 +35,9 @@ public class SieniCatMateria implements Serializable {
     @NotNull
     @Column(name = "id_cat_materia")
     private Long idCatMateria;
+    @Size(max = 100)
     @Column(name = "cat_nombre")
-    private Serializable catNombre;
+    private String catNombre;
 
     public SieniCatMateria() {
     }
@@ -52,11 +54,11 @@ public class SieniCatMateria implements Serializable {
         this.idCatMateria = idCatMateria;
     }
 
-    public Serializable getCatNombre() {
+    public String getCatNombre() {
         return catNombre;
     }
 
-    public void setCatNombre(Serializable catNombre) {
+    public void setCatNombre(String catNombre) {
         this.catNombre = catNombre;
     }
 

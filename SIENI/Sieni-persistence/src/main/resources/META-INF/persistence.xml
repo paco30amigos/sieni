@@ -7,6 +7,7 @@
     <class>sv.com.mined.sieni.model.SieniAlumno</class>
     <class>sv.com.mined.sieni.model.SieniAnioEscolar</class>
     <class>sv.com.mined.sieni.model.SieniArchivo</class>
+    <class>sv.com.mined.sieni.model.SieniCatMateria</class>
     <class>sv.com.mined.sieni.model.SieniClase</class>
     <class>sv.com.mined.sieni.model.SieniClaseDocente</class>
     <class>sv.com.mined.sieni.model.SieniClaseSupComp</class>

@@ -25,7 +25,9 @@
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="2" class="Container50 Responsive">
                     <p:outputLabel  value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maNombre}"></p:inputText>
+                    <p:selectOneMenu id="nombre" class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maNombre}">
+                        <f:selectItems itemValue="#{nombre.catNombre}" itemLabel="#{nombre.catNombre}" value="#{gestionMateriasController.catmateriaList}" var="nombre"></f:selectItems>
+                    </p:selectOneMenu>
                     <p:outputLabel  value="Grado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.idGrado}" converter="grado">
                         <f:selectItems itemValue="#{gestionMateriasController.materiaNuevo.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMateriasController.gradoList}" var="grado"></f:selectItems>

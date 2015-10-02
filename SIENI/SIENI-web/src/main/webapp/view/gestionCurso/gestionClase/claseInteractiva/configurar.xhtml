@@ -107,7 +107,6 @@
                                     <p:tab title="Pág #{pantalla.numPantalla}">
                                         <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px">
                                             <c:forEach items="#{pantalla.componentes}" var="superComponente">                                                
-                                                #{superComponente.data.size()}
                                                 <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" handle=".move" opacity="0.3">
                                                 </p:draggable>
                                                 <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" >

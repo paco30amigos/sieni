@@ -51,7 +51,7 @@ public class RptUsuariosController extends RptUsuariosForm {
     @PostConstruct
     public void init() {
         this.setTipoUser(1);
-        this.setEstadoUser("A");
+        this.setEstadoUser(1);
         this.setTotalUsuarios("0");
         this.setTipoRpt(0);
         this.setListDatos(new ArrayList<RptUsuariosPojo>());
@@ -76,11 +76,11 @@ public class RptUsuariosController extends RptUsuariosForm {
                 break;
         }
         for (SieniDocente actual : docentes) {
-             elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(),actual.getNombreCompleto(),1,actual.getDcEstado());
+             elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(),actual.getNombreCompleto(),1,actual.getDcFechaIngreso(),actual.getDcEstado());
             this.getListDatos().add(elem);
         }
         for (SieniAlumno actual : alumnos) {
-             elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(),actual.getNombreCompleto(),2,actual.getAlEstado());
+             elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(),actual.getNombreCompleto(),2,actual.getAlFechaIngreso(),actual.getAlEstado());
             this.getListDatos().add(elem);
         }
         this.setTotalUsuarios("" + this.getListDatos().size());
@@ -94,11 +94,25 @@ public class RptUsuariosController extends RptUsuariosForm {
         Map parameterMap = new HashMap();
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
         switch(this.getTipoUser()){
+            case 0: //DOCENTES
+                parameterMap.put("tipoUsuario", "TODOS");
+                break;
             case 1: //DOCENTES
                 parameterMap.put("tipoUsuario", "DOCENTE");
                 break;
             case 2: //ALUMNOS
                 parameterMap.put("tipoUsuario", "ALUMNO");
+                break;
+        }
+        switch(this.getEstadoUser()){
+            case 0: //DOCENTES
+                parameterMap.put("estadoUsuario", "TODOS");
+                break;
+            case 1: //DOCENTES
+                parameterMap.put("estadoUsuario", "ACTIVO");
+                break;
+            case 2: //ALUMNOS
+                parameterMap.put("estadoUsuario", "INACTIVO");
                 break;
         }
         try {

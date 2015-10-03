@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.pojos.rpt;
 
 import java.io.Serializable;
+import java.util.Date;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
 /**
@@ -19,18 +20,20 @@ public class RptUsuariosPojo  implements Serializable {
     private String nombre;
     private Integer tipoUser;
     private String tipo;
+    private Date fechaIngreso;
     private Character estado;
     private String activo;
 
     public RptUsuariosPojo() {
     }
 
-    public RptUsuariosPojo(SieniAlumno alumnoEntity, SieniDocente docenteEntity, String usuario, String nombre, Integer tipoUser, Character estado) {
+    public RptUsuariosPojo(SieniAlumno alumnoEntity, SieniDocente docenteEntity, String usuario, String nombre, Integer tipoUser,Date fechaIngreso, Character estado) {
         this.alumnoEntity = alumnoEntity;
         this.docenteEntity = docenteEntity;
         this.usuario = usuario;
         this.nombre = nombre;
         this.tipoUser = tipoUser;
+        this.fechaIngreso = fechaIngreso;
         this.estado = estado;
     }
 
@@ -38,32 +41,17 @@ public class RptUsuariosPojo  implements Serializable {
         return alumnoEntity;
     }
 
-    public void setAlumnoEntity(SieniAlumno alumnoEntity) {
-        this.alumnoEntity = alumnoEntity;
-    }
-
     public SieniDocente getDocenteEntity() {
         return docenteEntity;
-    }
-
-    public void setDocenteEntity(SieniDocente docenteEntity) {
-        this.docenteEntity = docenteEntity;
     }
 
     public String getUsuario() {
         return usuario;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
 
     public String getNombre() {
         return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
     }
 
     public String getTipo() {
@@ -78,6 +66,11 @@ public class RptUsuariosPojo  implements Serializable {
         return tipo;
     }
 
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    
 
     public String getActivo() {
         switch(this.estado){

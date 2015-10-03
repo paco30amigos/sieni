@@ -39,6 +39,6 @@ public interface SieniDocenteFacadeRemote {
     
     public List<SieniDocente> findDocentesDesdeHasta(Date desde,Date hasta);
 
-    public List<SieniDocente> findUsuariosRpt(String estadoUser);
+    public List<SieniDocente> findUsuariosRpt(Integer estadoUser);
     
 }

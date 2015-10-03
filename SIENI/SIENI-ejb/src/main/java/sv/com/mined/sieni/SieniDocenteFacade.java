@@ -76,15 +76,19 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
     }
 
     @Override
-    public List<SieniDocente> findUsuariosRpt(String estadoUser) {
-        Query q;
+    public List<SieniDocente> findUsuariosRpt(Integer estadoUser) {
+        Query q = em.createNamedQuery("SieniDocente.findRptUsuariosDocentes");;
         switch(estadoUser){
-            case "T":
+            case 0: // TODOS
                 q = em.createNamedQuery("SieniDocente.findRptUsuariosDocentes");
                 break;
-            default:
+            case 1: // ACTIVOS
                 q = em.createNamedQuery("SieniDocente.findRptUsuariosDocentesByEstado");
-                q.setParameter("dcEstado", estadoUser);
+                q.setParameter("dcEstado", 'A');
+                break;
+            case 2: // INACTIVOS
+                q = em.createNamedQuery("SieniDocente.findRptUsuariosDocentesByEstado");
+                q.setParameter("dcEstado", 'I');
                 break;
         }
         return q.getResultList();

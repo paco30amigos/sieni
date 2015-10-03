@@ -9,32 +9,25 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author francisco_medina
+ * @author bugtraq
  */
 @Entity
 @Table(name = "sieni_inte_entr_comp")
 @NamedQueries({
-    @NamedQuery(name = "SieniInteEntrComp.findAll", query = "SELECT s FROM SieniInteEntrComp s"),
-    @NamedQuery(name = "SieniInteEntrComp.findByClase", query = "SELECT s FROM SieniInteEntrComp s where s.idClase.idClase=:idClase and s.ieEstado not in (:estado) and s.idClase.clEstado not in (:estado)")})
+    @NamedQuery(name = "SieniInteEntrComp.findAll", query = "SELECT s FROM SieniInteEntrComp s")})
 public class SieniInteEntrComp implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_inte_entr_comp")
-    @SequenceGenerator(name = "sec_sieni_inte_entr_comp", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_inte_entr_comp")
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_inte_entre_comp")
@@ -43,12 +36,18 @@ public class SieniInteEntrComp implements Serializable {
     private Integer ieRetraso;
     @Column(name = "ie_estado")
     private Character ieEstado;
-    @JoinColumn(name = "id_comp_interact2", referencedColumnName = "id_comp_interaccion")
+    @JoinColumn(name = "ie_sup_c2", referencedColumnName = "id_super_compon")
     @ManyToOne
-    private SieniCompInteraccion idCompInteract2;
-    @JoinColumn(name = "id_comp_interac1", referencedColumnName = "id_comp_interaccion")
+    private SieniSuperCompon ieSupC2;
+    @JoinColumn(name = "ie_sup_c1", referencedColumnName = "id_super_compon")
     @ManyToOne
-    private SieniCompInteraccion idCompInterac1;
+    private SieniSuperCompon ieSupC1;
+    @JoinColumn(name = "ie_evento_c2", referencedColumnName = "id_evento")
+    @ManyToOne
+    private SieniEvento ieEventoC2;
+    @JoinColumn(name = "ie_evento_c1", referencedColumnName = "id_evento")
+    @ManyToOne
+    private SieniEvento ieEventoC1;
     @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
     @ManyToOne
     private SieniClase idClase;
@@ -76,20 +75,44 @@ public class SieniInteEntrComp implements Serializable {
         this.ieRetraso = ieRetraso;
     }
 
-    public SieniCompInteraccion getIdCompInteract2() {
-        return idCompInteract2;
+    public Character getIeEstado() {
+        return ieEstado;
     }
 
-    public void setIdCompInteract2(SieniCompInteraccion idCompInteract2) {
-        this.idCompInteract2 = idCompInteract2;
+    public void setIeEstado(Character ieEstado) {
+        this.ieEstado = ieEstado;
     }
 
-    public SieniCompInteraccion getIdCompInterac1() {
-        return idCompInterac1;
+    public SieniSuperCompon getIeSupC2() {
+        return ieSupC2;
     }
 
-    public void setIdCompInterac1(SieniCompInteraccion idCompInterac1) {
-        this.idCompInterac1 = idCompInterac1;
+    public void setIeSupC2(SieniSuperCompon ieSupC2) {
+        this.ieSupC2 = ieSupC2;
+    }
+
+    public SieniSuperCompon getIeSupC1() {
+        return ieSupC1;
+    }
+
+    public void setIeSupC1(SieniSuperCompon ieSupC1) {
+        this.ieSupC1 = ieSupC1;
+    }
+
+    public SieniEvento getIeEventoC2() {
+        return ieEventoC2;
+    }
+
+    public void setIeEventoC2(SieniEvento ieEventoC2) {
+        this.ieEventoC2 = ieEventoC2;
+    }
+
+    public SieniEvento getIeEventoC1() {
+        return ieEventoC1;
+    }
+
+    public void setIeEventoC1(SieniEvento ieEventoC1) {
+        this.ieEventoC1 = ieEventoC1;
     }
 
     public SieniClase getIdClase() {
@@ -124,13 +147,5 @@ public class SieniInteEntrComp implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniInteEntrComp[ idInteEntreComp=" + idInteEntreComp + " ]";
     }
-
-    public Character getIeEstado() {
-        return ieEstado;
-    }
-
-    public void setIeEstado(Character ieEstado) {
-        this.ieEstado = ieEstado;
-    }
-
+    
 }

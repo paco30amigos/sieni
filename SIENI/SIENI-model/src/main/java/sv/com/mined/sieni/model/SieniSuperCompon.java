@@ -45,6 +45,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniSuperCompon.findByScDescripcion", query = "SELECT s FROM SieniSuperCompon s WHERE s.scDescripcion = :scDescripcion"),
     @NamedQuery(name = "SieniSuperCompon.findByScFechaIngreso", query = "SELECT s FROM SieniSuperCompon s WHERE s.scFechaIngreso = :scFechaIngreso")})
 public class SieniSuperCompon implements Serializable {
+    @Column(name = "sc_pos_x")
+    private Integer scPosX;
+    @Column(name = "sc_pos_y")
+    private Integer scPosY;
+    @OneToMany(mappedBy = "ieSupC2")
+    private List<SieniInteEntrComp> sieniInteEntrCompList;
+    @OneToMany(mappedBy = "ieSupC1")
+    private List<SieniInteEntrComp> sieniInteEntrCompList1;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fCompSuperCompon")
     private List<SieniClaseSupComp> sieniClaseSupCompList;
@@ -208,5 +216,37 @@ public class SieniSuperCompon implements Serializable {
 
     public void setSieniClaseSupCompList(List<SieniClaseSupComp> sieniClaseSupCompList) {
         this.sieniClaseSupCompList = sieniClaseSupCompList;
+    }
+
+    public Integer getScPosX() {
+        return scPosX;
+    }
+
+    public void setScPosX(Integer scPosX) {
+        this.scPosX = scPosX;
+    }
+
+    public Integer getScPosY() {
+        return scPosY;
+    }
+
+    public void setScPosY(Integer scPosY) {
+        this.scPosY = scPosY;
+    }
+
+    public List<SieniInteEntrComp> getSieniInteEntrCompList() {
+        return sieniInteEntrCompList;
+    }
+
+    public void setSieniInteEntrCompList(List<SieniInteEntrComp> sieniInteEntrCompList) {
+        this.sieniInteEntrCompList = sieniInteEntrCompList;
+    }
+
+    public List<SieniInteEntrComp> getSieniInteEntrCompList1() {
+        return sieniInteEntrCompList1;
+    }
+
+    public void setSieniInteEntrCompList1(List<SieniInteEntrComp> sieniInteEntrCompList1) {
+        this.sieniInteEntrCompList1 = sieniInteEntrCompList1;
     }
 }

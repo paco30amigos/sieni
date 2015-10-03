@@ -22,6 +22,7 @@ import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
+import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
@@ -33,12 +34,15 @@ import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
+import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniComponente;
 import sv.com.mined.sieni.model.SieniElemPlantilla;
+import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
 import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
+import sv.com.mined.sieni.pojos.controller.InteraccionEntrCompPojo;
 import sv.com.mined.sieni.pojos.controller.PantallaPojo;
 import sv.com.mined.sieni.pojos.controller.SeccionPlantillaPojo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
@@ -167,13 +171,75 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         return ret;
     }
 
+    public HashMap<Long, List<SieniCompInteraccion>> getInteraccionEntrComponList(List<SieniCompInteraccion> componentes) {
+        HashMap<Long, List<SieniCompInteraccion>> ret = new HashMap();
+        //para 1 componente
+        //click --lista
+        //click dere--lista
+        if (componentes != null) {
+            for (SieniCompInteraccion actual : componentes) {
+                if (!ret.containsKey(actual.getIdEvento().getIdEvento())) {
+                    //incializa el hashmap
+                    ret.put(actual.getIdEvento().getIdEvento(), new ArrayList<SieniCompInteraccion>());
+                    //ingresa el componente actual
+                    ret.get(actual.getIdEvento().getIdEvento()).add(actual);
+                } else {
+                    //si la pantalla ya está registrada, agrega a la lista el componente
+                    ret.get(actual.getIdEvento().getIdEvento()).add(actual);
+                }
+            }
+        }
+
+        //interacc orden 1-click- del super
+        //interacc orden 2-click- del super
+        //interacc orden 1-click- del super
+        //interacc orden 3-click- del super
+        //crear las funciones
+        //crear relaciones
+        return ret;
+    }
+
+    public void ordenarPorComponente1(SieniInteEntrComp superCompon) {
+        List<InteraccionEntrCompPojo> lista=null;
+        
+        InteraccionEntrCompPojo nuevo=null;
+        
+        SieniInteEntrComp aA=null;
+        SieniCompInteraccionFacadeRemote a = null;
+        //verigicar q si existe e componente 1 y 2
+        HashMap<Long, List<SieniCompInteraccion>> interaccionesC1 = getInteraccionEntrComponList(a.findByIdSuperComp(aA.getIeSupC1().getIdSuperCompon()));
+        HashMap<Long, List<SieniCompInteraccion>> interaccionesC2 = getInteraccionEntrComponList(a.findByIdSuperComp(aA.getIeSupC2().getIdSuperCompon()));
+        List<SieniCompInteraccion> eventosActuales1 = interaccionesC1.get(aA.getIeEventoC1().getIdEvento());
+        List<SieniCompInteraccion> eventosActuales2 = interaccionesC2.get(aA.getIeEventoC2().getIdEvento());
+        
+        nuevo.setC1(aA.getIeSupC1());
+        nuevo.setC2(aA.getIeSupC2());
+        
+        
+
+//        aA.getIeSupC1().getSieniInteEntrCompList1()
+        ordenarPorEventoComp1();
+    }
+
+    public void ordenarPorEventoComp1() {
+        ordenarPorComponente2();
+    }
+
+    public void ordenarPorComponente2() {
+        ordenarPorEventoComp2();
+    }
+
+    public void ordenarPorEventoComp2() {
+
+    }
+
     public void configurar(SieniClase clase) {
         this.setClaseConfig(clase);
         if (clase.getClAlto() == null) {
             clase.setClAlto(600);
         }
-        if (clase.getClAncho() == null) {
-            clase.setClAncho(800);
+        if (clase.getClAncho() == null) {//2225-2116- nelson villa
+            clase.setClAncho(800); //tijera flecha, cremallera
         }
         //******config
         //plantillas por materia

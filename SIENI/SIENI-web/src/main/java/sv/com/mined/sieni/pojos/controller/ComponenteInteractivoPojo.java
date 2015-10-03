@@ -7,6 +7,7 @@ package sv.com.mined.sieni.pojos.controller;
 
 import java.util.List;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
+import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniSuperCompon;
 
 /**
@@ -19,6 +20,7 @@ public class ComponenteInteractivoPojo {
     private SieniSuperCompon superComp;
     private SieniClaseSupComp claseSuperComp;
     private String texto;
+    private List<SieniCompInteraccion> interacciones;
 
     public List<FileStreamedPojo> getData() {
         return data;
@@ -50,5 +52,13 @@ public class ComponenteInteractivoPojo {
 
     public void setClaseSuperComp(SieniClaseSupComp claseSuperComp) {
         this.claseSuperComp = claseSuperComp;
+    }
+
+    public List<SieniCompInteraccion> getInteracciones() {
+        return interacciones;
+    }
+
+    public void setInteracciones(List<SieniCompInteraccion> interacciones) {
+        this.interacciones = interacciones;
     }
 }

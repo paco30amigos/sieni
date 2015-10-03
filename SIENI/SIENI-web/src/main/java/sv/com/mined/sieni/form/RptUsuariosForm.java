@@ -16,6 +16,7 @@ import sv.com.mined.sieni.pojos.rpt.RptUsuariosPojo;
 public class RptUsuariosForm extends ReportesController{
     
     private Integer tipoUser;
+    private String estadoUser;
     private List<RptUsuariosPojo> listDatos;
     private String totalUsuarios;
     private Integer tipoRpt;
@@ -50,6 +51,14 @@ public class RptUsuariosForm extends ReportesController{
 
     public void setTipoRpt(Integer tipoRpt) {
         this.tipoRpt = tipoRpt;
+    }
+
+    public String getEstadoUser() {
+        return estadoUser;
+    }
+
+    public void setEstadoUser(String estadoUser) {
+        this.estadoUser = estadoUser;
     }
     
     

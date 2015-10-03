@@ -158,8 +158,17 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
-    public List<SieniAlumno> findUsuariosRpt() {
-        Query q = em.createNamedQuery("SieniAlumno.findRptUsuariosAlumnos");
+    public List<SieniAlumno> findUsuariosRpt(String estadoUser) {
+        Query q;
+        switch(estadoUser){
+            case "T":
+                q = em.createNamedQuery("SieniAlumno.findRptUsuariosAlumnos");
+                break;
+            default:
+                q = em.createNamedQuery("SieniAlumno.findRptUsuariosAlumnosByEstado");
+                q.setParameter("alEstado", estadoUser);
+                break;
+        }
         return q.getResultList();
     }
 

@@ -13,8 +13,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-//import org.primefaces.push.EventBus;
-//import org.primefaces.push.EventBusFactory;
+import org.primefaces.push.EventBus;
+import org.primefaces.push.EventBusFactory;
 import sv.com.mined.sieni.model.SieniNotificacion;
 
 
@@ -68,7 +68,7 @@ public class NotifyController implements Serializable {
         String detail = "Se agrego a la lista";
         String CHANNEL = "/notify";
 
-        //EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        //eventBus.publish(CHANNEL, new FacesMessage(summary, detail));
+        EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        eventBus.publish(CHANNEL, new FacesMessage(summary, detail));
     }
 }

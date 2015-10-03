@@ -25,8 +25,15 @@
                     <p:panelGrid columns="4">
                         <p:outputLabel value="Tipo Usuario:"></p:outputLabel>
                         <p:selectOneMenu id="tipoU" value="#{rptUsuariosController.tipoUser}">
+                            <f:selectItem itemValue="0" itemLabel="TODOS"></f:selectItem>
                             <f:selectItem itemValue="1" itemLabel="DOCENTE"></f:selectItem>
                             <f:selectItem itemValue="2" itemLabel="ALUMNO"></f:selectItem>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="Estado:"></p:outputLabel>
+                        <p:selectOneMenu id="estadoU" value="#{rptUsuariosController.estadoUser}">
+                            <f:selectItem itemValue="T" itemLabel="TODOS"></f:selectItem>
+                            <f:selectItem itemValue="A" itemLabel="ACTIVO"></f:selectItem>
+                            <f:selectItem itemValue="I" itemLabel="INACTIVO"></f:selectItem>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>

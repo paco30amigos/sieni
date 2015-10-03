@@ -51,6 +51,7 @@ public class RptUsuariosController extends RptUsuariosForm {
     @PostConstruct
     public void init() {
         this.setTipoUser(1);
+        this.setEstadoUser("A");
         this.setTotalUsuarios("0");
         this.setTipoRpt(0);
         this.setListDatos(new ArrayList<RptUsuariosPojo>());
@@ -60,21 +61,27 @@ public class RptUsuariosController extends RptUsuariosForm {
     public void fill() {
         RptUsuariosPojo elem = new RptUsuariosPojo();
         this.setListDatos(new ArrayList<RptUsuariosPojo>());
+        List<SieniDocente> docentes = new ArrayList<SieniDocente>();
+        List<SieniAlumno> alumnos = new ArrayList<SieniAlumno>();
         switch(this.getTipoUser()){
+            case 0://TODOS
+                docentes = sieniDocenteFacadeRemote.findUsuariosRpt(this.getEstadoUser());
+                alumnos = sieniAlumnoFacadeRemote.findUsuariosRpt(this.getEstadoUser());
+                break;
             case 1: //DOCENTES
-                List<SieniDocente> docentes = sieniDocenteFacadeRemote.findUsuariosRpt();
-                for (SieniDocente actual : docentes) {
-                     elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(),actual.getNombreCompleto(),1,actual.getDcEstado());
-                    this.getListDatos().add(elem);
-                }
+                docentes = sieniDocenteFacadeRemote.findUsuariosRpt(this.getEstadoUser());
                 break;
             case 2: //ALUMNOS
-                List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findUsuariosRpt();
-                for (SieniAlumno actual : alumnos) {
-                     elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(),actual.getNombreCompleto(),2,actual.getAlEstado());
-                    this.getListDatos().add(elem);
-                }
+                alumnos = sieniAlumnoFacadeRemote.findUsuariosRpt(this.getEstadoUser());
                 break;
+        }
+        for (SieniDocente actual : docentes) {
+             elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(),actual.getNombreCompleto(),1,actual.getDcEstado());
+            this.getListDatos().add(elem);
+        }
+        for (SieniAlumno actual : alumnos) {
+             elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(),actual.getNombreCompleto(),2,actual.getAlEstado());
+            this.getListDatos().add(elem);
         }
         this.setTotalUsuarios("" + this.getListDatos().size());
         

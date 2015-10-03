@@ -127,4 +127,9 @@ public class GestionMateriasController extends GestionMateriasForm {
         sieniMateriaFacadeRemote.edit(this.getEliminar());
         fill();
     }
+    
+    public void ver(SieniMateria modificado) {
+        this.setMateriaModifica(modificado);
+        this.setIndexMenu(3);
+    }
 }

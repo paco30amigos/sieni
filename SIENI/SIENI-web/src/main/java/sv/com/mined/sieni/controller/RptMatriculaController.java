@@ -58,9 +58,10 @@ public class RptMatriculaController extends RptMatriculaForm {
         List<SieniMatricula> matriculas = sieniMatriculaFacadeRemote.findAllNoInactivosRpt(this.getDesde(), this.getHasta());
         this.setListDatos(new ArrayList<RptMatriculasPojo>());
         for (SieniMatricula actual : matriculas) {
-            elem = new RptMatriculasPojo(actual.getIdMatricula().toString(), actual.getMtAnio(), actual.getIdAlumno().getAlCarnet(), actual.getIdAlumno().getNombreCompleto(), actual.getIdGrado().getIdGrado().toString(), actual.getIdSeccion().getIdSeccion().toString());
+            elem = new RptMatriculasPojo(actual.getIdMatricula().toString(), actual.getMtAnio(), actual.getIdAlumno().getAlCarnet(), actual.getIdAlumno().getNombreCompleto(), actual.getIdGrado().getGrNombre(), actual.getIdSeccion().getScDescripcion());
             this.getListDatos().add(elem);
         }
+        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size()+""));
     }
 
     public void generarReporte() {

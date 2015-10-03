@@ -14,7 +14,6 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
@@ -30,8 +29,6 @@ import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
-import utils.DateUtils;
-import utils.EmailValidator;
 import utils.ExcelUtils;
 import utils.FormatUtils;
 
@@ -114,8 +111,7 @@ public class GestionNotasController extends GestionNotasForm {
             this.getNotaNuevo().setNtAnio(fu.getFormatedAnioInt(new Date()));
             sieniNotaFacadeRemote.create(this.getNotaNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
-            FacesMessage msg = new FacesMessage("Nota Creada Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Nota Creada Exitosamente", FacesMessage.SEVERITY_INFO);
             init();
         }
     }
@@ -182,8 +178,7 @@ public class GestionNotasController extends GestionNotasForm {
         if (validarModifica(this.getNotaModifica())) {//valida el guardado
             sieniNotaFacadeRemote.edit(this.getNotaModifica());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
-            FacesMessage msg = new FacesMessage("Nota Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Nota Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
             resetModificaForm();
             init();
         }
@@ -323,8 +318,7 @@ public class GestionNotasController extends GestionNotasForm {
                 if (!error) {
                     sieniNotaFacadeRemote.merge(notas);
                     sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
-                    FacesMessage msg = new FacesMessage("Notas creadas Exitosamente");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    new ValidationPojo().printMsj("Notas creadas Exitosamente", FacesMessage.SEVERITY_INFO);
                     fill();
                 }
             } else {

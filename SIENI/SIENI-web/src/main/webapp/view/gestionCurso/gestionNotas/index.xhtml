@@ -58,12 +58,12 @@
                         #{car.tipoIngreso}
                     </p:column>
                     <p:column headerText="Acciones">
-                        <p:commandLink action="#{gestionNotaController.ver(car)}"><i class="icon-visibility1 Fs25 Red" title="Ver Expediente" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionNotaController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Expediente" ></i></p:commandLink>
                         <p:commandLink action="#{gestionNotaController.modificar(car)}" >
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Nota"></i>
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Nota"></i>
                         </p:commandLink>
                         <p:commandLink action="#{gestionNotaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Nota"></i>
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Nota"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>

@@ -49,12 +49,12 @@
                         #{car.maTurno}
                     </p:column>
                     <p:column headerText="Acciones">
-                        <p:commandLink action="#{gestionMateriasController.ver(car)}"><i class="icon-visibility1 Fs25 Red" title="Ver Materia" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionMateriasController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Materia" ></i></p:commandLink>
                         <p:commandLink action="#{gestionMateriasController.modificar(car)}" >
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Materia"></i>
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Materia"></i>
                         </p:commandLink>
                         <p:commandLink action="#{gestionMateriasController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Materia"></i>
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Materia"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>

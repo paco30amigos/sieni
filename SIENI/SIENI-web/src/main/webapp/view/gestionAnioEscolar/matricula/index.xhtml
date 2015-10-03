@@ -45,17 +45,17 @@
                         #{car.idSeccion.scDescripcion}
                     </p:column>
                     <p:column headerText="Acciones">
-                         <p:commandLink action="#{gestionMatriculaController.ver(car)}"><i class="icon-visibility1 Fs25 Red" title="Ver Matricula" ></i></p:commandLink>
+                         <p:commandLink action="#{gestionMatriculaController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Matricula" ></i></p:commandLink>
                         <p:commandLink action="#{gestionMatriculaController.modificar(car)}" >
-                            <i class="icon-compose Fs25 Red" style="cursor: pointer" title="Modificar Matrícula"></i>
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Matrícula"></i>
                         </p:commandLink>
                         <p:commandLink action="#{gestionMatriculaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                            <i class="icon-close Fs25 Red" style="cursor: pointer" title="Eliminar Matrícula"></i>
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Matrícula"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Matricular Alumno" action="#{gestionMatriculaController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Registrar Alumno" action="#{gestionMatriculaController.setIndexMenu(1)}"></p:commandButton>
                 <p:commandButton value="Refrescar" action="#{gestionMatriculaController.refresh()}" update="consulta"></p:commandButton>
             </h:form>
         </p:panel>

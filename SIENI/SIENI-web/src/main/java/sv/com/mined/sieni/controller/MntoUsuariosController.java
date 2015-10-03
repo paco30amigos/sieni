@@ -16,7 +16,6 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import sv.com.mined.sieni.SieniAlumnRolFacadeRemote;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
@@ -30,6 +29,7 @@ import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocentRol;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.UsuariosPojo;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 
 /**
  *
@@ -218,8 +218,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 sieniDocenteRolFacadeRemote.create(docenteRolNuevo);
             }
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Usuario", this.getUsuarioNuevo().getIdUsuario(), new Character('D')));
-            FacesMessage msg = new FacesMessage("Usuario Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Usuario Creado Exitosamente", FacesMessage.SEVERITY_INFO);
             this.setIndexMenu(0);
         }
         this.setUsuarioNuevo(new UsuariosPojo());
@@ -304,8 +303,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 sieniDocenteRolFacadeRemote.edit(docenteRolNuevo);
             }
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Usuario", this.getUsuarioModifica().getIdUsuario(), new Character('D')));
-            FacesMessage msg = new FacesMessage("Usuario Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Usuario Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             resetModificaForm();
             this.setIndexMenu(0);
         }

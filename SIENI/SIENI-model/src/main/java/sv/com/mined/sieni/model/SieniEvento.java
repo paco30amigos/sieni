@@ -35,6 +35,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniEvento.findByEvDescripcion", query = "SELECT s FROM SieniEvento s WHERE s.evDescripcion = :evDescripcion"),
     @NamedQuery(name = "SieniEvento.findByEvCodigo", query = "SELECT s FROM SieniEvento s WHERE s.evCodigo = :evCodigo")})
 public class SieniEvento implements Serializable {
+    @OneToMany(mappedBy = "ieEventoC2")
+    private List<SieniInteEntrComp> sieniInteEntrCompList;
+    @OneToMany(mappedBy = "ieEventoC1")
+    private List<SieniInteEntrComp> sieniInteEntrCompList1;
     @OneToMany(mappedBy = "idEvento")
     private List<SieniCompInteraccion> sieniCompInteraccionList;
 
@@ -124,6 +128,22 @@ public class SieniEvento implements Serializable {
 
     public void setSieniCompInteraccionList(List<SieniCompInteraccion> sieniCompInteraccionList) {
         this.sieniCompInteraccionList = sieniCompInteraccionList;
+    }
+
+    public List<SieniInteEntrComp> getSieniInteEntrCompList() {
+        return sieniInteEntrCompList;
+    }
+
+    public void setSieniInteEntrCompList(List<SieniInteEntrComp> sieniInteEntrCompList) {
+        this.sieniInteEntrCompList = sieniInteEntrCompList;
+    }
+
+    public List<SieniInteEntrComp> getSieniInteEntrCompList1() {
+        return sieniInteEntrCompList1;
+    }
+
+    public void setSieniInteEntrCompList1(List<SieniInteEntrComp> sieniInteEntrCompList1) {
+        this.sieniInteEntrCompList1 = sieniInteEntrCompList1;
     }
 
 }

@@ -59,10 +59,14 @@ public class ValidationPojo {
         for (ValidationPojo actual : errores) {
             if (actual.isValor()) {
                 ret = true;
-                FacesMessage msg = new FacesMessage(actual.getTipo(), actual.getMsg(), null);
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                actual.printMsj(actual.getMsg(), actual.getTipo());
             }
         }
         return ret;
+    }
+
+    public void printMsj(String msj, Severity severity) {
+        FacesMessage msg = new FacesMessage(severity, msj, null);
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

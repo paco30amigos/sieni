@@ -38,6 +38,7 @@ import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.model.SieniTipoComponente;
 import sv.com.mined.sieni.model.SieniTipoSuperCompon;
 import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.CopiaArchivos;
 import utils.DateUtils;
 
@@ -103,8 +104,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-            FacesMessage msg = new FacesMessage("Componente Interactivo Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Componente Interactivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
             this.setNuevo(new SieniSuperCompon());
             fill();
         }
@@ -245,8 +245,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-            FacesMessage msg = new FacesMessage("Componente Interactivo Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("Componente Interactivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             fill();
         }
     }
@@ -354,8 +353,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         guardarTexto();
         guardarConfiguracionComponente();
         guardarConfiguracionInteraccion();
-        FacesMessage msg = new FacesMessage("Configuracion guardada Exitosamente");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        new ValidationPojo().printMsj("Configuracion guardada Exitosamente", FacesMessage.SEVERITY_INFO);
         fillConfigura(this.getConfig());
     }
 

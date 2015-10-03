@@ -121,6 +121,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             fill();
             
+            
         }
     }
     

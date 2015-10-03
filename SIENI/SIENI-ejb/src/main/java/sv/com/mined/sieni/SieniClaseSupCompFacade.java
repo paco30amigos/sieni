@@ -39,4 +39,29 @@ public class SieniClaseSupCompFacade extends AbstractFacade<SieniClaseSupComp> i
         q.setParameter("idClase", idClase);
         return q.getResultList();
     }
+
+    @Override
+    public void merge(List<SieniClaseSupComp> lista, List<SieniClaseSupComp> eliminados) {
+        for (SieniClaseSupComp actual : lista) {
+            if (actual.getIdClaseSupComp() != null && actual.getIdClaseSupComp() < 0) {
+                actual.setIdClaseSupComp(null);
+            }
+            if (actual.getIdClaseSupComp() != null) {
+                this.edit(actual);
+            } else {
+                this.create(actual);
+            }
+        }
+
+        for (SieniClaseSupComp actual : eliminados) {
+            if (actual.getIdClaseSupComp() != null && actual.getIdClaseSupComp() < 0) {
+                actual.setIdClaseSupComp(null);
+            }
+            if (actual.getIdClaseSupComp() != null) {
+                actual.setScEstado('I');//eliminacion logica
+                this.edit(actual);
+            }
+        }
+        em.flush();
+    }
 }

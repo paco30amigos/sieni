@@ -22,14 +22,11 @@
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="direccion" value="Formula: " class=" Responsive"></p:outputLabel>
-                    <p:inputTextarea  class="Container100" id="direccion" value="#{gestionDisenioEjercicioController.formula}"></p:inputTextarea>
-                
-                    <p:graphicImage id="consulta" value="#{gestionDisenioEjercicioController.graphicText}" styleClass="Fleft"  cache="false"></p:graphicImage>
+                    <p:graphicImage id="consulta" value="#{gestionDisenioEjercicioController.graphicText}" styleClass="Fleft"  ></p:graphicImage>
 
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Generar" action="#{gestionDisenioEjercicioController.refresh()}" update="consulta"></p:commandButton>
+                        <p:commandButton value="Registrar Curso" action="#{gestionDisenioEjercicioController.refresh()}" update="consulta"></p:commandButton>
                     <p:commandButton value="Refrescar" action="#{gestionDisenioEjercicioController.refresh()}" ></p:commandButton>
 
                     </div>

@@ -27,7 +27,6 @@
                                     {name: ui.draggable.attr('id') + '_height', value: jQuery("#" + (ui.draggable.attr('id').replace(/\:/g, '\\:'))).height()}
                                 ]
                             };
-
                             dropBehavior.call(_self, ext);
                         }
                     }
@@ -61,45 +60,65 @@
 
                 configurar interaccion entre componentes (otra pantalla obligatoriamente por los efectos),
                 preview
-
-                <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
-                    <i class="icon-ascreen Fs25 Red MarRight10" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
-                </p:commandLink>
-
-                <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
-                    <i class="icon-add180 Fs25 Red MarRight10" style="cursor: pointer" title="Añadir Página a sección Actual"></i>
-                </p:commandLink>
-                <p:commandLink action="#{gestionClaseInteracController.refreshConfig()}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                    <i class="icon-trash Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar última Página sección Actual"></i>
-                </p:commandLink>
-                <p:selectOneMenu value="#{gestionClaseInteracController.nuevoComponente.FCompSuperCompon}" converter="superCompon" filter="true" filterMatchMode="contains">
-                    <f:selectItems value="#{gestionClaseInteracController.componentesInteractDisponibles}" var="comps" itemLabel="#{comps.scNombre}" itemValue="#{comps}"></f:selectItems>
-                </p:selectOneMenu>
-                <p:commandButton value="Agregar Componente" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase"></p:commandButton>
+                <div class="EmptyBox5"></div>
+                <p:panelGrid columns="5">
+                    <p:commandLink onclick="PF('dlgConfPantalla').show()">
+                        <i class="icon-screen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
+                    </p:commandLink>
+                    <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
+                        <i class="icon-add180 Fs25 Red" style="cursor: pointer" title="Añadir Página a sección Actual"></i>
+                    </p:commandLink>
+                    <p:commandLink action="#{gestionClaseInteracController.refreshConfig()}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <i class="icon-trash Fs25 Red" style="cursor: pointer" title="Eliminar página Actual"></i>
+                    </p:commandLink>
+                    <p:selectOneMenu value="#{gestionClaseInteracController.nuevoComponente.FCompSuperCompon}" converter="superCompon" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{gestionClaseInteracController.componentesInteractDisponibles}" var="comps" itemLabel="#{comps.idTipoSuperCompon.tscDescripcion} - #{comps.scNombre}" itemValue="#{comps}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Agregar Componente" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase"></p:commandButton>
+                </p:panelGrid>
+                <p:dialog widgetVar="dlgConfPantalla" header="Configurar Pantalla de Clase" modal="true">
+                    <p:outputLabel value="Alto" class="TexAlCenter" ></p:outputLabel>
+                    <p:spinner value="#{gestionClaseInteracController.claseConfig.clAlto}" max="1080" stepFactor="100"></p:spinner>
+                    <p:outputLabel value="Ancho" class="TexAlCenter" ></p:outputLabel>
+                    <p:spinner value="#{gestionClaseInteracController.claseConfig.clAncho}" max="1920" stepFactor="100"></p:spinner>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Guardar" update="clase" oncomplete="PF('dlgConfPantalla').hide()"></p:commandButton>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgConfPantalla').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar la pantalla actual y todos sus componentes?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarPantallaActual()}" update="clase" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" immediate="true" ></p:commandButton>
                 </p:dialog>
-                <p:remoteCommand name="compPagActual" update="listActualComp" actionListener="#{gestionClaseInteracController.refreshConfig()}"></p:remoteCommand>
-                <p:outputLabel value="aa" id="listActualComp" ></p:outputLabel>
-                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}">
-                    <p:ajax event="tabChange" oncomplete="compPagActual()" ></p:ajax>
+                <p:dialog widgetVar="dlgEliminarComponente" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el componente actual?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarComponenteActual()}" update="clase" oncomplete="PF('dlgEliminarComponente').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminarComponente').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
+                <div class="EmptyBox5"></div>
+                <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
+                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px">
                     <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
                         <p:tab title="#{elemPlantilla.nombre}">
                             <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}">
-                                <p:ajax event="tabChange" oncomplete="compPagActual()" ></p:ajax>
                                 <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                     <p:tab title="Pág #{pantalla.numPantalla}">
-                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto};width: #{gestionClaseInteracController.claseConfig.clAncho}">
-                                            <c:forEach items="#{pantalla.componentes}" var="superComponente">
-                                                <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" containment="parent" >
+                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px">
+                                            <c:forEach items="#{pantalla.componentes}" var="superComponente">                                                
+                                                <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" handle=".move" opacity="0.3">
                                                 </p:draggable>
                                                 <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" >
                                                     <p:ajax listener="#{gestionClaseInteracController.onDrop}"></p:ajax>
                                                 </p:droppable>
-                                                <p:panel class="multimedia" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="position: inherit; left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;">
+                                                <p:panel class="multimedia" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;position: absolute;">
+                                                    <p:commandLink class="move">
+                                                        <i class="icon-gamepad4 Fs15 Red" style="cursor: pointer" title="Mover componente"></i>
+                                                    </p:commandLink>
+                                                    <p:commandLink action="#{gestionClaseInteracController.eliminarSuperComponente(superComponente)}" onclick="PF('dlgEliminarComponente').show();" immediate="true" >
+                                                        <i class="icon-trash-alt Fs15 Red" style="cursor: pointer" title="Eliminar componente"></i>
+                                                    </p:commandLink>
                                                     <c:choose>
                                                         <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==1}">
                                                             <c:if test="#{superComponente.data.size()>0}">
@@ -167,50 +186,9 @@
                                                             </c:if>
                                                         </c:when>
                                                         <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==7}">
-                                                            <h:outputText id="archivosEvnt" escape="false" value="#{superComponente.texto}"/>
+                                                            <h:outputText id="archivosEvnt" escape="false" value="#{superComponente.texto}" style="float: left"/>
                                                         </c:when>
                                                     </c:choose>
-<!--                                                    
-                                                    evnt-click
-                                                    futuro1-for de eventos del mismo componente
-                                                    futuro2-for de relaciones --f_evento_nComponente_interacComp1
-                                                    o1.evtn->click-f1_1,f2_1--f_click_1_1
-                                                    subevtn->fade-f2_1,f3_1
-                                                    subevtn->shake-f3_1,f1_2
-                                                    o2.evtn->show-f1_2,f1_3
-                                                    o3.evtn->click,f1_3
-                                                    <c:set value="0" var="varID"></c:set>
-                                                    <c:set value="" var="siguienteEvento"></c:set>
-
-                                                    <c:forEach items="#{superComponente.interacciones}" var="acciones">
-                                                        <c:set value="#{varID+1}" var="varID"></c:set>
-                                                        <c:choose>
-                                                            <c:when test="#{varID>=superComponente.interacciones.size()}">
-                                                                <c:set value="" var="siguienteEvento"></c:set>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <c:set value=",func#{varID+1}" var="siguienteEvento"></c:set>
-                                                            </c:otherwise>
-                                                        </c:choose>
-                                                        <c:choose>
-                                                            <c:when test="#{acciones.idEvento.evCodigo=='show' and varID==1}">
-                                                                <script class="scripGen" type="text/javascript">
-                                                                    function func#{varID}() {
-                                                                        mediaEv = $(".multimedia");
-                                                                        mediaEv.show("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion}#{siguienteEvento});
-                                                                    }
-                                                                </script>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <script class="scripGen" type="text/javascript">
-                                                                    function func#{varID}() {
-                                                                        mediaEv = $(".multimedia");//id de super componente actual
-                                                                        mediaEv.effect("#{acciones.idAccion.evCodigo}", #{acciones.inDuracion}#{siguienteEvento});
-                                                                    }
-                                                                </script>
-                                                            </c:otherwise>
-                                                        </c:choose>                                    
-                                                    </c:forEach>-->
                                                 </p:panel>
                                             </c:forEach>
                                         </p:panel>
@@ -224,7 +202,7 @@
                 <div class="EmptyBox50"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar Configuracion" actionListener="#{gestionClaseInteracController.guardarConfiguracion()}" ajax="true"></p:commandButton>
-                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.refreshConfig()}" ajax="true" oncomplete="refrescarImagen()"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.refreshConfig()}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax resetValues="true" listener="#{gestionClaseInteracController.setIndexMenu(0)}"/>
                     </p:commandButton>

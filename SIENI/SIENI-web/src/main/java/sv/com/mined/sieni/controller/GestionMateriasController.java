@@ -17,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniCatMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
@@ -24,6 +25,7 @@ import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionMateriasForm;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniCatMateria;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
@@ -48,6 +50,8 @@ public class GestionMateriasController extends GestionMateriasForm {
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
+    private SieniCatMateriaFacadeRemote sieniCatMateriaFacadeRemote;
+    @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
     @PostConstruct
@@ -59,6 +63,7 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void fill() {
+        this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAll());
         this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setGradoList(sieniGradoFacadeRemote.findAll());

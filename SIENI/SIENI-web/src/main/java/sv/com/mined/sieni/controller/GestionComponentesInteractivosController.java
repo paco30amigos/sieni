@@ -99,6 +99,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             }
         }
         if (validarNuevo(this.getNuevo())) {//valida el guardado
+            this.getNuevo().setScEstado('A');
             sieniSuperComponFacadeRemote.create(this.getNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");

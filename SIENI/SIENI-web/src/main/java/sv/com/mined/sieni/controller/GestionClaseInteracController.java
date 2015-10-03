@@ -22,7 +22,7 @@ import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
-import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
+import sv.com.mined.sieni.SieniComponenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
@@ -34,15 +34,12 @@ import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
-import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniComponente;
 import sv.com.mined.sieni.model.SieniElemPlantilla;
-import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
 import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
-import sv.com.mined.sieni.pojos.controller.InteraccionEntrCompPojo;
 import sv.com.mined.sieni.pojos.controller.PantallaPojo;
 import sv.com.mined.sieni.pojos.controller.SeccionPlantillaPojo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
@@ -77,6 +74,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     private SieniInteEntrCompFacadeRemote sieniInteEntrCompFacadeRemote;
     @EJB
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
+    @EJB
+    private SieniComponenteFacadeRemote sieniComponenteFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -158,7 +157,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             for (Integer actual : pantallasDiferentes) {
                 nuevo = new PantallaPojo();
                 nuevo.setNumPantalla(actual);
-                nuevo.setComponentes(getComponentesInteractivos(componentes));
+                nuevo.setComponentes(getComponentesInteractivos(pantallasAux.get(actual)));
                 ret.add(nuevo);
             }
         } else {//si no hay componentes, se agrega una pantalla en blanco
@@ -171,75 +170,20 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         return ret;
     }
 
-    public HashMap<Long, List<SieniCompInteraccion>> getInteraccionEntrComponList(List<SieniCompInteraccion> componentes) {
-        HashMap<Long, List<SieniCompInteraccion>> ret = new HashMap();
-        //para 1 componente
-        //click --lista
-        //click dere--lista
-        if (componentes != null) {
-            for (SieniCompInteraccion actual : componentes) {
-                if (!ret.containsKey(actual.getIdEvento().getIdEvento())) {
-                    //incializa el hashmap
-                    ret.put(actual.getIdEvento().getIdEvento(), new ArrayList<SieniCompInteraccion>());
-                    //ingresa el componente actual
-                    ret.get(actual.getIdEvento().getIdEvento()).add(actual);
-                } else {
-                    //si la pantalla ya está registrada, agrega a la lista el componente
-                    ret.get(actual.getIdEvento().getIdEvento()).add(actual);
-                }
-            }
-        }
-
-        //interacc orden 1-click- del super
-        //interacc orden 2-click- del super
-        //interacc orden 1-click- del super
-        //interacc orden 3-click- del super
-        //crear las funciones
-        //crear relaciones
-        return ret;
-    }
-
-    public void ordenarPorComponente1(SieniInteEntrComp superCompon) {
-        List<InteraccionEntrCompPojo> lista=null;
-        
-        InteraccionEntrCompPojo nuevo=null;
-        
-        SieniInteEntrComp aA=null;
-        SieniCompInteraccionFacadeRemote a = null;
-        //verigicar q si existe e componente 1 y 2
-        HashMap<Long, List<SieniCompInteraccion>> interaccionesC1 = getInteraccionEntrComponList(a.findByIdSuperComp(aA.getIeSupC1().getIdSuperCompon()));
-        HashMap<Long, List<SieniCompInteraccion>> interaccionesC2 = getInteraccionEntrComponList(a.findByIdSuperComp(aA.getIeSupC2().getIdSuperCompon()));
-        List<SieniCompInteraccion> eventosActuales1 = interaccionesC1.get(aA.getIeEventoC1().getIdEvento());
-        List<SieniCompInteraccion> eventosActuales2 = interaccionesC2.get(aA.getIeEventoC2().getIdEvento());
-        
-        nuevo.setC1(aA.getIeSupC1());
-        nuevo.setC2(aA.getIeSupC2());
-        
-        
-
-//        aA.getIeSupC1().getSieniInteEntrCompList1()
-        ordenarPorEventoComp1();
-    }
-
-    public void ordenarPorEventoComp1() {
-        ordenarPorComponente2();
-    }
-
-    public void ordenarPorComponente2() {
-        ordenarPorEventoComp2();
-    }
-
-    public void ordenarPorEventoComp2() {
-
-    }
-
     public void configurar(SieniClase clase) {
+        fillConfigura(clase);
+        this.setIndexMenu(4);
+
+//        this.setMaterias(sieniMateriaFacadeRemote.findAll());
+    }
+
+    private void fillConfigura(SieniClase clase) {
         this.setClaseConfig(clase);
         if (clase.getClAlto() == null) {
             clase.setClAlto(600);
         }
-        if (clase.getClAncho() == null) {//2225-2116- nelson villa
-            clase.setClAncho(800); //tijera flecha, cremallera
+        if (clase.getClAncho() == null) {
+            clase.setClAncho(800);
         }
         //******config
         //plantillas por materia
@@ -261,9 +205,6 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         //********información
         this.setPaginaActive(0);
         this.setIdElemenActive(0);
-        this.setIndexMenu(4);
-
-//        this.setMaterias(sieniMateriaFacadeRemote.findAll());
     }
 
     private List<ComponenteInteractivoPojo> getComponentesInteractivos(List<SieniClaseSupComp> listaComp) {
@@ -277,7 +218,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             nuevo.setClaseSuperComp(actual);
             FileStreamedPojo dataNuevo;
             //si es archivo multimedia
-            for (SieniComponente comp : actual.getFCompSuperCompon().getSieniComponenteList()) {
+            List<SieniComponente> superCompon=sieniComponenteFacadeRemote.findByIdSuperComp(nuevo.getSuperComp().getIdSuperCompon());
+            for (SieniComponente comp : superCompon) {
                 dataNuevo = new FileStreamedPojo();
                 dataNuevo.setComponente(comp);
                 List<SieniArchivo> archivos = sieniArchivoFacadeRemote.findByIdSuperComp(actual.getFCompSuperCompon().getIdSuperCompon());
@@ -451,12 +393,25 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     public void guardarConfiguracion() {
+        List<SieniClaseSupComp> componentes = new ArrayList<>();
+        List<SieniClaseSupComp> eliminados = new ArrayList<>();
+        for (SeccionPlantillaPojo sec : this.getSecciones()) {
+            for (PantallaPojo pantalla : sec.getPantallas()) {
+                for (ComponenteInteractivoPojo comp : pantalla.getComponentes()) {
+                    componentes.add(comp.getClaseSuperComp());
+                }
+            }
+        }
+        for (ComponenteInteractivoPojo elimn : this.getComponentesEliminados()) {
+            eliminados.add(elimn.getClaseSuperComp());
+        }
+        sieniClaseSupCompFacadeRemote.merge(componentes, eliminados);
+        fillConfigura(this.getClaseConfig());
+        FacesMessage msg = new FacesMessage("Configuración guardada exitosamente");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
     public void refreshConfig() {
-        this.getPaginaActive();
-        this.getIdElemenActive();
-        System.out.println();
     }
 
     public void agregarComponentePantallaActual() {
@@ -497,8 +452,12 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     public void eliminarPantallaActual() {
         SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
-        int index = this.getPaginaActive();
+        int index = seccionActual.getPantallaActual();
         if (seccionActual.getPantallas().size() > 1) {
+            //eliminar componentes de la pantalla actual
+            for (ComponenteInteractivoPojo elimn : seccionActual.getPantallas().get(index).getComponentes()) {
+                this.getComponentesEliminados().add(elimn);
+            }
             this.getPantallasEliminadas().add(seccionActual.getPantallas().get(index));
             seccionActual.getPantallas().remove(index);
             //recalcular el numero de pantallas despues de la eliminacion
@@ -507,6 +466,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                 actual.setNumPantalla(index);
                 index++;
             }
+            //establece la primera pantalla como seleccionada despues de la eliminacion
+            seccionActual.setPantallaActual(0);
         } else {
             FacesMessage msg = new FacesMessage("El elemento de plantilla debe tener almenos 1 página");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -518,6 +479,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         String left = params.get(dargId + "_left");
         String top = params.get(dargId + "_top");
+        String height = params.get(dargId + "_height");
         String id = dargId.split("id_")[1];
         String idComponenteString = id.split("_")[0];
         String elemPlantillaString = id.split("_")[1];
@@ -544,4 +506,14 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         }
     }
 
+    public void eliminarSuperComponente(ComponenteInteractivoPojo componente) {
+        this.setSuperCompEliminado(componente);
+    }
+
+    public void eliminarComponenteActual() {
+        SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
+        int index = seccionActual.getPantallaActual();
+        this.getComponentesEliminados().add(this.getSuperCompEliminado());
+        seccionActual.getPantallas().get(index).getComponentes().remove(this.getSuperCompEliminado());
+    }
 }

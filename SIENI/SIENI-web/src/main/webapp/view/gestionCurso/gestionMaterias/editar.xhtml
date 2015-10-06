@@ -27,7 +27,7 @@
                     <p:outputLabel  value="Nombre: " class=" Responsive"></p:outputLabel>
                     <p:inputText class=" Responsive" value="#{gestionMateriasController.materiaModifica.maNombre}"></p:inputText>
                     <p:outputLabel  value="Grado: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaModifica.idGrado}" converter="grado">
+                    <p:selectOneMenu id="mod_materia" value="#{gestionMateriasController.materiaModifica.idGrado}" converter="grado">
                         <f:selectItems itemValue="#{gestionMateriasController.materiaModifica.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMateriasController.gradoList}" var="grado"></f:selectItems>
                     </p:selectOneMenu>
                 </p:panelGrid>
@@ -43,12 +43,12 @@
                         <f:selectItem itemValue ="VESPERTINO" itemLabel="VESPERTINO"/>
                     </p:selectOneMenu>   
                 </p:panelGrid>
-<!--                <p:panelGrid columns="2" class="Container50 Responsive">
-                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaModifica.maCoordinador}">
-                        <f:selectItems itemValue="#{gestionMateriasController.materiaModifica.maCoordinador}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente"></f:selectItems>
-                    </p:selectOneMenu>
-                </p:panelGrid>-->
+                <!--                <p:panelGrid columns="2" class="Container50 Responsive">
+                                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
+                                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaModifica.maCoordinador}">
+                                        <f:selectItems itemValue="#{gestionMateriasController.materiaModifica.maCoordinador}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente"></f:selectItems>
+                                    </p:selectOneMenu>
+                                </p:panelGrid>-->
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionMateriasController.guardarModifica()}"/>

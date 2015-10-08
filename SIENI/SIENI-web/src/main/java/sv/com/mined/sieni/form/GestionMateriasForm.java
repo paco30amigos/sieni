@@ -32,7 +32,7 @@ public class GestionMateriasForm {
     private Long idCatmateria;
      //modificacion de materia
     private SieniMateria materiaModifica;
-    private List<SieniAlumno> alumnosModificaList;
+    private List<SieniMateria> materiaModificaList;
     private Long idAlumnoModifica;
     
     public int getIndexMenu() {
@@ -98,12 +98,12 @@ public class GestionMateriasForm {
         this.materiaModifica = materiaModifica;
     }
 
-    public List<SieniAlumno> getAlumnosModificaList() {
-        return alumnosModificaList;
+    public List<SieniMateria> getMateriaModificaList() {
+        return materiaModificaList;
     }
 
-    public void setAlumnosModificaList(List<SieniAlumno> alumnosModificaList) {
-        this.alumnosModificaList = alumnosModificaList;
+    public void setMateriaModificaList(List<SieniMateria> materiaModificaList) {
+        this.materiaModificaList = materiaModificaList;
     }
 
     public Long getIdAlumnoModifica() {

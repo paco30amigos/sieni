@@ -76,7 +76,7 @@ public class GestionMateriasController extends GestionMateriasForm {
             sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Materia", this.getMateriaNuevo().getIdMateria(), 'D'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Materia", this.getMateriaNuevo().getIdMateria(), 'A'));
             this.setMateriaNuevo(new SieniMateria());
             FacesMessage msg = new FacesMessage("Materia Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);

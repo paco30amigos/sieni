@@ -18,15 +18,13 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form enctype="multipart/form-data" >
-                <!--                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                                    <p:outputLabel value="Esta ayuda sirve un monton"/>
-                                </p:dialog>
-                                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>-->
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="2" class="Container50 Responsive">
-                    <p:outputLabel  value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText class=" Responsive" value="#{gestionMateriasController.materiaModifica.maNombre}"></p:inputText>
-                    <p:outputLabel  value="Grado: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel value="Nombre: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="nombre" class=" Responsive" value="#{gestionMateriasController.materiaModifica.maNombre}">
+                        <f:selectItems itemValue="#{nombre.catNombre}" itemLabel="#{nombre.catNombre}" value="#{gestionMateriasController.catmateriaList}" var="nombre"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Grado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaModifica.idGrado}" converter="grado">
                         <f:selectItems itemValue="#{gestionMateriasController.materiaModifica.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMateriasController.gradoList}" var="grado"></f:selectItems>
                     </p:selectOneMenu>
@@ -43,12 +41,6 @@
                         <f:selectItem itemValue ="VESPERTINO" itemLabel="VESPERTINO"/>
                     </p:selectOneMenu>   
                 </p:panelGrid>
-<!--                <p:panelGrid columns="2" class="Container50 Responsive">
-                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaModifica.maCoordinador}">
-                        <f:selectItems itemValue="#{gestionMateriasController.materiaModifica.maCoordinador}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente"></f:selectItems>
-                    </p:selectOneMenu>
-                </p:panelGrid>-->
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionMateriasController.guardarModifica()}"/>

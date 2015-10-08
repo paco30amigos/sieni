@@ -29,16 +29,13 @@
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <div class="EmptyBox20"></div>
-                <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
-                    <p:outputLabel  value="Nombre: " class=" Responsive"></p:outputLabel>
+                <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
+                    <p:outputLabel value="Nombre: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel class=" Responsive" value="#{gestionMateriasController.materiaModifica.maNombre}"></p:outputLabel>
-                    <p:outputLabel  value="Grado: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel value="Grado: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel class=" Responsive" value="#{gestionMateriasController.materiaModifica.idGrado.grNombre}"></p:outputLabel>
-                </p:panelGrid>
-                <p:panelGrid columns="2" class="Container50 Responsive">
                     <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel class=" Responsive" value="#{gestionMateriasController.materiaModifica.maEstado}"></p:outputLabel>
-                    
                     <p:outputLabel value="Turno: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel class=" Responsive" value="#{gestionMateriasController.materiaModifica.maTurno}"></p:outputLabel>
                 </p:panelGrid>
@@ -49,7 +46,7 @@
                     <p:commandButton value="Eliminar" action="#{gestionMateriasController.eliminar(gestionMateriasController.materiaModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                     </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
-                        <p:ajax update="p1,fotoSubida" resetValues="true" listener="#{gestionMateriasController.setIndexMenu(0)}"/>
+                        <p:ajax resetValues="true" listener="#{gestionMateriasController.setIndexMenu(0)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

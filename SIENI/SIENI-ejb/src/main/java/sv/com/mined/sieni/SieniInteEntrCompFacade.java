@@ -37,6 +37,16 @@ public class SieniInteEntrCompFacade extends AbstractFacade<SieniInteEntrComp> i
         Query q = em.createNamedQuery("SieniInteEntrComp.findByClase");
         q.setParameter("estado", estado);
         q.setParameter("idClase", idClase);
-        return q.getResultList();
+        List<SieniInteEntrComp> ret = q.getResultList();
+        for (SieniInteEntrComp actual : ret) {
+            em.refresh(actual);
+            em.refresh(actual.getIdTipoElemPlantilla());
+            em.refresh(actual.getIeEventoC1());
+            em.refresh(actual.getIeEventoC2());
+            em.refresh(actual.getIeSupC1());
+            em.refresh(actual.getIeSupC2());
+        }
+        em.flush();
+        return ret;
     }
 }

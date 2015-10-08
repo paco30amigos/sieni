@@ -7,6 +7,7 @@ package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "sieni_inte_entr_comp")
 @NamedQueries({
     @NamedQuery(name = "SieniInteEntrComp.findAll", query = "SELECT s FROM SieniInteEntrComp s"),
-    @NamedQuery(name = "SieniInteEntrComp.findByClase", query = "SELECT s FROM SieniInteEntrComp s where s.idClase.idClase=:idClase and s.ieEstado not in (:estado) and s.idClase.clEstado not in (:estado)")})
+    @NamedQuery(name = "SieniInteEntrComp.findByClase", query = "SELECT s FROM SieniInteEntrComp s where s.idClase=:idClase and s.ieEstado not in (:estado)")})
 public class SieniInteEntrComp implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,20 +45,24 @@ public class SieniInteEntrComp implements Serializable {
     @Column(name = "ie_estado")
     private Character ieEstado;
     @JoinColumn(name = "ie_sup_c2", referencedColumnName = "id_super_compon")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private SieniSuperCompon ieSupC2;
     @JoinColumn(name = "ie_sup_c1", referencedColumnName = "id_super_compon")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private SieniSuperCompon ieSupC1;
     @JoinColumn(name = "ie_evento_c2", referencedColumnName = "id_evento")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private SieniEvento ieEventoC2;
     @JoinColumn(name = "ie_evento_c1", referencedColumnName = "id_evento")
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH})
     private SieniEvento ieEventoC1;
-    @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
-    @ManyToOne
-    private SieniClase idClase;
+    @Column(name = "id_clase")
+    private Long idClase;
+    @JoinColumn(name = "id_tipo_elem_plantilla", referencedColumnName = "id_tipo_elem_plantilla")
+    @ManyToOne(cascade = {CascadeType.REFRESH})
+    private SieniTipoElemPlantilla idTipoElemPlantilla;
+    @Column(name = "ie_n_pantalla")
+    private Integer ieNPantalla;
 
     public SieniInteEntrComp() {
     }
@@ -122,11 +127,11 @@ public class SieniInteEntrComp implements Serializable {
         this.ieEventoC1 = ieEventoC1;
     }
 
-    public SieniClase getIdClase() {
+    public Long getIdClase() {
         return idClase;
     }
 
-    public void setIdClase(SieniClase idClase) {
+    public void setIdClase(Long idClase) {
         this.idClase = idClase;
     }
 
@@ -153,6 +158,22 @@ public class SieniInteEntrComp implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniInteEntrComp[ idInteEntreComp=" + idInteEntreComp + " ]";
+    }
+
+    public SieniTipoElemPlantilla getIdTipoElemPlantilla() {
+        return idTipoElemPlantilla;
+    }
+
+    public void setIdTipoElemPlantilla(SieniTipoElemPlantilla idTipoElemPlantilla) {
+        this.idTipoElemPlantilla = idTipoElemPlantilla;
+    }
+
+    public Integer getIeNPantalla() {
+        return ieNPantalla;
+    }
+
+    public void setIeNPantalla(Integer ieNPantalla) {
+        this.ieNPantalla = ieNPantalla;
     }
 
 }

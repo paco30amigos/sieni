@@ -44,9 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class SieniClase implements Serializable {
 
     @OneToMany(mappedBy = "idClase")
-    private List<SieniInteEntrComp> sieniInteEntrCompList;
-
-    @OneToMany(mappedBy = "idClase")
     private List<SieniClaseDocente> sieniClaseDocenteList;
 
     private static final long serialVersionUID = 1L;
@@ -273,14 +270,6 @@ public class SieniClase implements Serializable {
 
     public void setClTipoPublicacion(Character clTipoPublicacion) {
         this.clTipoPublicacion = clTipoPublicacion;
-    }
-
-    public List<SieniInteEntrComp> getSieniInteEntrCompList() {
-        return sieniInteEntrCompList;
-    }
-
-    public void setSieniInteEntrCompList(List<SieniInteEntrComp> sieniInteEntrCompList) {
-        this.sieniInteEntrCompList = sieniInteEntrCompList;
     }
 
     public Integer getClAncho() {

@@ -8,6 +8,7 @@ package sv.com.mined.sieni.form;
 import java.util.List;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
+import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniSuperCompon;
@@ -47,6 +48,15 @@ public class GestionClaseInteracForm {
     private SieniClase claseModifica;
     private List<SieniPlantilla> plantillaModificaList;
 
+    private String funcionJS;
+    private List<SieniInteEntrComp> interacPantallaElemPlantillaActual;
+    private List<SieniInteEntrComp> interacTotal;
+    private List<SieniInteEntrComp> interacEliminados;
+    private SieniInteEntrComp nuevaInterac;
+    private List<SieniEvento> evn1;
+    private List<SieniEvento> evn2;
+    private List<SieniSuperCompon> compDisponibles;
+
     public int getIndexMenu() {
         return indexMenu;
     }
@@ -68,6 +78,9 @@ public class GestionClaseInteracForm {
                 break;
             case 4:
                 sU.redirect(sU.getBaseclaseInteractiva() + "configurar.xhtml");
+                break;
+            case 5:
+                sU.redirect(sU.getBaseclaseInteractiva() + "configurarInterac.xhtml");
                 break;
         }
         this.indexMenu = indexMenu;
@@ -206,6 +219,70 @@ public class GestionClaseInteracForm {
 
     public void setSuperCompEliminado(ComponenteInteractivoPojo superCompEliminado) {
         this.superCompEliminado = superCompEliminado;
+    }
+
+    public String getFuncionJS() {
+        return funcionJS;
+    }
+
+    public void setFuncionJS(String funcionJS) {
+        this.funcionJS = funcionJS;
+    }
+
+    public List<SieniInteEntrComp> getInteracPantallaElemPlantillaActual() {
+        return interacPantallaElemPlantillaActual;
+    }
+
+    public void setInteracPantallaElemPlantillaActual(List<SieniInteEntrComp> interacPantallaElemPlantillaActual) {
+        this.interacPantallaElemPlantillaActual = interacPantallaElemPlantillaActual;
+    }
+
+    public List<SieniInteEntrComp> getInteracTotal() {
+        return interacTotal;
+    }
+
+    public void setInteracTotal(List<SieniInteEntrComp> interacTotal) {
+        this.interacTotal = interacTotal;
+    }
+
+    public List<SieniInteEntrComp> getInteracEliminados() {
+        return interacEliminados;
+    }
+
+    public void setInteracEliminados(List<SieniInteEntrComp> interacEliminados) {
+        this.interacEliminados = interacEliminados;
+    }
+
+    public SieniInteEntrComp getNuevaInterac() {
+        return nuevaInterac;
+    }
+
+    public void setNuevaInterac(SieniInteEntrComp nuevaInterac) {
+        this.nuevaInterac = nuevaInterac;
+    }
+
+    public List<SieniEvento> getEvn1() {
+        return evn1;
+    }
+
+    public void setEvn1(List<SieniEvento> evn1) {
+        this.evn1 = evn1;
+    }
+
+    public List<SieniEvento> getEvn2() {
+        return evn2;
+    }
+
+    public void setEvn2(List<SieniEvento> evn2) {
+        this.evn2 = evn2;
+    }
+
+    public List<SieniSuperCompon> getCompDisponibles() {
+        return compDisponibles;
+    }
+
+    public void setCompDisponibles(List<SieniSuperCompon> compDisponibles) {
+        this.compDisponibles = compDisponibles;
     }
 
 }

@@ -1,0 +1,175 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">    
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Curso" url="#"/>
+            <p:menuitem value="Gestionar Clase" url="#"/>
+            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}"/>
+            <p:menuitem value="Configuración de Clase Interactiva" url="#"/>
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>                
+                <div class="EmptyBox5"></div>
+                <p:panelGrid columns="4" id="panel">
+                    <p:outputLabel value="Componente 1"></p:outputLabel>
+                    <p:selectOneMenu value="#{gestionClaseInteracController.nuevaInterac.ieSupC1}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionClaseInteracController.getEventosC1}">
+                        <f:selectItems value="#{gestionClaseInteracController.compDisponibles}" var="comps1" itemLabel="#{comps1.scNombre}" itemValue="#{comps1}"></f:selectItems>
+                        <p:ajax event="valueChange" update="e1"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="e1" value="Evento 1"></p:outputLabel>
+                    <p:selectOneMenu id="e1" value="#{gestionClaseInteracController.nuevaInterac.ieEventoC1}" converter="evento" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{gestionClaseInteracController.evn1}" var="evn1" itemLabel="#{evn1.evDescripcion}" itemValue="#{evn1}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Componente 2"></p:outputLabel>
+                    <p:selectOneMenu value="#{gestionClaseInteracController.nuevaInterac.ieSupC2}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionClaseInteracController.getEventosC2}">
+                        <f:selectItems value="#{gestionClaseInteracController.compDisponibles}" var="comps2" itemLabel="#{comps2.scNombre}" itemValue="#{comps2}"></f:selectItems>
+                        <p:ajax event="valueChange" update="e2"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="e2" value="Evento 2"></p:outputLabel>
+                    <p:selectOneMenu id="e2" value="#{gestionClaseInteracController.nuevaInterac.ieEventoC2}" converter="evento" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{gestionClaseInteracController.evn2}" var="evn2" itemLabel="#{evn2.evDescripcion}" itemValue="#{evn2}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Agregar Interaccion" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase"></p:commandButton>
+                </p:panelGrid>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar la pantalla actual y todos sus componentes?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarPantallaActual()}" update="clase" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminarComponente" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el componente actual?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarComponenteActual()}" update="clase" oncomplete="PF('dlgEliminarComponente').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminarComponente').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
+                <div class="EmptyBox5"></div>
+                <script type="text/javascript">
+                    #{gestionClaseInteracController.funcionJS}
+                </script>
+                <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
+                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px">
+                    <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:panel"></p:ajax>
+                    <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
+                        <p:tab title="#{elemPlantilla.nombre}">
+                            <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" > 
+                                <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:panel"></p:ajax>
+                                <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
+                                    <p:tab title="Pág #{pantalla.numPantalla}">
+                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px">
+                                            <c:forEach items="#{pantalla.componentes}" var="superComponente">                                                
+                                                <p:panel class="multimedia compon#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;position: absolute;">
+                                                    <c:choose>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==1}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:galleria id="archivosEvnt"  value="#{superComponente.data}"
+                                                                            var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                            panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="true">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:galleria   value="#{superComponente.data}"
+                                                                              var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                              panelWidth="#{superComponente.superComp.scAncho}">
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <div class="EmptyBox50"></div>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==2}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:galleria id="archivosEvnt" value="#{superComponente.data}" 
+                                                                            var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                            panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="false">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:galleria   value="#{superComponente.data}" 
+                                                                              var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                              panelWidth="#{superComponente.superComp.scAncho}">
+                                                                </p:galleria>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==3}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <ui:repeat value="#{superComponente.data}" var="video">
+                                                                    <video class="media" controls="true" width="#{superComponente.superComp.scAncho}" height="#{superComponente.superComp.scAlto}" preload="true">
+                                                                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
+                                                                    </video>
+                                                                </ui:repeat>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==4}">
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==5}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <ui:repeat value="#{superComponente.data}" var="audio">
+                                                                    <audio class="media" controls="true" preload="true">
+                                                                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
+                                                                    </audio>
+                                                                </ui:repeat>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==6}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:contentFlow  value="#{superComponente.data}"
+                                                                                var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" cache="false" styleClass="content"></p:graphicImage>
+                                                                    <div class="caption">#{imgs.archivoBD.arNombre}</div>
+                                                                </p:contentFlow>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:contentFlow id="archivosEvnt"  value="#{superComponente.data}"
+                                                                               var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px" styleClass="content">
+                                                                </p:contentFlow>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==7}">
+                                                            <h:outputText id="archivosEvnt" escape="false" value="#{superComponente.texto}" style="float: left"/>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </p:panel>
+                                            </c:forEach>
+                                        </p:panel>
+                                    </p:tab>
+                                </c:forEach>
+                            </p:tabView>
+                        </p:tab>
+                    </c:forEach>
+                </p:tabView>
+
+                <div class="EmptyBox50"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar Configuracion" actionListener="#{gestionClaseInteracController.guardarConfiguracion()}" ajax="true"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.refreshConfig()}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax resetValues="true" listener="#{gestionClaseInteracController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu> 
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

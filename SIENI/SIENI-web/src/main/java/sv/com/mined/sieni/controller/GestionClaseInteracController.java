@@ -16,12 +16,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.DragDropEvent;
+import org.primefaces.event.TabChangeEvent;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
+import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniComponenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
@@ -34,14 +37,22 @@ import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
+import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniComponente;
 import sv.com.mined.sieni.model.SieniElemPlantilla;
+import sv.com.mined.sieni.model.SieniEvento;
+import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniSuperCompon;
+import sv.com.mined.sieni.pojos.controller.CodigoComponente;
+import sv.com.mined.sieni.pojos.controller.CodigoEvento;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
+import sv.com.mined.sieni.pojos.controller.EventosPojo;
 import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
+import sv.com.mined.sieni.pojos.controller.InteraccionesCompPojo;
 import sv.com.mined.sieni.pojos.controller.PantallaPojo;
 import sv.com.mined.sieni.pojos.controller.SeccionPlantillaPojo;
+import sv.com.mined.sieni.pojos.controller.SuperCompPojo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.CopiaArchivos;
 import utils.DateUtils;
@@ -76,12 +87,18 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
     @EJB
     private SieniComponenteFacadeRemote sieniComponenteFacadeRemote;
+    @EJB
+    private SieniCompInteraccionFacadeRemote sieniCompInteraccionFacadeRemote;
 
     @PostConstruct
     public void init() {
         this.setPantallasEliminadas(new ArrayList<PantallaPojo>());
         this.setComponentesEliminados(new ArrayList<ComponenteInteractivoPojo>());
         this.setNuevoComponente(new SieniClaseSupComp());
+        this.setEvn1(new ArrayList<SieniEvento>());
+        this.setEvn2(new ArrayList<SieniEvento>());
+        this.setCompDisponibles(new ArrayList<SieniSuperCompon>());
+        this.setNuevaInterac(new SieniInteEntrComp());
         fill();
     }
 
@@ -117,7 +134,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                         // lo agrega a la lista de elementos diferentes
                         elemPlantillaDiferentes.add(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla());
                     } else {
-                        //si el elemento de plantilla ya está registrado, agrega a la lista el componente
+                        //si el elemento de plantilla ya estÃƒÆ’Ã‚Â¡ registrado, agrega a la lista el componente
                         elemPlantillaAux.get(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(componActual);
                     }
                 }
@@ -150,7 +167,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                     //agrega al listado de diferentes pantallas
                     pantallasDiferentes.add(actual.getScNPantalla());
                 } else {
-                    //si la pantalla ya está registrada, agrega a la lista el componente
+                    //si la pantalla ya estÃƒÆ’Ã‚Â¡ registrada, agrega a la lista el componente
                     pantallasAux.get(actual.getScNPantalla()).add(actual);
                 }
             }
@@ -175,6 +192,42 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         this.setIndexMenu(4);
 
 //        this.setMaterias(sieniMateriaFacadeRemote.findAll());
+    }
+
+    public void configurarInterac(SieniClase ver) {
+        this.setClaseConfig(ver);
+        fillConfigura(ver);
+        this.setFuncionJS(getCodigoEventosEntreComp());
+        this.setCompDisponibles(getComponentsPantallaActual());
+        if (this.getCompDisponibles() != null && !this.getCompDisponibles().isEmpty()) {
+            updateEv1(this.getCompDisponibles().get(0).getIdSuperCompon());
+            updateEv2(this.getCompDisponibles().get(0).getIdSuperCompon());
+        } else {
+            this.setEvn1(new ArrayList<SieniEvento>());
+            this.setEvn2(new ArrayList<SieniEvento>());
+        }
+        this.setIndexMenu(5);
+    }
+
+    public List<SieniSuperCompon> getComponentsPantallaActual() {
+        SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
+        Integer index = seccionActual.getPantallaActual();
+        index = index != null ? index : 0;
+        List<ComponenteInteractivoPojo> s = seccionActual.getPantallas().get(index).getComponentes();
+        List<SieniSuperCompon> compons = getSuperCompDiferentesByTipoElemPlantillaPantalla(s);
+        return compons;
+    }
+
+    public List<SieniSuperCompon> getSuperCompDiferentesByTipoElemPlantillaPantalla(List<ComponenteInteractivoPojo> s) {
+        HashMap<Long, Long> diferentes = new HashMap<>();
+        List<SieniSuperCompon> ret = new ArrayList<>();
+        for (ComponenteInteractivoPojo actual : s) {
+            if (!diferentes.containsKey(actual.getClaseSuperComp().getFCompSuperCompon().getIdSuperCompon())) {
+                diferentes.put(actual.getClaseSuperComp().getFCompSuperCompon().getIdSuperCompon(), null);
+                ret.add(actual.getSuperComp());
+            }
+        }
+        return ret;
     }
 
     private void fillConfigura(SieniClase clase) {
@@ -202,7 +255,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
         //interacciones entre componentes by clase
         this.setInteEntrCompList(sieniInteEntrCompFacadeRemote.findByClase(clase.getIdClase()));
-        //********información
+        //********informaciÃƒÆ’Ã‚Â³n
         this.setPaginaActive(0);
         this.setIdElemenActive(0);
     }
@@ -218,20 +271,24 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             nuevo.setClaseSuperComp(actual);
             FileStreamedPojo dataNuevo;
             //si es archivo multimedia
-            List<SieniComponente> superCompon=sieniComponenteFacadeRemote.findByIdSuperComp(nuevo.getSuperComp().getIdSuperCompon());
+            List<SieniComponente> superCompon = sieniComponenteFacadeRemote.findByIdSuperComp(nuevo.getSuperComp().getIdSuperCompon());
+            List<SieniArchivo> archivos = sieniArchivoFacadeRemote.findByIdSuperComp(actual.getFCompSuperCompon().getIdSuperCompon());
             for (SieniComponente comp : superCompon) {
                 dataNuevo = new FileStreamedPojo();
                 dataNuevo.setComponente(comp);
-                List<SieniArchivo> archivos = sieniArchivoFacadeRemote.findByIdSuperComp(actual.getFCompSuperCompon().getIdSuperCompon());
                 if (archivos != null && !archivos.isEmpty()) {
                     for (SieniArchivo arch : archivos) {
-                        dataNuevo.setArchivoBD(arch);
-                        if (arch.getArTipo().equals(new Character('I'))
-                                || arch.getArTipo().equals(new Character('V'))
-                                || arch.getArTipo().equals(new Character('A'))) {
-                            ca.copyDataToResource(arch);
-                        } else {
-                            nuevo.setTexto(new String(ca.getData(arch)));
+                        if (comp.getIdArchivo().equals(arch.getIdArchivo())) {
+                            dataNuevo.setArchivoBD(arch);
+                            if (arch.getArTipo().equals(new Character('I'))
+                                    || arch.getArTipo().equals(new Character('V'))
+                                    || arch.getArTipo().equals(new Character('A'))) {
+                                ca.copyDataToResource(arch);
+
+                            } else {
+                                nuevo.setTexto(new String(ca.getData(arch)));
+                            }
+                            break;
                         }
                     }
                 } else {
@@ -289,8 +346,17 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     //metodos para modificacion de datos
     public void mostrar(SieniClase ver) {
-        this.setVer(ver);
+        this.setClaseConfig(ver);
+        fillConfigura(ver);
         this.setIndexMenu(3);
+        this.setFuncionJS(getCodigoEventosEntreComp());
+    }
+
+    //solo cuando se desean ver los cambios sin llenar actualizar las interacciones
+    public void mostrar2(SieniClase ver) {
+        this.setClaseConfig(ver);
+        this.setIndexMenu(3);
+        this.setFuncionJS(getCodigoEventosEntreComp());
     }
 
     public void guardarModifica() {
@@ -407,7 +473,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         }
         sieniClaseSupCompFacadeRemote.merge(componentes, eliminados);
         fillConfigura(this.getClaseConfig());
-        FacesMessage msg = new FacesMessage("Configuración guardada exitosamente");
+        FacesMessage msg = new FacesMessage("ConfiguraciÃƒÆ’Ã‚Â³n guardada exitosamente");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 
@@ -445,7 +511,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             nuevaPantalla.setComponentes(new ArrayList<ComponenteInteractivoPojo>());
             seccionActual.getPantallas().add(nuevaPantalla);
         } else {
-            FacesMessage msg = new FacesMessage("No se puede agregar más pantallas a este elemento de plantilla, máximo " + maxPantallas + " pantallas");
+            FacesMessage msg = new FacesMessage("No se puede agregar mÃƒÆ’Ã‚Â¡s pantallas a este elemento de plantilla, mÃƒÆ’Ã‚Â¡ximo " + maxPantallas + " pantallas");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -469,7 +535,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             //establece la primera pantalla como seleccionada despues de la eliminacion
             seccionActual.setPantallaActual(0);
         } else {
-            FacesMessage msg = new FacesMessage("El elemento de plantilla debe tener almenos 1 página");
+            FacesMessage msg = new FacesMessage("El elemento de plantilla debe tener almenos 1 pÃƒÆ’Ã‚Â¡gina");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
@@ -515,5 +581,405 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         int index = seccionActual.getPantallaActual();
         this.getComponentesEliminados().add(this.getSuperCompEliminado());
         seccionActual.getPantallas().get(index).getComponentes().remove(this.getSuperCompEliminado());
+    }
+
+    //interacciones seleccionadas
+    public void updateInteractByTipoElemPlanPantalla(TabChangeEvent ev) {
+        SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
+        Integer index = seccionActual.getPantallaActual();
+
+        if (index == null) {
+            index = 0;
+        }
+        List<SieniInteEntrComp> listaActual = getInteractByPantallaTipoElemPlantilla(this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla().getIdTipoElemPlantilla(), seccionActual.getPantallas().get(index).getNumPantalla());
+        this.setInteracPantallaElemPlantillaActual(listaActual);
+        this.setCompDisponibles(getComponentsPantallaActual());
+        //en cada refresco setea el primer componente de la lista como actual
+        if (this.getCompDisponibles() != null && !this.getCompDisponibles().isEmpty()) {
+            this.getNuevaInterac().setIeSupC1(this.getCompDisponibles().get(0));
+            this.getNuevaInterac().setIeSupC2(this.getCompDisponibles().get(0));
+        }
+        //si hay componentes disponibles
+        if (this.getNuevaInterac().getIeSupC1() != null && this.getNuevaInterac().getIeSupC1().getIdSuperCompon() != null) {
+            updateEv1(this.getNuevaInterac().getIeSupC1().getIdSuperCompon());
+            updateEv2(this.getNuevaInterac().getIeSupC2().getIdSuperCompon());
+        } else {
+            this.setEvn1(new ArrayList<SieniEvento>());
+            this.setEvn2(new ArrayList<SieniEvento>());
+        }
+    }
+
+    public List<List<SieniInteEntrComp>> getInteracByTipoPlantilla(List<SieniInteEntrComp> listInteEntreComp) {
+        List<List<SieniInteEntrComp>> ret = new ArrayList<>();
+        HashMap<Long, List<SieniInteEntrComp>> dif = new HashMap<>();
+        for (SieniInteEntrComp actual : listInteEntreComp) {
+            if (!dif.containsKey(actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla())) {
+                dif.put(actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla(), new ArrayList<SieniInteEntrComp>());
+                dif.get(actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(actual);
+            } else {
+                dif.get(actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(actual);
+            }
+        }
+        for (List<SieniInteEntrComp> actual : dif.values()) {
+            ret.add(actual);
+        }
+        return ret;
+    }
+
+    public List<List<SieniInteEntrComp>> getInteracByPantalla(List<SieniInteEntrComp> listInteEntreComp) {
+        List<List<SieniInteEntrComp>> ret = new ArrayList<>();
+        HashMap<Integer, List<SieniInteEntrComp>> dif = new HashMap<>();
+        for (SieniInteEntrComp actual : listInteEntreComp) {
+            if (!dif.containsKey(actual.getIeNPantalla())) {
+                dif.put(actual.getIeNPantalla(), new ArrayList<SieniInteEntrComp>());
+                dif.get(actual.getIeNPantalla()).add(actual);
+            } else {
+                dif.get(actual.getIeNPantalla()).add(actual);
+            }
+        }
+        for (List<SieniInteEntrComp> actual : dif.values()) {
+            ret.add(actual);
+        }
+        return ret;
+    }
+
+    public List<SieniInteEntrComp> getInteractByPantallaTipoElemPlantilla(Long idTipoElemPlantilla, Integer nPantalla) {
+        HashMap<Long, List<SieniInteEntrComp>> res1 = new HashMap<>();
+        HashMap<Integer, List<SieniInteEntrComp>> res2 = new HashMap<>();
+        for (SieniInteEntrComp tipoElemPlantilla : this.getInteracTotal()) {
+            if (!res1.containsKey(tipoElemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla())) {
+                res1.put(tipoElemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla(), new ArrayList<SieniInteEntrComp>());
+                res1.get(tipoElemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(tipoElemPlantilla);
+            } else {
+                res1.get(tipoElemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(tipoElemPlantilla);
+            }
+        }
+        if (res1.get(idTipoElemPlantilla) != null) {
+            for (SieniInteEntrComp tipoElemPlantilla : res1.get(idTipoElemPlantilla)) {
+                if (!res2.containsKey(tipoElemPlantilla.getIeNPantalla())) {
+                    res2.put(tipoElemPlantilla.getIeNPantalla(), new ArrayList<SieniInteEntrComp>());
+                    res2.get(tipoElemPlantilla.getIeNPantalla()).add(tipoElemPlantilla);
+                } else {
+                    res2.get(tipoElemPlantilla.getIeNPantalla()).add(tipoElemPlantilla);
+                }
+            }
+        }
+        return res2.get(nPantalla);
+    }
+
+    public String getCodigoEventosEntreComp() {
+        List<SieniInteEntrComp> totalInteracc = sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
+        this.setInteracTotal(totalInteracc);
+        List<CodigoEvento> listEv;
+        String funcion = "";
+        for (List<SieniInteEntrComp> tipoElemPlantilla : getInteracByTipoPlantilla(totalInteracc)) {
+            for (List<SieniInteEntrComp> listInteEntreComp : getInteracByPantalla(tipoElemPlantilla)) {
+                HashMap<String, Integer> eventosDiferentes = getEventosNumerados(listInteEntreComp);
+                //agregar eventos que no son de interaccion entre componentes
+                HashMap<Long, Integer> componentesDiferentes = getComponentesNumerados(listInteEntreComp);
+                //agregar componentes que son parte de la pagina pero no estan en la interaccion entre componentes
+                HashMap<Long, SuperCompPojo> l = agruparPorComp(listInteEntreComp);
+                //agregar componentes que son parte de la pagina pero no estan en la interaccion entre componentes
+
+                CodigoEvento ev = new CodigoEvento();
+                CodigoComponente comp = new CodigoComponente();
+                List<CodigoComponente> listComp = new ArrayList<>();
+                List<EventosPojo> evDif = getEventosDiferentes(listInteEntreComp);
+                //agregar eventos de componentes que son parte de la pagina pero no estan en la interaccion entre componentes
+                Long idEventoActual;
+                String codEvento;
+                listEv = new ArrayList<>();
+                for (EventosPojo actual : evDif) {
+                    idEventoActual = actual.getIdEvento();
+                    codEvento = actual.getEvento();
+                    List<Long> compEv = getComponByEvento(codEvento, listInteEntreComp);
+                    for (Long idCompActual : compEv) {
+                        comp = new CodigoComponente();
+                        comp.setIdSuperCompon(idCompActual);
+                        comp.setInteracciones(l.get(idCompActual).getInteraccionesCompPojoByEvento(codEvento));
+                        comp.setContEvento(eventosDiferentes.get(codEvento));
+                        comp.setCont(componentesDiferentes.get(idCompActual));
+                        comp.setEvento(codEvento);
+                        comp.setComps2(getComps2(eventosDiferentes, componentesDiferentes, listInteEntreComp, idCompActual, idEventoActual));
+                        listComp.add(comp);
+                    }
+                    ev.setComponentes(listComp);
+                    ev.setCont(eventosDiferentes.get(codEvento));
+                    listEv.add(ev);
+                }
+                funcion += crearFuncion(listEv, listInteEntreComp.get(0).getIdTipoElemPlantilla().getIdTipoElemPlantilla(), listInteEntreComp.get(0).getIeNPantalla());
+            }
+        }
+        return funcion;
+    }
+
+    public List<Long> getComponByEvento(String idEvento, List<SieniInteEntrComp> listInteEntreComp) {
+        List<Long> ret = new ArrayList<>();
+        for (SieniInteEntrComp actual : listInteEntreComp) {
+            if (actual.getIeEventoC1().getEvCodigo().equals(idEvento) && !ret.contains(actual.getIeSupC1().getIdSuperCompon())) {
+                ret.add(actual.getIeSupC1().getIdSuperCompon());
+            }
+            if (actual.getIeEventoC2().getEvCodigo().equals(idEvento) && !ret.contains(actual.getIeSupC2().getIdSuperCompon())) {
+                ret.add(actual.getIeSupC2().getIdSuperCompon());
+            }
+        }
+
+        return ret;
+    }
+
+    //get comp2 de comp1 ev1
+    public List<CodigoComponente> getComps2(HashMap<String, Integer> eventosDiferentes,
+            HashMap<Long, Integer> componentesDiferentes,
+            List<SieniInteEntrComp> listInteEntreComp,
+            Long idComp1, Long idEvnt1) {
+        List<CodigoComponente> listComp = new ArrayList<>();
+        CodigoComponente comp;
+        List<SieniInteEntrComp> ret = new ArrayList<>();
+        for (SieniInteEntrComp actual : listInteEntreComp) {
+            if (actual.getIeSupC1().getIdSuperCompon().equals(idComp1)
+                    && actual.getIeEventoC1().getIdEvento().equals(idEvnt1)) {
+                ret.add(actual);
+            }
+        }
+        for (SieniInteEntrComp actual : ret) {
+            comp = new CodigoComponente();
+            comp.setIdSuperCompon(actual.getIeSupC2().getIdSuperCompon());
+            comp.setContEvento(eventosDiferentes.get(actual.getIeEventoC2().getEvCodigo()));
+            comp.setDelay(actual.getIeRetraso());
+            comp.setCont(componentesDiferentes.get(actual.getIeSupC2().getIdSuperCompon()));
+            listComp.add(comp);
+        }
+        return listComp;
+
+    }
+
+    public HashMap<String, Integer> getEventosNumerados(List<SieniInteEntrComp> interac) {
+        HashMap<String, Integer> ret = new HashMap<>();
+        int cont = 1;
+        for (SieniInteEntrComp comp : interac) {
+            if (!ret.containsKey(comp.getIeEventoC1().getEvCodigo())) {
+                ret.put(comp.getIeEventoC1().getEvCodigo(), cont);
+                cont++;
+            } else if (!ret.containsKey(comp.getIeEventoC2().getEvCodigo())) {
+                ret.put(comp.getIeEventoC2().getEvCodigo(), cont);
+                cont++;
+            }
+        }
+        return ret;
+    }
+
+    public List<EventosPojo> getEventosDiferentes(List<SieniInteEntrComp> interac) {
+        List<String> res = new ArrayList<>();
+        List<EventosPojo> ret = new ArrayList<>();
+        EventosPojo nuevo;
+        //TODO falta meter eventos que no son interacciones entre componentes
+        for (SieniInteEntrComp comp : interac) {
+            if (!res.contains(comp.getIeEventoC1().getEvCodigo())) {
+                nuevo = new EventosPojo();
+                nuevo.setEvento(comp.getIeEventoC1().getEvCodigo());
+                nuevo.setIdEvento(comp.getIeEventoC1().getIdEvento());
+                nuevo.setInterac(comp);
+                res.add(comp.getIeEventoC1().getEvCodigo());
+                ret.add(nuevo);
+            }
+            if (!res.contains(comp.getIeEventoC2().getEvCodigo())) {
+                nuevo = new EventosPojo();
+                nuevo.setEvento(comp.getIeEventoC2().getEvCodigo());
+                nuevo.setIdEvento(comp.getIeEventoC2().getIdEvento());
+                nuevo.setInterac(comp);
+                res.add(comp.getIeEventoC2().getEvCodigo());
+                ret.add(nuevo);
+            }
+        }
+        return ret;
+    }
+
+    //agrega a una lista los eventos que no son parte de la interaccion entre componentes
+    //pero que son parte de los componentes
+    public List<SieniInteEntrComp> eventosNoInteracciones() {
+        List<SieniInteEntrComp> ret = new ArrayList<>();
+
+        return ret;
+    }
+
+    public HashMap<Long, Integer> getComponentesNumerados(List<SieniInteEntrComp> interac) {
+        HashMap<Long, Integer> ret = new HashMap<>();
+        int cont = 1;
+        for (SieniInteEntrComp comp : interac) {
+            if (!ret.containsKey(comp.getIeSupC1().getIdSuperCompon())) {
+                ret.put(comp.getIeSupC1().getIdSuperCompon(), cont);
+                cont++;
+            }
+            if (!ret.containsKey(comp.getIeSupC2().getIdSuperCompon())) {
+                ret.put(comp.getIeSupC2().getIdSuperCompon(), cont);
+                cont++;
+            }
+        }
+        return ret;
+    }
+
+    public String crearFuncion(List<CodigoEvento> cods, Long idTipoElemPlantilla, Integer nPantalla) {
+        String funcion = "";
+        String intermedia = "";
+        String eventos = "";
+        boolean ultimoAccionCompActual;
+        //codigoEvento->lista componentes
+        //lista componentes->lista acciones
+        int contAcciones = 1;
+        //click,dblclick,contextmenu
+        for (CodigoEvento evnto : cods) {
+            //2
+            for (CodigoComponente comp : evnto.getComponentes()) {
+                String ubica = nPantalla + "_" + idTipoElemPlantilla + "_";
+                String compon = ubica + comp.getIdSuperCompon();
+
+                contAcciones = 1;
+                if (comp.getInteracciones() != null && !comp.getInteracciones().isEmpty()) {
+                    Integer inteCont = 1;
+                    for (InteraccionesCompPojo inte : comp.getInteracciones()) {
+                        //2 interacc
+                        funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
+                                + "     jQuery(\".compon" + compon + "\").effect(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
+                                + "         func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia();\n"
+                                + "     });"
+                                + "  };\n";
+                        intermedia = "";
+                        ultimoAccionCompActual = contAcciones >= comp.getInteracciones().size();
+                        if (ultimoAccionCompActual) {
+                            if (comp.getComps2() != null && !comp.getComps2().isEmpty()) {
+                                //componentes vinculados al componente 1
+                                for (CodigoComponente comp2 : comp.getComps2()) {
+                                    intermedia += " setTimeout(\n"
+                                            + "         function(){\n"
+                                            + "             func_" + comp2.getContEvento() + "_" + ubica + comp2.getIdSuperCompon() + "_1();\n"
+                                            + "         },\n"
+                                            + "         " + (comp2.getDelay() != null ? comp2.getDelay() + "" : "0") + "\n"
+                                            + "     );\n";
+                                }
+                            }
+                        } else {//siguiente evento del componente actual
+                            intermedia += "func_" + evnto.getCont() + "_" + compon + "_" + (inteCont + 1) + "();\n";
+                        }
+                        funcion += "function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia(){\n"
+                                + "     " + intermedia + "\n"
+                                + "}\n";
+                        contAcciones++;
+                        inteCont++;
+                    }
+                    eventos += "jQuery(\".compon" + compon + "\").on(\"" + comp.getEvento() + "\", function () {\n"
+                            + "                        func_" + evnto.getCont() + "_" + compon + "_1();\n"
+                            + "                    });\n";
+                } else {//funcion eliminada
+                    funcion += " function func_" + evnto.getCont() + "_" + compon + "_1(){}\n";
+                }
+            }
+        }
+        funcion += "jQuery(document).ready(function () {\n"
+                + eventos
+                + "});";
+
+        return funcion;
+    }
+
+    public HashMap<Long, SuperCompPojo> agruparPorComp(List<SieniInteEntrComp> intEntComp) {
+        List<SieniCompInteraccion> interActual;
+        HashMap<Long, SuperCompPojo> interaccionesBySuperComp = new HashMap<>();
+        SuperCompPojo nuevo;
+        int count = 1;
+        for (SieniInteEntrComp comp : intEntComp) {
+            if (!interaccionesBySuperComp.containsKey(comp.getIeSupC1().getIdSuperCompon())) {
+                interActual = sieniCompInteraccionFacadeRemote.findByIdSuperComp(comp.getIeSupC1().getIdSuperCompon());
+                nuevo = new SuperCompPojo();
+                nuevo.setCount(count);
+                nuevo.setEventos(agruparEvento(interActual));
+                nuevo.setEventosEv(agruparEventoCod(interActual));
+                nuevo.setSupComp(comp.getIeSupC1());
+                interaccionesBySuperComp.put(comp.getIeSupC1().getIdSuperCompon(), nuevo);
+                count++;
+            }
+            if (!interaccionesBySuperComp.containsKey(comp.getIeSupC2().getIdSuperCompon())) {
+                interActual = sieniCompInteraccionFacadeRemote.findByIdSuperComp(comp.getIeSupC2().getIdSuperCompon());
+                nuevo = new SuperCompPojo();
+                nuevo.setCount(count);
+                nuevo.setEventos(agruparEvento(interActual));
+                nuevo.setEventosEv(agruparEventoCod(interActual));
+                nuevo.setSupComp(comp.getIeSupC2());
+                interaccionesBySuperComp.put(comp.getIeSupC2().getIdSuperCompon(), nuevo);
+                count++;
+            }
+        }
+        return interaccionesBySuperComp;
+    }
+
+    public HashMap<Long, List<InteraccionesCompPojo>> agruparEvento(List<SieniCompInteraccion> intEntComp) {
+        HashMap<Long, List<InteraccionesCompPojo>> ret = new HashMap<>();
+        InteraccionesCompPojo nuevo;
+        int cont = 1;
+        for (SieniCompInteraccion comp : intEntComp) {
+            nuevo = new InteraccionesCompPojo();
+            nuevo.setCont(cont);
+            nuevo.setInteraccion(comp);
+            if (!ret.containsKey(comp.getIdEvento().getIdEvento())) {
+                ret.put(comp.getIdEvento().getIdEvento(), new ArrayList<InteraccionesCompPojo>());
+                ret.get(comp.getIdEvento().getIdEvento()).add(nuevo);
+            } else {
+                ret.get(comp.getIdEvento().getIdEvento()).add(nuevo);
+            }
+            cont++;
+        }
+        return ret;
+    }
+
+    public HashMap<String, List<InteraccionesCompPojo>> agruparEventoCod(List<SieniCompInteraccion> intEntComp) {
+        HashMap<String, List<InteraccionesCompPojo>> ret = new HashMap<>();
+        InteraccionesCompPojo nuevo;
+        int cont = 1;
+        for (SieniCompInteraccion comp : intEntComp) {
+            nuevo = new InteraccionesCompPojo();
+            nuevo.setCont(cont);
+            nuevo.setInteraccion(comp);
+            if (!ret.containsKey(comp.getIdEvento().getEvCodigo())) {
+                ret.put(comp.getIdEvento().getEvCodigo(), new ArrayList<InteraccionesCompPojo>());
+                ret.get(comp.getIdEvento().getEvCodigo()).add(nuevo);
+            } else {
+                ret.get(comp.getIdEvento().getEvCodigo()).add(nuevo);
+            }
+            cont++;
+        }
+        return ret;
+    }
+
+    public List<SieniEvento> getEventoDiferenteBySuperCompon(List<SieniCompInteraccion> total) {
+        List<SieniEvento> ret = new ArrayList<>();
+        HashMap map = new HashMap();
+        for (SieniCompInteraccion actual : total) {
+            if (map.get(actual.getIdEvento().getEvCodigo()) == null) {
+                map.put(actual.getIdEvento().getEvCodigo(), new Object());
+                ret.add(actual.getIdEvento());
+            }
+        }
+        return ret;
+    }
+
+    public void getEventosC1(ValueChangeEvent ev) {
+        SieniSuperCompon sup = (SieniSuperCompon) ev.getNewValue();
+        if (sup != null) {
+            updateEv1(sup.getIdSuperCompon());
+        }
+    }
+
+    public void getEventosC2(ValueChangeEvent ev) {
+        SieniSuperCompon sup = (SieniSuperCompon) ev.getNewValue();
+        if (sup != null) {
+            updateEv2(sup.getIdSuperCompon());
+        }
+    }
+
+    public void updateEv1(Long idSuperCompon) {
+        this.setEvn1(getEventoDiferenteBySuperCompon(sieniCompInteraccionFacadeRemote.findByIdSuperComp(idSuperCompon)));
+    }
+
+    public void updateEv2(Long idSuperCompon) {
+        this.setEvn2(getEventoDiferenteBySuperCompon(sieniCompInteraccionFacadeRemote.findByIdSuperComp(idSuperCompon)));
     }
 }

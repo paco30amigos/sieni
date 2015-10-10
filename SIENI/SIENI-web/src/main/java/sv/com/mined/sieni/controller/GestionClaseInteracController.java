@@ -185,8 +185,10 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     public void configurar(SieniClase clase) {
-        fillConfigura(clase);
-        this.setIndexMenu(4);
+        if (fillConfigura(clase)) {
+            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+            this.setIndexMenu(4);
+        }
 
 //        this.setMaterias(sieniMateriaFacadeRemote.findAll());
     }
@@ -194,16 +196,17 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     public void configurarInterac(SieniClase ver) {
         this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
         this.setClaseConfig(ver);
-        fillConfigura(ver);
-        this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
-        ControlInteractivoUtils ciu = new ControlInteractivoUtils();
-        ciu.setSecciones(this.getSecciones());
-        ciu.setTotalInteracc(this.getInteracTotal());
-        this.setFuncionJS(ciu.getCodigoEventosEntreComp());
-        this.setNuevaInterac(new SieniInteEntrComp());
-        this.getNuevaInterac().setIeRetraso(0);
-        updateInteractByTipoElemPlanPantalla(null);
-        this.setIndexMenu(5);
+        if (fillConfigura(ver)) {
+            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+            ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+            ciu.setSecciones(this.getSecciones());
+            ciu.setTotalInteracc(this.getInteracTotal());
+            this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+            this.setNuevaInterac(new SieniInteEntrComp());
+            this.getNuevaInterac().setIeRetraso(0);
+            updateInteractByTipoElemPlanPantalla(null);
+            this.setIndexMenu(5);
+        }
     }
 
     public List<SieniSuperCompon> getComponentsPantallaActual() {
@@ -227,7 +230,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         return ret;
     }
 
-    private void fillConfigura(SieniClase clase) {
+    private boolean fillConfigura(SieniClase clase) {
+        boolean ret = true;
         this.setClaseConfig(clase);
         if (clase.getClAlto() == null) {
             clase.setClAlto(600);
@@ -245,16 +249,22 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
         /*seteo de componentes correcto*/
         List<SieniClaseSupComp> listaComp = sieniClaseSupCompFacadeRemote.findByClase(clase.getIdClase());
-        List<SieniSuperCompon> totalSuperComponentes = sieniSuperComponFacadeRemote.findAllNoInactivos();
+        List<SieniSuperCompon> totalSuperComponentes = sieniSuperComponFacadeRemote.findEstado('A');
 
         this.setComponentesInteractDisponibles(totalSuperComponentes);
-        this.setSecciones(getSeccionesByElemPlantilla(listaComp, this.getClaseConfig().getIdPlantilla().getSieniElemPlantillaList()));
+        if (this.getClaseConfig().getIdPlantilla() != null) {
+            this.setSecciones(getSeccionesByElemPlantilla(listaComp, this.getClaseConfig().getIdPlantilla().getSieniElemPlantillaList()));
 
-        //interacciones entre componentes by clase
-        this.setInteEntrCompList(sieniInteEntrCompFacadeRemote.findByClase(clase.getIdClase()));
-        //********información
-        this.setPaginaActive(0);
-        this.setIdElemenActive(0);
+            //interacciones entre componentes by clase
+            this.setInteEntrCompList(sieniInteEntrCompFacadeRemote.findByClase(clase.getIdClase()));
+            //********información
+            this.setPaginaActive(0);
+            this.setIdElemenActive(0);
+        } else {
+            ret = false;
+            new ValidationPojo().printMsj("No se ha ingresado una plantilla para la clase", FacesMessage.SEVERITY_ERROR);
+        }
+        return ret;
     }
 
     private List<ComponenteInteractivoPojo> getComponentesInteractivos(List<SieniClaseSupComp> listaComp) {
@@ -346,13 +356,14 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     //metodos para modificacion de datos
     public void mostrar(SieniClase ver) {
         this.setClaseConfig(ver);
-        fillConfigura(ver);
-        this.setIndexMenu(3);
-        this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
-        ControlInteractivoUtils ciu = new ControlInteractivoUtils();
-        ciu.setSecciones(this.getSecciones());
-        ciu.setTotalInteracc(this.getInteracTotal());
-        this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+        if (fillConfigura(ver)) {
+            this.setIndexMenu(3);
+            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+            ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+            ciu.setSecciones(this.getSecciones());
+            ciu.setTotalInteracc(this.getInteracTotal());
+            this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+        }
     }
 
     //solo cuando se desean ver los cambios sin llenar actualizar las interacciones
@@ -478,6 +489,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             eliminados.add(elimn.getClaseSuperComp());
         }
         sieniClaseSupCompFacadeRemote.merge(componentes, eliminados);
+        //elimina las interacciondes de los componentes relacionados que fueron eliminados
+        sieniInteEntrCompFacadeRemote.merge(new ArrayList<SieniInteEntrComp>(), this.getInteracEliminados());
         fillConfigura(this.getClaseConfig());
         new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
     }
@@ -533,8 +546,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         List<SieniClaseSupComp> auxComp = new ArrayList<>();
         auxComp.add(this.getNuevoComponente());
         List<ComponenteInteractivoPojo> a = getComponentesInteractivos(auxComp);
-        a.addAll(seccionActual.getPantallas().get(index).getComponentes());
-        seccionActual.getPantallas().get(index).setComponentes(a);
+        seccionActual.getPantallas().get(index).getComponentes().addAll(a);
         this.setNuevoComponente(new SieniClaseSupComp());
     }
 
@@ -551,10 +563,9 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
     }
-    
 
     public void eliminarInteraccion() {
-        SieniInteEntrComp eliminado=this.getInteracEliminada();
+        SieniInteEntrComp eliminado = this.getInteracEliminada();
         this.getInteracEliminados().add(eliminado);
         this.getInteracTotal().remove(eliminado);
         ControlInteractivoUtils ciu = new ControlInteractivoUtils();
@@ -574,8 +585,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
         this.setIndexMenu(5);
     }
-    
-    public void setInteraccionEliminada(SieniInteEntrComp eliminado){
+
+    public void setInteraccionEliminada(SieniInteEntrComp eliminado) {
         this.setInteracEliminada(eliminado);
     }
 
@@ -644,6 +655,14 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         int index = seccionActual.getPantallaActual();
         this.getComponentesEliminados().add(this.getSuperCompEliminado());
         seccionActual.getPantallas().get(index).getComponentes().remove(this.getSuperCompEliminado());
+        if (this.getInteracTotal() != null) {
+            for (SieniInteEntrComp inte : this.getInteracTotal()) {
+                if (inte.getIeSupC1().getIdSuperCompon().equals(this.getSuperCompEliminado().getSuperComp().getIdSuperCompon())
+                        || inte.getIeSupC2().getIdSuperCompon().equals(this.getSuperCompEliminado().getSuperComp().getIdSuperCompon())) {
+                    this.getInteracEliminados().add(inte);
+                }
+            }
+        }
     }
 
     //interacciones seleccionadas

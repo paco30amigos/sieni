@@ -505,7 +505,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         }
         this.setListaInteraccionSelect(new ArrayList<SieniCompInteraccion>());
         for (SieniCompInteraccion actual : interaccion) {
-            if (evento.equals(actual.getIdEvento().getEvCodigo())) {
+            if (actual.getIdEvento().getEvCodigo().equals(evento)) {
                 this.getListaInteraccionSelect().add(actual);
             }
         }

@@ -49,4 +49,9 @@ public class SieniSuperComponFacade extends AbstractFacade<SieniSuperCompon> imp
         return q.getResultList();
     }
 
+    public List<SieniSuperCompon> findEstado(Character estado) {
+        Query q = em.createNamedQuery("SieniSuperCompon.findByEstado");
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
 }

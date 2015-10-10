@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniSuperCompon.findAllNoInactivos", query = "SELECT s FROM SieniSuperCompon s LEFT JOIN FETCH s.sieniComponenteList comp where s.scEstado not in (:estado) ORDER BY s.idSuperCompon"),
+    @NamedQuery(name = "SieniSuperCompon.findByEstado", query = "SELECT s FROM SieniSuperCompon s where s.scEstado=:estado"),
     @NamedQuery(name = "SieniSuperCompon.findAll", query = "SELECT s FROM SieniSuperCompon s"),
     @NamedQuery(name = "SieniSuperCompon.findByClase", query = "SELECT s FROM SieniSuperCompon s JOIN FETCH s.sieniClaseSupCompList c join fetch s.sieniComponenteList where c.idClase.idClase=:idClase and c.idClase.clEstado not in (:estado) and s.scEstado not in (:estado)"),
     @NamedQuery(name = "SieniSuperCompon.findByIdSuperCompon", query = "SELECT s FROM SieniSuperCompon s WHERE s.idSuperCompon = :idSuperCompon"),
@@ -45,6 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniSuperCompon.findByScDescripcion", query = "SELECT s FROM SieniSuperCompon s WHERE s.scDescripcion = :scDescripcion"),
     @NamedQuery(name = "SieniSuperCompon.findByScFechaIngreso", query = "SELECT s FROM SieniSuperCompon s WHERE s.scFechaIngreso = :scFechaIngreso")})
 public class SieniSuperCompon implements Serializable {
+
     @Column(name = "sc_pos_x")
     private Integer scPosX;
     @Column(name = "sc_pos_y")

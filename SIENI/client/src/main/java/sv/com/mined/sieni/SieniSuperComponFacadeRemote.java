@@ -28,10 +28,12 @@ public interface SieniSuperComponFacadeRemote {
 
     List<SieniSuperCompon> findRange(int[] range);
     
-    List<SieniSuperCompon> findAllNoInactivos();
+    List<SieniSuperCompon> findAllNoInactivos();    
 
     int count();
     
     public List<SieniSuperCompon> findByClase(Long idClase);
+    
+    public List<SieniSuperCompon> findEstado(Character estado);
     
 }

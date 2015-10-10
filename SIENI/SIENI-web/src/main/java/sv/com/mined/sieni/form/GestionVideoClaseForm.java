@@ -21,7 +21,7 @@ import utils.siteUrls;
  *
  * @author francisco_medina
  */
-public class GestionClaseInteracForm {
+public class GestionVideoClaseForm {
 
     private int indexMenu;
     private SieniClase eliminar;
@@ -66,25 +66,25 @@ public class GestionClaseInteracForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBaseclaseInteractiva() + "index.xhtml");
+                sU.redirect(sU.getBaseclaseVideoAlmacenada()+ "index.xhtml");
                 break;
             case 1:
-                sU.redirect(sU.getBaseclaseInteractiva() + "crear.xhtml");
+                sU.redirect(sU.getBaseclaseVideoAlmacenada() + "crear.xhtml");
                 break;
             case 2:
-                sU.redirect(sU.getBaseclaseInteractiva() + "editar.xhtml");
+                sU.redirect(sU.getBaseclaseVideoAlmacenada() + "editar.xhtml");
                 break;
             case 3:
-                sU.redirect(sU.getBaseclaseInteractiva() + "ver.xhtml");
+                sU.redirect(sU.getBaseclaseVideoAlmacenada() + "ver.xhtml");
                 break;
             case 4:
-                sU.redirect(sU.getBaseclaseInteractiva() + "configurar.xhtml");
+                sU.redirect(sU.getBaseclaseVideoAlmacenada() + "configurar.xhtml");
                 break;
             case 5:
-                sU.redirect(sU.getBaseclaseInteractiva() + "configurarInterac.xhtml");
+                sU.redirect(sU.getBaseclaseVideoAlmacenada() + "configurarInterac.xhtml");
                 break;
             case 6:
-                sU.redirect(sU.getBaseclaseInteractiva() + "ver2.xhtml");
+                sU.redirect(sU.getBaseclaseVideoAlmacenada() + "configurarVideoTime.xhtml");
                 break;
         }
         this.indexMenu = indexMenu;

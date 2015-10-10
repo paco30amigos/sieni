@@ -21,6 +21,7 @@ public class SuperCompPojo {
     private HashMap<Long, List<InteraccionesCompPojo>> eventos;//click, mostrar, etc-     
     private HashMap<String, List<InteraccionesCompPojo>> eventosEv;//click, mostrar, etc-     
     private Collection<List<InteraccionesCompPojo>> eventosCollection;
+    private boolean visible;
 
     public List<InteraccionesCompPojo> getInteraccionesCompPojoByIdEvento(Long idEvento) {
         List<InteraccionesCompPojo> ret = null;
@@ -73,6 +74,14 @@ public class SuperCompPojo {
 
     public void setEventosEv(HashMap<String, List<InteraccionesCompPojo>> eventosEv) {
         this.eventosEv = eventosEv;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
 }

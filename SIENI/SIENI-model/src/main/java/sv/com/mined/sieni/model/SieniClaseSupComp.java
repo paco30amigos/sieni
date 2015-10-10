@@ -30,6 +30,7 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "SieniClaseSupComp.findByClase", query = "SELECT s FROM SieniClaseSupComp s where s.scEstado not in (:estado) and s.idClase.idClase=:idClase and s.idClase.clEstado not in (:estado) ORDER BY s.scNPantalla"),
     @NamedQuery(name = "SieniClaseSupComp.findAll", query = "SELECT s FROM SieniClaseSupComp s")})
 public class SieniClaseSupComp implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_clase_sup_comp")
@@ -38,6 +39,8 @@ public class SieniClaseSupComp implements Serializable {
     @NotNull
     @Column(name = "id_clase_sup_comp")
     private Long idClaseSupComp;
+    @Column(name = "sc_visible")
+    private Character scVisible;
     @Column(name = "sc_estado")
     private Character scEstado;
     @Column(name = "sc_pos_x")
@@ -151,5 +154,21 @@ public class SieniClaseSupComp implements Serializable {
     public void setScPosY(Integer scPosY) {
         this.scPosY = scPosY;
     }
-    
+
+    public Character getScVisible() {
+        return scVisible;
+    }
+
+    public void setScVisible(Character scVisible) {
+        this.scVisible = scVisible;
+    }
+
+    public SieniSuperCompon getfCompSuperCompon() {
+        return fCompSuperCompon;
+    }
+
+    public void setfCompSuperCompon(SieniSuperCompon fCompSuperCompon) {
+        this.fCompSuperCompon = fCompSuperCompon;
+    }
+
 }

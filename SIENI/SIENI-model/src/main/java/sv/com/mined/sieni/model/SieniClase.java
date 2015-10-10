@@ -80,6 +80,8 @@ public class SieniClase implements Serializable {
     @JoinColumn(name = "id_plantilla", referencedColumnName = "id_plantilla")
     @ManyToOne
     private SieniPlantilla idPlantilla;
+    @Column(name = "id_video")
+    private Long idArchivo;
     @Transient
     private String estado;
 
@@ -286,6 +288,14 @@ public class SieniClase implements Serializable {
 
     public void setClAlto(Integer clAlto) {
         this.clAlto = clAlto;
+    }
+
+    public Long getIdArchivo() {
+        return idArchivo;
+    }
+
+    public void setIdArchivo(Long idArchivo) {
+        this.idArchivo = idArchivo;
     }
 
 }

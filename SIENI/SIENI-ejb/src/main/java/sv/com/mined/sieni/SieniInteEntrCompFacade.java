@@ -49,4 +49,29 @@ public class SieniInteEntrCompFacade extends AbstractFacade<SieniInteEntrComp> i
         em.flush();
         return ret;
     }
+
+    @Override
+    public void merge(List<SieniInteEntrComp> lista, List<SieniInteEntrComp> eliminados) {
+        for (SieniInteEntrComp actual : lista) {
+            if (actual.getIdInteEntreComp() != null && actual.getIdInteEntreComp() < 0) {
+                actual.setIdInteEntreComp(null);
+            }
+            if (actual.getIdInteEntreComp() != null) {
+                this.edit(actual);
+            } else {
+                this.create(actual);
+            }
+        }
+
+        for (SieniInteEntrComp actual : eliminados) {
+            if (actual.getIdInteEntreComp() != null && actual.getIdInteEntreComp() < 0) {
+                actual.setIdInteEntreComp(null);
+            }
+            if (actual.getIdInteEntreComp() != null) {
+                actual.setIeEstado('I');//eliminacion logica
+                this.edit(actual);
+            }
+        }
+        em.flush();
+    }
 }

@@ -31,4 +31,6 @@ public interface SieniInteEntrCompFacadeRemote {
     int count();
 
     public List<SieniInteEntrComp> findByClase(Long idClase);
+    
+    public void merge(List<SieniInteEntrComp> lista,List<SieniInteEntrComp> eliminados);
 }

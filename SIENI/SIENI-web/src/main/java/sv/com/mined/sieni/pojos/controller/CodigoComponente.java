@@ -20,6 +20,7 @@ public class CodigoComponente {
     private Integer delay;
     private String evento;
     private int contEvento;
+    private boolean visible;
 
     public int getCont() {
         return cont;
@@ -75,5 +76,13 @@ public class CodigoComponente {
 
     public void setIdSuperCompon(Long idSuperCompon) {
         this.idSuperCompon = idSuperCompon;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 }

@@ -31,10 +31,11 @@ public class ControlInteractivoUtils {
     public String getCodigoEventosEntreComp() {
         List<CodigoEvento> listEv;
         String funcion = "";
-        for (List<SieniInteEntrComp> tipoElemPlantilla : getInteracByTipoPlantilla(totalInteracc)) {
-            for (List<SieniInteEntrComp> listInteEntreComp : getInteracByPantalla(tipoElemPlantilla)) {
-                Long idTipoElemPlantilla = listInteEntreComp.get(0).getIdTipoElemPlantilla().getIdTipoElemPlantilla();
-                Integer nPantalla = listInteEntreComp.get(0).getIeNPantalla();
+        for (SeccionPlantillaPojo sec : this.getSecciones()) {
+            for (PantallaPojo pant : sec.getPantallas()) {
+                Long idTipoElemPlantilla = sec.getIdElemPlantilla().getIdTipoElemPlantilla().getIdTipoElemPlantilla();
+                Integer nPantalla = pant.getNumPantalla();
+                List<SieniInteEntrComp> listInteEntreComp = getInterEntreCompByTipoElemPlantillaPantalla(idTipoElemPlantilla, nPantalla);
                 HashMap<String, Integer> eventosDiferentes = getEventosNumerados(listInteEntreComp);
                 eventosDiferentes = agregarEventosNoRelacionados(eventosDiferentes, idTipoElemPlantilla, nPantalla);
                 //agregar eventos que no son de interaccion entre componentes
@@ -82,6 +83,17 @@ public class ControlInteractivoUtils {
             }
         }
         return funcion;
+    }
+
+    public List<SieniInteEntrComp> getInterEntreCompByTipoElemPlantillaPantalla(Long idTipoElemPlantilla, Integer nPantalla) {
+        List<SieniInteEntrComp> ret = new ArrayList<>();
+        List<SieniInteEntrComp> listInteEntreComp = totalInteracc;
+        for (SieniInteEntrComp el : listInteEntreComp) {
+            if (el.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(idTipoElemPlantilla) && el.getIeNPantalla().equals(nPantalla)) {
+                ret.add(el);
+            }
+        }
+        return ret;
     }
 
     public List<List<SieniInteEntrComp>> getInteracByTipoPlantilla(List<SieniInteEntrComp> listInteEntreComp) {
@@ -395,7 +407,6 @@ public class ControlInteractivoUtils {
     }
 
     //get comp2 de comp1 ev1
-
     public List<CodigoComponente> getComps2(HashMap<String, Integer> eventosDiferentes,
             HashMap<Long, Integer> componentesDiferentes,
             List<SieniInteEntrComp> listInteEntreComp,

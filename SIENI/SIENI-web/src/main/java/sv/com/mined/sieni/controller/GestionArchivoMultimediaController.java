@@ -68,6 +68,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             new ValidationPojo().printMsj("Archivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
             this.setArchivoNuevo(new SieniArchivo());
             this.setArchivoUsable(null);
+            this.setFormatoArchivo(this.getFormatosAudio());
             fill();
         }
     }

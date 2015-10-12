@@ -264,6 +264,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             ret = false;
             new ValidationPojo().printMsj("No se ha ingresado una plantilla para la clase", FacesMessage.SEVERITY_ERROR);
         }
+        this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
         return ret;
     }
 
@@ -508,7 +509,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         }
         SieniTipoElemPlantilla tipoPlant = this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla();
         Integer nPantalla = seccionActual.getPantallas().get(index).getNumPantalla();
-
+        this.getNuevaInterac().setIdInteEntreComp(-Long.parseLong(new DateUtils().getTime()));
         this.getNuevaInterac().setIeNPantalla(nPantalla);
         this.getNuevaInterac().setIdTipoElemPlantilla(tipoPlant);
         this.getNuevaInterac().setIdClase(this.getClaseConfig().getIdClase());

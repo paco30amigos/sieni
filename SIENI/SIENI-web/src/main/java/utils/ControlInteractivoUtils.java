@@ -8,6 +8,7 @@ package utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import sv.com.mined.sieni.model.SieniClaseSupComp;
 import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.pojos.controller.CodigoComponente;
@@ -43,7 +44,7 @@ public class ControlInteractivoUtils {
                 componentesDiferentes = agregarComponentesNoRelacionados(componentesDiferentes, idTipoElemPlantilla, nPantalla);
 
                 //agregar componentes que son parte de la pagina pero no estan en la interaccion entre componentes
-//                HashMap<Long, SuperCompPojo> l = agruparPorComp(listInteEntreComp);
+//                HashMap<Long, SuperCompPojo> l = agruparPorComp(listInteEntreComp,idTipoElemPlantilla, nPantalla);
                 HashMap<Long, SuperCompPojo> l = agruparPorCompNoRelacionados(new HashMap<Long, SuperCompPojo>(), idTipoElemPlantilla, nPantalla);
                 //agregar componentes que son parte de la pagina pero no estan en la interaccion entre componentes
                 CodigoEvento ev = new CodigoEvento();
@@ -71,7 +72,7 @@ public class ControlInteractivoUtils {
                         comp.setContEvento(eventosDiferentes.get(codEvento));
                         comp.setCont(componentesDiferentes.get(idCompActual));
                         comp.setEvento(codEvento);
-                        comp.setComps2(getComps2(eventosDiferentes, componentesDiferentes, listInteEntreComp, idCompActual, idEventoActual));
+                        comp.setComps2(getComps2(eventosDiferentes, componentesDiferentes, listInteEntreComp, idCompActual, codEvento));
                         listComp.add(comp);
                     }
                     ev.setComponentes(listComp);
@@ -79,7 +80,9 @@ public class ControlInteractivoUtils {
                     listEv.add(ev);
                 }
 //                listEv.addAll(agregarEventosComponentesNoRelacionados(evDif, componentesDiferentes, l, listInteEntreComp.get(0).getIdTipoElemPlantilla().getIdTipoElemPlantilla(), listInteEntreComp.get(0).getIeNPantalla()));
-                funcion += crearFuncion(listEv, idTipoElemPlantilla, nPantalla);
+                if (listEv != null && !listEv.isEmpty()) {
+                    funcion += crearFuncion(listEv, idTipoElemPlantilla, nPantalla);
+                }
             }
         }
         return funcion;
@@ -215,6 +218,78 @@ public class ControlInteractivoUtils {
                 //cierra el bucle para optimizar tiempo
                 if (encontrado) {
                     break;
+                }
+            }
+        }
+        return ret;
+    }
+
+    public HashMap<Long, SuperCompPojo> agruparPorComp(List<SieniInteEntrComp> intEntComp, Long idTipoElemPlantilla, Integer nPantalla) {
+        List<SieniCompInteraccion> interActual;
+        HashMap<Long, SuperCompPojo> interaccionesBySuperComp = new HashMap<>();
+        SuperCompPojo nuevo;
+        int count = 1;
+        for (SieniInteEntrComp comp : intEntComp) {
+            if (!interaccionesBySuperComp.containsKey(comp.getIeSupC1().getIdSuperCompon())) {
+                interActual = getInteractBySuperCompon(comp.getIeSupC1().getIdSuperCompon(), idTipoElemPlantilla, nPantalla);
+                SieniClaseSupComp aux = getCalseSuperComp(comp.getIeSupC1().getIdSuperCompon(), idTipoElemPlantilla, nPantalla);
+                nuevo = new SuperCompPojo();
+                nuevo.setVisible(!(aux.getScVisible() == null || aux.getScVisible().equals(new Character('N'))));
+                nuevo.setCount(count);
+                nuevo.setEventos(agruparEvento(interActual));
+                nuevo.setSupComp(comp.getIeSupC1());
+                interaccionesBySuperComp.put(comp.getIeSupC1().getIdSuperCompon(), nuevo);
+                count++;
+            }
+            if (!interaccionesBySuperComp.containsKey(comp.getIeSupC2().getIdSuperCompon())) {
+                interActual = getInteractBySuperCompon(comp.getIeSupC2().getIdSuperCompon(), idTipoElemPlantilla, nPantalla);
+                SieniClaseSupComp aux = getCalseSuperComp(comp.getIeSupC2().getIdSuperCompon(), idTipoElemPlantilla, nPantalla);
+                nuevo = new SuperCompPojo();
+                nuevo.setVisible(!(aux.getScVisible() == null || aux.getScVisible().equals(new Character('N'))));
+                nuevo.setCount(count);
+                nuevo.setEventos(agruparEvento(interActual));
+                nuevo.setSupComp(comp.getIeSupC2());
+                interaccionesBySuperComp.put(comp.getIeSupC2().getIdSuperCompon(), nuevo);
+                count++;
+            }
+        }
+        return interaccionesBySuperComp;
+    }
+
+    public List<SieniCompInteraccion> getInteractBySuperCompon(Long idClaseSuperComp, Long idTipoElemPlantilla, Integer nPantalla) {
+        List<SieniCompInteraccion> ret = new ArrayList<>();
+        for (SeccionPlantillaPojo sec : this.getSecciones()) {
+            //si es la seccion actual
+            if (sec.getIdElemPlantilla().getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(idTipoElemPlantilla)) {
+                for (PantallaPojo pant : sec.getPantallas()) {
+                    if (pant.getNumPantalla().equals(nPantalla)) {
+                        for (ComponenteInteractivoPojo comp : pant.getComponentes()) {
+                            if (idClaseSuperComp.equals(comp.getSuperComp().getIdSuperCompon())) {
+                                ret = comp.getInteracciones();
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+
+    public SieniClaseSupComp getCalseSuperComp(Long idClaseSuperComp, Long idTipoElemPlantilla, Integer nPantalla) {
+        SieniClaseSupComp ret = new SieniClaseSupComp();
+        for (SeccionPlantillaPojo sec : this.getSecciones()) {
+            //si es la seccion actual
+            if (sec.getIdElemPlantilla().getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(idTipoElemPlantilla)) {
+                for (PantallaPojo pant : sec.getPantallas()) {
+                    if (pant.getNumPantalla().equals(nPantalla)) {
+                        for (ComponenteInteractivoPojo comp : pant.getComponentes()) {
+                            if (idClaseSuperComp.equals(comp.getSuperComp().getIdSuperCompon())) {
+                                ret = comp.getClaseSuperComp();
+                                break;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -410,13 +485,13 @@ public class ControlInteractivoUtils {
     public List<CodigoComponente> getComps2(HashMap<String, Integer> eventosDiferentes,
             HashMap<Long, Integer> componentesDiferentes,
             List<SieniInteEntrComp> listInteEntreComp,
-            Long idComp1, Long idEvnt1) {
+            Long idComp1, String idEvnt1) {
         List<CodigoComponente> listComp = new ArrayList<>();
         CodigoComponente comp;
         List<SieniInteEntrComp> ret = new ArrayList<>();
         for (SieniInteEntrComp actual : listInteEntreComp) {
             if (actual.getIeSupC1().getIdSuperCompon().equals(idComp1)
-                    && actual.getIeEventoC1().getIdEvento().equals(idEvnt1)) {
+                    && actual.getIeEventoC1().getEvCodigo().equals(idEvnt1)) {
                 ret.add(actual);
             }
         }
@@ -457,19 +532,39 @@ public class ControlInteractivoUtils {
                         //2 interacc
                         switch (inte.getInteraccion().getIdEvento().getEvCodigo()) {
                             case "show":
-                                funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
-                                        + "     jQuery(\".compon" + compon + "\").show(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
-                                        + "         func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia();\n"
-                                        + "     });"
-                                        + "  };\n";
+                                if (!tieneShowHide) {
+                                    funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
+                                            + "     jQuery(\".compon" + compon + "\").show(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
+                                            + "         func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia();\n"
+                                            + "     });"
+                                            + "  };\n";
+                                } else {
+                                    //corrige bug de multiples acciones en show
+                                    funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
+                                            + "     jQuery(\".compon" + compon + "\").effect(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
+                                            + "         func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia();\n"
+                                            + "     });"
+                                            + "  };\n";
+                                    break;
+                                }
                                 tieneShowHide = true;
                                 break;
                             case "hide":
-                                funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
-                                        + "     jQuery(\".compon" + compon + "\").hide(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
-                                        + "         func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia();\n"
-                                        + "     });"
-                                        + "  };\n";
+                                if (!tieneShowHide) {
+                                    funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
+                                            + "     jQuery(\".compon" + compon + "\").hide(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
+                                            + "         func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia();\n"
+                                            + "     });"
+                                            + "  };\n";
+                                } else {
+                                    //corrige bug de multiples acciones en hide
+                                    funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
+                                            + "     jQuery(\".compon" + compon + "\").effect(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
+                                            + "         func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia();\n"
+                                            + "     });"
+                                            + "  };\n";
+                                    break;
+                                }
                                 tieneShowHide = true;
                                 break;
                             default:

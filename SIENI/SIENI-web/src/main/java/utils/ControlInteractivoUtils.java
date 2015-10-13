@@ -588,7 +588,7 @@ public class ControlInteractivoUtils {
                                             + " var" + compon + "." + inte.getInteraccion().getIdEvento().getEvCodigo() + "();\n"
                                             + " }\n";
                                 }
-                                multimedia += " var" + compon + " = Popcorn(\".media" + compon + "\")";
+                                multimedia += " var" + compon + " = Popcorn(\".media" + compon + "\");\n";
                                 break;
                             default:
                                 funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
@@ -642,9 +642,17 @@ public class ControlInteractivoUtils {
                                     + "                        func_" + evnto.getCont() + "_" + compon + "_1();\n"
                                     + "                    });\n";
                         } else {
-                            eventosMultimedia += "var" + compon + ".on(\"" + comp.getEvento() + "\", function () {\n"
-                                    + "                        func_" + evnto.getCont() + "_" + compon + "_1();\n"
-                                    + "                    });\n";
+                            //corrige el bug al reproducir un archivo
+                            //play es el unico que no se puede encadenar con eventos
+                            if (comp.getEvento().equals("play")) {
+                                eventosMultimedia += "jQuery(\".media" + compon + "\").on(\"" + comp.getEvento() + "\", function () {\n"
+                                        //                                        + "                        func_" + evnto.getCont() + "_" + compon + "_1();\n"
+                                        + "                    });\n";
+                            } else {
+                                eventosMultimedia += "jQuery(\".media" + compon + "\").on(\"" + comp.getEvento() + "\", function () {\n"
+                                        + "                        func_" + evnto.getCont() + "_" + compon + "_1();\n"
+                                        + "                    });\n";
+                            }
                         }
                     }
                     eventos += showHide;

@@ -499,6 +499,7 @@ public class ControlInteractivoUtils {
             comp = new CodigoComponente();
             comp.setIdSuperCompon(actual.getIeSupC2().getIdSuperCompon());
             comp.setContEvento(eventosDiferentes.get(actual.getIeEventoC2().getEvCodigo()));
+            comp.setEvento(actual.getIeEventoC2().getEvCodigo());
             comp.setDelay(actual.getIeRetraso());
             comp.setCont(componentesDiferentes.get(actual.getIeSupC2().getIdSuperCompon()));
             listComp.add(comp);
@@ -512,6 +513,8 @@ public class ControlInteractivoUtils {
         String intermedia = "";
         String eventos = "";
         String showHide = "";
+        String multimedia = "";
+        String eventosMultimedia = "";
         boolean ultimoAccionCompActual, tieneMultimedia = false, tieneShowHide = false;
         //codigoEvento->lista componentes
         //lista componentes->lista acciones
@@ -528,6 +531,7 @@ public class ControlInteractivoUtils {
                     Integer inteCont = 1;
                     showHide = "";
                     tieneShowHide = false;
+                    tieneMultimedia = false;
                     for (InteraccionesCompPojo inte : comp.getInteracciones()) {
                         //2 interacc
                         switch (inte.getInteraccion().getIdEvento().getEvCodigo()) {
@@ -567,6 +571,25 @@ public class ControlInteractivoUtils {
                                 }
                                 tieneShowHide = true;
                                 break;
+                            case "play":
+                            case "pause":
+                            case "ended":
+                            case "playing":
+                                tieneMultimedia = true;
+                                funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
+                                        //                                        + " var" + compon + "." + inte.getInteraccion().getIdEvento().getEvCodigo() + "();\n"
+                                        + "     jQuery(\".compon" + compon + "\").effect(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
+                                        + "         func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_intermedia();\n"
+                                        + "     });"
+                                        + "  };\n";
+                                //correccion de bug cuando es multimedia en play y pause
+                                if (inte.getInteraccion().getIdEvento().getEvCodigo().equals("play") || inte.getInteraccion().getIdEvento().getEvCodigo().equals("pause")) {
+                                    funcion += "  function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "_multimedia(){\n"
+                                            + " var" + compon + "." + inte.getInteraccion().getIdEvento().getEvCodigo() + "();\n"
+                                            + " }\n";
+                                }
+                                multimedia += " var" + compon + " = Popcorn(\".media" + compon + "\")";
+                                break;
                             default:
                                 funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
                                         + "     jQuery(\".compon" + compon + "\").effect(\"" + inte.getInteraccion().getIdAccion().getEvCodigo() + "\"," + inte.getInteraccion().getInDuracion() + ", function(){\n"
@@ -581,12 +604,22 @@ public class ControlInteractivoUtils {
                             if (comp.getComps2() != null && !comp.getComps2().isEmpty()) {
                                 //componentes vinculados al componente 1
                                 for (CodigoComponente comp2 : comp.getComps2()) {
-                                    intermedia += " setTimeout(\n"
-                                            + "         function(){\n"
-                                            + "             func_" + comp2.getContEvento() + "_" + ubica + comp2.getIdSuperCompon() + "_1();\n"
-                                            + "         },\n"
-                                            + "         " + (comp2.getDelay() != null ? comp2.getDelay() + "" : "0") + "\n"
-                                            + "     );\n";
+                                    //evita recursividad al reproducir o pausar video o sonido
+                                    if (comp2.getEvento() != null && (comp2.getEvento().equals("play") || comp2.getEvento().equals("pause"))) {
+                                        intermedia += " setTimeout(\n"
+                                                + "         function(){\n"
+                                                + "             func_" + comp2.getContEvento() + "_" + ubica + comp2.getIdSuperCompon() + "_1_multimedia();\n"
+                                                + "         },\n"
+                                                + "         " + (comp2.getDelay() != null ? comp2.getDelay() + "" : "0") + "\n"
+                                                + "     );\n";
+                                    } else {
+                                        intermedia += " setTimeout(\n"
+                                                + "         function(){\n"
+                                                + "             func_" + comp2.getContEvento() + "_" + ubica + comp2.getIdSuperCompon() + "_1();\n"
+                                                + "         },\n"
+                                                + "         " + (comp2.getDelay() != null ? comp2.getDelay() + "" : "0") + "\n"
+                                                + "     );\n";
+                                    }
                                 }
                             }
                         } else {//siguiente evento del componente actual
@@ -600,13 +633,19 @@ public class ControlInteractivoUtils {
                     }
                     //si tiene show y esta oculto 
                     if (!comp.isVisible() && tieneShowHide) {
-                        showHide += "setTimeout(function(){jQuery(\".compon" + compon + "\").hide(); },300);\n";
+                        showHide += "setTimeout(function(){jQuery(\".compon" + compon + "\").hide(); },0);\n";
                     }
                     //si no tiene eventos para mostrar u ocultar
                     if (!tieneShowHide) {
-                        eventos += "jQuery(\".compon" + compon + "\").on(\"" + comp.getEvento() + "\", function () {\n"
-                                + "                        func_" + evnto.getCont() + "_" + compon + "_1();\n"
-                                + "                    });\n";
+                        if (!tieneMultimedia) {
+                            eventos += "jQuery(\".compon" + compon + "\").on(\"" + comp.getEvento() + "\", function () {\n"
+                                    + "                        func_" + evnto.getCont() + "_" + compon + "_1();\n"
+                                    + "                    });\n";
+                        } else {
+                            eventosMultimedia += "var" + compon + ".on(\"" + comp.getEvento() + "\", function () {\n"
+                                    + "                        func_" + evnto.getCont() + "_" + compon + "_1();\n"
+                                    + "                    });\n";
+                        }
                     }
                     eventos += showHide;
 
@@ -616,9 +655,12 @@ public class ControlInteractivoUtils {
             }
         }
         if (tieneMultimedia) {
-            eventos += " configurarMultimedia();\n";
+            funcion += "document.addEventListener(\"DOMContentLoaded\", function () {\n"
+                    + multimedia + "\n"
+                    + eventosMultimedia + "\n"
+                    + "            }, false);";
         }
-        funcion += "jQuery(document).ready(function () {\n"
+        funcion += "jQuery(window).load(function () {\n"
                 + eventos
                 + "});\n";
 

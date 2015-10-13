@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.form;
 
 import java.util.List;
+import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
 import sv.com.mined.sieni.model.SieniEvento;
@@ -13,6 +14,7 @@ import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
+import sv.com.mined.sieni.pojos.controller.InteraccionMultiplePojo;
 import sv.com.mined.sieni.pojos.controller.PantallaPojo;
 import sv.com.mined.sieni.pojos.controller.SeccionPlantillaPojo;
 import utils.siteUrls;
@@ -54,9 +56,14 @@ public class GestionClaseInteracForm {
     private List<SieniInteEntrComp> interacEliminados;
     private SieniInteEntrComp nuevaInterac;
     private List<SieniEvento> evn1;
+    private List<SieniEvento> evn1Multi;
     private List<SieniEvento> evn2;
     private List<SieniSuperCompon> compDisponibles;
     private SieniInteEntrComp interacEliminada;
+    private SieniInteEntrComp nuevaInteracMult1;
+//    private List<SieniInteEntrComp> nuevaInteracMult2;
+    private DualListModel<SieniInteEntrComp> nuevaInteracMult2;
+    private List<InteraccionMultiplePojo> listaMultiple;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -295,6 +302,38 @@ public class GestionClaseInteracForm {
 
     public void setInteracEliminada(SieniInteEntrComp interacEliminada) {
         this.interacEliminada = interacEliminada;
+    }
+
+    public SieniInteEntrComp getNuevaInteracMult1() {
+        return nuevaInteracMult1;
+    }
+
+    public void setNuevaInteracMult1(SieniInteEntrComp nuevaInteracMult1) {
+        this.nuevaInteracMult1 = nuevaInteracMult1;
+    }
+
+    public DualListModel<SieniInteEntrComp> getNuevaInteracMult2() {
+        return nuevaInteracMult2;
+    }
+
+    public void setNuevaInteracMult2(DualListModel<SieniInteEntrComp> nuevaInteracMult2) {
+        this.nuevaInteracMult2 = nuevaInteracMult2;
+    }
+
+    public List<SieniEvento> getEvn1Multi() {
+        return evn1Multi;
+    }
+
+    public void setEvn1Multi(List<SieniEvento> evn1Multi) {
+        this.evn1Multi = evn1Multi;
+    }
+
+    public List<InteraccionMultiplePojo> getListaMultiple() {
+        return listaMultiple;
+    }
+
+    public void setListaMultiple(List<InteraccionMultiplePojo> listaMultiple) {
+        this.listaMultiple = listaMultiple;
     }
 
 }

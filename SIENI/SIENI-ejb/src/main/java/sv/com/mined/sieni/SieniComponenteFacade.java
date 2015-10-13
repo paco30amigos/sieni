@@ -39,7 +39,7 @@ public class SieniComponenteFacade extends AbstractFacade<SieniComponente> imple
             } else {
                 this.create(actual);
             }
-            em.refresh(actual);
+//            em.refresh(actual);
         }
 
         for (SieniComponente actual : eliminados) {
@@ -47,7 +47,7 @@ public class SieniComponenteFacade extends AbstractFacade<SieniComponente> imple
                 actual.setCpEstado('I');//eliminacion logica
                 this.edit(actual);
             }
-            em.refresh(actual);
+//            em.refresh(actual);
         }
         em.flush();
     }

@@ -47,6 +47,8 @@ public class SieniClaseSupComp implements Serializable {
     private Integer scPosX;
     @Column(name = "sc_pos_y")
     private Integer scPosY;
+    @Column(name = "sc_orden")
+    private Integer scOrden;
     @Column(name = "sc_n_pantalla")
     private Integer scNPantalla;
     @JoinColumn(name = "id_tipo_elem_plantilla", referencedColumnName = "id_tipo_elem_plantilla")
@@ -169,6 +171,14 @@ public class SieniClaseSupComp implements Serializable {
 
     public void setfCompSuperCompon(SieniSuperCompon fCompSuperCompon) {
         this.fCompSuperCompon = fCompSuperCompon;
+    }
+
+    public Integer getScOrden() {
+        return scOrden;
+    }
+
+    public void setScOrden(Integer scOrden) {
+        this.scOrden = scOrden;
     }
 
 }

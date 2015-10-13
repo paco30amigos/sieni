@@ -29,7 +29,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "sieni_inte_entr_comp")
 @NamedQueries({
     @NamedQuery(name = "SieniInteEntrComp.findAll", query = "SELECT s FROM SieniInteEntrComp s"),
-    @NamedQuery(name = "SieniInteEntrComp.findByClase", query = "SELECT s FROM SieniInteEntrComp s where s.idClase=:idClase and s.ieEstado not in (:estado)")})
+    @NamedQuery(name = "SieniInteEntrComp.findByClase", query = "SELECT s FROM SieniInteEntrComp s where s.idClase=:idClase and s.ieEstado not in (:estado) ORDER BY s.ieOrden")})
 public class SieniInteEntrComp implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,6 +42,8 @@ public class SieniInteEntrComp implements Serializable {
     private Long idInteEntreComp;
     @Column(name = "ie_retraso")
     private Integer ieRetraso;
+    @Column(name = "ie_orden")
+    private Integer ieOrden;
     @Column(name = "ie_estado")
     private Character ieEstado;
     @JoinColumn(name = "ie_sup_c2", referencedColumnName = "id_super_compon")
@@ -174,6 +176,14 @@ public class SieniInteEntrComp implements Serializable {
 
     public void setIeNPantalla(Integer ieNPantalla) {
         this.ieNPantalla = ieNPantalla;
+    }
+
+    public Integer getIeOrden() {
+        return ieOrden;
+    }
+
+    public void setIeOrden(Integer ieOrden) {
+        this.ieOrden = ieOrden;
     }
 
 }

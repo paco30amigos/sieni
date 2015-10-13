@@ -189,8 +189,10 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     }
 
     public void configurar(SieniClase clase) {
-        fillConfigura(clase);
-        this.setIndexMenu(4);
+        if (fillConfigura(clase)) {
+            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+            this.setIndexMenu(4);
+        }
 
 //        this.setMaterias(sieniMateriaFacadeRemote.findAll());
     }
@@ -198,16 +200,17 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     public void configurarInterac(SieniClase ver) {
         this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
         this.setClaseConfig(ver);
-        fillConfigura(ver);
-        this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
-        ControlInteractivoUtils ciu = new ControlInteractivoUtils();
-        ciu.setSecciones(this.getSecciones());
-        ciu.setTotalInteracc(this.getInteracTotal());
-        this.setFuncionJS(ciu.getCodigoEventosEntreComp());
-        this.setNuevaInterac(new SieniInteEntrComp());
-        this.getNuevaInterac().setIeRetraso(0);
-        updateInteractByTipoElemPlanPantalla(null);
-        this.setIndexMenu(5);
+        if (fillConfigura(ver)) {
+            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+            ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+            ciu.setSecciones(this.getSecciones());
+            ciu.setTotalInteracc(this.getInteracTotal());
+            this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+            this.setNuevaInterac(new SieniInteEntrComp());
+            this.getNuevaInterac().setIeRetraso(0);
+            updateInteractByTipoElemPlanPantalla(null);
+            this.setIndexMenu(5);
+        }
     }
 
     public List<SieniSuperCompon> getComponentsPantallaActual() {
@@ -231,7 +234,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         return ret;
     }
 
-    private void fillConfigura(SieniClase clase) {
+    private boolean fillConfigura(SieniClase clase) {
+        boolean ret = true;
         this.setClaseConfig(clase);
         if (clase.getClAlto() == null) {
             clase.setClAlto(600);
@@ -249,16 +253,23 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
 
         /*seteo de componentes correcto*/
         List<SieniClaseSupComp> listaComp = sieniClaseSupCompFacadeRemote.findByClase(clase.getIdClase());
-        List<SieniSuperCompon> totalSuperComponentes = sieniSuperComponFacadeRemote.findAllNoInactivos();
+        List<SieniSuperCompon> totalSuperComponentes = sieniSuperComponFacadeRemote.findEstado('A');
 
         this.setComponentesInteractDisponibles(totalSuperComponentes);
-        this.setSecciones(getSeccionesByElemPlantilla(listaComp, this.getClaseConfig().getIdPlantilla().getSieniElemPlantillaList()));
+        if (this.getClaseConfig().getIdPlantilla() != null) {
+            this.setSecciones(getSeccionesByElemPlantilla(listaComp, this.getClaseConfig().getIdPlantilla().getSieniElemPlantillaList()));
 
-        //interacciones entre componentes by clase
-        this.setInteEntrCompList(sieniInteEntrCompFacadeRemote.findByClase(clase.getIdClase()));
-        //********información
-        this.setPaginaActive(0);
-        this.setIdElemenActive(0);
+            //interacciones entre componentes by clase
+            this.setInteEntrCompList(sieniInteEntrCompFacadeRemote.findByClase(clase.getIdClase()));
+            //********información
+            this.setPaginaActive(0);
+            this.setIdElemenActive(0);
+        } else {
+            ret = false;
+            new ValidationPojo().printMsj("No se ha ingresado una plantilla para la clase", FacesMessage.SEVERITY_ERROR);
+        }
+        this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
+        return ret;
     }
 
     private List<ComponenteInteractivoPojo> getComponentesInteractivos(List<SieniClaseSupComp> listaComp) {
@@ -350,13 +361,14 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     //metodos para modificacion de datos
     public void mostrar(SieniClase ver) {
         this.setClaseConfig(ver);
-        fillConfigura(ver);
-        this.setIndexMenu(3);
-        this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
-        ControlInteractivoUtils ciu = new ControlInteractivoUtils();
-        ciu.setSecciones(this.getSecciones());
-        ciu.setTotalInteracc(this.getInteracTotal());
-        this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+        if (fillConfigura(ver)) {
+            this.setIndexMenu(3);
+            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+            ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+            ciu.setSecciones(this.getSecciones());
+            ciu.setTotalInteracc(this.getInteracTotal());
+            this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+        }
     }
 
     //solo cuando se desean ver los cambios sin llenar actualizar las interacciones
@@ -482,6 +494,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             eliminados.add(elimn.getClaseSuperComp());
         }
         sieniClaseSupCompFacadeRemote.merge(componentes, eliminados);
+        //elimina las interacciondes de los componentes relacionados que fueron eliminados
+        sieniInteEntrCompFacadeRemote.merge(new ArrayList<SieniInteEntrComp>(), this.getInteracEliminados());
         fillConfigura(this.getClaseConfig());
         new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
     }
@@ -499,7 +513,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         }
         SieniTipoElemPlantilla tipoPlant = this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla();
         Integer nPantalla = seccionActual.getPantallas().get(index).getNumPantalla();
-
+        this.getNuevaInterac().setIdInteEntreComp(-Long.parseLong(new DateUtils().getTime()));
         this.getNuevaInterac().setIeNPantalla(nPantalla);
         this.getNuevaInterac().setIdTipoElemPlantilla(tipoPlant);
         this.getNuevaInterac().setIdClase(this.getClaseConfig().getIdClase());
@@ -537,8 +551,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         List<SieniClaseSupComp> auxComp = new ArrayList<>();
         auxComp.add(this.getNuevoComponente());
         List<ComponenteInteractivoPojo> a = getComponentesInteractivos(auxComp);
-        a.addAll(seccionActual.getPantallas().get(index).getComponentes());
-        seccionActual.getPantallas().get(index).setComponentes(a);
+        seccionActual.getPantallas().get(index).getComponentes().addAll(a);
         this.setNuevoComponente(new SieniClaseSupComp());
     }
 
@@ -647,6 +660,14 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         int index = seccionActual.getPantallaActual();
         this.getComponentesEliminados().add(this.getSuperCompEliminado());
         seccionActual.getPantallas().get(index).getComponentes().remove(this.getSuperCompEliminado());
+        if (this.getInteracTotal() != null) {
+            for (SieniInteEntrComp inte : this.getInteracTotal()) {
+                if (inte.getIeSupC1().getIdSuperCompon().equals(this.getSuperCompEliminado().getSuperComp().getIdSuperCompon())
+                        || inte.getIeSupC2().getIdSuperCompon().equals(this.getSuperCompEliminado().getSuperComp().getIdSuperCompon())) {
+                    this.getInteracEliminados().add(inte);
+                }
+            }
+        }
     }
 
     //interacciones seleccionadas

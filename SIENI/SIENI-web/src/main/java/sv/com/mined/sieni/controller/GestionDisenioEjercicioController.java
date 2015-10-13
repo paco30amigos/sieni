@@ -125,7 +125,85 @@ public class GestionDisenioEjercicioController extends GestionEjercicioForm {
     }
 
     
-
+public void  formulaConstruct(int f){
+    String valor="";
+    switch(f){
+        case 1:
+            valor = this.ABSOLUTO;
+            break;
+        case 2:
+            valor = this.FACTORIAL;
+            break;
+        case 3:
+            valor = this.RAIZ;
+            break;
+        case 4:
+            valor = this.RAIZN;
+            break;
+        case 5:
+            valor = this.FUNCIONE;
+            break;
+        case 6:
+            valor = this.POTENCIA;
+            break;
+        case 7:
+            valor = this.LN;
+            break;
+        case 8:
+            valor = this.LOG;
+            break;
+        case 9:
+            valor = this.SENO;
+            break;
+        case 10:
+            valor = this.COSENO;
+            break;
+        case 11:
+            valor = this.TAN;
+            break;
+        case 12:
+            valor = this.COT;
+            break;
+        case 13:
+            valor = this.SENOH;
+            break;
+        case 14:
+            valor = this.COSENOH;
+            break;
+        case 15:
+            valor = this.TANH;
+            break;
+        case 16:
+            valor = this.COTH;
+            break;
+        case 17:
+            valor = this.ARCSENO;
+            break;
+        case 18:
+            valor = this.ARCCOSENO;
+            break;
+        case 19:
+            valor = this.ARCTAN;
+            break;
+        case 20:
+            valor = this.ARCCOT;
+            break;
+        case 21:
+            valor = this.ARCSENOH;
+            break;
+        case 22:
+            valor = this.ARCCOSENOH;
+            break;
+        case 23:
+            valor = this.ARCTANH;
+            break;
+        case 24:
+            valor = this.ARCCOTH;    
+            break;
+    }
+    
+this.setFormula(this.getFormula()+valor);
+}
     
 
 }

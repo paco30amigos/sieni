@@ -17,22 +17,85 @@
         <p:tabView>
             <p:tab title="Diseño de Ejercicio">
                 <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+
+                    <p:menubar>
+                        <p:submenu label="Funciones" >            
+                            <p:menuitem value="Absoluto" icon="ui-icon-absoluto" action="#{gestionDisenioEjercicioController.formulaConstruct(1)}" update="formula"/>
+                            <p:menuitem value="Factorial" icon="ui-icon-factorial" action="#{gestionDisenioEjercicioController.formulaConstruct(2)}" update="formula"/>
+                            <p:menuitem value="Raiz" icon="ui-icon-raiz" action="#{gestionDisenioEjercicioController.formulaConstruct(3)}" update="formula"/>
+                            <p:menuitem value="Raiz n" icon="ui-icon-raizx" action="#{gestionDisenioEjercicioController.formulaConstruct(4)}" update="formula"/>
+                            <p:menuitem value="Funcion exp" icon="ui-icon-ex" action="#{gestionDisenioEjercicioController.formulaConstruct(5)}" update="formula"/>
+                            <p:menuitem value="Potencia" icon="ui-icon-xb" action="#{gestionDisenioEjercicioController.formulaConstruct(6)}" update="formula"/>
+                            <p:menuitem value="log natural" icon="ui-icon-ex" action="#{gestionDisenioEjercicioController.formulaConstruct(7)}" update="formula"/>
+                            <p:menuitem value="log base 10" icon="ui-icon-log" action="#{gestionDisenioEjercicioController.formulaConstruct(8)}" update="formula"/>
+                            <p:separator />
+                            <p:menuitem value="sen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(9)}" update="formula"/>
+                            <p:menuitem value="cos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(10)}" update="formula"/>
+                            <p:menuitem value="tan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(11)}" update="formula"/>
+                            <p:menuitem value="cot(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(12)}" update="formula"/>
+                            <p:menuitem value="senh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(13)}" update="formula"/>
+                            <p:menuitem value="cosh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(14)}" update="formula"/>
+                            <p:menuitem value="tanh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(15)}" update="formula"/>
+                            <p:menuitem value="coth(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(16)}" update="formula"/>
+                            <p:separator />
+                            <p:menuitem value="arcsen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(17)}" update="formula"/>
+                            <p:menuitem value="arccos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(18)}" update="formula"/>
+                            <p:menuitem value="arctan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(19)}" update="formula"/>
+                            
+                            <p:menuitem value="arcsenh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(21)}" update="formula"/>
+                            <p:menuitem value="arccosh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(22)}" update="formula"/>
+                            <p:menuitem value="arctanh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(23)}" update="formula"/>
+                            
+                        </p:submenu>
+
+                        <p:submenu label="Edit" icon="ui-icon-pencil">
+                            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+                            <p:menuitem value="Redo" url="#" icon="ui-icon-fun" />
+                        </p:submenu>
+
+                        <p:submenu label="Help" icon="ui-icon-help">
+                            <p:menuitem value="Contents" url="#" />
+                            <p:submenu label="Search" icon="ui-icon-search">
+                                <p:submenu label="Text">
+                                    <p:menuitem value="Workspace" url="#" />
+                                </p:submenu>
+                                <p:menuitem value="File" url="#" />
+                            </p:submenu>
+                        </p:submenu>
+
+                        <p:submenu label="Actions" icon="ui-icon-gear">
+                            <p:submenu label="Ajax" icon="ui-icon-refresh">
+                                <p:menuitem value="Save" actionListener="#" icon="ui-icon-disk" />
+                                <p:menuitem value="Update" actionListener="#" icon="ui-icon-arrowrefresh-1-w" />
+                            </p:submenu>
+                            <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
+                                <p:menuitem value="Delete" actionListener="#" icon="ui-icon-close"  ajax="false"/>
+                            </p:submenu>
+                        </p:submenu>
+
+                        <p:menuitem value="Quit" url="http://www.primefaces.org" icon="ui-icon-close" />
+
+                        <f:facet name="options">
+                            <p:inputText style="margin-right:10px" placeholder="Search"/>
+                            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />
+                        </f:facet>
+                    </p:menubar>
+
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="direccion" value="Formula: " class=" Responsive"></p:outputLabel>
-                    <p:inputTextarea  class="Container100" id="direccion" value="#{gestionDisenioEjercicioController.formula}"></p:inputTextarea>
-                
+                    <p:outputLabel for="formula" value="Formula: " class=" Responsive"></p:outputLabel>
+                    <p:inputTextarea  class="Container100" id="formula" value="#{gestionDisenioEjercicioController.formula}"></p:inputTextarea>
+
                     <p:graphicImage id="consulta" value="#{gestionDisenioEjercicioController.graphicText}" styleClass="Fleft"  cache="false"></p:graphicImage>
 
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
-                        <p:commandButton value="Generar" action="#{gestionDisenioEjercicioController.refresh()}" update="consulta"></p:commandButton>
-                    <p:commandButton value="Refrescar" action="#{gestionDisenioEjercicioController.refresh()}" ></p:commandButton>
+                        <p:commandButton value="Generar" action="#{gestionDisenioEjercicioController.refresh()}" icon="ui-icon-funciones" update="consulta"></p:commandButton>
+                        <p:commandButton value="Refrescar" action="#{gestionDisenioEjercicioController.refresh()}" ></p:commandButton>
 
                     </div>
+
+
+
                 </h:form>
 
 

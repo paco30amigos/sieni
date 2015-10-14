@@ -30,5 +30,46 @@
     padding-top: 5px;
 }
 
+.ui-icon-funciones{
+    background-image: url(#{resource['images:res/al21806.png']}) !important;
+    background-position: center !important;
+    
+}
+.ui-icon-absoluto{
+    background-image: url(#{resource['images:res/fu21501.png']}) !important;
+    background-position: center !important;    
+}
+.ui-icon-factorial{
+    background-image: url(#{resource['images:res/fu21502.png']}) !important;
+    background-position: center !important;    
+}
+.ui-icon-raiz{
+    background-image: url(#{resource['images:res/fu21503.png']}) !important;
+    background-position: center !important;    
+}
+.ui-icon-raizx{
+    background-image: url(#{resource['images:res/fu21504.png']}) !important;
+    background-position: center !important;    
+}
+.ui-icon-ex{
+    background-image: url(#{resource['images:res/fu21505.png']}) !important;
+    background-position: center !important;    
+}
+.ui-icon-ln{
+    background-image: url(#{resource['images:res/fu21506.png']}) !important;
+    background-position: center !important;    
+}
+.ui-icon-exp{
+    background-image: url(#{resource['images:res/fu21507.png']}) !important;
+    background-position: center !important;    
+}
+.ui-icon-log{
+    background-image: url(#{resource['images:res/fu21508.png']}) !important;
+    background-position: center !important;    
+}
+.ui-icon-xb{
+    background-image: url(#{resource['images:res/co21908.png']}) !important;
+    background-position: center !important;    
+}
 
 

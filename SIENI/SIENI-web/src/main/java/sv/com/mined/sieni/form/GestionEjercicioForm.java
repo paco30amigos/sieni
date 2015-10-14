@@ -23,7 +23,32 @@ public class GestionEjercicioForm {
     private int indexMenu;
   
   String formula;
-
+  public static  final String ABSOLUTO="\\left |{x}\\right |";
+  public static  final String FACTORIAL="{x}!";
+  public static  final String RAIZ="\\sqrt[]{x}";
+  public static  final String RAIZN="\\sqrt[{n}]{x}";
+  public static  final String FUNCIONE="e^{x}";
+  public static  final String POTENCIA="{x}^{n}";
+  public static  final String LN="ln{x}";
+  public static  final String LOG="log{x}";
+  public static  final String SENO="\\sen{x}";
+  public static  final String COSENO="\\cos{x}";
+  public static  final String TAN="\\tan{x}";
+  public static  final String COT="\\cot{x}";
+    public static  final String SENOH="\\senh{x}";
+  public static  final String COSENOH="\\cosh{x}";
+  public static  final String TANH="\\tanh{x}";
+  public static  final String COTH="\\coth{x}";
+  public static  final String ARCSENO="\\arcsen{x}";
+  public static  final String ARCCOSENO="\\arccos{x}";
+  public static  final String ARCTAN="\\arctan{x}";
+  public static  final String ARCCOT="\\arccot{x}";
+   public static  final String ARCSENOH="\\arcsenh{x}";
+  public static  final String ARCCOSENOH="\\arccosh{x}";
+  public static  final String ARCTANH="\\arctanh{x}";
+  public static  final String ARCCOTH="\\arccoth{x}";
+ 
+  
     public String getFormula() {
         return formula;
     }

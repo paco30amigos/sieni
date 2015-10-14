@@ -79,4 +79,8 @@ public class LoginController extends LoginForm {
         this.getsU().redirect("/faces/login.xhtml");
         this.setLogeado(false);
     }
+    
+    public void cambiarPass() {
+        this.getsU().redirect("/faces/password.xhtml");
+    }
 }

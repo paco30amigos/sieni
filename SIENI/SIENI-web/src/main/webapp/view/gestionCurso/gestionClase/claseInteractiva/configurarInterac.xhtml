@@ -44,11 +44,61 @@
                             <p:selectOneMenu id="e2" value="#{gestionClaseInteracController.nuevaInterac.ieEventoC2}" converter="evento" filter="true" filterMatchMode="contains">
                                 <f:selectItems value="#{gestionClaseInteracController.evn2}" var="evn2" itemLabel="#{evn2.evDescripcion}" itemValue="#{evn2}"></f:selectItems>
                             </p:selectOneMenu>
+                            <p:outputLabel value="Retraso"></p:outputLabel>
                             <p:spinner value="#{gestionClaseInteracController.nuevaInterac.ieRetraso}" max="10000" min="0"></p:spinner>
                             <p:commandButton value="Agregar Interaccion" action="#{gestionClaseInteracController.agregarInteraccion()}" update="consultaForm:clase,panel"></p:commandButton>
-                        </p:panelGrid>
+                        </p:panelGrid> 
                     </p:tab>
-                    
+                    <p:tab title="Interacción Múltiple">
+                        <p:tabView orientation="left" class="interacMultiples" id="interacMultiples" activeIndex="#{gestionClaseInteracController.opSelectMulti}"> 
+                            <p:ajax event="tabChange" update="evntos,comp1" listener="#{gestionClaseInteracController.updateEventosComps2Seleccionados}"></p:ajax>
+                            <p:tab title="Seleccion de componentes">
+                                <p:panelGrid columns="2" id="multiple">
+                                    <p:outputLabel value="Componente 1"></p:outputLabel>
+                                    <p:selectOneMenu value="#{gestionClaseInteracController.nuevaInteracMult1.ieSupC1}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionClaseInteracController.getEventosC1Multi}">
+                                        <f:selectItems value="#{gestionClaseInteracController.compDisponibles}" var="comps1Multi" itemLabel="#{comps1Multi.scNombre}" itemValue="#{comps1Multi}"></f:selectItems>
+                                        <p:ajax event="valueChange" update="idEvn1Multi"></p:ajax>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="idEvn1Multi" value="Evento 1"></p:outputLabel>
+                                    <p:selectOneMenu id="idEvn1Multi" value="#{gestionClaseInteracController.nuevaInteracMult1.ieEventoC1}" converter="evento" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{gestionClaseInteracController.evn1Multi}" var="evn1Multi" itemLabel="#{evn1Multi.evDescripcion}" itemValue="#{evn1Multi}"></f:selectItems>
+                                        <p:ajax event="valueChange" update="idEvn1Multi"></p:ajax>
+                                    </p:selectOneMenu>
+                                    <p:outputLabel value="Componentes 2"></p:outputLabel>
+                                    <p:pickList id="dt" value="#{gestionClaseInteracController.nuevaInteracMult2}" var="superComp2" converter="superComponPickList"
+                                                itemValue="#{superComp2}" itemLabel="#{superComp2.ieSupC2.scNombre}" >
+                                        <p:ajax event="reorder" update="evntos,comp1"></p:ajax>
+                                        <p:ajax event="transfer" update="evntos"/>
+                                        <f:facet name="sourceCaption">Disponibles</f:facet>
+                                        <f:facet name="targetCaption">Seleccionados</f:facet>
+                                    </p:pickList>
+                                </p:panelGrid>
+                            </p:tab>
+                            <p:tab title="Seleccion de eventos" >
+                                <p:panelGrid columns="2" id="comp1">
+                                    <p:outputLabel value="Componente 1"></p:outputLabel>
+                                    <p:outputLabel value="#{gestionClaseInteracController.nuevaInteracMult1.ieSupC1.scNombre}"></p:outputLabel>
+                                    <p:outputLabel value="Evento 1"></p:outputLabel>
+                                    <p:outputLabel value="#{gestionClaseInteracController.nuevaInteracMult1.ieEventoC1.evDescripcion}"></p:outputLabel>
+                                    <p:outputLabel value="Componentes 2"></p:outputLabel>
+                                    <p:dataTable id="evntos" value="#{gestionClaseInteracController.listaMultiple}" var="comps2Seleccionados">
+                                        <p:column headerText="Componente">
+                                            #{comps2Seleccionados.interaccionEntreComps.ieSupC2.scNombre}
+                                        </p:column>
+                                        <p:column headerText="Evento">
+                                            <p:selectOneMenu  value="#{comps2Seleccionados.interaccionEntreComps.ieEventoC2}" converter="evento">
+                                                <f:selectItems value="#{comps2Seleccionados.eventos}" var="evts" itemLabel="#{evts.evDescripcion}" itemValue="#{evts}"></f:selectItems>
+                                            </p:selectOneMenu>
+                                        </p:column>
+                                        <p:column headerText="Retraso">
+                                            <p:spinner value="#{comps2Seleccionados.interaccionEntreComps.ieRetraso}" max="10000" min="0"></p:spinner>
+                                        </p:column>
+                                    </p:dataTable>
+                                    <p:commandButton value="Guardar Interacciones múltiples" action="#{gestionClaseInteracController.agregarInteraccionesMultiples()}"></p:commandButton>
+                                </p:panelGrid>
+                            </p:tab>
+                        </p:tabView>
+                    </p:tab>
                 </p:tabView>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
@@ -63,16 +113,16 @@
                              rowsPerPageTemplate="5,10,20,40"
                              reflow="true"
                              >
-                    <p:column headerText="Componente 1">
+                    <p:column headerText="Componente 1" filterBy="#{interacc.ieSupC1.scNombre}" filterable="true" filterMatchMode="contains">
                         #{interacc.ieSupC1.scNombre}
                     </p:column>
-                    <p:column headerText="Evento 1">
+                    <p:column headerText="Evento 1" filterBy="#{interacc.ieEventoC1.evDescripcion}" filterable="true" filterMatchMode="contains">
                         #{interacc.ieEventoC1.evDescripcion}
                     </p:column>
-                    <p:column headerText="Componente 2">
+                    <p:column headerText="Componente 2" filterBy="#{interacc.ieSupC2.scNombre}" filterable="true" filterMatchMode="contains">
                         #{interacc.ieSupC2.scNombre}
                     </p:column>
-                    <p:column headerText="Evento 2">
+                    <p:column headerText="Evento 2" filterBy="#{interacc.ieEventoC2.evDescripcion}" filterable="true" filterMatchMode="contains">
                         #{interacc.ieEventoC2.evDescripcion}
                     </p:column>
                     <p:column headerText="Retraso">
@@ -90,11 +140,11 @@
                 </script>
                 <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
                 <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px">
-                    <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:tabVie:panel,consultaForm:acciones"></p:ajax>
+                    <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:tabVie,consultaForm:acciones"></p:ajax>
                     <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
                         <p:tab title="#{elemPlantilla.nombre}">
                             <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas" > 
-                                <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:tabVie:panel,consultaForm:acciones"></p:ajax>
+                                <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:tabVie,consultaForm:acciones"></p:ajax>
                                 <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                     <p:tab title="Pág #{pantalla.numPantalla}">
                                         <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px;cursor: pointer">

@@ -40,7 +40,7 @@
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
             <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}"/>
-            <p:menuitem value="Configuración de Clase Interactiva" url="#"/>
+            <p:menuitem value="Configuración de Video-Clase Almacenada" url="#"/>
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
@@ -102,7 +102,7 @@
                 <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px">
                     <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
                         <p:tab title="#{elemPlantilla.nombre}">
-                            <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}">
+                            <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas">
                                 <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                     <p:tab title="Pág #{pantalla.numPantalla}">
                                         <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px" toggleable="true">
@@ -157,7 +157,7 @@
                                                         <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==3}">
                                                             <c:if test="#{superComponente.data.size()>0}">
                                                                 <ui:repeat value="#{superComponente.data}" var="video">
-                                                                    <video class="media" controls="true" width="#{superComponente.superComp.scAncho}" height="#{superComponente.superComp.scAlto}" preload="true">
+                                                                    <video class="media#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" controls="true" width="#{superComponente.superComp.scAncho}" height="#{superComponente.superComp.scAlto}" preload="true">
                                                                         <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
                                                                     </video>
                                                                 </ui:repeat>
@@ -168,7 +168,7 @@
                                                         <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==5}">
                                                             <c:if test="#{superComponente.data.size()>0}">
                                                                 <ui:repeat value="#{superComponente.data}" var="audio">
-                                                                    <audio class="media" controls="true" preload="true">
+                                                                    <audio class="#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" controls="true" preload="true">
                                                                         <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
                                                                     </audio>
                                                                 </ui:repeat>

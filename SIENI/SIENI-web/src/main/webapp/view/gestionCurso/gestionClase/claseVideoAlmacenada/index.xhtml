@@ -9,8 +9,8 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
-            <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseInteractiva}"/>
-            <p:menuitem value="Busqueda de Video-Clase" url="#{siteUrls.claseInteractiva}"/>
+            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}"/>
+            <p:menuitem value="Busqueda de Video-Clase Almacenada" url="#{siteUrls.claseInteractiva}"/>
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
@@ -24,10 +24,10 @@
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionVideoClaseController.eliminarClase()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarClase()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
-                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionVideoClaseController.claseList}" 
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionClaseInteracController.claseList}" 
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
@@ -65,6 +65,9 @@
                         </p:commandLink>
                         <p:commandLink action="#{gestionVideoClaseController.configurarInterac(car)}"  >
                             <i class="icon-magic20 Fs25 Red MarRight10" style="cursor: pointer" title="Configurar Interacciones entre componentes"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.configurarTiemposVisualizacion(car)}"  >
+                            <i class="icon-photo212 Fs25 Red MarRight10" style="cursor: pointer" title="Configurar tiempos de visualización de pantallas"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>

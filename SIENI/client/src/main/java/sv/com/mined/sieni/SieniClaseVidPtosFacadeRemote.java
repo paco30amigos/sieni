@@ -30,4 +30,6 @@ public interface SieniClaseVidPtosFacadeRemote {
 
     int count();
     
+    public List<SieniClaseVidPtos> findByClase(Long idClase);
+    
 }

@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniClaseVidPtos;
 
 /**
@@ -16,6 +18,7 @@ import sv.com.mined.sieni.model.SieniClaseVidPtos;
  */
 @Stateless
 public class SieniClaseVidPtosFacade extends AbstractFacade<SieniClaseVidPtos> implements sv.com.mined.sieni.SieniClaseVidPtosFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +30,13 @@ public class SieniClaseVidPtosFacade extends AbstractFacade<SieniClaseVidPtos> i
     public SieniClaseVidPtosFacade() {
         super(SieniClaseVidPtos.class);
     }
-    
+
+    @Override
+    public List<SieniClaseVidPtos> findByClase(Long idClase) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniClaseVidPtos.findByClase");
+        q.setParameter("estado", estado);
+        q.setParameter("idClase", idClase);
+        return q.getResultList();
+    }
 }

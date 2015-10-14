@@ -200,6 +200,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     public void configurarInterac(SieniClase ver) {
         this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
+        this.setNuevaInteracMult1(new SieniInteEntrComp());
+        this.setOpSelectMulti(0);
         this.setClaseConfig(ver);
         if (fillConfigura(ver)) {
             this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
@@ -210,6 +212,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             this.setNuevaInterac(new SieniInteEntrComp());
             this.getNuevaInterac().setIeRetraso(0);
             updateInteractByTipoElemPlanPantalla(null);
+//            updateEventosComps2Seleccionados(null);
             this.setIndexMenu(5);
         }
     }
@@ -513,6 +516,35 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
     }
 
+    public void agregarInteraccionesMultiples() {
+        SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
+        Integer index = seccionActual.getPantallaActual();
+        if (index == null) {
+            index = 0;
+        }
+        SieniTipoElemPlantilla tipoPlant = this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla();
+        Integer nPantalla = seccionActual.getPantallas().get(index).getNumPantalla();
+        for (InteraccionMultiplePojo actual : this.getListaMultiple()) {
+            actual.getInteraccionEntreComps().setIeSupC1(this.getNuevaInteracMult1().getIeSupC1());
+            actual.getInteraccionEntreComps().setIeEventoC1(this.getNuevaInteracMult1().getIeEventoC1());
+            actual.getInteraccionEntreComps().setIeNPantalla(nPantalla);
+            actual.getInteraccionEntreComps().setIdTipoElemPlantilla(tipoPlant);
+            actual.getInteraccionEntreComps().setIdClase(this.getClaseConfig().getIdClase());
+            actual.getInteraccionEntreComps().setIeEstado('A');
+            this.getInteracTotal().add(actual.getInteraccionEntreComps());
+        }
+        //actualiza la lista de interacciones agregadas
+        ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+        ciu.setSecciones(this.getSecciones());
+        ciu.setTotalInteracc(this.getInteracTotal());
+        this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+        List<SieniInteEntrComp> listaActual = getInteractByPantallaTipoElemPlantilla(this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla().getIdTipoElemPlantilla(), seccionActual.getPantallas().get(index).getNumPantalla());
+        this.setInteracPantallaElemPlantillaActual(listaActual);
+        this.setOpSelectMulti(0);
+        updateInteractByTipoElemPlanPantalla(null);
+        this.setIndexMenu(5);
+    }
+
     public void agregarInteraccion() {
         SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
         Integer index = seccionActual.getPantallaActual();
@@ -526,6 +558,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         this.getNuevaInterac().setIdTipoElemPlantilla(tipoPlant);
         this.getNuevaInterac().setIdClase(this.getClaseConfig().getIdClase());
         this.getNuevaInterac().setIeEstado('A');
+
         this.getInteracTotal().add(this.getNuevaInterac());
         ControlInteractivoUtils ciu = new ControlInteractivoUtils();
         ciu.setSecciones(this.getSecciones());
@@ -696,6 +729,9 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         if (this.getCompDisponibles() != null && !this.getCompDisponibles().isEmpty()) {
             this.getNuevaInterac().setIeSupC1(this.getCompDisponibles().get(0));
             this.getNuevaInterac().setIeSupC2(this.getCompDisponibles().get(0));
+        } else {
+            this.getNuevaInterac().setIeSupC1(new SieniSuperCompon());
+            this.getNuevaInterac().setIeSupC2(new SieniSuperCompon());
         }
         //si hay componentes disponibles
         if (this.getNuevaInterac().getIeSupC1() != null && this.getNuevaInterac().getIeSupC1().getIdSuperCompon() != null) {
@@ -705,18 +741,34 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             this.setEvn1(new ArrayList<SieniEvento>());
             this.setEvn2(new ArrayList<SieniEvento>());
         }
+
+        //inicializa los datos para las interacciones multiples
+        if (this.getCompDisponibles() != null && !this.getCompDisponibles().isEmpty()) {
+            this.getNuevaInteracMult1().setIeSupC1(this.getCompDisponibles().get(0));
+            updateEv1Multi(this.getNuevaInteracMult1().getIeSupC1().getIdSuperCompon());
+            if (this.getEvn1Multi() != null && !this.getEvn1Multi().isEmpty()) {
+                this.getNuevaInteracMult1().setIeEventoC1(this.getEvn1Multi().get(0));
+            }
+        } else {
+            this.getNuevaInteracMult1().setIeSupC1(new SieniSuperCompon());
+            this.getNuevaInteracMult1().setIeEventoC1(new SieniEvento());
+            this.setEvn1Multi(new ArrayList<SieniEvento>());
+        }
     }
 
     public void updateEventosComps2Seleccionados(TabChangeEvent ev) {
-        List<InteraccionMultiplePojo> listaSelec2 = new ArrayList<>();
-        InteraccionMultiplePojo nuevo;
-        for (SieniInteEntrComp actual : this.getNuevaInteracMult2().getTarget()) {
-            nuevo = new InteraccionMultiplePojo();
-            nuevo.setInteraccionEntreComps(actual);
-            nuevo.setEventos(getEventoDiferenteBySuperCompon(sieniCompInteraccionFacadeRemote.findByIdSuperComp(actual.getIeSupC2().getIdSuperCompon())));
-            listaSelec2.add(nuevo);
+        if (this.getOpSelectMulti() != null && this.getOpSelectMulti().equals(1)) {
+            List<InteraccionMultiplePojo> listaSelec2 = new ArrayList<>();
+            InteraccionMultiplePojo nuevo;
+            for (SieniInteEntrComp actual : this.getNuevaInteracMult2().getTarget()) {
+                nuevo = new InteraccionMultiplePojo();
+                nuevo.setInteraccionEntreComps(actual);
+                nuevo.setEventos(getEventoDiferenteBySuperCompon(sieniCompInteraccionFacadeRemote.findByIdSuperComp(actual.getIeSupC2().getIdSuperCompon())));
+                listaSelec2.add(nuevo);
+            }
+            this.setListaMultiple(listaSelec2);
         }
-        this.setListaMultiple(listaSelec2);
+//        this.getNuevaInteracMult1().getIeEventoC1();
         //set en formulario
     }
 
@@ -728,6 +780,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             nuevo = new SieniInteEntrComp();
             nuevo.setIdInteEntreComp(inc);
             nuevo.setIeSupC2(actual);
+            nuevo.setIeRetraso(0);
             ret.add(nuevo);
             inc--;
         }
@@ -781,6 +834,13 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         SieniSuperCompon sup = (SieniSuperCompon) ev.getNewValue();
         if (sup != null) {
             updateEv1Multi(sup.getIdSuperCompon());
+            if (this.getEvn1Multi() != null && !this.getEvn1Multi().isEmpty()) {
+                this.getNuevaInteracMult1().setIeEventoC1(this.getEvn1Multi().get(0));
+            } else {
+                this.getNuevaInteracMult1().setIeEventoC1(new SieniEvento());
+            }
+        } else {
+            this.setEvn1Multi(new ArrayList<SieniEvento>());
         }
     }
 

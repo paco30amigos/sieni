@@ -64,6 +64,7 @@ public class GestionClaseInteracForm {
 //    private List<SieniInteEntrComp> nuevaInteracMult2;
     private DualListModel<SieniInteEntrComp> nuevaInteracMult2;
     private List<InteraccionMultiplePojo> listaMultiple;
+    private Integer opSelectMulti;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -334,6 +335,14 @@ public class GestionClaseInteracForm {
 
     public void setListaMultiple(List<InteraccionMultiplePojo> listaMultiple) {
         this.listaMultiple = listaMultiple;
+    }
+
+    public Integer getOpSelectMulti() {
+        return opSelectMulti;
+    }
+
+    public void setOpSelectMulti(Integer opSelectMulti) {
+        this.opSelectMulti = opSelectMulti;
     }
 
 }

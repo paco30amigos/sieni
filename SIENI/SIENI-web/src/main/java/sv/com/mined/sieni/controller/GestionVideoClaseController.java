@@ -20,27 +20,26 @@ import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.DragDropEvent;
 import org.primefaces.event.TabChangeEvent;
-import sv.com.mined.sieni.SieniAccionFacadeRemote;
+import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
+import sv.com.mined.sieni.SieniClaseVidPtosFacadeRemote;
 import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniComponenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
-import sv.com.mined.sieni.SieniEventoFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniSuperComponFacadeRemote;
 import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
-import sv.com.mined.sieni.SieniTipoSuperComponFacadeRemote;
-import sv.com.mined.sieni.form.GestionComponentesInteractivosForm;
 import sv.com.mined.sieni.form.GestionVideoClaseForm;
 import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
+import sv.com.mined.sieni.model.SieniClaseVidPtos;
 import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniComponente;
 import sv.com.mined.sieni.model.SieniElemPlantilla;
@@ -51,6 +50,7 @@ import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.model.SieniTipoElemPlantilla;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
 import sv.com.mined.sieni.pojos.controller.FileStreamedPojo;
+import sv.com.mined.sieni.pojos.controller.InteraccionMultiplePojo;
 import sv.com.mined.sieni.pojos.controller.PantallaPojo;
 import sv.com.mined.sieni.pojos.controller.SeccionPlantillaPojo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
@@ -90,6 +90,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     private SieniComponenteFacadeRemote sieniComponenteFacadeRemote;
     @EJB
     private SieniCompInteraccionFacadeRemote sieniCompInteraccionFacadeRemote;
+    @EJB
+    private SieniClaseVidPtosFacadeRemote sieniClaseVidPtosFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -100,13 +102,16 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         this.setEvn2(new ArrayList<SieniEvento>());
         this.setCompDisponibles(new ArrayList<SieniSuperCompon>());
         this.setNuevaInterac(new SieniInteEntrComp());
+        this.setNuevaInteracMult2(new DualListModel<SieniInteEntrComp>());
+        this.getNuevaInteracMult2().setTarget(new ArrayList<SieniInteEntrComp>());
+        this.getNuevaInteracMult2().setSource(new ArrayList<SieniInteEntrComp>());
         fill();
     }
 
     private void fill() {
         //*******fill
         //clases interact
-        this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('V'));//video clases
+        this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('V'));//clases interactivas
     }
 
     public String getNombreSeccion(Long idTipoElemPlantilla, List<SieniElemPlantilla> elemPlantilla) {
@@ -199,6 +204,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
 
     public void configurarInterac(SieniClase ver) {
         this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
+        this.setNuevaInteracMult1(new SieniInteEntrComp());
+        this.setOpSelectMulti(0);
         this.setClaseConfig(ver);
         if (fillConfigura(ver)) {
             this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
@@ -209,8 +216,47 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             this.setNuevaInterac(new SieniInteEntrComp());
             this.getNuevaInterac().setIeRetraso(0);
             updateInteractByTipoElemPlanPantalla(null);
+//            updateEventosComps2Seleccionados(null);
             this.setIndexMenu(5);
         }
+    }
+
+    public void configurarTiemposVisualizacion(SieniClase ver) {
+        this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
+        this.setNuevaInteracMult1(new SieniInteEntrComp());
+        this.setOpSelectMulti(0);
+        this.setClaseConfig(ver);
+        if (fillConfigura(ver)) {
+            List<SieniClaseVidPtos> vidPntos = sieniClaseVidPtosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
+
+            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+            ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+            ciu.setSecciones(this.getSecciones());
+            ciu.setTotalInteracc(this.getInteracTotal());
+            this.setFuncionJS(ciu.getCodigoEventosEntreComp()
+                    + getFuncJSDialog(vidPntos));
+            this.setNuevaInterac(new SieniInteEntrComp());
+            this.getNuevaInterac().setIeRetraso(0);
+            updateInteractByTipoElemPlanPantalla(null);
+//            updateEventosComps2Seleccionados(null);
+            this.setIndexMenu(5);
+        }
+    }
+
+    public String getFuncJSDialog(List<SieniClaseVidPtos> vidPntos) {
+        String ret = "", ctrlVid = "";
+ ctrlVid="\n videoPpal = PopCorn('#videoPpal');\n";
+        for (SieniClaseVidPtos actual : vidPntos) {
+
+            ctrlVid +=" videoPpal.exec(" + actual.getVpTiempoActiv() + ", function () {\n"
+                    + " PF('" + actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla() + "').show();\n"
+                    + " });\n";
+
+        }
+        ret += "document.addEventListener(\"DOMContentLoaded\", function () {\n"
+                + ctrlVid
+                + "            }, false);";
+        return ret;
     }
 
     public List<SieniSuperCompon> getComponentsPantallaActual() {
@@ -482,10 +528,13 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     public void guardarConfiguracion() {
         List<SieniClaseSupComp> componentes = new ArrayList<>();
         List<SieniClaseSupComp> eliminados = new ArrayList<>();
+        int cont = 1;
         for (SeccionPlantillaPojo sec : this.getSecciones()) {
             for (PantallaPojo pantalla : sec.getPantallas()) {
+                cont = 1;
                 for (ComponenteInteractivoPojo comp : pantalla.getComponentes()) {
                     comp.getClaseSuperComp().setScVisible(comp.getVisible() ? 'S' : 'N');
+                    comp.getClaseSuperComp().setScOrden(cont++);
                     componentes.add(comp.getClaseSuperComp());
                 }
             }
@@ -501,8 +550,41 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     }
 
     public void guardarConfiguracionInteracciones() {
+        int cont = 1;
+        for (SieniInteEntrComp actual : this.getInteracTotal()) {
+            actual.setIeOrden(cont++);
+        }
         sieniInteEntrCompFacadeRemote.merge(this.getInteracTotal(), this.getInteracEliminados());
         new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
+    }
+
+    public void agregarInteraccionesMultiples() {
+        SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
+        Integer index = seccionActual.getPantallaActual();
+        if (index == null) {
+            index = 0;
+        }
+        SieniTipoElemPlantilla tipoPlant = this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla();
+        Integer nPantalla = seccionActual.getPantallas().get(index).getNumPantalla();
+        for (InteraccionMultiplePojo actual : this.getListaMultiple()) {
+            actual.getInteraccionEntreComps().setIeSupC1(this.getNuevaInteracMult1().getIeSupC1());
+            actual.getInteraccionEntreComps().setIeEventoC1(this.getNuevaInteracMult1().getIeEventoC1());
+            actual.getInteraccionEntreComps().setIeNPantalla(nPantalla);
+            actual.getInteraccionEntreComps().setIdTipoElemPlantilla(tipoPlant);
+            actual.getInteraccionEntreComps().setIdClase(this.getClaseConfig().getIdClase());
+            actual.getInteraccionEntreComps().setIeEstado('A');
+            this.getInteracTotal().add(actual.getInteraccionEntreComps());
+        }
+        //actualiza la lista de interacciones agregadas
+        ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+        ciu.setSecciones(this.getSecciones());
+        ciu.setTotalInteracc(this.getInteracTotal());
+        this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+        List<SieniInteEntrComp> listaActual = getInteractByPantallaTipoElemPlantilla(this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla().getIdTipoElemPlantilla(), seccionActual.getPantallas().get(index).getNumPantalla());
+        this.setInteracPantallaElemPlantillaActual(listaActual);
+        this.setOpSelectMulti(0);
+        updateInteractByTipoElemPlanPantalla(null);
+        this.setIndexMenu(5);
     }
 
     public void agregarInteraccion() {
@@ -518,6 +600,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         this.getNuevaInterac().setIdTipoElemPlantilla(tipoPlant);
         this.getNuevaInterac().setIdClase(this.getClaseConfig().getIdClase());
         this.getNuevaInterac().setIeEstado('A');
+
         this.getInteracTotal().add(this.getNuevaInterac());
         ControlInteractivoUtils ciu = new ControlInteractivoUtils();
         ciu.setSecciones(this.getSecciones());
@@ -681,10 +764,16 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         List<SieniInteEntrComp> listaActual = getInteractByPantallaTipoElemPlantilla(this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla().getIdTipoElemPlantilla(), seccionActual.getPantallas().get(index).getNumPantalla());
         this.setInteracPantallaElemPlantillaActual(listaActual);
         this.setCompDisponibles(getComponentsPantallaActual());
+
+        this.getNuevaInteracMult2().setSource(convertSuperCompon2ToInteractEntreCompon(getCompDisponibles()));
+        this.getNuevaInteracMult2().setTarget(new ArrayList<SieniInteEntrComp>());
         //en cada refresco setea el primer componente de la lista como actual
         if (this.getCompDisponibles() != null && !this.getCompDisponibles().isEmpty()) {
             this.getNuevaInterac().setIeSupC1(this.getCompDisponibles().get(0));
             this.getNuevaInterac().setIeSupC2(this.getCompDisponibles().get(0));
+        } else {
+            this.getNuevaInterac().setIeSupC1(new SieniSuperCompon());
+            this.getNuevaInterac().setIeSupC2(new SieniSuperCompon());
         }
         //si hay componentes disponibles
         if (this.getNuevaInterac().getIeSupC1() != null && this.getNuevaInterac().getIeSupC1().getIdSuperCompon() != null) {
@@ -694,6 +783,50 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             this.setEvn1(new ArrayList<SieniEvento>());
             this.setEvn2(new ArrayList<SieniEvento>());
         }
+
+        //inicializa los datos para las interacciones multiples
+        if (this.getCompDisponibles() != null && !this.getCompDisponibles().isEmpty()) {
+            this.getNuevaInteracMult1().setIeSupC1(this.getCompDisponibles().get(0));
+            updateEv1Multi(this.getNuevaInteracMult1().getIeSupC1().getIdSuperCompon());
+            if (this.getEvn1Multi() != null && !this.getEvn1Multi().isEmpty()) {
+                this.getNuevaInteracMult1().setIeEventoC1(this.getEvn1Multi().get(0));
+            }
+        } else {
+            this.getNuevaInteracMult1().setIeSupC1(new SieniSuperCompon());
+            this.getNuevaInteracMult1().setIeEventoC1(new SieniEvento());
+            this.setEvn1Multi(new ArrayList<SieniEvento>());
+        }
+    }
+
+    public void updateEventosComps2Seleccionados(TabChangeEvent ev) {
+        if (this.getOpSelectMulti() != null && this.getOpSelectMulti().equals(1)) {
+            List<InteraccionMultiplePojo> listaSelec2 = new ArrayList<>();
+            InteraccionMultiplePojo nuevo;
+            for (SieniInteEntrComp actual : this.getNuevaInteracMult2().getTarget()) {
+                nuevo = new InteraccionMultiplePojo();
+                nuevo.setInteraccionEntreComps(actual);
+                nuevo.setEventos(getEventoDiferenteBySuperCompon(sieniCompInteraccionFacadeRemote.findByIdSuperComp(actual.getIeSupC2().getIdSuperCompon())));
+                listaSelec2.add(nuevo);
+            }
+            this.setListaMultiple(listaSelec2);
+        }
+//        this.getNuevaInteracMult1().getIeEventoC1();
+        //set en formulario
+    }
+
+    public List<SieniInteEntrComp> convertSuperCompon2ToInteractEntreCompon(List<SieniSuperCompon> componentes) {
+        List<SieniInteEntrComp> ret = new ArrayList<>();
+        SieniInteEntrComp nuevo = new SieniInteEntrComp();
+        Long inc = -Long.parseLong(new DateUtils().getTime());
+        for (SieniSuperCompon actual : componentes) {
+            nuevo = new SieniInteEntrComp();
+            nuevo.setIdInteEntreComp(inc);
+            nuevo.setIeSupC2(actual);
+            nuevo.setIeRetraso(0);
+            ret.add(nuevo);
+            inc--;
+        }
+        return ret;
     }
 
     public List<SieniInteEntrComp> getInteractByPantallaTipoElemPlantilla(Long idTipoElemPlantilla, Integer nPantalla) {
@@ -739,11 +872,29 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         }
     }
 
+    public void getEventosC1Multi(ValueChangeEvent ev) {
+        SieniSuperCompon sup = (SieniSuperCompon) ev.getNewValue();
+        if (sup != null) {
+            updateEv1Multi(sup.getIdSuperCompon());
+            if (this.getEvn1Multi() != null && !this.getEvn1Multi().isEmpty()) {
+                this.getNuevaInteracMult1().setIeEventoC1(this.getEvn1Multi().get(0));
+            } else {
+                this.getNuevaInteracMult1().setIeEventoC1(new SieniEvento());
+            }
+        } else {
+            this.setEvn1Multi(new ArrayList<SieniEvento>());
+        }
+    }
+
     public void getEventosC2(ValueChangeEvent ev) {
         SieniSuperCompon sup = (SieniSuperCompon) ev.getNewValue();
         if (sup != null) {
             updateEv2(sup.getIdSuperCompon());
         }
+    }
+
+    public void updateEv1Multi(Long idSuperCompon) {
+        this.setEvn1Multi(getEventoDiferenteBySuperCompon(sieniCompInteraccionFacadeRemote.findByIdSuperComp(idSuperCompon)));
     }
 
     public void updateEv1(Long idSuperCompon) {

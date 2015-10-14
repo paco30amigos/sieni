@@ -24,8 +24,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "sieni_clase_vid_ptos")
 @NamedQueries({
+    @NamedQuery(name = "SieniClaseVidPtos.findByClase", query = "SELECT s FROM SieniClaseVidPtos s where s.idClase.idClase=:idClase and s.vpEstado not in (:estado)"),
     @NamedQuery(name = "SieniClaseVidPtos.findAll", query = "SELECT s FROM SieniClaseVidPtos s")})
 public class SieniClaseVidPtos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -34,6 +36,11 @@ public class SieniClaseVidPtos implements Serializable {
     private Long idClaseVideoPtosAct;
     @Column(name = "vp_tiempo_activ")
     private Integer vpTiempoActiv;
+    @Column(name = "vp_estado")
+    private Character vpEstado;
+    @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
+    @ManyToOne
+    private SieniClase idClase;
     @JoinColumn(name = "id_tipo_elem_plantilla", referencedColumnName = "id_tipo_elem_plantilla")
     @ManyToOne
     private SieniTipoElemPlantilla idTipoElemPlantilla;
@@ -93,5 +100,21 @@ public class SieniClaseVidPtos implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniClaseVidPtos[ idClaseVideoPtosAct=" + idClaseVideoPtosAct + " ]";
     }
-    
+
+    public Character getVpEstado() {
+        return vpEstado;
+    }
+
+    public void setVpEstado(Character vpEstado) {
+        this.vpEstado = vpEstado;
+    }
+
+    public SieniClase getIdClase() {
+        return idClase;
+    }
+
+    public void setIdClase(SieniClase idClase) {
+        this.idClase = idClase;
+    }
+
 }

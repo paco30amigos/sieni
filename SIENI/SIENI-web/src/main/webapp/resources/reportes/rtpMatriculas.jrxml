@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-10-03T10:30:52 -->
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2015-10-14T10:03:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -47,7 +47,7 @@
 					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Centro Escolar San Ramón
-Reporte de Alumnos]]></text>
+Reporte de Matriculas]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="156" y="44" width="100" height="20" uuid="8c6f13b1-69f5-4f14-bfab-759ca1cde8e5"/>

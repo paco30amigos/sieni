@@ -25,6 +25,7 @@ public class RptRendimientoForm extends ReportesController {
     private String grado;
     private String seccion;
     private String materia;
+    private String anio;
     private List<RptRendimientoPojo> listDatos;
     private Integer tipoRpt;
 
@@ -92,6 +93,14 @@ public class RptRendimientoForm extends ReportesController {
         this.materia = materia;
     }
 
+    public String getAnio() {
+        return anio;
+    }
+
+    public void setAnio(String anio) {
+        this.anio = anio;
+    }
+    
     public List<RptRendimientoPojo> getListDatos() {
         return listDatos;
     }

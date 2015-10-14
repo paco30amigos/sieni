@@ -30,7 +30,7 @@
                     </p:selectOneMenu>
                     <p:outputLabel  value="Grado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.idGrado}" converter="grado">
-                        <f:selectItems itemValue="#{gestionMateriasController.materiaNuevo.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMateriasController.gradoList}" var="grado"></f:selectItems>
+                        <f:selectItems itemValue="#{grado}" itemLabel="#{grado.grNombre}" value="#{gestionMateriasController.gradoList}" var="grado"></f:selectItems>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <p:panelGrid columns="2" class="Container50 Responsive">

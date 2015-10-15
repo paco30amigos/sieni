@@ -23,6 +23,7 @@ public class GestionEjercicioForm {
     private int indexMenu;
   
   String formula;
+  int indice;
   public static  final String ABSOLUTO="\\left |{x}\\right |";
   public static  final String FACTORIAL="{x}!";
   public static  final String RAIZ="\\sqrt[]{x}";
@@ -73,6 +74,16 @@ public class GestionEjercicioForm {
     public int getIndexMenu() {
         return indexMenu;
     }
+
+    public int getIndice() {
+        return indice;
+    }
+
+    public void setIndice(int indice) {
+        this.indice = indice;
+    }
+    
+    
 
     
     public void setIndexMenu(int indexMenu) {

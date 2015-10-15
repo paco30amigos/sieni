@@ -4,6 +4,19 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
+    <ui:define name="head">
+        <script type="text/javascript">
+            function indice(){
+                var textarea = document.getElementById("j_idt74:j_idt76:formula");
+                var input = document.getElementById("j_idt74:j_idt76:indice");
+                var cursorPosition=textarea.selectionStart;
+                input.value=cursorPosition;   
+            }
+            
+            
+            
+        </script>
+    </ui:define>
     <ui:define name="breadCrumb">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
@@ -21,7 +34,7 @@
                     <p:menubar>
                         <p:submenu label="Funciones" >   
                             <p:submenu label="Trigonometricas">
-                            <p:menuitem value="sen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(9)}" update="formula"/>
+                                <p:menuitem value="sen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(9)}" update="formula"/>
                             <p:menuitem value="cos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(10)}" update="formula"/>
                             <p:menuitem value="tan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(11)}" update="formula"/>
                             <p:menuitem value="cot(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(12)}" update="formula"/>
@@ -35,7 +48,7 @@
                             <p:menuitem value="arctan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(19)}" update="formula"/>                                  
                             </p:submenu>
                             
-                            <p:menuitem value="Absoluto" icon="ui-icon-absoluto" action="#{gestionDisenioEjercicioController.formulaConstruct(1)}" update="formula"/>
+                            <p:menuitem value="Absoluto" icon="ui-icon-absoluto" action="#{gestionDisenioEjercicioController.formulaConstruct(1)}" update="formula,myScript" onclick="indice(); "/>
                             <p:menuitem value="Factorial" icon="ui-icon-factorial" action="#{gestionDisenioEjercicioController.formulaConstruct(2)}" update="formula"/>
                             <p:menuitem value="Raiz" icon="ui-icon-raiz" action="#{gestionDisenioEjercicioController.formulaConstruct(3)}" update="formula"/>
                             <p:menuitem value="Raiz n" icon="ui-icon-raizx" action="#{gestionDisenioEjercicioController.formulaConstruct(4)}" update="formula"/>
@@ -79,14 +92,17 @@
                                 <p:menuitem value="Delete" actionListener="#" icon="ui-icon-close"  ajax="false"/>
                             </p:submenu>
                         </p:submenu>
+                        <p:menuitem value="Salto" action="#{gestionDisenioEjercicioController.salto()}" update="formula,myScript" onclick="indice(); "/>
 
                                                 
                     </p:menubar>
 
                     <div class="EmptyBox20"></div>
-                    <p:outputLabel for="formula" value="Formula: " class=" Responsive"></p:outputLabel>
-                    <p:inputTextarea  class="Container100" id="formula" value="#{gestionDisenioEjercicioController.formula}"></p:inputTextarea>
-                    
+                                        <p:inputText id="indice" class=" Responsive" value="#{gestionDisenioEjercicioController.indice}" type="hidden"/>
+
+                                        <p:outputLabel for="formula" value="Formula: " class=" Responsive" ></p:outputLabel>
+                                        
+                                        <p:inputTextarea  class="Container100" id="formula" value="#{gestionDisenioEjercicioController.formula}" ></p:inputTextarea>
 
                     <p:graphicImage id="consulta" value="#{gestionDisenioEjercicioController.graphicText}" styleClass="Fleft"  cache="false"></p:graphicImage>
 
@@ -97,7 +113,29 @@
 
                     </div>
 
+<h:panelGroup id="myScript">
+   <script type="text/javascript">
 
+
+ var valor = document.getElementById("j_idt74:j_idt76:indice");
+ 
+   var input=document.getElementById("j_idt74:j_idt76:formula");
+    if (input.setSelectionRange) {
+    input.focus();
+    input.setSelectionRange(valor.value, valor.value);
+  }
+  else if (input.createTextRange) {
+    var range = input.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', valor.value);
+    range.moveStart('character', valor.value);
+    range.select();
+  }      
+           
+            
+           
+    </script>
+</h:panelGroup>
 
                 </h:form>
 

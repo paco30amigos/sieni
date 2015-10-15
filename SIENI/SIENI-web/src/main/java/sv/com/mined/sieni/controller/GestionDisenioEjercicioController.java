@@ -214,9 +214,21 @@ public void  formulaConstruct(int f){
             break;
            
     }
+    String sub1=this.getFormula().substring(0, this.getIndice());
+    String sub2=this.getFormula().substring(this.getIndice());
     
-this.setFormula(this.getFormula()+valor);
+this.setFormula(sub1+valor+sub2);
 }
+   
+public void salto(){
+String sub1=this.getFormula().substring(0, this.getIndice()+1);
+String valor=" "
+        + "\n"
+        + "\\\\";
+    String sub2=this.getFormula().substring(this.getIndice()+1);
     
+this.setFormula(sub1+valor+sub2);
+    
+}
 
 }

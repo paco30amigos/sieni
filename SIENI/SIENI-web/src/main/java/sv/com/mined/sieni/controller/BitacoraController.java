@@ -32,6 +32,7 @@ public class BitacoraController extends BitacoraForm {
 
     private void fill() {
         this.setBitacoraList(sieniBitacoraFacadeRemote.findAll());
+        this.setTotalTransacciones(new Long(this.getBitacoraList().size()));
     }
 
     public void generarReporte() {

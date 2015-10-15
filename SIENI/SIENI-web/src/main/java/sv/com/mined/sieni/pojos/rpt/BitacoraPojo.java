@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.pojos.rpt;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -14,15 +15,15 @@ import java.io.Serializable;
 public class BitacoraPojo implements Serializable{
     
     private String accion;
-    private String fecha;
-    private String hora;
+    private Date fecha;
+    private Date hora;
     private String fuente;
     private String responsable;
 
     public BitacoraPojo() {
     }
 
-    public BitacoraPojo(String accion, String fecha, String hora, String fuente, String responsable) {
+    public BitacoraPojo(String accion, Date fecha, Date hora, String fuente, String responsable) {
         this.accion = accion;
         this.fecha = fecha;
         this.hora = hora;
@@ -38,19 +39,19 @@ public class BitacoraPojo implements Serializable{
         this.accion = accion;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
-    public String getHora() {
+    public Date getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(Date hora) {
         this.hora = hora;
     }
 

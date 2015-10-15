@@ -49,7 +49,7 @@ public class BitacoraController extends BitacoraForm {
         List<SieniBitacora> bitacoras = sieniBitacoraFacadeRemote.findByFecha(this.getDesde(), this.getHasta());
         this.setListDatos(new ArrayList<BitacoraPojo>());
         for (SieniBitacora actual : bitacoras) {
-            elem = new BitacoraPojo(actual.getBitAccion(), actual.getBitFechaHoraIngreso().toString(), actual.getBitFechaHoraIngreso().toString(), actual.getBitTabla(), actual.getBitTipoUsuario().toString());
+            elem = new BitacoraPojo(actual.getBitAccion(), actual.getBitFechaHoraIngreso(), actual.getBitFechaHoraIngreso(), actual.getBitTabla(), actual.getBitTipoUsuario().toString());
             this.getListDatos().add(elem);
         }
         this.setTotalTransacciones(Long.parseLong(this.getListDatos().size()+""));

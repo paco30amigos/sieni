@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,12 +17,17 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniGradoFacadeRemote;
+import sv.com.mined.sieni.SieniMateriaFacadeRemote;
+import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.RptParticipacionForm;
 import sv.com.mined.sieni.form.RptRendimientoForm;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.pojos.rpt.RptParticipacionPojo;
 import sv.com.mined.sieni.pojos.rpt.RptRendimientoPojo;
 import utils.DateUtils;
@@ -36,7 +42,13 @@ import utils.FormatUtils;
 public class RptRendimientoController extends RptRendimientoForm {
     
     @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote; 
+    @EJB
+    private SieniGradoFacadeRemote sieniGradoFacadeRemote;
+    @EJB
+    private SieniSeccionFacadeRemote sieniSeccionFacadeRemote;
+    @EJB
+    private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
     
     @PostConstruct
     public void init() {
@@ -48,7 +60,10 @@ public class RptRendimientoController extends RptRendimientoForm {
     private void fill() {
         RptRendimientoPojo elem = new RptRendimientoPojo();
 
-
+        this.setGradosList(sieniGradoFacadeRemote.findAll());
+        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
+        this.setSeccionesList(sieniSeccionFacadeRemote.findAll());
+        
     }
 
     public void generarReporte() {
@@ -73,6 +88,17 @@ public class RptRendimientoController extends RptRendimientoForm {
         String anio = this.getAnio().replaceAll(",", "");
         Integer anioInt = Integer.parseInt(anio);
         
-        
+    }
+    
+    public void getSeccionesGrado(ValueChangeEvent a) {
+        Long idGrado = (Long) a.getNewValue();
+        SieniGrado cod = new SieniGrado();
+        for (SieniGrado actual : this.getGradosList()) {
+            if (actual.getIdGrado().equals(idGrado)) {
+                cod = actual;
+                break;
+            }
+        }
+        this.setSeccionesList(cod.getSieniSeccionList());
     }
 }

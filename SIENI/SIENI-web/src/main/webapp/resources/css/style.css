@@ -72,4 +72,49 @@
     background-position: center !important;    
 }
 
+.ui-icon-parentesis{
+    background-image: url(#{resource['images:res/al21801.png']}) !important;
+    background-position: center !important;    
+}
+
+.ui-icon-corchete{
+    background-image: url(#{resource['images:res/al21802.png']}) !important;
+    background-position: center !important;    
+}
+
+.ui-icon-corchete2{
+    background-image: url(#{resource['images:res/al21823.png']}) !important;
+    background-position: center !important;    
+}
+
+.ui-icon-llave{
+    background-image: url(#{resource['images:res/al21804.png']}) !important;
+    background-position: center !important;    
+}
+
+.ui-icon-mayorIgual{
+    background-image: url(#{resource['images:res/al21803.png']}) !important;
+    background-position: center !important;    
+}
+
+.ui-icon-lsencilla{
+    background-image: url(#{resource['images:res/al21805.png']}) !important;
+    background-position: center !important;    
+}
+
+.ui-icon-ldoble{
+    background-image: url(#{resource['images:res/al21806.png']}) !important;
+    background-position: center !important;    
+}
+
+.ui-icon-binomio{
+    background-image: url(#{resource['images:res/al21809.png']}) !important;
+    background-position: center !important;    
+}
+
+.ui-icon-matriz{
+    background-image: url(#{resource['images:res/al21810.png']}) !important;
+    background-position: center !important;    
+}
+
 

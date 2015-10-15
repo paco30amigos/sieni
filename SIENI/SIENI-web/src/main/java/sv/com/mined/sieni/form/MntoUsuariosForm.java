@@ -26,6 +26,8 @@ public class MntoUsuariosForm {
     private UsuariosPojo usuarioModifica;
     private List<UsuariosPojo> nombresDisponiblesModifica;
 
+    private UsuariosPojo usuarioModPass;
+    
     public int getIndexMenu() {
         return indexMenu;
     }
@@ -81,4 +83,13 @@ public class MntoUsuariosForm {
     public void setNombresDisponiblesModifica(List<UsuariosPojo> nombresDisponiblesModifica) {
         this.nombresDisponiblesModifica = nombresDisponiblesModifica;
     }
+
+    public UsuariosPojo getUsuarioModPass() {
+        return usuarioModPass;
+    }
+
+    public void setUsuarioModPass(UsuariosPojo usuarioModPass) {
+        this.usuarioModPass = usuarioModPass;
+    }
+    
 }

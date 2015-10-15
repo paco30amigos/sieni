@@ -333,4 +333,8 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         }
         fill();
     }
+    
+    public void guardarModPassword() {
+        System.out.println("Entro");
+    }
 }

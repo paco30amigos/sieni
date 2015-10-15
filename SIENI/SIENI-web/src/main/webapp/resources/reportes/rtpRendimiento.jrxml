@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-09-15T21:42:24 -->
+<!-- 2015-10-14T20:44:44 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -27,61 +27,59 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="71" splitType="Stretch">
+	<pageHeader>
+		<band height="80">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<textField>
+				<reportElement x="151" y="49" width="100" height="20" uuid="d108bdcd-fe91-4302-a088-bf3fda57b653"/>
+				<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="214" y="0" width="205" height="19" uuid="6380fbb6-acf1-4bc4-9e77-3c16f32331f2"/>
-				<textElement textAlignment="Center">
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[Centro Escolar San Ramón]]></text>
+				<reportElement x="263" y="49" width="34" height="20" uuid="e5d279f2-6e18-4e6c-8118-05416760ef3f"/>
+				<text><![CDATA[Hasta:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="214" y="12" width="205" height="14" uuid="b79a3114-94b7-4203-9a10-9c1efd94e65e"/>
+				<reportElement x="215" y="11" width="205" height="14" uuid="b79a3114-94b7-4203-9a10-9c1efd94e65e"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Reporte de Rendimiento de Alumnos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="447" y="19" width="104" height="20" uuid="46e126d4-11a7-42e2-ba51-3128b20da3e3"/>
-				<text><![CDATA[F. Generación:]]></text>
+				<reportElement x="215" y="-1" width="205" height="19" uuid="6380fbb6-acf1-4bc4-9e77-3c16f32331f2"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Centro Escolar San Ramón]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="297" y="50" width="100" height="20" uuid="d81dd0e1-a4d1-4ab8-8aca-47d446cc3555"/>
+				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
+			</textField>
 			<image>
-				<reportElement x="5" y="4" width="105" height="46" uuid="efe7bbf6-afb3-4970-a868-fac4475e6689"/>
+				<reportElement x="6" y="3" width="105" height="46" uuid="efe7bbf6-afb3-4970-a868-fac4475e6689"/>
 				<imageExpression><![CDATA["../images/mined.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="110" y="50" width="40" height="20" uuid="8505d060-dbc4-422d-afcc-1c25c03e8c8c"/>
+				<reportElement x="111" y="49" width="40" height="20" uuid="8505d060-dbc4-422d-afcc-1c25c03e8c8c"/>
 				<text><![CDATA[Desde:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="449" y="7" width="80" height="20" uuid="93583e3c-92bc-43fa-81e1-09cda41bee25"/>
+				<reportElement x="399" y="9" width="136" height="30" uuid="0ac0e42c-7f30-4a63-b4e3-c84249c6488c"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Pág. "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="530" y="7" width="40" height="20" uuid="25ed0a8f-fcb5-404a-9104-576653ec13a7"/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				<reportElement x="539" y="9" width="32" height="30" uuid="24fba728-7f62-428c-8cef-9d73e6d79c0b"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="527" y="19" width="100" height="20" uuid="fc3eb40b-6b2e-47ed-b0d2-11cbcc092063"/>
-				<textFieldExpression><![CDATA[$P{fechaGeneracion}]]></textFieldExpression>
+			<textField evaluationTime="Report">
+				<reportElement x="395" y="52" width="164" height="20" uuid="c02fc0fc-5d00-4827-a6e9-562c7aa0e0e4"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["F. Generación:"+ $P{fechaGeneracion}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="296" y="51" width="100" height="20" uuid="d81dd0e1-a4d1-4ab8-8aca-47d446cc3555"/>
-				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="150" y="50" width="100" height="20" uuid="d108bdcd-fe91-4302-a088-bf3fda57b653"/>
-				<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="262" y="50" width="34" height="20" uuid="e5d279f2-6e18-4e6c-8118-05416760ef3f"/>
-				<text><![CDATA[Hasta:]]></text>
-			</staticText>
 		</band>
-	</title>
+	</pageHeader>
 	<columnHeader>
 		<band height="40" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -199,10 +197,10 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
@@ -212,10 +210,10 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{alumnos}]]></textFieldExpression>
@@ -225,10 +223,10 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{tipoEvaluacion}]]></textFieldExpression>
@@ -238,20 +236,20 @@
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textFieldExpression><![CDATA[$F{grado}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="72" y="0" width="80" height="28" uuid="41ec8b5b-0a04-4bc0-8357-049423460f7d"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{seccion}]]></textFieldExpression>
@@ -259,10 +257,10 @@
 			<textField>
 				<reportElement x="392" y="0" width="55" height="28" uuid="2d95534e-7311-411e-8d3e-0df42e1a52ca"/>
 				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{aprobados}]]></textFieldExpression>
@@ -270,10 +268,10 @@
 			<textField>
 				<reportElement x="447" y="0" width="63" height="28" uuid="8f543219-3786-47a9-ae58-3a6e4622f14a"/>
 				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{reprobados}]]></textFieldExpression>
@@ -281,21 +279,15 @@
 			<textField>
 				<reportElement x="510" y="0" width="50" height="28" uuid="d7ae8dea-a6ac-4be4-aa94-b7c66f93e914"/>
 				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textFieldExpression><![CDATA[$F{promedio}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="36" splitType="Stretch"/>
-	</pageFooter>
-	<lastPageFooter>
-		<band height="50"/>
-	</lastPageFooter>
 	<summary>
 		<band height="50">
 			<staticText>
@@ -305,6 +297,15 @@
 			<textField>
 				<reportElement x="154" y="13" width="100" height="20" uuid="3e089dda-3c39-40af-bf73-b822f8c0c473"/>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="15" y="0" width="543" height="30" uuid="861bdd45-9483-49cb-bc42-519b11f227d8"/>
+				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
 			</textField>
 		</band>
 	</summary>

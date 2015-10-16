@@ -335,6 +335,10 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
     
     public void guardarModPassword() {
-        System.out.println("Entro");
+        if (this.getUsuarioModifica().getCodTipoUsuario().equals("0")) {
+            
+        }else{
+        
+        }
     }
 }

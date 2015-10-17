@@ -11,6 +11,7 @@
     <class>sv.com.mined.sieni.model.SieniClase</class>
     <class>sv.com.mined.sieni.model.SieniClaseDocente</class>
     <class>sv.com.mined.sieni.model.SieniClaseSupComp</class>
+    <class>sv.com.mined.sieni.model.SieniClaseVidPtos</class>
     <class>sv.com.mined.sieni.model.SieniComponente</class>
     <class>sv.com.mined.sieni.model.SieniCurso</class>
     <class>sv.com.mined.sieni.model.SieniDocentRDud</class>

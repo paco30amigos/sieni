@@ -32,6 +32,36 @@
                     }
                 };
             }
+            var comps = [];
+            var invertir = undefined;
+            function controlarEvnt(id, rowIndex) {
+                //proceso normal
+                if (invertir === undefined) {
+                    if (comps[rowIndex] === undefined) {
+                        comps[rowIndex] = false;
+                        PF(id).close();
+                    } else {
+                        comps[rowIndex] = undefined;
+                        PF(id).show();
+                    }
+                    invertir = undefined;
+                    //correccion de bug
+                } else {
+//                    invertir = undefined;
+                    if (comps[rowIndex] === undefined) {
+                        comps[rowIndex] = false;
+                        PF(id).show();
+                    } else {
+                        comps[rowIndex] = undefined;
+                        PF(id).close();
+                    }
+                }
+            }
+            function ocultarTodos() {
+                invertir = true;
+                comps = [];
+                jQuery('.multimedia').hide();
+            }
         </script>
     </ui:define>
     <ui:define name="breadCrumb">
@@ -39,7 +69,7 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
-            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}"/>
+            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseVideoAlmacenada}"/>
             <p:menuitem value="Configuración de Video-Clase Almacenada" url="#"/>
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -51,36 +81,45 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
-                configuracion de pantalla(alto,ancho),
-
-                secciones tab, menu derecha(componentes disp y selec)
-                agregar(ordenar) componentes a seccion(seleccion de seccion, lista componentes disponibles, seleccionados, vista previa del componente a agregar),
-
-                configurar posicion,--ya
-
-                configurar interaccion entre componentes (otra pantalla obligatoriamente por los efectos),
-                preview
                 <div class="EmptyBox5"></div>
+                #{gestionVideoClaseController.resetMostrar()}
                 <p:panelGrid columns="5">
                     <p:commandLink onclick="PF('dlgConfPantalla').show()">
                         <i class="icon-screen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
                     </p:commandLink>
-                    <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
+                    <p:commandLink action="#{gestionVideoClaseController.agregarPantalla()}" update="clase">
                         <i class="icon-add180 Fs25 Red" style="cursor: pointer" title="Añadir Página a sección Actual"></i>
                     </p:commandLink>
-                    <p:commandLink action="#{gestionClaseInteracController.refreshConfig()}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    <p:commandLink action="#{gestionVideoClaseController.refreshConfig()}" onclick="PF('dlgEliminar').show();" immediate="true" >
                         <i class="icon-trash Fs25 Red" style="cursor: pointer" title="Eliminar página Actual"></i>
                     </p:commandLink>
-                    <p:selectOneMenu value="#{gestionClaseInteracController.nuevoComponente.FCompSuperCompon}" converter="superCompon" filter="true" filterMatchMode="contains">
-                        <f:selectItems value="#{gestionClaseInteracController.componentesInteractDisponibles}" var="comps" itemLabel="#{comps.idTipoSuperCompon.tscDescripcion} - #{comps.scNombre}" itemValue="#{comps}"></f:selectItems>
+                    <p:selectOneMenu value="#{gestionVideoClaseController.nuevoComponente.FCompSuperCompon}" converter="superCompon" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{gestionVideoClaseController.componentesInteractDisponibles}" var="comps" itemLabel="#{comps.idTipoSuperCompon.tscDescripcion} - #{comps.scNombre}" itemValue="#{comps}"></f:selectItems>
                     </p:selectOneMenu>
-                    <p:commandButton value="Agregar Componente" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase"></p:commandButton>
+                    <p:commandButton value="Agregar Componente" action="#{gestionVideoClaseController.agregarComponentePantallaActual()}" update="clase,mostrar"></p:commandButton>
                 </p:panelGrid>
+                <p:remoteCommand update="mostrar" name="updateMostrar"></p:remoteCommand>
+                <p:dataTable value="#{gestionVideoClaseController.componentesPantallaActual}" var="compActual" id="mostrar"
+                             paginatorPosition="bottom" rows="5"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,20,40"
+                             reflow="true"
+                             rowIndexVar="rowIndex"
+                             >
+                    <p:column headerText="Componente">
+                        #{compActual.claseSuperComp.FCompSuperCompon.scNombre}
+                    </p:column>
+                    <p:column>
+                        <p:inputSwitch class="switch" offLabel="Ocultar" onLabel="Mostrar" onchange="controlarEvnt('wb_id_#{compActual.claseSuperComp.idClaseSupComp}_#{gestionVideoClaseController.idTipoElempPlantilla}_#{gestionVideoClaseController.npantalla}',#{rowIndex})" value="#{compActual.mostrar}" ></p:inputSwitch>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Ocultar Todos Los Componentes"  action="#{gestionVideoClaseController.ocultarTodos()}" update="mostrar" oncomplete="ocultarTodos()"></p:commandButton> 
                 <p:dialog widgetVar="dlgConfPantalla" header="Configurar Pantalla de Clase" modal="true">
                     <p:outputLabel value="Alto" class="TexAlCenter" ></p:outputLabel>
-                    <p:spinner value="#{gestionClaseInteracController.claseConfig.clAlto}" max="1080" stepFactor="100"></p:spinner>
+                    <p:spinner value="#{gestionVideoClaseController.claseConfig.clAlto}" max="1080" stepFactor="100"></p:spinner>
                     <p:outputLabel value="Ancho" class="TexAlCenter" ></p:outputLabel>
-                    <p:spinner value="#{gestionClaseInteracController.claseConfig.clAncho}" max="1920" stepFactor="100"></p:spinner>
+                    <p:spinner value="#{gestionVideoClaseController.claseConfig.clAncho}" max="1920" stepFactor="100"></p:spinner>
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Guardar" update="clase" oncomplete="PF('dlgConfPantalla').hide()"></p:commandButton>
                     <p:commandButton value="Cancelar" onclick="PF('dlgConfPantalla').hide();" immediate="true" ></p:commandButton>
@@ -88,36 +127,36 @@
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar la pantalla actual y todos sus componentes?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarPantallaActual()}" update="clase" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{gestionVideoClaseController.eliminarPantallaActual()}" update="clase,mostrar" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" immediate="true" ></p:commandButton>
                 </p:dialog>
                 <p:dialog widgetVar="dlgEliminarComponente" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el componente actual?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarComponenteActual()}" update="clase" oncomplete="PF('dlgEliminarComponente').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{gestionVideoClaseController.eliminarComponenteActual()}" update="clase,mostrar" oncomplete="PF('dlgEliminarComponente').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminarComponente').hide();" immediate="true" ></p:commandButton>
                 </p:dialog>
                 <div class="EmptyBox5"></div>
                 <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
-                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px">
-                    <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
+                <p:tabView id="clase" activeIndex="#{gestionVideoClaseController.idElemenActive}" style="height: #{gestionVideoClaseController.claseConfig.clAlto+90}px;width: #{gestionVideoClaseController.claseConfig.clAncho+156}px">
+                    <c:forEach items="#{gestionVideoClaseController.secciones}" var="elemPlantilla">
                         <p:tab title="#{elemPlantilla.nombre}">
                             <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas">
                                 <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                     <p:tab title="Pág #{pantalla.numPantalla}">
-                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px" toggleable="true">
+                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionVideoClaseController.claseConfig.clAlto}px;width: #{gestionVideoClaseController.claseConfig.clAncho}px" toggleable="true">
                                             <c:forEach items="#{pantalla.componentes}" var="superComponente">                                                
                                                 <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" handle=".move" opacity="0.3">
                                                 </p:draggable>
                                                 <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" >
-                                                    <p:ajax listener="#{gestionClaseInteracController.onDrop}"></p:ajax>
+                                                    <p:ajax listener="#{gestionVideoClaseController.onDrop}"></p:ajax>
                                                 </p:droppable>
-                                                <p:panel class="multimedia" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;position: absolute;">
+                                                <p:panel class="multimedia" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;position: absolute;" widgetVar="wb_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}">
                                                     <p:panelGrid columns="3">
                                                         <p:commandLink class="move">
                                                             <i class="icon-gamepad4 Fs15 Red" style="cursor: pointer" title="Mover componente"></i>
                                                         </p:commandLink>
-                                                        <p:commandLink action="#{gestionClaseInteracController.eliminarSuperComponente(superComponente)}" onclick="PF('dlgEliminarComponente').show();" immediate="true" >
+                                                        <p:commandLink action="#{gestionVideoClaseController.eliminarSuperComponente(superComponente)}" onclick="PF('dlgEliminarComponente').show();" immediate="true" >
                                                             <i class="icon-trash-alt Fs15 Red" style="cursor: pointer" title="Eliminar componente"></i>
                                                         </p:commandLink>
                                                         <p:selectBooleanCheckbox value="#{superComponente.visible}" itemLabel="visible" style="transform: scale(0.7,0.7)"></p:selectBooleanCheckbox>
@@ -204,10 +243,10 @@
 
                 <div class="EmptyBox50"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar Configuracion" actionListener="#{gestionClaseInteracController.guardarConfiguracion()}" ajax="true"></p:commandButton>
-                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.refreshConfig()}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
+                    <p:commandButton value="Guardar Configuracion" actionListener="#{gestionVideoClaseController.guardarConfiguracion()}" ajax="true"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionVideoClaseController.setIndexMenu(4)}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
-                        <p:ajax resetValues="true" listener="#{gestionClaseInteracController.setIndexMenu(0)}"/>
+                        <p:ajax resetValues="true" listener="#{gestionVideoClaseController.setIndexMenu(0)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

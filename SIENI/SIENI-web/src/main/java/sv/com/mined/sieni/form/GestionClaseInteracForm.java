@@ -65,6 +65,9 @@ public class GestionClaseInteracForm {
     private DualListModel<SieniInteEntrComp> nuevaInteracMult2;
     private List<InteraccionMultiplePojo> listaMultiple;
     private Integer opSelectMulti;
+    private Integer npantalla;
+    private Long idTipoElempPlantilla;
+    private List<ComponenteInteractivoPojo> componentesPantallaActual;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -343,6 +346,30 @@ public class GestionClaseInteracForm {
 
     public void setOpSelectMulti(Integer opSelectMulti) {
         this.opSelectMulti = opSelectMulti;
+    }
+
+    public Long getIdTipoElempPlantilla() {
+        return idTipoElempPlantilla;
+    }
+
+    public void setIdTipoElempPlantilla(Long idTipoElempPlantilla) {
+        this.idTipoElempPlantilla = idTipoElempPlantilla;
+    }
+
+    public Integer getNpantalla() {
+        return npantalla;
+    }
+
+    public void setNpantalla(Integer npantalla) {
+        this.npantalla = npantalla;
+    }
+
+    public List<ComponenteInteractivoPojo> getComponentesPantallaActual() {
+        return componentesPantallaActual;
+    }
+
+    public void setComponentesPantallaActual(List<ComponenteInteractivoPojo> componentesPantallaActual) {
+        this.componentesPantallaActual = componentesPantallaActual;
     }
 
 }

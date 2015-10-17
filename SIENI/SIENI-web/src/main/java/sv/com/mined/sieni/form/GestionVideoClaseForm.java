@@ -7,12 +7,15 @@ package sv.com.mined.sieni.form;
 
 import java.util.List;
 import org.primefaces.model.DualListModel;
+import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
+import sv.com.mined.sieni.model.SieniClaseVidPtos;
 import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniSuperCompon;
+import sv.com.mined.sieni.model.SieniTipoElemPlantilla;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
 import sv.com.mined.sieni.pojos.controller.InteraccionMultiplePojo;
 import sv.com.mined.sieni.pojos.controller.PantallaPojo;
@@ -65,6 +68,17 @@ public class GestionVideoClaseForm {
     private DualListModel<SieniInteEntrComp> nuevaInteracMult2;
     private List<InteraccionMultiplePojo> listaMultiple;
     private Integer opSelectMulti;
+    private SieniArchivo video;
+    private List<SieniArchivo> videosList;
+    private Integer duracion;
+    private List<SieniClaseVidPtos> puntosVid;
+    private List<SieniClaseVidPtos> puntosVidEliminados;
+    private SieniClaseVidPtos nuevoPunto;
+    private SieniClaseVidPtos puntoEliminado;
+    private List<SieniTipoElemPlantilla> listaTipoElemPlantilla;
+    private Integer npantalla;
+    private Long idTipoElempPlantilla;
+    private List<ComponenteInteractivoPojo> componentesPantallaActual;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -74,7 +88,7 @@ public class GestionVideoClaseForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBaseclaseVideoAlmacenada()+ "index.xhtml");
+                sU.redirect(sU.getBaseclaseVideoAlmacenada() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBaseclaseVideoAlmacenada() + "crear.xhtml");
@@ -343,6 +357,94 @@ public class GestionVideoClaseForm {
 
     public void setOpSelectMulti(Integer opSelectMulti) {
         this.opSelectMulti = opSelectMulti;
+    }
+
+    public SieniArchivo getVideo() {
+        return video;
+    }
+
+    public void setVideo(SieniArchivo video) {
+        this.video = video;
+    }
+
+    public List<SieniArchivo> getVideosList() {
+        return videosList;
+    }
+
+    public void setVideosList(List<SieniArchivo> videosList) {
+        this.videosList = videosList;
+    }
+
+    public Integer getDuracion() {
+        return duracion;
+    }
+
+    public void setDuracion(Integer duracion) {
+        this.duracion = duracion;
+    }
+
+    public List<SieniClaseVidPtos> getPuntosVid() {
+        return puntosVid;
+    }
+
+    public void setPuntosVid(List<SieniClaseVidPtos> puntosVid) {
+        this.puntosVid = puntosVid;
+    }
+
+    public SieniClaseVidPtos getNuevoPunto() {
+        return nuevoPunto;
+    }
+
+    public void setNuevoPunto(SieniClaseVidPtos nuevoPunto) {
+        this.nuevoPunto = nuevoPunto;
+    }
+
+    public List<SieniTipoElemPlantilla> getListaTipoElemPlantilla() {
+        return listaTipoElemPlantilla;
+    }
+
+    public void setListaTipoElemPlantilla(List<SieniTipoElemPlantilla> listaTipoElemPlantilla) {
+        this.listaTipoElemPlantilla = listaTipoElemPlantilla;
+    }
+
+    public List<SieniClaseVidPtos> getPuntosVidEliminados() {
+        return puntosVidEliminados;
+    }
+
+    public void setPuntosVidEliminados(List<SieniClaseVidPtos> puntosVidEliminados) {
+        this.puntosVidEliminados = puntosVidEliminados;
+    }
+
+    public SieniClaseVidPtos getPuntoEliminado() {
+        return puntoEliminado;
+    }
+
+    public void setPuntoEliminado(SieniClaseVidPtos puntoEliminado) {
+        this.puntoEliminado = puntoEliminado;
+    }
+
+    public Integer getNpantalla() {
+        return npantalla;
+    }
+
+    public void setNpantalla(Integer npantalla) {
+        this.npantalla = npantalla;
+    }
+
+    public Long getIdTipoElempPlantilla() {
+        return idTipoElempPlantilla;
+    }
+
+    public void setIdTipoElempPlantilla(Long idTipoElempPlantilla) {
+        this.idTipoElempPlantilla = idTipoElempPlantilla;
+    }
+
+    public List<ComponenteInteractivoPojo> getComponentesPantallaActual() {
+        return componentesPantallaActual;
+    }
+
+    public void setComponentesPantallaActual(List<ComponenteInteractivoPojo> componentesPantallaActual) {
+        this.componentesPantallaActual = componentesPantallaActual;
     }
 
 }

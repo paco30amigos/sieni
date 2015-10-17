@@ -233,7 +233,7 @@
                 <div class="EmptyBox50"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar Configuracion de interacciones" actionListener="#{gestionClaseInteracController.guardarConfiguracionInteracciones()}" ajax="true"></p:commandButton>
-                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.refreshConfig()}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.setIndexMenu(4)}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax resetValues="true" listener="#{gestionClaseInteracController.setIndexMenu(0)}"/>
                     </p:commandButton>

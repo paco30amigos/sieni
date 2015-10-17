@@ -39,4 +39,29 @@ public class SieniClaseVidPtosFacade extends AbstractFacade<SieniClaseVidPtos> i
         q.setParameter("idClase", idClase);
         return q.getResultList();
     }
+
+    @Override
+    public void merge(List<SieniClaseVidPtos> lista, List<SieniClaseVidPtos> eliminados) {
+        for (SieniClaseVidPtos actual : lista) {
+            if (actual.getIdClaseVideoPtosAct() != null && actual.getIdClaseVideoPtosAct() < 0) {
+                actual.setIdClaseVideoPtosAct(null);
+            }
+            if (actual.getIdClaseVideoPtosAct() != null) {
+                this.edit(actual);
+            } else {
+                this.create(actual);
+            }
+        }
+
+        for (SieniClaseVidPtos actual : eliminados) {
+            if (actual.getIdClaseVideoPtosAct() != null && actual.getIdClaseVideoPtosAct() < 0) {
+                actual.setIdClaseVideoPtosAct(null);
+            }
+            if (actual.getIdClaseVideoPtosAct() != null) {
+                actual.setVpEstado('I');//eliminacion logica
+                this.edit(actual);
+            }
+        }
+        em.flush();
+    }
 }

@@ -10,7 +10,7 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
-            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}"/>
+            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseVideoAlmacenada}"/>
             <p:menuitem value="Configuración de Interaccion Entre Componentes de Video-Clase Almacenada" url="#"/>
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -27,44 +27,45 @@
                     <p:tab title="Interacción única">
                         <p:panelGrid columns="4" id="panel">
                             <p:outputLabel value="Componente 1"></p:outputLabel>
-                            <p:selectOneMenu value="#{gestionClaseInteracController.nuevaInterac.ieSupC1}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionClaseInteracController.getEventosC1}">
-                                <f:selectItems value="#{gestionClaseInteracController.compDisponibles}" var="comps1" itemLabel="#{comps1.scNombre}" itemValue="#{comps1}"></f:selectItems>
+                            <p:selectOneMenu value="#{gestionVideoClaseController.nuevaInterac.ieSupC1}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionVideoClaseController.getEventosC1}">
+                                <f:selectItems value="#{gestionVideoClaseController.compDisponibles}" var="comps1" itemLabel="#{comps1.scNombre}" itemValue="#{comps1}"></f:selectItems>
                                 <p:ajax event="valueChange" update="e1"/>
                             </p:selectOneMenu>
                             <p:outputLabel for="e1" value="Evento 1"></p:outputLabel>
-                            <p:selectOneMenu id="e1" value="#{gestionClaseInteracController.nuevaInterac.ieEventoC1}" converter="evento" filter="true" filterMatchMode="contains">
-                                <f:selectItems value="#{gestionClaseInteracController.evn1}" var="evn1" itemLabel="#{evn1.evDescripcion}" itemValue="#{evn1}"></f:selectItems>
+                            <p:selectOneMenu id="e1" value="#{gestionVideoClaseController.nuevaInterac.ieEventoC1}" converter="evento" filter="true" filterMatchMode="contains">
+                                <f:selectItems value="#{gestionVideoClaseController.evn1}" var="evn1" itemLabel="#{evn1.evDescripcion}" itemValue="#{evn1}"></f:selectItems>
                             </p:selectOneMenu>
                             <p:outputLabel value="Componente 2"></p:outputLabel>
-                            <p:selectOneMenu value="#{gestionClaseInteracController.nuevaInterac.ieSupC2}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionClaseInteracController.getEventosC2}">
-                                <f:selectItems value="#{gestionClaseInteracController.compDisponibles}" var="comps2" itemLabel="#{comps2.scNombre}" itemValue="#{comps2}"></f:selectItems>
+                            <p:selectOneMenu value="#{gestionVideoClaseController.nuevaInterac.ieSupC2}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionVideoClaseController.getEventosC2}">
+                                <f:selectItems value="#{gestionVideoClaseController.compDisponibles}" var="comps2" itemLabel="#{comps2.scNombre}" itemValue="#{comps2}"></f:selectItems>
                                 <p:ajax event="valueChange" update="e2"/>
                             </p:selectOneMenu>
                             <p:outputLabel for="e2" value="Evento 2"></p:outputLabel>
-                            <p:selectOneMenu id="e2" value="#{gestionClaseInteracController.nuevaInterac.ieEventoC2}" converter="evento" filter="true" filterMatchMode="contains">
-                                <f:selectItems value="#{gestionClaseInteracController.evn2}" var="evn2" itemLabel="#{evn2.evDescripcion}" itemValue="#{evn2}"></f:selectItems>
+                            <p:selectOneMenu id="e2" value="#{gestionVideoClaseController.nuevaInterac.ieEventoC2}" converter="evento" filter="true" filterMatchMode="contains">
+                                <f:selectItems value="#{gestionVideoClaseController.evn2}" var="evn2" itemLabel="#{evn2.evDescripcion}" itemValue="#{evn2}"></f:selectItems>
                             </p:selectOneMenu>
-                            <p:spinner value="#{gestionClaseInteracController.nuevaInterac.ieRetraso}" max="10000" min="0"></p:spinner>
-                            <p:commandButton value="Agregar Interaccion" action="#{gestionClaseInteracController.agregarInteraccion()}" update="consultaForm:clase,panel"></p:commandButton>
+                            <p:outputLabel value="Retraso"></p:outputLabel>
+                            <p:spinner value="#{gestionVideoClaseController.nuevaInterac.ieRetraso}" max="10000" min="0"></p:spinner>
+                            <p:commandButton value="Agregar Interaccion" action="#{gestionVideoClaseController.agregarInteraccion()}" update="consultaForm:clase,panel"></p:commandButton>
                         </p:panelGrid> 
                     </p:tab>
                     <p:tab title="Interacción Múltiple">
-                        <p:tabView orientation="left" class="interacMultiples" id="interacMultiples" activeIndex="#{gestionClaseInteracController.opSelectMulti}"> 
-                            <p:ajax event="tabChange" update="evntos,comp1" listener="#{gestionClaseInteracController.updateEventosComps2Seleccionados}"></p:ajax>
+                        <p:tabView orientation="left" class="interacMultiples" id="interacMultiples" activeIndex="#{gestionVideoClaseController.opSelectMulti}"> 
+                            <p:ajax event="tabChange" update="evntos,comp1" listener="#{gestionVideoClaseController.updateEventosComps2Seleccionados}"></p:ajax>
                             <p:tab title="Seleccion de componentes">
                                 <p:panelGrid columns="2" id="multiple">
                                     <p:outputLabel value="Componente 1"></p:outputLabel>
-                                    <p:selectOneMenu value="#{gestionClaseInteracController.nuevaInteracMult1.ieSupC1}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionClaseInteracController.getEventosC1Multi}">
-                                        <f:selectItems value="#{gestionClaseInteracController.compDisponibles}" var="comps1Multi" itemLabel="#{comps1Multi.scNombre}" itemValue="#{comps1Multi}"></f:selectItems>
+                                    <p:selectOneMenu value="#{gestionVideoClaseController.nuevaInteracMult1.ieSupC1}" converter="superCompon" filter="true" filterMatchMode="contains" valueChangeListener="#{gestionVideoClaseController.getEventosC1Multi}">
+                                        <f:selectItems value="#{gestionVideoClaseController.compDisponibles}" var="comps1Multi" itemLabel="#{comps1Multi.scNombre}" itemValue="#{comps1Multi}"></f:selectItems>
                                         <p:ajax event="valueChange" update="idEvn1Multi"></p:ajax>
                                     </p:selectOneMenu>
                                     <p:outputLabel for="idEvn1Multi" value="Evento 1"></p:outputLabel>
-                                    <p:selectOneMenu id="idEvn1Multi" value="#{gestionClaseInteracController.nuevaInteracMult1.ieEventoC1}" converter="evento" filter="true" filterMatchMode="contains">
-                                        <f:selectItems value="#{gestionClaseInteracController.evn1Multi}" var="evn1Multi" itemLabel="#{evn1Multi.evDescripcion}" itemValue="#{evn1Multi}"></f:selectItems>
+                                    <p:selectOneMenu id="idEvn1Multi" value="#{gestionVideoClaseController.nuevaInteracMult1.ieEventoC1}" converter="evento" filter="true" filterMatchMode="contains">
+                                        <f:selectItems value="#{gestionVideoClaseController.evn1Multi}" var="evn1Multi" itemLabel="#{evn1Multi.evDescripcion}" itemValue="#{evn1Multi}"></f:selectItems>
                                         <p:ajax event="valueChange" update="idEvn1Multi"></p:ajax>
                                     </p:selectOneMenu>
                                     <p:outputLabel value="Componentes 2"></p:outputLabel>
-                                    <p:pickList id="dt" value="#{gestionClaseInteracController.nuevaInteracMult2}" var="superComp2" converter="superComponPickList"
+                                    <p:pickList id="dt" value="#{gestionVideoClaseController.nuevaInteracMult2}" var="superComp2" converter="superComponPickList"
                                                 itemValue="#{superComp2}" itemLabel="#{superComp2.ieSupC2.scNombre}" >
                                         <p:ajax event="reorder" update="evntos,comp1"></p:ajax>
                                         <p:ajax event="transfer" update="evntos"/>
@@ -76,11 +77,11 @@
                             <p:tab title="Seleccion de eventos" >
                                 <p:panelGrid columns="2" id="comp1">
                                     <p:outputLabel value="Componente 1"></p:outputLabel>
-                                    <p:outputLabel value="#{gestionClaseInteracController.nuevaInteracMult1.ieSupC1.scNombre}"></p:outputLabel>
+                                    <p:outputLabel value="#{gestionVideoClaseController.nuevaInteracMult1.ieSupC1.scNombre}"></p:outputLabel>
                                     <p:outputLabel value="Evento 1"></p:outputLabel>
-                                    <p:outputLabel value="#{gestionClaseInteracController.nuevaInteracMult1.ieEventoC1.evDescripcion}"></p:outputLabel>
+                                    <p:outputLabel value="#{gestionVideoClaseController.nuevaInteracMult1.ieEventoC1.evDescripcion}"></p:outputLabel>
                                     <p:outputLabel value="Componentes 2"></p:outputLabel>
-                                    <p:dataTable id="evntos" value="#{gestionClaseInteracController.listaMultiple}" var="comps2Seleccionados">
+                                    <p:dataTable id="evntos" value="#{gestionVideoClaseController.listaMultiple}" var="comps2Seleccionados">
                                         <p:column headerText="Componente">
                                             #{comps2Seleccionados.interaccionEntreComps.ieSupC2.scNombre}
                                         </p:column>
@@ -93,7 +94,7 @@
                                             <p:spinner value="#{comps2Seleccionados.interaccionEntreComps.ieRetraso}" max="10000" min="0"></p:spinner>
                                         </p:column>
                                     </p:dataTable>
-                                    <p:commandButton value="Guardar Interacciones múltiples" action="#{gestionClaseInteracController.agregarInteraccionesMultiples()}"></p:commandButton>
+                                    <p:commandButton value="Guardar Interacciones múltiples" action="#{gestionVideoClaseController.agregarInteraccionesMultiples()}"></p:commandButton>
                                 </p:panelGrid>
                             </p:tab>
                         </p:tabView>
@@ -102,10 +103,10 @@
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarInteraccion()}" update="clase" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{gestionVideoClaseController.eliminarInteraccion()}" update="clase" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" immediate="true" ></p:commandButton>
                 </p:dialog>
-                <p:dataTable id="acciones" value="#{gestionClaseInteracController.interacPantallaElemPlantillaActual}" var="interacc"
+                <p:dataTable id="acciones" value="#{gestionVideoClaseController.interacPantallaElemPlantillaActual}" var="interacc"
                              paginatorPosition="bottom" rows="5"
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -128,25 +129,25 @@
                         #{interacc.ieRetraso}
                     </p:column>
                     <p:column headerText="Acciones">
-                        <p:commandLink action="#{gestionClaseInteracController.setInteraccionEliminada(interacc)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <p:commandLink action="#{gestionVideoClaseController.setInteraccionEliminada(interacc)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                             <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Clase"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox5"></div>
                 <script type="text/javascript">
-                    #{gestionClaseInteracController.funcionJS}
+                    #{gestionVideoClaseController.funcionJS}
                 </script>
                 <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
-                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px">
-                    <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:tabVie,consultaForm:acciones"></p:ajax>
-                    <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
+                <p:tabView id="clase" activeIndex="#{gestionVideoClaseController.idElemenActive}" style="height: #{gestionVideoClaseController.claseConfig.clAlto+90}px;width: #{gestionVideoClaseController.claseConfig.clAncho+156}px">
+                    <p:ajax event="tabChange" listener="#{gestionVideoClaseController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:tabVie,consultaForm:acciones"></p:ajax>
+                    <c:forEach items="#{gestionVideoClaseController.secciones}" var="elemPlantilla">
                         <p:tab title="#{elemPlantilla.nombre}">
                             <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas" > 
-                                <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:tabVie,consultaForm:acciones"></p:ajax>
+                                <p:ajax event="tabChange" listener="#{gestionVideoClaseController.updateInteractByTipoElemPlanPantalla}" update="consultaForm:tabVie,consultaForm:acciones"></p:ajax>
                                 <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                     <p:tab title="Pág #{pantalla.numPantalla}">
-                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px;cursor: pointer">
+                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionVideoClaseController.claseConfig.clAlto}px;width: #{gestionVideoClaseController.claseConfig.clAncho}px;cursor: pointer">
                                             <c:forEach items="#{pantalla.componentes}" var="superComponente">
                                                 <p:panel class="multimedia  compon#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;position: absolute;">
                                                     <c:choose>
@@ -231,10 +232,10 @@
 
                 <div class="EmptyBox50"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar Configuracion de interacciones" actionListener="#{gestionClaseInteracController.guardarConfiguracionInteracciones()}" ajax="true"></p:commandButton>
-                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.refreshConfig()}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
+                    <p:commandButton value="Guardar Configuracion de interacciones" actionListener="#{gestionVideoClaseController.guardarConfiguracionInteracciones()}" ajax="true"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionVideoClaseController.setIndexMenu(5)}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
-                        <p:ajax resetValues="true" listener="#{gestionClaseInteracController.setIndexMenu(0)}"/>
+                        <p:ajax resetValues="true" listener="#{gestionVideoClaseController.setIndexMenu(0)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

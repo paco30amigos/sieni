@@ -143,6 +143,12 @@ public class FormatUtils {
         return ret;
     }
 
+    public Long getAbs(Long numero) {
+        Long ret = numero;
+        ret = Math.abs(ret);
+        return ret;
+    }
+
     public String getString(byte[] data) {
         return new String(data);
     }

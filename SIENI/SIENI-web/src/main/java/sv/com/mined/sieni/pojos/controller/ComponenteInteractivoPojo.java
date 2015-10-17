@@ -22,6 +22,7 @@ public class ComponenteInteractivoPojo {
     private String texto;
     private List<SieniCompInteraccion> interacciones;
     private boolean visible;
+    private boolean mostrar;
 
     public List<FileStreamedPojo> getData() {
         return data;
@@ -69,5 +70,13 @@ public class ComponenteInteractivoPojo {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public boolean isMostrar() {
+        return mostrar;
+    }
+
+    public void setMostrar(boolean mostrar) {
+        this.mostrar = mostrar;
     }
 }

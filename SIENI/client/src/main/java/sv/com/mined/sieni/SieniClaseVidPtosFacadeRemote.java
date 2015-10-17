@@ -32,4 +32,5 @@ public interface SieniClaseVidPtosFacadeRemote {
     
     public List<SieniClaseVidPtos> findByClase(Long idClase);
     
+    public void merge(List<SieniClaseVidPtos> lista, List<SieniClaseVidPtos> eliminados);
 }

@@ -515,7 +515,7 @@ public class ControlInteractivoUtils {
         String showHide = "";
         String multimedia = "";
         String eventosMultimedia = "";
-        boolean ultimoAccionCompActual, tieneMultimedia = false, tieneShowHide = false;
+        boolean ultimoAccionCompActual, tieneMultimedia = false, tieneShowHide = false,tieneMultimediaGlobal=false;
         //codigoEvento->lista componentes
         //lista componentes->lista acciones
         int contAcciones = 1;
@@ -575,6 +575,7 @@ public class ControlInteractivoUtils {
                             case "pause":
                             case "ended":
                             case "playing":
+                                tieneMultimediaGlobal=true;
                                 tieneMultimedia = true;
                                 funcion += " function func_" + evnto.getCont() + "_" + compon + "_" + inteCont + "(){\n"
                                         //                                        + " var" + compon + "." + inte.getInteraccion().getIdEvento().getEvCodigo() + "();\n"
@@ -662,7 +663,7 @@ public class ControlInteractivoUtils {
                 }
             }
         }
-        if (tieneMultimedia) {
+        if (tieneMultimediaGlobal) {
             funcion += "document.addEventListener(\"DOMContentLoaded\", function () {\n"
                     + multimedia + "\n"
                     + eventosMultimedia + "\n"

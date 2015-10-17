@@ -8,6 +8,7 @@ package sv.com.mined.sieni;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniClase;
+import sv.com.mined.sieni.model.SieniCurso;
 
 /**
  *
@@ -33,4 +34,14 @@ public interface SieniClaseFacadeRemote {
     public List<SieniClase> findAllNoInactivos();
     
     public List<SieniClase> findClaseByTipo(Character tipoClase);
+    
+    
+    
+    
+    public List<SieniClase> findClasesRpt(SieniCurso curso,Integer tipo,Integer estado);
+    
+    
+    
+    
+    
 }

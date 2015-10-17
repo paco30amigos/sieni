@@ -35,4 +35,7 @@ public interface SieniCursoFacadeRemote {
 
     int count();
     
+    
+    List<SieniCurso> findActivos();
+    
 }

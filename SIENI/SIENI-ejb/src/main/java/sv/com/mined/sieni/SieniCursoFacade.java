@@ -58,6 +58,15 @@ public class SieniCursoFacade extends AbstractFacade<SieniCurso> implements sv.c
         
         return res;
     }
+    
+    
+    
+    @Override
+    public List<SieniCurso> findActivos() {
+        Query q = em.createNamedQuery("SieniCurso.findActivos");
+        List<SieniCurso> res = q.getResultList();
+        return res;
+    }
 
 
     

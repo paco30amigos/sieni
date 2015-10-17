@@ -14,7 +14,7 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
+         <p:tabView>
             <p:tab title="Reporte de Clases">
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
@@ -23,62 +23,72 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="4">
-                        <p:outputLabel value="Fecha desde:"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel value="hasta:"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel value="Tipo de Clase:"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
+                        <p:outputLabel for="curso" value="Curso: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="curso" class=" Responsive" value="#{rptClasesController.idCurso}" >
+                            <f:selectItem itemValue="0" itemLabel="TODOS LOS CURSOS" />
+                            <f:selectItems itemValue ="#{cur.idCurso}" itemLabel="#{cur.crNombre}" value="#{rptClasesController.listCursos}" var="cur" />
                         </p:selectOneMenu>
-                        <p:outputLabel value="Curso:"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
+                        <p:outputLabel for="tipoC" value="Tipo De Clase:"></p:outputLabel>
+                        <p:selectOneMenu id="tipoC" value="#{rptClasesController.tipoC}">
+                            <f:selectItem itemLabel="TODOS" itemValue="0"></f:selectItem>
+                            <f:selectItem itemLabel="Clase en vivo" itemValue="1"></f:selectItem>
+                            <f:selectItem itemLabel="Video Clase" itemValue="2"></f:selectItem>
+                            <f:selectItem itemLabel="Clase Interactiva" itemValue="3"></f:selectItem>
                         </p:selectOneMenu>
+                        <p:outputLabel for="estadoC" value="Estado:"></p:outputLabel>
+                        <p:selectOneMenu id="estadoC" value="#{rptClasesController.estadoC}">
+                            <f:selectItem itemValue="0" itemLabel="TODOS" ></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="No Iniciada"></f:selectItem>
+                            <f:selectItem itemValue="2" itemLabel="Iniciada"></f:selectItem>
+                            <f:selectItem itemValue="3" itemLabel="Terminada"></f:selectItem>
+                        </p:selectOneMenu>
+                        
+                        
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
-                                 paginator="false"
+                    <p:dataTable id="consulta" rows="10" var="clase" value="#{rptClasesController.listDatos}" 
+                                 paginator="false" emptyMessage="No hay clases que mostrar"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10,20,40"
                                  reflow="true">
-                        <p:column headerText="Clase" >
-                            #{formatoPantallas.campo100}
+
+                        <p:column headerText="Curso" >
+                            #{clase.curso}
+                        </p:column>
+                        <p:column headerText="Tema" >
+                            #{clase.tema}
                         </p:column>
                         <p:column headerText="Tipo" >
-                            #{formatoPantallas.campo30}
-                        </p:column>
-                        <p:column headerText="Plantilla de clase" >
-                            #{formatoPantallas.campo100}
-                        </p:column>
-                        <p:column headerText="Curso" >
-                            #{formatoPantallas.campo100}
+                            #{clase.tipoClase}
                         </p:column>
                         <p:column headerText="Hora" >
-                            #{formatoPantallas.hora}
+                            #{clase.hora}
                         </p:column>
                         <p:column headerText="Horario" >
-                            #{formatoPantallas.campo100}
+                            #{clase.horario}
                         </p:column>
                         <p:column headerText="Estado" >
-                            #{formatoPantallas.campo15}
+                            #{clase.estadoClase}
                         </p:column>
+
+
                         <f:facet name="footer">
-                            Total de Clases 999
+                            Total de Clases #{rptClasesController.totalClases}
                         </f:facet>
                     </p:dataTable>
+
                     <div class="EmptyBox20"></div>
                     <div class="TexAlCenter">
 
-                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{radioView.console}">
-                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                            </p:selectOneRadio>
-                            <p:commandButton  value="Generar"></p:commandButton>
-                            <p:commandButton value="Refrescar"></p:commandButton>
-                        </h:panelGrid>
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptClasesController.tipoRpt}">
+                            <f:selectItem itemValue="2" itemLabel="Excel" />
+                            <f:selectItem itemValue="0" itemLabel="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar" ajax="false" actionListener="#{rptClasesController.generarReporte()}"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptClasesController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    </h:panelGrid>
                     </div>
 
                 </h:form>

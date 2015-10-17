@@ -40,7 +40,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniClase.findByIdClase", query = "SELECT s FROM SieniClase s WHERE s.idClase = :idClase"),
     @NamedQuery(name = "SieniClase.findByClHorario", query = "SELECT s FROM SieniClase s WHERE s.clHorario = :clHorario"),
     @NamedQuery(name = "SieniClase.findByClEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado"),
-    @NamedQuery(name = "SieniClase.findByClTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo")})
+    @NamedQuery(name = "SieniClase.findByClTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo"),
+    
+    @NamedQuery(name = "SieniClase.findClasesRpt", query = "SELECT s FROM SieniClase s WHERE s.clEstado != 'I'"),
+    @NamedQuery(name = "SieniClase.findClasesRptByTipoEstado", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado = :clEstado"),
+    @NamedQuery(name = "SieniClase.findClasesRptByEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado"),
+    @NamedQuery(name = "SieniClase.findClasesRptByTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado != 'I'"),
+    @NamedQuery(name = "SieniClase.findClasesRptByCurso", query = "SELECT s FROM SieniClase s WHERE s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso"),
+    @NamedQuery(name = "SieniClase.findClasesRptByCursoTipoEstado", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado = :clEstado AND s.idCurso.idCurso = :idCurso"),
+    @NamedQuery(name = "SieniClase.findClasesRptByCursoEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado AND s.idCurso.idCurso = :idCurso"),
+    @NamedQuery(name = "SieniClase.findClasesRptByCursoTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso") })
 public class SieniClase implements Serializable {
 
     @OneToMany(mappedBy = "idClase")

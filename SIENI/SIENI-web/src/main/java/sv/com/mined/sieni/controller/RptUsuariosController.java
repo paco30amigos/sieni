@@ -116,7 +116,7 @@ public class RptUsuariosController extends RptUsuariosForm {
                 break;
         }
         try {
-            RptAlumnosController.generateReport(path, "rtpUsuarios" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
+            RptUsuariosController.generateReport(path, "rtpUsuarios" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Usuarios", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));

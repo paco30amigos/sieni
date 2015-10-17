@@ -41,6 +41,7 @@ $(document).ready(function(){
         } 
     });
 
+
     // función que pasado un tiempo, quita la clase "agrandar" del elemento
     function removeAnimation(){
         setTimeout(function() {
@@ -55,11 +56,14 @@ $(document).ready(function(){
     }
     
     
-     function sendNotify(){
-
+     function sendNotify(valor){
+        var valorPrevio = parseInt($('.burbuja').html());
+         var $burbuja = $('.burbuja');
         // almacenamos el valor que tenía la burbuja antes del click
-        var valorPrevio = valor;
-        agrandar($burbuja);   
+        var valor = valor;
+        if (valor != valorPrevio) {
+            agrandar($burbuja);         
+        } 
     }
     
     

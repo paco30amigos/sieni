@@ -24,7 +24,11 @@
         </h:head>
 
         <h:body>
-
+            
+            <p:socket onMessage="handleMessage" channel="/notify" >
+                <p:ajax event="message" listener="#{notificacionesController.sendNotify()}"  />
+             </p:socket>
+  
             <style type="text/css">
                 .ui-panel .ui-panel-title { font-family: serif; }
                 /*correccion de encabezado de tabs*/
@@ -188,8 +192,16 @@
                             $(':input[tabindex=\'' + (cb + 1) + '\']').select();
                         }
                     }
-                </script>
+                    
+                    
+                    function handleMessage(facesmessage) {
+                        facesmessage.severity = 'info';
 
+                        PF('wmsj').show([facesmessage]);
+                    }
+                    
+                    
+                </script>
 
                 <p:growl id="msj" widgetVar="wmsj" showDetail="true" />
 
@@ -249,18 +261,8 @@
                 <h:outputStylesheet name="css/rio-layout.css" library="rio-layout" />
             </div>
 
-            <!-- <p:socket onMessage="handleMessage" channel="/notify" >
-                 <p:ajax event="message"  />
-             </p:socket>
- 
-         <script type="text/javascript">
-             function handleMessage(facesmessage) {
-                 facesmessage.severity = 'info';
- 
-                 PF('wmsj').show([facesmessage]);
-             }
-         </script>    
-            -->
+              
+          
         </h:body>
     </f:view>
 </html>

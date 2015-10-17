@@ -12,14 +12,14 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
-import sv.com.mined.sieni.model.SieniMateria;
+import sv.com.mined.sieni.model.SieniArchivo;
 
 /**
  *
  * @author Laptop
  */
-@FacesConverter(value = "materia")
-public class MateriaConverter implements Converter {
+@FacesConverter(value = "archivo")
+public class ArchivoConverter implements Converter {
 
     @Override
     public Object getAsObject(FacesContext arg0, UIComponent arg1, String arg2) {
@@ -30,8 +30,8 @@ public class MateriaConverter implements Converter {
 
             for (UIComponent item : (List<UIComponent>) menuItems) {
                 UISelectItems select = (UISelectItems) item;
-                for (SieniMateria actual : (List<SieniMateria>) select.getValue()) {
-                    if (arg2.equals(actual.getIdMateria().toString())) {
+                for (SieniArchivo actual : (List<SieniArchivo>) select.getValue()) {
+                    if (arg2.equals(actual.getIdArchivo().toString())) {
                         ret = actual;
                     }
                 }
@@ -43,8 +43,8 @@ public class MateriaConverter implements Converter {
     @Override
     public String getAsString(FacesContext arg0, UIComponent arg1, Object arg2) {
         String str = "";
-        if (arg2 instanceof SieniMateria) {
-            str = "" + ((SieniMateria) arg2).getIdMateria();
+        if (arg2 instanceof SieniArchivo) {
+            str = "" + ((SieniArchivo) arg2).getIdArchivo();
         }
         return str;
     }

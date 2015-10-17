@@ -333,4 +333,12 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         }
         fill();
     }
+    
+    public void guardarModPassword() {
+        if (this.getUsuarioModifica().getCodTipoUsuario().equals("0")) {
+            
+        }else{
+        
+        }
+    }
 }

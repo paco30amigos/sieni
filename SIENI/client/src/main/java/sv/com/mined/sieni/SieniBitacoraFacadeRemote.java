@@ -26,6 +26,8 @@ public interface SieniBitacoraFacadeRemote {
     SieniBitacora find(Object id);
 
     List<SieniBitacora> findAll();
+    
+    List<SieniBitacora> findByFecha(Date desde, Date hasta);
 
     List<SieniBitacora> findRange(int[] range);
 

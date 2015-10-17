@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniBitacora.findByBitAccion", query = "SELECT s FROM SieniBitacora s WHERE s.bitAccion = :bitAccion"),
     @NamedQuery(name = "SieniBitacora.findByBitTabla", query = "SELECT s FROM SieniBitacora s WHERE s.bitTabla = :bitTabla"),
     @NamedQuery(name = "SieniBitacora.findByBitIdUsuario", query = "SELECT s FROM SieniBitacora s WHERE s.bitIdUsuario = :bitIdUsuario"),
-    @NamedQuery(name = "SieniBitacora.findByBitTipoUsuario", query = "SELECT s FROM SieniBitacora s WHERE s.bitTipoUsuario = :bitTipoUsuario")})
+    @NamedQuery(name = "SieniBitacora.findByBitTipoUsuario", query = "SELECT s FROM SieniBitacora s WHERE s.bitTipoUsuario = :bitTipoUsuario"),
+    @NamedQuery(name = "SieniBitacora.findByFecha", query = "SELECT s FROM SieniBitacora s where s.bitFechaHoraIngreso BETWEEN :desde AND :hasta"),})
 public class SieniBitacora implements Serializable {
 
     private static final long serialVersionUID = 1L;

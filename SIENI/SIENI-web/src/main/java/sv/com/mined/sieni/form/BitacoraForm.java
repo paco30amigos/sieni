@@ -8,13 +8,15 @@ package sv.com.mined.sieni.form;
 import java.util.Date;
 import java.util.List;
 import org.primefaces.model.StreamedContent;
+import sv.com.mined.sieni.controller.ReportesController;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.pojos.rpt.BitacoraPojo;
 
 /**
  *
  * @author Laptop
  */
-public class BitacoraForm {
+public class BitacoraForm extends ReportesController{
 
     private List<SieniBitacora> bitacoraList;
     private StreamedContent reporte;
@@ -22,6 +24,9 @@ public class BitacoraForm {
     private String formatoRpt;
     private Date desde;
     private Date hasta;
+    
+    private List<BitacoraPojo> listDatos;
+    private Integer tipoRpt;
 
     public List<SieniBitacora> getBitacoraList() {
         return bitacoraList;
@@ -69,6 +74,22 @@ public class BitacoraForm {
 
     public void setHasta(Date hasta) {
         this.hasta = hasta;
+    }
+
+    public List<BitacoraPojo> getListDatos() {
+        return listDatos;
+    }
+
+    public void setListDatos(List<BitacoraPojo> listDatos) {
+        this.listDatos = listDatos;
+    }
+
+    public Integer getTipoRpt() {
+        return tipoRpt;
+    }
+
+    public void setTipoRpt(Integer tipoRpt) {
+        this.tipoRpt = tipoRpt;
     }
 
 }

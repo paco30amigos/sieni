@@ -186,24 +186,49 @@ public void  formulaConstruct(int f){
             valor = this.ARCTAN;
             break;
         case 20:
-            valor = this.ARCCOT;
+            valor = this.PARENTESIS;
             break;
         case 21:
-            valor = this.ARCSENOH;
+            valor = this.CORCHETE;
             break;
         case 22:
-            valor = this.ARCCOSENOH;
+            valor = this.CORCHETEDOBLE;
             break;
         case 23:
-            valor = this.ARCTANH;
+            valor = this.LLAVES;
             break;
         case 24:
-            valor = this.ARCCOTH;    
+            valor = this.ANGULAR;    
             break;
+        case 25:
+            valor = this.LINEA;    
+            break;
+        case 26:
+            valor = this.LINEADOBLE;    
+            break;
+        case 27:
+            valor = this.BINOMIO;    
+            break;
+        case 28:
+            valor = this.MATRIZ;    
+            break;
+           
     }
+    String sub1=this.getFormula().substring(0, this.getIndice());
+    String sub2=this.getFormula().substring(this.getIndice());
     
-this.setFormula(this.getFormula()+valor);
+this.setFormula(sub1+valor+sub2);
 }
+   
+public void salto(){
+String sub1=this.getFormula().substring(0, this.getIndice()+1);
+String valor=" "
+        + "\n"
+        + "\\\\";
+    String sub2=this.getFormula().substring(this.getIndice()+1);
     
+this.setFormula(sub1+valor+sub2);
+    
+}
 
 }

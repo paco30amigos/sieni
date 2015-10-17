@@ -39,4 +39,12 @@ public class SieniBitacoraFacade extends AbstractFacade<SieniBitacora> implement
         q.setParameter("hasta", hasta);
         return q.getResultList();
     }
+    
+    @Override
+    public List<SieniBitacora> findByFecha(Date desde, Date hasta) {
+        Query q = em.createNamedQuery("SieniBitacora.findByFecha");
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        return q.getResultList();
+    }
 }

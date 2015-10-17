@@ -15,7 +15,7 @@
 	<field name="curso" class="java.lang.String"/>
 	<field name="tema" class="java.lang.String"/>
 	<field name="tipo" class="java.lang.String"/>
-	<field name="hora" class="java.lang.String"/>
+	<field name="horatext" class="java.lang.String"/>
 	<field name="horario" class="java.lang.String"/>
 	<field name="estado" class="java.lang.String"/>
 	<background>
@@ -223,7 +223,7 @@ Reporte de Clases]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{horatext}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement uuid="0ea21607-1d12-44cb-b7ac-0258af3f62df" x="452" y="0" width="53" height="19"/>

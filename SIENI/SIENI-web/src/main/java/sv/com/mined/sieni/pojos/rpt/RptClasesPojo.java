@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniCurso;
+import utils.FormatUtils;
 
 /**
  *
@@ -18,12 +19,13 @@ public class RptClasesPojo implements Serializable {
     private SieniCurso cursoEntity;
     private String curso;
     private String tema;
-    private Character tipo;
-    private String tipoClase;
+    private Character tipoClase;
+    private String tipo;
     private Date hora;
+    private String horatext;
     private String horario;
-    private Character estado;
-    private String EstadoClase;
+    private Character estadoClase;
+    private String estado;
 
     
     public RptClasesPojo() {
@@ -33,10 +35,10 @@ public class RptClasesPojo implements Serializable {
     public RptClasesPojo(SieniCurso cursoEntity, String tema, Character tipo, Date hora, String horario, Character estado) {
         this.cursoEntity = cursoEntity;
         this.tema = tema;
-        this.tipo = tipo;
+        this.tipoClase = tipo;
         this.hora = hora;
         this.horario = horario;
-        this.estado = estado;
+        this.estadoClase = estado;
     }
 
     
@@ -58,19 +60,19 @@ public class RptClasesPojo implements Serializable {
         return tema;
     }
 
-    public String getTipoClase() {
-        switch (this.tipo) {
+    public String getTipo() {
+        switch (this.tipoClase) {
             case 'O':
-                tipoClase = "Clase en vivo";
+                tipo = "Clase en vivo";
                 break;
             case 'V':
-                tipoClase = "Video clase";
+                tipo = "Video clase";
                 break;
             case 'I':
-                tipoClase = "Clase interactiva";
+                tipo = "Clase interactiva";
                 break;
         }
-        return tipoClase;
+        return tipo;
     }
 
     public Date getHora() {
@@ -81,23 +83,29 @@ public class RptClasesPojo implements Serializable {
         return horario;
     }
 
-    public String getEstadoClase() {
-        switch (this.estado) {
+    public String getEstado() {
+        switch (this.estadoClase) {
             case 'N':
-                EstadoClase = "No Iniciada";
+                estado = "No Iniciada";
                 break;
             case 'A':
-                EstadoClase = "Iniciada";
+                estado = "Iniciada";
                 break;
             case 'T':
-                EstadoClase = "Terminada";
+                estado = "Terminada";
                 break;
             case 'I':
-                EstadoClase = "Eliminada";
+                estado = "Eliminada";
                 break;
         }
-        return EstadoClase;
+        return estado;
     }
+
+    public String getHoratext() {
+        horatext = new FormatUtils().getFormatedTime(this.hora);
+        return horatext;
+    }
+    
     
     
     

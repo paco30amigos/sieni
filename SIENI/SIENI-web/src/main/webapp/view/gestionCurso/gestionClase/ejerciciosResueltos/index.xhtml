@@ -34,64 +34,45 @@
                     <p:menubar>
                         <p:submenu label="Funciones" >   
                             <p:submenu label="Trigonometricas">
-                                <p:menuitem value="sen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(9)}" update="formula"/>
-                            <p:menuitem value="cos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(10)}" update="formula"/>
-                            <p:menuitem value="tan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(11)}" update="formula"/>
-                            <p:menuitem value="cot(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(12)}" update="formula"/>
-                            <p:menuitem value="senh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(13)}" update="formula"/>
-                            <p:menuitem value="cosh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(14)}" update="formula"/>
-                            <p:menuitem value="tanh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(15)}" update="formula"/>
-                            <p:menuitem value="coth(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(16)}" update="formula"/>
+                                <p:menuitem value="sen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(9)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="cos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(10)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="tan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(11)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="cot(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(12)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="senh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(13)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="cosh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(14)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="tanh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(15)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="coth(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(16)}" update="formula,myScript" onclick="indice();"/>
                             <p:separator />
-                            <p:menuitem value="arcsen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(17)}" update="formula"/>
-                            <p:menuitem value="arccos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(18)}" update="formula"/>
-                            <p:menuitem value="arctan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(19)}" update="formula"/>                                  
+                            <p:menuitem value="arcsen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(17)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="arccos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(18)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="arctan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(19)}" update="formula,myScript" onclick="indice();"/>                                  
                             </p:submenu>
                             
                             <p:menuitem value="Absoluto" icon="ui-icon-absoluto" action="#{gestionDisenioEjercicioController.formulaConstruct(1)}" update="formula,myScript" onclick="indice(); "/>
-                            <p:menuitem value="Factorial" icon="ui-icon-factorial" action="#{gestionDisenioEjercicioController.formulaConstruct(2)}" update="formula"/>
-                            <p:menuitem value="Raiz" icon="ui-icon-raiz" action="#{gestionDisenioEjercicioController.formulaConstruct(3)}" update="formula"/>
-                            <p:menuitem value="Raiz n" icon="ui-icon-raizx" action="#{gestionDisenioEjercicioController.formulaConstruct(4)}" update="formula"/>
-                            <p:menuitem value="Funcion exp" icon="ui-icon-ex" action="#{gestionDisenioEjercicioController.formulaConstruct(5)}" update="formula"/>
-                            <p:menuitem value="Potencia" icon="ui-icon-xb" action="#{gestionDisenioEjercicioController.formulaConstruct(6)}" update="formula"/>
-                            <p:menuitem value="log natural" icon="ui-icon-ex" action="#{gestionDisenioEjercicioController.formulaConstruct(7)}" update="formula"/>
-                            <p:menuitem value="log base 10" icon="ui-icon-log" action="#{gestionDisenioEjercicioController.formulaConstruct(8)}" update="formula"/>
+                            <p:menuitem value="Factorial" icon="ui-icon-factorial" action="#{gestionDisenioEjercicioController.formulaConstruct(2)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Raiz" icon="ui-icon-raiz" action="#{gestionDisenioEjercicioController.formulaConstruct(3)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Raiz n" icon="ui-icon-raizx" action="#{gestionDisenioEjercicioController.formulaConstruct(4)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Funcion exp" icon="ui-icon-ex" action="#{gestionDisenioEjercicioController.formulaConstruct(5)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Potencia" icon="ui-icon-xb" action="#{gestionDisenioEjercicioController.formulaConstruct(6)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="log natural" icon="ui-icon-ex" action="#{gestionDisenioEjercicioController.formulaConstruct(7)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="log base 10" icon="ui-icon-log" action="#{gestionDisenioEjercicioController.formulaConstruct(8)}" update="formula,myScript" onclick="indice();"/>
                             
                                                      
                                                        
                         </p:submenu>
 
                         <p:submenu label="Agrupaciones" icon="ui-icon-pencil">
-                            <p:menuitem value="Parentesis" icon="ui-icon-parentesis" action="#{gestionDisenioEjercicioController.formulaConstruct(20)}" update="formula"/>
-                            <p:menuitem value="Corchete" icon="ui-icon-corchete" action="#{gestionDisenioEjercicioController.formulaConstruct(21)}" update="formula"/>
-                            <p:menuitem value="Corchete doble" icon="ui-icon-corchete2" action="#{gestionDisenioEjercicioController.formulaConstruct(22)}" update="formula"/>
-                            <p:menuitem value="Llaves" icon="ui-icon-llave" action="#{gestionDisenioEjercicioController.formulaConstruct(23)}" update="formula"/>
-                            <p:menuitem value="Angular" icon="ui-icon-mayorIgual" action="#{gestionDisenioEjercicioController.formulaConstruct(24)}" update="formula"/>
-                            <p:menuitem value="Linea" icon="ui-icon-lsencilla" action="#{gestionDisenioEjercicioController.formulaConstruct(25)}" update="formula"/>
-                            <p:menuitem value="Linea doble" icon="ui-icon-ldoble" action="#{gestionDisenioEjercicioController.formulaConstruct(26)}" update="formula"/>
-                            <p:menuitem value="Binomio" icon="ui-icon-binomio" action="#{gestionDisenioEjercicioController.formulaConstruct(27)}" update="formula"/>
-                            <p:menuitem value="Matriz 2x3" icon="ui-icon-matriz" action="#{gestionDisenioEjercicioController.formulaConstruct(28)}" update="formula"/>
-                        </p:submenu>
-
-                        <p:submenu label="Help" icon="ui-icon-help">
-                            <p:menuitem value="Contents" url="#" />
-                            <p:submenu label="Search" icon="ui-icon-search">
-                                <p:submenu label="Text">
-                                    <p:menuitem value="Workspace" url="#" />
-                                </p:submenu>
-                                <p:menuitem value="File" url="#" />
-                            </p:submenu>
-                        </p:submenu>
-
-                        <p:submenu label="Actions" icon="ui-icon-gear">
-                            <p:submenu label="Ajax" icon="ui-icon-refresh">
-                                <p:menuitem value="Save" actionListener="#" icon="ui-icon-disk" />
-                                <p:menuitem value="Update" actionListener="#" icon="ui-icon-arrowrefresh-1-w" />
-                            </p:submenu>
-                            <p:submenu label="Non-Ajax" icon="ui-icon-newwin">
-                                <p:menuitem value="Delete" actionListener="#" icon="ui-icon-close"  ajax="false"/>
-                            </p:submenu>
-                        </p:submenu>
+                            <p:menuitem value="Parentesis" icon="ui-icon-parentesis" action="#{gestionDisenioEjercicioController.formulaConstruct(20)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Corchete" icon="ui-icon-corchete" action="#{gestionDisenioEjercicioController.formulaConstruct(21)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Corchete doble" icon="ui-icon-corchete2" action="#{gestionDisenioEjercicioController.formulaConstruct(22)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Llaves" icon="ui-icon-llave" action="#{gestionDisenioEjercicioController.formulaConstruct(23)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Angular" icon="ui-icon-mayorIgual" action="#{gestionDisenioEjercicioController.formulaConstruct(24)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Linea" icon="ui-icon-lsencilla" action="#{gestionDisenioEjercicioController.formulaConstruct(25)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Linea doble" icon="ui-icon-ldoble" action="#{gestionDisenioEjercicioController.formulaConstruct(26)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Binomio" icon="ui-icon-binomio" action="#{gestionDisenioEjercicioController.formulaConstruct(27)}" update="formula,myScript" onclick="indice();"/>
+                            <p:menuitem value="Matriz 2x3" icon="ui-icon-matriz" action="#{gestionDisenioEjercicioController.formulaConstruct(28)}" update="formula,myScript" onclick="indice();"/>
+                        </p:submenu>                      
+                       
                         <p:menuitem value="Salto" action="#{gestionDisenioEjercicioController.salto()}" update="formula,myScript" onclick="indice(); "/>
 
                                                 
@@ -143,40 +124,7 @@
 
             </p:tab>
 
-            <p:tab title="Ejercicio Resuelto">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:outputLabel  value="Algebra " class="  Responsive"></p:outputLabel>  
-                    <div class="EmptyBox20"></div>
-
-                    <h:graphicImage  name="ejerResuelto.png" styleClass="Fleft" library="images" />
-
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{radioView.console}">
-                                <f:selectItem itemLabel="PNG" itemValue="PNG" />
-                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                            </p:selectOneRadio>
-                            <p:commandButton  value="Generar" ></p:commandButton>
-                            <p:commandButton value="Regresar"></p:commandButton>
-                        </h:panelGrid>
-
-                    </div>
-
-
-                </h:form>
-
-
-
-            </p:tab>
-
-
+            
         </p:tabView>
 
 

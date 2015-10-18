@@ -19,7 +19,7 @@
         <p:panel>
             <h:form id="consultaForm">
                 <div class="EmptyBox20"></div>
-                <p:panelGrid columns="4">
+                <p:panelGrid columns="5">
                     <p:outputLabel for="desde" value="Fecha desde:"></p:outputLabel>
                     <p:calendar id="desde" value="#{bitacoraController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     <p:outputLabel for="hasta" value="hasta:"></p:outputLabel>

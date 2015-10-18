@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-10-15T10:30:41 -->
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-10-18T13:46:43 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -13,9 +13,9 @@
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="fecha" class="java.lang.String"/>
+	<field name="fecha" class="java.util.Date"/>
 	<field name="accion" class="java.lang.String"/>
-	<field name="hora" class="java.lang.String"/>
+	<field name="hora" class="java.util.Date"/>
 	<field name="fuente" class="java.lang.String"/>
 	<field name="responsable" class="java.lang.String"/>
 	<background>
@@ -153,7 +153,7 @@ Reporte de Bitacora]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{accion}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="91" y="0" width="80" height="20" uuid="3df7f151-9dc0-425c-8620-696be7117ae1"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -164,7 +164,7 @@ Reporte de Bitacora]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="h:mm a" isBlankWhenNull="true">
 				<reportElement key="" x="171" y="0" width="81" height="20" uuid="8ea24002-7bcb-4cc4-9948-81cf4c7d6378"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

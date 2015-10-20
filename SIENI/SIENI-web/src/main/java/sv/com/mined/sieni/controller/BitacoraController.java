@@ -56,10 +56,6 @@ public class BitacoraController extends BitacoraForm {
     }
 
     public void generarReporte() {
-//        Date desde = this.getDesde();
-//        Date hasta = this.getHasta();
-//        this.setBitacoraList(sieniBitacoraFacadeRemote.getBitacorasRangoFecha(desde, hasta));
-        
         String path = "resources/reportes/rtpBitacora.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));

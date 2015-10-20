@@ -104,7 +104,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
             this.getConsultaNueva().setTdTipo('C');
             this.getConsultaNueva().setTdFecha(new Date());
             sieniConsultaFacadeRemote.create(this.getConsultaNueva());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             this.setConsultaNueva(new SieniTemaDuda());
             FacesMessage msg = new FacesMessage("Consulta Enviada Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -136,7 +136,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             
             sieniConsultaFacadeRemote.edit(this.getConsultaModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Consulta Modificada Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             fill();
@@ -182,7 +182,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
     public void eliminarConsulta() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         this.getEliminar().setTdEstado(new Character('I'));
         sieniConsultaFacadeRemote.edit(this.getEliminar());
         fill();

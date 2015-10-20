@@ -57,12 +57,14 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public void guardar() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         this.getDocenteNuevo().setDcFoto(this.getFotoArchivo());
         quitarFormato(this.getDocenteNuevo());//quita el formato de los campos
         this.getDocenteNuevo().setDcEstado('A');
         if (validarNuevo(this.getDocenteNuevo())) {//valida el guardado
             sieniDocenteFacadeRemote.create(this.getDocenteNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guarda", "Docente", this.getDocenteNuevo().getIdDocente(), new Character('D')));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guarda", "Docente", this.getDocenteNuevo().getIdDocente(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -120,11 +122,13 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public void guardarModifica() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         this.getDocenteModifica().setDcFoto(this.getFotoArchivoModifica());
         quitarFormato(this.getDocenteModifica());//quita el formato de los campos
         if (validarModifica(this.getDocenteModifica())) {//valida el guardado
             sieniDocenteFacadeRemote.edit(this.getDocenteModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Docente", this.getDocenteModifica().getIdDocente(), new Character('D')));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Docente", this.getDocenteModifica().getIdDocente(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -148,7 +152,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     public void eliminarExpediente() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         this.getEliminar().setDcEstado(new Character('I'));
         sieniDocenteFacadeRemote.edit(this.getEliminar());
         fill();

@@ -49,17 +49,7 @@
                         #{car.fuente}
                     </p:column>
                     <p:column headerText="Responsable" >
-                        <c:choose>
-                            <c:when test="#{car.responsable=='D'}">
-                                Docente
-                            </c:when>
-                            <c:when test="#{car.responsable=='A'}">
-                                Alumno
-                            </c:when>
-                            <c:otherwise>
-                            
-                            </c:otherwise>
-                        </c:choose>
+                        
                     </p:column>
                     <f:facet name="footer">
                         Total de Registros #{bitacoraController.totalTransacciones}

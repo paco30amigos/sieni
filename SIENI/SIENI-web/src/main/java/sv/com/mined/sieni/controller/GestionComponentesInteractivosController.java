@@ -103,7 +103,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             sieniSuperComponFacadeRemote.create(this.getNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Componente Interactivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
             this.setNuevo(new SieniSuperCompon());
             fill();
@@ -244,7 +244,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             sieniSuperComponFacadeRemote.edit(this.getModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Componente Interactivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             fill();
         }
@@ -263,7 +263,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     public void eliminarArchivo() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         this.getEliminar().setScEstado('I');
         sieniSuperComponFacadeRemote.edit(this.getEliminar());
         fill();

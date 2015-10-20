@@ -64,7 +64,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             sieniPlantillaFacadeRemote.create(this.getPlantillaNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Plantilla Creada Exitosamente", FacesMessage.SEVERITY_INFO);
             this.setPlantillaNuevo(new SieniPlantilla());
             fill();
@@ -107,12 +107,12 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void guardarModifica() {
-
+        
         if (validarModifica(this.getPlantillaModifica())) {//valida el guardado
             sieniPlantillaFacadeRemote.edit(this.getPlantillaModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Plantilla Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
             fill();
         }
@@ -136,7 +136,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     public void eliminarPlantilla() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         this.getEliminar().setPlEstado('I');
         sieniPlantillaFacadeRemote.edit(this.getEliminar());
         fill();

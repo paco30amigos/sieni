@@ -80,7 +80,7 @@ public class RptCursosController extends RptCursosForm {
             RptCursosController.generateReport(path, "rtpCursos" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Curso", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Curso", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         } catch (JRException ex) {
             Logger.getLogger("error 1").log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

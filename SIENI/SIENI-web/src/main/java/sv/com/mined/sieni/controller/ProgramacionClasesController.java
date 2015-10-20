@@ -83,7 +83,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
             sieniClaseFacadeRemote.create(this.getNuevo());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Programación Creada Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setNuevo(new SieniClase());
@@ -167,7 +167,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
             sieniClaseFacadeRemote.edit(this.getModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Programacion Clase", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Programacion Clase", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Programación modificada Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
 //            this.setNuevo(new SieniClase());
@@ -192,7 +192,9 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     }
 
     public void eliminarArchivo() {
-sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Clase", this.getEliminar().getIdClase(), 'D'));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Clase", this.getEliminar().getIdClase(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         this.getEliminar().setClEstado('I');
         sieniClaseFacadeRemote.edit(this.getEliminar());
         fill();

@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
@@ -113,7 +114,8 @@ public class GestionCursoController extends GestionCursoForm {
 
         this.getCursoNuevo().setCrEstado('A');
         if (validarNuevo(this.getCursoNuevo())) {//valida el guardado
-            
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             SieniCurso existCurso=new SieniCurso();
             existCurso=sieniCursoFacadeRemote.finByDocGrSecMat(this.getCursoNuevo().getIdDocente().getIdDocente(), this.getCursoNuevo().getIdGrado().getIdGrado(), this.getCursoNuevo().getIdSeccion().getIdSeccion(), this.getCursoNuevo().getIdMateria().getIdMateria(),this.getCursoNuevo().getCrNombre());
             if(existCurso!=null)
@@ -123,7 +125,7 @@ public class GestionCursoController extends GestionCursoForm {
            
             }else{
             sieniCursoFacadeRemote.create(this.getCursoNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Curso", this.getCursoNuevo().getIdCurso(), 'D'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Curso", this.getCursoNuevo().getIdCurso(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Curso Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -192,8 +194,10 @@ public class GestionCursoController extends GestionCursoForm {
             }
         }
         if (validarModifica(this.getCursoModifica())) {//valida el guardado
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniCursoFacadeRemote.edit(this.getCursoModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Curso", this.getCursoModifica().getIdCurso(), 'D'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Curso", this.getCursoModifica().getIdCurso(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Curso Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -213,7 +217,9 @@ public class GestionCursoController extends GestionCursoForm {
     }
 
     public void eliminarCurso() {
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Curso", this.getEliminar().getIdCurso(), 'D'));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Curso", this.getEliminar().getIdCurso(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         this.getEliminar().setCrEstado('I');
         sieniCursoFacadeRemote.edit(this.getEliminar());
         fill();

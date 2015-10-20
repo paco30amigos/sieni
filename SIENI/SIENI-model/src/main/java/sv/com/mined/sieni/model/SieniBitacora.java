@@ -141,12 +141,13 @@ public class SieniBitacora implements Serializable {
         return "sv.com.mined.sieni.model.SieniBitacora[ idBitacora=" + idBitacora + " ]";
     }
 
-    public SieniBitacora(Date bitFechaHoraIngreso, String bitAccion, String bitTabla, Long bitIdUsuario, Character bitTipoUsuario) {
+    public SieniBitacora(Date bitFechaHoraIngreso, String bitAccion, String bitTabla, Long bitIdUsuario, Character bitTipoUsuario, String bitIp) {
         this.bitFechaHoraIngreso = bitFechaHoraIngreso;
         this.bitAccion = bitAccion;
         this.bitTabla = bitTabla;
         this.bitIdUsuario = bitIdUsuario;
         this.bitTipoUsuario = bitTipoUsuario;
+        this.bitIp = bitIp;
     }
 
     public String getBitIp() {

@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
@@ -99,12 +100,14 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         }
 
         if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             String anioActual = new FormatUtils().getFormatedAnio(new Date());
             this.getMatriculaNuevo().setMtAnio(anioActual);
             this.getMatriculaNuevo().setMtEstado('A');
             this.getMatriculaNuevo().setMtFechaIngreso(new Date());
             sieniMatriculaFacadeRemote.create(this.getMatriculaNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Matricula", this.getMatriculaNuevo().getIdMatricula(), 'A'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Matricula", this.getMatriculaNuevo().getIdMatricula(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Matricula Creado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
@@ -161,8 +164,10 @@ public class GestionMatriculaController extends GestionMatriculaForm {
             }
         }
         if (validarModifica(this.getMatriculaModifica())) {//valida el guardado
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             sieniMatriculaFacadeRemote.edit(this.getMatriculaModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Matricula", this.getMatriculaModifica().getIdMatricula(), 'A'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Matricula", this.getMatriculaModifica().getIdMatricula(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Matricula Modificado Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             resetModificaForm();
@@ -182,7 +187,9 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public void eliminarMatricula() {
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Matricula", this.getEliminar().getIdMatricula(), 'A'));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Matricula", this.getEliminar().getIdMatricula(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         this.getEliminar().setMtEstado('I');//I:eliminado,D:disponible,N:no disponible, (I eliminado logico)
         sieniMatriculaFacadeRemote.edit(this.getEliminar());
         fill();

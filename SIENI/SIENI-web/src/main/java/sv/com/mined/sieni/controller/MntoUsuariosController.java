@@ -16,7 +16,9 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniAlumnRolFacadeRemote;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
@@ -175,6 +177,8 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void guardar() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         if (validarNuevo(this.getUsuarioNuevo())) {//valida el guardado
 
             if (this.getUsuarioNuevo().getCodTipoUsuario().equals("0")) {
@@ -217,7 +221,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 //crea el nuevo usuario
                 sieniDocenteRolFacadeRemote.create(docenteRolNuevo);
             }
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Usuario", this.getUsuarioNuevo().getIdUsuario(), new Character('D')));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Usuario", this.getUsuarioNuevo().getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Usuario Creado Exitosamente", FacesMessage.SEVERITY_INFO);
             this.setIndexMenu(0);
         }
@@ -265,6 +269,8 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void guardarModifica() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         if (validarModifica(this.getUsuarioModifica())) {//valida el guardado
 
             if (this.getUsuarioModifica().getCodTipoUsuario().equals("0")) {
@@ -302,7 +308,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                 //crea el nuevo usuario
                 sieniDocenteRolFacadeRemote.edit(docenteRolNuevo);
             }
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Usuario", this.getUsuarioModifica().getIdUsuario(), new Character('D')));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Usuario", this.getUsuarioModifica().getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Usuario Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             resetModificaForm();
             this.setIndexMenu(0);
@@ -321,7 +327,9 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void eliminarUsuario() {
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Usuario", this.getEliminar().getIdUsuario(), new Character('D')));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Usuario", this.getEliminar().getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         if (this.getEliminar().getTipoUsuario().equals("Alumno")) {
             this.getEliminar().getAlumno().setAlEstado('I');
             sieniAlumnoFacadeRemote.edit(this.getEliminar().getAlumno());

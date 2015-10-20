@@ -14,7 +14,9 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
@@ -103,6 +105,8 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void guardar() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         FormatUtils fu = new FormatUtils();
         this.getNotaNuevo().setIdAlumno(this.getIdAlumno());
         this.getNotaNuevo().setIdEvaluacion(this.getIdEvaluacion());
@@ -110,7 +114,7 @@ public class GestionNotasController extends GestionNotasForm {
             this.getNotaNuevo().setNtEstado(new Character('A'));
             this.getNotaNuevo().setNtAnio(fu.getFormatedAnioInt(new Date()));
             sieniNotaFacadeRemote.create(this.getNotaNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Nota Creada Exitosamente", FacesMessage.SEVERITY_INFO);
             init();
         }
@@ -173,11 +177,13 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void guardarModifica() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         this.getNotaModifica().setIdAlumno(this.getIdAlumnoModifica());
         this.setIdEvaluacion(this.getIdEvaluacionModifica());
         if (validarModifica(this.getNotaModifica())) {//valida el guardado
             sieniNotaFacadeRemote.edit(this.getNotaModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Nota Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
             resetModificaForm();
             init();
@@ -224,7 +230,9 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void eliminarNota() {
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
         this.getEliminar().setNtEstado('I');
         sieniNotaFacadeRemote.edit(this.getEliminar());
         fill();
@@ -288,6 +296,8 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void guardarNotasExcel() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         boolean error = false;
         List<SieniNota> notas = new ArrayList<>();
         FormatUtils fu = new FormatUtils();
@@ -317,7 +327,7 @@ public class GestionNotasController extends GestionNotasForm {
                 }
                 if (!error) {
                     sieniNotaFacadeRemote.merge(notas);
-                    sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), 'D'));
+                    sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
                     new ValidationPojo().printMsj("Notas creadas Exitosamente", FacesMessage.SEVERITY_INFO);
                     fill();
                 }

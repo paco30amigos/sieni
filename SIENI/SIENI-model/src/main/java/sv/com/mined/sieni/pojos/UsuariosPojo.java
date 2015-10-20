@@ -21,6 +21,7 @@ public class UsuariosPojo {
     private String tipoUsuario;
     private String tipoPermiso;
     private String nombre;
+    private String pass0;
     private String pass1;
     private String pass2;
     private String codTipoUsuario;
@@ -71,6 +72,14 @@ public class UsuariosPojo {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getPass0() {
+        return pass0;
+    }
+
+    public void setPass0(String pass0) {
+        this.pass0 = pass0;
     }
 
     public String getPass1() {

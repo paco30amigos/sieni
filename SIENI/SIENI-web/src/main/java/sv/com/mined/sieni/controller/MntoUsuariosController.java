@@ -56,6 +56,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     public void init() {
         this.setUsuarioNuevo(new UsuariosPojo());
         this.setUsuarioModifica(new UsuariosPojo());
+        this.setUsuarioModPass(new UsuariosPojo());
         this.setUsuariosList(new ArrayList<UsuariosPojo>());
         fill();
     }
@@ -345,7 +346,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     public void guardarModPassword() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        if (this.getUsuarioModifica().getCodTipoUsuario().equals("0")) {
+        if (this.getUsuarioModPass().getCodTipoUsuario().equals("0")) {
             SieniAlumno alumnoEdit = this.getUsuarioModPass().getAlumno();
         }else{
         

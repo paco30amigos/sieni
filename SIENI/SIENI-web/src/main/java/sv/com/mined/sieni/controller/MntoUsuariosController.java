@@ -66,17 +66,17 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         List<SieniDocentRol> docentes = sieniDocenteRolFacadeRemote.findAll();
         this.getUsuariosList().addAll(getAlumnosUsuarioPojo(alumnos));
         this.getUsuariosList().addAll(getDocenteUsuarioPojo(docentes));
-        this.setNombresDisponibles(getNombreUsuarioPojo(this.getUsuarioNuevo().getTipoUsuario()));
-        this.setNombresDisponiblesModifica(getNombreUsuarioPojo(this.getUsuarioModifica().getTipoUsuario()));
-
     }
 
     private List<UsuariosPojo> getDocenteUsuarioPojo(List<SieniDocentRol> docentes) {
         List<UsuariosPojo> ret = new ArrayList<UsuariosPojo>();
         Integer tipo;
         UsuariosPojo aux;
+        StringBuffer sb = new StringBuffer();
         for (SieniDocentRol actual : docentes) {
             tipo = 1;
+            sb = new StringBuffer();
+            sb.append(actual.getFRolDoc());
             aux = new UsuariosPojo();
             aux.setTipoUsuario(getTipoUsuario(tipo));
             aux.setCodTipoUsuario(tipo.toString());
@@ -86,7 +86,8 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             aux.setUsuario(actual.getIdDocente().getDcUsuario());
             aux.setEstado(getEstado(actual.getIdDocente().getDcEstado()));
             aux.setCodEstado(actual.getIdDocente().getDcEstado());
-            aux.setTipoPermiso(getTipoUsuario(tipo));
+
+            aux.setTipoPermiso(getTipoUsuario(Integer.parseInt(sb.toString())));
             aux.setIdUsuario(actual.getIdDocente().getIdDocente());
             aux.setDocente(actual.getIdDocente());
             ret.add(aux);
@@ -98,8 +99,11 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         List<UsuariosPojo> ret = new ArrayList<UsuariosPojo>();
         Integer tipo;
         UsuariosPojo aux;
+        StringBuffer sb = new StringBuffer();
         for (SieniAlumnRol actual : alumnos) {
             tipo = 0;
+            sb = new StringBuffer();
+            sb.append(actual.getFRol());
             aux = new UsuariosPojo();
             aux.setNombre(actual.getIdAlumno().getNombreCompleto());
             aux.setUsuario(actual.getIdAlumno().getAlUsuario());
@@ -107,7 +111,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             aux.setCodTipoUsuario(tipo.toString());
             aux.setEstado(getEstado(actual.getIdAlumno().getAlEstado()));
             aux.setCodEstado(actual.getIdAlumno().getAlEstado());
-            aux.setTipoPermiso(getTipoUsuario(tipo));
+            aux.setTipoPermiso(getTipoUsuario(Integer.parseInt(sb.toString())));
             aux.setCodTipoPermiso(actual.getFRol());
             aux.setIdUsuario(actual.getIdAlumno().getIdAlumno());
             aux.setAlumno(actual.getIdAlumno());
@@ -233,7 +237,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         String passEncriptado = "";
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(pass.getBytes("UTF-8"))),false));
+            passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(pass.getBytes("UTF-8"))), false));
         } catch (Exception e) {
         }
         return passEncriptado;
@@ -257,8 +261,17 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     public void cancelar() {
     }
 
+    public void crear() {
+        this.setNombresDisponibles(getNombreUsuarioPojo(this.getUsuarioNuevo().getTipoUsuario()));
+        this.setIndexMenu(1);
+    }
+
     //metodos para modificacion de datos
     public void modificar(UsuariosPojo modificado) {
+        this.setNombresDisponiblesModifica(getNombreUsuarioPojo(this.getUsuarioModifica().getTipoUsuario()));
+        modificado.setPass1("");
+        modificado.setPass2("");
+        modificado.setPass0("");
         this.setUsuarioModifica(modificado);
         this.setIndexMenu(2);
     }
@@ -341,14 +354,14 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         }
         fill();
     }
-    
+
     public void guardarModPassword() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         if (this.getUsuarioModifica().getCodTipoUsuario().equals("0")) {
             SieniAlumno alumnoEdit = this.getUsuarioModPass().getAlumno();
-        }else{
-        
+        } else {
+
         }
     }
 }

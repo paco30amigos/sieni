@@ -7,6 +7,7 @@ package sv.com.mined.sieni.form;
 
 import java.util.List;
 import sv.com.mined.sieni.pojos.UsuariosPojo;
+import utils.siteUrls;
 
 /**
  *
@@ -33,6 +34,21 @@ public class MntoUsuariosForm {
     }
 
     public void setIndexMenu(int indexMenu) {
+        siteUrls sU = new siteUrls();
+        switch (indexMenu) {
+            case 0:
+                sU.redirect(sU.getBasegestionUsuarios()+ "index.xhtml");
+                break;
+            case 1:
+                sU.redirect(sU.getBasegestionUsuarios() + "crear.xhtml");
+                break;
+            case 2:
+                sU.redirect(sU.getBasegestionUsuarios() + "editar.xhtml");
+                break;
+            case 3:
+                sU.redirect(sU.getBasegestionUsuarios() + "ver.xhtml");
+                break;
+        }
         this.indexMenu = indexMenu;
     }
 

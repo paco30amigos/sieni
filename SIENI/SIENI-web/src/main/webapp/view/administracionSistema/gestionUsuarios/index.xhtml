@@ -5,173 +5,62 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Administración de sistema" url="#"/>
             <p:menuitem value="Mantenimiento de Usuarios" url="#{siteUrls.gestionUsuarios}"/>
+            <p:menuitem value="Busqueda de Usuarios" url="#{siteUrls.gestionUsuarios}"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <p:tabView tabindex="#{mntoUsuariosController.indexMenu}" activeIndex="#{mntoUsuariosController.indexMenu}" id="tabMenu">
-            <p:tab title="Consulta de Usuarios">
-                <h:form id="consultaForm">
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
-                        <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <p:commandButton value="Si" action="#{mntoUsuariosController.eliminarUsuario()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
-                        <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{mntoUsuariosController.usuariosList}" 
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true">
-                        <p:column headerText="Usuario" filterBy="#{car.usuario}" filterMatchMode="contains" filterable="true">
-                            #{car.usuario}
-                        </p:column>
-                        <p:column headerText="Tipo de usuario" filterBy="#{car.tipoUsuario}" filterMatchMode="contains" filterable="true">
-                            #{car.tipoUsuario}
-                        </p:column>
-                        <p:column headerText="Tipo de permiso" filterBy="#{car.tipoPermiso}" filterMatchMode="contains" filterable="true">
-                            #{car.tipoPermiso}
-                        </p:column>
-                        <p:column headerText="Nombre" filterBy="#{car.nombre}" filterMatchMode="contains" filterable="true">
-                            #{car.nombre}
-                        </p:column>
-                        <p:column headerText="Estado" filterBy="#{car.estado}" filterMatchMode="contains" filterable="true">
-                            #{car.estado}
-                        </p:column>
-                        <p:column headerText="Acciones">
-                            <p:commandLink action="#{mntoUsuariosController.modificar(car)}" update="tabMenu" >
-                                <i class="icon-compose Fs25 Red MarRight10" title="Modificar Usuario" ></i>
-                            </p:commandLink>
-                            <p:commandLink action="#{mntoUsuariosController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                                <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Usuario"></i>
-                            </p:commandLink>
-                        </p:column>
-                    </p:dataTable>
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Crear Usuario" action="#{mntoUsuariosController.setIndexMenu(1)}" update="tabMenu"></p:commandButton>
-                    <p:commandButton value="Refrescar"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Registro de Usuario">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
-                        <p:outputLabel for="usuario" value="Usuario: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="usuario" value="#{mntoUsuariosController.usuarioNuevo.usuario}" required="true" requiredMessage="Debe ingresar Usuario"></p:inputText>
-                        <p:outputLabel for="tipoUsuario" value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipoUsuario" value="#{mntoUsuariosController.usuarioNuevo.codTipoUsuario}" valueChangeListener="#{mntoUsuariosController.getNombreUsuarios}" immediate="true" tabindex="0" required="true" requiredMessage="Debe seleccionar tipo de usuario">
-                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
-                            <p:ajax event="valueChange" update="nombre"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="tipoPermiso" value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="tipoPermiso" value="#{mntoUsuariosController.usuarioNuevo.codTipoPermiso}" tabindex="0"  required="true" requiredMessage="Debe seleccionar tipo de permiso">
-                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
-                            <f:selectItem itemValue="2" itemLabel="Administrador"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="nombre" value="Nombre: " class=" Responsive" ></p:outputLabel>
-                        <p:selectOneMenu id="nombre"  filter="true" filterMatchMode="contains" value="#{mntoUsuariosController.usuarioNuevo.idUsuario}" tabindex="0"  required="true" requiredMessage="Debe seleccionar nombre">
-                            <f:selectItems value="#{mntoUsuariosController.nombresDisponibles}" var="nomb" itemValue="${nomb.idUsuario}" itemLabel="${nomb.nombre}"></f:selectItems>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
-                        <p:outputLabel for="estado" value="Estado: " class=" Responsive" ></p:outputLabel>
-                        <p:selectOneMenu id="estado" value="#{mntoUsuariosController.usuarioNuevo.codEstado}" tabindex="0">
-                            <f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
-                            <f:selectItem itemValue="I"  itemLabel="Inactivo"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="pass1" value="Contraseña: " class="  Responsive"></p:outputLabel>
-                        <p:password id="pass1" value="#{mntoUsuariosController.usuarioNuevo.pass1}" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña"></p:password>
-                        <p:outputLabel for="pass2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
-                        <p:password id="pass2" value="#{mntoUsuariosController.usuarioNuevo.pass2}" ></p:password>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" actionListener ="#{mntoUsuariosController.guardar()}" update="p1,p2,tabMenu"/>
-                        <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="p1,p2" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="p1,p2,tabMenu" resetValues="true" oncomplete="#{mntoUsuariosController.setIndexMenu(0)}"/>
-                        </p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Docentes">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Alumnos">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Cursos">    
-                            </p:menuitem>
-                        </p:splitButton>            
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Modificar Usuario">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
-                        <p:outputLabel for="mod_usuario" value="Usuario: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="mod_usuario" value="#{mntoUsuariosController.usuarioModifica.usuario}"></p:inputText>
-                        <p:outputLabel for="mod_tipoUsuario" value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="mod_tipoUsuario" value="#{mntoUsuariosController.usuarioModifica.tipoUsuario}"></p:outputLabel>
-                        <p:outputLabel for="mod_tipoPermiso" value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_tipoPermiso" value="#{mntoUsuariosController.usuarioModifica.codTipoPermiso}" tabindex="0">
-                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
-                            <f:selectItem itemValue="2" itemLabel="Administrador"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="mod_nombre" value="Nombre: " class=" Responsive" ></p:outputLabel>
-                        <p:outputLabel id="mod_nombre" value="#{mntoUsuariosController.usuarioModifica.nombre}"></p:outputLabel>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">
-                        <p:outputLabel for="mod_estado" value="Estado: " class=" Responsive" ></p:outputLabel>
-                        <p:selectOneMenu id="mod_estado" value="#{mntoUsuariosController.usuarioModifica.codEstado}" tabindex="0">
-                            <f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
-                            <f:selectItem itemValue="I"  itemLabel="Inactivo"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="mod_pass1" value="Contraseña: " class="  Responsive"></p:outputLabel>
-                        <p:password id="mod_pass1" value="#{mntoUsuariosController.usuarioModifica.pass1}" match="mod_pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta" requiredMessage="Debe ingresar una contraseña"></p:password>
-                        <p:outputLabel for="mod_pass2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
-                        <p:password id="mod_pass2" value="#{mntoUsuariosController.usuarioModifica.pass2}" ></p:password>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{mntoUsuariosController.guardarModifica()}" update="mod_p1,mod_p2,tabMenu"/>
-                        <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="mod_p1,mod_p2" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="mod_p1,mod_p2,tabMenu" resetValues="true" oncomplete="#{mntoUsuariosController.setIndexMenu(0)}"/>
-                        </p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Docentes">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Alumnos">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Cursos">    
-                            </p:menuitem>
-                        </p:splitButton>            
-                    </div>
-                </h:form>
-            </p:tab>
-        </p:tabView>
+                    <p:commandButton value="Si" action="#{mntoUsuariosController.eliminarUsuario()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{mntoUsuariosController.usuariosList}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Usuario" filterBy="#{car.usuario}" filterMatchMode="contains" filterable="true">
+                        #{car.usuario}
+                    </p:column>
+                    <p:column headerText="Tipo de usuario" filterBy="#{car.tipoUsuario}" filterMatchMode="contains" filterable="true">
+                        #{car.tipoUsuario}
+                    </p:column>
+                    <p:column headerText="Tipo de permiso" filterBy="#{car.tipoPermiso}" filterMatchMode="contains" filterable="true">
+                        #{car.tipoPermiso}
+                    </p:column>
+                    <p:column headerText="Nombre" filterBy="#{car.nombre}" filterMatchMode="contains" filterable="true">
+                        #{car.nombre}
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{car.estado}" filterMatchMode="contains" filterable="true">
+                        #{car.estado}
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandLink action="#{mntoUsuariosController.modificar(car)}" >
+                            <i class="icon-compose Fs25 Red MarRight10" title="Modificar Usuario" ></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{mntoUsuariosController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Usuario"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Crear Usuario" action="#{mntoUsuariosController.crear()}"></p:commandButton>
+                <p:commandButton value="Refrescar"></p:commandButton>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

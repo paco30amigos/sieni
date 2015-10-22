@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
+            <p:menuitem value="Modificar Expedientes"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" >
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton Modifica"/>
+                </p:dialog>
+                <p:focus id="focus" context="p1"></p:focus>
+                <p:panelGrid columns="4" class="Container50 Responsive" id="p1">
+                    <p:outputLabel for="usuario" value="Usuario: " class=" Responsive"></p:outputLabel>
+                    <p:inputText tabindex="1" id="usuario" value="#{mntoUsuariosController.usuarioModifica.usuario}" required="true" requiredMessage="Debe ingresar Usuario"></p:inputText>
+                    <p:outputLabel for="tipoUsuario" value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="tipoUsuario" value="#{mntoUsuariosController.usuarioModifica.tipoUsuario}"></p:outputLabel>
+                    <p:outputLabel for="tipoPermiso" value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="3" id="tipoPermiso" value="#{mntoUsuariosController.usuarioModifica.codTipoPermiso}"   required="true" requiredMessage="Debe seleccionar tipo de permiso">
+                        <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
+                        <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
+                        <f:selectItem itemValue="2" itemLabel="Administrador"></f:selectItem>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="nombre" value="Nombre: " class=" Responsive" ></p:outputLabel>
+                    <p:outputLabel id="nombre" value="#{mntoUsuariosController.usuarioModifica.nombre}"></p:outputLabel>
+                    <p:outputLabel for="estado" value="Estado: " class=" Responsive" ></p:outputLabel>
+                    <p:selectOneMenu id="estado" value="#{mntoUsuariosController.usuarioModifica.codEstado}" >
+                        <f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
+                        <f:selectItem itemValue="I"  itemLabel="Inactivo"></f:selectItem>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="pass1" value="Contraseña: " class="  Responsive"></p:outputLabel>
+                    <p:password tabindex="5" id="pass1" value="#{mntoUsuariosController.usuarioModifica.pass1}" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña" placeholder="Contraseña" promptLabel="Digite una contraseña"></p:password>
+                    <p:outputLabel for="pass2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
+                    <p:password tabindex="6" id="pass2" value="#{mntoUsuariosController.usuarioModifica.pass2}" ></p:password>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div> 
+                <div class="Container100">
+                    <p:commandButton tabindex="12" value="Guardar" action="#{mntoUsuariosController.guardarModifica()}" update="p1,focus" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1,focus" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{mntoUsuariosController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu>           
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -57,13 +57,19 @@ public class RptRendimientoController extends RptRendimientoForm {
         fill();
     }
     
-    private void fill() {
+    public void fill() {
         RptRendimientoPojo elem = new RptRendimientoPojo();
 
         this.setGradosList(sieniGradoFacadeRemote.findAll());
         this.setMateriaList(sieniMateriaFacadeRemote.findAll());
         this.setSeccionesList(sieniSeccionFacadeRemote.findAll());
         
+        
+        
+        this.setListDatos(new ArrayList<RptRendimientoPojo>());
+        
+        
+        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size()+""));
     }
 
     public void generarReporte() {

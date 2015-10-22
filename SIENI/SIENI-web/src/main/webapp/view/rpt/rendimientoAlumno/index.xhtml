@@ -38,9 +38,10 @@
                     <p:selectOneMenu class=" Responsive" value="#{rptRendimientoController.materia}" >
                         <f:selectItems itemValue="#{materia}" itemLabel="#{materia.maNombre}" value="#{rptRendimientoController.materiaList}" var="materia"></f:selectItems>
                     </p:selectOneMenu>
+                    <p:commandButton value="generar" actionListener="#{rptRendimientoController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
-                <p:dataTable id="rendimiento" rows="10" var="car" value="#{rptRendimientoController.listDatos}" 
+                <p:dataTable id="consulta" rows="10" var="car" value="#{rptRendimientoController.listDatos}" 
                              paginator="false"
                              paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"

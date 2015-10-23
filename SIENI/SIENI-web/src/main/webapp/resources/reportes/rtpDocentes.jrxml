@@ -20,25 +20,25 @@
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
-		<band height="68">
+		<band height="74">
 			<image>
 				<reportElement x="1" y="10" width="105" height="46" uuid="efe7bbf6-afb3-4970-a868-fac4475e6689"/>
 				<imageExpression><![CDATA["../images/mined.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="112" y="45" width="40" height="20" uuid="8505d060-dbc4-422d-afcc-1c25c03e8c8c"/>
+				<reportElement x="112" y="48" width="40" height="20" uuid="8505d060-dbc4-422d-afcc-1c25c03e8c8c"/>
 				<text><![CDATA[Desde:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="286" y="45" width="100" height="20" uuid="d81dd0e1-a4d1-4ab8-8aca-47d446cc3555"/>
+				<reportElement x="286" y="48" width="100" height="20" uuid="d81dd0e1-a4d1-4ab8-8aca-47d446cc3555"/>
 				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="152" y="45" width="100" height="20" uuid="d108bdcd-fe91-4302-a088-bf3fda57b653"/>
+				<reportElement x="152" y="48" width="100" height="20" uuid="d108bdcd-fe91-4302-a088-bf3fda57b653"/>
 				<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="252" y="45" width="34" height="20" uuid="e5d279f2-6e18-4e6c-8118-05416760ef3f"/>
+				<reportElement x="252" y="48" width="34" height="20" uuid="e5d279f2-6e18-4e6c-8118-05416760ef3f"/>
 				<text><![CDATA[Hasta:]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
@@ -47,7 +47,7 @@
 				<textFieldExpression><![CDATA["Pág. "]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="413" y="45" width="87" height="23" uuid="a7c10adf-ee1c-4a29-82e3-0f130c54d3d9"/>
+				<reportElement x="413" y="48" width="87" height="23" uuid="a7c10adf-ee1c-4a29-82e3-0f130c54d3d9"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["F. Generación: "]]></textFieldExpression>
 			</textField>
@@ -70,7 +70,7 @@
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" de "+$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="501" y="45" width="62" height="20" uuid="8afc0e2a-8b0f-4f4c-a327-84fbb0a94dc3"/>
+				<reportElement x="501" y="48" width="62" height="20" uuid="8afc0e2a-8b0f-4f4c-a327-84fbb0a94dc3"/>
 				<textFieldExpression><![CDATA[$P{fechaGeneracion}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -145,7 +145,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="248" y="0" width="38" height="15" uuid="2e5b58ec-11ed-4769-a89c-1db7b8553d42"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
@@ -206,14 +206,8 @@
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="36" splitType="Stretch"/>
-	</pageFooter>
-	<lastPageFooter>
-		<band height="50"/>
-	</lastPageFooter>
 	<summary>
-		<band height="50">
+		<band height="24">
 			<textField>
 				<reportElement x="1" y="0" width="571" height="20" uuid="443ddb15-8659-4060-92bc-95c952cef492"/>
 				<box>

@@ -25,6 +25,8 @@ public interface SieniEvaluacionFacadeRemote {
     SieniEvaluacion find(Object id);
 
     List<SieniEvaluacion> findAll();
+    
+    List<SieniEvaluacion> findActivos();
 
     List<SieniEvaluacion> findRange(int[] range);
 

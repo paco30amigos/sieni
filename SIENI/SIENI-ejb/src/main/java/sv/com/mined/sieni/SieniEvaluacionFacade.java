@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 
 /**
@@ -26,6 +28,15 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
 
     public SieniEvaluacionFacade() {
         super(SieniEvaluacion.class);
+    }
+    
+     @Override
+    public List<SieniEvaluacion> findActivos() {
+        Query q = em.createNamedQuery("SieniEvaluacion.findActivos");
+        
+
+        List<SieniEvaluacion> res = q.getResultList();
+        return res;
     }
     
 }

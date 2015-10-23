@@ -11,12 +11,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniEvaluacion.findAll", query = "SELECT s FROM SieniEvaluacion s"),
     @NamedQuery(name = "SieniEvaluacion.findByIdEvaluacion", query = "SELECT s FROM SieniEvaluacion s WHERE s.idEvaluacion = :idEvaluacion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvNombre", query = "SELECT s FROM SieniEvaluacion s WHERE s.evNombre = :evNombre"),
+    @NamedQuery(name = "SieniEvaluacion.findActivos", query = "SELECT s FROM SieniEvaluacion s  WHERE s.evEstado NOT IN ('I')"),
     @NamedQuery(name = "SieniEvaluacion.findByEvPonderacion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evPonderacion = :evPonderacion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvVersion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evVersion = :evVersion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvEstado", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado = :evEstado"),
@@ -43,6 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class SieniEvaluacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_eva")
+    @SequenceGenerator(name = "sec_sieni_eva", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_eva")
     @Basic(optional = false)
     @Column(name = "id_evaluacion")
     private Long idEvaluacion;
@@ -63,6 +69,23 @@ public class SieniEvaluacion implements Serializable {
     private Date evFechaCierre;
     @Column(name = "ev_tipo")
     private String evTipo;
+    @Column(name = "ev_duracion")
+    private Long evDuracion;
+    @Column(name = "ev_intentos")
+    private Long evIntentos;
+    @Column(name = "ev_total_preguntas")
+    private Long evTotalPreguntas;
+    @Column(name = "ev_preguntas_pagina")
+    private Long evPreguntasPagina;
+    @Column(name = "ev_nota_fin")
+    private String evNotaFin;
+    @Column(name = "ev_preguntas_aleatorias")
+    private String evPreguntasAleatorias;
+    @Column(name = "ev_respuestas_aleatorias")
+    private String evRespuestasAleatorias;
+    @Column(name = "ev_ver_respuesta")
+    private String evVerRespuesta;
+    
     @OneToMany(mappedBy = "idEvaluacion")
     private List<SieniEvalSupComp> sieniEvalSupCompList;
     @OneToMany(mappedBy = "idEvaluacion")
@@ -179,6 +202,70 @@ public class SieniEvaluacion implements Serializable {
 
     public void setIdMateria(SieniMateria idMateria) {
         this.idMateria = idMateria;
+    }
+    
+    public Long getEvDuracion() {
+        return evDuracion;
+    }
+
+    public void setEvDuracion(Long evDuracion) {
+        this.evDuracion = evDuracion;
+    }
+
+    public Long getEvIntentos() {
+        return evIntentos;
+    }
+
+    public void setEvIntentos(Long evIntentos) {
+        this.evIntentos = evIntentos;
+    }
+
+    public Long getEvTotalPreguntas() {
+        return evTotalPreguntas;
+    }
+
+    public void setEvTotalPreguntas(Long evTotalPreguntas) {
+        this.evTotalPreguntas = evTotalPreguntas;
+    }
+
+    public Long getEvPreguntasPagina() {
+        return evPreguntasPagina;
+    }
+
+    public void setEvPreguntasPagina(Long evPreguntasPagina) {
+        this.evPreguntasPagina = evPreguntasPagina;
+    }
+
+    public String getEvNotaFin() {
+        return evNotaFin;
+    }
+
+    public void setEvNotaFin(String evNotaFin) {
+        this.evNotaFin = evNotaFin;
+    }
+
+    public String getEvPreguntasAleatorias() {
+        return evPreguntasAleatorias;
+    }
+
+    public void setEvPreguntasAleatorias(String evPreguntasAleatorias) {
+        this.evPreguntasAleatorias = evPreguntasAleatorias;
+    }
+
+    public String getEvRespuestasAleatorias() {
+        return evRespuestasAleatorias;
+    }
+
+    public void setEvRespuestasAleatorias(String evRespuestasAleatorias) {
+        this.evRespuestasAleatorias = evRespuestasAleatorias;
+    }
+
+    public String getEvVerRespuesta() {
+        return evVerRespuesta;
+    }
+
+    public void setEvVerRespuesta(String evVerRespuesta) {
+        this.evVerRespuesta = evVerRespuesta;
     }
 
     @XmlTransient

@@ -390,10 +390,26 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     public void guardarModPassword() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        if (this.getUsuarioModPass().getCodTipoUsuario().equals("0")) {
-            SieniAlumno alumnoEdit = this.getUsuarioModPass().getAlumno();
-        } else {
 
+        if (loginBean.getTipoUsuario().charAt(0) == 'A') {
+            String antiguoPass = loginBean.getPassword();
+            SieniAlumno alumnoEdit = loginBean.getAlumno();
+            if (this.getUsuarioModPass().getPass0() == antiguoPass) {
+                if (this.getUsuarioModPass().getPass1() != null && !this.getUsuarioModPass().getPass1().isEmpty()) {
+                    alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
+                }
+            }
+            sieniAlumnoFacadeRemote.edit(alumnoEdit);
+        } else if (loginBean.getTipoUsuario().charAt(0) == 'D') {
+            String antiguoPass = loginBean.getPassword();
+            SieniDocente docenteEdit = loginBean.getDocente();
+            if (this.getUsuarioModPass().getPass0() == antiguoPass) {
+                if (this.getUsuarioModPass().getPass1() != null && !this.getUsuarioModPass().getPass1().isEmpty()) {
+                    docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
+                }
+            }
+            sieniDocenteFacadeRemote.edit(docenteEdit);
         }
+
     }
 }

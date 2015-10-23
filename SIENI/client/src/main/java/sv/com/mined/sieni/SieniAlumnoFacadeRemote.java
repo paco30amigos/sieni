@@ -53,5 +53,6 @@ public interface SieniAlumnoFacadeRemote {
     
     public SieniAlumno findAlumnoById(Integer id);
     
+    public SieniAlumno findUsuario(String usuario);
 //    public List<SieniAlumno> findByGrado(Long idGrado);
 }

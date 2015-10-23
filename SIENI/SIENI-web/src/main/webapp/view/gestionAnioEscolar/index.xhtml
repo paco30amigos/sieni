@@ -6,147 +6,63 @@
                 template="/WEB-INF/template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Mantenimiento de Año Escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
+            <p:menuitem value="Busqueda de Año Escolar" url="#"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <p:tabView tabindex="#{gestionarAnioEscolarController.indexMenu}" activeIndex="#{gestionarAnioEscolarController.indexMenu}" id="tabMenu">
-            <p:tab title="Consulta año escolar">
-                <h:form id="consultaForm">
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
-                        <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <p:commandButton value="Si" action="#{gestionarAnioEscolarController.eliminaraAnioEscolar()}" update="tabMenu:consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
-                        <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionarAnioEscolarController.anioEscolarList}" 
-                                 paginator="true"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true">
-                        <p:column headerText="Año" filterBy="#{car.aeAnio}" filterMatchMode="contains" filterable="true">
-                            <h:outputText value="#{car.aeAnio}" >
-                                <f:convertNumber pattern="0,000" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="Fecha Inicio" filterBy="#{formatUtils.getFormatedDate(car.aeInicio)}" filterMatchMode="contains" filterable="true">
-                            #{formatUtils.getFormatedDate(car.aeInicio)}
-                        </p:column>
-                        <p:column headerText="Fecha Fin" filterBy="#{formatUtils.getFormatedDate(car.aeFin)}" filterMatchMode="contains" filterable="true">
-                            #{formatUtils.getFormatedDate(car.aeFin)}
-                        </p:column>
-                        <p:column headerText="Estado" filterBy="#{car.aeEstado}" filterMatchMode="contains" filterable="true">
-                            #{gestionarAnioEscolarController.getEstadoCurso(car.aeEstado)}
-                        </p:column>
-                        <p:column headerText="Acciones">
-                            <p:commandLink action="#{gestionarAnioEscolarController.modificar(car)}" update="tabMenu" >
-                                <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Año escolar"></i>
-                            </p:commandLink>
-                            <p:commandLink action="#{gestionarAnioEscolarController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                                <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Año escolar"></i>
-                            </p:commandLink>
-                        </p:column>
-                    </p:dataTable>
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Crear año escolar" action="#{gestionarAnioEscolarController.setIndexMenu(1)}" update="tabMenu"></p:commandButton>
-                    <p:commandButton value="Refrescar" action="#{gestionarAnioEscolarController.refresh()}" update="consulta"></p:commandButton>
-                </h:form>
-            </p:tab>
-            <p:tab title="Apertura de año escolar">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
-                        <p:outputLabel for="anio" value="Año: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="anio" value="#{gestionarAnioEscolarController.anioEscolarNuevo.aeAnio}"></p:inputText>
-                        <p:outputLabel  for="fInicio" value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
-                        <p:calendar id="fInicio" value="#{gestionarAnioEscolarController.anioEscolarNuevo.aeInicio}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de inicio" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="p2">
-                        <p:outputLabel for="fFin" value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
-                        <p:calendar id="fFin" value="#{gestionarAnioEscolarController.anioEscolarNuevo.aeFin}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaFinAnioActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de fin" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
-                        <p:outputLabel for="estado" value="Estado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado" class=" Responsive"  value="#{gestionarAnioEscolarController.anioEscolarNuevo.aeEstado}" >
-                            <f:selectItem itemValue ="1" itemLabel="Activo"/>
-                            <f:selectItem itemValue="0" itemLabel="Inactivo"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionarAnioEscolarController.guardar()}" update="p1,p2,tabMenu" />
-                        <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="p1,p2" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="p1,p2,tabMenu" resetValues="true" oncomplete="#{gestionarAnioEscolarController.setIndexMenu(0)}"/>
-                        </p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Docentes">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Alumnos">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Cursos">    
-                            </p:menuitem>
-                        </p:splitButton>            
-                    </div>
-                </h:form>
-            </p:tab>
-            <p:tab title="Modificar año escolar">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
-                        <p:outputLabel for="mod_anio" value="Año: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="mod_anio" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeAnio}"></p:inputText>
-                        <p:outputLabel  for="mod_fInicio" value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
-                        <p:calendar id="mod_fInicio" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeInicio}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de inicio" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
-                    </p:panelGrid>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p2">
-                        <p:outputLabel for="mod_fFin" value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
-                        <p:calendar id="mod_fFin" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeFin}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaFinAnioActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de fin" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
-                        <p:outputLabel for="mod_estado" value="Estado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_estado" class=" Responsive"  value="#{gestionarAnioEscolarController.anioEscolarModifica.aeEstado}" >
-                            <f:selectItem itemValue ="1" itemLabel="Activo"/>
-                            <f:selectItem itemValue="0" itemLabel="Inactivo"/>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionarAnioEscolarController.guardarModifica()}" update="mod_p1,mod_p2,tabMenu" />
-                        <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="mod_p1,mod_p2" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="mod_p1,mod_p2,tabMenu" resetValues="true" oncomplete="#{gestionarAnioEscolarController.setIndexMenu(0)}"/>
-                        </p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Docentes">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Alumnos">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Cursos">    
-                            </p:menuitem>
-                        </p:splitButton>            
-                    </div>
-                </h:form>
-            </p:tab>
-
-        </p:tabView>
+                    <p:commandButton value="Si" action="#{gestionarAnioEscolarController.eliminaraAnioEscolar()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionarAnioEscolarController.anioEscolarList}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Año" filterBy="#{car.aeAnio}" filterMatchMode="contains" filterable="true">
+                        <h:outputText value="#{car.aeAnio}" >
+                            <f:convertNumber pattern="0,000" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Fecha Inicio" filterBy="#{formatUtils.getFormatedDate(car.aeInicio)}" filterMatchMode="contains" filterable="true">
+                        #{formatUtils.getFormatedDate(car.aeInicio)}
+                    </p:column>
+                    <p:column headerText="Fecha Fin" filterBy="#{formatUtils.getFormatedDate(car.aeFin)}" filterMatchMode="contains" filterable="true">
+                        #{formatUtils.getFormatedDate(car.aeFin)}
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{car.aeEstado}" filterMatchMode="contains" filterable="true">
+                        #{car.estado}
+                    </p:column>
+                    <p:column headerText="Acciones">                    
+                        <p:commandLink action="#{gestionarAnioEscolarController.ver(car)}" >
+                            <i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Año Escolar" ></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionarAnioEscolarController.modificar(car)}"  >
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Año escolar"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionarAnioEscolarController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Año escolar"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Adicionar año escolar" action="#{gestionarAnioEscolarController.setIndexMenu(1)}" ></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{gestionarAnioEscolarController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>

@@ -277,4 +277,16 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
             return null;
         }
     }
+    
+    @Override
+    public SieniAlumno findUsuario(String usuario) {
+        Query q = em.createNamedQuery("SieniAlumno.findByAlUsuario");
+        q.setParameter("alUsuario", usuario);
+        List<SieniAlumno> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
+    }
 }

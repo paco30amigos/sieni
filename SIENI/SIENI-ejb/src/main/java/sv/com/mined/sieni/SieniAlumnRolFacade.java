@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniAlumnRol;
 
 /**
@@ -26,6 +28,14 @@ public class SieniAlumnRolFacade extends AbstractFacade<SieniAlumnRol> implement
 
     public SieniAlumnRolFacade() {
         super(SieniAlumnRol.class);
+    }
+    
+    @Override
+    public List<SieniAlumnRol> findAllNoInactivos(){
+        Character estado='I';
+        Query q=em.createNamedQuery("SieniAlumnRol.findAllNoInactivos");
+        q.setParameter("estado", estado);
+        return q.getResultList();
     }
     
 }

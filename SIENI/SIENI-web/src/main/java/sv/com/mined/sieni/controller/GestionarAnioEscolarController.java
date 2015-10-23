@@ -39,17 +39,18 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         this.setAnioEscolarNuevo(new SieniAnioEscolar());
         this.setAnioEscolarModifica(new SieniAnioEscolar());
         this.setAnioEscolarList(new ArrayList<SieniAnioEscolar>());
+        this.getAnioEscolarNuevo().setAeEstado('A');
         fill();
     }
 
     private void fill() {
-        this.setAnioEscolarList(sieniAnioEscolarFacadeRemote.findAll());
+        this.setAnioEscolarList(sieniAnioEscolarFacadeRemote.findAllNoInactivos());
     }
 
     public void guardar() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        if (validarNuevo(this.getAnioEscolarNuevo())) {//valida el guardado
+        if (validarNuevo(this.getAnioEscolarNuevo())) {//valida el guardado            
             sieniAnioEscolarFacadeRemote.create(this.getAnioEscolarNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Año Escolar", this.getAnioEscolarNuevo().getIdAnioEscolar(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             FacesMessage msg = new FacesMessage("Año escolar Creado Exitosamente");
@@ -77,26 +78,14 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     public void cancelar() {
     }
 
-    public String getEstadoCurso(String estado) {
-        String ret = "";
-        switch (estado) {
-            case "0":
-                ret = "Inactivo";
-                break;
-            case "1":
-                ret = "Activo";
-                break;
-            default:
-                ret = "Inactivo";
-                break;
-        }
-        return ret;
-    }
-
     //metodos para modificacion de datos
     public void modificar(SieniAnioEscolar modificado) {
         this.setAnioEscolarModifica(modificado);
         this.setIndexMenu(2);
+    }
+    public void ver(SieniAnioEscolar modificado) {
+        this.setAnioEscolarModifica(modificado);
+        this.setIndexMenu(3);
     }
 
     //metodos para modificacion de datos
@@ -132,7 +121,8 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Año Escolar", this.getEliminar().getIdAnioEscolar(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        sieniAnioEscolarFacadeRemote.remove(this.getEliminar());
+        this.getEliminar().setAeEstado('I');
+        sieniAnioEscolarFacadeRemote.edit(this.getEliminar());
         fill();
     }
 }

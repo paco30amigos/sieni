@@ -10,6 +10,7 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniAnioEscolar;
 import sv.com.mined.sieni.model.SieniAnioEscolar;
+import utils.siteUrls;
 
 /**
  *
@@ -32,6 +33,22 @@ public class GestionarAnioEscolarForm {
     }
 
     public void setIndexMenu(int indexMenu) {
+        siteUrls sU = new siteUrls();
+        switch (indexMenu) {
+            case 0:
+                sU.redirect(sU.getBasegestionarAnioEscolar()+ "index.xhtml");
+                break;
+            case 1:
+                sU.redirect(sU.getBasegestionarAnioEscolar() + "crear.xhtml");
+                break;
+            case 2:
+                sU.redirect(sU.getBasegestionarAnioEscolar() + "editar.xhtml");
+                break;
+            case 3:
+                sU.redirect(sU.getBasegestionarAnioEscolar() + "ver.xhtml");
+                break;
+        }
+        this.indexMenu = indexMenu;
         this.indexMenu = indexMenu;
     }
 

@@ -8,67 +8,48 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
-            <p:menuitem value="Consultar Expediente"></p:menuitem>
+            <p:menuitem value="Administración de sistema" url="#"/>
+            <p:menuitem value="Mantenimiento de Usuarios" url="#{siteUrls.gestionUsuarios}"/>
+            <p:menuitem value="Consulta de Usuarios" url="#"/>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">  
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
-                <p:dialog widgetVar="dlgAyuda1" modal="true" appendTo="@(body)" header="Ayuda">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton Modifica"/>
                 </p:dialog>
-                <p:remoteCommand name="redirect" actionListener="#{gestionarAlumnosController.setIndexMenu(0)}"></p:remoteCommand>
+                <p:remoteCommand name="redirect" actionListener="#{mntoUsuariosController.setIndexMenu(0)}"></p:remoteCommand>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionarAlumnosController.eliminarExpediente()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide();redirect();"></p:commandButton>
+                    <p:commandButton value="Si" action="#{mntoUsuariosController.eliminarUsuario()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide();redirect();"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
-                <div class="Container10" style="margin-top: 20px;margin-left: 40px;">
-                    <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
-                </div>
-                <div class="Container70">
-                    <p:graphicImage id="fotoSubida" value="#{gestionarAlumnosController.fotoUsableModifica}" width="100em" cache="false"></p:graphicImage>
-                </div>
-                <div class="EmptyBox20"></div>
-                <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
-                    <p:outputLabel for="carnet" value="Carnet: " class=" Responsive"  ></p:outputLabel>
-                    <p:outputLabel class="Container100" id="carnet"  value="#{gestionarAlumnosController.alumnoModifica.alCarnet}"></p:outputLabel>
-                    <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
-                    <p:outputLabel class="Container100" id="primNombreNuevo"  value="#{gestionarAlumnosController.alumnoModifica.alPrimNombre}"></p:outputLabel>
-                    <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="segNombreNuevo" value="#{gestionarAlumnosController.alumnoModifica.alSeguNombre}" ></p:outputLabel>
-                    <p:outputLabel for="tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="tercNombreNuevo" value="#{gestionarAlumnosController.alumnoModifica.alTercNombre}" ></p:outputLabel>
-                    <p:outputLabel for="primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="primApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alPrimApe}" ></p:outputLabel>
-                    <p:outputLabel for="segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="segApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alSeguApe}" ></p:outputLabel>
-                    <p:outputLabel for="tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="tercApeNuevo" value="#{gestionarAlumnosController.alumnoModifica.alTercApe}" ></p:outputLabel>
-                    <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="fechNacimNuevo" value="#{formatUtils.getFormatedDate(gestionarAlumnosController.alumnoModifica.alFechaNacimiento)}" ></p:outputLabel>
-                    <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="emailNuevo" value="#{gestionarAlumnosController.alumnoModifica.alCorreo}"></p:outputLabel>
-                    <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="telefonoNuevo" value="#{formatUtils.getFormatedPhone(gestionarAlumnosController.alumnoModifica.alTelefonoEm1)}"></p:outputLabel>
-                    <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel class="Container100" id="celularNuevo" value="#{formatUtils.getFormatedPhone(gestionarAlumnosController.alumnoModifica.alTelefonoEm2)}"></p:outputLabel>
-                    <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
-                    <p:inputTextarea readonly="true" class="Container100" id="direccion" value="#{gestionarAlumnosController.alumnoModifica.alDireccion}"></p:inputTextarea>
+                <p:focus id="focus" context="p1"></p:focus>
+                <p:panelGrid columns="4" class="Container50 Responsive" id="p1">
+                    <p:outputLabel for="usuario" value="Usuario: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel tabindex="1" id="usuario" value="#{mntoUsuariosController.usuarioModifica.usuario}"></p:outputLabel>
+                    <p:outputLabel for="tipoUsuario" value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="tipoUsuario" value="#{mntoUsuariosController.usuarioModifica.tipoUsuario}"></p:outputLabel>
+                    <p:outputLabel for="tipoPermiso" value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="tipoPermiso" value="#{mntoUsuariosController.usuarioModifica.tipoPermiso}"></p:outputLabel>
+                    <p:outputLabel for="nombre" value="Nombre: " class=" Responsive" ></p:outputLabel>
+                    <p:outputLabel id="nombre" value="#{mntoUsuariosController.usuarioModifica.nombre}"></p:outputLabel>
+                    <p:outputLabel for="estado" value="Estado: " class=" Responsive" ></p:outputLabel>
+                    <p:outputLabel id="estado" value="#{mntoUsuariosController.usuarioModifica.estado}"></p:outputLabel>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton value="Modificar" action="#{gestionarAlumnosController.modificar(gestionarAlumnosController.alumnoModifica)}" immediate="true" >
+                    <p:commandButton value="Modificar" action="#{mntoUsuariosController.modificar(mntoUsuariosController.usuarioModifica)}" immediate="true" >
                     </p:commandButton>
-                    <p:commandButton value="Eliminar" action="#{gestionarAlumnosController.eliminar(gestionarAlumnosController.alumnoModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    <p:commandButton value="Eliminar" action="#{mntoUsuariosController.eliminar(mntoUsuariosController.usuarioModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                     </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
-                        <p:ajax update="p1,fotoSubida" resetValues="true" listener="#{gestionarAlumnosController.setIndexMenu(0)}"/>
+                        <p:ajax update="p1" resetValues="true" listener="#{mntoUsuariosController.setIndexMenu(0)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

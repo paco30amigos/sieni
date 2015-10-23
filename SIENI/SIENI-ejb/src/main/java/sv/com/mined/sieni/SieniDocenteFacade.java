@@ -50,35 +50,35 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
             return null;
         }
     }
-    
+
     @Override
-    public List<SieniDocente> findDocentesActivos(){
-    
-    Query q=em.createNamedQuery("SieniDocente.findDocenteActivo");
-    List<SieniDocente> res = q.getResultList();
+    public List<SieniDocente> findDocentesActivos() {
+
+        Query q = em.createNamedQuery("SieniDocente.findDocenteActivo");
+        List<SieniDocente> res = q.getResultList();
         if (res != null && !res.isEmpty()) {
             return res;
         } else {
             return null;
         }
     }
-    
+
     @Override
-    public List<SieniDocente> findDocentesDesdeHasta(Date desde,Date hasta){
-    
-        Query q=em.createNamedQuery("SieniDocente.findByDesdeHasta");
+    public List<SieniDocente> findDocentesDesdeHasta(Date desde, Date hasta) {
+
+        Query q = em.createNamedQuery("SieniDocente.findByDesdeHasta");
         q.setParameter("desde", desde);
-         q.setParameter("hasta", hasta);
-    List<SieniDocente> res = q.getResultList();
-    
-    return res;
-        
+        q.setParameter("hasta", hasta);
+        List<SieniDocente> res = q.getResultList();
+
+        return res;
+
     }
 
     @Override
     public List<SieniDocente> findUsuariosRpt(Integer estadoUser) {
         Query q = em.createNamedQuery("SieniDocente.findRptUsuariosDocentes");;
-        switch(estadoUser){
+        switch (estadoUser) {
             case 0: // TODOS
                 q = em.createNamedQuery("SieniDocente.findRptUsuariosDocentes");
                 break;
@@ -92,5 +92,17 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
                 break;
         }
         return q.getResultList();
+    }
+
+    @Override
+    public SieniDocente findUsuario(String usuario) {
+        Query q = em.createNamedQuery("SieniDocente.findByDcUsuario");
+        q.setParameter("dcUsuario", usuario);
+        List<SieniDocente> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
     }
 }

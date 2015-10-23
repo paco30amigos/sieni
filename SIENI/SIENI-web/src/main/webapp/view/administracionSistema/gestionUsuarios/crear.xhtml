@@ -8,8 +8,9 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
-            <p:menuitem value="Adicionar Expediente"></p:menuitem>
+            <p:menuitem value="Administración de sistema" url="#"/>
+            <p:menuitem value="Mantenimiento de Usuarios" url="#{siteUrls.gestionUsuarios}"/>
+            <p:menuitem value="Adicionar Usuario" url="#"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
@@ -44,10 +45,10 @@
                     <p:outputLabel for="estado" value="Estado: " class=" Responsive" ></p:outputLabel>
                     <p:selectOneMenu id="estado" value="#{mntoUsuariosController.usuarioNuevo.codEstado}" tabindex="0">
                         <f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
-                        <f:selectItem itemValue="I"  itemLabel="Inactivo"></f:selectItem>
+                        <f:selectItem itemValue="D"  itemLabel="Inactivo"></f:selectItem>
                     </p:selectOneMenu>
                     <p:outputLabel for="pass1" value="Contraseña: " class="  Responsive"></p:outputLabel>
-                    <p:password id="pass1" value="#{mntoUsuariosController.usuarioNuevo.pass1}" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña"></p:password>
+                    <p:password id="pass1" value="#{mntoUsuariosController.usuarioNuevo.pass1}" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña" promptLabel="Digite una contraseña" validatorMessage="Contraseña coincide"></p:password>
                     <p:outputLabel for="pass2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
                     <p:password id="pass2" value="#{mntoUsuariosController.usuarioNuevo.pass2}" ></p:password>
                 </p:panelGrid>

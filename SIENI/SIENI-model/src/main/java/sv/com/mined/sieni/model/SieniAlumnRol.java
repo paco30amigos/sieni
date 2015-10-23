@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAlumnRol.findAll", query = "SELECT s FROM SieniAlumnRol s"),
+    @NamedQuery(name = "SieniAlumnRol.findAllNoInactivos", query = "SELECT s FROM SieniAlumnRol s where s.sarEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumnRol.findByIdAlumnRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.idAlumnRol = :idAlumnRol"),
     @NamedQuery(name = "SieniAlumnRol.findByFRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.fRol = :fRol")})
 public class SieniAlumnRol implements Serializable {
@@ -42,6 +43,8 @@ public class SieniAlumnRol implements Serializable {
     @Basic(optional = false)
     @Column(name = "f_rol")
     private long fRol;
+    @Column(name = "sar_estado")
+    private Character sarEstado;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
@@ -105,6 +108,14 @@ public class SieniAlumnRol implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniAlumnRol[ idAlumnRol=" + idAlumnRol + " ]";
+    }
+
+    public Character getSarEstado() {
+        return sarEstado;
+    }
+
+    public void setSarEstado(Character sarEstado) {
+        this.sarEstado = sarEstado;
     }
     
 }

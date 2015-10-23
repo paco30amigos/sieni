@@ -28,10 +28,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_docent_rol")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniDocentRol.findAllNoInactivos", query = "SELECT s FROM SieniDocentRol s where s.sdrEstado not in (:estado)"),
     @NamedQuery(name = "SieniDocentRol.findAll", query = "SELECT s FROM SieniDocentRol s"),
     @NamedQuery(name = "SieniDocentRol.findByIdDocenteRol", query = "SELECT s FROM SieniDocentRol s WHERE s.idDocenteRol = :idDocenteRol"),
     @NamedQuery(name = "SieniDocentRol.findByFRolDoc", query = "SELECT s FROM SieniDocentRol s WHERE s.fRolDoc = :fRolDoc")})
 public class SieniDocentRol implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -42,6 +44,8 @@ public class SieniDocentRol implements Serializable {
     @Basic(optional = false)
     @Column(name = "f_rol_doc")
     private long fRolDoc;
+    @Column(name = "sdr_estado")
+    private Character sdrEstado;
     @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
     @ManyToOne
     private SieniDocente idDocente;
@@ -106,5 +110,13 @@ public class SieniDocentRol implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniDocentRol[ idDocenteRol=" + idDocenteRol + " ]";
     }
-    
+
+    public Character getSdrEstado() {
+        return sdrEstado;
+    }
+
+    public void setSdrEstado(Character sdrEstado) {
+        this.sdrEstado = sdrEstado;
+    }
+
 }

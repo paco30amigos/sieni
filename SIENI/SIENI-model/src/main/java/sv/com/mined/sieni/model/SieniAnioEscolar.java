@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAnioEscolar.findAll", query = "SELECT s FROM SieniAnioEscolar s"),
+    @NamedQuery(name = "SieniAnioEscolar.findAllNoInactivos", query = "SELECT s FROM SieniAnioEscolar s where s.aeEstado not in (:estado)"),
     @NamedQuery(name = "SieniAnioEscolar.findByIdAnioEscolar", query = "SELECT s FROM SieniAnioEscolar s WHERE s.idAnioEscolar = :idAnioEscolar"),
     @NamedQuery(name = "SieniAnioEscolar.findByAeAnio", query = "SELECT s FROM SieniAnioEscolar s WHERE s.aeAnio = :aeAnio"),
     @NamedQuery(name = "SieniAnioEscolar.findByAeInicio", query = "SELECT s FROM SieniAnioEscolar s WHERE s.aeInicio = :aeInicio"),
@@ -138,6 +139,22 @@ public class SieniAnioEscolar implements Serializable {
 
     public void setAeEstado(Character aeEstado) {
         this.aeEstado = aeEstado;
+    }
+
+    public String getEstado() {
+        String ret = "";
+        switch (aeEstado) {
+            case 'A':
+                ret = "Activo";
+                break;
+            case 'N':
+                ret = "Inactivo";
+                break;
+            case 'I':
+                ret = "Eliminado";
+                break;
+        }
+        return ret;
     }
 
 }

@@ -41,4 +41,5 @@ public interface SieniDocenteFacadeRemote {
 
     public List<SieniDocente> findUsuariosRpt(Integer estadoUser);
     
+    public SieniDocente findUsuario(String usuario);
 }

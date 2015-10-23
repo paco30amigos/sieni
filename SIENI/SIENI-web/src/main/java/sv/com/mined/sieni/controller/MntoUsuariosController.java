@@ -32,6 +32,9 @@ import sv.com.mined.sieni.model.SieniDocentRol;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.UsuariosPojo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
+import utils.DateUtils;
+import utils.EmailValidator;
+import utils.FormatUtils;
 
 /**
  *
@@ -63,8 +66,8 @@ public class MntoUsuariosController extends MntoUsuariosForm {
 
     private void fill() {
         this.setUsuariosList(new ArrayList<UsuariosPojo>());
-        List<SieniAlumnRol> alumnos = sieniAlumnRolFacadeRemote.findAll();
-        List<SieniDocentRol> docentes = sieniDocenteRolFacadeRemote.findAll();
+        List<SieniAlumnRol> alumnos = sieniAlumnRolFacadeRemote.findAllNoInactivos();
+        List<SieniDocentRol> docentes = sieniDocenteRolFacadeRemote.findAllNoInactivos();
         this.getUsuariosList().addAll(getAlumnosUsuarioPojo(alumnos));
         this.getUsuariosList().addAll(getDocenteUsuarioPojo(docentes));
     }
@@ -144,8 +147,11 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             case 'A':
                 ret = "Activo";
                 break;
-            case 'I':
+            case 'D':
                 ret = "Inactivo";
+                break;
+            case 'I':
+                ret = "Eliminado";
                 break;
         }
         return ret;
@@ -185,7 +191,6 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         if (validarNuevo(this.getUsuarioNuevo())) {//valida el guardado
-
             if (this.getUsuarioNuevo().getCodTipoUsuario().equals("0")) {
                 for (UsuariosPojo actual : this.getNombresDisponibles()) {
                     if (actual.getIdUsuario().equals(this.getUsuarioNuevo().getIdUsuario())) {
@@ -202,6 +207,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
 
                 alumnoRolNuevo.setIdAlumno(alumnoEdit);
                 alumnoRolNuevo.setFRol(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
+                alumnoRolNuevo.setSarEstado('A');
                 //actualiza la contraseña y usuario
                 sieniAlumnoFacadeRemote.edit(alumnoEdit);
                 //crea el nuevo usuario
@@ -221,6 +227,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
 
                 docenteRolNuevo.setIdDocente(docenteEdit);
                 docenteRolNuevo.setFRolDoc(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
+                docenteRolNuevo.setSdrEstado('A');
                 //actualiza la contraseña y usuario
                 sieniDocenteFacadeRemote.edit(docenteEdit);
                 //crea el nuevo usuario
@@ -228,10 +235,11 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             }
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Usuario", this.getUsuarioNuevo().getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Usuario Creado Exitosamente", FacesMessage.SEVERITY_INFO);
-            this.setIndexMenu(0);
+            this.setUsuarioNuevo(new UsuariosPojo());
+            this.getUsuarioNuevo().setCodTipoUsuario("0");
+            fill();
+            this.setNombresDisponibles(getNombreUsuarioPojo(this.getUsuarioNuevo().getTipoUsuario()));
         }
-        this.setUsuarioNuevo(new UsuariosPojo());
-        fill();
     }
 
     public String encriptarContrasenia(String pass) {
@@ -254,9 +262,14 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public boolean validarNuevo(UsuariosPojo nuevo) {
-        boolean ban = true;
-
-        return ban;
+        boolean valido = true;
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        //longitud de contrasenia
+        validaciones.add(new ValidationPojo(nuevo.getPass1().length() < 8, "La contraseña debe ser de almenos 8 caracteres", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(sieniDocenteFacadeRemote.findUsuario(nuevo.getUsuario()) != null, "El usuario ya está registrado", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(sieniAlumnoFacadeRemote.findUsuario(nuevo.getUsuario()) != null, "El usuario ya está registrado", FacesMessage.SEVERITY_ERROR));
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public void cancelar() {
@@ -269,7 +282,6 @@ public class MntoUsuariosController extends MntoUsuariosForm {
 
     //metodos para modificacion de datos
     public void modificar(UsuariosPojo modificado) {
-        this.setNombresDisponiblesModifica(getNombreUsuarioPojo(this.getUsuarioModifica().getTipoUsuario()));
         modificado.setPass1("");
         modificado.setPass2("");
         modificado.setPass0("");
@@ -324,10 +336,8 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             }
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Usuario", this.getUsuarioModifica().getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
             new ValidationPojo().printMsj("Usuario Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
-            resetModificaForm();
-            this.setIndexMenu(0);
+            fill();
         }
-        fill();
     }
 
     public void resetModificaForm() {
@@ -335,9 +345,21 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public boolean validarModifica(UsuariosPojo nuevo) {
-        boolean ban = true;
-
-        return ban;
+        boolean valido = true;
+        DateUtils du = new DateUtils();
+        FormatUtils fu = new FormatUtils();
+        EmailValidator ev = new EmailValidator();
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        //longitud de contrasenia
+        if (nuevo.getPass1() != null && !nuevo.getPass1().isEmpty()) {
+            validaciones.add(new ValidationPojo(nuevo.getPass1().length() < 8, "La contraseña debe ser de almenos 8 caracteres", FacesMessage.SEVERITY_ERROR));
+        }
+        SieniDocente usuarioDoc = sieniDocenteFacadeRemote.findUsuario(nuevo.getUsuario());
+        SieniAlumno usuarioAl = sieniAlumnoFacadeRemote.findUsuario(nuevo.getUsuario());
+        validaciones.add(new ValidationPojo(usuarioDoc != null && !usuarioDoc.getIdDocente().equals(nuevo.getDocente().getIdDocente()), "El usuario ya está registrado", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(usuarioAl != null && !usuarioAl.getIdAlumno().equals(nuevo.getAlumno().getIdAlumno()), "El usuario ya está registrado", FacesMessage.SEVERITY_ERROR));
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public void eliminarUsuario() {
@@ -347,13 +369,22 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         if (this.getEliminar().getTipoUsuario().equals("Alumno")) {
             this.getEliminar().getAlumno().setAlEstado('I');
             sieniAlumnoFacadeRemote.edit(this.getEliminar().getAlumno());
-            sieniAlumnRolFacadeRemote.remove(this.getEliminar().getAlumnoRol());
+            this.getEliminar().getAlumnoRol().setSarEstado('I');
+            sieniAlumnRolFacadeRemote.edit(this.getEliminar().getAlumnoRol());
+//            sieniAlumnRolFacadeRemote.remove(this.getEliminar().getAlumnoRol());
         } else {
-            this.getEliminar().getAlumno().setAlEstado('I');
+            this.getEliminar().getDocente().setDcEstado('I');
             sieniDocenteFacadeRemote.edit(this.getEliminar().getDocente());
-            sieniDocenteRolFacadeRemote.remove(this.getEliminar().getDocenteRol());
+            this.getEliminar().getDocenteRol().setSdrEstado('I');
+            sieniDocenteRolFacadeRemote.edit(this.getEliminar().getDocenteRol());
+//            sieniDocenteRolFacadeRemote.remove(this.getEliminar().getDocenteRol());
         }
         fill();
+    }
+
+    public void ver(UsuariosPojo modificado) {
+        this.setUsuarioModifica(modificado);
+        this.setIndexMenu(3);
     }
 
     public void guardarModPassword() {

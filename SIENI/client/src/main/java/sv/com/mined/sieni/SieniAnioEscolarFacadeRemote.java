@@ -30,4 +30,5 @@ public interface SieniAnioEscolarFacadeRemote {
 
     int count();
     
+    public List<SieniAnioEscolar> findAllNoInactivos();
 }

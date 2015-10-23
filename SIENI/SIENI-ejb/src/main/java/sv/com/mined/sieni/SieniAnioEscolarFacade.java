@@ -5,9 +5,11 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniAnioEscolar;
 
 /**
@@ -28,4 +30,11 @@ public class SieniAnioEscolarFacade extends AbstractFacade<SieniAnioEscolar> imp
         super(SieniAnioEscolar.class);
     }
     
+    @Override
+    public List<SieniAnioEscolar> findAllNoInactivos(){
+        Character estado='I';
+        Query q=em.createNamedQuery("SieniAnioEscolar.findAllNoInactivos");
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
 }

@@ -203,6 +203,13 @@ public class DateUtils {
         fechaFinAnioActual = format.getFormatDate("31/12/" + anio);
         return fechaFinAnioActual;
     }
+    
+    public String getFormatoFecha(Date fecha) {
+        java.util.Date date = new java.util.Date();
+java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd/MM/yyyy");
+String fechaFormato = sdf.format(fecha);
+        return fechaFormato;
+    }
 
     public void setFechaFinAnioActual(Date fechaFinAnioActual) {
         this.fechaFinAnioActual = fechaFinAnioActual;

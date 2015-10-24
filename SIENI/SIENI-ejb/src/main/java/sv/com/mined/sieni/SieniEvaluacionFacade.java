@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -37,6 +38,18 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
 
         List<SieniEvaluacion> res = q.getResultList();
         return res;
+    }
+    
+    @Override
+    public List<SieniEvaluacion> findEvaluacionDesdeHasta(Date desde, Date hasta) {
+
+        Query q = em.createNamedQuery("SieniEvaluacion.findByDesdeHasta");
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        List<SieniEvaluacion> res = q.getResultList();
+
+        return res;
+
     }
     
 }

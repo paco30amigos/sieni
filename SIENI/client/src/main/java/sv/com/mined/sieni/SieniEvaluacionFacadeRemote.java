@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniEvaluacion;
@@ -27,6 +28,8 @@ public interface SieniEvaluacionFacadeRemote {
     List<SieniEvaluacion> findAll();
     
     List<SieniEvaluacion> findActivos();
+    
+    List<SieniEvaluacion> findEvaluacionDesdeHasta(Date desde, Date hasta);
 
     List<SieniEvaluacion> findRange(int[] range);
 

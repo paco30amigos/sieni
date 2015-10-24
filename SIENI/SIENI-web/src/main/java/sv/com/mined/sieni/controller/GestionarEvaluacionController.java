@@ -62,6 +62,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     }
 
     public void guardar() {
+       String a="";
        for (SieniCurso actual : this.getCursoList()) {
             if (actual.getIdCurso().equals(this.getIdCurso())) {
                 this.getEvaluacionNuevo().setIdCurso(actual);
@@ -89,6 +90,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             this.setIndexMenu(0);
 //            }
+            
         }
         this.setEvaluacionNuevo(new SieniEvaluacion());
         fill();
@@ -116,7 +118,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         validaciones.add(new ValidationPojo(nuevo.getEvNombre().isEmpty(), "Debe ingresar el titulo de la evaluacion", FacesMessage.SEVERITY_ERROR));
-        validaciones.add(new ValidationPojo(nuevo.getEvFechaInicio().before(nuevo.getEvFechaCierre()), "La fecha de inicio debe ser mayor que la  de cierre",FacesMessage.SEVERITY_ERROR));
+//        validaciones.add(new ValidationPojo(nuevo.getEvFechaInicio().after(nuevo.getEvFechaCierre()), "La fecha de inicio debe ser menor que la  de cierre",FacesMessage.SEVERITY_ERROR));
 //        validaciones.add(new ValidationPojo(nuevo.getAlFechaNacimiento().after(du.getFechaMaxima()), "La fecha de nacimiento es mayor que " + fu.getFormatedDate(du.getFechaMaxima()), FacesMessage.SEVERITY_ERROR));
 //        if (nuevo.getAlCorreo() != null && !nuevo.getAlCorreo().isEmpty()) {//si se ingreso un correo lo valida
 //            validaciones.add(new ValidationPojo(!ev.validate(nuevo.getAlCorreo()), "El correo electronico no válido", FacesMessage.SEVERITY_ERROR));

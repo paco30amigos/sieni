@@ -52,7 +52,12 @@
                         <p:outputLabel  value="Preguntas por página: " class="Contanier10 Responsive"></p:outputLabel>
                         <p:spinner  value="#{gestionarEvaluacionController.evaluacionModifica.evPreguntasPagina}" disabled="true"></p:spinner>
                     </p:panelGrid>
-                
+                <p:dialog widgetVar="dlgEliminar2" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está Realmente seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionarEvaluacionController.eliminarExpediente()}"  oncomplete="PF('dlgEliminar2').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar2').hide();" ></p:commandButton>
+                </p:dialog>
                 <div class="EmptyBox20"></div>
                  <div class="Container100">
                         <p:commandButton value="Modificar" action="#{gestionarEvaluacionController.modificar(gestionarEvaluacionController.evaluacionModifica)}" immediate="true" >

@@ -47,8 +47,8 @@ import javax.xml.bind.annotation.XmlTransient;
 public class SieniEvaluacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_eva")
-    @SequenceGenerator(name = "sec_sieni_eva", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_eva")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_evaluacion")
+    @SequenceGenerator(name = "sec_sieni_evaluacion", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_evaluacion")
     @Basic(optional = false)
     @Column(name = "id_evaluacion")
     private Long idEvaluacion;

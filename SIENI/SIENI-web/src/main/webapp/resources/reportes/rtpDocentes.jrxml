@@ -42,11 +42,6 @@
 				<text><![CDATA[Hasta:]]></text>
 			</staticText>
 			<textField evaluationTime="Report">
-				<reportElement x="465" y="6" width="35" height="21" uuid="1e4b612b-c8c3-4167-9c37-15bb0c82c9e8"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Pág. "]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
 				<reportElement x="413" y="48" width="87" height="23" uuid="a7c10adf-ee1c-4a29-82e3-0f130c54d3d9"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["F. Generación: "]]></textFieldExpression>
@@ -66,12 +61,17 @@
 				<text><![CDATA[Reporte de Docentes]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="501" y="6" width="62" height="20" uuid="cb323b67-260f-4e7b-9867-2e89c34f6f90"/>
-				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}+" de "+$V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="501" y="48" width="62" height="20" uuid="8afc0e2a-8b0f-4f4c-a327-84fbb0a94dc3"/>
 				<textFieldExpression><![CDATA[$P{fechaGeneracion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="445" y="4" width="80" height="20" uuid="8b875801-d27b-4c3c-9457-b0efa391cd01"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pág.  "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="525" y="4" width="40" height="20" uuid="6d4dd47d-3a8e-49f3-a7a1-c94eb9140472"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>

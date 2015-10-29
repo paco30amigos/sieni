@@ -44,7 +44,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniEvaluacion.findByEvEstado", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado = :evEstado"),
     @NamedQuery(name = "SieniEvaluacion.findByEvFechaInicio", query = "SELECT s FROM SieniEvaluacion s WHERE s.evFechaInicio = :evFechaInicio"),
     @NamedQuery(name = "SieniEvaluacion.findByEvFechaCierre", query = "SELECT s FROM SieniEvaluacion s WHERE s.evFechaCierre = :evFechaCierre"),
-    @NamedQuery(name = "SieniEvaluacion.findByEvTipo", query = "SELECT s FROM SieniEvaluacion s WHERE s.evTipo = :evTipo")})
+    @NamedQuery(name = "SieniEvaluacion.findByEvTipo", query = "SELECT s FROM SieniEvaluacion s WHERE s.evTipo = :evTipo"),
+    @NamedQuery(name = "SieniEvaluacion.findAllNoInactivosRpt", query = "SELECT s FROM SieniEvaluacion s where s.evFechaInicio BETWEEN :desde AND :hasta")})
 public class SieniEvaluacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

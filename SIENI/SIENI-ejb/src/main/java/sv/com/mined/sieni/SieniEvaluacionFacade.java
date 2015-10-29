@@ -19,6 +19,7 @@ import sv.com.mined.sieni.model.SieniEvaluacion;
  */
 @Stateless
 public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> implements sv.com.mined.sieni.SieniEvaluacionFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -30,16 +31,15 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
     public SieniEvaluacionFacade() {
         super(SieniEvaluacion.class);
     }
-    
-     @Override
+
+    @Override
     public List<SieniEvaluacion> findActivos() {
         Query q = em.createNamedQuery("SieniEvaluacion.findActivos");
-        
 
         List<SieniEvaluacion> res = q.getResultList();
         return res;
     }
-    
+
     @Override
     public List<SieniEvaluacion> findEvaluacionDesdeHasta(Date desde, Date hasta) {
 
@@ -51,5 +51,16 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
         return res;
 
     }
-    
+
+    @Override
+    public List<SieniEvaluacion> findbyRendimientoRpt(Date desde, Date hasta, String grado, String seccion, String materia) {
+        Query q = em.createNamedQuery("SieniMatricula.findbyRendimientoRpt");
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        q.setParameter("grado", grado);
+        q.setParameter("seccion", seccion);
+        q.setParameter("materia", materia);
+        return q.getResultList();
+    }
+
 }

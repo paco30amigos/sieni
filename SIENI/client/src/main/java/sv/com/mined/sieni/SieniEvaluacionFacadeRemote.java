@@ -34,5 +34,7 @@ public interface SieniEvaluacionFacadeRemote {
     List<SieniEvaluacion> findRange(int[] range);
 
     int count();
+
+    public List<SieniEvaluacion> findbyRendimientoRpt(Date desde, Date hasta, String grado, String seccion, String materia);
     
 }

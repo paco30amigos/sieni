@@ -5,10 +5,12 @@
  */
 package sv.com.mined.sieni.controller;
 
+import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,12 +23,14 @@ import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.RptParticipacionForm;
 import sv.com.mined.sieni.form.RptRendimientoForm;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.pojos.rpt.RptParticipacionPojo;
 import sv.com.mined.sieni.pojos.rpt.RptRendimientoPojo;
@@ -49,25 +53,30 @@ public class RptRendimientoController extends RptRendimientoForm {
     private SieniSeccionFacadeRemote sieniSeccionFacadeRemote;
     @EJB
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
+    @EJB
+    private SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
     
     @PostConstruct
     public void init() {
         this.setFormatoRpt("PDF");
         this.setAnio("2,015");
-        fill();
+        this.setGradosList(sieniGradoFacadeRemote.findAll());
+        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
+        this.setSeccionesList(sieniSeccionFacadeRemote.findAll());
+        //fill();
     }
     
     public void fill() {
         RptRendimientoPojo elem = new RptRendimientoPojo();
 
-        this.setGradosList(sieniGradoFacadeRemote.findAll());
-        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
-        this.setSeccionesList(sieniSeccionFacadeRemote.findAll());
         
         
-        
+        List<SieniEvaluacion> evaluaciones = sieniEvaluacionFacadeRemote.findbyRendimientoRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
         this.setListDatos(new ArrayList<RptRendimientoPojo>());
-        
+        for (SieniEvaluacion actual : evaluaciones) {
+            elem = new RptRendimientoPojo(this.getGrado(), this.getSeccion(), this.getMateria(), null, actual.getEvTipo(), null, null, null);
+            this.getListDatos().add(elem);
+        }
         
         this.setTotalTransacciones(Long.parseLong(this.getListDatos().size()+""));
     }

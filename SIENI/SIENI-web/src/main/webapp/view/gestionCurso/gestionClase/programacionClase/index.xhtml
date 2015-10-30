@@ -56,14 +56,14 @@
                 </p:column>
                 <p:column headerText="Acciones">
                     <p:commandLink action="#{programacionClasesController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver programación" ></i></p:commandLink>
-                    <p:commandLink action="#{programacionClasesController.modificar(car)}"><i class="icon-list Fs25 Red MarRight10" title="Consultar Plantilla de Clase" ></i></p:commandLink>
-                    <p:commandLink action="#{programacionClasesController.modificar(car)}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Programación" ></i></p:commandLink>
-                    <p:commandLink action="#{programacionClasesController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    <p:commandLink action="#{programacionClasesController.modificar(car)}" rendered="#{loginController.mostrarA('1,2')}"><i class="icon-list Fs25 Red MarRight10" title="Consultar Plantilla de Clase" ></i></p:commandLink>
+                    <p:commandLink action="#{programacionClasesController.modificar(car)}" rendered="#{loginController.mostrarA('1,2')}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Programación" ></i></p:commandLink>
+                    <p:commandLink action="#{programacionClasesController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true"  rendered="#{loginController.mostrarA('1,2')}" >
                         <i class="icon-close Fs25 Red MarRight10" title="Eliminar Expediente"></i>
                     </p:commandLink>
                 </p:column>
             </p:dataTable>
-            <p:commandButton value="Adicionar Programación" action="#{programacionClasesController.setIndexMenu(1)}"></p:commandButton>
+            <p:commandButton value="Adicionar Programación" action="#{programacionClasesController.setIndexMenu(1)}"  rendered="#{loginController.mostrarA('1,2')}"></p:commandButton>
             <p:commandButton value="Refrescar" action="#{programacionClasesController.refresh()}" update="consulta"></p:commandButton>
         </h:form>
     </ui:define>

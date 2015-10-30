@@ -51,7 +51,10 @@
                         #{car.estado}
                     </p:column>
                     <p:column headerText="Acciones">
-                        <p:commandLink action="#{gestionClaseInteracController.mostrar(car)}" >
+                        <p:commandLink action="#{gestionClaseInteracController.mostrar(car)}" rendered="#{loginController.mostrarA('0')}">
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Recibir Clase"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionClaseInteracController.mostrar(car)}" rendered="#{loginController.mostrarA('1,2')}">
                             <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Vista previa de Clase"></i>
                         </p:commandLink>
                         <p:commandLink action="#{gestionClaseInteracController.modificar(car)}" rendered="#{loginController.mostrarA('1,2')}">

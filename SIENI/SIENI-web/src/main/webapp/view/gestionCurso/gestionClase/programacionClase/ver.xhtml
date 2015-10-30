@@ -57,9 +57,9 @@
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                     <div class="Container100">
-                        <p:commandButton value="Modificar" action="#{programacionClasesController.modificar(programacionClasesController.modifica)}" immediate="true" >
+                        <p:commandButton value="Modificar" action="#{programacionClasesController.modificar(programacionClasesController.modifica)}" immediate="true"  rendered="#{loginController.mostrarA('1,2')}">
                     </p:commandButton>
-                    <p:commandButton value="Eliminar" action="#{programacionClasesController.eliminar(programacionClasesController.modifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    <p:commandButton value="Eliminar" action="#{programacionClasesController.eliminar(programacionClasesController.modifica)}" onclick="PF('dlgEliminar').show();" immediate="true"  rendered="#{loginController.mostrarA('1,2')}">
                     </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{programacionClasesController.setIndexMenu(0)}"/>

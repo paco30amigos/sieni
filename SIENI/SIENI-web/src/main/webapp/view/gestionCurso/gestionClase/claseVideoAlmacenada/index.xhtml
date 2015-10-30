@@ -51,14 +51,14 @@
                         #{car.estado}
                     </p:column>
                     <p:column headerText="Acciones">
-                        <p:commandLink action="#{gestionVideoClaseController.mostrar(car)}" >
-                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Recibir Clase" rendered="#{loginController.mostrarA('0')}"></i>
+                        <p:commandLink action="#{gestionVideoClaseController.mostrar(car)}" rendered="#{loginController.mostrarA('0')}">
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Recibir Clase"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{gestionVideoClaseController.mostrar(car)}" >
-                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Vista previa de Clase" rendered="#{loginController.mostrarA('1,2')}"></i>
+                        <p:commandLink action="#{gestionVideoClaseController.mostrar(car)}" rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Vista previa de Clase"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{gestionVideoClaseController.modificar(car)}">
-                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar detalles Clase" rendered="#{loginController.mostrarA('1,2')}"></i>
+                        <p:commandLink action="#{gestionVideoClaseController.modificar(car)}" rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar detalles Clase"></i>
                         </p:commandLink>
                         <p:commandLink action="#{gestionVideoClaseController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" rendered="#{loginController.mostrarA('1,2')}">
                             <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Clase"></i>
@@ -75,7 +75,7 @@
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Configurar Clase interactiva" action="#{gestionVideoClaseController.setIndexMenu(3)}"></p:commandButton>
+                <p:commandButton value="Configurar Clase interactiva" action="#{gestionVideoClaseController.setIndexMenu(3)}" rendered="#{loginController.mostrarA('1,2')}"></p:commandButton>
                 <p:commandButton value="Refrescar" action="#{gestionVideoClaseController.refresh()}" update="consulta"></p:commandButton>
             </h:form>
         </p:panel>

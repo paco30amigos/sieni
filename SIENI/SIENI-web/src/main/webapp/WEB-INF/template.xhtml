@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -15,21 +16,27 @@
             <title>SIENI</title>
             <h:outputScript name="popcorn-complete.min.js" library="js" />
             <h:outputScript name="RTCMultiConnection.js" library="js" />
-            <h:outputScript name="script.js" library="js" />
-            <h:outputScript name="js/ripple-effect.js" library="rio-layout" />
+            <h:outputScript name="js/ripple-effect.js" library="rio-layout"  />
             <h:outputScript name="js/perfect-scrollbar.js" library="rio-layout" />
             <h:outputScript name="js/layout.js" library="rio-layout" />
+            
+            <h:outputScript name="ion.sound.min.js"  library="js" />
             <h:outputStylesheet name="style.css" library="css" />
+            
             <ui:insert name="head" />
         </h:head>
 
         <h:body>
             
-            <p:socket onMessage="handleMessage" channel="/notify" >
-                <p:ajax event="message" listener="#{notificacionesController.sendNotify()}"  />
-             </p:socket>
-  
+        <p:socket onMessage="agrandar" channel="/notify"   >
+            <p:ajax event="message" />
+        </p:socket>
+            
+            
             <style type="text/css">
+                
+
+                
                 .ui-panel .ui-panel-title { font-family: serif; }
                 /*correccion de encabezado de tabs*/
                 .ui-tabs.ui-tabs-top > .ui-tabs-nav {
@@ -110,6 +117,8 @@
             </style>
             <div style="font-family: serif;">
                 <script type="text/javascript">
+                    
+                    
                     PrimeFaces.locales['es'] = {
                         closeText: 'Cerrar',
                         prevText: 'Anterior',
@@ -163,6 +172,27 @@
                         } else {
                             $(tb).keydown(enter2tab);
                         }
+                        
+                        ion.sound({
+                            sounds: [
+                                {
+                                    name: "water_droplet_3",
+                                   volume: 0.
+                                },
+                                {
+                                    name: "notify_sound",
+                                    volume: 0.2
+                                },
+                                {
+                                    name: "alert_sound",
+                                    volume: 0.3,
+                                    preload: false
+                                }
+                            ],
+                            volume: 0.5,
+                            path: "../../resources/sounds/",
+                            preload: true
+                        });
                     });
                     function enter2tab(e) {
                         if (e.keyCode == 13) {
@@ -194,17 +224,25 @@
                     }
                     
                     
-                    function handleMessage(facesmessage) {
-                        facesmessage.severity = 'info';
+            function removeAnimation(){
+		setTimeout(function() {
+			$('.burbuja').removeClass('agrandar')
+		}, 500);
+            }
 
-                        PF('wmsj').show([facesmessage]);
-                    }
-                    
+            // función que modifica el valor de la burbuja y la agranda
+            function agrandar(data) {
+                    $('.burbuja').html(data);
+                    $('.burbuja').html().addClass('agrandar');
+                    ion.sound.play("water_droplet_3");
+                    removeAnimation();
+            }
+            
                     
                 </script>
-
-                <p:growl id="msj" widgetVar="wmsj" showDetail="true" />
-
+ 
+                
+               
                 <h:form id="frmMenuTopBar">
                     <ui:include src="topbar.xhtml" />
                 </h:form>
@@ -223,6 +261,7 @@
                                         <p:menuitem value="Apertura Año escolar" url="/faces/view/aperturaAnioEscolar/index.xhtml"/>
                                         <p:separator />
                                     </p:breadCrumb>
+                                    
                                 </ui:insert>
                             </h:form>
                             <ui:insert name="content">
@@ -250,8 +289,9 @@
                 </div>
                 <h:form>
                     <p:remoteCommand name="updatemessages" update="messages"></p:remoteCommand>
-                    <p:growl sticky="true" id="messages" autoUpdate="true"></p:growl>
+                    <p:growl sticky="true" id="messages" autoUpdate="true" ></p:growl>
                 </h:form>
+                
                 <h:outputStylesheet name="css/core-layout.css" library="rio-layout" />
                 <h:outputStylesheet name="css/animate.css" library="rio-layout" />
                 <h:outputStylesheet name="css/rio-font.css" library="rio-layout" />
@@ -261,8 +301,7 @@
                 <h:outputStylesheet name="css/rio-layout.css" library="rio-layout" />
             </div>
 
-              
-          
+            
         </h:body>
     </f:view>
 </html>

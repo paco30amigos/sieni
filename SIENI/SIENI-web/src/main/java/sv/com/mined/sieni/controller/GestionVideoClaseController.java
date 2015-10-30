@@ -23,6 +23,7 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniCatPuntosFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
 import sv.com.mined.sieni.SieniClaseVidPtosFacadeRemote;
@@ -37,6 +38,7 @@ import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.form.GestionVideoClaseForm;
 import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniCatPuntos;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
 import sv.com.mined.sieni.model.SieniClaseVidPtos;
@@ -92,6 +94,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     private SieniCompInteraccionFacadeRemote sieniCompInteraccionFacadeRemote;
     @EJB
     private SieniClaseVidPtosFacadeRemote sieniClaseVidPtosFacadeRemote;
+    @EJB
+    private SieniCatPuntosFacadeRemote sieniCatPuntosFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -536,6 +540,26 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             this.setIndexMenu(3);
         }
     }
+    
+    public void guardarPuntosControl() {
+        int contador = 0;
+        for (SeccionPlantillaPojo sec : this.getSecciones()) {
+            for (PantallaPojo pantalla : sec.getPantallas()) {
+                contador++;
+            }
+        }
+        SieniCatPuntos puntos = sieniCatPuntosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
+        if (puntos != null&&puntos.getIdCatPuntos()!=null) {
+            puntos.setCpNumPuntos(contador);
+            sieniCatPuntosFacadeRemote.edit(puntos);
+        } else {
+            puntos=new SieniCatPuntos();
+            puntos.setCpEstado('A');
+            puntos.setIdClase(this.getClaseConfig());
+            puntos.setCpNumPuntos(contador);
+            sieniCatPuntosFacadeRemote.create(puntos);
+        }
+    }
 
     //solo cuando se desean ver los cambios sin llenar actualizar las interacciones
     public void mostrar2() {
@@ -667,6 +691,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         sieniInteEntrCompFacadeRemote.merge(new ArrayList<SieniInteEntrComp>(), this.getInteracEliminados());
         fillConfigura(this.getClaseConfig());
         new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
+        guardarPuntosControl();
     }
 
     public void guardarConfiguracionInteracciones() {

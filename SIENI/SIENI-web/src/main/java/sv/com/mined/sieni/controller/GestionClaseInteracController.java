@@ -23,6 +23,7 @@ import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniCatPuntosFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
 import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
@@ -37,6 +38,7 @@ import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.form.GestionClaseInteracForm;
 import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniCatPuntos;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
 import sv.com.mined.sieni.model.SieniCompInteraccion;
@@ -92,6 +94,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     private SieniCompInteraccionFacadeRemote sieniCompInteraccionFacadeRemote;
     @EJB
     private SieniPntosContrlFacadeRemote sieniPntosContrlFacadeRemote;
+    @EJB
+    private SieniCatPuntosFacadeRemote sieniCatPuntosFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -491,10 +495,27 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     public void guardarConfiguracion() {
         guardarConfiguracionComponentes();
+        guardarPuntosControl();
     }
 
     public void guardarPuntosControl() {
-
+        int contador = 0;
+        for (SeccionPlantillaPojo sec : this.getSecciones()) {
+            for (PantallaPojo pantalla : sec.getPantallas()) {
+                contador++;
+            }
+        }
+        SieniCatPuntos puntos = sieniCatPuntosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
+        if (puntos != null&&puntos.getIdCatPuntos()!=null) {
+            puntos.setCpNumPuntos(contador);
+            sieniCatPuntosFacadeRemote.edit(puntos);
+        } else {
+            puntos=new SieniCatPuntos();
+            puntos.setCpEstado('A');
+            puntos.setIdClase(this.getClaseConfig());
+            puntos.setCpNumPuntos(contador);
+            sieniCatPuntosFacadeRemote.create(puntos);
+        }
     }
 
     public void guardarConfiguracionComponentes() {
@@ -882,7 +903,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             SieniTipoElemPlantilla tipoElem = this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla();
             Integer nPantalla = seccionActual.getPantallas().get(index).getNumPantalla();
             //find punto de control by pantalla seccion alumno clase
-            nuevo=sieniPntosContrlFacadeRemote.findPuntos(tipoElem.getIdTipoElemPlantilla(), nPantalla, this.getClaseConfig().getIdClase(), loginBean.getAlumno().getIdAlumno());
+            nuevo = sieniPntosContrlFacadeRemote.findPuntos(tipoElem.getIdTipoElemPlantilla(), nPantalla, this.getClaseConfig().getIdClase(), loginBean.getAlumno().getIdAlumno());
             if (nuevo.getIdPntosContrl() == null) {
                 nuevo.setIdClase(this.getClaseConfig());
                 nuevo.setIdAlumno(loginBean.getAlumno());
@@ -890,9 +911,13 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                 nuevo.setPcPantalla(nPantalla);
                 nuevo.setPcEstado('V');
                 sieniPntosContrlFacadeRemote.create(nuevo);
+            } else {
+                //cuando la pantalla ya existe pero ha sido eliminada se actualiza el estado
+                nuevo.setPcEstado('V');
+                sieniPntosContrlFacadeRemote.edit(nuevo);
             }
 
-        } 
+        }
     }
 
     public List<SieniInteEntrComp> convertSuperCompon2ToInteractEntreCompon(List<SieniSuperCompon> componentes) {

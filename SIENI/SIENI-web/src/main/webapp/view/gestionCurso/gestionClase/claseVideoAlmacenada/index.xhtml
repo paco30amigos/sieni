@@ -52,21 +52,24 @@
                     </p:column>
                     <p:column headerText="Acciones">
                         <p:commandLink action="#{gestionVideoClaseController.mostrar(car)}" >
-                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Vista previa de Clase"></i>
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Recibir Clase" rendered="#{loginController.mostrarA('0')}"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.mostrar(car)}" >
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Vista previa de Clase" rendered="#{loginController.mostrarA('1,2')}"></i>
                         </p:commandLink>
                         <p:commandLink action="#{gestionVideoClaseController.modificar(car)}">
-                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar detalles Clase"></i>
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar detalles Clase" rendered="#{loginController.mostrarA('1,2')}"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{gestionVideoClaseController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <p:commandLink action="#{gestionVideoClaseController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" rendered="#{loginController.mostrarA('1,2')}">
                             <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Clase"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{gestionVideoClaseController.configurar(car)}"  >
+                        <p:commandLink action="#{gestionVideoClaseController.configurar(car)}"  rendered="#{loginController.mostrarA('1,2')}">
                             <i class="icon-settings Fs25 Red MarRight10" style="cursor: pointer" title="Configurar componentes de la clase"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{gestionVideoClaseController.configurarInterac(car)}"  >
+                        <p:commandLink action="#{gestionVideoClaseController.configurarInterac(car)}"  rendered="#{loginController.mostrarA('1,2')}">
                             <i class="icon-magic20 Fs25 Red MarRight10" style="cursor: pointer" title="Configurar Interacciones entre componentes"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{gestionVideoClaseController.configurarTiemposVisualizacion(car)}"  >
+                        <p:commandLink action="#{gestionVideoClaseController.configurarTiemposVisualizacion(car)}"  rendered="#{loginController.mostrarA('1,2')}">
                             <i class="icon-photo212 Fs25 Red MarRight10" style="cursor: pointer" title="Configurar tiempos de visualización de pantallas"></i>
                         </p:commandLink>
                     </p:column>

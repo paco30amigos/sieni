@@ -91,4 +91,16 @@ public class LoginController extends LoginForm {
     public void cambiarPass() {
         this.getsU().redirect("/faces/password.xhtml");
     }
+
+    public boolean mostrarA(String permitidos) {
+        boolean ban = false;
+        String[] usuario = permitidos.split(",");
+        for (String actual : usuario) {
+            if (this.getTipoRol().equals(actual)) {
+                ban = true;
+                break;
+            }
+        }
+        return ban;
+    }
 }

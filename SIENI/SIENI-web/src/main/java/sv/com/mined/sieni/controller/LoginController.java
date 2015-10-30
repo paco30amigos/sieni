@@ -45,26 +45,34 @@ public class LoginController extends LoginForm {
             if (alumno == null) {
                 SieniDocente docente = sieniDocenteFacadeRemote.findDocenteUsuario(this.getUsuario(), passEncriptado);
                 if (docente != null) {
-                    this.setLogeado(true);
-                    this.setTipoUsuario("D");
-                    this.setTipoRol(docente.getSieniDocentRolList().get(0).getFRolDoc() + "");
-                    this.setIdUsuario(docente.getIdDocente());
-                    this.setNombreCompleto(docente.getNombreCompleto());
-                    this.setDocente(docente);
-                    msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
-                    this.getsU().redirect("/faces/index.xhtml");
+                    if (docente.getDcEstado() != null && docente.getDcEstado().equals('A')) {
+                        this.setLogeado(true);
+                        this.setTipoUsuario("D");
+                        this.setTipoRol(docente.getSieniDocentRolList().get(0).getFRolDoc() + "");
+                        this.setIdUsuario(docente.getIdDocente());
+                        this.setNombreCompleto(docente.getNombreCompleto());
+                        this.setDocente(docente);
+                        msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
+                        this.getsU().redirect("/faces/index.xhtml");
+                    } else {
+                        msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inactivo", this.getUsuario());
+                    }
                 } else {
-                    msg = new FacesMessage(FacesMessage.SEVERITY_WARN, "Credenciales no válidas", this.getUsuario());
+                    msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Credenciales no válidas", this.getUsuario());
                 }
             } else {
-                this.setLogeado(true);
-                this.setTipoUsuario("A");
-                this.setTipoRol(alumno.getSieniAlumnRolList().get(0).getFRol() + "");
-                this.setIdUsuario(alumno.getIdAlumno());
-                this.setNombreCompleto(alumno.getNombreCompleto());
-                this.setAlumno(alumno);
-                msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
-                this.getsU().redirect("/");
+                if (alumno.getAlEstado() != null && alumno.getAlEstado().equals('A')) {
+                    this.setLogeado(true);
+                    this.setTipoUsuario("A");
+                    this.setTipoRol(alumno.getSieniAlumnRolList().get(0).getFRol() + "");
+                    this.setIdUsuario(alumno.getIdAlumno());
+                    this.setNombreCompleto(alumno.getNombreCompleto());
+                    this.setAlumno(alumno);
+                    msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
+                    this.getsU().redirect("/");
+                } else {
+                    msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inactivo", this.getUsuario());
+                }
             }
         } catch (Exception e) {
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Ocurrió un error inesperado", this.getUsuario());
@@ -79,7 +87,7 @@ public class LoginController extends LoginForm {
         this.getsU().redirect("/faces/login.xhtml");
         this.setLogeado(false);
     }
-    
+
     public void cambiarPass() {
         this.getsU().redirect("/faces/password.xhtml");
     }

@@ -30,4 +30,6 @@ public interface SieniPntosContrlFacadeRemote {
 
     int count();
     
+    public SieniPntosContrl findPuntos(Long idTipoElemPlantilla,Integer nPantalla,Long idClase,Long idAlumno);
+    
 }

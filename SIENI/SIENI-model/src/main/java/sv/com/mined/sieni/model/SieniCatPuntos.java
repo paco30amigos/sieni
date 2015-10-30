@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -41,17 +43,17 @@ public class SieniCatPuntos implements Serializable {
     @NotNull
     @Column(name = "id_cat_puntos")
     private Long idCatPuntos;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id_clase")
-    private long idClase;
+    @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
+    @ManyToOne
+    private SieniClase idClase;
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_clase_sup_comp")
     private long idClaseSupComp;
-    @Size(max = 20)
-    @Column(name = "estado_puntos")
-    private String estadoPuntos;
+    @Column(name = "cp_estado_puntos")
+    private Character cpEstado;
+    @Column(name = "cp_num_puntos")
+    private Character cpNumPuntos;
 
     @OneToMany(mappedBy = "idClase")
     private List<SieniClase> sieniClaseList;
@@ -65,26 +67,12 @@ public class SieniCatPuntos implements Serializable {
         this.idCatPuntos = idCatPuntos;
     }
 
-    public SieniCatPuntos(Long idCatPuntos, long idClase, long idClaseSupComp) {
-        this.idCatPuntos = idCatPuntos;
-        this.idClase = idClase;
-        this.idClaseSupComp = idClaseSupComp;
-    }
-
     public Long getIdCatPuntos() {
         return idCatPuntos;
     }
 
     public void setIdCatPuntos(Long idCatPuntos) {
         this.idCatPuntos = idCatPuntos;
-    }
-
-    public long getIdClase() {
-        return idClase;
-    }
-
-    public void setIdClase(long idClase) {
-        this.idClase = idClase;
     }
 
     public long getIdClaseSupComp() {
@@ -95,13 +83,6 @@ public class SieniCatPuntos implements Serializable {
         this.idClaseSupComp = idClaseSupComp;
     }
 
-    public String getEstadoPuntos() {
-        return estadoPuntos;
-    }
-
-    public void setEstadoPuntos(String estadoPuntos) {
-        this.estadoPuntos = estadoPuntos;
-    }
 
     @XmlTransient
     public List<SieniClase> getSieniClaseList() {
@@ -144,6 +125,30 @@ public class SieniCatPuntos implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniCatPuntos[ idCatPuntos=" + idCatPuntos + " ]";
+    }
+
+    public SieniClase getIdClase() {
+        return idClase;
+    }
+
+    public void setIdClase(SieniClase idClase) {
+        this.idClase = idClase;
+    }
+
+    public Character getCpEstado() {
+        return cpEstado;
+    }
+
+    public void setCpEstado(Character cpEstado) {
+        this.cpEstado = cpEstado;
+    }
+
+    public Character getCpNumPuntos() {
+        return cpNumPuntos;
+    }
+
+    public void setCpNumPuntos(Character cpNumPuntos) {
+        this.cpNumPuntos = cpNumPuntos;
     }
 
 }

@@ -11,11 +11,14 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniPntosContrl.findAll", query = "SELECT s FROM SieniPntosContrl s"),
+    @NamedQuery(name = "SieniPntosContrl.findPtosByClaseAlumnPantallaSeccion", query = "SELECT s FROM SieniPntosContrl s where s.idClase.idClase=:idClase and s.idAlumno.idAlumno=:idAlumno and s.pcPantalla=:nPantalla and s.idTipoElemPlantilla.idTipoElemPlantilla=:idTipoElemPlantilla"),
     @NamedQuery(name = "SieniPntosContrl.findByIdPntosContrl", query = "SELECT s FROM SieniPntosContrl s WHERE s.idPntosContrl = :idPntosContrl"),
     @NamedQuery(name = "SieniPntosContrl.findByPcTipo", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcTipo = :pcTipo"),
     @NamedQuery(name = "SieniPntosContrl.findByPcIdentificador", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcIdentificador = :pcIdentificador"),
@@ -42,6 +46,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SieniPntosContrl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_pntos_contrl")
+    @SequenceGenerator(name = "sec_sieni_pntos_contrl", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_pntos_contrl")
     @Basic(optional = false)
     @Column(name = "id_pntos_contrl")
     private Long idPntosContrl;
@@ -60,6 +66,11 @@ public class SieniPntosContrl implements Serializable {
     private BigInteger pcAnterior;
     @Column(name = "pc_ultimo")
     private BigInteger pcUltimo;
+    @Column(name = "pc_pantalla")
+    private Integer pcPantalla;
+    @JoinColumn(name = "id_tipo_elem_plantilla", referencedColumnName = "id_tipo_elem_plantilla")
+    @ManyToOne
+    private SieniTipoElemPlantilla idTipoElemPlantilla;
     @Column(name = "pc_estado")
     private Character pcEstado;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
@@ -187,6 +198,22 @@ public class SieniPntosContrl implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniPntosContrl[ idPntosContrl=" + idPntosContrl + " ]";
+    }
+
+    public Integer getPcPantalla() {
+        return pcPantalla;
+    }
+
+    public void setPcPantalla(Integer pcPantalla) {
+        this.pcPantalla = pcPantalla;
+    }
+
+    public SieniTipoElemPlantilla getIdTipoElemPlantilla() {
+        return idTipoElemPlantilla;
+    }
+
+    public void setIdTipoElemPlantilla(SieniTipoElemPlantilla idTipoElemPlantilla) {
+        this.idTipoElemPlantilla = idTipoElemPlantilla;
     }
     
 }

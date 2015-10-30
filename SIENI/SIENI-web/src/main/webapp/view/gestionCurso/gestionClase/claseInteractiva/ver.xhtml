@@ -22,9 +22,11 @@
             </script>
             <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
             <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px"> 
+                <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updatePuntoCtrlSeleccionados}"></p:ajax>
                 <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
                     <p:tab title="#{elemPlantilla.nombre}">
                         <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas">
+                            <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updatePuntoCtrlSeleccionados}"></p:ajax>
                             <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                 <p:tab title="Pág #{pantalla.numPantalla}">
                                     <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px">

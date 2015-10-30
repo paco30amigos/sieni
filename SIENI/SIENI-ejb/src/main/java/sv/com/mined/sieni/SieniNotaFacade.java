@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -72,6 +73,36 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
         if (res != null && !res.isEmpty()) {
             ret = true;
         }
+        return ret;
+    }
+
+    @Override
+    public List<SieniNota> getNotasRpt(Date desde, Date hasta, Long grado, Long seccion) {
+        List<SieniNota> ret;
+        Query q = null;
+        if (grado == null || grado.equals(0L)) {
+            grado = null;
+        }
+        if (seccion == null || seccion.equals(0L)) {
+            seccion = null;
+        }
+
+        if ((grado == null && seccion == null)) {
+            q = em.createNamedQuery("SieniNota.findRango");
+        }
+        if (grado != null && seccion == null) {
+            q = em.createNamedQuery("SieniNota.findRangoGrado");
+            q.setParameter("grado", grado);
+        }
+        if (grado != null && seccion != null) {
+            q = em.createNamedQuery("SieniNota.findRangoGradoSeccion");
+            q.setParameter("grado", grado);
+            q.setParameter("seccion", seccion);
+        }
+        //parametros obligatorios
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        ret = q.getResultList();
         return ret;
     }
 }

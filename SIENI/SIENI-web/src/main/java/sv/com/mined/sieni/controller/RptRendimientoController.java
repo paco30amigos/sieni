@@ -5,7 +5,6 @@
  */
 package sv.com.mined.sieni.controller;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,12 +26,10 @@ import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
-import sv.com.mined.sieni.form.RptParticipacionForm;
 import sv.com.mined.sieni.form.RptRendimientoForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniGrado;
-import sv.com.mined.sieni.pojos.rpt.RptParticipacionPojo;
 import sv.com.mined.sieni.pojos.rpt.RptRendimientoPojo;
 import utils.DateUtils;
 import utils.FormatUtils;

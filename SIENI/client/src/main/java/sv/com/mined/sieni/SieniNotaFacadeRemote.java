@@ -34,6 +34,8 @@ public interface SieniNotaFacadeRemote {
     public void merge(List<SieniNota> notas);
 
     public List<SieniNota> getNotasRangoFecha(Date desde, Date hasta);
+    
+    public List<SieniNota> getNotasRpt(Date desde, Date hasta,Long grado,Long seccion);
 
     List<SieniNota> findAllNoEliminadas();
 

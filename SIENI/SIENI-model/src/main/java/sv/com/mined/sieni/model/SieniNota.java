@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,6 +20,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -32,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "SieniNota.findAllNoEliminadas", query = "SELECT s FROM SieniNota s where s.ntEstado not in (:estado) and s.idAlumno.alEstado not in (:estado)"),
     @NamedQuery(name = "SieniNota.findAll", query = "SELECT s FROM SieniNota s"),
+    @NamedQuery(name = "SieniNota.findRango", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta"),
+    @NamedQuery(name = "SieniNota.findRangoGrado", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta and s.idEvaluacion.idCurso.idGrado.idGrado=:grado"),
+    @NamedQuery(name = "SieniNota.findRangoGradoSeccion", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta and s.idEvaluacion.idCurso.idGrado.idGrado=:grado and s.idEvaluacion.idCurso.idSeccion.idSeccion=:seccion"),
     @NamedQuery(name = "SieniNota.findNotaRegistrada", query = "SELECT s FROM SieniNota s where s.idAlumno.idAlumno=:idAlumno and s.idEvaluacion.idEvaluacion=:idEvaluacion and s.ntEstado not in (:estado) and s.idAlumno.alEstado not in (:estado) and s.idEvaluacion.evEstado not in (:estado)"),
     @NamedQuery(name = "SieniNota.findByIdNota", query = "SELECT s FROM SieniNota s WHERE s.idNota = :idNota"),
     @NamedQuery(name = "SieniNota.findByNtCalificacion", query = "SELECT s FROM SieniNota s WHERE s.ntCalificacion = :ntCalificacion"),
@@ -54,6 +60,9 @@ public class SieniNota implements Serializable {
     private String ntTipoIngreso;
     @Column(name = "nt_estado")
     private Character ntEstado;
+    @Column(name = "nt_fecha_ingreso")
+    @Temporal(TemporalType.DATE)
+    private Date ntFechaIngreso;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
@@ -184,6 +193,14 @@ public class SieniNota implements Serializable {
 
     public void setNtAnio(Integer ntAnio) {
         this.ntAnio = ntAnio;
+    }
+
+    public Date getNtFechaIngreso() {
+        return ntFechaIngreso;
+    }
+
+    public void setNtFechaIngreso(Date ntFechaIngreso) {
+        this.ntFechaIngreso = ntFechaIngreso;
     }
 
 }

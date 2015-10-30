@@ -5,73 +5,89 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Reportes" url="#"/>
-            <p:menuitem value="Reporte de Notas de Alumnos por Año Escolar" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}"/>
+            <p:menuitem value="Reporte de Notas de Alumnos" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Reporte de Notas de Alumnos por Año Escolar">
-                <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="Fecha desde"></p:outputLabel>
-                        <p:inputText value="#{rptNotasController.desde}"></p:inputText>
-                        <p:outputLabel value="hasta:"></p:outputLabel>
-                        <p:inputText value="#{rptNotasController.hasta}"></p:inputText>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{rptNotasController.notasList}" 
-                                 paginator="false"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
-                                 reflow="true">
-                        <p:column headerText="Alumno" >
-                            #{car.idAlumno.nombreCompleto}
-                        </p:column>
-                        <p:column headerText="Grado" >
-                            #{car.idEvaluacion.idCurso.idGrado.grNombre}
-                        </p:column>
-                        <p:column headerText="Sección" >
-                            #{car.idEvaluacion.idCurso.idSeccion.scDescripcion}
-                        </p:column>
-                        <p:column headerText="Materia" >
-                            #{car.idEvaluacion.idMateria.maNombre}
-                        </p:column>
-                        <p:column headerText="Tipo de Evaluacion" >
-                            #{car.idEvaluacion.evTipo}
-                        </p:column>
-                        <p:column headerText="Evaluacion" >
-                            #{car.idEvaluacion.evNombre}
-                        </p:column>
-                        <p:column headerText="Nota ">
-                            #{car.ntCalificacion}
-                        </p:column>
-                        <f:facet name="footer">
-                            Total de alumnos #{rptNotasController.totalTransacciones}
-                        </f:facet>
-                    </p:dataTable>
-                    <div class="EmptyBox20"></div>
-                    <div class="TexAlCenter">
-                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{rptNotasController.formatoRpt}">
-                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                            </p:selectOneRadio>
-                            <p:commandButton  value="Generar" action="#{rptNotasController.generarReporte()}" update="consulta"></p:commandButton>
-                            <p:commandButton value="Refrescar" action="#{rptNotasController.refresh()}" update="consulta"></p:commandButton>
-                        </h:panelGrid>
-                    </div>
-                </h:form>
-            </p:tab>
-        </p:tabView>
+        <div class="EmptyBox5"></div>
+        <h:form>            
+            <p:panel>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="anioDesde" value="Registrado desde:"></p:outputLabel>
+                    <p:calendar id="anioDesde" value="#{rptNotasController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true">
+                        <p:ajax event="dateSelect" update="anioHasta"></p:ajax>
+                    </p:calendar>
+                    <p:outputLabel for="anioHasta" value="hasta:"></p:outputLabel>
+                    <p:calendar id="anioHasta" value="#{rptNotasController.hasta}" mindate="#{rptNotasController.desde}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
+                    <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
+                    <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{rptNotasController.grado.idGrado}" valueChangeListener="#{rptNotasController.getSeccionesGrado}">
+                        <f:selectItem itemValue="0" itemLabel="Todos"></f:selectItem>
+                        <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{rptNotasController.gradosList}" var="grado"></f:selectItems>
+                        <p:ajax event="valueChange" update="seccion"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="seccion" value="#{rptNotasController.seccion.idSeccion}">
+                        <f:selectItem itemValue="0" itemLabel="Todos"></f:selectItem>
+                        <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptNotasController.seccionesList}" var="seccion"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:commandButton value="generar" actionListener="#{rptNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{rptNotasController.listaDatos}" 
+                             paginator="false"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Carnet" >
+                        #{car.carnet}
+                    </p:column>
+                    <p:column headerText="Alumno" >
+                        #{car.alumno}
+                    </p:column>
+                    <p:column headerText="Grado" >
+                        #{car.grado}
+                    </p:column>
+                    <p:column headerText="Sección" >
+                        #{car.seccion}
+                    </p:column>
+                    <p:column headerText="Materia" >
+                        #{car.materia}
+                    </p:column>
+                    <p:column headerText="Tipo de Evaluacion" >
+                        #{car.tipoEvaluacion}
+                    </p:column>
+                    <p:column headerText="Evaluacion" >
+                        #{car.evaluacion}
+                    </p:column>
+                    <p:column headerText="Nota ">
+                        #{car.nota}
+                    </p:column>
+                    <f:facet name="footer">
+                        Total de alumnos #{rptNotasController.totalTransacciones}
+                    </f:facet>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptNotasController.tipoRpt}">
+                            <f:selectItem itemValue="2" itemLabel="Excel" />
+                            <f:selectItem itemValue="0" itemLabel="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptNotasController.generarReporte()}"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    </h:panelGrid>
+                </div>
+            </p:panel>
+        </h:form>
     </ui:define>
 </ui:composition>

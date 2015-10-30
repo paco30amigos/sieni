@@ -31,6 +31,7 @@ import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
+import sv.com.mined.sieni.SieniPntosContrlFacadeRemote;
 import sv.com.mined.sieni.SieniSuperComponFacadeRemote;
 import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.form.GestionClaseInteracForm;
@@ -44,6 +45,7 @@ import sv.com.mined.sieni.model.SieniElemPlantilla;
 import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
+import sv.com.mined.sieni.model.SieniPntosContrl;
 import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.model.SieniTipoElemPlantilla;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
@@ -88,6 +90,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     private SieniComponenteFacadeRemote sieniComponenteFacadeRemote;
     @EJB
     private SieniCompInteraccionFacadeRemote sieniCompInteraccionFacadeRemote;
+    @EJB
+    private SieniPntosContrlFacadeRemote sieniPntosContrlFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -373,6 +377,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             ciu.setSecciones(this.getSecciones());
             ciu.setTotalInteracc(this.getInteracTotal());
             this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+            updatePuntoCtrlSeleccionados(null);
         }
     }
 
@@ -485,6 +490,14 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     public void guardarConfiguracion() {
+        guardarConfiguracionComponentes();
+    }
+
+    public void guardarPuntosControl() {
+
+    }
+
+    public void guardarConfiguracionComponentes() {
         List<SieniClaseSupComp> componentes = new ArrayList<>();
         List<SieniClaseSupComp> eliminados = new ArrayList<>();
         int cont = 1;
@@ -700,7 +713,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             }
             //establece la primera pantalla como seleccionada despues de la eliminacion
             seccionActual.setPantallaActual(0);
-            
+
         } else {
             FacesMessage msg = new FacesMessage("El elemento de plantilla debe tener almenos 1 página");
             FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -851,6 +864,35 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         }
 //        this.getNuevaInteracMult1().getIeEventoC1();
         //set en formulario
+    }
+
+    public void updatePuntoCtrlSeleccionados(TabChangeEvent ev) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+
+        if (loginBean.getTipoRol().equals("0")) {//alumno
+            SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
+            Integer index = seccionActual.getPantallaActual();
+
+            if (index == null) {
+                index = 0;
+            }
+            //registra punto de control actual
+            SieniPntosContrl nuevo = new SieniPntosContrl();
+            SieniTipoElemPlantilla tipoElem = this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla();
+            Integer nPantalla = seccionActual.getPantallas().get(index).getNumPantalla();
+            //find punto de control by pantalla seccion alumno clase
+            nuevo=sieniPntosContrlFacadeRemote.findPuntos(tipoElem.getIdTipoElemPlantilla(), nPantalla, this.getClaseConfig().getIdClase(), loginBean.getAlumno().getIdAlumno());
+            if (nuevo.getIdPntosContrl() == null) {
+                nuevo.setIdClase(this.getClaseConfig());
+                nuevo.setIdAlumno(loginBean.getAlumno());
+                nuevo.setIdTipoElemPlantilla(tipoElem);
+                nuevo.setPcPantalla(nPantalla);
+                nuevo.setPcEstado('V');
+                sieniPntosContrlFacadeRemote.create(nuevo);
+            }
+
+        } 
     }
 
     public List<SieniInteEntrComp> convertSuperCompon2ToInteractEntreCompon(List<SieniSuperCompon> componentes) {

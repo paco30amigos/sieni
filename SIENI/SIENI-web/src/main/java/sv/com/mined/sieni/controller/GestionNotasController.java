@@ -112,6 +112,7 @@ public class GestionNotasController extends GestionNotasForm {
         this.getNotaNuevo().setIdEvaluacion(this.getIdEvaluacion());
         if (validarNuevo(this.getNotaNuevo())) {//valida el guardado
             this.getNotaNuevo().setNtEstado(new Character('A'));
+            this.getNotaNuevo().setNtFechaIngreso(new Date());
             this.getNotaNuevo().setNtAnio(fu.getFormatedAnioInt(new Date()));
             sieniNotaFacadeRemote.create(this.getNotaNuevo());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
@@ -301,11 +302,13 @@ public class GestionNotasController extends GestionNotasForm {
         boolean error = false;
         List<SieniNota> notas = new ArrayList<>();
         FormatUtils fu = new FormatUtils();
+        Date fechaActual=new Date();
         List<ValidationPojo> validaciones = new ArrayList<>();
         if (this.getEvaluacionSubir() != null && this.getEvaluacionSubir().getIdEvaluacion() != null) {
             for (SieniNota actual : this.getListaNotasSubidas()) {
                 actual.setIdEvaluacion(this.getEvaluacionSubir());
                 actual.setNtEstado(new Character('A'));
+                actual.setNtFechaIngreso(fechaActual);
                 actual.setNtTipoIngreso("E");
                 actual.setNtAnio(fu.getFormatedAnioInt(new Date()));
                 notas.add(actual);

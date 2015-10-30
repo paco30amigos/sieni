@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniEvaluacion.findByIdEvaluacion", query = "SELECT s FROM SieniEvaluacion s WHERE s.idEvaluacion = :idEvaluacion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvNombre", query = "SELECT s FROM SieniEvaluacion s WHERE s.evNombre = :evNombre"),
     @NamedQuery(name = "SieniEvaluacion.findActivos", query = "SELECT s FROM SieniEvaluacion s  WHERE s.evEstado NOT IN ('I')"),
+    @NamedQuery(name = "SieniEvaluacion.findEvalItemResp", query = "SELECT s FROM SieniEvaluacion s  join fetch s.sieniEvaluacionItemList item join fetch item.sieniEvalRespItemList res where s.idEvaluacion = :idEvaluacion"),
     @NamedQuery(name = "SieniEvaluacion.findByDesdeHasta", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado in('A') AND s.evFechaInicio>=:desde AND s.evFechaCierre<=:hasta"),
     @NamedQuery(name = "SieniEvaluacion.findByEvPonderacion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evPonderacion = :evPonderacion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvVersion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evVersion = :evVersion"),
@@ -100,6 +102,9 @@ public class SieniEvaluacion implements Serializable {
     private SieniMateria idMateria;
     @OneToMany(mappedBy = "idEvaluacion")
     private List<SieniEvalSoluc> sieniEvalSolucList;
+    
+     @OneToMany(mappedBy = "idEvaluacion", fetch = FetchType.EAGER)
+    private List<SieniEvaluacionItem> sieniEvaluacionItemList;
 
     public SieniEvaluacion() {
     }
@@ -277,6 +282,15 @@ public class SieniEvaluacion implements Serializable {
 
     public void setSieniEvalSolucList(List<SieniEvalSoluc> sieniEvalSolucList) {
         this.sieniEvalSolucList = sieniEvalSolucList;
+    }
+    
+    @XmlTransient
+    public List<SieniEvaluacionItem> getSieniEvaluacionItemList() {
+        return sieniEvaluacionItemList;
+    }
+
+    public void setSieniEvaluacionItemList(List<SieniEvaluacionItem> sieniEvaluacionItemList) {
+        this.sieniEvaluacionItemList = sieniEvaluacionItemList;
     }
 
     @Override

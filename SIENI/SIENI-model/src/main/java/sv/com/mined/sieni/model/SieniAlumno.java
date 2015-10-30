@@ -85,6 +85,8 @@ public class SieniAlumno implements Serializable {
     @Column(name = "al_foto")
     private byte[] alFoto;
     @OneToMany(mappedBy = "idAlumno")
+    private List<SieniEvalRespAlumno> sieniEvalRespAlumnoList;
+    @OneToMany(mappedBy = "idAlumno")
     private List<SieniCursoAlumno> sieniCursoAlumnoList;
 
     private static final long serialVersionUID = 1L;
@@ -507,5 +509,15 @@ public class SieniAlumno implements Serializable {
 
     public void setSieniCursoAlumnoList(List<SieniCursoAlumno> sieniCursoAlumnoList) {
         this.sieniCursoAlumnoList = sieniCursoAlumnoList;
+    }
+
+   
+    @XmlTransient
+    public List<SieniEvalRespAlumno> getSieniEvalRespAlumnoList() {
+        return sieniEvalRespAlumnoList;
+    }
+
+    public void setSieniEvalRespAlumnoList(List<SieniEvalRespAlumno> sieniEvalRespAlumnoList) {
+        this.sieniEvalRespAlumnoList = sieniEvalRespAlumnoList;
     }
 }

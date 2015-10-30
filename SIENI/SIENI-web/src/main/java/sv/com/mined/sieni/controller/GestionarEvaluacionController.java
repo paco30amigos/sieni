@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,13 +20,17 @@ import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
+import sv.com.mined.sieni.SieniEvalRespItemFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
+import sv.com.mined.sieni.SieniEvaluacionItemFacadeRemote;
 import sv.com.mined.sieni.form.GestionarAlumnosForm;
 import sv.com.mined.sieni.form.GestionarEvaluacionForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniEvalRespItem;
 import sv.com.mined.sieni.model.SieniEvaluacion;
+import sv.com.mined.sieni.model.SieniEvaluacionItem;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.DateUtils;
 import utils.EmailValidator;
@@ -42,6 +47,10 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     @EJB
     private SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
     @EJB
+    private SieniEvaluacionItemFacadeRemote sieniEvaluacionItemFacadeRemote;
+    @EJB
+    private SieniEvalRespItemFacadeRemote sieniEvalRespItemFacadeRemote;
+    @EJB
     private SieniCursoFacadeRemote sieniCursoFacadeRemote;
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
@@ -53,6 +62,18 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         
         this.setEvaluacionModifica(new SieniEvaluacion());
         this.setEvaluacionList(new ArrayList<SieniEvaluacion>());
+        this.setEvaluacionItemNuevo(new SieniEvaluacionItem());
+        this.setEvalRespItemNuevo(new SieniEvalRespItem());
+        this.setTipoPregunta(new ArrayList<TipoP>());
+        this.getTipoPregunta().add(new TipoP(1, "Seleccion unica"));
+        this.getTipoPregunta().add(new TipoP(2, "Seleccion multiple"));
+        this.getTipoPregunta().add(new TipoP(3, "Falso/Verdadero"));
+        this.getTipoPregunta().add(new TipoP(4, "Abierta"));
+//        this.getTipoPregunta().put("0", "Seleccion unica");
+//        this.getTipoPregunta().put("1", "Seleccion multiple");
+//        this.getTipoPregunta().put("2", "also/Verdadero");
+//        this.getTipoPregunta().put("3", "Abierta");
+        
         fill();
     }
 
@@ -95,7 +116,112 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setEvaluacionNuevo(new SieniEvaluacion());
         fill();
     }
+    
+    public void guardarItem() {
+       
+        if((this.getTotalPonderacion()+this.getEvaluacionItemNuevo().getEiPonderacion())<=100.0){
+        this.getEvaluacionItemNuevo().setEiEstado('A');
+        this.getEvaluacionItemNuevo().setIdEvaluacion(this.getEvaluacionModifica());
+       
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            SieniEvaluacion existEvaluacion=new SieniEvaluacion();
 
+            sieniEvaluacionItemFacadeRemote.create(this.getEvaluacionItemNuevo());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Item", this.getEvaluacionItemNuevo().getIdEvaluacionItem(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
+            FacesMessage msg = new FacesMessage("Pregutna Creada Exitosamente");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            this.setIndexMenu(4);
+this.setEvaluacionItemNuevo(new SieniEvaluacionItem());
+       
+        fillItemsEvaluacion();
+        }else{
+        FacesMessage msg = new FacesMessage("La ponderacion excede el 100% de la evaluacion, puede asignar un maximo de "+(100.0-this.getTotalPonderacion())+" puntos");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        
+    }
+    public void guardarRespuesta() {
+        Boolean guardarBoolean=true;
+//        if(this.getEvaluacionItemModifica().getEiTipoResp().equals("1") || this.getEvaluacionItemModifica().getEiTipoResp().equals("2"))
+            
+            
+            
+        if(this.getEvaluacionItemModifica().getEiTipoResp().equals("3")){
+        if(this.getEvalRespItemList().size()==2){
+            guardarBoolean=false;
+        FacesMessage msg = new FacesMessage("Solo pueden haber para esta pregunta 2 respuestas tipo F/V");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        }
+        if(this.getEvaluacionItemModifica().getEiTipoResp().equals("4")){
+        if(this.getEvalRespItemList().size()==1){
+            guardarBoolean=false;
+        FacesMessage msg = new FacesMessage("Solo pueden haber para esta pregunta 1 respuestas");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+        }
+        if(guardarBoolean){
+        this.getEvalRespItemNuevo().setErEstado('A');
+        this.getEvalRespItemNuevo().setIdEvaluacionItem(this.getEvaluacionItemModifica());
+        
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            SieniEvaluacion existEvaluacion=new SieniEvaluacion();
+
+            sieniEvalRespItemFacadeRemote.create(this.getEvalRespItemNuevo());
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Respuesta", this.getEvaluacionItemNuevo().getIdEvaluacionItem(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
+            FacesMessage msg = new FacesMessage("Respuesta Creada Exitosamente");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            this.setIndexMenu(7);
+this.setEvalRespItemNuevo(new SieniEvalRespItem());
+       
+        fillItemsResp();
+        }
+        
+    }
+    
+    public void gestionarItemsEvaluacion(SieniEvaluacion eval) {
+        this.setEvaluacionModifica(eval);
+      
+        fillItemsEvaluacion();
+//        this.setMaterias(sieniMateriaFacadeRemote.findAll());
+//        fillMateriasDocente();
+//        this.setMateria(new SieniMateria());
+//        for (int j = 0; j < this.getMaterias().size(); j++) {
+//            for (int i = 0; i < this.getMateriasDocente().size(); i++) {
+//                if (this.getMateriasDocente().get(i).getIdMateria().getIdMateria().equals(this.getMaterias().get(j).getIdMateria())) {
+//                    this.getMaterias().remove(j);
+//                }
+//            }
+//        }
+//        this.setMateriasDocenteEliminadas(new ArrayList<SieniMateriaDocente>());
+        this.setIndexMenu(4);
+    }
+    public void gestionarItemsResp(SieniEvaluacionItem evaluacionItem) {
+        this.setEvaluacionItemModifica(evaluacionItem);
+      
+        fillItemsResp();
+        this.setIndexMenu(7);
+    }
+
+    
+    public void fillItemsEvaluacion() {
+          this.setEvaluacionItemList(sieniEvaluacionItemFacadeRemote.findByIdEvaluacion(this.getEvaluacionModifica().getIdEvaluacion()));
+         this.setTotalPonderacion(new Double("0"));
+          for (SieniEvaluacionItem col : this.getEvaluacionItemList()) {
+          this.setTotalPonderacion(this.getTotalPonderacion()+col.getEiPonderacion());
+        }
+          
+          
+          
+//        List<SieniMateriaDocente> mat = sieniMateriaDocenteFacadeRemote.findByDocente(this.getDocenteModifica().getIdDocente());
+//        this.setMateriasDocente(mat);
+    }
+    
+    public void fillItemsResp() {
+        this.setEvalRespItemList(sieniEvalRespItemFacadeRemote.findByIdEvalItem(this.getEvaluacionItemModifica().getIdEvaluacionItem()));
+    }
     public void quitarFormato(SieniAlumno actual) {
 //        actual.setAlTelefonoEm1(actual.getAlTelefonoEm1().replaceAll("-", ""));
 //        actual.setAlTelefonoEm2(actual.getAlTelefonoEm2().replaceAll("-", ""));
@@ -140,10 +266,22 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 this.setEvaluacionModifica(modificado);
 this.setIndexMenu(2);
     }
-
+ public void modificarItem(SieniEvaluacionItem modificadoItem) {
+this.setEvaluacionItemModifica(modificadoItem);
+this.setIndexMenu(6);
+    }
+ 
+ public void modificarResp(SieniEvalRespItem evalRespItem) {
+this.setEvalRespItemModifica(evalRespItem);
+this.setIndexMenu(9);
+    }
     public void ver(SieniEvaluacion modificado) {
 this.setEvaluacionModifica(modificado);
 this.setIndexMenu(3);
+    }
+    public void verEvaluacion(SieniEvaluacion modificado) {
+this.setEvaluacionItemResp(sieniEvaluacionFacadeRemote.findEvalItemResp(modificado.getIdEvaluacion()));
+this.setIndexMenu(10);
     }
 
     //metodos para modificacion de datos
@@ -161,6 +299,30 @@ this.setIndexMenu(3);
             new ValidationPojo().printMsj("Evaluacion Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             fill();
         }
+    }
+    
+    public void guardarModificaItem() {
+               
+//        if (validarModifica(this.getEvaluacionModifica())) {//valida el guardado
+            sieniEvaluacionItemFacadeRemote.edit(this.getEvaluacionItemModifica());
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Item", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
+            new ValidationPojo().printMsj("Item Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+            fillItemsEvaluacion();
+//        }
+    }
+    
+    public void guardarModificaResp() {
+               
+//        if (validarModifica(this.getEvaluacionModifica())) {//valida el guardado
+            sieniEvalRespItemFacadeRemote.edit(this.getEvalRespItemModifica());
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Respuesta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
+            new ValidationPojo().printMsj("Respuesta Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+            fillItemsResp();
+//        }
     }
 
     public void resetModificaForm() {

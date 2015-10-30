@@ -7,6 +7,7 @@ package sv.com.mined.sieni.form;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
@@ -14,7 +15,9 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniEvalRespItem;
 import sv.com.mined.sieni.model.SieniEvaluacion;
+import sv.com.mined.sieni.model.SieniEvaluacionItem;
 import utils.siteUrls;
 
 /**
@@ -25,11 +28,24 @@ public class GestionarEvaluacionForm {
 
     private int indexMenu;
     private SieniEvaluacion eliminar;
-
+    private List<SieniEvaluacionItem> evaluacionItemList;
     // consulta de alumnos
     private List<SieniEvaluacion> evaluacionList;
+    
+    private SieniEvaluacion evaluacionItemResp;
     //registro de alumnos
     private SieniEvaluacion evaluacionNuevo;
+    private SieniEvaluacionItem evaluacionItemNuevo;
+    private SieniEvaluacionItem evaluacionItemModifica;
+    private SieniEvaluacionItem evaluacionItemElimina;
+    
+   private List<TipoP> tipoPregunta;
+   private Double totalPonderacion;
+
+    private List<SieniEvalRespItem> evalRespItemList;
+    private SieniEvalRespItem evalRespItemNuevo;
+    private SieniEvalRespItem evalRespItemModifica;
+    private SieniEvalRespItem evalRespItemElimina;
     private UploadedFile foto;
     private StreamedContent fotoUsable;
     private byte[] fotoArchivo;
@@ -85,6 +101,14 @@ public class GestionarEvaluacionForm {
         return fotoArchivo;
     }
 
+    public Double getTotalPonderacion() {
+        return totalPonderacion;
+    }
+
+    public void setTotalPonderacion(Double totalPonderacion) {
+        this.totalPonderacion = totalPonderacion;
+    }
+
     public void setFotoArchivo(byte[] fotoArchivo) {
         this.fotoArchivo = fotoArchivo;
     }
@@ -109,6 +133,22 @@ public class GestionarEvaluacionForm {
         this.cursoList = cursoList;
     }
 
+    public List<SieniEvaluacionItem> getEvaluacionItemList() {
+        return evaluacionItemList;
+    }
+
+    public void setEvaluacionItemList(List<SieniEvaluacionItem> evaluacionItemList) {
+        this.evaluacionItemList = evaluacionItemList;
+    }
+
+    public SieniEvaluacion getEvaluacionItemResp() {
+        return evaluacionItemResp;
+    }
+
+    public void setEvaluacionItemResp(SieniEvaluacion evaluacionItemResp) {
+        this.evaluacionItemResp = evaluacionItemResp;
+    }
+
     public void setIndexMenu(int indexMenu) {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
@@ -124,6 +164,30 @@ public class GestionarEvaluacionForm {
             case 3:
                 sU.redirect(sU.getBasegestionEvaluacion() + "ver.xhtml");
                 break;
+            case 4:
+                sU.redirect(sU.getBasegestionEvaluacion() + "indexItems.xhtml");
+                break;
+            case 5:
+                sU.redirect(sU.getBasegestionEvaluacion() + "crearItem.xhtml");
+                break; 
+             case 6:
+                sU.redirect(sU.getBasegestionEvaluacion() + "editarItem.xhtml");
+                break;  
+            case 7:
+                sU.redirect(sU.getBasegestionEvaluacion() + "indexRespuesta.xhtml");
+                break;  
+            case 8:
+                sU.redirect(sU.getBasegestionEvaluacion() + "crearRespuesta.xhtml");
+                break;  
+            case 9:
+                sU.redirect(sU.getBasegestionEvaluacion() + "editarRespuesta.xhtml");
+                break;    
+            case 10:
+                sU.redirect(sU.getBasegestionEvaluacion() + "verEvaluacion.xhtml");
+                break;    
+                
+                   
+                
         }
         this.indexMenu = indexMenu;
     }
@@ -184,5 +248,97 @@ public class GestionarEvaluacionForm {
         this.evaluacionModifica = evalucionModifica;
     }
 
-   
+    public SieniEvaluacionItem getEvaluacionItemNuevo() {
+        return evaluacionItemNuevo;
+    }
+
+    public void setEvaluacionItemNuevo(SieniEvaluacionItem evaluacionItemNuevo) {
+        this.evaluacionItemNuevo = evaluacionItemNuevo;
+    }
+
+    public SieniEvaluacionItem getEvaluacionItemModifica() {
+        return evaluacionItemModifica;
+    }
+
+    public void setEvaluacionItemModifica(SieniEvaluacionItem evaluacionItemModifica) {
+        this.evaluacionItemModifica = evaluacionItemModifica;
+    }
+
+    public SieniEvaluacionItem getEvaluacionItemElimina() {
+        return evaluacionItemElimina;
+    }
+
+    public void setEvaluacionItemElimina(SieniEvaluacionItem evaluacionItemElimina) {
+        this.evaluacionItemElimina = evaluacionItemElimina;
+    }
+
+    public List<SieniEvalRespItem> getEvalRespItemList() {
+        return evalRespItemList;
+    }
+
+    public void setEvalRespItemList(List<SieniEvalRespItem> evalRespItemList) {
+        this.evalRespItemList = evalRespItemList;
+    }
+
+    public SieniEvalRespItem getEvalRespItemNuevo() {
+        return evalRespItemNuevo;
+    }
+
+    public void setEvalRespItemNuevo(SieniEvalRespItem evalRespItemNuevo) {
+        this.evalRespItemNuevo = evalRespItemNuevo;
+    }
+
+    public SieniEvalRespItem getEvalRespItemModifica() {
+        return evalRespItemModifica;
+    }
+
+    public void setEvalRespItemModifica(SieniEvalRespItem evalRespItemModifica) {
+        this.evalRespItemModifica = evalRespItemModifica;
+    }
+
+    public SieniEvalRespItem getEvalRespItemElimina() {
+        return evalRespItemElimina;
+    }
+
+    public void setEvalRespItemElimina(SieniEvalRespItem evalRespItemElimina) {
+        this.evalRespItemElimina = evalRespItemElimina;
+    }
+
+    public List<TipoP> getTipoPregunta() {
+        return tipoPregunta;
+    }
+
+    public void setTipoPregunta(List<TipoP> tipoPregunta) {
+        this.tipoPregunta = tipoPregunta;
+    }
+
+  
+    
+    public class TipoP{
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getTipo() {
+            return tipo;
+        }
+
+        public void setTipo(String tipo) {
+            this.tipo = tipo;
+        }
+
+        public TipoP(int id, String tipo) {
+            this.id = id;
+            this.tipo = tipo;
+        }
+    private int id;
+    private String tipo;
+
+}
+
 }

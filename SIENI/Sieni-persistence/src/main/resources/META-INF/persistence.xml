@@ -45,6 +45,9 @@
     <class>sv.com.mined.sieni.model.SieniEvento</class>
     <class>sv.com.mined.sieni.model.SieniTipoSuperCompon</class>
     <class>sv.com.mined.sieni.model.SieniCursoAlumno</class>
+    <class>sv.com.mined.sieni.model.SieniEvaluacionItem</class>
+    <class>sv.com.mined.sieni.model.SieniEvalRespItem</class>
+    <class>sv.com.mined.sieni.model.SieniEvalRespAlumno</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>

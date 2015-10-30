@@ -25,11 +25,13 @@ import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
+import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.RptRendimientoForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniGrado;
+import sv.com.mined.sieni.model.SieniNota;
 import sv.com.mined.sieni.pojos.rpt.RptRendimientoPojo;
 import utils.DateUtils;
 import utils.FormatUtils;
@@ -52,6 +54,8 @@ public class RptRendimientoController extends RptRendimientoForm {
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
     @EJB
     private SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
+    @EJB
+    private SieniNotaFacadeRemote sieniNotaFacadeRemote;
     
     @PostConstruct
     public void init() {
@@ -67,7 +71,7 @@ public class RptRendimientoController extends RptRendimientoForm {
         RptRendimientoPojo elem = new RptRendimientoPojo();
 
         
-        
+        List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
         List<SieniEvaluacion> evaluaciones = sieniEvaluacionFacadeRemote.findbyRendimientoRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
         this.setListDatos(new ArrayList<RptRendimientoPojo>());
         for (SieniEvaluacion actual : evaluaciones) {

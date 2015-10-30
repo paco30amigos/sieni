@@ -33,6 +33,8 @@ public interface SieniEvaluacionFacadeRemote {
 
     List<SieniEvaluacion> findRange(int[] range);
 
+    SieniEvaluacion findEvalItemResp(Long idEvaluacion);
+    
     int count();
 
     public List<SieniEvaluacion> findbyRendimientoRpt(Date desde, Date hasta, String grado, String seccion, String materia);

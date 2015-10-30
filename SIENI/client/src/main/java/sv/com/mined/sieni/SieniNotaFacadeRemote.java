@@ -40,4 +40,6 @@ public interface SieniNotaFacadeRemote {
     List<SieniNota> findAllNoEliminadas();
 
     public boolean findNotaRegistrada(SieniNota nota);
+
+    public List<SieniNota> findByGradoSecMatRpt(Date desde, Date hasta, String grado, String seccion, String materia);
 }

@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniNota.findNotaRegistrada", query = "SELECT s FROM SieniNota s where s.idAlumno.idAlumno=:idAlumno and s.idEvaluacion.idEvaluacion=:idEvaluacion and s.ntEstado not in (:estado) and s.idAlumno.alEstado not in (:estado) and s.idEvaluacion.evEstado not in (:estado)"),
     @NamedQuery(name = "SieniNota.findByIdNota", query = "SELECT s FROM SieniNota s WHERE s.idNota = :idNota"),
     @NamedQuery(name = "SieniNota.findByNtCalificacion", query = "SELECT s FROM SieniNota s WHERE s.ntCalificacion = :ntCalificacion"),
-    @NamedQuery(name = "SieniNota.findByNtTipoIngreso", query = "SELECT s FROM SieniNota s WHERE s.ntTipoIngreso = :ntTipoIngreso")})
+    @NamedQuery(name = "SieniNota.findByNtTipoIngreso", query = "SELECT s FROM SieniNota s WHERE s.ntTipoIngreso = :ntTipoIngreso"),
+    @NamedQuery(name = "SieniNota.findByGradoSecMatRpt", query = "SELECT s FROM SieniNota s WHERE s.idEvaluacion.idMateria.idMateria =:materia and s.idEvaluacion.idCurso.idGrado.idGrado =:grado and s.idEvaluacion.idCurso.idSeccion.idSeccion =:seccion and s.ntFechaIngreso BETWEEN :desde AND :hasta")})
 public class SieniNota implements Serializable {
 
     private static final long serialVersionUID = 1L;

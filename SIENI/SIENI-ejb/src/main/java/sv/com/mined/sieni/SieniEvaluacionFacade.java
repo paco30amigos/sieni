@@ -54,7 +54,7 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
 
     @Override
     public List<SieniEvaluacion> findbyRendimientoRpt(Date desde, Date hasta, String grado, String seccion, String materia) {
-        Query q = em.createNamedQuery("SieniMatricula.findbyRendimientoRpt");
+        Query q = em.createNamedQuery("SieniEvaluacion.findbyRendimientoRpt");
         q.setParameter("desde", desde);
         q.setParameter("hasta", hasta);
         q.setParameter("grado", grado);

@@ -35,13 +35,9 @@ public interface SieniClaseFacadeRemote {
     
     public List<SieniClase> findClaseByTipo(Character tipoClase);
     
-    
-    
-    
     public List<SieniClase> findClasesRpt(SieniCurso curso,Integer tipo,Integer estado);
     
+    public List<SieniClase> findClaseByTipoAlumno(Character tipoClase,Long idAlumno);
     
-    
-    
-    
+    public List<SieniClase> findClaseByAlumno(Long idAlumno);
 }

@@ -116,4 +116,13 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
         q.setParameter("materia", materia);
         return q.getResultList();
     }
+    
+    @Override
+    public List<SieniNota> findByAlumno(Long idAlumno){
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniNota.findByAlumno");
+        q.setParameter("idAlumno", idAlumno); 
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
 }

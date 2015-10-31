@@ -6,9 +6,7 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -19,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.form.GestionClasesOnlineForm;
 import sv.com.mined.sieni.model.SieniClase;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.DateUtils;
 import utils.FormatUtils;
 
@@ -41,7 +40,16 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
     }
 
     public void fill() {
-        this.setClasesOnlineList(sieniClaseFacadeRemote.findClaseByTipo('O'));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //fill para alumnos
+        if (loginBean.getTipoRol().equals("0")) {
+//*******fill
+            //clases interact
+            this.setClasesOnlineList(sieniClaseFacadeRemote.findClaseByTipoAlumno('O', loginBean.getAlumno().getIdAlumno()));//clases interactivas
+        } else {
+            this.setClasesOnlineList(sieniClaseFacadeRemote.findClaseByTipo('O'));
+        }
     }
 
     public void transmitirClase(SieniClase claseActual) {
@@ -50,8 +58,22 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
     }
 
     public void recibirClase(SieniClase claseActual) {
-        this.setClaseActual(claseActual);
-        this.setIndexMenu(1);
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //fill para alumnos
+        if (loginBean.getTipoRol().equals("0")) {
+            DateUtils du = new DateUtils();            
+            if (du.horarioValido(claseActual.getClHorario(), claseActual.getClHora())) {
+                this.setClaseActual(claseActual);
+                this.setIndexMenu(1);
+            } else {
+                new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
+            }
+        } else {
+            this.setClaseActual(claseActual);
+            this.setIndexMenu(1);
+        }
+
     }
 
     public void actualizarUsuarios() {

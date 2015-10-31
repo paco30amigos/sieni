@@ -113,9 +113,16 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     private void fill() {
-        //*******fill
-        //clases interact
-        this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('I'));//clases interactivas
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //fill para alumnos
+        if (loginBean.getTipoRol().equals("0")) {
+//*******fill
+            //clases interact
+            this.setClaseList(sieniClaseFacadeRemote.findClaseByTipoAlumno('I', loginBean.getAlumno().getIdAlumno()));//clases interactivas
+        } else {
+            this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('I'));//clases interactivas
+        }
     }
 
     public String getNombreSeccion(Long idTipoElemPlantilla, List<SieniElemPlantilla> elemPlantilla) {
@@ -373,15 +380,28 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     //metodos para modificacion de datos
     public void mostrar(SieniClase ver) {
-        this.setClaseConfig(ver);
-        if (fillConfigura(ver)) {
-            this.setIndexMenu(3);
-            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
-            ControlInteractivoUtils ciu = new ControlInteractivoUtils();
-            ciu.setSecciones(this.getSecciones());
-            ciu.setTotalInteracc(this.getInteracTotal());
-            this.setFuncionJS(ciu.getCodigoEventosEntreComp());
-            updatePuntoCtrlSeleccionados(null);
+        boolean correcto = true;
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //fill para alumnos
+        if (loginBean.getTipoRol().equals("0")) {
+            DateUtils du = new DateUtils();
+            if (!du.horarioValido(ver.getClHorario(), ver.getClHora())) {
+                new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
+                correcto = false;
+            }
+        }
+        if (correcto) {
+            this.setClaseConfig(ver);
+            if (fillConfigura(ver)) {
+                this.setIndexMenu(3);
+                this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+                ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+                ciu.setSecciones(this.getSecciones());
+                ciu.setTotalInteracc(this.getInteracTotal());
+                this.setFuncionJS(ciu.getCodigoEventosEntreComp());
+                updatePuntoCtrlSeleccionados(null);
+            }
         }
     }
 
@@ -506,11 +526,11 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             }
         }
         SieniCatPuntos puntos = sieniCatPuntosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
-        if (puntos != null&&puntos.getIdCatPuntos()!=null) {
+        if (puntos != null && puntos.getIdCatPuntos() != null) {
             puntos.setCpNumPuntos(contador);
             sieniCatPuntosFacadeRemote.edit(puntos);
         } else {
-            puntos=new SieniCatPuntos();
+            puntos = new SieniCatPuntos();
             puntos.setCpEstado('A');
             puntos.setIdClase(this.getClaseConfig());
             puntos.setCpNumPuntos(contador);

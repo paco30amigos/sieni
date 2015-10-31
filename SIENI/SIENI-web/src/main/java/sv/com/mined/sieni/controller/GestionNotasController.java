@@ -78,28 +78,35 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     private void fill() {
-        //findNotasByMateriasDocente
-        this.setNotaList(sieniNotaFacadeRemote.findAllNoEliminadas());
-        //findAlumnosByMateriasDocente
-        this.setAlumnosList(sieniAlumnoFacadeRemote.findAll());
-        this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAll());
-        if (this.getAlumnosList() != null && !this.getAlumnosList().isEmpty()) {
-            //findMateriasByAlumnoDocente
-            this.setMateriasList(sieniMateriaFacadeRemote.findByAlumno(this.getAlumnosList().get(0).getIdAlumno()));
-            if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {
-                this.setIdMateria(this.getMateriasList().get(0));
-                this.setEvaluacionesList(this.getIdMateria().getSieniEvaluacionList());
-            } else {
-                this.setEvaluacionesList(new ArrayList<SieniEvaluacion>());
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //fill para alumnos
+        if (loginBean.getTipoRol().equals("0")) {
+            this.setNotaList(sieniNotaFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno()));
+        } else {
+            //findNotasByMateriasDocente
+            this.setNotaList(sieniNotaFacadeRemote.findAllNoEliminadas());
+            //findAlumnosByMateriasDocente
+            this.setAlumnosList(sieniAlumnoFacadeRemote.findAll());
+            this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAll());
+            if (this.getAlumnosList() != null && !this.getAlumnosList().isEmpty()) {
+                //findMateriasByAlumnoDocente
+                this.setMateriasList(sieniMateriaFacadeRemote.findByAlumno(this.getAlumnosList().get(0).getIdAlumno()));
+                if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {
+                    this.setIdMateria(this.getMateriasList().get(0));
+                    this.setEvaluacionesList(this.getIdMateria().getSieniEvaluacionList());
+                } else {
+                    this.setEvaluacionesList(new ArrayList<SieniEvaluacion>());
+                }
             }
-        }
-        if (this.getAlumnosModificaList() != null && !this.getAlumnosModificaList().isEmpty()) {
-            this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(this.getAlumnosModificaList().get(0).getIdAlumno()));
-            if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
-                this.setIdMateriaModifica(this.getMateriasModificaList().get(0));
-                this.setEvaluacionesModificaList(this.getIdMateriaModifica().getSieniEvaluacionList());
-            } else {
-                this.setEvaluacionesModificaList(new ArrayList<SieniEvaluacion>());
+            if (this.getAlumnosModificaList() != null && !this.getAlumnosModificaList().isEmpty()) {
+                this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(this.getAlumnosModificaList().get(0).getIdAlumno()));
+                if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
+                    this.setIdMateriaModifica(this.getMateriasModificaList().get(0));
+                    this.setEvaluacionesModificaList(this.getIdMateriaModifica().getSieniEvaluacionList());
+                } else {
+                    this.setEvaluacionesModificaList(new ArrayList<SieniEvaluacion>());
+                }
             }
         }
     }
@@ -302,7 +309,7 @@ public class GestionNotasController extends GestionNotasForm {
         boolean error = false;
         List<SieniNota> notas = new ArrayList<>();
         FormatUtils fu = new FormatUtils();
-        Date fechaActual=new Date();
+        Date fechaActual = new Date();
         List<ValidationPojo> validaciones = new ArrayList<>();
         if (this.getEvaluacionSubir() != null && this.getEvaluacionSubir().getIdEvaluacion() != null) {
             for (SieniNota actual : this.getListaNotasSubidas()) {

@@ -113,9 +113,18 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     }
 
     private void fill() {
-        //*******fill
-        //clases interact
-        this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('V'));//clases interactivas
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //fill para alumnos
+        if (loginBean.getTipoRol().equals("0")) {
+//*******fill
+            //clases interact
+            this.setClaseList(sieniClaseFacadeRemote.findClaseByTipoAlumno('V', loginBean.getAlumno().getIdAlumno()));//clases interactivas
+        } else {
+            //*******fill
+            //clases interact
+            this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('V'));//clases interactivas
+        }
     }
 
     public String getNombreSeccion(Long idTipoElemPlantilla, List<SieniElemPlantilla> elemPlantilla) {
@@ -507,40 +516,53 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
 
     //metodos para modificacion de datos
     public void mostrar(SieniClase ver) {
-        this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
-        this.setNuevaInteracMult1(new SieniInteEntrComp());
-        this.setNuevoPunto(new SieniClaseVidPtos());
-        this.getNuevoPunto().setVpTiempoActiv(0);
-        this.setPuntosVidEliminados(new ArrayList<SieniClaseVidPtos>());
-        this.setOpSelectMulti(0);
-        this.setClaseConfig(ver);
-        if (fillConfigura(ver)) {
-            List<SieniClaseVidPtos> vidPntos = sieniClaseVidPtosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
-            this.setPuntosVid(vidPntos);
-            this.setVideosList(sieniArchivoFacadeRemote.findByTipoArchivo("V"));
-            if (this.getClaseConfig().getIdArchivo() != null) {
-                this.setVideo(sieniArchivoFacadeRemote.find(this.getClaseConfig().getIdArchivo()));
-                CopiaArchivos ca = new CopiaArchivos();
-                ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
-                ca.copyDataToResource(this.getVideo());
-            } else {
-                this.setVideo(new SieniArchivo());
+        boolean correcto = true;
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //fill para alumnos
+        if (loginBean.getTipoRol().equals("0")) {
+            DateUtils du = new DateUtils();
+            if (!du.horarioValido(ver.getClHorario(), ver.getClHora())) {
+                new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
+                correcto = false;
             }
-            this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
-            ControlInteractivoUtils ciu = new ControlInteractivoUtils();
-            ciu.setSecciones(this.getSecciones());
-            ciu.setTotalInteracc(this.getInteracTotal());
-            this.setFuncionJS(ciu.getCodigoEventosEntreComp()
-                    + getFuncJSDialog(vidPntos));
-            this.setListaTipoElemPlantilla(getTipoElemPlantilla());
-            this.setNuevaInterac(new SieniInteEntrComp());
-            this.getNuevaInterac().setIeRetraso(0);
-            updateInteractByTipoElemPlanPantalla(null);
+        }
+        if (correcto) {
+            this.setInteracEliminados(new ArrayList<SieniInteEntrComp>());
+            this.setNuevaInteracMult1(new SieniInteEntrComp());
+            this.setNuevoPunto(new SieniClaseVidPtos());
+            this.getNuevoPunto().setVpTiempoActiv(0);
+            this.setPuntosVidEliminados(new ArrayList<SieniClaseVidPtos>());
+            this.setOpSelectMulti(0);
+            this.setClaseConfig(ver);
+            if (fillConfigura(ver)) {
+                List<SieniClaseVidPtos> vidPntos = sieniClaseVidPtosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
+                this.setPuntosVid(vidPntos);
+                this.setVideosList(sieniArchivoFacadeRemote.findByTipoArchivo("V"));
+                if (this.getClaseConfig().getIdArchivo() != null) {
+                    this.setVideo(sieniArchivoFacadeRemote.find(this.getClaseConfig().getIdArchivo()));
+                    CopiaArchivos ca = new CopiaArchivos();
+                    ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
+                    ca.copyDataToResource(this.getVideo());
+                } else {
+                    this.setVideo(new SieniArchivo());
+                }
+                this.setInteracTotal(sieniInteEntrCompFacadeRemote.findByClase(this.getClaseConfig().getIdClase()));
+                ControlInteractivoUtils ciu = new ControlInteractivoUtils();
+                ciu.setSecciones(this.getSecciones());
+                ciu.setTotalInteracc(this.getInteracTotal());
+                this.setFuncionJS(ciu.getCodigoEventosEntreComp()
+                        + getFuncJSDialog(vidPntos));
+                this.setListaTipoElemPlantilla(getTipoElemPlantilla());
+                this.setNuevaInterac(new SieniInteEntrComp());
+                this.getNuevaInterac().setIeRetraso(0);
+                updateInteractByTipoElemPlanPantalla(null);
 //            updateEventosComps2Seleccionados(null);
-            this.setIndexMenu(3);
+                this.setIndexMenu(3);
+            }
         }
     }
-    
+
     public void guardarPuntosControl() {
         int contador = 0;
         for (SeccionPlantillaPojo sec : this.getSecciones()) {
@@ -549,11 +571,11 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             }
         }
         SieniCatPuntos puntos = sieniCatPuntosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
-        if (puntos != null&&puntos.getIdCatPuntos()!=null) {
+        if (puntos != null && puntos.getIdCatPuntos() != null) {
             puntos.setCpNumPuntos(contador);
             sieniCatPuntosFacadeRemote.edit(puntos);
         } else {
-            puntos=new SieniCatPuntos();
+            puntos = new SieniCatPuntos();
             puntos.setCpEstado('A');
             puntos.setIdClase(this.getClaseConfig());
             puntos.setCpNumPuntos(contador);
@@ -942,6 +964,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             }
         }
     }
+
     public List<ComponenteInteractivoPojo> getComponActuales() {
         SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
         Integer index = seccionActual.getPantallaActual();

@@ -36,28 +36,27 @@
                    <div class="EmptyBox20"></div>
                     <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                         <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
-                        <p:inputText id="primNombreNuevo"  value="#{gestionarDocentesController.docenteModifica.dcPrimNombre}" maxlength="#{nombreUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
+                        <p:outputLabel id="primNombreNuevo"  value="#{gestionarDocentesController.docenteModifica.dcPrimNombre}"></p:outputLabel>
                         <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="segNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                        <p:outputLabel id="segNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguNombre}" ></p:outputLabel>
                         <p:outputLabel for="tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="tercNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                        <p:outputLabel id="tercNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercNombre}" ></p:outputLabel>
                         <p:outputLabel for="primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="primApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcPrimApe}" maxlength="#{nombreUtils.apellidoMax}" required="true" requiredMessage="Debe ingresar Primer Apellido"></p:inputText>
+                        <p:outputLabel id="primApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcPrimApe}"></p:outputLabel>
                         <p:outputLabel for="segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="segApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                        <p:outputLabel id="segApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguApe}" ></p:outputLabel>
                         <p:outputLabel for="tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="tercApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
-                   
+                        <p:outputLabel id="tercApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercApe}"></p:outputLabel>
                         <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
-                        <p:calendar id="fechNacimNuevo" value="#{gestionarDocentesController.docenteModifica.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                        <p:outputLabel id="fechNacimNuevo" value="#{formatUtils.getFormatedDate(gestionarDocentesController.docenteModifica.dcFechaNacimiento)}"></p:outputLabel>
                         <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="emailNuevo" type="email" value="#{gestionarDocentesController.docenteModifica.dcCorreo}"></p:inputText>
+                        <p:outputLabel id="emailNuevo" value="#{gestionarDocentesController.docenteModifica.dcCorreo}"></p:outputLabel>
                         <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm1}"  required="true" requiredMessage="Debe ingresar teléfono"></p:inputMask>
+                        <p:inputMask id="telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm1}"  readonly="true"></p:inputMask>
                         <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm2}"></p:inputMask>
+                        <p:inputMask id="celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm2}" readonly="true"></p:inputMask>
                         <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}"></p:inputText>
+                        <p:outputLabel id="direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}"></p:outputLabel>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
                     <div class="Container100">
@@ -70,11 +69,13 @@
                     </p:commandButton>
                         <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                         <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Docentes" >    
+                        <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Alumnos">    
+                        <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Cursos">    
+                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}">
                         </p:menuitem>
                     </p:tieredMenu>          
                     </div>

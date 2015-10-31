@@ -17,46 +17,43 @@
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
-           <h:form>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
-                        <p:outputLabel for="mod_carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
-                        <p:inputText id="mod_carnet" value="#{gestionMatriculaController.alumno.alCarnet}" disabled="true"></p:inputText>
-                        <p:outputLabel for="mod_nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_nombre" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idAlumnoModifica}" valueChangeListener="#{gestionMatriculaController.getCarnetAlumno}">
-                            <f:selectItems itemValue="#{alumnos.idAlumno}" itemLabel="#{alumnos.nombreCompleto}" value="#{gestionMatriculaController.alumnosModificaList}" var="alumnos"></f:selectItems>
-                            <p:ajax event="valueChange" update="mod_carnet"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="mod_grado" value="Grado: " class=" Responsive" ></p:outputLabel>
-                        <p:selectOneMenu id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.idGradoModifica}" valueChangeListener="#{gestionMatriculaController.getSeccionesGradoModifica}">
-                            <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosModificaList}" var="grado"></f:selectItems>
-                            <p:ajax event="valueChange" update="mod_seccion"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel for="mod_seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="mod_seccion" value="#{gestionMatriculaController.idSeccionModifica}">
-                            <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionMatriculaController.seccionesModificaList}" var="seccion"></f:selectItems>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100 Responsive">
-                        <p:commandButton value="Guardar" action="#{gestionMatriculaController.guardarModifica()}" update="mod_p1" />
-                        <p:commandButton value="Limpiar" immediate="true">
-                            <p:ajax update="mod_p1" resetValues="true" />
-                        </p:commandButton>
-                        <p:commandButton value="Cancelar" immediate="true">
-                            <p:ajax update="mod_p1" resetValues="true" listener="#{gestionMatriculaController.setIndexMenu(0)}"/>
-                        </p:commandButton>
-                        <div class="EmptyBox20"></div>
-                        <p:splitButton value="Otras Opciones" action="#">
-                            <p:menuitem value="Gestionar Docentes">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Alumnos">    
-                            </p:menuitem>
-                            <p:menuitem value="Gestionar Cursos">    
-                            </p:menuitem>
-                        </p:splitButton>            
-                    </div>
-                </h:form>
+            <h:form>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
+                    <p:outputLabel for="mod_carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
+                    <p:inputText id="mod_carnet" value="#{gestionMatriculaController.matriculaModifica.idAlumno.alCarnet}" disabled="true"></p:inputText>
+                    <p:outputLabel for="mod_nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_nombre" value="#{gestionMatriculaController.matriculaModifica.idAlumno.nombreCompleto}"></p:outputLabel>                        
+                    <p:outputLabel for="mod_grado" value="Grado: " class=" Responsive" ></p:outputLabel>
+                    <p:selectOneMenu id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.matriculaModifica.idGrado.idGrado}" valueChangeListener="#{gestionMatriculaController.getSeccionesGradoModifica}">
+                        <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosModificaList}" var="grado"></f:selectItems>
+                        <p:ajax event="valueChange" update="mod_seccion"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="mod_seccion" value="#{gestionMatriculaController.matriculaModifica.idSeccion.idSeccion}">
+                        <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionMatriculaController.seccionesModificaList}" var="seccion"></f:selectItems>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar" action="#{gestionMatriculaController.guardarModifica()}" update="mod_p1" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="mod_p1" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="mod_p1" resetValues="true" listener="#{gestionMatriculaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionEvaluacion}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionAlumnos}">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}">    
+                        </p:menuitem>
+                    </p:tieredMenu> 
+                </div>
+            </h:form>
         </p:panel>
     </ui:define>
 </ui:composition>

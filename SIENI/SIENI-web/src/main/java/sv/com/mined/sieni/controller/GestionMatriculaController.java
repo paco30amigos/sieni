@@ -154,19 +154,19 @@ public class GestionMatriculaController extends GestionMatriculaForm {
 
     public void guardarModifica() {
         for (SieniAlumno actual : this.getAlumnosModificaList()) {
-            if (actual.getIdAlumno().equals(this.getIdAlumnoModifica())) {
+            if (actual.getIdAlumno().equals(this.getMatriculaModifica().getIdAlumno())) {
                 this.getMatriculaModifica().setIdAlumno(actual);
                 break;
             }
         }
         for (SieniGrado actual : this.getGradosModificaList()) {
-            if (actual.getIdGrado().equals(this.getIdGradoModifica())) {
+            if (actual.getIdGrado().equals(this.getMatriculaModifica().getIdGrado().getIdGrado())) {
                 this.getMatriculaModifica().setIdGrado(actual);
                 break;
             }
         }
         for (SieniSeccion actual : this.getSeccionesModificaList()) {
-            if (actual.getIdSeccion().equals(this.getIdSeccionModifica())) {
+            if (actual.getIdSeccion().equals(this.getMatriculaModifica().getIdSeccion().getIdSeccion())) {
                 this.getMatriculaModifica().setIdSeccion(actual);
                 break;
             }

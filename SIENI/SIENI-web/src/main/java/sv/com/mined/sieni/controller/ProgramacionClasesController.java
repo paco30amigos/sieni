@@ -55,6 +55,8 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
         this.getHorarios().add(new Combo("X", "Miercoles", null));
         this.getHorarios().add(new Combo("J", "Jueves", null));
         this.getHorarios().add(new Combo("V", "Viernes", null));
+        this.getHorarios().add(new Combo("S", "Sabado", null));
+        this.getHorarios().add(new Combo("D", "Domingo", null));
         this.setNuevo(new SieniClase());
         this.setModifica(new SieniClase());
         fill();
@@ -169,7 +171,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
                 horario += "," + actual;
             }
         }
-        this.getNuevo().setClHorario(horario);
+        this.getModifica().setClHorario(horario);
         if (validarModifica(this.getModifica())) {//valida el guardado
             sieniClaseFacadeRemote.edit(this.getModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

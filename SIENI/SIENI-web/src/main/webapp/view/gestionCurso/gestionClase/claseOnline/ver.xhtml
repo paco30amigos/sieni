@@ -19,7 +19,7 @@
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <script>
-            var usuarioActual = 'io#{loginController.nombreCompleto}';
+            var usuarioActual = '#{loginController.nombreCompleto}';
             var transmitiendo = false;
             var connection;
             var ver = function () {
@@ -27,12 +27,12 @@
                 connection.dontCaptureUserMedia = true;
                 connection.userid = usuarioActual;//usuario unico
                 connection.media.min(320, 240);
-                connection.media.max(1920, 1080);
+                connection.media.max(640, 480);
                 connection.mediaConstraints.mandatory = {
                     minWidth: 320,
-                    maxWidth: 1920,
+                    maxWidth: 640,
                     minHeight: 240,
-                    maxHeight: 1080,
+                    maxHeight: 480,
                     minFrameRate: 25
                 };
                 connection.bandwidth = {
@@ -56,7 +56,7 @@
             };
             var salir = function () {
                 if (transmitiendo) {
-                    connection.leave();
+                    connection.close();
                 }
             }
         </script>
@@ -86,7 +86,7 @@
                 <div class="EmptyBox20">
                 </div>
                 <p:commandButton value="Recibir Clase" onclick="ver()"></p:commandButton>
-                <p:commandButton value="Salir de Clase" onclick="salir()"></p:commandButton>
+                <p:commandButton value="Salir de Clase" onclick="salir()" action="#{gestionClasesOnlineController.setIndexMenu(0)}"></p:commandButton>
                 <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                 <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
                     <p:menuitem value="Gestionar Docentes" >    

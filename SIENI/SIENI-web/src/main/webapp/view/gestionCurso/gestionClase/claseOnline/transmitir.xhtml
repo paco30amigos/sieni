@@ -30,9 +30,9 @@
                 connection.userid = usuarioActual;//usuario unico
                 connection.mediaConstraints.mandatory = {
                     minWidth: 320,
-                    maxWidth: 1920,
+                    maxWidth: 640,
                     minHeight: 240,
-                    maxHeight: 1080,
+                    maxHeight: 480,
                     minFrameRate: 25
                 };
 // easiest way to customize what you need!
@@ -132,7 +132,7 @@
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
                     <p:selectBooleanButton offLabel="Iniciar Transmisión" onLabel="Parar Transmición" onchange="transmision()" valueChangeListener="#{gestionClasesOnlineController.iniciarClase()}"></p:selectBooleanButton>
-                    <p:selectBooleanButton offLabel="Iniciar Grabación" onLabel="Detener grabación" onchange="grabacion()"></p:selectBooleanButton>
+                    
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
                         <p:menuitem value="Gestionar Docentes" >    

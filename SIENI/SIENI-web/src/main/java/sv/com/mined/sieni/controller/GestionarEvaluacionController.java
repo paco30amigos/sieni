@@ -23,14 +23,19 @@ import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniEvalRespItemFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionItemFacadeRemote;
+import sv.com.mined.sieni.SieniMateriaFacadeRemote;
+import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.form.GestionarAlumnosForm;
 import sv.com.mined.sieni.form.GestionarEvaluacionForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniCursoAlumno;
 import sv.com.mined.sieni.model.SieniEvalRespItem;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniEvaluacionItem;
+import sv.com.mined.sieni.model.SieniMateria;
+import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.DateUtils;
 import utils.EmailValidator;
@@ -54,6 +59,12 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     private SieniCursoFacadeRemote sieniCursoFacadeRemote;
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+    @EJB
+    private SieniMatriculaFacadeRemote sieniMatriculaFacadeRemote;
+    
+    @EJB
+    private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
+    
 
     @PostConstruct
     public void init() {
@@ -78,10 +89,40 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     }
 
     private void fill() {
+         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            
+            if(loginBean.getTipoRol().charAt(0)!='1'){
         this.setEvaluacionList(sieniEvaluacionFacadeRemote.findActivos());
-        this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
+        this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));}
+            else{
+                
+                List<SieniMateria> sieniMateria=sieniMateriaFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno());
+                SieniMatricula sieniMatricula=new SieniMatricula();//sieniMatriculaFacadeRemote
+                for (SieniMateria materia : sieniMateria) {
+                   this.getEvaluacionList().addAll(materia.getSieniEvaluacionList());
+                }
+                
+//                List<SieniCursoAlumno> cursoAlumno=new ArrayList<>();
+//                cursoAlumno= cursoAlumnoFacadeRemote.findByIdAlumno(loginBean.getAlumno().getIdAlumno());
+//                for (SieniCursoAlumno cursoAlumno1 : cursoAlumno) {
+//                    this.getEvaluacionList().addAll(cursoAlumno1.getIdCurso().getSieniEvaluacionList());
+//                }
+//                this.setEvaluacionList(cursoAlumnoFacadeRemote.findByIdAlumno(loginBean.getAlumno().getIdAlumno()));
+            
+            }
     }
-
+    
+    public Boolean validaAlumno(){
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        if(loginBean.getTipoRol().charAt(0)!='1')
+            return true;
+        else
+            return false;
+//        return null;
+    
+    }
     public void guardar() {
        String a="";
        for (SieniCurso actual : this.getCursoList()) {

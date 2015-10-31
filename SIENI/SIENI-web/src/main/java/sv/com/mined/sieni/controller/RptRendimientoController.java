@@ -59,7 +59,7 @@ public class RptRendimientoController extends RptRendimientoForm {
     
     @PostConstruct
     public void init() {
-        this.setFormatoRpt("PDF");
+        this.setTipoRpt(0);
         this.setAnio("2,015");
         this.setGradosList(sieniGradoFacadeRemote.findAll());
         this.setMateriaList(sieniMateriaFacadeRemote.findAll());
@@ -70,14 +70,32 @@ public class RptRendimientoController extends RptRendimientoForm {
     public void fill() {
         RptRendimientoPojo elem = new RptRendimientoPojo();
 
-        
-        List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
-        List<SieniEvaluacion> evaluaciones = sieniEvaluacionFacadeRemote.findbyRendimientoRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
+        List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getIdGrado(), this.getIdSeccion(), this.getIdMateria());
         this.setListDatos(new ArrayList<RptRendimientoPojo>());
-        for (SieniEvaluacion actual : evaluaciones) {
-            elem = new RptRendimientoPojo(this.getGrado(), this.getSeccion(), this.getMateria(), null, actual.getEvTipo(), null, null, null);
+        
+        double totalNotas = notas.size();
+        float aprobados = 0;
+        float reprobados = 0;
+        float totalAprobados = 0;
+        float totalReprobados = 0;
+        float promedio = 0;
+        for(SieniNota actual : notas ){
+            if(actual.getNtCalificacion() >= 6.00){
+                aprobados++;
+            }else{
+                reprobados++;
+            }
+        }
+        totalAprobados = (float) ((aprobados * 100)/totalNotas);
+        totalReprobados = (float) ((reprobados * 100)/totalNotas);
+        promedio = (totalAprobados + totalReprobados) / 2;
+        
+        for(SieniNota actual : notas ){
+            elem = new RptRendimientoPojo(this.getIdGrado().toString(), this.getIdSeccion().toString(), this.getIdMateria().toString(), null, actual.getIdEvaluacion().getEvTipo().toString(), Float.toString(totalAprobados)+" %", Float.toString(totalReprobados)+" %", Float.toString(promedio)+" %");
             this.getListDatos().add(elem);
         }
+        
+        //List<SieniEvaluacion> evaluaciones = sieniEvaluacionFacadeRemote.findbyRendimientoRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
         
         this.setTotalTransacciones(Long.parseLong(this.getListDatos().size()+""));
     }
@@ -88,6 +106,8 @@ public class RptRendimientoController extends RptRendimientoForm {
         Map parameterMap = new HashMap();
         parameterMap.put("anio", this.getAnio());
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
+        parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getDesde()));
+        parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getHasta()));
         try {
             RptRendimientoController.generateReport(path, "rtpRendimiento" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

@@ -70,6 +70,17 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
     SieniEvaluacion res = (SieniEvaluacion) q.getSingleResult();
        return res;
     }
+
+    @Override
+    public List<SieniEvaluacion> findByIdMateria(List<Long> listIdMateria) {
+       Query q = em.createNamedQuery("SieniEvaluacion.findEvalItemResp");
+       q.setParameter("listIdMateria", listIdMateria);
+    List<SieniEvaluacion> res = q.getResultList();
+       return res;
+    }
+    
+    
+    
     
 
 }

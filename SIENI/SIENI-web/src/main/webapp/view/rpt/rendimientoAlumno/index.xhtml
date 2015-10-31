@@ -31,12 +31,12 @@
                         <p:ajax event="valueChange" update="seccion"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion" value="Seccion:" class="Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="seccion" class=" Responsive" value="#{rptRendimientoController.seccion}" >
+                    <p:selectOneMenu id="seccion" class=" Responsive" value="#{rptRendimientoController.idSeccion}" >
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptRendimientoController.seccionesList}" var="seccion"></f:selectItems>
                     </p:selectOneMenu>                    
                     <p:outputLabel id="materia" value="Materia:"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{rptRendimientoController.materia}" >
-                        <f:selectItems itemValue="#{materia}" itemLabel="#{materia.maNombre}" value="#{rptRendimientoController.materiaList}" var="materia"></f:selectItems>
+                    <p:selectOneMenu class=" Responsive" value="#{rptRendimientoController.idMateria}" >
+                        <f:selectItems itemValue="#{materia.idMateria}" itemLabel="#{materia.maNombre}" value="#{rptRendimientoController.materiaList}" var="materia"></f:selectItems>
                     </p:selectOneMenu>
                     <p:commandButton value="generar" actionListener="#{rptRendimientoController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
@@ -83,7 +83,7 @@
                             <f:selectItem itemLabel="Excel" itemValue="Excel" />
                             <f:selectItem itemLabel="PDF" itemValue="PDF" />
                         </p:selectOneRadio>
-                        <p:commandButton  value="Generar"></p:commandButton>
+                        <p:commandButton  value="Generar" action="#{rptRendimientoController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
                         <p:commandButton value="Refrescar"></p:commandButton>
                     </h:panelGrid>
                 </div>

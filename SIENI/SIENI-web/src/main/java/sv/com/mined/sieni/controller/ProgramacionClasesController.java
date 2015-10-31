@@ -55,16 +55,24 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
         this.getHorarios().add(new Combo("X", "Miercoles", null));
         this.getHorarios().add(new Combo("J", "Jueves", null));
         this.getHorarios().add(new Combo("V", "Viernes", null));
+        this.getHorarios().add(new Combo("S", "Sabado", null));
+        this.getHorarios().add(new Combo("D", "Domingo", null));
         this.setNuevo(new SieniClase());
         this.setModifica(new SieniClase());
         fill();
     }
 
     private void fill() {
-        this.setClasesList(sieniClaseFacadeRemote.findAllNoInactivos());
-        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
-        this.setDocentesModificaList(sieniDocenteFacadeRemote.findDocentesActivos());
-        this.setCursosList(sieniCursoFacadeRemote.findByEstado('A'));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //fill para alumnos
+        if (loginBean.getTipoRol().equals("0")) {
+            this.setClasesList(sieniClaseFacadeRemote.findClaseByAlumno(loginBean.getAlumno().getIdAlumno()));
+        } else {
+            this.setClasesList(sieniClaseFacadeRemote.findAllNoInactivos());
+            this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
+            this.setCursosList(sieniCursoFacadeRemote.findByEstado('A'));
+        }
     }
 
     public void guardar() {
@@ -127,6 +135,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
 
     //metodos para modificacion de datos
     public void modificar(SieniClase modificado) {
+        this.setDocentesModificaList(sieniDocenteFacadeRemote.findDocentesActivos());
         DateUtils du = new DateUtils();
         this.setHorarioSelected(du.getAllNamesOfWeekList(modificado.getClHorario()));
         this.setModifica(modificado);
@@ -136,7 +145,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     //metodos para modificacion de datos
     public void eliminar(SieniClase eliminado) {
         this.setEliminar(eliminado);
-        
+
     }
 
     //metodos para modificacion de datos
@@ -144,10 +153,10 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
         this.setModifica(ver);
         this.setIndexMenu(3);
     }
-    
+
     public void ver(SieniClase modificado) {
         this.setModifica(modificado);
-             this.setIndexMenu(3);
+        this.setIndexMenu(3);
     }
 
     public void guardarModifica() {
@@ -162,7 +171,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
                 horario += "," + actual;
             }
         }
-        this.getNuevo().setClHorario(horario);
+        this.getModifica().setClHorario(horario);
         if (validarModifica(this.getModifica())) {//valida el guardado
             sieniClaseFacadeRemote.edit(this.getModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

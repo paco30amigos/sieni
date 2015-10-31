@@ -26,6 +26,7 @@ public class DateUtils {
     private Date fechaFinAnioActual;
     private Date fechaMinima;
     private Date fechaMaxima;
+    private String formatoHora = "mm:hh a";
 
     public String getDayOfWeek(Date fechaActual) {
         String ret = "";
@@ -203,11 +204,18 @@ public class DateUtils {
         fechaFinAnioActual = format.getFormatDate("31/12/" + anio);
         return fechaFinAnioActual;
     }
-    
+
     public String getFormatoFecha(Date fecha) {
         java.util.Date date = new java.util.Date();
-java.text.SimpleDateFormat sdf=new java.text.SimpleDateFormat("dd/MM/yyyy");
-String fechaFormato = sdf.format(fecha);
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+        String fechaFormato = sdf.format(fecha);
+        return fechaFormato;
+    }
+
+    public String getFormatoHora(Date hora) {
+        java.util.Date date = new java.util.Date();
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(formatoHora);
+        String fechaFormato = sdf.format(hora);
         return fechaFormato;
     }
 

@@ -9,7 +9,8 @@
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#{siteUrls.gestionMateria}"/>
-            <p:menuitem value="Registrar Materia"></p:menuitem>
+            <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
+            <p:menuitem value="Adicionar de Materias" url="#{siteUrls.gestionMateria}"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
@@ -45,12 +46,12 @@
                         <f:selectItem itemValue ="VESPERTINO" itemLabel="VESPERTINO"/>
                     </p:selectOneMenu>   
                 </p:panelGrid>
-<!--                <p:panelGrid columns="2" class="Container50 Responsive">
-                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maCoordinador}">
-                        <f:selectItems itemValue="#{gestionMateriasController.materiaNuevo.maCoordinador}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente"></f:selectItems>
-                    </p:selectOneMenu>
-                </p:panelGrid>-->
+                <!--                <p:panelGrid columns="2" class="Container50 Responsive">
+                                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
+                                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maCoordinador}">
+                                        <f:selectItems itemValue="#{gestionMateriasController.materiaNuevo.maCoordinador}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente"></f:selectItems>
+                                    </p:selectOneMenu>
+                                </p:panelGrid>-->
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionMateriasController.guardar()}"/>
@@ -58,11 +59,13 @@
                     <p:commandButton value="Cancelar"/>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Secciones" >    
+                        <p:menuitem value="Gestionar Curso" url="#{siteUrls.gestionarCursos}" >    
                         </p:menuitem>
-                        <p:menuitem value="Programación de clases">    
+                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Clases">    
+                        <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.basegestionEvaluacion}">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionAlumnos}">    
                         </p:menuitem>
                     </p:tieredMenu>
                 </div>

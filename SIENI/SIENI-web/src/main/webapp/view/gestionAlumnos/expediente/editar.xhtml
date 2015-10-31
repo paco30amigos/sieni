@@ -75,11 +75,13 @@
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Docentes" >    
+                        <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" >    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Alumnos">    
+                        <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Cursos">    
+                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}">
                         </p:menuitem>
                     </p:tieredMenu>           
                 </div>

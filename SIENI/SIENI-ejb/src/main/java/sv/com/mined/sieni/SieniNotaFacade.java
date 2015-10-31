@@ -107,7 +107,16 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
     }
 
     @Override
-    public List<SieniNota> findByGradoSecMatRpt(Date desde, Date hasta, String grado, String seccion, String materia) {
+    public List<SieniNota> findByAlumno(Long idAlumno) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniNota.findByAlumno");
+        q.setParameter("idAlumno", idAlumno);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<SieniNota> findByGradoSecMatRpt(Date desde, Date hasta, Long grado, Long seccion, Long materia) {
         Query q = em.createNamedQuery("SieniNota.findByGradoSecMatRpt");
         q.setParameter("desde", desde);
         q.setParameter("hasta", hasta);

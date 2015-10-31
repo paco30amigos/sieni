@@ -7,16 +7,16 @@
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="breadCrumb">
         <p:breadCrumb class="Container90">
-           <p:menuitem value="Home" url="/"/>
-           <p:menuitem value="Gestionar Clase" url="#{siteUrls.programacionClases}"/>
-            <p:menuitem value="Modificar Programación de clase"></p:menuitem>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Clase" url="#{siteUrls.programacionClases}"/>
+            <p:menuitem value="Consultar Programación de clase"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
     </ui:define>
     <ui:define name="content">  
         <div class="EmptyBox5"></div>
-       <p:panel>
+        <p:panel>
             <h:form enctype="multipart/form-data" >
                 <p:dialog widgetVar="dlgAyuda1" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton registrar"/>
@@ -24,48 +24,33 @@
                 <p:focus context="p1" id="focus"></p:focus>
                 <p:panelGrid columns="4" class="Container100" id="p1">
                     <p:outputLabel for="tipoClase" value="Tipo de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="tipoClase" value="#{programacionClasesController.modifica.clTipo}" class="Contanier10 Responsive">
-                        <f:selectItem itemLabel="Clase en vivo" itemValue="O"></f:selectItem>
-                        <f:selectItem itemLabel="Video Clase" itemValue="V"></f:selectItem>
-                        <f:selectItem itemLabel="Clase Interactiva" itemValue="I"></f:selectItem>
-                    </p:selectOneMenu>                    
+                    <p:outputLabel id="tipoClase" value="#{programacionClasesController.modifica.tipo}"></p:outputLabel>
                     <p:outputLabel for="curso" value="Curso: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="curso" value="#{programacionClasesController.modifica.idCurso}" class="Contanier10 Responsive" converter="curso" filter="true" filterMatchMode="contains">
-                        <f:selectItems itemLabel="#{curso.crNombre}" itemValue="#{curso}" value="#{programacionClasesController.cursosList}" var="curso"></f:selectItems>
-                    </p:selectOneMenu>
+                    <p:outputLabel id="curso" value="#{programacionClasesController.modifica.idCurso.crNombre}"></p:outputLabel>
                     <p:outputLabel for="tema" value="Tema de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:inputText id="tema" value="#{programacionClasesController.modifica.clTema}"></p:inputText>
+                    <p:outputLabel id="tema" value="#{programacionClasesController.modifica.clTema}"></p:outputLabel>
                     <p:outputLabel for="hora" value="Hora: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:calendar id="hora" value="#{programacionClasesController.modifica.clHora}" timeOnly="true" pattern="hh:mm a" readonlyInput="true"></p:calendar>
+                    <p:outputLabel id="hora" value="#{dateUtils.getFormatoHora(programacionClasesController.modifica.clHora)}"></p:outputLabel>
                     <p:outputLabel for="tipoPublic" value="Tipo de publicación: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="tipoPublic" value="#{programacionClasesController.modifica.clTipoPublicacion}">
-                        <f:selectItem itemLabel="Manual" itemValue="M"></f:selectItem>
-                        <f:selectItem itemLabel="Automática" itemValue="A"></f:selectItem>
-                    </p:selectOneMenu>                    
+                    <p:outputLabel id="tipoPublic" value="#{programacionClasesController.modifica.tipoPublicacion}"></p:outputLabel>
                     <p:outputLabel for="estadoClase"  value="Estado de Clase: " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectOneMenu  id="estadoClase" value="#{programacionClasesController.modifica.clEstado}" class="Contanier10 Responsive">
-                        <f:selectItem itemLabel="No Iniciada" itemValue="N"></f:selectItem>
-                        <f:selectItem itemLabel="Iniciada" itemValue="A"></f:selectItem>
-                        <f:selectItem itemLabel="Terminada" itemValue="T"></f:selectItem>
-                    </p:selectOneMenu>                    
+                    <p:outputLabel id="estadoClase" value="#{programacionClasesController.modifica.estado}"></p:outputLabel>
                 </p:panelGrid>
                 <p:panelGrid columns="2" class="Container100">                    
                     <p:outputLabel for="horario" value="Horario : " class="Contanier10 Responsive"></p:outputLabel>
-                    <p:selectManyButton id="horario" value="#{programacionClasesController.horarioSelected}">
-                        <f:selectItems var="horarios" value="#{programacionClasesController.horarios}" itemLabel="#{horarios.description}" itemValue="#{horarios.value}"/>
-                    </p:selectManyButton>
+                    <p:outputLabel id="horario" value="#{dateUtils.getAllNamesOfWeek(programacionClasesController.modifica.clHorario)}"></p:outputLabel>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
-                    <div class="Container100">
-                        <p:commandButton value="Modificar" action="#{programacionClasesController.modificar(programacionClasesController.modifica)}" immediate="true"  rendered="#{loginController.mostrarA('1,2')}">
+                <div class="Container100">
+                    <p:commandButton value="Modificar" action="#{programacionClasesController.modificar(programacionClasesController.modifica)}" immediate="true"  rendered="#{loginController.mostrarA('1,2')}">
                     </p:commandButton>
                     <p:commandButton value="Eliminar" action="#{programacionClasesController.eliminar(programacionClasesController.modifica)}" onclick="PF('dlgEliminar').show();" immediate="true"  rendered="#{loginController.mostrarA('1,2')}">
                     </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{programacionClasesController.setIndexMenu(0)}"/>
                     </p:commandButton>
-                        <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
-                      <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" rendered="#{loginController.mostrarA('1,2')}" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px" >
                         <p:menuitem value="Gestionar Docentes" >    
                         </p:menuitem>
                         <p:menuitem value="Gestionar Alumnos">    
@@ -73,7 +58,7 @@
                         <p:menuitem value="Gestionar Cursos">    
                         </p:menuitem>
                     </p:tieredMenu>         
-                    </div>
+                </div>
                 <div class="EmptyBox20"></div>
             </h:form>
         </p:panel>

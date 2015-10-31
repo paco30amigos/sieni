@@ -9,7 +9,8 @@
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Curso" url="#{siteUrls.gestionMateria}"/>
-            <p:menuitem value="Consulta Materia"></p:menuitem>
+            <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
+            <p:menuitem value="Consultar Materias" url="#{siteUrls.gestionMateria}"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionMateriasController.indexMenu}').show();"></i>
@@ -50,11 +51,13 @@
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Docentes" >    
+                        <p:menuitem value="Gestionar Curso" url="#{siteUrls.gestionarCursos}" >    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Alumnos">    
+                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Cursos">    
+                        <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.basegestionEvaluacion}">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionAlumnos}">    
                         </p:menuitem>
                     </p:tieredMenu>            
                 </div>

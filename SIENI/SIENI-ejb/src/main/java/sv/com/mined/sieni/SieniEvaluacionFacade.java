@@ -11,7 +11,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import sv.com.mined.sieni.model.SieniEvalRespItem;
 import sv.com.mined.sieni.model.SieniEvaluacion;
+import sv.com.mined.sieni.model.SieniEvaluacionItem;
 
 /**
  *
@@ -68,8 +70,33 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
        Query q = em.createNamedQuery("SieniEvaluacion.findEvalItemResp");
        q.setParameter("idEvaluacion", idEvaluacion);
     SieniEvaluacion res = (SieniEvaluacion) q.getSingleResult();
+//    for (SieniInteEntrComp actual : ret) {
+            em.refresh(res);
+//            em.refresh(res.getSieniEvaluacionItemList());
+            for (SieniEvaluacionItem actual : res.getSieniEvaluacionItemList()) {
+         em.refresh(actual);
+                for (SieniEvalRespItem rep : actual.getSieniEvalRespItemList()) {
+                    em.refresh(rep);
+                }
+    }
+            
+//            em.refresh(res.getSieniEvaluacionItemList());
+            
+//        }
+        em.flush();
        return res;
     }
+
+    @Override
+    public List<SieniEvaluacion> findByIdMateria(List<Long> listIdMateria) {
+       Query q = em.createNamedQuery("SieniEvaluacion.findEvalItemResp");
+       q.setParameter("listIdMateria", listIdMateria);
+    List<SieniEvaluacion> res = q.getResultList();
+       return res;
+    }
+    
+    
+    
     
 
 }

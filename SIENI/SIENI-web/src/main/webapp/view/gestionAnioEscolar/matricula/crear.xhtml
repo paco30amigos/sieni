@@ -9,7 +9,7 @@
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAnioEscolar}"/>
-            <p:menuitem value="Nuevo Matricula"></p:menuitem>
+            <p:menuitem value="Matricular Alumno"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
@@ -48,11 +48,11 @@
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Docentes" >    
+                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionEvaluacion}" >    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Alumnos">    
+                        <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionAlumnos}">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Cursos">    
+                        <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}">    
                         </p:menuitem>
                     </p:tieredMenu>           
                 </div>

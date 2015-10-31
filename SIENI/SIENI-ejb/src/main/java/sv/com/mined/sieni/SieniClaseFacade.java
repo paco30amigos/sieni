@@ -48,22 +48,17 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         q.setParameter("tipoClase", tipoClase);
         return q.getResultList();
     }
-    
-    
-    
-    
-    
-    
+
     @Override
-    public List<SieniClase> findClasesRpt(SieniCurso curso , Integer tipo,Integer estado) {
-        
+    public List<SieniClase> findClasesRpt(SieniCurso curso, Integer tipo, Integer estado) {
+
         Query q = em.createNamedQuery("SieniClase.findClasesRpt");
-        if(curso == null) {// TODOS LOS CURSOS
-            if(tipo.intValue() == 0 && estado.intValue() == 0){
+        if (curso == null) {// TODOS LOS CURSOS
+            if (tipo.intValue() == 0 && estado.intValue() == 0) {
                 q = em.createNamedQuery("SieniClase.findClasesRpt");
-            }else if(tipo.intValue() != 0 && estado.intValue() == 0){
+            } else if (tipo.intValue() != 0 && estado.intValue() == 0) {
                 q = em.createNamedQuery("SieniClase.findClasesRptByTipo");
-                switch(tipo){
+                switch (tipo) {
                     case 0:
                         q.setParameter("clTipo", 'X');
                         break;
@@ -77,13 +72,13 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
                         q.setParameter("clTipo", 'I');
                         break;
                 }
-                
-            }else if(tipo.intValue() == 0 && estado.intValue() != 0){
+
+            } else if (tipo.intValue() == 0 && estado.intValue() != 0) {
                 q = em.createNamedQuery("SieniClase.findClasesRptByEstado");
-                
-            }else{
+
+            } else {
                 q = em.createNamedQuery("SieniClase.findClasesRptByTipoEstado");
-                switch(tipo){
+                switch (tipo) {
                     case 0:
                         q.setParameter("clTipo", 'X');
                         break;
@@ -97,7 +92,7 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
                         q.setParameter("clTipo", 'I');
                         break;
                 }
-                switch(estado){
+                switch (estado) {
                     case 0:
                         q.setParameter("clEstado", 'X');
                         break;
@@ -112,14 +107,14 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
                         break;
                 }
             }
-        }else{
-            if(tipo.intValue() == 0 && estado.intValue() == 0){
+        } else {
+            if (tipo.intValue() == 0 && estado.intValue() == 0) {
                 q = em.createNamedQuery("SieniClase.findClasesRptByCurso");
                 q.setParameter("idCurso", curso.getIdCurso());
-            }else if(tipo.intValue() != 0 && estado.intValue() == 0){
+            } else if (tipo.intValue() != 0 && estado.intValue() == 0) {
                 q = em.createNamedQuery("SieniClase.findClasesRptByCursoTipo");
                 q.setParameter("idCurso", curso.getIdCurso());
-                switch(tipo){
+                switch (tipo) {
                     case 0:
                         q.setParameter("clTipo", 'X');
                         break;
@@ -133,10 +128,10 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
                         q.setParameter("clTipo", 'I');
                         break;
                 }
-            }else if(tipo.intValue() == 0 && estado.intValue() != 0){
+            } else if (tipo.intValue() == 0 && estado.intValue() != 0) {
                 q = em.createNamedQuery("SieniClase.findClasesRptByCursoEstado");
                 q.setParameter("idCurso", curso.getIdCurso());
-                switch(estado){
+                switch (estado) {
                     case 0:
                         q.setParameter("clEstado", 'X');
                         break;
@@ -150,10 +145,10 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
                         q.setParameter("clEstado", 'T');
                         break;
                 }
-            }else{
+            } else {
                 q = em.createNamedQuery("SieniClase.findClasesRptByCursoTipoEstado");
                 q.setParameter("idCurso", curso.getIdCurso());
-                switch(tipo){
+                switch (tipo) {
                     case 0:
                         q.setParameter("clTipo", 'X');
                         break;
@@ -167,7 +162,7 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
                         q.setParameter("clTipo", 'I');
                         break;
                 }
-                switch(estado){
+                switch (estado) {
                     case 0:
                         q.setParameter("clEstado", 'X');
                         break;
@@ -185,7 +180,29 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         }
         return q.getResultList();
     }
-    
-    
-    
+
+    @Override
+    public List<SieniClase> findClaseByTipoAlumno(Character tipoClase, Long idAlumno) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniClase.findClaseByTipoAlumno");
+//        List<SieniClase>  auc=em.createQuery("SELECT s FROM SieniClase s,SieniAlumno a join fetch a.sieniCursoAlumnoList ca where s.clEstado not in (:estado) and s.clTipo=:tipoClase and ca.idCurso.idCurso=s.idCurso.idCurso").setParameter("estado", estado).setParameter("tipoClase", tipoClase).getResultList();
+//        em.refresh(em.createQuery("SELECT s FROM SieniClase s,SieniAlumno a join fetch a.sieniCursoAlumnoList ca where s.clEstado not in (:estado) and s.clTipo=:tipoClase and ca.idCurso=s.idCurso").setParameter("estado", estado).setParameter("tipoClase", tipoClase).getResultList().get(0).getIdCurso());
+        q.setParameter("estado", estado);
+        q.setParameter("tipoClase", tipoClase);
+        q.setParameter("idAlumno", idAlumno);
+
+        return q.getResultList();
+    }
+
+    @Override
+    public List<SieniClase> findClaseByAlumno(Long idAlumno) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniClase.findClaseByAlumno");
+//        List<SieniClase>  auc=em.createQuery("SELECT s FROM SieniClase s,SieniAlumno a join fetch a.sieniCursoAlumnoList ca where s.clEstado not in (:estado) and s.clTipo=:tipoClase and ca.idCurso.idCurso=s.idCurso.idCurso").setParameter("estado", estado).setParameter("tipoClase", tipoClase).getResultList();
+//        em.refresh(em.createQuery("SELECT s FROM SieniClase s,SieniAlumno a join fetch a.sieniCursoAlumnoList ca where s.clEstado not in (:estado) and s.clTipo=:tipoClase and ca.idCurso=s.idCurso").setParameter("estado", estado).setParameter("tipoClase", tipoClase).getResultList().get(0).getIdCurso());
+        q.setParameter("estado", estado);
+        q.setParameter("idAlumno", idAlumno);
+
+        return q.getResultList();
+    }
 }

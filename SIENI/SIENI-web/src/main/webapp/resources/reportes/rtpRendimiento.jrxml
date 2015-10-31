@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2015-10-14T20:44:44 -->
+<!-- 2015-10-30T21:51:46 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -30,7 +30,7 @@
 	<pageHeader>
 		<band height="80">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="151" y="49" width="100" height="20" uuid="d108bdcd-fe91-4302-a088-bf3fda57b653"/>
 				<textFieldExpression><![CDATA[$P{desde}]]></textFieldExpression>
 			</textField>
@@ -52,7 +52,7 @@
 				</textElement>
 				<text><![CDATA[Centro Escolar San Ramón]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="297" y="50" width="100" height="20" uuid="d81dd0e1-a4d1-4ab8-8aca-47d446cc3555"/>
 				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
 			</textField>
@@ -192,7 +192,7 @@
 	<detail>
 		<band height="28" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="152" y="0" width="80" height="28" uuid="2e5b58ec-11ed-4769-a89c-1db7b8553d42">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -205,7 +205,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="232" y="0" width="80" height="28" uuid="2005aca6-dfaa-44ca-bb41-e909c8b78818">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -218,7 +218,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{alumnos}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="312" y="0" width="80" height="28" uuid="595e14ef-9c02-4b87-8cb0-be2dded3ff6c">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
@@ -231,8 +231,8 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{tipoEvaluacion}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="12" y="0" width="60" height="28" uuid="86df671e-2b3c-481f-81a3-19cc7bdae722">
+			<textField isBlankWhenNull="true">
+				<reportElement positionType="Float" x="12" y="0" width="60" height="28" uuid="86df671e-2b3c-481f-81a3-19cc7bdae722">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
@@ -243,7 +243,7 @@
 				</box>
 				<textFieldExpression><![CDATA[$F{grado}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="72" y="0" width="80" height="28" uuid="41ec8b5b-0a04-4bc0-8357-049423460f7d"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -254,7 +254,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{seccion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="392" y="0" width="55" height="28" uuid="2d95534e-7311-411e-8d3e-0df42e1a52ca"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -265,7 +265,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{aprobados}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="447" y="0" width="63" height="28" uuid="8f543219-3786-47a9-ae58-3a6e4622f14a"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -276,7 +276,7 @@
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{reprobados}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="510" y="0" width="50" height="28" uuid="d7ae8dea-a6ac-4be4-aa94-b7c66f93e914"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -284,6 +284,7 @@
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{promedio}]]></textFieldExpression>
 			</textField>
 		</band>

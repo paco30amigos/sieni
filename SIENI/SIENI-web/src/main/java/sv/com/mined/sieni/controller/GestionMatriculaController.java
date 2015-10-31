@@ -17,12 +17,16 @@ import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniCursoAlumnoFacadeRemote;
+import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionMatriculaForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniCursoAlumno;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniSeccion;
@@ -46,6 +50,10 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+    @EJB
+    private SieniCursoAlumnoFacadeRemote sieniCursoAlumnoFacadeRemote;
+    @EJB
+    private SieniCursoFacadeRemote sieniCursoFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -146,19 +154,19 @@ public class GestionMatriculaController extends GestionMatriculaForm {
 
     public void guardarModifica() {
         for (SieniAlumno actual : this.getAlumnosModificaList()) {
-            if (actual.getIdAlumno().equals(this.getIdAlumnoModifica())) {
+            if (actual.getIdAlumno().equals(this.getMatriculaModifica().getIdAlumno())) {
                 this.getMatriculaModifica().setIdAlumno(actual);
                 break;
             }
         }
         for (SieniGrado actual : this.getGradosModificaList()) {
-            if (actual.getIdGrado().equals(this.getIdGradoModifica())) {
+            if (actual.getIdGrado().equals(this.getMatriculaModifica().getIdGrado().getIdGrado())) {
                 this.getMatriculaModifica().setIdGrado(actual);
                 break;
             }
         }
         for (SieniSeccion actual : this.getSeccionesModificaList()) {
-            if (actual.getIdSeccion().equals(this.getIdSeccionModifica())) {
+            if (actual.getIdSeccion().equals(this.getMatriculaModifica().getIdSeccion().getIdSeccion())) {
                 this.getMatriculaModifica().setIdSeccion(actual);
                 break;
             }
@@ -223,8 +231,8 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         this.setMatriculaModifica(modificado);
         this.setIndexMenu(3);
     }
-    
-        public void getCarnetAlumno(ValueChangeEvent a) {
+
+    public void getCarnetAlumno(ValueChangeEvent a) {
         Integer cod = new Integer(a.getNewValue().toString());
         this.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(cod));
 //        if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {

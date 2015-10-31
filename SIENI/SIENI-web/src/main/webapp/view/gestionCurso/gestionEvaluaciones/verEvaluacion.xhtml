@@ -13,6 +13,15 @@
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
+        <style type="text/css">
+            .ui-datatable.borderless thead th,
+            .ui-datatable.borderless tbody,
+            .ui-datatable.borderless tbody tr,
+            .ui-datatable.borderless tbody td {
+                border-style: none;
+            }
+        </style>
+       
     </ui:define>
     <ui:define name="content">  
         <div class="EmptyBox5"></div>
@@ -35,28 +44,34 @@
                 </p:dialog>
                 <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
                 <p:dataTable id="consulta" paginatorPosition="bottom"  var="car" value="#{gestionarEvaluacionController.evaluacionItemResp.sieniEvaluacionItemList}" 
-                             paginator="true" rows="10"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="10,20,40"
-                             reflow="true" rowIndexVar="rowIndex">
-                                      
-                    <p:column headerText="Pregunta" style="width: 50%">
-                        #{car.eiPregunta}
-                    </p:column>                                                          
-                    <p:column headerText="Respuestas" style="width: 50%">
+                             paginator="true" rows="#{gestionarEvaluacionController.evaluacionItemResp.evPreguntasPagina}"
+                             paginatorTemplate="{CurrentPageReport} {guardarRespuesta}  {NextPageLink} "
+                             reflow="true" rowIndexVar="rowIndex"
+                             styleClass="borderless">
+                    <f:facet name="{guardarRespuesta}">
+                        <p:commandButton value="Guardar" action="#{gestionarEvaluacionController.guardarResAlumno()}"  rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
+        </f:facet>  
+
+                    <p:column >
+
+                        #{rowIndex+1}<p:outputLabel value=") " class="TexAlCenter" ></p:outputLabel> #{car.eiPregunta}
                         <p:dataTable id="respuestas"  var="res" value="#{car.sieniEvalRespItemList}">
                             <p:column>
-                                #{res.erRespuesta}
+                                
+                                <input type="#{res.erTipoInput}" name="name#{rowIndex+1}"  value="#{res.erRespCorrecta}"/> 
+                                <h:outputText value="" rendered="#{car.eiTipoResp eq '4'}"/>
+                                <h:outputText value="#{res.erRespuesta}" rendered="#{car.eiTipoResp ne '4'}"/>
+                                
                             </p:column>
                         </p:dataTable>
-                        
-                    </p:column>
-                    
-                    
+                    </p:column>                                                         
+                     
+
+
                 </p:dataTable>
 
                 <div class="EmptyBox20"></div>
-                
+
             </h:form>
         </p:panel>
     </ui:define>

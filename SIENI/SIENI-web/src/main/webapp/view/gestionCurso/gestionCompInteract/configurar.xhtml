@@ -211,7 +211,7 @@
                     </p:tab>
                 </p:tabView>
                 <div class="EmptyBox20"></div>
-                <p:fieldset legend="Vista Previa" toggleable="true" collapsed="true" class="Container100">
+                <p:fieldset legend="Vista Previa" toggleable="true" collapsed="false" class="Container100">
                     <div class="EmptyBox20"></div>
                     <p:remoteCommand name="refrescarImagen" update="panel,efectos" oncomplete="configurarVideo()" onstart="loadScript()"></p:remoteCommand>
                     <p:panelGrid columns="2">
@@ -368,11 +368,11 @@
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Docentes" >    
+                        <p:menuitem value="Gestionar Archivos multimedia" url="#{siteUrls.gestionArchivosMultimedia}" >    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Alumnos">    
+                        <p:menuitem value="Clase interactiva" url="#{siteUrls.claseInteractiva}">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Cursos">    
+                        <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}">
                         </p:menuitem>
                     </p:tieredMenu> 
                 </div>

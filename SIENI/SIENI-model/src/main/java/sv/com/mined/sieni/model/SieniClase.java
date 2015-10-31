@@ -133,6 +133,8 @@ public class SieniClase implements Serializable {
         this.clTipo = clTipo;
     }
 
+    
+    
     @XmlTransient
     public List<SieniPntosContrl> getSieniPntosContrlList() {
         return sieniPntosContrlList;
@@ -305,6 +307,15 @@ public class SieniClase implements Serializable {
 
     public void setIdArchivo(Long idArchivo) {
         this.idArchivo = idArchivo;
+    }
+
+    
+     public Integer getPtosAcumulados() {
+         Integer puntos = 5;
+//         for(SieniPntosContrl actual : this.getSieniPntosContrlList()){
+//             puntos = puntos + actual.getPcPantalla();
+//         }
+        return puntos;
     }
 
 }

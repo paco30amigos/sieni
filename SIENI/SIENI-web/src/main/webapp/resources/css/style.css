@@ -1,35 +1,6 @@
 .h2 { font-size: 1.5em; }
 
 
-.burbuja {
-    width: 8px;
-    height: 15px;
-    text-align: center;
-    background: none repeat scroll 0 0 #E02424;
-    border-radius: 3px 3px 3px 3px;
-    color: #FFFFFF;
-    font: bold 12px Arial,Helvetica;
-    padding: 1px 3px;
-    position: relative;
-    right: 2px;
-    top: -2px;
-
-    /* estas propiedades harán la animación */
-    -webkit-transition: all 0.5s ease-out;
-       -moz-transition: all 0.5s ease-out;
-        -ms-transition: all 0.5s ease-out;
-         -o-transition: all 0.5s ease-out;
-            transition: all 0.5s ease-out;
-}
-
-
-
-.burbuja.agrandar {
-    width: 15px;
-    height: 20px;
-    padding-top: 5px;
-}
-
 .ui-icon-funciones{
     background-image: url(#{resource['images:res/al21806.png']}) !important;
     background-position: center !important;
@@ -118,3 +89,36 @@
 }
 
 
+
+.menu-burbuja {
+    float: left;
+    position: relative;
+}
+
+
+.burbuja {
+    float: left;
+    position: relative;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    background: none repeat scroll 0 0 red;
+    text-align: center;
+    color: #ffffff;
+    font: bold 0.5em Tahoma,Arial,Helvetica;
+    padding: 5px 5px;
+    position: absolute;
+    right: -1px;
+    top: 1px;
+    -webkit-transition: all 0.5s ease-out;
+       -moz-transition: all 0.5s ease-out;
+        -ms-transition: all 0.5s ease-out;
+         -o-transition: all 0.5s ease-out;
+            transition: all 0.5s ease-out;
+}
+
+.burbuja.agrandar {
+        width: 25px;
+        height: 40px;
+        padding-top: -5px;
+}

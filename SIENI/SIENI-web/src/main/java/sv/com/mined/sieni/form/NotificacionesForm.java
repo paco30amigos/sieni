@@ -11,6 +11,15 @@ package sv.com.mined.sieni.form;
  * @author INFORMATICA
  */
 public class NotificacionesForm {
+    private int numNoty;
+
+    public int getNumNoty() {
+        return numNoty;
+    }
+
+    public void setNumNoty(int numNoty) {
+        this.numNoty = numNoty;
+    }
     
     
 }

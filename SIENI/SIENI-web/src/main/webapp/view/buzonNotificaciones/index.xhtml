@@ -18,6 +18,7 @@
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
+                    <p:commandButton value="Noti" actionListener="#{notificacionesController.notificarPUSH()}" />
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 

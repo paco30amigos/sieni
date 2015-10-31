@@ -121,7 +121,8 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
             FacesContext.getCurrentInstance().addMessage(null, msg);
             fill();
             
-            
+            NotificacionesController notify = (NotificacionesController) req.getSession().getAttribute("notificacionesController");
+            notify.notificarPUSH();
         }
     }
     

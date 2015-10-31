@@ -41,8 +41,6 @@
         <servlet-name>Push Servlet</servlet-name>
         <url-pattern>/primepush/*</url-pattern>
     </servlet-mapping>
-
-   
     
     <session-config>
         <session-timeout>
@@ -52,6 +50,9 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    
+    
+    
     <error-page>
         <!-- Missing login -->
         <error-code>401</error-code>

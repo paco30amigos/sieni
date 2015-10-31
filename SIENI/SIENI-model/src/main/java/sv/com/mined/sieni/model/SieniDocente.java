@@ -64,6 +64,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findByDcEstado", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado = :dcEstado"),
     @NamedQuery(name = "SieniDocente.findRptUsuariosDocentes", query = "SELECT s FROM SieniDocente s WHERE s.dcUsuario IS NOT NULL AND s.dcUsuario <> ''"),
     @NamedQuery(name = "SieniDocente.findRptUsuariosDocentesByEstado", query = "SELECT s FROM SieniDocente s WHERE s.dcUsuario IS NOT NULL AND s.dcUsuario <> '' AND s.dcEstado = :dcEstado")
+    
 })
 public class SieniDocente implements Serializable {
 

@@ -21,26 +21,25 @@ public class RptEstadisticoAvancePojo implements Serializable {
     private SieniClase claseEntity;
     private SieniAlumno alumnoEntity;
     
-    private String grado;
-    private String seccion;
     private String materia;
-    private String alumno;
-    private String tipoevaluacion;
+    private String clase;
+    private String tipo;
+    private Integer total;
+    private Integer acumulado;
     private float porcentaje;
-    private float promedio;
-    private float varianza;
 
     public RptEstadisticoAvancePojo() {
     }
 
-    public RptEstadisticoAvancePojo(SieniClase claseEntity, SieniAlumno alumnoEntity, String grado, String seccion, String materia, String alumno, String tipoevaluacion) {
+    public RptEstadisticoAvancePojo(SieniClase claseEntity, SieniAlumno alumnoEntity, String materia, String clase, String tipo, Integer total, Integer acumulado) {
         this.claseEntity = claseEntity;
         this.alumnoEntity = alumnoEntity;
-        this.grado = grado;
-        this.seccion = seccion;
+        this.clase = clase;
         this.materia = materia;
-        this.alumno = alumno;
-        this.tipoevaluacion = tipoevaluacion;
+        this.tipo = tipo;
+        this.total = total;
+        this.acumulado = acumulado;
+        this.porcentaje = porcentaje;
     }
 
     public SieniClase getClaseEntity() {
@@ -51,38 +50,32 @@ public class RptEstadisticoAvancePojo implements Serializable {
         return alumnoEntity;
     }
 
-    public String getGrado() {
-        return grado;
-    }
-
-    public String getSeccion() {
-        return seccion;
+    public String getClase() {
+        return clase;
     }
 
     public String getMateria() {
         return materia;
     }
 
-    public String getAlumno() {
-        return alumno;
+    public String getTipo() {
+        return tipo;
     }
 
-    public String getTipoevaluacion() {
-        return tipoevaluacion;
+    public Integer getTotal() {
+        return total;
+    }
+
+    public Integer getAcumulado() {
+        return acumulado;
     }
 
     public float getPorcentaje() {
+        porcentaje = this.acumulado*100/this.total;
         return porcentaje;
     }
 
-    public float getPromedio() {
-        return promedio;
-    }
-
-    public float getVarianza() {
-        return varianza;
-    }
-
+    
     
 
     

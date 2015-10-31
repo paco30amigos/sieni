@@ -112,17 +112,20 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         if (validarNuevo(this.getNoticiaNueva())) {//valida el guardado
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            NotificacionesController notifyBean = (NotificacionesController) req.getSession().getAttribute("notificacionesController");
             this.getNoticiaNueva().setNcEstado('A');
             this.getNoticiaNueva().setNcPublica(loginBean.getUsuario());
             sieniNoticiaFacadeRemote.create(this.getNoticiaNueva());
             sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Noticia", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
+            notifyBean.insertNotifyNoticia(this.getNoticiaNueva());
+            
             this.setNoticiaNueva(new SieniNoticia());
             FacesMessage msg = new FacesMessage("Noticia Agregada Exitosamente");
             FacesContext.getCurrentInstance().addMessage(null, msg);
             fill();
             
-            NotificacionesController notify = (NotificacionesController) req.getSession().getAttribute("notificacionesController");
-            notify.notificarPUSH();
+            
+            
         }
     }
     

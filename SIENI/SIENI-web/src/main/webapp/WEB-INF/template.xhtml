@@ -20,7 +20,7 @@
             <h:outputScript name="js/perfect-scrollbar.js" library="rio-layout" />
             <h:outputScript name="js/layout.js" library="rio-layout" />
             
-            <h:outputScript name="ion.sound.min.js"  library="js" />
+           <!-- <h:outputScript name="ion.sound.min.js"  library="js" /> -->
             <h:outputStylesheet name="style.css" library="css" />
             
             <ui:insert name="head" />
@@ -29,7 +29,7 @@
         <h:body>
             
         <p:socket onMessage="agrandar" channel="/notify"   >
-            <p:ajax event="message" />
+            <p:ajax event="message"  />
         </p:socket>
             
             
@@ -177,23 +177,15 @@
                             sounds: [
                                 {
                                     name: "water_droplet_3",
-                                   volume: 0.
-                                },
-                                {
-                                    name: "notify_sound",
-                                    volume: 0.2
-                                },
-                                {
-                                    name: "alert_sound",
-                                    volume: 0.3,
-                                    preload: false
+                                   volume: 0.5
                                 }
+                                
                             ],
                             volume: 0.5,
-                            path: "../../resources/sounds/",
+                            path: "#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}/sounds/",
                             preload: true
                         });
-                    });
+                    }); 
                     function enter2tab(e) {
                         if (e.keyCode == 13) {
                             if ($('.ui-datepicker').css('display') == 'block') {

@@ -6,18 +6,23 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -34,11 +39,17 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniNotificacion.findByNfMensaje", query = "SELECT s FROM SieniNotificacion s WHERE s.nfMensaje = :nfMensaje"),
     @NamedQuery(name = "SieniNotificacion.findByNfFechaIngreso", query = "SELECT s FROM SieniNotificacion s WHERE s.nfFechaIngreso = :nfFechaIngreso"),
     @NamedQuery(name = "SieniNotificacion.findByNfFechaFin", query = "SELECT s FROM SieniNotificacion s WHERE s.nfFechaFin = :nfFechaFin"),
-    @NamedQuery(name = "SieniNotificacion.findByNfEstado", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = :nfEstado")})
+    @NamedQuery(name = "SieniNotificacion.findByNfEstado", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = :nfEstado"),
+    @NamedQuery(name = "SieniNotificacion.findByDocenteNotify", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = 'A' ORDER BY s.nfFechaIngreso DESC "),
+    @NamedQuery(name = "SieniNotificacion.findByAlumnoNotify", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = 'A' ORDER BY s.nfFechaIngreso DESC ")
+     })
 public class SieniNotificacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_notificacion")
+    @SequenceGenerator(name = "sec_sieni_notificacion", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_notificacion")
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id_notificacion")
     private Long idNotificacion;
     @Column(name = "nf_mensaje")
@@ -103,6 +114,16 @@ public class SieniNotificacion implements Serializable {
     public void setNfEstado(Character nfEstado) {
         this.nfEstado = nfEstado;
     }
+    
+    
+    public String getFechaInicioFormat() {
+        String fecha = null;
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
+        if (this.nfFechaIngreso != null) {
+            fecha = dt1.format(this.nfFechaIngreso);
+        }
+        return fecha;
+    }
 
     @XmlTransient
     public List<SieniAlumno> getSieniAlumnoList() {
@@ -121,6 +142,10 @@ public class SieniNotificacion implements Serializable {
     public void setSieniDocenteList(List<SieniDocente> sieniDocenteList) {
         this.sieniDocenteList = sieniDocenteList;
     }
+    
+    
+    
+    
 
     @Override
     public int hashCode() {
@@ -146,5 +171,7 @@ public class SieniNotificacion implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniNotificacion[ idNotificacion=" + idNotificacion + " ]";
     }
+    
+    
     
 }

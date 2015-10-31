@@ -42,5 +42,16 @@ public class SieniCatPuntosFacade extends AbstractFacade<SieniCatPuntos> impleme
         }
         return ret;
     }
+    
+    
+    
+    
+    @Override
+    public List<SieniCatPuntos> findRptAvance() {
+        Query q = em.createNamedQuery("SieniCatPuntos.rptAvanceClases");
+        //q.setParameter("estado", estado);
+        List<SieniCatPuntos> res = q.getResultList();
+        return res;
+    }
 
 }

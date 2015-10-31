@@ -22,72 +22,65 @@
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="4">
-                        <p:outputLabel value="Fecha desde:"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel value="hasta:"></p:outputLabel>
-                        <p:inputText value="#{formatoPantallas.fecha}"></p:inputText>
-                        <p:outputLabel value="Grado:"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
+                        <p:outputLabel for="grado" value="Grado: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="grado" class=" Responsive" value="#{rptEstadisticoAvanceController.idgrado}" >
+                            <f:selectItems itemValue ="#{gr.idGrado}" itemLabel="#{gr.grNombre}" value="#{rptEstadisticoAvanceController.listGrados}" var="gr" />
                         </p:selectOneMenu>
-                        <p:outputLabel value="Seccion:"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo30}"></f:selectItem>
+                        <p:outputLabel for="seccion" value="Seccion: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="seccion" class=" Responsive" value="#{rptEstadisticoAvanceController.idseccion}" >
+                            <f:selectItems itemValue ="#{sc.idSeccion}" itemLabel="#{sc.scDescripcion}" value="#{rptEstadisticoAvanceController.listSecciones}" var="sc" />
                         </p:selectOneMenu>
-                        <p:outputLabel value="Materia:"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo100}"></f:selectItem>
+                        <p:outputLabel for="materia" value="Materia: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="materia" class=" Responsive" value="#{rptEstadisticoAvanceController.idmateria}" >
+                            <f:selectItems itemValue ="#{mt.idMateria}" itemLabel="#{mt.maCodigo}" value="#{rptEstadisticoAvanceController.listMaterias}" var="mt" />
                         </p:selectOneMenu>
-                        <p:outputLabel value="Alumno:"></p:outputLabel>
-                        <p:selectOneMenu >
-                            <f:selectItem itemValue="0" itemLabel="#{formatoPantallas.campo300}"></f:selectItem>
+                        <p:outputLabel for="alumno" value="Alumno: " class="  Responsive"></p:outputLabel>
+                        <p:selectOneMenu id="alumno" class=" Responsive" value="#{rptEstadisticoAvanceController.idalumno}" >
+                            <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.alCarnet}" value="#{rptEstadisticoAvanceController.listAlumnos}" var="al" />
                         </p:selectOneMenu>
                     </p:panelGrid>
+                    
+                    
                     <div class="EmptyBox20"></div>
-                    <p:dataTable rows="10" var="car" value="#{clasesForm.plantillas}" 
+                    <p:dataTable id="consulta" rows="10" var="avance" value="#{rptEstadisticoAvanceController.listDatos}" 
                                  paginator="false"
                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="10,20,40"
                                  reflow="true">
-                        <p:column headerText="Grado" >
-                            #{formatoPantallas.campo30}
-                        </p:column>
-                        <p:column headerText="Seccion" >
-                            #{formatoPantallas.campo30}
-                        </p:column>
                         <p:column headerText="Materia" >
-                            #{formatoPantallas.campo100}
+                            #{avance.materia}
                         </p:column>
-                        <p:column headerText="Alumno" >
-                            #{formatoPantallas.campo300}
+                        <p:column headerText="Clase" >
+                            #{avance.clase}
                         </p:column>
-                        <p:column headerText="Tipo de Evaluacion" >
-                            #{formatoPantallas.campo50}
+                        <p:column headerText="Tipo de Clase" >
+                            #{avance.tipo}
                         </p:column>
-                        <p:column headerText="% Terminado" >
-                            #{formatoPantallas.porcentaje}
+                        <p:column headerText="Total Puntos" >
+                            #{avance.total}
                         </p:column>
-                        <p:column headerText="Promedio" >
-                            #{formatoPantallas.numeroDecimal}
+                        <p:column headerText="Acumulados" >
+                            #{avance.acumulado}
                         </p:column>
-                        <p:column headerText="Varianza" >
-                            #{formatoPantallas.numeroDecimal}
+                        <p:column headerText="% Avance" >
+                            #{avance.porcentaje} %
                         </p:column>
                         <f:facet name="footer">
-                            Total de alumnos 999
+                            Total de alumnos #{rptEstadisticoAvanceController.totalAlumnos}
                         </f:facet>
                     </p:dataTable>
+                    
                     <div class="EmptyBox20"></div>
                     <div class="TexAlCenter">
-                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                            <p:outputLabel value="Exportar a:"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{radioView.console}">
-                                <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
-                            </p:selectOneRadio>
-                            <p:commandButton  value="Generar"></p:commandButton>
-                            <p:commandButton value="Refrescar"></p:commandButton>
-                        </h:panelGrid>
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptEstadisticoAvanceController.tipoRpt}">
+                            <f:selectItem itemValue="2" itemLabel="Excel" />
+                            <f:selectItem itemValue="0" itemLabel="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Generar" ajax="false" actionListener="#{rptEstadisticoAvanceController.generarReporte()}"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptEstadisticoAvanceController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    </h:panelGrid>
                     </div>
                 </h:form>
             </p:tab>

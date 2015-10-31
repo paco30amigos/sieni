@@ -78,6 +78,8 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findAlumnoById", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :id"),
     @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario IS NOT NULL AND s.alUsuario <> ''"),
     @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnosByEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario IS NOT NULL AND s.alUsuario <> '' AND s.alEstado = :alEstado ")
+   
+    
 })
 public class SieniAlumno implements Serializable {
 

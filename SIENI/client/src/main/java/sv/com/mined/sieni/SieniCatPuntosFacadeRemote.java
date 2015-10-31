@@ -31,4 +31,7 @@ public interface SieniCatPuntosFacadeRemote {
     int count();
     
     public SieniCatPuntos findByClase(Long idClase);
+    
+    
+    public List<SieniCatPuntos> findRptAvance();
 }

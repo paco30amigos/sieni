@@ -63,6 +63,9 @@ public class SieniEvalRespItem implements Serializable {
     @Column(name = "er_fecha_ingreso")
     @Temporal(TemporalType.TIMESTAMP)
     private Date erFechaIngreso;
+    @Size(max = 2147483647)
+    @Column(name = "er_tipo_input")
+    private String erTipoInput;
     @JoinColumn(name = "id_evaluacion_item", referencedColumnName = "id_evaluacion_item")
     @ManyToOne
     private SieniEvaluacionItem idEvaluacionItem;
@@ -128,6 +131,14 @@ public class SieniEvalRespItem implements Serializable {
 
     public void setIdEvaluacionItem(SieniEvaluacionItem idEvaluacionItem) {
         this.idEvaluacionItem = idEvaluacionItem;
+    }
+
+    public String getErTipoInput() {
+        return erTipoInput;
+    }
+
+    public void setErTipoInput(String erTipoInput) {
+        this.erTipoInput = erTipoInput;
     }
 
     @Override

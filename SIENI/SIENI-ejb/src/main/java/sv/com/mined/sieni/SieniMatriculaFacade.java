@@ -95,4 +95,13 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
         List<SieniMatricula> res = q.getResultList();
         return res;
     }
+
+    @Override
+    public SieniMatricula findByIdAlumnoAnio(Long idAlumno, String mtAnio) {
+        Query q = em.createNamedQuery("SieniMatricula.findByIdAlumnoAnio");
+        q.setParameter("idAlumno", idAlumno);
+        q.setParameter("mtAnio", mtAnio);
+     
+        return (SieniMatricula) q.getSingleResult();
+    }
 }

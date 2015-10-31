@@ -39,4 +39,8 @@ public interface SieniMatriculaFacadeRemote {
     public List<SieniMatricula> findAllNoInactivosRpt(Date desde, Date hasta);
 
     public List<SieniMatricula> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion);
+    
+    public SieniMatricula findByIdAlumnoAnio(Long idAlumno, String mtAnio);
+    
+    
 }

@@ -44,11 +44,13 @@
                 </p:dialog>
                 <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
                 <p:dataTable id="consulta" paginatorPosition="bottom"  var="car" value="#{gestionarEvaluacionController.evaluacionItemResp.sieniEvaluacionItemList}" 
-                             paginator="true" rows="2"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="10,20,40"
+                             paginator="true" rows="#{gestionarEvaluacionController.evaluacionItemResp.evPreguntasPagina}"
+                             paginatorTemplate="{CurrentPageReport} {guardarRespuesta}  {NextPageLink} "
                              reflow="true" rowIndexVar="rowIndex"
                              styleClass="borderless">
+                    <f:facet name="{guardarRespuesta}">
+                        <p:commandButton value="Guardar" action="#{gestionarEvaluacionController.guardarResAlumno()}"  rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
+        </f:facet>  
 
                     <p:column >
 
@@ -62,8 +64,8 @@
                                 
                             </p:column>
                         </p:dataTable>
-                    </p:column>                                                          
-
+                    </p:column>                                                         
+                     
 
 
                 </p:dataTable>

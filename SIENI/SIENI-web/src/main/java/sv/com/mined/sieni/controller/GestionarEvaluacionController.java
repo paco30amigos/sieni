@@ -187,13 +187,17 @@ this.setEvaluacionItemNuevo(new SieniEvaluacionItem());
 //        if(this.getEvaluacionItemModifica().getEiTipoResp().equals("1") || this.getEvaluacionItemModifica().getEiTipoResp().equals("2"))
             
             
-            
+        this.getEvalRespItemNuevo().setErTipoInput("checkbox"); 
+        if(this.getEvaluacionItemModifica().getEiTipoResp().equals("1")){
+        this.getEvalRespItemNuevo().setErTipoInput("radio"); 
+        }
         if(this.getEvaluacionItemModifica().getEiTipoResp().equals("3")){
         if(this.getEvalRespItemList().size()==2){
             guardarBoolean=false;
         FacesMessage msg = new FacesMessage("Solo pueden haber para esta pregunta 2 respuestas tipo F/V");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+        this.getEvalRespItemNuevo().setErTipoInput("radio");
         }
         if(this.getEvaluacionItemModifica().getEiTipoResp().equals("4")){
         if(this.getEvalRespItemList().size()==1){
@@ -201,6 +205,8 @@ this.setEvaluacionItemNuevo(new SieniEvaluacionItem());
         FacesMessage msg = new FacesMessage("Solo pueden haber para esta pregunta 1 respuestas");
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+        this.getEvalRespItemNuevo().setErTipoInput("text");
+        this.getEvalRespItemNuevo().setErRespCorrecta("");
         }
         if(guardarBoolean){
         this.getEvalRespItemNuevo().setErEstado('A');
@@ -321,6 +327,7 @@ this.setEvaluacionModifica(modificado);
 this.setIndexMenu(3);
     }
     public void verEvaluacion(SieniEvaluacion modificado) {
+        this.setEvaluacionItemResp(new SieniEvaluacion());
 this.setEvaluacionItemResp(sieniEvaluacionFacadeRemote.findEvalItemResp(modificado.getIdEvaluacion()));
 this.setIndexMenu(10);
     }
@@ -366,6 +373,13 @@ this.setIndexMenu(10);
 //        }
     }
 
+    public void guardarResAlumno() {
+    HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+String inputs[] = req.getParameterValues("name1");
+FacesMessage msg = new FacesMessage("Respuestas guardadas");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
     public void resetModificaForm() {
         this.setEvaluacionModifica(new SieniEvaluacion());
     }

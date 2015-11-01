@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -40,8 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_docente")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniDocente.findDocenteUsuario", query = "SELECT s FROM SieniDocente s  WHERE s.dcUsuario=:usuario AND s.dcContrasenia=:pass"),
-    @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s LEFT JOIN s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NULL"),
+    @NamedQuery(name = "SieniDocente.findDocenteUsuario", query = "SELECT s FROM SieniDocente s JOIN fetch s.sieniDocentRolList sr  WHERE s.dcUsuario=:usuario AND s.dcContrasenia=:pass"),
+    @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s LEFT JOIN fetch s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NULL"),
     @NamedQuery(name = "SieniDocente.findAll", query = "SELECT s FROM SieniDocente s"),
     @NamedQuery(name = "SieniDocente.findDocenteActivo", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A'"),
     @NamedQuery(name = "SieniDocente.findByDesdeHasta", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A' AND s.dcFechaIngreso BETWEEN :desde AND :hasta"),
@@ -68,6 +69,7 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class SieniDocente implements Serializable {
 
+    @Basic(fetch = LAZY)
     @Lob
     @Column(name = "dc_foto")
     private byte[] dcFoto;
@@ -131,13 +133,13 @@ public class SieniDocente implements Serializable {
 //    @Column(name = "dc_fecha_crea")
 //    @Temporal(TemporalType.DATE)
 //    private Date dcFechaCrea;
-    @JoinTable(name = "doc_recibe_noti", joinColumns = {
-        @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
-    @ManyToMany
-    private List<SieniNotificacion> sieniNotificacionList;
+//    @JoinTable(name = "doc_recibe_noti", joinColumns = {
+//        @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")}, inverseJoinColumns = {
+//        @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
+//    @ManyToMany
+//    private List<SieniNotificacion> sieniNotificacionList;
     
-    @OneToMany(mappedBy = "idDocente", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idDocente")
     private List<SieniDocentRol> sieniDocentRolList;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniCurso> sieniCursoList;
@@ -299,14 +301,14 @@ public class SieniDocente implements Serializable {
         this.dcEstado = dcEstado;
     }
 
-    @XmlTransient
-    public List<SieniNotificacion> getSieniNotificacionList() {
-        return sieniNotificacionList;
-    }
-
-    public void setSieniNotificacionList(List<SieniNotificacion> sieniNotificacionList) {
-        this.sieniNotificacionList = sieniNotificacionList;
-    }
+//    @XmlTransient
+//    public List<SieniNotificacion> getSieniNotificacionList() {
+//        return sieniNotificacionList;
+//    }
+//
+//    public void setSieniNotificacionList(List<SieniNotificacion> sieniNotificacionList) {
+//        this.sieniNotificacionList = sieniNotificacionList;
+//    }
 
     @XmlTransient
     public List<SieniDocentRol> getSieniDocentRolList() {

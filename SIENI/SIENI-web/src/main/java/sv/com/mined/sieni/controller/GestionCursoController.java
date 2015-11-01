@@ -62,10 +62,13 @@ public class GestionCursoController extends GestionCursoForm {
 
     private void fill() {
         this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
-        //nuevo
-        this.setDocentesList(sieniDocenteFacadeRemote.findAll());
+        //nuevo        
+    }
+
+    public void nuevo() {
+        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setGradoList(sieniGradoFacadeRemote.findAll());
-        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
+        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
         this.setSeccionList(new ArrayList<SieniSeccion>());
         if (this.getGradoList() != null && !this.getGradoList().isEmpty()) {
             if (this.getGradoList().get(0).getSieniSeccionList() != null
@@ -73,17 +76,7 @@ public class GestionCursoController extends GestionCursoForm {
                 this.setSeccionList(this.getGradoList().get(0).getSieniSeccionList());
             }
         }
-        //modifica
-        this.setDocentesModificaList(sieniDocenteFacadeRemote.findAll());
-        this.setGradoModificaList(sieniGradoFacadeRemote.findAll());
-        this.setMateriaModificaList(sieniMateriaFacadeRemote.findAll());
-        this.setSeccionModificaList(new ArrayList<SieniSeccion>());
-        if (this.getGradoModificaList() != null && !this.getGradoModificaList().isEmpty()) {
-            if (this.getGradoModificaList().get(0).getSieniSeccionList() != null
-                    && !this.getGradoModificaList().get(0).getSieniSeccionList().isEmpty()) {
-                this.setSeccionModificaList(this.getGradoModificaList().get(0).getSieniSeccionList());
-            }
-        }
+        this.setIndexMenu(1);
     }
 
     public void guardar() {
@@ -116,19 +109,18 @@ public class GestionCursoController extends GestionCursoForm {
         if (validarNuevo(this.getCursoNuevo())) {//valida el guardado
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            SieniCurso existCurso=new SieniCurso();
-            existCurso=sieniCursoFacadeRemote.finByDocGrSecMat(this.getCursoNuevo().getIdDocente().getIdDocente(), this.getCursoNuevo().getIdGrado().getIdGrado(), this.getCursoNuevo().getIdSeccion().getIdSeccion(), this.getCursoNuevo().getIdMateria().getIdMateria(),this.getCursoNuevo().getCrNombre());
-            if(existCurso!=null)
-            {
-            FacesMessage msg = new FacesMessage("No se puede crear el curso, ya existe para esa materia");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-           
-            }else{
-            sieniCursoFacadeRemote.create(this.getCursoNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Curso", this.getCursoNuevo().getIdCurso(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Curso Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            this.setIndexMenu(0);
+            SieniCurso existCurso = new SieniCurso();
+            existCurso = sieniCursoFacadeRemote.finByDocGrSecMat(this.getCursoNuevo().getIdDocente().getIdDocente(), this.getCursoNuevo().getIdGrado().getIdGrado(), this.getCursoNuevo().getIdSeccion().getIdSeccion(), this.getCursoNuevo().getIdMateria().getIdMateria(), this.getCursoNuevo().getCrNombre());
+            if (existCurso != null) {
+                FacesMessage msg = new FacesMessage("No se puede crear el curso, ya existe para esa materia");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+
+            } else {
+                sieniCursoFacadeRemote.create(this.getCursoNuevo());
+                sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Curso", this.getCursoNuevo().getIdCurso(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
+                FacesMessage msg = new FacesMessage("Curso Creado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                this.setIndexMenu(0);
             }
         }
         this.setCursoNuevo(new SieniCurso());
@@ -154,13 +146,24 @@ public class GestionCursoController extends GestionCursoForm {
 
     //metodos para modificacion de datos
     public void modificar(SieniCurso modificado) {
+        //modifica
+        this.setDocentesModificaList(sieniDocenteFacadeRemote.findDocentesActivos());
+        this.setGradoModificaList(sieniGradoFacadeRemote.findAll());
+        this.setMateriaModificaList(sieniMateriaFacadeRemote.findMateriasActivas());
+        this.setSeccionModificaList(new ArrayList<SieniSeccion>());
+        if (this.getGradoModificaList() != null && !this.getGradoModificaList().isEmpty()) {
+            if (this.getGradoModificaList().get(0).getSieniSeccionList() != null
+                    && !this.getGradoModificaList().get(0).getSieniSeccionList().isEmpty()) {
+                this.setSeccionModificaList(this.getGradoModificaList().get(0).getSieniSeccionList());
+            }
+        }
         this.setCursoModifica(modificado);
         this.setIndexMenu(2);
     }
-    
+
     public void ver(SieniCurso modificado) {
         this.setCursoModifica(modificado);
-             this.setIndexMenu(3);
+        this.setIndexMenu(3);
     }
 
     //metodos para modificacion de datos

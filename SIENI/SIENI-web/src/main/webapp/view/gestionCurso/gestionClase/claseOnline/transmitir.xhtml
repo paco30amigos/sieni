@@ -17,6 +17,7 @@
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="head">
+        <h:outputScript name="RTCMultiConnection.js" library="js" />
         <script>
             var usuarioActual = '#{loginController.nombreCompleto}';
             var transmitiendo = false;

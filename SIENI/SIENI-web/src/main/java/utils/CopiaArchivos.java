@@ -71,6 +71,9 @@ public class CopiaArchivos {
     public String getRelativeResourcesUrl() {
         return getSeparador() + "resources" + getSeparador() + getMultimediaBaseUrl() + getSeparador();
     }
+    public String getRelativeBaseResourcesUrl() {
+        return getSeparador() + "resources" + getSeparador();
+    }
 
     public String getContexto() {
         ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();

@@ -46,7 +46,7 @@ public class SieniCatPuntos implements Serializable {
     @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
     @ManyToOne
     private SieniClase idClase;
-    @Column(name = "cp_estado_puntos")
+    @Column(name = "cp_estado")
     private Character cpEstado;
     @Column(name = "cp_num_puntos")
     private Integer cpNumPuntos;

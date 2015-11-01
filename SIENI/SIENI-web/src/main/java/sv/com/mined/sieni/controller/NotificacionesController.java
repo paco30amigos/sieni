@@ -5,13 +5,11 @@
  */
 package sv.com.mined.sieni.controller;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -23,8 +21,6 @@ import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniNotificacionFacadeRemote;
 import sv.com.mined.sieni.form.NotificacionesForm;
-import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniNoticia;
 import sv.com.mined.sieni.model.SieniNotificacion;
 import utils.DateUtils;
@@ -88,7 +84,7 @@ public class NotificacionesController extends NotificacionesForm {
     
     
     public void notificarPUSH() {
-        String CHANNEL = "/notify";
+        String CHANNEL = "/notifyNotice";
         increment();
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
         eventBus.publish(CHANNEL, String.valueOf(count));

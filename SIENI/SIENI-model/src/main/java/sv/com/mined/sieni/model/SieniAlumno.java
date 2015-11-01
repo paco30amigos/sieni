@@ -15,6 +15,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -83,6 +84,7 @@ import org.primefaces.model.StreamedContent;
 })
 public class SieniAlumno implements Serializable {
 
+    @Basic(fetch = LAZY)
     @Lob
     @Column(name = "al_foto")
     private byte[] alFoto;

@@ -14,6 +14,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniArchivo;
 import utils.siteUrls;
 
 /**
@@ -30,12 +31,12 @@ public class GestionarAlumnosForm {
     //registro de alumnos
     private SieniAlumno alumnoNuevo;
     private UploadedFile foto;
-    private StreamedContent fotoUsable;
+    private SieniArchivo fotoUsable;
     private byte[] fotoArchivo;
     //modificacion de alumnos
     private SieniAlumno alumnoModifica;
     private UploadedFile fotoModifica;
-    private StreamedContent fotoUsableModifica;
+    private SieniArchivo fotoUsableModifica;
     private byte[] fotoArchivoModifica;
 
     public List<SieniAlumno> getAlumnosList() {
@@ -79,26 +80,11 @@ public class GestionarAlumnosForm {
         return ret;
     }
 
-    public StreamedContent getFotoUsable() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
-            // So, we're rendering the view. Return a stub StreamedContent so that it will generate right URL.
-            if (fotoUsable != null) {
-                return new DefaultStreamedContent();
-            } else {
-                return null;
-            }
-        } else {
-            if (fotoUsable != null) {
-                return fotoUsable;
-            } else {
-                return null;
-            }
-
-        }
+    public SieniArchivo getFotoUsable() {
+        return fotoUsable;
     }
 
-    public void setFotoUsable(StreamedContent fotoUsable) {
+    public void setFotoUsable(SieniArchivo fotoUsable) {
         this.fotoUsable = fotoUsable;
     }
 
@@ -141,11 +127,11 @@ public class GestionarAlumnosForm {
         this.fotoModifica = fotoModifica;
     }
 
-    public StreamedContent getFotoUsableModifica() {
+    public SieniArchivo getFotoUsableModifica() {
         return fotoUsableModifica;
     }
 
-    public void setFotoUsableModifica(StreamedContent fotoUsableModifica) {
+    public void setFotoUsableModifica(SieniArchivo fotoUsableModifica) {
         this.fotoUsableModifica = fotoUsableModifica;
     }
 

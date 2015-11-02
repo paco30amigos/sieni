@@ -16,11 +16,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import org.primefaces.util.Base64;
+import org.springframework.validation.ValidationUtils;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.LoginForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.siteUrls;
 
 /**
@@ -39,39 +41,44 @@ public class LoginController extends LoginForm {
     public void login(ActionEvent actionEvent) {
         FacesMessage msg = null;
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            String passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(this.getPassword().getBytes("UTF-8"))), false));
-            SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoUsuario(this.getUsuario(), passEncriptado);
-            if (alumno == null) {
-                SieniDocente docente = sieniDocenteFacadeRemote.findDocenteUsuario(this.getUsuario(), passEncriptado);
-                if (docente != null) {
-                    if (docente.getDcEstado() != null && docente.getDcEstado().equals('A')) {
+            if ((this.getUsuario() != null && this.getUsuario().length() > 30)
+                    || this.getPassword() != null && this.getPassword().length() > 30) {
+                new ValidationPojo().printMsj("Credenciales no válidas ", FacesMessage.SEVERITY_ERROR);
+            } else {
+                MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                String passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(this.getPassword().getBytes("UTF-8"))), false));
+                SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoUsuario(this.getUsuario(), passEncriptado);
+                if (alumno == null) {
+                    SieniDocente docente = sieniDocenteFacadeRemote.findDocenteUsuario(this.getUsuario(), passEncriptado);
+                    if (docente != null) {
+                        if (docente.getDcEstado() != null && docente.getDcEstado().equals('A')) {
+                            this.setLogeado(true);
+                            this.setTipoUsuario("D");
+                            this.setTipoRol(docente.getSieniDocentRolList().get(0).getFRolDoc() + "");
+                            this.setIdUsuario(docente.getIdDocente());
+                            this.setNombreCompleto(docente.getNombreCompleto());
+                            this.setDocente(docente);
+                            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
+                            this.getsU().redirect("/faces/index.xhtml");
+                        } else {
+                            msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inactivo", this.getUsuario());
+                        }
+                    } else {
+                        msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Credenciales no válidas", this.getUsuario());
+                    }
+                } else {
+                    if (alumno.getAlEstado() != null && alumno.getAlEstado().equals('A')) {
                         this.setLogeado(true);
-                        this.setTipoUsuario("D");
-                        this.setTipoRol(docente.getSieniDocentRolList().get(0).getFRolDoc() + "");
-                        this.setIdUsuario(docente.getIdDocente());
-                        this.setNombreCompleto(docente.getNombreCompleto());
-                        this.setDocente(docente);
+                        this.setTipoUsuario("A");
+                        this.setTipoRol(alumno.getSieniAlumnRolList().get(0).getFRol() + "");
+                        this.setIdUsuario(alumno.getIdAlumno());
+                        this.setNombreCompleto(alumno.getNombreCompleto());
+                        this.setAlumno(alumno);
                         msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
-                        this.getsU().redirect("/faces/index.xhtml");
+                        this.getsU().redirect("/");
                     } else {
                         msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inactivo", this.getUsuario());
                     }
-                } else {
-                    msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Credenciales no válidas", this.getUsuario());
-                }
-            } else {
-                if (alumno.getAlEstado() != null && alumno.getAlEstado().equals('A')) {
-                    this.setLogeado(true);
-                    this.setTipoUsuario("A");
-                    this.setTipoRol(alumno.getSieniAlumnRolList().get(0).getFRol() + "");
-                    this.setIdUsuario(alumno.getIdAlumno());
-                    this.setNombreCompleto(alumno.getNombreCompleto());
-                    this.setAlumno(alumno);
-                    msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
-                    this.getsU().redirect("/");
-                } else {
-                    msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inactivo", this.getUsuario());
                 }
             }
         } catch (Exception e) {

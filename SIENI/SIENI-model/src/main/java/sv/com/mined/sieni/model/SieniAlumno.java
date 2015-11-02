@@ -55,7 +55,7 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findAnioGradoSeccionNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
     @NamedQuery(name = "SieniAlumno.findByNombreCompleto", query = "SELECT s FROM SieniAlumno s where s.alNombreCompleto=:nombreCompleto"),
     @NamedQuery(name = "SieniAlumno.findSiguienteCorrelat", query = "SELECT max(s.alCorrelatCarnet) FROM SieniAlumno s where s.alCodigoCarnet=:codigo"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A'"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A' ORDER BY s.idAlumno"),
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL"),// or s.alEstado=3 eliminado
@@ -84,10 +84,8 @@ import org.primefaces.model.StreamedContent;
 })
 public class SieniAlumno implements Serializable {
 
-    @Basic(fetch = LAZY)
-    @Lob
     @Column(name = "al_foto")
-    private byte[] alFoto;
+    private Long alFoto;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniEvalRespAlumno> sieniEvalRespAlumnoList;
     @OneToMany(mappedBy = "idAlumno")
@@ -291,11 +289,11 @@ public class SieniAlumno implements Serializable {
         this.alCorreo = alCorreo;
     }
 
-    public byte[] getAlFoto() {
+    public Long getAlFoto() {
         return alFoto;
     }
 
-    public void setAlFoto(byte[] alFoto) {
+    public void setAlFoto(Long alFoto) {
         this.alFoto = alFoto;
     }
 
@@ -416,15 +414,6 @@ public class SieniAlumno implements Serializable {
 
     public void setFechaNacimientoFiltrable(String fechaNacimientoFiltrable) {
         this.fechaNacimientoFiltrable = fechaNacimientoFiltrable;
-    }
-
-    public StreamedContent getFotoContenido() {
-        fotoContenido = null;
-        if (alFoto != null) {
-            InputStream input = new ByteArrayInputStream(alFoto);
-            fotoContenido = new DefaultStreamedContent(input, "image/jpg");
-        }
-        return fotoContenido;
     }
 
     public SieniMatricula getMatriculaActual() {

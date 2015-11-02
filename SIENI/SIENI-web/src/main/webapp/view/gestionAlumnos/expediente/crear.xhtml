@@ -24,8 +24,8 @@
                 <div class="Container10" style="margin-top: 20px;margin-left: 40px;">
                     <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
                 </div>
-                <div class="Container70">
-                    <p:graphicImage id="fotoSubida" value="#{gestionarAlumnosController.fotoUsable}" width="100em" cache="false"></p:graphicImage>
+                <div>
+                    <p:graphicImage id="fotoSubida" name="#{copiaArchivos.multimediaBaseUrl}/#{gestionarAlumnosController.fotoUsable.arRuta}" width="20px" style="width: 150px;margin-top: 10px;" cache="false"></p:graphicImage>
                 </div>
                 <h:panelGrid class="Container100">
                     <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionarAlumnosController.getFotoNueva}"

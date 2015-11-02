@@ -24,11 +24,11 @@
                 <div class="Container10" style="margin-top: 20px;margin-left: 40px;">
                     <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
                 </div>
-                <div class="Container70">
-                    <p:graphicImage id="fotoSubida" value="#{gestionarDocentesController.fotoUsableModifica}" width="100em" cache="false"></p:graphicImage>
+                <div>
+                    <p:graphicImage id="fotoSubida" name="#{copiaArchivos.multimediaBaseUrl}/#{gestionarDocentesController.fotoUsableModifica.arRuta}" width="20px" style="width: 150px;margin-top: 10px;" cache="false"></p:graphicImage>
                 </div>
                 <h:panelGrid class="Container100">
-                    <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionarDocentesController.getFotoNuevaModifica(event)}"
+                    <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionarDocentesController.getFotoNuevaModifica}" 
                                   uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" 
                                   value="#{gestionarDocentesController.fotoModifica}" update="fotoSubida" >
                     </p:fileUpload>
@@ -37,19 +37,19 @@
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
-                    <p:inputText tabindex="1" class="Container100" id="primNombreNuevo"  value="#{gestionarDocentesController.docenteModifica.dcPrimNombre}" maxlength="#{nombreUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
+                    <p:inputText tabindex="1" class="Container100" id="primNombreNuevo"  value="#{gestionarDocentesController.docenteModifica.dcPrimNombre}" maxlength="#{tamanioUtils.nombreMax}" required="true" requiredMessage="Debe ingresar Primer Nombre"></p:inputText>
                     <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="2" class="Container100" id="segNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                    <p:inputText tabindex="2" class="Container100" id="segNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguNombre}" maxlength="#{tamanioUtils.nombreMax}"></p:inputText>
                     <p:outputLabel for="tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="3" class="Container100" id="tercNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercNombre}" maxlength="#{nombreUtils.nombreMax}"></p:inputText>
+                    <p:inputText tabindex="3" class="Container100" id="tercNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercNombre}" maxlength="#{tamanioUtils.nombreMax}"></p:inputText>
                     <p:outputLabel for="primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="4" class="Container100" id="primApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcPrimApe}" maxlength="#{nombreUtils.apellidoMax}" required="true" requiredMessage="Debe ingresar Primer Apellido"></p:inputText>
+                    <p:inputText tabindex="4" class="Container100" id="primApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcPrimApe}" maxlength="#{tamanioUtils.apellidoMax}" required="true" requiredMessage="Debe ingresar Primer Apellido"></p:inputText>
                     <p:outputLabel for="segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="5" class="Container100" id="segApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                    <p:inputText tabindex="5" class="Container100" id="segApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguApe}" maxlength="#{tamanioUtils.apellidoMax}"></p:inputText>
                     <p:outputLabel for="tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="6" class="Container100" id="tercApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercApe}" maxlength="#{nombreUtils.apellidoMax}"></p:inputText>
+                    <p:inputText tabindex="6" class="Container100" id="tercApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercApe}" maxlength="#{tamanioUtils.apellidoMax}"></p:inputText>
                     <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
-                    <p:calendar tabindex="7" class="Container100" id="fechNacimNuevo" value="#{gestionarDocentesController.docenteModifica.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
+                    <p:calendar tabindex="7" class="Container100" id="fechNacimNuevo" value="#{gestionarDocentesController.docenteModifica.dcFechaNacimiento}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de nacimiento" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true" widgetVar="calen"></p:calendar>
                     <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
                     <p:inputText tabindex="8" class="Container100" id="emailNuevo" type="email" value="#{gestionarDocentesController.docenteModifica.dcCorreo}"></p:inputText>
                     <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
@@ -57,11 +57,11 @@
                     <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
                     <p:inputMask tabindex="10" class="Container100" id="celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm2}"></p:inputMask>
                     <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
-                    <p:inputTextarea tabindex="11" class="Container100" id="direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}"></p:inputTextarea>
+                    <p:inputTextarea maxlength="#{tamanioUtils.direccionMax}" tabindex="11" class="Container100" id="direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}" required="true" requiredMessage="Debe ingresar dirección"></p:inputTextarea>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton value="Guardar" action="#{gestionarDocentesController.guardarModifica()}" update="p1,focus" />
+                    <p:commandButton value="Guardar" tabindex="12" action="#{gestionarDocentesController.guardarModifica()}" update="p1,focus" />
                     <p:commandButton value="Limpiar" immediate="true">
                         <p:ajax update="p1,archivo,fotoSubida,focus" resetValues="true" />
                     </p:commandButton>
@@ -69,7 +69,7 @@
                         <p:ajax update="p1,archivo,fotoSubida" resetValues="true" listener="#{gestionarDocentesController.setIndexMenu(0)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
-                   <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
                         <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
                         </p:menuitem>
                         <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}">    
@@ -79,7 +79,7 @@
                         <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}">
                         </p:menuitem>
                     </p:tieredMenu>  
-                            
+
                 </div>
             </h:form>
         </p:panel>

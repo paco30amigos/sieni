@@ -70,7 +70,7 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
     @Override
     public List<SieniArchivo> merge(List<SieniArchivo> lista, List<SieniArchivo> eliminados) {
         for (SieniArchivo actual : lista) {
-            if (actual.getIdArchivo()!= null) {
+            if (actual.getIdArchivo() != null) {
                 this.edit(actual);
             } else {
                 this.create(actual);
@@ -86,5 +86,16 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
         em.flush();
 
         return lista;
+    }
+
+    @Override
+    public SieniArchivo merge(SieniArchivo dato) {
+
+        if (dato.getIdArchivo() != null) {
+            this.edit(dato);
+        } else {
+            this.create(dato);
+        }
+        return dato;
     }
 }

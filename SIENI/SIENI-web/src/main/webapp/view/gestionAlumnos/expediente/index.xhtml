@@ -35,7 +35,7 @@
                 </p:dialog>
                 <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionarAlumnosController.alumnosList}" 
-                             paginator="true" rows="5"
+                             paginator="true" rows="10"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              reflow="true">
@@ -69,7 +69,7 @@
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Adicionar Alumno" action="#{gestionarAlumnosController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Adicionar Alumno" action="#{gestionarAlumnosController.nuevo()}"></p:commandButton>
                 <p:commandButton value="Refrescar" action="#{gestionarAlumnosController.refresh()}" update="consulta"></p:commandButton>
             </h:form>
         </p:panel>

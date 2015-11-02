@@ -16,59 +16,59 @@
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
-                <h:form id="consultaForm">
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Si" action="#{gestionarAlumnosController.eliminarExpediente()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
-                    
-                    <div class="Container10">
-                        <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
-                    </div>
-                    <div class="Container70">
-                        <p:graphicImage id="fotoSubida" value="#{gestionarDocentesController.fotoUsableModifica}" width="100em" cache="false"></p:graphicImage>
-                    </div>
-                   <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
-                        <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
-                        <p:outputLabel id="primNombreNuevo"  value="#{gestionarDocentesController.docenteModifica.dcPrimNombre}"></p:outputLabel>
-                        <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="segNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguNombre}" ></p:outputLabel>
-                        <p:outputLabel for="tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="tercNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercNombre}" ></p:outputLabel>
-                        <p:outputLabel for="primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="primApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcPrimApe}"></p:outputLabel>
-                        <p:outputLabel for="segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="segApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguApe}" ></p:outputLabel>
-                        <p:outputLabel for="tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="tercApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercApe}"></p:outputLabel>
-                        <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="fechNacimNuevo" value="#{formatUtils.getFormatedDate(gestionarDocentesController.docenteModifica.dcFechaNacimiento)}"></p:outputLabel>
-                        <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="emailNuevo" value="#{gestionarDocentesController.docenteModifica.dcCorreo}"></p:outputLabel>
-                        <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm1}"  readonly="true"></p:inputMask>
-                        <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
-                        <p:inputMask id="celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm2}" readonly="true"></p:inputMask>
-                        <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
-                        <p:outputLabel id="direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}"></p:outputLabel>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container100">
-                        <p:commandButton value="Modificar" action="#{gestionarDocentesController.modificar(gestionarDocentesController.docenteModifica)}" immediate="true" >
+
+                <div class="Container10">
+                    <p:outputLabel value="Foto:" class="Container20"></p:outputLabel>
+                </div>
+                <div>
+                    <p:graphicImage id="fotoSubida" name="#{copiaArchivos.multimediaBaseUrl}/#{gestionarDocentesController.fotoUsableModifica.arRuta}" width="20px" style="width: 150px;margin-top: 10px;" cache="false"></p:graphicImage>
+                </div>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
+                    <p:outputLabel for="primNombreNuevo" value="Primer Nombre: " class=" Responsive"  ></p:outputLabel>
+                    <p:outputLabel id="primNombreNuevo"  value="#{gestionarDocentesController.docenteModifica.dcPrimNombre}"></p:outputLabel>
+                    <p:outputLabel for="segNombreNuevo"  value="Segundo Nombre: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="segNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguNombre}" ></p:outputLabel>
+                    <p:outputLabel for="tercNombreNuevo" value="Tercer Nombre: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="tercNombreNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercNombre}" ></p:outputLabel>
+                    <p:outputLabel for="primApeNuevo" value="Primer Apellido: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="primApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcPrimApe}"></p:outputLabel>
+                    <p:outputLabel for="segApeNuevo" value="Segundo Apellido: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="segApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcSeguApe}" ></p:outputLabel>
+                    <p:outputLabel for="tercApeNuevo" value="Tercer Apellido: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="tercApeNuevo" value="#{gestionarDocentesController.docenteModifica.dcTercApe}"></p:outputLabel>
+                    <p:outputLabel for="fechNacimNuevo" value="Fecha de Nacimiento: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="fechNacimNuevo" value="#{formatUtils.getFormatedDate(gestionarDocentesController.docenteModifica.dcFechaNacimiento)}"></p:outputLabel>
+                    <p:outputLabel for="emailNuevo" value="Correo electrónico: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="emailNuevo" value="#{gestionarDocentesController.docenteModifica.dcCorreo}"></p:outputLabel>
+                    <p:outputLabel for="telefonoNuevo" value="Teléfono: " class=" Responsive"></p:outputLabel>
+                    <p:inputMask id="telefonoNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm1}"  readonly="true"></p:inputMask>
+                    <p:outputLabel for="celularNuevo" value="Celular: " class=" Responsive"></p:outputLabel>
+                    <p:inputMask id="celularNuevo" mask="9999-9999" value="#{gestionarDocentesController.docenteModifica.dcTelefonoEm2}" readonly="true"></p:inputMask>
+                    <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}"></p:outputLabel>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100">
+                    <p:commandButton value="Modificar" action="#{gestionarDocentesController.modificar(gestionarDocentesController.docenteModifica)}" immediate="true" >
                     </p:commandButton>
                     <p:commandButton value="Eliminar" action="#{gestionarDocentesController.eliminar(gestionarDocentesController.docenteModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                     </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
                         <p:ajax update="p1,fotoSubida" resetValues="true" listener="#{gestionarDocentesController.setIndexMenu(0)}"/>
                     </p:commandButton>
-                        <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
-                        <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
                         <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
                         </p:menuitem>
                         <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}">    
@@ -78,9 +78,8 @@
                         <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}">
                         </p:menuitem>
                     </p:tieredMenu>          
-                    </div>
-                </h:form>
-            </p:panel>
+                </div>
+            </h:form>
+        </p:panel>
     </ui:define>
 </ui:composition>
-            

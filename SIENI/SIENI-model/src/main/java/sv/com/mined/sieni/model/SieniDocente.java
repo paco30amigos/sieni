@@ -12,15 +12,9 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -44,7 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findDocenteUsuario", query = "SELECT s FROM SieniDocente s JOIN fetch s.sieniDocentRolList sr  WHERE s.dcUsuario=:usuario AND s.dcContrasenia=:pass"),
     @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s LEFT JOIN fetch s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NULL"),
     @NamedQuery(name = "SieniDocente.findAll", query = "SELECT s FROM SieniDocente s"),
-    @NamedQuery(name = "SieniDocente.findDocenteActivo", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A'"),
+    @NamedQuery(name = "SieniDocente.findDocenteActivo", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A' ORDER BY s.idDocente"),
     @NamedQuery(name = "SieniDocente.findByDesdeHasta", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A' AND s.dcFechaIngreso BETWEEN :desde AND :hasta"),
     @NamedQuery(name = "SieniDocente.findByIdDocente", query = "SELECT s FROM SieniDocente s WHERE s.idDocente = :idDocente"),
     @NamedQuery(name = "SieniDocente.findByDcPrimNombre", query = "SELECT s FROM SieniDocente s WHERE s.dcPrimNombre = :dcPrimNombre"),
@@ -69,10 +63,8 @@ import javax.xml.bind.annotation.XmlTransient;
 })
 public class SieniDocente implements Serializable {
 
-    @Basic(fetch = LAZY)
-    @Lob
     @Column(name = "dc_foto")
-    private byte[] dcFoto;
+    private Long dcFoto;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniMateriaDocente> sieniMateriaDocenteList;
     @OneToMany(mappedBy = "idDocente")
@@ -253,11 +245,11 @@ public class SieniDocente implements Serializable {
         this.dcDireccion = dcDireccion;
     }
 
-    public byte[] getDcFoto() {
+    public Long getDcFoto() {
         return dcFoto;
     }
 
-    public void setDcFoto(byte[] dcFoto) {
+    public void setDcFoto(Long dcFoto) {
         this.dcFoto = dcFoto;
     }
 

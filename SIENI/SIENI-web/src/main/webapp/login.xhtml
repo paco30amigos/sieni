@@ -33,9 +33,9 @@
                         <div class="Wid100">
                             <h:panelGrid columns="2" class="Wid100">
                                 <p:outputLabel for="usuario" value="Usuario:"></p:outputLabel>
-                                <p:inputText id="usuario" autocomplete="false" tabindex="1"  placeholder="Usuario" value="#{loginController.usuario}" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar usuario" />
+                                <p:inputText id="usuario" autocomplete="false" tabindex="1"  placeholder="Usuario" value="#{loginController.usuario}" maxlength="30" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar usuario" />
                                 <p:outputLabel for="pass" value="Contraseña:"></p:outputLabel>
-                                <p:inputText id="pass" autocomplete="false" tabindex="2" type="password" value="#{loginController.password}" placeholder="Contraseña" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar contraseña"/>
+                                <p:inputText id="pass" autocomplete="false" tabindex="2" type="password" value="#{loginController.password}" placeholder="Contraseña" maxlength="30" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar contraseña"/>
                             </h:panelGrid>
                         </div>
                         <div class="EmptyBox30"></div>

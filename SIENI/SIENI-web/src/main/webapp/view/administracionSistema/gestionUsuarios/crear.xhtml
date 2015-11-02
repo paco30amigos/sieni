@@ -25,7 +25,7 @@
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="4" class="Container50 Responsive" id="p1">
                     <p:outputLabel for="usuario" value="Usuario: " class=" Responsive"></p:outputLabel>
-                    <p:inputText id="usuario" value="#{mntoUsuariosController.usuarioNuevo.usuario}" required="true" requiredMessage="Debe ingresar Usuario"></p:inputText>
+                    <p:inputText id="usuario" value="#{mntoUsuariosController.usuarioNuevo.usuario}" maxlength="30" required="true" requiredMessage="Debe ingresar Usuario"></p:inputText>
                     <p:outputLabel for="tipoUsuario" value="Tipo de Usuario: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu id="tipoUsuario" value="#{mntoUsuariosController.usuarioNuevo.codTipoUsuario}" valueChangeListener="#{mntoUsuariosController.getNombreUsuarios}" immediate="true" tabindex="0" required="true" requiredMessage="Debe seleccionar tipo de usuario">
                         <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
@@ -48,9 +48,9 @@
                         <f:selectItem itemValue="D"  itemLabel="Inactivo"></f:selectItem>
                     </p:selectOneMenu>
                     <p:outputLabel for="pass1" value="Contraseña: " class="  Responsive"></p:outputLabel>
-                    <p:password id="pass1" value="#{mntoUsuariosController.usuarioNuevo.pass1}" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña" promptLabel="Digite una contraseña" validatorMessage="Contraseña coincide"></p:password>
+                    <p:password id="pass1" value="#{mntoUsuariosController.usuarioNuevo.pass1}" maxlength="30" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña" promptLabel="Digite una contraseña" validatorMessage="Contraseña coincide"></p:password>
                     <p:outputLabel for="pass2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
-                    <p:password id="pass2" value="#{mntoUsuariosController.usuarioNuevo.pass2}" ></p:password>
+                    <p:password id="pass2" value="#{mntoUsuariosController.usuarioNuevo.pass2}" maxlength="30" ></p:password>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">

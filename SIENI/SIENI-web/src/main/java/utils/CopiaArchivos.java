@@ -71,6 +71,7 @@ public class CopiaArchivos {
     public String getRelativeResourcesUrl() {
         return getSeparador() + "resources" + getSeparador() + getMultimediaBaseUrl() + getSeparador();
     }
+
     public String getRelativeBaseResourcesUrl() {
         return getSeparador() + "resources" + getSeparador();
     }
@@ -88,6 +89,10 @@ public class CopiaArchivos {
         String separador = cpa.getSeparador();
         Long numeroUnico = new Date().getTime();
         switch (tipoArchivo) {
+            case 'F':
+                extencion = ".jpg";
+                rutaRelativa = props.getProperty("resources.multimedia.foto") + separador + numeroUnico.toString() + extencion;
+                break;
             case 'V':
                 extencion = ".mp4";
                 rutaRelativa = props.getProperty("resources.multimedia.video") + separador + numeroUnico.toString() + extencion;
@@ -102,6 +107,13 @@ public class CopiaArchivos {
                 break;
         }
         return rutaRelativa;
+    }
+
+    public String getFotoDefault() {
+        CopiaArchivos cpa = new CopiaArchivos();
+        Properties props = cpa.getProperties();
+        String extencion = ".jpg";
+        return props.getProperty("resources.multimedia.foto") + cpa.getSeparador() + props.getProperty("resources.multimedia.foto.default") + extencion;
     }
 
     //cuando el archivo esta creado en la BD pero no existe en la carpeta de recursos

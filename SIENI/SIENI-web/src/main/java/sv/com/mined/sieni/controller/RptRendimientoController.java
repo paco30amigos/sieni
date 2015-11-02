@@ -43,9 +43,9 @@ import utils.FormatUtils;
 @SessionScoped
 @ManagedBean(name = "rptRendimientoController")
 public class RptRendimientoController extends RptRendimientoForm {
-    
+
     @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote; 
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
     @EJB
     private SieniGradoFacadeRemote sieniGradoFacadeRemote;
     @EJB
@@ -56,48 +56,58 @@ public class RptRendimientoController extends RptRendimientoForm {
     private SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
     @EJB
     private SieniNotaFacadeRemote sieniNotaFacadeRemote;
-    
+
     @PostConstruct
     public void init() {
         this.setTipoRpt(0);
         this.setAnio("2,015");
         this.setGradosList(sieniGradoFacadeRemote.findAll());
         this.setMateriaList(sieniMateriaFacadeRemote.findAll());
-        this.setSeccionesList(sieniSeccionFacadeRemote.findAll());
+//        this.setSeccionesList(sieniSeccionFacadeRemote.findAll());
+        if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
+            Long idGrado = (Long) this.getGradosList().get(0).getIdGrado();
+            SieniGrado cod = new SieniGrado();
+            for (SieniGrado actual : this.getGradosList()) {
+                if (actual.getIdGrado().equals(idGrado)) {
+                    cod = actual;
+                    break;
+                }
+            }
+            this.setSeccionesList(cod.getSieniSeccionList());
+        }
         //fill();
     }
-    
+
     public void fill() {
         RptRendimientoPojo elem = new RptRendimientoPojo();
 
         List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getIdGrado(), this.getIdSeccion(), this.getIdMateria());
         this.setListDatos(new ArrayList<RptRendimientoPojo>());
-        
+
         double totalNotas = notas.size();
         float aprobados = 0;
         float reprobados = 0;
         float totalAprobados = 0;
         float totalReprobados = 0;
         float promedio = 0;
-        for(SieniNota actual : notas ){
-            if(actual.getNtCalificacion() >= 6.00){
+        for (SieniNota actual : notas) {
+            if (actual.getNtCalificacion() >= 6.00) {
                 aprobados++;
-            }else{
+            } else {
                 reprobados++;
             }
         }
-        totalAprobados = (float) ((aprobados * 100)/totalNotas);
-        totalReprobados = (float) ((reprobados * 100)/totalNotas);
+        totalAprobados = (float) ((aprobados * 100) / totalNotas);
+        totalReprobados = (float) ((reprobados * 100) / totalNotas);
         promedio = (totalAprobados + totalReprobados) / 2;
-        
-        for(SieniNota actual : notas ){
-            elem = new RptRendimientoPojo(this.getIdGrado().toString(), this.getIdSeccion().toString(), this.getIdMateria().toString(), null, actual.getIdEvaluacion().getEvTipo().toString(), Float.toString(totalAprobados)+" %", Float.toString(totalReprobados)+" %", Float.toString(promedio)+" %");
+
+        for (SieniNota actual : notas) {
+            elem = new RptRendimientoPojo(actual.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), actual.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), actual.getIdEvaluacion().getIdMateria().getMaNombre(), null, actual.getIdEvaluacion().getEvTipo().toString(), Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
             this.getListDatos().add(elem);
         }
-        
+
         //List<SieniEvaluacion> evaluaciones = sieniEvaluacionFacadeRemote.findbyRendimientoRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
-        
-        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size()+""));
+        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));
     }
 
     public void generarReporte() {
@@ -123,9 +133,9 @@ public class RptRendimientoController extends RptRendimientoForm {
     public void refresh() {
         String anio = this.getAnio().replaceAll(",", "");
         Integer anioInt = Integer.parseInt(anio);
-        
+
     }
-    
+
     public void getSeccionesGrado(ValueChangeEvent a) {
         Long idGrado = (Long) a.getNewValue();
         SieniGrado cod = new SieniGrado();

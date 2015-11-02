@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -16,6 +17,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
@@ -92,16 +94,17 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
          HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             
-            if(loginBean.getTipoRol().charAt(0)!='1'){
-        this.setEvaluacionList(sieniEvaluacionFacadeRemote.findActivos());
-        this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));}
-            else{
-                
-                List<SieniMateria> sieniMateria=sieniMateriaFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno());
+            if(loginBean.getTipoRol().charAt(0)=='0'){
+                 List<SieniMateria> sieniMateria=sieniMateriaFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno());
                 SieniMatricula sieniMatricula=new SieniMatricula();//sieniMatriculaFacadeRemote
                 for (SieniMateria materia : sieniMateria) {
                    this.getEvaluacionList().addAll(materia.getSieniEvaluacionList());
                 }
+        }
+            else{
+                this.setEvaluacionList(sieniEvaluacionFacadeRemote.findActivos());
+        this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
+               
                 
 //                List<SieniCursoAlumno> cursoAlumno=new ArrayList<>();
 //                cursoAlumno= cursoAlumnoFacadeRemote.findByIdAlumno(loginBean.getAlumno().getIdAlumno());
@@ -116,7 +119,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     public Boolean validaAlumno(){
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        if(loginBean.getTipoRol().charAt(0)!='1')
+        if(loginBean.getTipoRol().charAt(0)=='0')
             return true;
         else
             return false;
@@ -376,8 +379,12 @@ this.setIndexMenu(10);
     public void guardarResAlumno() {
     HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
 String inputs[] = req.getParameterValues("name1");
+Enumeration<String> totalinputs;
+        totalinputs = req.getParameterNames();
 FacesMessage msg = new FacesMessage("Respuestas guardadas");
             FacesContext.getCurrentInstance().addMessage(null, msg);
+            final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("consultaForm:consulta");
+            d.getPage();
     }
     
     public void resetModificaForm() {

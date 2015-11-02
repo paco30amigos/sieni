@@ -49,7 +49,7 @@
                              reflow="true" rowIndexVar="rowIndex"
                              styleClass="borderless">
                     <f:facet name="{guardarRespuesta}">
-                        <p:commandButton value="Guardar" action="#{gestionarEvaluacionController.guardarResAlumno()}"  rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
+                        <p:commandButton value="Guardar" action="#{gestionarEvaluacionController.guardarResAlumno()}"  rendered="#{gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
         </f:facet>  
 
                     <p:column >

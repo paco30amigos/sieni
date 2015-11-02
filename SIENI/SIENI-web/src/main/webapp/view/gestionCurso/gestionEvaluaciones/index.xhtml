@@ -56,16 +56,16 @@
                         </p:column>
                     <p:column headerText="Acciones" style="width: 12%">
                         <p:commandLink action="#{gestionarEvaluacionController.verEvaluacion(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Evaluacion" ></i></p:commandLink>
-                        <p:commandLink action="#{gestionarEvaluacionController.modificar(car)}" rendered="#{gestionarEvaluacionController.validaAlumno()}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Evaluacion" ></i></p:commandLink>
-                        <p:commandLink action="#{gestionarEvaluacionController.gestionarItemsEvaluacion(car)}" rendered="#{gestionarEvaluacionController.validaAlumno()}" ><i class="icon-portfolio Fs25 Red MarRight10" title="Agregar items" ></i></p:commandLink>
-                        <p:commandLink action="#{gestionarEvaluacionController.eliminar(car)}"  onclick="PF('dlgEliminar').show();" immediate="true" rendered="#{gestionarEvaluacionController.validaAlumno()}" >
+                        <p:commandLink action="#{gestionarEvaluacionController.modificar(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Evaluacion" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarEvaluacionController.gestionarItemsEvaluacion(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}" ><i class="icon-portfolio Fs25 Red MarRight10" title="Agregar items" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarEvaluacionController.eliminar(car)}"  onclick="PF('dlgEliminar').show();" immediate="true" rendered="#{!gestionarEvaluacionController.validaAlumno()}" >
                             <i class="icon-close Fs25 Red MarRight10" title="Eliminar Evaluacion"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Adicionar Evaluacion" action="#{gestionarEvaluacionController.setIndexMenu(1)}"></p:commandButton>
-                <p:commandButton value="Refrescar" action="#{gestionarEvaluacionController.refresh()}" update="consulta"></p:commandButton>
+                <p:commandButton value="Adicionar Evaluacion" action="#{gestionarEvaluacionController.setIndexMenu(1)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{gestionarEvaluacionController.refresh()}" update="consulta" rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
             </h:form>
         </p:panel>
     </ui:define>

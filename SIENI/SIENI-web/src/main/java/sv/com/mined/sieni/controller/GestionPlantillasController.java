@@ -55,8 +55,8 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     private void fill() {
-        this.setPlantillaList(sieniPlantillaFacadeRemote.findAll());
-        this.setMaterias(sieniMateriaFacadeRemote.findAll());
+        this.setPlantillaList(sieniPlantillaFacadeRemote.findAllNoInactivas());
+        this.setMaterias(sieniMateriaFacadeRemote.findMateriasActivas());
     }
 
     public void guardar() {
@@ -107,7 +107,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void guardarModifica() {
-        
+
         if (validarModifica(this.getPlantillaModifica())) {//valida el guardado
             sieniPlantillaFacadeRemote.edit(this.getPlantillaModifica());
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

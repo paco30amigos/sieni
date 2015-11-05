@@ -39,4 +39,12 @@ public class SieniPlantillaFacade extends AbstractFacade<SieniPlantilla> impleme
         q.setParameter("idMateria", idMateria);
         return q.getResultList();
     }
+
+    @Override
+    public List<SieniPlantilla> findAllNoInactivas() {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniPlantilla.findAllNoInactivas");
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
 }

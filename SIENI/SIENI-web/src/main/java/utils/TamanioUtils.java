@@ -18,9 +18,9 @@ public class TamanioUtils {
     private final int nombreMax = 50;
     private final int apellidoMax = 50;
     private final int emailMax = 200;
-    private final Integer imagenMax = (25 * 1024 * 1024);
-    private final Integer audioMax = (50 * 1024 * 1024);
-    private final Integer videoMax = (500 * 1024 * 1024);
+    private final Integer imagenMax = (10 * 1024 * 1024);
+    private final Integer audioMax = (20 * 1024 * 1024);
+    private final Integer videoMax = (100 * 1024 * 1024);
     private final String nombreArchivoMax = "100";
     private final int nombreSuperCompMax = 100;
     private final int descSuperCompMax = 200;

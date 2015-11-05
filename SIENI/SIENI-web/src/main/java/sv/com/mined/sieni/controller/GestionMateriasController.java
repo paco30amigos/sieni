@@ -64,7 +64,7 @@ public class GestionMateriasController extends GestionMateriasForm {
 
     public void fill() {
         this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAll());
-        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
+        this.setMateriaList(sieniMateriaFacadeRemote.findAllNoInactivas());
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setGradoList(sieniGradoFacadeRemote.findAll());
     }

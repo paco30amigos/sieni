@@ -27,8 +27,8 @@
                     <p:outputLabel for="nombre" value="Nombre de plantilla: "></p:outputLabel>
                     <p:inputText id="nombre" tabindex="1" value="#{gestionPlantillasController.plantillaModifica.plNombre}" required="true" requiredMessage="Debe ingresar un nombre" maxlength="#{tamanioUtils.nombrePlantillaMax}"></p:inputText>
                     <p:outputLabel for="materia" value="Materia: "></p:outputLabel>
-                    <p:selectOneMenu id="materia" tabindex="2" value="#{gestionPlantillasController.plantillaModifica.idMateria}" converter="materia">
-                        <f:selectItems  itemValue="#{materia}" itemLabel="#{materia.maNombre}" value="#{gestionPlantillasController.materias}" var="materia"></f:selectItems>
+                    <p:selectOneMenu id="materia" tabindex="2" value="#{gestionPlantillasController.plantillaModifica.idMateria}" converter="materia" filterMatchMode="contains" filter="true">
+                        <f:selectItems  itemValue="#{materia}" itemLabel="#{materia.idGrado.grNombre}-#{materia.maNombre}" value="#{gestionPlantillasController.materias}" var="materia"></f:selectItems>
                     </p:selectOneMenu>
                     <p:outputLabel for="estado" value="Estado: " class="Responsive"></p:outputLabel>
                     <p:selectOneMenu id="estado"  tabindex="4" value="#{gestionPlantillasController.plantillaModifica.plEstado}" >

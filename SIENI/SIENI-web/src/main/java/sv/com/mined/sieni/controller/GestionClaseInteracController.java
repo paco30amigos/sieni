@@ -277,13 +277,19 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
         this.setComponentesInteractDisponibles(totalSuperComponentes);
         if (this.getClaseConfig().getIdPlantilla() != null) {
-            this.setSecciones(getSeccionesByElemPlantilla(listaComp, this.getClaseConfig().getIdPlantilla().getSieniElemPlantillaList()));
+            List<SieniElemPlantilla> elemPlantilla = sieniElemPlantillaFacadeRemote.findByIdPlantilla(this.getClaseConfig().getIdPlantilla().getIdPlantilla());
+            if (elemPlantilla != null && !elemPlantilla.isEmpty()) {
+                this.setSecciones(getSeccionesByElemPlantilla(listaComp, elemPlantilla));
 
-            //interacciones entre componentes by clase
-            this.setInteEntrCompList(sieniInteEntrCompFacadeRemote.findByClase(clase.getIdClase()));
-            //********información
-            this.setPaginaActive(0);
-            this.setIdElemenActive(0);
+                //interacciones entre componentes by clase
+                this.setInteEntrCompList(sieniInteEntrCompFacadeRemote.findByClase(clase.getIdClase()));
+                //********información
+                this.setPaginaActive(0);
+                this.setIdElemenActive(0);
+            }else{
+                new ValidationPojo().printMsj("La plantilla no tiene ningun elemento", FacesMessage.SEVERITY_ERROR);
+                ret=false;
+            }
         } else {
             ret = false;
             new ValidationPojo().printMsj("No se ha ingresado una plantilla para la clase", FacesMessage.SEVERITY_ERROR);

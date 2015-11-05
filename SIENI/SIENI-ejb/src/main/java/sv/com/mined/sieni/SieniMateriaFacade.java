@@ -41,12 +41,24 @@ public class SieniMateriaFacade extends AbstractFacade<SieniMateria> implements 
     }
 
     @Override
-    public List<SieniMateria> findMateriasActivas() {
-        Character estado = new Character('I');
-        Query q = em.createNamedQuery("SieniMateria.findMateriasActivas");
+    public List<SieniMateria> findAllNoInactivas() {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniMateria.findAllNoInactivas");
         q.setParameter("estado", estado);
         List<SieniMateria> res = q.getResultList();
-        
+        if (res != null && !res.isEmpty()) {
+            return res;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<SieniMateria> findMateriasActivas() {
+        Character estado = 'A';
+        Query q = em.createNamedQuery("SieniMateria.findMateriasByEstado");
+        q.setParameter("estado", estado);
+        List<SieniMateria> res = q.getResultList();
         if (res != null && !res.isEmpty()) {
             return res;
         } else {

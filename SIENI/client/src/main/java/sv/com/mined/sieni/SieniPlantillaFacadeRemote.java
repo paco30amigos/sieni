@@ -31,4 +31,6 @@ public interface SieniPlantillaFacadeRemote {
     int count();
     
     public List<SieniPlantilla> findByMateria(Long idMateria);
+    
+    public List<SieniPlantilla> findAllNoInactivas();
 }

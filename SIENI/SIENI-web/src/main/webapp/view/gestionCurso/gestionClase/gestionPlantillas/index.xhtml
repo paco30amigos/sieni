@@ -43,8 +43,11 @@
 <!--                    <p:column headerText="Elementos" filterBy="#{car.elemPlantilla}" filterMatchMode="contains">
                         #{car.elemPlantilla}
                     </p:column>-->
-                    <p:column headerText="Materia" filterBy="#{car.plNombre}" filterMatchMode="contains">
+                    <p:column headerText="Materia" filterBy="#{car.idMateria.maNombre}" filterMatchMode="contains">
                         #{car.idMateria.maNombre}
+                    </p:column>
+                    <p:column headerText="Grado" filterBy="#{car.idMateria.idGrado.grNombre}" filterMatchMode="contains">
+                        #{car.idMateria.idGrado.grNombre}
                     </p:column>
                     <p:column headerText="Acciones">
                         <p:column headerText="Acciones">

@@ -61,7 +61,6 @@ public class SieniBitacora implements Serializable {
     private Character bitTipoUsuario;
     @Column(name = "bit_ip")
     private String bitIp;
-    @Transient
     @Column(name = "bit_reg_afectado")
     private Long bitRegAfectado;
 

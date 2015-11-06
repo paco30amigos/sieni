@@ -47,6 +47,12 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     @EJB
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
+
     @PostConstruct
     public void init() {
         this.setPlantillaModifica(new SieniPlantilla());
@@ -60,14 +66,16 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void guardar() {
-        if (validarNuevo(this.getPlantillaNuevo())) {//valida el guardado
-            sieniPlantillaFacadeRemote.create(this.getPlantillaNuevo());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Plantilla Creada Exitosamente", FacesMessage.SEVERITY_INFO);
-            this.setPlantillaNuevo(new SieniPlantilla());
-            fill();
+        try {
+            if (validarNuevo(this.getPlantillaNuevo())) {//valida el guardado
+                sieniPlantillaFacadeRemote.create(this.getPlantillaNuevo());
+                registrarEnBitacora("Crear", "Plantilla", this.getPlantillaNuevo().getIdPlantilla());
+                new ValidationPojo().printMsj("Plantilla Creada Exitosamente", FacesMessage.SEVERITY_INFO);
+                this.setPlantillaNuevo(new SieniPlantilla());
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -107,14 +115,15 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void guardarModifica() {
-
-        if (validarModifica(this.getPlantillaModifica())) {//valida el guardado
-            sieniPlantillaFacadeRemote.edit(this.getPlantillaModifica());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Plantilla Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
-            fill();
+        try {
+            if (validarModifica(this.getPlantillaModifica())) {//valida el guardado
+                sieniPlantillaFacadeRemote.edit(this.getPlantillaModifica());
+                registrarEnBitacora("Modificar", "Plantilla", this.getPlantillaModifica().getIdPlantilla());
+                new ValidationPojo().printMsj("Plantilla Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -134,12 +143,14 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void eliminarPlantilla() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setPlEstado('I');
-        sieniPlantillaFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Plantilla", this.getEliminar().getIdPlantilla());
+            this.getEliminar().setPlEstado('I');
+            sieniPlantillaFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void configurar(SieniPlantilla plantilla) {
@@ -164,9 +175,13 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void guardarElemPlantilla() {
-        sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados());
-        new ValidationPojo().printMsj("Elementos de plantilla guardados exitosamente", FacesMessage.SEVERITY_INFO);
-        fillElemPlantillaPlantilla(this.getPlantillaModifica());
+        try {
+            sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados());
+            new ValidationPojo().printMsj("Elementos de plantilla guardados exitosamente", FacesMessage.SEVERITY_INFO);
+            fillElemPlantillaPlantilla(this.getPlantillaModifica());
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void eliminarElemPlantilla() {

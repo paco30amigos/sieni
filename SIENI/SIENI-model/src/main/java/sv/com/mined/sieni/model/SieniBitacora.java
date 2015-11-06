@@ -19,6 +19,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -60,6 +61,9 @@ public class SieniBitacora implements Serializable {
     private Character bitTipoUsuario;
     @Column(name = "bit_ip")
     private String bitIp;
+    @Transient
+    @Column(name = "bit_reg_afectado")
+    private Long bitRegAfectado;
 
     public SieniBitacora() {
     }
@@ -140,14 +144,15 @@ public class SieniBitacora implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniBitacora[ idBitacora=" + idBitacora + " ]";
     }
-
-    public SieniBitacora(Date bitFechaHoraIngreso, String bitAccion, String bitTabla, Long bitIdUsuario, Character bitTipoUsuario, String bitIp) {
+    
+    public SieniBitacora(Date bitFechaHoraIngreso, String bitAccion, String bitTabla, Long bitIdUsuario, Character bitTipoUsuario, String bitIp, Long bitRegAfectado) {
         this.bitFechaHoraIngreso = bitFechaHoraIngreso;
         this.bitAccion = bitAccion;
         this.bitTabla = bitTabla;
         this.bitIdUsuario = bitIdUsuario;
         this.bitTipoUsuario = bitTipoUsuario;
         this.bitIp = bitIp;
+        this.bitRegAfectado = bitRegAfectado;
     }
 
     public String getBitIp() {
@@ -156,6 +161,14 @@ public class SieniBitacora implements Serializable {
 
     public void setBitIp(String bitIp) {
         this.bitIp = bitIp;
+    }
+
+    public Long getBitRegAfectado() {
+        return bitRegAfectado;
+    }
+
+    public void setBitRegAfectado(Long bitRegAfectado) {
+        this.bitRegAfectado = bitRegAfectado;
     }
 
 }

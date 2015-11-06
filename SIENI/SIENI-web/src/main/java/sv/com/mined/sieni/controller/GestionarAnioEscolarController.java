@@ -19,6 +19,7 @@ import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.form.GestionarAnioEscolarForm;
 import sv.com.mined.sieni.model.SieniAnioEscolar;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 
 /**
  *
@@ -34,6 +35,12 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
+
     @PostConstruct
     public void init() {
         this.setAnioEscolarNuevo(new SieniAnioEscolar());
@@ -48,17 +55,19 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     }
 
     public void guardar() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        if (validarNuevo(this.getAnioEscolarNuevo())) {//valida el guardado            
-            sieniAnioEscolarFacadeRemote.create(this.getAnioEscolarNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Año Escolar", this.getAnioEscolarNuevo().getIdAnioEscolar(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Año escolar Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            this.setIndexMenu(0);
+        try {
+            if (validarNuevo(this.getAnioEscolarNuevo())) {//valida el guardado            
+                sieniAnioEscolarFacadeRemote.create(this.getAnioEscolarNuevo());
+                registrarEnBitacora("Crear", "Anio Escolar", this.getAnioEscolarNuevo().getIdAnioEscolar());
+                FacesMessage msg = new FacesMessage("Año escolar Creado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                this.setIndexMenu(0);
+            }
+            this.setAnioEscolarNuevo(new SieniAnioEscolar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-        this.setAnioEscolarNuevo(new SieniAnioEscolar());
-        fill();
     }
 
     public void quitarFormato(SieniAnioEscolar actual) {
@@ -83,6 +92,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         this.setAnioEscolarModifica(modificado);
         this.setIndexMenu(2);
     }
+
     public void ver(SieniAnioEscolar modificado) {
         this.setAnioEscolarModifica(modificado);
         this.setIndexMenu(3);
@@ -94,17 +104,19 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     }
 
     public void guardarModifica() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        if (validarModifica(this.getAnioEscolarModifica())) {//valida el guardado
-            sieniAnioEscolarFacadeRemote.edit(this.getAnioEscolarModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Año Escolar", this.getAnioEscolarModifica().getIdAnioEscolar(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Año escolar Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            resetModificaForm();
-            this.setIndexMenu(0);
+        try {
+            if (validarModifica(this.getAnioEscolarModifica())) {//valida el guardado
+                sieniAnioEscolarFacadeRemote.edit(this.getAnioEscolarModifica());
+                registrarEnBitacora("Modificar", "Anio Escolar", this.getAnioEscolarModifica().getIdAnioEscolar());
+                FacesMessage msg = new FacesMessage("Año escolar Modificado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                resetModificaForm();
+                this.setIndexMenu(0);
+            }
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-        fill();
     }
 
     public void resetModificaForm() {
@@ -118,11 +130,13 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     }
 
     public void eliminaraAnioEscolar() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Año Escolar", this.getEliminar().getIdAnioEscolar(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setAeEstado('I');
-        sieniAnioEscolarFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Anio Escolar", this.getEliminar().getIdAnioEscolar());
+            this.getEliminar().setAeEstado('I');
+            sieniAnioEscolarFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 }

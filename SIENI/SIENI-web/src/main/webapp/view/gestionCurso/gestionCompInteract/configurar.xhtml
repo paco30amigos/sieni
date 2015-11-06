@@ -55,6 +55,9 @@
                                         <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('I')}" var="archivo"></f:selectItems>
                                     </p:selectOneMenu>
                                     <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivo()}" update="pick" oncomplete="refrescarImagen()"></p:commandButton>
+                                    <p:commandLink onclick="refrescarImagen()" >
+                                        <p:graphicImage name="reload.jpg" library="images" width="20px" style="cursor: pointer"/>
+                                    </p:commandLink>
                                 </p:panelGrid>
                                 <div class="Container50 Responsive">
                                     <p:pickList id="pick" value="#{gestionComponentesInteractivosController.listaOrdenable}"

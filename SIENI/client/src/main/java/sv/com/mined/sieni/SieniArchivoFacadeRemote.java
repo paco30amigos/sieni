@@ -41,4 +41,6 @@ public interface SieniArchivoFacadeRemote {
     public List<SieniArchivo> merge(List<SieniArchivo> lista, List<SieniArchivo> eliminados);
     
     public SieniArchivo merge(SieniArchivo dato);
+    
+    public SieniArchivo findByNombre(String nombre);
 }

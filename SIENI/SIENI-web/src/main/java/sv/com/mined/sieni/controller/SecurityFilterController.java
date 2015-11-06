@@ -8,6 +8,9 @@ package sv.com.mined.sieni.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -76,6 +79,16 @@ public class SecurityFilterController implements Filter {
                     accesoDenegado = true;
                 }
                 break;
+            case 3://Subdirector
+                if (!validarSubDirector(urlStr, req)) {
+                    accesoDenegado = true;
+                }
+                break;
+            case 4://Director
+                if (!validarDirector(urlStr, req)) {
+                    accesoDenegado = true;
+                }
+                break;
         }
         if (accesoDenegado) {
             res.sendRedirect(req.getContextPath() + "/faces/access-denied.xhtml");
@@ -87,12 +100,12 @@ public class SecurityFilterController implements Filter {
     private boolean noProteger(String urlStr, HttpServletRequest req) {
         boolean ban = false;
         //url no protegidas
-        String[] urls = {"login.xhtml", "access-denied.xhtml", "error.xhtml", "404.xhtml"};
+        String[] urls = {"login.xhtml", "access-denied.xhtml", "error.xhtml", "404.xhtml", "password.xhtml"};
         for (String actual : urls) {
             if (urlStr.endsWith("/faces/" + actual)) {
                 ban = true;
                 break;
-            } 
+            }
         }
         if (urlStr.contains("/javax.faces.resource/")) {
             ban = true;
@@ -102,6 +115,16 @@ public class SecurityFilterController implements Filter {
 
     private boolean validarAlumno(String urlStr, HttpServletRequest req) {
         boolean ban = false;
+        HashMap<String, String> subOpciones = new HashMap<>();
+        subOpciones.put(su.getBaseprogramacionClases(), "index,ver");
+        subOpciones.put(su.getBaseclaseOnline(), "index,ver");
+        subOpciones.put(su.getBaseclaseVideoAlmacenada(), "index,ver");
+        subOpciones.put(su.getBaseclaseInteractiva(), "index,ver");
+        //TODO filtro de ejercicios
+//        subOpciones.put(su.getEjerciciosResueltos(), "index,ver");
+//        subOpciones.put(su.getGestionEvaluacion(), "index,ver");
+        subOpciones.put(su.getBasegestionNota(), "index,ver");
+        //modulos
         //url validas para alumno protegidas
         String[] urls = {"/faces/index.xhtml",
             su.getBaseprogramacionClases(),
@@ -117,7 +140,20 @@ public class SecurityFilterController implements Filter {
         };
         for (String actual : urls) {
             if (urlStr.contains(actual)) {
-                ban = true;
+                List<String> subModulos = getSubModulo(actual, subOpciones.get(actual));
+                //filtro por submodulos
+                if (subModulos != null && !subModulos.isEmpty()) {
+                    for (String subM : subModulos) {
+                        if (urlStr.contains(subM)) {
+                            ban = true;
+                            break;
+                        }
+                    }
+                } else {
+                    //acceso a todos los elementos de la url base
+                    ban = true;
+                }
+
                 break;
             }
         }
@@ -127,8 +163,19 @@ public class SecurityFilterController implements Filter {
         return ban;
     }
 
+    List<String> getSubModulo(String base, String validos) {
+        String[] subModulos = validos.split(",");
+        List<String> ret = new ArrayList<>();
+        for (String actual : subModulos) {
+            ret.add(base + "/" + actual + ".xhtml");
+        }
+        return ret;
+    }
+
     private boolean validarDocente(String urlStr, HttpServletRequest req) {
         boolean ban = false;
+        HashMap<String, String> subOpciones = new HashMap<>();
+
         //url validas para alumno protegidas
         String[] urls = {"/faces/index.xhtml",
             su.getBaseexpedienteAlumnos(),
@@ -159,7 +206,20 @@ public class SecurityFilterController implements Filter {
         };
         for (String actual : urls) {
             if (urlStr.contains(actual)) {
-                ban = true;
+                List<String> subModulos = getSubModulo(actual, subOpciones.get(actual));
+                //filtro por submodulos
+                if (subModulos != null && !subModulos.isEmpty()) {
+                    for (String subM : subModulos) {
+                        if (urlStr.contains(subM)) {
+                            ban = true;
+                            break;
+                        }
+                    }
+                } else {
+                    //acceso a todos los elementos de la url base
+                    ban = true;
+                }
+
                 break;
             }
         }
@@ -170,6 +230,18 @@ public class SecurityFilterController implements Filter {
     }
 
     private boolean validarAdministrador(String urlStr, HttpServletRequest req) {
+        boolean ban = true;
+        //da permiso a todas las url del sitio
+        return ban;
+    }
+
+    private boolean validarSubDirector(String urlStr, HttpServletRequest req) {
+        boolean ban = true;
+        //da permiso a todas las url del sitio
+        return ban;
+    }
+
+    private boolean validarDirector(String urlStr, HttpServletRequest req) {
         boolean ban = true;
         //da permiso a todas las url del sitio
         return ban;

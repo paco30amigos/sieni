@@ -55,6 +55,12 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
+
     @PostConstruct
     public void init() {
         this.setUsuarioNuevo(new UsuariosPojo());
@@ -137,6 +143,12 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             case 2:
                 ret = "Administrador";
                 break;
+            case 3:
+                ret = "Subdirector";
+                break;
+            case 4:
+                ret = "Director";
+                break;
         }
         return ret;
     }
@@ -188,57 +200,59 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void guardar() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        if (validarNuevo(this.getUsuarioNuevo())) {//valida el guardado
-            if (this.getUsuarioNuevo().getCodTipoUsuario().equals("0")) {
-                for (UsuariosPojo actual : this.getNombresDisponibles()) {
-                    if (actual.getIdUsuario().equals(this.getUsuarioNuevo().getIdUsuario())) {
-                        this.getUsuarioNuevo().setAlumno(actual.getAlumno());
-                        break;
+        try {
+            if (validarNuevo(this.getUsuarioNuevo())) {//valida el guardado
+                if (this.getUsuarioNuevo().getCodTipoUsuario().equals("0")) {
+                    for (UsuariosPojo actual : this.getNombresDisponibles()) {
+                        if (actual.getIdUsuario().equals(this.getUsuarioNuevo().getIdUsuario())) {
+                            this.getUsuarioNuevo().setAlumno(actual.getAlumno());
+                            break;
+                        }
                     }
-                }
 
-                SieniAlumno alumnoEdit = this.getUsuarioNuevo().getAlumno();
-                SieniAlumnRol alumnoRolNuevo = new SieniAlumnRol();
-                alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioNuevo().getPass1()));
-                alumnoEdit.setAlEstado(this.getUsuarioNuevo().getCodEstado());
-                alumnoEdit.setAlUsuario(this.getUsuarioNuevo().getUsuario());
+                    SieniAlumno alumnoEdit = this.getUsuarioNuevo().getAlumno();
+                    SieniAlumnRol alumnoRolNuevo = new SieniAlumnRol();
+                    alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioNuevo().getPass1()));
+                    alumnoEdit.setAlEstado(this.getUsuarioNuevo().getCodEstado());
+                    alumnoEdit.setAlUsuario(this.getUsuarioNuevo().getUsuario());
 
-                alumnoRolNuevo.setIdAlumno(alumnoEdit);
-                alumnoRolNuevo.setFRol(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
-                alumnoRolNuevo.setSarEstado('A');
-                //actualiza la contraseña y usuario
-                sieniAlumnoFacadeRemote.edit(alumnoEdit);
-                //crea el nuevo usuario
-                sieniAlumnRolFacadeRemote.create(alumnoRolNuevo);
-            } else {
-                for (UsuariosPojo actual : this.getNombresDisponibles()) {
-                    if (actual.getIdUsuario().equals(this.getUsuarioNuevo().getIdUsuario())) {
-                        this.getUsuarioNuevo().setDocente(actual.getDocente());
-                        break;
+                    alumnoRolNuevo.setIdAlumno(alumnoEdit);
+                    alumnoRolNuevo.setFRol(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
+                    alumnoRolNuevo.setSarEstado('A');
+                    //actualiza la contraseña y usuario
+                    sieniAlumnoFacadeRemote.edit(alumnoEdit);
+                    //crea el nuevo usuario
+                    sieniAlumnRolFacadeRemote.create(alumnoRolNuevo);
+                } else {
+                    for (UsuariosPojo actual : this.getNombresDisponibles()) {
+                        if (actual.getIdUsuario().equals(this.getUsuarioNuevo().getIdUsuario())) {
+                            this.getUsuarioNuevo().setDocente(actual.getDocente());
+                            break;
+                        }
                     }
-                }
-                SieniDocente docenteEdit = this.getUsuarioNuevo().getDocente();
-                SieniDocentRol docenteRolNuevo = new SieniDocentRol();
-                docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioNuevo().getPass1()));
-                docenteEdit.setDcEstado(this.getUsuarioNuevo().getCodEstado());
-                docenteEdit.setDcUsuario(this.getUsuarioNuevo().getUsuario());
+                    SieniDocente docenteEdit = this.getUsuarioNuevo().getDocente();
+                    SieniDocentRol docenteRolNuevo = new SieniDocentRol();
+                    docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioNuevo().getPass1()));
+                    docenteEdit.setDcEstado(this.getUsuarioNuevo().getCodEstado());
+                    docenteEdit.setDcUsuario(this.getUsuarioNuevo().getUsuario());
 
-                docenteRolNuevo.setIdDocente(docenteEdit);
-                docenteRolNuevo.setFRolDoc(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
-                docenteRolNuevo.setSdrEstado('A');
-                //actualiza la contraseña y usuario
-                sieniDocenteFacadeRemote.edit(docenteEdit);
-                //crea el nuevo usuario
-                sieniDocenteRolFacadeRemote.create(docenteRolNuevo);
+                    docenteRolNuevo.setIdDocente(docenteEdit);
+                    docenteRolNuevo.setFRolDoc(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
+                    docenteRolNuevo.setSdrEstado('A');
+                    //actualiza la contraseña y usuario
+                    sieniDocenteFacadeRemote.edit(docenteEdit);
+                    //crea el nuevo usuario
+                    sieniDocenteRolFacadeRemote.create(docenteRolNuevo);
+                }
+                registrarEnBitacora("Crear", "Usuario", this.getUsuarioNuevo().getIdUsuario());
+                new ValidationPojo().printMsj("Usuario Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                this.setUsuarioNuevo(new UsuariosPojo());
+                this.getUsuarioNuevo().setCodTipoUsuario("0");
+                fill();
+                this.setNombresDisponibles(getNombreUsuarioPojo(this.getUsuarioNuevo().getTipoUsuario()));
             }
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Usuario", this.getUsuarioNuevo().getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Usuario Creado Exitosamente", FacesMessage.SEVERITY_INFO);
-            this.setUsuarioNuevo(new UsuariosPojo());
-            this.getUsuarioNuevo().setCodTipoUsuario("0");
-            fill();
-            this.setNombresDisponibles(getNombreUsuarioPojo(this.getUsuarioNuevo().getTipoUsuario()));
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -295,48 +309,50 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void guardarModifica() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        if (validarModifica(this.getUsuarioModifica())) {//valida el guardado
+        try {
+            if (validarModifica(this.getUsuarioModifica())) {//valida el guardado
 
-            if (this.getUsuarioModifica().getCodTipoUsuario().equals("0")) {
-                //valor anterior
-                SieniAlumno alumnoEdit = this.getUsuarioModifica().getAlumno();
-                //valor anterior
-                SieniAlumnRol alumnoRolNuevo = this.getUsuarioModifica().getAlumnoRol();
+                if (this.getUsuarioModifica().getCodTipoUsuario().equals("0")) {
+                    //valor anterior
+                    SieniAlumno alumnoEdit = this.getUsuarioModifica().getAlumno();
+                    //valor anterior
+                    SieniAlumnRol alumnoRolNuevo = this.getUsuarioModifica().getAlumnoRol();
 
-                if (this.getUsuarioModifica().getPass1() != null && !this.getUsuarioModifica().getPass1().isEmpty()) {
-                    alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioModifica().getPass1()));
+                    if (this.getUsuarioModifica().getPass1() != null && !this.getUsuarioModifica().getPass1().isEmpty()) {
+                        alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioModifica().getPass1()));
+                    }
+                    alumnoEdit.setAlEstado(this.getUsuarioModifica().getCodEstado());
+                    alumnoEdit.setAlUsuario(this.getUsuarioModifica().getUsuario());
+
+                    alumnoRolNuevo.setIdAlumno(alumnoEdit);
+                    alumnoRolNuevo.setFRol(this.getUsuarioModifica().getCodTipoPermiso());
+                    //actualiza la contraseña y usuario
+                    sieniAlumnoFacadeRemote.edit(alumnoEdit);
+                    //crea el nuevo usuario 
+                    sieniAlumnRolFacadeRemote.edit(alumnoRolNuevo);
+                } else {
+                    //valor anterior
+                    SieniDocente docenteEdit = this.getUsuarioModifica().getDocente();
+                    //valor anterior
+                    SieniDocentRol docenteRolNuevo = this.getUsuarioModifica().getDocenteRol();
+                    if (this.getUsuarioModifica().getPass1() != null && !this.getUsuarioModifica().getPass1().isEmpty()) {
+                        docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioModifica().getPass1()));
+                    }
+                    docenteEdit.setDcEstado(this.getUsuarioModifica().getCodEstado());
+                    docenteEdit.setDcUsuario(this.getUsuarioModifica().getUsuario());
+                    docenteRolNuevo.setIdDocente(docenteEdit);
+                    docenteRolNuevo.setFRolDoc(this.getUsuarioModifica().getCodTipoPermiso());
+                    //actualiza la contraseña y usuario
+                    sieniDocenteFacadeRemote.edit(docenteEdit);
+                    //crea el nuevo usuario
+                    sieniDocenteRolFacadeRemote.edit(docenteRolNuevo);
                 }
-                alumnoEdit.setAlEstado(this.getUsuarioModifica().getCodEstado());
-                alumnoEdit.setAlUsuario(this.getUsuarioModifica().getUsuario());
-
-                alumnoRolNuevo.setIdAlumno(alumnoEdit);
-                alumnoRolNuevo.setFRol(this.getUsuarioModifica().getCodTipoPermiso());
-                //actualiza la contraseña y usuario
-                sieniAlumnoFacadeRemote.edit(alumnoEdit);
-                //crea el nuevo usuario 
-                sieniAlumnRolFacadeRemote.edit(alumnoRolNuevo);
-            } else {
-                //valor anterior
-                SieniDocente docenteEdit = this.getUsuarioModifica().getDocente();
-                //valor anterior
-                SieniDocentRol docenteRolNuevo = this.getUsuarioModifica().getDocenteRol();
-                if (this.getUsuarioModifica().getPass1() != null && !this.getUsuarioModifica().getPass1().isEmpty()) {
-                    docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioModifica().getPass1()));
-                }
-                docenteEdit.setDcEstado(this.getUsuarioModifica().getCodEstado());
-                docenteEdit.setDcUsuario(this.getUsuarioModifica().getUsuario());
-                docenteRolNuevo.setIdDocente(docenteEdit);
-                docenteRolNuevo.setFRolDoc(this.getUsuarioModifica().getCodTipoPermiso());
-                //actualiza la contraseña y usuario
-                sieniDocenteFacadeRemote.edit(docenteEdit);
-                //crea el nuevo usuario
-                sieniDocenteRolFacadeRemote.edit(docenteRolNuevo);
+                registrarEnBitacora("Modificar", "Usuario", this.getUsuarioModifica().getIdUsuario());
+                new ValidationPojo().printMsj("Usuario Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+                fill();
             }
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Usuario", this.getUsuarioModifica().getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Usuario Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
-            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -363,23 +379,25 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void eliminarUsuario() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Usuario", this.getEliminar().getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        if (this.getEliminar().getTipoUsuario().equals("Alumno")) {
-            this.getEliminar().getAlumno().setAlEstado('I');
-            sieniAlumnoFacadeRemote.edit(this.getEliminar().getAlumno());
-            this.getEliminar().getAlumnoRol().setSarEstado('I');
-            sieniAlumnRolFacadeRemote.edit(this.getEliminar().getAlumnoRol());
+        try {
+            registrarEnBitacora("Eliminar", "Usuario", this.getUsuarioNuevo().getIdUsuario());
+            if (this.getEliminar().getTipoUsuario().equals("Alumno")) {
+                this.getEliminar().getAlumno().setAlEstado('I');
+                sieniAlumnoFacadeRemote.edit(this.getEliminar().getAlumno());
+                this.getEliminar().getAlumnoRol().setSarEstado('I');
+                sieniAlumnRolFacadeRemote.edit(this.getEliminar().getAlumnoRol());
 //            sieniAlumnRolFacadeRemote.remove(this.getEliminar().getAlumnoRol());
-        } else {
-            this.getEliminar().getDocente().setDcEstado('I');
-            sieniDocenteFacadeRemote.edit(this.getEliminar().getDocente());
-            this.getEliminar().getDocenteRol().setSdrEstado('I');
-            sieniDocenteRolFacadeRemote.edit(this.getEliminar().getDocenteRol());
+            } else {
+                this.getEliminar().getDocente().setDcEstado('I');
+                sieniDocenteFacadeRemote.edit(this.getEliminar().getDocente());
+                this.getEliminar().getDocenteRol().setSdrEstado('I');
+                sieniDocenteRolFacadeRemote.edit(this.getEliminar().getDocenteRol());
 //            sieniDocenteRolFacadeRemote.remove(this.getEliminar().getDocenteRol());
+            }
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-        fill();
     }
 
     public void ver(UsuariosPojo modificado) {
@@ -388,28 +406,33 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void guardarModPassword() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        try {
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 
-        if (loginBean.getTipoUsuario().charAt(0) == 'A') {
-            String antiguoPass = loginBean.getPassword();
-            SieniAlumno alumnoEdit = loginBean.getAlumno();
-            if (this.getUsuarioModPass().getPass0() == antiguoPass) {
-                if (this.getUsuarioModPass().getPass1() != null && !this.getUsuarioModPass().getPass1().isEmpty()) {
-                    alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
+            if (loginBean.getTipoUsuario().charAt(0) == 'A') {
+                String antiguoPass = loginBean.getPassword();
+                SieniAlumno alumnoEdit = loginBean.getAlumno();
+                if (this.getUsuarioModPass().getPass0().equals(antiguoPass)) {
+                    if (this.getUsuarioModPass().getPass1() != null && !this.getUsuarioModPass().getPass1().isEmpty()) {
+                        alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
+                    }
                 }
-            }
-            sieniAlumnoFacadeRemote.edit(alumnoEdit);
-        } else if (loginBean.getTipoUsuario().charAt(0) == 'D') {
-            String antiguoPass = loginBean.getPassword();
-            SieniDocente docenteEdit = loginBean.getDocente();
-            if (this.getUsuarioModPass().getPass0() == antiguoPass) {
-                if (this.getUsuarioModPass().getPass1() != null && !this.getUsuarioModPass().getPass1().isEmpty()) {
-                    docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
+                sieniAlumnoFacadeRemote.edit(alumnoEdit);
+            } else if (loginBean.getTipoUsuario().charAt(0) == 'D') {
+                String antiguoPass = loginBean.getPassword();
+                SieniDocente docenteEdit = loginBean.getDocente();
+                if (this.getUsuarioModPass().getPass0().equals(antiguoPass)) {
+                    if (this.getUsuarioModPass().getPass1() != null && !this.getUsuarioModPass().getPass1().isEmpty()) {
+                        docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
+                    }
                 }
+                sieniDocenteFacadeRemote.edit(docenteEdit);
             }
-            sieniDocenteFacadeRemote.edit(docenteEdit);
+            registrarEnBitacora("Cambio Contraseña", "Usuario", loginBean.getIdUsuario());
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-
     }
+
 }

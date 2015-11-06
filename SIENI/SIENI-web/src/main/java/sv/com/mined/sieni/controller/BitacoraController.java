@@ -17,8 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.form.BitacoraForm;
@@ -52,7 +50,7 @@ public class BitacoraController extends BitacoraForm {
             elem = new BitacoraPojo(actual.getBitAccion(), actual.getBitFechaHoraIngreso(), actual.getBitFechaHoraIngreso(), actual.getBitTabla(), actual.getBitIp());
             this.getListDatos().add(elem);
         }
-        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size()+""));
+        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));
     }
 
     public void generarReporte() {
@@ -61,7 +59,7 @@ public class BitacoraController extends BitacoraForm {
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
         parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getDesde()));
         parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getHasta()));
-        
+
         try {
             BitacoraController.generateReport(path, "rtpBitacora" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
         } catch (JRException ex) {

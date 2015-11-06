@@ -26,21 +26,32 @@ import sv.com.mined.sieni.pojos.controller.SuperCompPojo;
  */
 public class ControlInteractivoUtils {
 
+    //secciones de la plantilla
     private List<SeccionPlantillaPojo> secciones;
+    //interacciones entre componentes de toda la clase
     private List<SieniInteEntrComp> totalInteracc;
 
+    //metodo principal para obtener el script de configuracion de las interacciones entre componetes
     public String getCodigoEventosEntreComp() {
         List<CodigoEvento> listEv;
         String funcion = "";
+        //arma la estuctura para poder recorrer de forma ordenada los eventos
+        //se ordena por seccion, pantalla, evento, componente
         for (SeccionPlantillaPojo sec : this.getSecciones()) {
             for (PantallaPojo pant : sec.getPantallas()) {
+                //Tipo de elemento de plantilla actual
                 Long idTipoElemPlantilla = sec.getIdElemPlantilla().getIdTipoElemPlantilla().getIdTipoElemPlantilla();
+                //numero de pantalla actual
                 Integer nPantalla = pant.getNumPantalla();
+                //interacciones entre componentes para el elemento de plantilla actual y pantalla
                 List<SieniInteEntrComp> listInteEntreComp = getInterEntreCompByTipoElemPlantillaPantalla(idTipoElemPlantilla, nPantalla);
+                //hash de eventos diferentes de las interacciones registradas
                 HashMap<String, Integer> eventosDiferentes = getEventosNumerados(listInteEntreComp);
+                //hash de eventos diferentes la seccion actual y de la pantalla
                 eventosDiferentes = agregarEventosNoRelacionados(eventosDiferentes, idTipoElemPlantilla, nPantalla);
                 //agregar eventos que no son de interaccion entre componentes
                 HashMap<Long, Integer> componentesDiferentes = getComponentesNumerados(listInteEntreComp);
+                //agregar eventos de la secciona actual y la pantalla
                 componentesDiferentes = agregarComponentesNoRelacionados(componentesDiferentes, idTipoElemPlantilla, nPantalla);
 
                 //agregar componentes que son parte de la pagina pero no estan en la interaccion entre componentes
@@ -50,7 +61,10 @@ public class ControlInteractivoUtils {
                 CodigoEvento ev = new CodigoEvento();
                 CodigoComponente comp = new CodigoComponente();
                 List<CodigoComponente> listComp = new ArrayList<>();
+                
+                //obtiene el listado de eventos diferentes existentes en las interacciones entre componentes
                 List<EventosPojo> evDif = getEventosDiferentes(listInteEntreComp);
+                //obtiene el listado de eventos diferentes existentes de la seccion y pantalla actual 
                 evDif = getEventosDiferentesNoRelacionados(evDif, idTipoElemPlantilla, nPantalla);
                 //agregar eventos de componentes que son parte de la pagina pero no estan en la interaccion entre componentes
                 Long idEventoActual;
@@ -64,6 +78,7 @@ public class ControlInteractivoUtils {
                     codEvento = actual.getEvento();
                     List<Long> compEv = getComponByEvento(codEvento, listInteEntreComp);
                     compEv = getComponByEventoNoRelacionados(compEv, codEvento, idTipoElemPlantilla, nPantalla);
+                    //Se crea un objeto con informacion necesaria para categorizar y ordenar los eventos
                     for (Long idCompActual : compEv) {
                         comp = new CodigoComponente();
                         comp.setIdSuperCompon(idCompActual);

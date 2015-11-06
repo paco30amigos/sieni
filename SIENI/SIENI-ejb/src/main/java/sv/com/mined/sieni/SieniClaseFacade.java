@@ -205,4 +205,16 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
 
         return q.getResultList();
     }
+
+    @Override
+    public void merge(List<SieniClase> clases) {
+        for (SieniClase actual : clases) {
+            if (actual.getIdClase() != null) {
+                this.edit(actual);
+            } else {
+                this.create(actual);
+            }
+        }
+        em.flush();
+    }
 }

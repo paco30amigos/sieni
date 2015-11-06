@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,9 +21,7 @@ import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.ProgramacionClasesForm;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniClase;
-import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.pojos.controller.Combo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.DateUtils;
@@ -45,6 +42,12 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     private SieniCursoFacadeRemote sieniCursoFacadeRemote;
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
 
     @PostConstruct
     public void init() {
@@ -76,27 +79,29 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     }
 
     public void guardar() {
-        boolean inicio = true;
-        String horario = "";
-        for (String actual : this.getHorarioSelected()) {
-            if (inicio) {
-                horario += actual;
-                inicio = false;
-            } else {
-                horario += "," + actual;
+        try {
+            boolean inicio = true;
+            String horario = "";
+            for (String actual : this.getHorarioSelected()) {
+                if (inicio) {
+                    horario += actual;
+                    inicio = false;
+                } else {
+                    horario += "," + actual;
+                }
             }
-        }
-        this.getNuevo().setClHorario(horario);
-        if (validarNuevo(this.getNuevo())) {//valida el guardado
-            sieniClaseFacadeRemote.create(this.getNuevo());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Programación Creada Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            this.setNuevo(new SieniClase());
-            this.setHorarioSelected(new ArrayList<String>());
-            fill();
+            this.getNuevo().setClHorario(horario);
+            if (validarNuevo(this.getNuevo())) {//valida el guardado
+                sieniClaseFacadeRemote.create(this.getNuevo());
+                registrarEnBitacora("Crear", "Programacion de clases", this.getNuevo().getIdClase());
+                FacesMessage msg = new FacesMessage("Programación Creada Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                this.setNuevo(new SieniClase());
+                this.setHorarioSelected(new ArrayList<String>());
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -160,27 +165,28 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     }
 
     public void guardarModifica() {
-
-        boolean inicio = true;
-        String horario = "";
-        for (String actual : this.getHorarioSelected()) {
-            if (inicio) {
-                horario += actual;
-                inicio = false;
-            } else {
-                horario += "," + actual;
+        try {
+            boolean inicio = true;
+            String horario = "";
+            for (String actual : this.getHorarioSelected()) {
+                if (inicio) {
+                    horario += actual;
+                    inicio = false;
+                } else {
+                    horario += "," + actual;
+                }
             }
-        }
-        this.getModifica().setClHorario(horario);
-        if (validarModifica(this.getModifica())) {//valida el guardado
-            sieniClaseFacadeRemote.edit(this.getModifica());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Programacion Clase", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Programación modificada Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            this.getModifica().setClHorario(horario);
+            if (validarModifica(this.getModifica())) {//valida el guardado
+                sieniClaseFacadeRemote.edit(this.getModifica());
+                registrarEnBitacora("Modificar", "Programacion de clases", this.getModifica().getIdClase());
+                FacesMessage msg = new FacesMessage("Programación modificada Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
 //            this.setNuevo(new SieniClase());
-            fill();
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -201,12 +207,14 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     }
 
     public void eliminarArchivo() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Clase", this.getEliminar().getIdClase(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setClEstado('I');
-        sieniClaseFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Programacion de clases", this.getEliminar().getIdClase());
+            this.getEliminar().setClEstado('I');
+            sieniClaseFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void getFormatosSubidaNuevo(ValueChangeEvent a) {

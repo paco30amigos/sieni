@@ -73,12 +73,6 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     @EJB
     private SieniElemPlantillaFacadeRemote sieniElemPlantillaFacadeRemote;
     @EJB
-    private SieniTipoElemPlantillaFacadeRemote sieniTipoElemPlantillaFacadeRemote;
-    @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
-    @EJB
-    private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
-    @EJB
     private SieniClaseFacadeRemote sieniClaseFacadeRemote;
     @EJB
     private SieniSuperComponFacadeRemote sieniSuperComponFacadeRemote;
@@ -96,6 +90,12 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     private SieniClaseVidPtosFacadeRemote sieniClaseVidPtosFacadeRemote;
     @EJB
     private SieniCatPuntosFacadeRemote sieniCatPuntosFacadeRemote;
+
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
 
     @PostConstruct
     public void init() {
@@ -115,15 +115,35 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        List<SieniClase> listaClases = new ArrayList<>();
         //fill para alumnos
         if (loginBean.getTipoRol().equals("0")) {
 //*******fill
             //clases interact
-            this.setClaseList(sieniClaseFacadeRemote.findClaseByTipoAlumno('V', loginBean.getAlumno().getIdAlumno()));//clases interactivas
+            listaClases = sieniClaseFacadeRemote.findClaseByTipoAlumno('V', loginBean.getAlumno().getIdAlumno());//video clases
         } else {
             //*******fill
             //clases interact
-            this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('V'));//clases interactivas
+            listaClases = sieniClaseFacadeRemote.findClaseByTipo('V');//video clases
+        }
+        updateEstadoClase(listaClases);
+        this.setClaseList(listaClases);
+
+    }
+
+    private void updateEstadoClase(List<SieniClase> clases) {
+        List<SieniClase> clasesIniciadas = new ArrayList<>();
+        DateUtils du = new DateUtils();
+
+        for (SieniClase actual : clases) {
+            if (actual.getClEstado().equals(new Character('N'))
+                    && du.horarioValido(actual.getClHorario(), actual.getClHora())) {
+                actual.setClEstado('A');
+                clasesIniciadas.add(actual);
+            }
+        }
+        if (!clasesIniciadas.isEmpty()) {
+            sieniClaseFacadeRemote.merge(clasesIniciadas);
         }
     }
 
@@ -362,10 +382,15 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     }
 
     public void guardarInteraccionPantallas() {
-        this.getClaseConfig().setIdArchivo(this.getVideo().getIdArchivo());
-        sieniClaseFacadeRemote.edit(this.getClaseConfig());
-        sieniClaseVidPtosFacadeRemote.merge(getPuntosVid(), getPuntosVidEliminados());
-        new ValidationPojo().printMsj("Configuracion guardada exitosamente", FacesMessage.SEVERITY_INFO);
+        try {
+            this.getClaseConfig().setIdArchivo(this.getVideo().getIdArchivo());
+            sieniClaseFacadeRemote.edit(this.getClaseConfig());
+            sieniClaseVidPtosFacadeRemote.merge(getPuntosVid(), getPuntosVidEliminados());
+            registrarEnBitacora("Crear", "Video Clase Almacenada - interac pantallas", this.getClaseConfig().getIdClase());
+            new ValidationPojo().printMsj("Configuracion guardada exitosamente", FacesMessage.SEVERITY_INFO);
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
 //        this.setIndexMenu(6);
     }
 
@@ -422,9 +447,9 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
                 //********información
                 this.setPaginaActive(0);
                 this.setIdElemenActive(0);
-            }else{
+            } else {
                 new ValidationPojo().printMsj("La plantilla no tiene ningun elemento", FacesMessage.SEVERITY_ERROR);
-                ret=false;
+                ret = false;
             }
         } else {
             ret = false;
@@ -525,12 +550,13 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         boolean correcto = true;
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //obtiene la clase actualizada
+        ver = sieniClaseFacadeRemote.find(ver.getIdClase());
         //fill para alumnos
         if (loginBean.getTipoRol().equals("0")) {
             DateUtils du = new DateUtils();
-            if (!du.horarioValido(ver.getClHorario(), ver.getClHora())) {
-                new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
-                correcto = false;
+            if (validarEstadoClase(ver)) {
+                correcto = true;
             }
         }
         if (correcto) {
@@ -569,23 +595,39 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         }
     }
 
-    public void guardarPuntosControl() {
-        int contador = 0;
-        for (SeccionPlantillaPojo sec : this.getSecciones()) {
-            for (PantallaPojo pantalla : sec.getPantallas()) {
-                contador++;
-            }
+    public boolean validarEstadoClase(SieniClase ver) {
+        boolean ret = true;
+        if (ver.getClEstado() != null && !ver.getClEstado().equals(new Character('N'))) {
+            ret = false;
+            new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
+        } else if (ver.getClEstado() != null && !ver.getClEstado().equals(new Character('T'))) {
+            ret = false;
+            new ValidationPojo().printMsj("La clase ya ha terminado", FacesMessage.SEVERITY_ERROR);
         }
-        SieniCatPuntos puntos = sieniCatPuntosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
-        if (puntos != null && puntos.getIdCatPuntos() != null) {
-            puntos.setCpNumPuntos(contador);
-            sieniCatPuntosFacadeRemote.edit(puntos);
-        } else {
-            puntos = new SieniCatPuntos();
-            puntos.setCpEstado('A');
-            puntos.setIdClase(this.getClaseConfig());
-            puntos.setCpNumPuntos(contador);
-            sieniCatPuntosFacadeRemote.create(puntos);
+        return ret;
+    }
+
+    public void guardarPuntosControl() {
+        try {
+            int contador = 0;
+            for (SeccionPlantillaPojo sec : this.getSecciones()) {
+                for (PantallaPojo pantalla : sec.getPantallas()) {
+                    contador++;
+                }
+            }
+            SieniCatPuntos puntos = sieniCatPuntosFacadeRemote.findByClase(this.getClaseConfig().getIdClase());
+            if (puntos != null && puntos.getIdCatPuntos() != null) {
+                puntos.setCpNumPuntos(contador);
+                sieniCatPuntosFacadeRemote.edit(puntos);
+            } else {
+                puntos = new SieniCatPuntos();
+                puntos.setCpEstado('A');
+                puntos.setIdClase(this.getClaseConfig());
+                puntos.setCpNumPuntos(contador);
+                sieniCatPuntosFacadeRemote.create(puntos);
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -599,15 +641,16 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     }
 
     public void guardarModifica() {
-
-        if (validarModifica(this.getClaseModifica())) {//valida el guardado
-            sieniClaseFacadeRemote.edit(this.getClaseModifica());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Plantilla Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
+        try {
+            if (validarModifica(this.getClaseModifica())) {//valida el guardado
+                sieniClaseFacadeRemote.edit(this.getClaseModifica());
+                registrarEnBitacora("Modificar", "Video Clase Almacenada", this.getClaseModifica().getIdClase());
+                FacesMessage msg = new FacesMessage("Plantilla Modificado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -627,108 +670,58 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     }
 
     public void eliminarClase() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setClEstado('I');
-        sieniClaseFacadeRemote.edit(this.getEliminar());
-        fill();
-    }
-
-//    public void configurar(SieniPlantilla plantilla) {
-//        fillElemPlantillaPlantilla(plantilla);
-//        this.setIndexMenu(4);
-//    }
-    public void agregarElemPlantilla() {
-//        SieniElemPlantilla nuevo = new SieniElemPlantilla();
-//        nuevo.setIdPlantilla(this.getPlantillaModifica());
-//        nuevo.setIdTipoElemPlantilla(this.getNuevoElem());
-//        nuevo.setEpEstado('A');
-//        nuevo.setIdElemPlantilla(-Long.parseLong(new DateUtils().getTime()));
-//        this.getElemPlantillaSelected().add(nuevo);
-//        for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
-//            for (int i = 0; i < getTipoPlantilla().size(); i++) {
-//                if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
-//                    getTipoPlantilla().remove(i);
-//                }
-//            }
-//        }
-    }
-
-    public void guardarElemPlantilla() {
-//        sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados());
-//        FacesMessage msg = new FacesMessage("Elementos de plantilla guardados exitosamente");
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//        fillElemPlantillaPlantilla(this.getPlantillaModifica());
-    }
-
-    public void eliminarElemPlantilla() {
-//        SieniElemPlantilla materia = this.getElemPlantillaEliminado();
-//        for (int i = 0; i < this.getElemPlantillaSelected().size(); i++) {
-//            if (this.getElemPlantillaSelected().get(i).getIdElemPlantilla().equals(materia.getIdElemPlantilla())) {
-//                this.getElemPlantillaEliminados().add(this.getElemPlantillaSelected().get(i));
-//                this.getTipoPlantilla().add(this.getElemPlantillaSelected().get(i).getIdTipoElemPlantilla());
-//                this.getElemPlantillaSelected().remove(i);
-//                break;
-//            }
-//        }
-    }
-
-    public void eliminarElemPlantilla_(SieniElemPlantilla materia) {
-//        this.setElemPlantillaEliminado(materia);
-    }
-
-    public void fillElemPlantillaPlantilla(SieniPlantilla plantilla) {
-//        this.setPlantillaModifica(plantilla);
-//        this.setTipoPlantilla(sieniTipoElemPlantillaFacadeRemote.findAll());
-//        this.setNuevoElem(new SieniTipoElemPlantilla());
-//        this.setElemPlantillaEliminados(new ArrayList<SieniElemPlantilla>());
-//        this.setElemPlantillaSelected(this.getPlantillaModifica().getSieniElemPlantillaList());
-//        if (this.getElemPlantillaSelected() == null) {
-//            this.setElemPlantillaSelected(new ArrayList<SieniElemPlantilla>());
-//        } else {
-//            for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
-//                for (int i = 0; i < getTipoPlantilla().size(); i++) {
-//                    if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
-//                        getTipoPlantilla().remove(i);
-//                    }
-//                }
-//            }
-//        }
+        try {
+            registrarEnBitacora("Eliminar", "Video Clase Almacenada ", this.getEliminar().getIdClase());
+            this.getEliminar().setClEstado('I');
+            sieniClaseFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void guardarConfiguracion() {
-        List<SieniClaseSupComp> componentes = new ArrayList<>();
-        List<SieniClaseSupComp> eliminados = new ArrayList<>();
-        int cont = 1;
-        for (SeccionPlantillaPojo sec : this.getSecciones()) {
-            for (PantallaPojo pantalla : sec.getPantallas()) {
-                cont = 1;
-                for (ComponenteInteractivoPojo comp : pantalla.getComponentes()) {
-                    comp.getClaseSuperComp().setScVisible(comp.getVisible() ? 'S' : 'N');
-                    comp.getClaseSuperComp().setScOrden(cont++);
-                    componentes.add(comp.getClaseSuperComp());
+        try {
+            List<SieniClaseSupComp> componentes = new ArrayList<>();
+            List<SieniClaseSupComp> eliminados = new ArrayList<>();
+            int cont = 1;
+            for (SeccionPlantillaPojo sec : this.getSecciones()) {
+                for (PantallaPojo pantalla : sec.getPantallas()) {
+                    cont = 1;
+                    for (ComponenteInteractivoPojo comp : pantalla.getComponentes()) {
+                        comp.getClaseSuperComp().setScVisible(comp.getVisible() ? 'S' : 'N');
+                        comp.getClaseSuperComp().setScOrden(cont++);
+                        componentes.add(comp.getClaseSuperComp());
+                    }
                 }
             }
+            for (ComponenteInteractivoPojo elimn : this.getComponentesEliminados()) {
+                eliminados.add(elimn.getClaseSuperComp());
+            }
+            sieniClaseSupCompFacadeRemote.merge(componentes, eliminados);
+            //elimina las interacciondes de los componentes relacionados que fueron eliminados
+            sieniInteEntrCompFacadeRemote.merge(new ArrayList<SieniInteEntrComp>(), this.getInteracEliminados());
+            registrarEnBitacora("Modificar", "Video Clase Almacenada - interac componentes", this.getClaseConfig().getIdClase());
+            fillConfigura(this.getClaseConfig());
+            new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
+            guardarPuntosControl();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-        for (ComponenteInteractivoPojo elimn : this.getComponentesEliminados()) {
-            eliminados.add(elimn.getClaseSuperComp());
-        }
-        sieniClaseSupCompFacadeRemote.merge(componentes, eliminados);
-        //elimina las interacciondes de los componentes relacionados que fueron eliminados
-        sieniInteEntrCompFacadeRemote.merge(new ArrayList<SieniInteEntrComp>(), this.getInteracEliminados());
-        fillConfigura(this.getClaseConfig());
-        new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
-        guardarPuntosControl();
     }
 
     public void guardarConfiguracionInteracciones() {
-        int cont = 1;
-        for (SieniInteEntrComp actual : this.getInteracTotal()) {
-            actual.setIeOrden(cont++);
+        try {
+            int cont = 1;
+            for (SieniInteEntrComp actual : this.getInteracTotal()) {
+                actual.setIeOrden(cont++);
+            }
+            sieniInteEntrCompFacadeRemote.merge(this.getInteracTotal(), this.getInteracEliminados());
+            registrarEnBitacora("Modificar", "Video Clase Almacenada - interaciones ", this.getClaseConfig().getIdClase());
+            new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-        sieniInteEntrCompFacadeRemote.merge(this.getInteracTotal(), this.getInteracEliminados());
-        new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
     }
 
     public void agregarInteraccionesMultiples() {

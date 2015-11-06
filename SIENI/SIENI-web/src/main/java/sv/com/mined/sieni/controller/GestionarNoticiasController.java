@@ -5,7 +5,6 @@
  */
 package sv.com.mined.sieni.controller;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +43,12 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
+
     @PostConstruct
     public void init() {
         this.setNoticiaNueva(new SieniNoticia());
@@ -52,13 +57,10 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         fill();
     }
 
-    
     private void fill() {
         this.setNoticiasList(sieniNoticiaFacadeRemote.findNoticiasActivas());
         this.setCursosList(sieniCursoFacadeRemote.findAll());
     }
-
-        
 
     public void refresh() {
         fill();
@@ -74,9 +76,9 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         this.setFotoArchivoModifica(modificado.getNcFoto());
         this.setFotoUsableModifica(getImage(modificado.getNcFoto()));
         this.setNoticiaModifica(modificado);
-        if(modificado.getIdCurso() != null){
+        if (modificado.getIdCurso() != null) {
             this.setIdCursoModifica(modificado.getIdCurso().getIdCurso());
-        }else{
+        } else {
             this.setIdCursoModifica(null);
         }
         this.setIndexMenu(2);
@@ -99,37 +101,36 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         this.setFotoUsableModifica(getImage(event.getFile().getContents()));
     }
 
-    
     public void guardar() {
+        try {
 //        Character tipoUsuario = ;//hay que extraer el del usuario logueado
-        for (SieniCurso actual : this.getCursosList()) {
-            if (actual.getIdCurso().equals(this.getIdCurso())) {
-                this.getNoticiaNueva().setIdCurso(actual);
-                break;
+            for (SieniCurso actual : this.getCursosList()) {
+                if (actual.getIdCurso().equals(this.getIdCurso())) {
+                    this.getNoticiaNueva().setIdCurso(actual);
+                    break;
+                }
             }
-        }
-        this.getNoticiaNueva().setNcFoto(this.getFotoArchivo());
-        if (validarNuevo(this.getNoticiaNueva())) {//valida el guardado
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            NotificacionesController notifyBean = (NotificacionesController) req.getSession().getAttribute("notificacionesController");
-            this.getNoticiaNueva().setNcEstado('A');
-            this.getNoticiaNueva().setNcPublica(loginBean.getUsuario());
-            sieniNoticiaFacadeRemote.create(this.getNoticiaNueva());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Noticia", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            notifyBean.insertNotifyNoticia(this.getNoticiaNueva());
-            
-            this.setNoticiaNueva(new SieniNoticia());
-            FacesMessage msg = new FacesMessage("Noticia Agregada Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
-            
-            
-            
+            this.getNoticiaNueva().setNcFoto(this.getFotoArchivo());
+            if (validarNuevo(this.getNoticiaNueva())) {//valida el guardado
+                HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+                NotificacionesController notifyBean = (NotificacionesController) req.getSession().getAttribute("notificacionesController");
+                this.getNoticiaNueva().setNcEstado('A');
+                this.getNoticiaNueva().setNcPublica(loginBean.getUsuario());
+                sieniNoticiaFacadeRemote.create(this.getNoticiaNueva());
+                registrarEnBitacora("Crear", "Noticia", this.getNoticiaNueva().getIdNoticia());
+                notifyBean.insertNotifyNoticia(this.getNoticiaNueva());
+
+                this.setNoticiaNueva(new SieniNoticia());
+                FacesMessage msg = new FacesMessage("Noticia Agregada Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
-    
-    
+
     public boolean validarNuevo(SieniNoticia nuevo) {
         boolean valido = true;
         DateUtils du = new DateUtils();
@@ -139,28 +140,28 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
-    
+
     public void guardarModifica() {
-        for (SieniCurso actual : this.getCursosList()) {
-            if (actual.getIdCurso().equals(this.getIdCursoModifica())) {
-                this.getNoticiaModifica().setIdCurso(actual);
-                break;
+        try {
+            for (SieniCurso actual : this.getCursosList()) {
+                if (actual.getIdCurso().equals(this.getIdCursoModifica())) {
+                    this.getNoticiaModifica().setIdCurso(actual);
+                    break;
+                }
             }
-        }
-        this.getNoticiaModifica().setNcFoto(this.getFotoArchivoModifica());
-        if (validarModifica(this.getNoticiaModifica())) {//valida el guardado
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            
-            sieniNoticiaFacadeRemote.edit(this.getNoticiaModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Noticia", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Noticia Modificada Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
+            this.getNoticiaModifica().setNcFoto(this.getFotoArchivoModifica());
+            if (validarModifica(this.getNoticiaModifica())) {//valida el guardado
+                sieniNoticiaFacadeRemote.edit(this.getNoticiaModifica());
+                registrarEnBitacora("Modificar", "Noticia", this.getNoticiaModifica().getIdNoticia());
+                FacesMessage msg = new FacesMessage("Noticia Modificada Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
-    
     public boolean validarModifica(SieniNoticia nuevo) {
         boolean valido = true;
         DateUtils du = new DateUtils();
@@ -173,15 +174,13 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
-    
-    
+
     public void resetModificaForm() {
         this.setNoticiaModifica(new SieniNoticia());
         this.setFotoArchivoModifica(null);
         this.setFotoUsableModifica(null);
         this.setIdCursoModifica(null);
     }
-
 
     public boolean diferencia(String original, String modificado) {
         boolean ret = true;
@@ -197,13 +196,14 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         return ret;
     }
 
-    
     public void eliminarNoticia() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Noticia", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setNcEstado(new Character('I'));
-        sieniNoticiaFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Noticia", this.getEliminar().getIdNoticia());
+            this.getEliminar().setNcEstado(new Character('I'));
+            sieniNoticiaFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 }

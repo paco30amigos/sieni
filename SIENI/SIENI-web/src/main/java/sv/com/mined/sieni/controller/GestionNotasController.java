@@ -62,6 +62,12 @@ public class GestionNotasController extends GestionNotasForm {
 //docente->curso->materia->grado
 //docente->materia->grado->poner notas
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
+
     @PostConstruct
     public void init() {
         this.setNotaNuevo(new SieniNota());
@@ -112,19 +118,21 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void guardar() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        FormatUtils fu = new FormatUtils();
-        this.getNotaNuevo().setIdAlumno(this.getIdAlumno());
-        this.getNotaNuevo().setIdEvaluacion(this.getIdEvaluacion());
-        if (validarNuevo(this.getNotaNuevo())) {//valida el guardado
-            this.getNotaNuevo().setNtEstado(new Character('A'));
-            this.getNotaNuevo().setNtFechaIngreso(new Date());
-            this.getNotaNuevo().setNtAnio(fu.getFormatedAnioInt(new Date()));
-            sieniNotaFacadeRemote.create(this.getNotaNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Nota Creada Exitosamente", FacesMessage.SEVERITY_INFO);
-            init();
+        try {
+            FormatUtils fu = new FormatUtils();
+            this.getNotaNuevo().setIdAlumno(this.getIdAlumno());
+            this.getNotaNuevo().setIdEvaluacion(this.getIdEvaluacion());
+            if (validarNuevo(this.getNotaNuevo())) {//valida el guardado
+                this.getNotaNuevo().setNtEstado(new Character('A'));
+                this.getNotaNuevo().setNtFechaIngreso(new Date());
+                this.getNotaNuevo().setNtAnio(fu.getFormatedAnioInt(new Date()));
+                registrarEnBitacora("Crear", "Nota", this.getNotaNuevo().getIdNota());
+                sieniNotaFacadeRemote.create(this.getNotaNuevo());
+                new ValidationPojo().printMsj("Nota Creada Exitosamente", FacesMessage.SEVERITY_INFO);
+                init();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -185,18 +193,19 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void guardarModifica() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        this.getNotaModifica().setIdAlumno(this.getIdAlumnoModifica());
-        this.setIdEvaluacion(this.getIdEvaluacionModifica());
-        if (validarModifica(this.getNotaModifica())) {//valida el guardado
-            sieniNotaFacadeRemote.edit(this.getNotaModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Nota Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
-            resetModificaForm();
-            init();
+        try {
+            this.getNotaModifica().setIdAlumno(this.getIdAlumnoModifica());
+            this.setIdEvaluacion(this.getIdEvaluacionModifica());
+            if (validarModifica(this.getNotaModifica())) {//valida el guardado
+                sieniNotaFacadeRemote.edit(this.getNotaModifica());
+                registrarEnBitacora("Modificar", "Nota", this.getNotaModifica().getIdNota());
+                new ValidationPojo().printMsj("Nota Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
+                resetModificaForm();
+                init();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-
     }
 
     public void resetModificaForm() {
@@ -238,13 +247,15 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void eliminarNota() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setNtEstado('I');
-        sieniNotaFacadeRemote.edit(this.getEliminar());
-        fill();
-        this.setIndexMenu(0);
+        try {
+            registrarEnBitacora("Eliminar", "Nota", this.getEliminar().getIdNota());
+            this.getEliminar().setNtEstado('I');
+            sieniNotaFacadeRemote.edit(this.getEliminar());
+            fill();
+            this.setIndexMenu(0);
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void getMateriasAlumno(ValueChangeEvent a) {
@@ -304,52 +315,56 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void guardarNotasExcel() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        boolean error = false;
-        List<SieniNota> notas = new ArrayList<>();
-        FormatUtils fu = new FormatUtils();
-        Date fechaActual = new Date();
-        List<ValidationPojo> validaciones = new ArrayList<>();
-        if (this.getEvaluacionSubir() != null && this.getEvaluacionSubir().getIdEvaluacion() != null) {
-            for (SieniNota actual : this.getListaNotasSubidas()) {
-                actual.setIdEvaluacion(this.getEvaluacionSubir());
-                actual.setNtEstado(new Character('A'));
-                actual.setNtFechaIngreso(fechaActual);
-                actual.setNtTipoIngreso("E");
-                actual.setNtAnio(fu.getFormatedAnioInt(new Date()));
-                notas.add(actual);
-                if (actual.getErrores() != null && !actual.getErrores().isEmpty()) {
-                    error = true;
-                    break;
-                }
-            }
-            if (!error) {
-                for (int i = 0; i < notas.size(); i++) {
-                    notas.get(i).setErrores(new ArrayList<String>());
-                    if (sieniNotaFacadeRemote.findNotaRegistrada(notas.get(i))) {
-                        notas.get(i).getErrores().add("La nota de la evaluación para ese alumno ya esta definida");
+        try {
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            boolean error = false;
+            List<SieniNota> notas = new ArrayList<>();
+            FormatUtils fu = new FormatUtils();
+            Date fechaActual = new Date();
+            List<ValidationPojo> validaciones = new ArrayList<>();
+            if (this.getEvaluacionSubir() != null && this.getEvaluacionSubir().getIdEvaluacion() != null) {
+                for (SieniNota actual : this.getListaNotasSubidas()) {
+                    actual.setIdEvaluacion(this.getEvaluacionSubir());
+                    actual.setNtEstado(new Character('A'));
+                    actual.setNtFechaIngreso(fechaActual);
+                    actual.setNtTipoIngreso("E");
+                    actual.setNtAnio(fu.getFormatedAnioInt(new Date()));
+                    notas.add(actual);
+                    if (actual.getErrores() != null && !actual.getErrores().isEmpty()) {
                         error = true;
-                        List<ValidationPojo> errores = new ArrayList<>();
-                        errores.add(new ValidationPojo(error, "Debe corregir los errores del archivo excel antes de guardar", FacesMessage.SEVERITY_ERROR));
-                        ValidationPojo.printErrores(errores);
+                        break;
                     }
                 }
                 if (!error) {
-                    sieniNotaFacadeRemote.merge(notas);
-                    sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Nota", this.getNotaNuevo().getIdNota(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-                    new ValidationPojo().printMsj("Notas creadas Exitosamente", FacesMessage.SEVERITY_INFO);
-                    fill();
+                    for (int i = 0; i < notas.size(); i++) {
+                        notas.get(i).setErrores(new ArrayList<String>());
+                        if (sieniNotaFacadeRemote.findNotaRegistrada(notas.get(i))) {
+                            notas.get(i).getErrores().add("La nota de la evaluación para ese alumno ya esta definida");
+                            error = true;
+                            List<ValidationPojo> errores = new ArrayList<>();
+                            errores.add(new ValidationPojo(error, "Debe corregir los errores del archivo excel antes de guardar", FacesMessage.SEVERITY_ERROR));
+                            ValidationPojo.printErrores(errores);
+                        }
+                    }
+                    if (!error) {
+                        sieniNotaFacadeRemote.merge(notas);
+                        registrarEnBitacora("Crear", "Nota - excel", this.getEvaluacionSubir().getIdEvaluacion());
+                        new ValidationPojo().printMsj("Notas creadas Exitosamente", FacesMessage.SEVERITY_INFO);
+                        fill();
+                    }
+                } else {
+                    List<ValidationPojo> errores = new ArrayList<>();
+                    errores.add(new ValidationPojo(error, "Debe corregir los errores del archivo excel antes de guardar", FacesMessage.SEVERITY_ERROR));
+                    ValidationPojo.printErrores(errores);
                 }
             } else {
                 List<ValidationPojo> errores = new ArrayList<>();
-                errores.add(new ValidationPojo(error, "Debe corregir los errores del archivo excel antes de guardar", FacesMessage.SEVERITY_ERROR));
+                errores.add(new ValidationPojo(true, "La materia no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
                 ValidationPojo.printErrores(errores);
             }
-        } else {
-            List<ValidationPojo> errores = new ArrayList<>();
-            errores.add(new ValidationPojo(true, "La materia no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
-            ValidationPojo.printErrores(errores);
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 

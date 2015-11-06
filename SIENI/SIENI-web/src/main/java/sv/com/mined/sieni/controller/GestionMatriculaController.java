@@ -30,6 +30,7 @@ import sv.com.mined.sieni.model.SieniCursoAlumno;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniSeccion;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.FormatUtils;
 
 /**
@@ -54,6 +55,12 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     private SieniCursoAlumnoFacadeRemote sieniCursoAlumnoFacadeRemote;
     @EJB
     private SieniCursoFacadeRemote sieniCursoFacadeRemote;
+
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
 
     @PostConstruct
     public void init() {
@@ -88,40 +95,42 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public void guardar() {
-        for (SieniAlumno actual : this.getAlumnosList()) {
-            if (actual.getIdAlumno().equals(this.getIdAlumno())) {
-                this.getMatriculaNuevo().setIdAlumno(actual);
-                break;
+        try {
+            for (SieniAlumno actual : this.getAlumnosList()) {
+                if (actual.getIdAlumno().equals(this.getIdAlumno())) {
+                    this.getMatriculaNuevo().setIdAlumno(actual);
+                    break;
+                }
             }
-        }
-        for (SieniGrado actual : this.getGradosList()) {
-            if (actual.getIdGrado().equals(this.getIdGrado())) {
-                this.getMatriculaNuevo().setIdGrado(actual);
-                break;
+            for (SieniGrado actual : this.getGradosList()) {
+                if (actual.getIdGrado().equals(this.getIdGrado())) {
+                    this.getMatriculaNuevo().setIdGrado(actual);
+                    break;
+                }
             }
-        }
-        for (SieniSeccion actual : this.getSeccionesList()) {
-            if (actual.getIdSeccion().equals(this.getIdSeccion())) {
-                this.getMatriculaNuevo().setIdSeccion(actual);
-                break;
+            for (SieniSeccion actual : this.getSeccionesList()) {
+                if (actual.getIdSeccion().equals(this.getIdSeccion())) {
+                    this.getMatriculaNuevo().setIdSeccion(actual);
+                    break;
+                }
             }
-        }
 
-        if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            String anioActual = new FormatUtils().getFormatedAnio(new Date());
-            this.getMatriculaNuevo().setMtAnio(anioActual);
-            this.getMatriculaNuevo().setMtEstado('A');
-            this.getMatriculaNuevo().setMtFechaIngreso(new Date());
-            sieniMatriculaFacadeRemote.create(this.getMatriculaNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Matricula", this.getMatriculaNuevo().getIdMatricula(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Matricula Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            this.setIndexMenu(0);
+            if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado                
+                String anioActual = new FormatUtils().getFormatedAnio(new Date());
+                this.getMatriculaNuevo().setMtAnio(anioActual);
+                this.getMatriculaNuevo().setMtEstado('A');
+                this.getMatriculaNuevo().setMtFechaIngreso(new Date());
+                sieniMatriculaFacadeRemote.create(this.getMatriculaNuevo());
+                registrarEnBitacora("Crear", "Matricula", this.getMatriculaNuevo().getIdMatricula());
+                FacesMessage msg = new FacesMessage("Matricula Creado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                this.setIndexMenu(0);
+            }
+            this.setMatriculaNuevo(new SieniMatricula());
+//            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-        this.setMatriculaNuevo(new SieniMatricula());
-        fill();
     }
 
     public void quitarFormato(SieniMatricula actual) {
@@ -153,35 +162,36 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public void guardarModifica() {
-        for (SieniAlumno actual : this.getAlumnosModificaList()) {
-            if (actual.getIdAlumno().equals(this.getMatriculaModifica().getIdAlumno())) {
-                this.getMatriculaModifica().setIdAlumno(actual);
-                break;
+        try {
+            for (SieniAlumno actual : this.getAlumnosModificaList()) {
+                if (actual.getIdAlumno().equals(this.getMatriculaModifica().getIdAlumno())) {
+                    this.getMatriculaModifica().setIdAlumno(actual);
+                    break;
+                }
             }
-        }
-        for (SieniGrado actual : this.getGradosModificaList()) {
-            if (actual.getIdGrado().equals(this.getMatriculaModifica().getIdGrado().getIdGrado())) {
-                this.getMatriculaModifica().setIdGrado(actual);
-                break;
+            for (SieniGrado actual : this.getGradosModificaList()) {
+                if (actual.getIdGrado().equals(this.getMatriculaModifica().getIdGrado().getIdGrado())) {
+                    this.getMatriculaModifica().setIdGrado(actual);
+                    break;
+                }
             }
-        }
-        for (SieniSeccion actual : this.getSeccionesModificaList()) {
-            if (actual.getIdSeccion().equals(this.getMatriculaModifica().getIdSeccion().getIdSeccion())) {
-                this.getMatriculaModifica().setIdSeccion(actual);
-                break;
+            for (SieniSeccion actual : this.getSeccionesModificaList()) {
+                if (actual.getIdSeccion().equals(this.getMatriculaModifica().getIdSeccion().getIdSeccion())) {
+                    this.getMatriculaModifica().setIdSeccion(actual);
+                    break;
+                }
             }
+            if (validarModifica(this.getMatriculaModifica())) {//valida el guardado
+                sieniMatriculaFacadeRemote.edit(this.getMatriculaModifica());
+                registrarEnBitacora("Modificar", "Matricula", this.getMatriculaModifica().getIdMatricula());                
+                FacesMessage msg = new FacesMessage("Matricula Modificado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                resetModificaForm();
+                this.setIndexMenu(0);
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-        if (validarModifica(this.getMatriculaModifica())) {//valida el guardado
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniMatriculaFacadeRemote.edit(this.getMatriculaModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Matricula", this.getMatriculaModifica().getIdMatricula(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Matricula Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            resetModificaForm();
-            this.setIndexMenu(0);
-        }
-        fill();
     }
 
     public void resetModificaForm() {
@@ -195,12 +205,14 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public void eliminarMatricula() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Matricula", this.getEliminar().getIdMatricula(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setMtEstado('I');//I:eliminado,D:disponible,N:no disponible, (I eliminado logico)
-        sieniMatriculaFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Matricula", this.getEliminar().getIdMatricula());
+            this.getEliminar().setMtEstado('I');//I:eliminado,D:disponible,N:no disponible, (I eliminado logico)
+            sieniMatriculaFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void getSeccionesGrado(ValueChangeEvent a) {

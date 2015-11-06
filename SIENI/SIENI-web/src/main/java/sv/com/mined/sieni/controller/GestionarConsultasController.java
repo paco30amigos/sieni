@@ -27,8 +27,6 @@ import utils.DateUtils;
 import utils.EmailValidator;
 import utils.FormatUtils;
 
-
-
 /**
  *
  * @author INFORMATICA
@@ -36,12 +34,19 @@ import utils.FormatUtils;
 @SessionScoped
 @ManagedBean(name = "gestionarConsultasController")
 public class GestionarConsultasController extends GestionarConsultasForm {
+
     @EJB
     private SieniTemaDudaFacadeRemote sieniConsultaFacadeRemote;
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
 
     @PostConstruct
     public void init() {
@@ -51,25 +56,21 @@ public class GestionarConsultasController extends GestionarConsultasForm {
         fill();
     }
 
-    
     private void fill() {
         this.setConsultasList(sieniConsultaFacadeRemote.findConsultasActivas());
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
     }
 
-        
-
     public void refresh() {
         fill();
     }
 
-
     //metodos para modificacion de datos
     public void modificar(SieniTemaDuda modificado) {
         this.setConsultaModifica(modificado);
-        if(modificado.getIdDocente() != null){
+        if (modificado.getIdDocente() != null) {
             this.setIdDocenteModifica(modificado.getIdDocente().getIdDocente());
-        }else{
+        } else {
             this.setIdDocenteModifica(null);
         }
         this.setIndexMenu(2);
@@ -85,34 +86,35 @@ public class GestionarConsultasController extends GestionarConsultasForm {
         this.setEliminar(eliminado);
     }
 
-
-    
     public void guardar() {
+        try {
 //        Character tipoUsuario = ;//hay que extraer el del usuario logueado
-        for (SieniDocente actual : this.getDocentesList()) {
-            if (actual.getIdDocente().equals(this.getIdDocente())) {
-                this.getConsultaNueva().setIdDocente(actual);
-                break;
+            for (SieniDocente actual : this.getDocentesList()) {
+                if (actual.getIdDocente().equals(this.getIdDocente())) {
+                    this.getConsultaNueva().setIdDocente(actual);
+                    break;
+                }
             }
-        }
-        if (validarNuevo(this.getConsultaNueva())) {//valida el guardado
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            this.getConsultaNueva().setTdEstado('A');
-            this.getConsultaNueva().setIdAlumno(loginBean.getAlumno());
-            this.getConsultaNueva().setTdTipo('C');
-            this.getConsultaNueva().setTdFecha(new Date());
-            sieniConsultaFacadeRemote.create(this.getConsultaNueva());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            this.setConsultaNueva(new SieniTemaDuda());
-            FacesMessage msg = new FacesMessage("Consulta Enviada Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
-            
+            if (validarNuevo(this.getConsultaNueva())) {//valida el guardado
+                HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+                this.getConsultaNueva().setTdEstado('A');
+                this.getConsultaNueva().setIdAlumno(loginBean.getAlumno());
+                this.getConsultaNueva().setTdTipo('C');
+                this.getConsultaNueva().setTdFecha(new Date());
+                sieniConsultaFacadeRemote.create(this.getConsultaNueva());
+                registrarEnBitacora("Crear", "Consulta", this.getConsultaNueva().getIdTemaDuda());
+                this.setConsultaNueva(new SieniTemaDuda());
+                FacesMessage msg = new FacesMessage("Consulta Enviada Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                fill();
+
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
-    
-    
+
     public boolean validarNuevo(SieniTemaDuda nuevo) {
         boolean valido = true;
         DateUtils du = new DateUtils();
@@ -122,27 +124,27 @@ public class GestionarConsultasController extends GestionarConsultasForm {
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
-    
+
     public void guardarModifica() {
-        for (SieniDocente actual : this.getDocentesList()) {
-            if (actual.getIdDocente().equals(this.getIdDocenteModifica())) {
-                this.getConsultaModifica().setIdDocente(actual);
-                break;
+        try {
+            for (SieniDocente actual : this.getDocentesList()) {
+                if (actual.getIdDocente().equals(this.getIdDocenteModifica())) {
+                    this.getConsultaModifica().setIdDocente(actual);
+                    break;
+                }
             }
-        }
-        if (validarModifica(this.getConsultaModifica())) {//valida el guardado
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            
-            sieniConsultaFacadeRemote.edit(this.getConsultaModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Consulta Modificada Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
+            if (validarModifica(this.getConsultaModifica())) {//valida el guardado
+                sieniConsultaFacadeRemote.edit(this.getConsultaModifica());
+                registrarEnBitacora("Modificar", "Consulta", this.getConsultaModifica().getIdTemaDuda());
+                FacesMessage msg = new FacesMessage("Consulta Modificada Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
-    
     public boolean validarModifica(SieniTemaDuda nuevo) {
         boolean valido = true;
         DateUtils du = new DateUtils();
@@ -155,13 +157,11 @@ public class GestionarConsultasController extends GestionarConsultasForm {
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
-    
-    
+
     public void resetModificaForm() {
         this.setConsultaModifica(new SieniTemaDuda());
         this.setIdDocenteModifica(null);
     }
-
 
     public boolean diferencia(String original, String modificado) {
         boolean ret = true;
@@ -177,13 +177,14 @@ public class GestionarConsultasController extends GestionarConsultasForm {
         return ret;
     }
 
-    
     public void eliminarConsulta() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Consulta", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setTdEstado(new Character('I'));
-        sieniConsultaFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Consulta", this.getEliminar().getIdTemaDuda());
+            this.getEliminar().setTdEstado(new Character('I'));
+            sieniConsultaFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 }

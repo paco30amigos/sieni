@@ -5,9 +5,7 @@
  */
 package sv.com.mined.sieni.controller;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -16,14 +14,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import javax.script.ScriptEngine;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.event.TabChangeEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.form.GestionArchivoMultimediaForm;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.CopiaArchivos;
@@ -39,8 +34,13 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     @EJB
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
-    @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+
+    }
 
     @PostConstruct
     public void init() {
@@ -58,18 +58,22 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     }
 
     public void guardar() {
-        this.getArchivoNuevo().setArArchivo(this.getArchivoUsable());
-        if (validarNuevo(this.getArchivoNuevo())) {//valida el guardado
-            guardarCopia();
-            sieniArchivoFacadeRemote.create(this.getArchivoNuevo());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Archivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
-            this.setArchivoNuevo(new SieniArchivo());
-            this.setArchivoUsable(null);
-            this.setFormatoArchivo(this.getFormatosAudio());
-            fill();
+        try {
+            this.getArchivoNuevo().setArArchivo(this.getArchivoUsable());
+            if (validarNuevo(this.getArchivoNuevo())) {//valida el guardado
+                guardarCopia();
+                sieniArchivoFacadeRemote.create(this.getArchivoNuevo());
+                registrarEnBitacora("Guardar", "Archivo", this.getArchivoNuevo().getIdArchivo());
+                new ValidationPojo().printMsj("Archivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                //agrega el nuevo archivo a la lista de la tabla actual para no hacer el fill
+                this.getArchivoList().add(this.getArchivoNuevo());
+                //limpia los datos para un registro nuevo
+                this.setArchivoNuevo(new SieniArchivo());
+                this.setArchivoUsable(null);
+                this.setFormatoArchivo(this.getFormatosAudio());
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -98,6 +102,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     public boolean validarNuevo(SieniArchivo nuevo) {
         boolean ban = true;
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        validaciones.add(new ValidationPojo(sieniArchivoFacadeRemote.findByNombre(nuevo.getArNombre()) != null, "El nombre del archivo ya existe", FacesMessage.SEVERITY_ERROR));
         validaciones.add(new ValidationPojo(this.getArchivoUsable() == null, "Debe subir un archivo", FacesMessage.SEVERITY_ERROR));
         ban = ValidationPojo.printErrores(validaciones);
         return !ban;
@@ -134,18 +139,18 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     }
 
     public void guardarModifica() {
-
-        if (validarModifica(this.getArchivoModifica())) {//valida el guardado
-            if (this.getArchivoUsableModifica() != null) {
-                this.getArchivoModifica().setArArchivo(this.getArchivoUsableModifica());
-                actualizarCopia();
+        try {
+            if (validarModifica(this.getArchivoModifica())) {//valida el guardado
+                if (this.getArchivoUsableModifica() != null) {
+                    this.getArchivoModifica().setArArchivo(this.getArchivoUsableModifica());
+                    actualizarCopia();
+                }
+                sieniArchivoFacadeRemote.edit(this.getArchivoModifica());
+                registrarEnBitacora("Modificar", "Archivo", this.getArchivoModifica().getIdArchivo());
+                new ValidationPojo().printMsj("Archivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             }
-            sieniArchivoFacadeRemote.edit(this.getArchivoModifica());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Archivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);            
-            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -162,18 +167,26 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     public boolean validarModifica(SieniArchivo nuevo) {
         boolean ban = true;
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
-        return ban;
+        SieniArchivo archivoBD = sieniArchivoFacadeRemote.find(nuevo.getIdArchivo());
+        if (!archivoBD.getArNombre().equals(nuevo.getArNombre())) {
+            validaciones.add(new ValidationPojo(sieniArchivoFacadeRemote.findByNombre(nuevo.getArNombre()) != null, "El nombre del archivo ya existe", FacesMessage.SEVERITY_ERROR));
+        }
+        ban = ValidationPojo.printErrores(validaciones);
+        return !ban;
     }
 
     public void eliminarArchivo() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        CopiaArchivos ca = new CopiaArchivos();
-        ca.deleteDataToResource(this.getEliminar());
-        this.getEliminar().setArEstado("I");
-        sieniArchivoFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Archivo", this.getEliminar().getIdArchivo());
+            CopiaArchivos ca = new CopiaArchivos();
+            ca.deleteDataToResource(this.getEliminar());
+            this.getEliminar().setArEstado("I");
+            sieniArchivoFacadeRemote.edit(this.getEliminar());
+            //elimina el archivo de la lista de datos para no volver a hacer el fill
+            this.getArchivoList().remove(this.getEliminar());
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void getFormatosSubidaNuevo(ValueChangeEvent a) {
@@ -240,5 +253,5 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         this.setArchivoUsableModifica(event.getFile().getContents());
         this.setArchivoModificaData(getArchivo(event.getFile().getContents()));
     }
-    
+
 }

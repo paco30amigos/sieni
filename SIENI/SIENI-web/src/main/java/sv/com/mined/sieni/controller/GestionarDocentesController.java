@@ -27,6 +27,7 @@ import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniMateriaDocente;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.CopiaArchivos;
 import utils.DateUtils;
 
@@ -48,6 +49,12 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
     @EJB
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
+
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
 
     @PostConstruct
     public void init() {
@@ -79,24 +86,26 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public void guardar() {
-        CopiaArchivos ca = new CopiaArchivos();
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        quitarFormato(this.getDocenteNuevo());//quita el formato de los campos
-        this.getDocenteNuevo().setDcEstado('A');
-        if (validarNuevo(this.getDocenteNuevo())) {//valida el guardado
-            if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
-                Long fotoId = guardarFoto(this.getFotoUsable());
-                this.getDocenteNuevo().setDcFoto(fotoId);
-            }
-            sieniDocenteFacadeRemote.create(this.getDocenteNuevo());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guarda", "Docente", this.getDocenteNuevo().getIdDocente(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        try {
+            CopiaArchivos ca = new CopiaArchivos();
+            quitarFormato(this.getDocenteNuevo());//quita el formato de los campos
+            this.getDocenteNuevo().setDcEstado('A');
+            if (validarNuevo(this.getDocenteNuevo())) {//valida el guardado
+                if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
+                    Long fotoId = guardarFoto(this.getFotoUsable());
+                    this.getDocenteNuevo().setDcFoto(fotoId);
+                }
+                sieniDocenteFacadeRemote.create(this.getDocenteNuevo());
+                registrarEnBitacora("Crear", "Docentes", this.getDocenteNuevo().getIdDocente());
+                FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
 //            this.setIndexMenu(0);
-            this.getDocentesList().add(this.getDocenteNuevo());
-            this.setDocenteNuevo(new SieniDocente());
-            resetFotos();
+                this.getDocentesList().add(this.getDocenteNuevo());
+                this.setDocenteNuevo(new SieniDocente());
+                resetFotos();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
 //        fill();
     }
@@ -125,7 +134,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         this.getFotoUsable().setArArchivo(event.getFile().getContents());
         if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
             this.getFotoUsable().setArRuta(null);
-        }else{
+        } else {
             ca.deleteDataToResource(this.getFotoUsable());
             this.getFotoUsable().setArRuta(null);
         }
@@ -140,7 +149,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         if (modificado.getDcFoto() != null) {
             this.setFotoUsableModifica(sieniArchivoFacadeRemote.find(modificado.getDcFoto()));
             ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
-            ca.copyDataToResource(this.getFotoUsableModifica()); 
+            ca.copyDataToResource(this.getFotoUsableModifica());
         } else {
             this.getFotoUsableModifica().setArRuta(ca.getFotoDefault());
         }
@@ -155,7 +164,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         if (modificado.getDcFoto() != null) {
             this.setFotoUsableModifica(sieniArchivoFacadeRemote.find(modificado.getDcFoto()));
             ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
-            ca.copyDataToResource(this.getFotoUsableModifica()); 
+            ca.copyDataToResource(this.getFotoUsableModifica());
         } else {
             this.getFotoUsableModifica().setArRuta(ca.getFotoDefault());
         }
@@ -172,10 +181,10 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         CopiaArchivos ca = new CopiaArchivos();
         ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
         this.getFotoUsableModifica().setArArchivo(event.getFile().getContents());
-        if (this.getFotoUsableModifica().getArRuta()==null|| 
-                this.getFotoUsableModifica().getArRuta().equals(ca.getFotoDefault())) {
+        if (this.getFotoUsableModifica().getArRuta() == null
+                || this.getFotoUsableModifica().getArRuta().equals(ca.getFotoDefault())) {
             this.getFotoUsableModifica().setArRuta(null);
-        }else{
+        } else {
             ca.deleteDataToResource(this.getFotoUsableModifica());
             this.getFotoUsableModifica().setArRuta(null);
         }
@@ -183,18 +192,20 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public void guardarModifica() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        quitarFormato(this.getDocenteModifica());//quita el formato de los campos
-        if (validarModifica(this.getDocenteModifica())) {//valida el guardado
-            Long fotoId = guardarFoto(this.getFotoUsableModifica());
-            this.getDocenteModifica().setDcFoto(fotoId);
-            sieniDocenteFacadeRemote.edit(this.getDocenteModifica());
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Docente", this.getDocenteModifica().getIdDocente(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            resetModificaForm();
-            this.setIndexMenu(0);
+        try {
+            quitarFormato(this.getDocenteModifica());//quita el formato de los campos
+            if (validarModifica(this.getDocenteModifica())) {//valida el guardado
+                Long fotoId = guardarFoto(this.getFotoUsableModifica());
+                this.getDocenteModifica().setDcFoto(fotoId);
+                sieniDocenteFacadeRemote.edit(this.getDocenteModifica());
+                registrarEnBitacora("Modificar", "Docentes", this.getDocenteModifica().getIdDocente());
+                FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                resetModificaForm();
+                this.setIndexMenu(0);
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
 //        fill();
     }
@@ -217,12 +228,14 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public void eliminarExpediente() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Docente", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setDcEstado(new Character('I'));
-        sieniDocenteFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Docentes", this.getEliminar().getIdDocente());
+            this.getEliminar().setDcEstado(new Character('I'));
+            sieniDocenteFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
 
     }
 
@@ -259,10 +272,15 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public void guardarMaterias() {
-        sieniMateriaDocenteFacadeRemote.merge(this.getMateriasDocente(), this.getMateriasDocenteEliminadas());
-        FacesMessage msg = new FacesMessage("Materias guardadas exitosamente");
-        FacesContext.getCurrentInstance().addMessage(null, msg);
-        fillMateriasDocente();
+        try {
+            registrarEnBitacora("Modificar", "Docente - Materias", this.getDocenteModifica().getIdDocente());
+            sieniMateriaDocenteFacadeRemote.merge(this.getMateriasDocente(), this.getMateriasDocenteEliminadas());
+            FacesMessage msg = new FacesMessage("Materias guardadas exitosamente");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            fillMateriasDocente();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void eliminarMateria() {

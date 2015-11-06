@@ -30,7 +30,7 @@
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
     
-     <servlet>
+    <servlet>
         <servlet-name>Push Servlet</servlet-name>
         <servlet-class>org.primefaces.push.PushServlet</servlet-class> 
         <load-on-startup>1</load-on-startup>
@@ -51,7 +51,10 @@
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
     
-    
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/faces/login.xhtml</location>
+    </error-page>
     
     <error-page>
         <!-- Missing login -->

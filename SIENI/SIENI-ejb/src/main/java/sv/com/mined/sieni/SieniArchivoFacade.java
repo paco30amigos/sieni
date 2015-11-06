@@ -98,4 +98,17 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
         }
         return dato;
     }
+
+    @Override
+    public SieniArchivo findByNombre(String nombre) {
+        SieniArchivo ret = null;
+        Query q = em.createNamedQuery("SieniArchivo.findByNombre");
+        q.setParameter("nombre", nombre);
+
+        List<SieniArchivo> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            ret = res.get(0);
+        }
+        return ret;
+    }
 }

@@ -40,4 +40,6 @@ public interface SieniClaseFacadeRemote {
     public List<SieniClase> findClaseByTipoAlumno(Character tipoClase,Long idAlumno);
     
     public List<SieniClase> findClaseByAlumno(Long idAlumno);
+    
+    public void merge(List<SieniClase> clases);
 }

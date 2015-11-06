@@ -21,15 +21,11 @@ import sv.com.mined.sieni.SieniCatMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
-import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionMateriasForm;
 import sv.com.mined.sieni.model.SieniBitacora;
-import sv.com.mined.sieni.model.SieniCatMateria;
-import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
-import utils.FormatUtils;
 
 /**
  *
@@ -54,6 +50,12 @@ public class GestionMateriasController extends GestionMateriasForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
+
     @PostConstruct
     public void init() {
         this.setMateriaNuevo(new SieniMateria());
@@ -70,16 +72,17 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void guardar() {
-
-        if (validarNuevo(this.getMateriaNuevo())) {            
-            sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Materia", this.getMateriaNuevo().getIdMateria(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            this.setMateriaNuevo(new SieniMateria());
-            FacesMessage msg = new FacesMessage("Materia Creado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
+        try {
+            if (validarNuevo(this.getMateriaNuevo())) {
+                sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
+                registrarEnBitacora("Crear", "Materia", this.getMateriaNuevo().getIdMateria());
+                this.setMateriaNuevo(new SieniMateria());
+                FacesMessage msg = new FacesMessage("Materia Creado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -95,15 +98,16 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void guardarModifica() {
-
-        if (validarModifica(this.getMateriaModifica())) {//valida el guardado            
-            sieniMateriaFacadeRemote.edit(this.getMateriaModifica());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Archivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
+        try {
+            if (validarModifica(this.getMateriaModifica())) {//valida el guardado            
+                sieniMateriaFacadeRemote.edit(this.getMateriaModifica());
+                registrarEnBitacora("Modificar", "Materia", this.getMateriaModifica().getIdMateria());
+                FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+//                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -112,20 +116,22 @@ public class GestionMateriasController extends GestionMateriasForm {
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         return ban;
     }
-    
+
     public void eliminar(SieniMateria eliminado) {
         this.setEliminar(eliminado);
     }
-    
+
     public void eliminarArchivo() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Materia", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setMaEstado(new Character('I'));
-        sieniMateriaFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Materia", this.getMateriaNuevo().getIdMateria());
+            this.getEliminar().setMaEstado(new Character('I'));
+            sieniMateriaFacadeRemote.edit(this.getEliminar());
+//        fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
-    
+
     public void ver(SieniMateria modificado) {
         this.setMateriaModifica(modificado);
         this.setIndexMenu(3);

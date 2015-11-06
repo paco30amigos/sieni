@@ -63,7 +63,7 @@ public class RptUsuariosController extends RptUsuariosForm {
         this.setListDatos(new ArrayList<RptUsuariosPojo>());
         List<SieniDocente> docentes = new ArrayList<SieniDocente>();
         List<SieniAlumno> alumnos = new ArrayList<SieniAlumno>();
-        switch(this.getTipoUser()){
+        switch (this.getTipoUser()) {
             case 0://TODOS
                 docentes = sieniDocenteFacadeRemote.findUsuariosRpt(this.getEstadoUser());
                 alumnos = sieniAlumnoFacadeRemote.findUsuariosRpt(this.getEstadoUser());
@@ -76,16 +76,15 @@ public class RptUsuariosController extends RptUsuariosForm {
                 break;
         }
         for (SieniDocente actual : docentes) {
-             elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(),actual.getNombreCompleto(),1,actual.getDcFechaIngreso(),actual.getDcEstado());
+            elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(), actual.getNombreCompleto(), 1, actual.getDcFechaIngreso(), actual.getDcEstado());
             this.getListDatos().add(elem);
         }
         for (SieniAlumno actual : alumnos) {
-             elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(),actual.getNombreCompleto(),2,actual.getAlFechaIngreso(),actual.getAlEstado());
+            elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(), actual.getNombreCompleto(), 2, actual.getAlFechaIngreso(), actual.getAlEstado());
             this.getListDatos().add(elem);
         }
         this.setTotalUsuarios("" + this.getListDatos().size());
-        
-        
+
     }
 
     public void generarReporte() {
@@ -93,7 +92,7 @@ public class RptUsuariosController extends RptUsuariosForm {
         String path = "resources/reportes/rtpUsuarios.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
-        switch(this.getTipoUser()){
+        switch (this.getTipoUser()) {
             case 0: //DOCENTES
                 parameterMap.put("tipoUsuario", "TODOS");
                 break;
@@ -104,7 +103,7 @@ public class RptUsuariosController extends RptUsuariosForm {
                 parameterMap.put("tipoUsuario", "ALUMNO");
                 break;
         }
-        switch(this.getEstadoUser()){
+        switch (this.getEstadoUser()) {
             case 0: //DOCENTES
                 parameterMap.put("estadoUsuario", "TODOS");
                 break;
@@ -117,9 +116,7 @@ public class RptUsuariosController extends RptUsuariosForm {
         }
         try {
             RptUsuariosController.generateReport(path, "rtpUsuarios" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Generar Reporte", "Usuarios", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
+            registrarEnBitacora("Reporte", "Usuarios", 0L);
         } catch (JRException ex) {
             Logger.getLogger("error 1").log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -131,5 +128,4 @@ public class RptUsuariosController extends RptUsuariosForm {
         fill();
     }
 
-    
 }

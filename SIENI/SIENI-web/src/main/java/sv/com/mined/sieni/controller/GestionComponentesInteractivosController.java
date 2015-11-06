@@ -67,6 +67,13 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     @EJB
     private SieniCompInteraccionFacadeRemote sieniCompInteraccionFacadeRemote;
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+
+    }
+
     @PostConstruct
     public void init() {
         this.setListaArchivosEliminados(new ArrayList<SieniComponente>());
@@ -92,21 +99,23 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void guardar() {
-        for (SieniTipoSuperCompon actual : this.getListaTipo()) {
-            if (this.getTipoSuperCompon().equals(actual.getIdTipoSuperCompon())) {
-                this.getNuevo().setIdTipoSuperCompon(actual);
-                break;
+        try {
+            for (SieniTipoSuperCompon actual : this.getListaTipo()) {
+                if (this.getTipoSuperCompon().equals(actual.getIdTipoSuperCompon())) {
+                    this.getNuevo().setIdTipoSuperCompon(actual);
+                    break;
+                }
             }
-        }
-        if (validarNuevo(this.getNuevo())) {//valida el guardado
-            this.getNuevo().setScEstado('A');
-            sieniSuperComponFacadeRemote.create(this.getNuevo());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Componente Interactivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
-            this.setNuevo(new SieniSuperCompon());
-            fill();
+            if (validarNuevo(this.getNuevo())) {//valida el guardado
+                this.getNuevo().setScEstado('A');
+                sieniSuperComponFacadeRemote.create(this.getNuevo());
+                registrarEnBitacora("Guardar", "Componente interactivo", this.getNuevo().getIdSuperCompon());
+                new ValidationPojo().printMsj("Componente Interactivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                this.setNuevo(new SieniSuperCompon());
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -234,19 +243,21 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void guardarModifica() {
-        for (SieniTipoSuperCompon actual : this.getListaTipoModifica()) {
-            if (this.getTipoSuperComponModifica().equals(actual.getIdTipoSuperCompon())) {
-                this.getModifica().setIdTipoSuperCompon(actual);
-                break;
+        try {
+            for (SieniTipoSuperCompon actual : this.getListaTipoModifica()) {
+                if (this.getTipoSuperComponModifica().equals(actual.getIdTipoSuperCompon())) {
+                    this.getModifica().setIdTipoSuperCompon(actual);
+                    break;
+                }
             }
-        }
-        if (validarModifica(this.getModifica())) {//valida el guardado
-            sieniSuperComponFacadeRemote.edit(this.getModifica());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Componente Interactivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
-            fill();
+            if (validarModifica(this.getModifica())) {//valida el guardado
+                sieniSuperComponFacadeRemote.edit(this.getModifica());                
+                registrarEnBitacora("Modificar", "Componente interactivo", this.getModifica().getIdSuperCompon());
+                new ValidationPojo().printMsj("Componente Interactivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+                fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -261,12 +272,14 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void eliminarArchivo() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Componente interactivo", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setScEstado('I');
-        sieniSuperComponFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Componente interactivo", this.getEliminar().getIdSuperCompon());
+            this.getEliminar().setScEstado('I');
+            sieniSuperComponFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void agregarArchivo() {
@@ -350,11 +363,15 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     public void guardarConfiguracion() {
-        guardarTexto();
-        guardarConfiguracionComponente();
-        guardarConfiguracionInteraccion();
-        new ValidationPojo().printMsj("Configuracion guardada Exitosamente", FacesMessage.SEVERITY_INFO);
-        fillConfigura(this.getConfig());
+        try {
+            guardarTexto();
+            guardarConfiguracionComponente();
+            guardarConfiguracionInteraccion();
+            new ValidationPojo().printMsj("Configuracion guardada Exitosamente", FacesMessage.SEVERITY_INFO);
+            fillConfigura(this.getConfig());
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     private void guardarConfiguracionInteraccion() {

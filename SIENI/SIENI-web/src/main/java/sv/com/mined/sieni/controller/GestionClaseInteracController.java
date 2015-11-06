@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ import org.primefaces.event.DragDropEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
-import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCatPuntosFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
@@ -30,14 +28,11 @@ import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniComponenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
-import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniPntosContrlFacadeRemote;
 import sv.com.mined.sieni.SieniSuperComponFacadeRemote;
-import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.form.GestionClaseInteracForm;
 import sv.com.mined.sieni.model.SieniArchivo;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCatPuntos;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
@@ -73,12 +68,6 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     @EJB
     private SieniElemPlantillaFacadeRemote sieniElemPlantillaFacadeRemote;
     @EJB
-    private SieniTipoElemPlantillaFacadeRemote sieniTipoElemPlantillaFacadeRemote;
-    @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
-    @EJB
-    private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
-    @EJB
     private SieniClaseFacadeRemote sieniClaseFacadeRemote;
     @EJB
     private SieniSuperComponFacadeRemote sieniSuperComponFacadeRemote;
@@ -112,16 +101,45 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         fill();
     }
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+
+    }
+
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        List<SieniClase> listaClases = new ArrayList<>();
         //fill para alumnos
         if (loginBean.getTipoRol().equals("0")) {
 //*******fill
             //clases interact
-            this.setClaseList(sieniClaseFacadeRemote.findClaseByTipoAlumno('I', loginBean.getAlumno().getIdAlumno()));//clases interactivas
+            listaClases = sieniClaseFacadeRemote.findClaseByTipoAlumno('I', loginBean.getAlumno().getIdAlumno());//clases interactivas
         } else {
-            this.setClaseList(sieniClaseFacadeRemote.findClaseByTipo('I'));//clases interactivas
+            //*******fill
+            //clases interact
+            listaClases = sieniClaseFacadeRemote.findClaseByTipo('I');//clases interactivas
+        }
+        updateEstadoClase(listaClases);
+        this.setClaseList(listaClases);
+    }
+
+    //actualiza el estado de las clases si ya estan disponibles segun el horario
+    private void updateEstadoClase(List<SieniClase> clases) {
+        List<SieniClase> clasesIniciadas = new ArrayList<>();
+        DateUtils du = new DateUtils();
+
+        for (SieniClase actual : clases) {
+            if (actual.getClEstado().equals(new Character('N'))
+                    && du.horarioValido(actual.getClHorario(), actual.getClHora())) {
+                actual.setClEstado('A');
+                clasesIniciadas.add(actual);
+            }
+        }
+        if (!clasesIniciadas.isEmpty()) {
+            sieniClaseFacadeRemote.merge(clasesIniciadas);
         }
     }
 
@@ -286,9 +304,9 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                 //********información
                 this.setPaginaActive(0);
                 this.setIdElemenActive(0);
-            }else{
+            } else {
                 new ValidationPojo().printMsj("La plantilla no tiene ningun elemento", FacesMessage.SEVERITY_ERROR);
-                ret=false;
+                ret = false;
             }
         } else {
             ret = false;
@@ -341,19 +359,6 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         return componentes;
     }
 
-    public void guardar() {
-//        if (validarNuevo(this.getPlantillaNuevo())) {//valida el guardado
-//            sieniPlantillaFacadeRemote.create(this.getPlantillaNuevo());
-//            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-//            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-//            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0)));
-//            FacesMessage msg = new FacesMessage("Plantilla Creado Exitosamente");
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//            this.setPlantillaNuevo(new SieniPlantilla());
-//            fill();
-//        }
-    }
-
     public void quitarFormato(SieniPlantilla actual) {
 
     }
@@ -392,9 +397,12 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         //fill para alumnos
         if (loginBean.getTipoRol().equals("0")) {
             DateUtils du = new DateUtils();
-            if (!du.horarioValido(ver.getClHorario(), ver.getClHora())) {
+            if (du.horarioValido(ver.getClHorario(), ver.getClHora())) {
+                if (!validarEstadoClase(ver)) {
+                    correcto = false;
+                }
+            } else {
                 new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
-                correcto = false;
             }
         }
         if (correcto) {
@@ -411,6 +419,18 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         }
     }
 
+    public boolean validarEstadoClase(SieniClase claseActual) {
+        boolean ret = true;
+        if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals(new Character('N'))) {
+            ret = false;
+            new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
+        } else if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals(new Character('T'))) {
+            ret = false;
+            new ValidationPojo().printMsj("La clase ya ha terminado", FacesMessage.SEVERITY_ERROR);
+        }
+        return ret;
+    }
+
     //solo cuando se desean ver los cambios sin llenar actualizar las interacciones
     public void mostrar2() {
         this.setIndexMenu(6);
@@ -421,25 +441,16 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     public void guardarModifica() {
-
-        if (validarModifica(this.getClaseModifica())) {//valida el guardado
-            sieniClaseFacadeRemote.edit(this.getClaseModifica());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modifica", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            FacesMessage msg = new FacesMessage("Plantilla Modificado Exitosamente");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            fill();
+        try {
+            if (validarModifica(this.getClaseModifica())) {//valida el guardado
+                sieniClaseFacadeRemote.edit(this.getClaseModifica());
+                registrarEnBitacora("Modificar", "Clase interactiva", this.getClaseModifica().getIdArchivo());
+                FacesMessage msg = new FacesMessage("Plantilla Modificado Exitosamente");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-    }
-
-    public void resetModificaForm() {
-        this.setClaseModifica(new SieniClase());
-    }
-
-    public void resetNuevoForm() {
-//        this.setPlantillaNuevo(new SieniPlantilla());
-
     }
 
     public boolean validarModifica(SieniClase nuevo) {
@@ -449,79 +460,25 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     public void eliminarClase() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Plantilla", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setClEstado('I');
-        sieniClaseFacadeRemote.edit(this.getEliminar());
-        fill();
-    }
-
-//    public void configurar(SieniPlantilla plantilla) {
-//        fillElemPlantillaPlantilla(plantilla);
-//        this.setIndexMenu(4);
-//    }
-    public void agregarElemPlantilla() {
-//        SieniElemPlantilla nuevo = new SieniElemPlantilla();
-//        nuevo.setIdPlantilla(this.getPlantillaModifica());
-//        nuevo.setIdTipoElemPlantilla(this.getNuevoElem());
-//        nuevo.setEpEstado('A');
-//        nuevo.setIdElemPlantilla(-Long.parseLong(new DateUtils().getTime()));
-//        this.getElemPlantillaSelected().add(nuevo);
-//        for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
-//            for (int i = 0; i < getTipoPlantilla().size(); i++) {
-//                if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
-//                    getTipoPlantilla().remove(i);
-//                }
-//            }
-//        }
-    }
-
-    public void guardarElemPlantilla() {
-//        sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados());
-//        FacesMessage msg = new FacesMessage("Elementos de plantilla guardados exitosamente");
-//        FacesContext.getCurrentInstance().addMessage(null, msg);
-//        fillElemPlantillaPlantilla(this.getPlantillaModifica());
-    }
-
-    public void eliminarElemPlantilla() {
-//        SieniElemPlantilla materia = this.getElemPlantillaEliminado();
-//        for (int i = 0; i < this.getElemPlantillaSelected().size(); i++) {
-//            if (this.getElemPlantillaSelected().get(i).getIdElemPlantilla().equals(materia.getIdElemPlantilla())) {
-//                this.getElemPlantillaEliminados().add(this.getElemPlantillaSelected().get(i));
-//                this.getTipoPlantilla().add(this.getElemPlantillaSelected().get(i).getIdTipoElemPlantilla());
-//                this.getElemPlantillaSelected().remove(i);
-//                break;
-//            }
-//        }
-    }
-
-    public void eliminarElemPlantilla_(SieniElemPlantilla materia) {
-//        this.setElemPlantillaEliminado(materia);
-    }
-
-    public void fillElemPlantillaPlantilla(SieniPlantilla plantilla) {
-//        this.setPlantillaModifica(plantilla);
-//        this.setTipoPlantilla(sieniTipoElemPlantillaFacadeRemote.findAll());
-//        this.setNuevoElem(new SieniTipoElemPlantilla());
-//        this.setElemPlantillaEliminados(new ArrayList<SieniElemPlantilla>());
-//        this.setElemPlantillaSelected(this.getPlantillaModifica().getSieniElemPlantillaList());
-//        if (this.getElemPlantillaSelected() == null) {
-//            this.setElemPlantillaSelected(new ArrayList<SieniElemPlantilla>());
-//        } else {
-//            for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
-//                for (int i = 0; i < getTipoPlantilla().size(); i++) {
-//                    if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
-//                        getTipoPlantilla().remove(i);
-//                    }
-//                }
-//            }
-//        }
+        try {
+            registrarEnBitacora("Eliminar", "Clase interactiva", this.getEliminar().getIdClase());
+            this.getEliminar().setClEstado('I');
+            sieniClaseFacadeRemote.edit(this.getEliminar());
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
+//        fill();
     }
 
     public void guardarConfiguracion() {
-        guardarConfiguracionComponentes();
-        guardarPuntosControl();
+        try {
+            guardarConfiguracionComponentes();
+            guardarPuntosControl();
+            registrarEnBitacora("Modificar", "Clase interactiva - config componentes", this.getClaseConfig().getIdClase());
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
+
     }
 
     public void guardarPuntosControl() {
@@ -569,12 +526,17 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     public void guardarConfiguracionInteracciones() {
-        int cont = 1;
-        for (SieniInteEntrComp actual : this.getInteracTotal()) {
-            actual.setIeOrden(cont++);
+        try {
+            int cont = 1;
+            for (SieniInteEntrComp actual : this.getInteracTotal()) {
+                actual.setIeOrden(cont++);
+            }
+            sieniInteEntrCompFacadeRemote.merge(this.getInteracTotal(), this.getInteracEliminados());
+            new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
-        sieniInteEntrCompFacadeRemote.merge(this.getInteracTotal(), this.getInteracEliminados());
-        new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
+
     }
 
     public void agregarInteraccionesMultiples() {

@@ -44,6 +44,12 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     @EJB
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
 
+    private void registrarEnBitacora(String accion, String tabla, Long id) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        loginBean.registrarTransaccion(accion, tabla, id);
+    }
+
     @PostConstruct
     public void init() {
         this.setAlumnoNuevo(new SieniAlumno());
@@ -65,7 +71,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     private void fill() {
         this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnoActivos());
     }
-    
+
     public void nuevo() {
         resetFotos();
         CopiaArchivos ca = new CopiaArchivos();
@@ -75,25 +81,27 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
 
     public void guardar() {
 //        Character tipoUsuario = ;//hay que extraer el del usuario logueado
-        CopiaArchivos ca = new CopiaArchivos();
-        quitarFormato(this.getAlumnoNuevo());//quita el formato de los campos
-        if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
-            if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
-                Long fotoId = guardarFoto(this.getFotoUsable());
-                this.getAlumnoNuevo().setAlFoto(fotoId);
-            }
-            this.getAlumnoNuevo().setAlEstado('A');
-            generarCarnet(this.getAlumnoNuevo());
-            this.getAlumnoNuevo().setAlFechaIngreso(new Date());
-            this.getAlumnoNuevo().setAlNombreCompleto(this.getAlumnoNuevo().getNombreCompleto());
-            sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Guardar", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            this.getAlumnosList().add(this.getAlumnoNuevo());
-            this.setAlumnoNuevo(new SieniAlumno());
-            new ValidationPojo().printMsj("Expediente Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+        try {
+            CopiaArchivos ca = new CopiaArchivos();
+            quitarFormato(this.getAlumnoNuevo());//quita el formato de los campos
+            if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
+                if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
+                    Long fotoId = guardarFoto(this.getFotoUsable());
+                    this.getAlumnoNuevo().setAlFoto(fotoId);
+                }
+                this.getAlumnoNuevo().setAlEstado('A');
+                generarCarnet(this.getAlumnoNuevo());
+                this.getAlumnoNuevo().setAlFechaIngreso(new Date());
+                this.getAlumnoNuevo().setAlNombreCompleto(this.getAlumnoNuevo().getNombreCompleto());
+                sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
+                registrarEnBitacora("Crear", "Alumno", this.getAlumnoNuevo().getIdAlumno());
+                this.getAlumnosList().add(this.getAlumnoNuevo());
+                this.setAlumnoNuevo(new SieniAlumno());
+                new ValidationPojo().printMsj("Expediente Creado Exitosamente", FacesMessage.SEVERITY_INFO);
 //            fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -147,7 +155,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.getFotoUsable().setArArchivo(event.getFile().getContents());
         if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
             this.getFotoUsable().setArRuta(null);
-        }else{
+        } else {
             ca.deleteDataToResource(this.getFotoUsable());
             this.getFotoUsable().setArRuta(null);
         }
@@ -205,21 +213,23 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     public void guardarModifica() {
+        try {
 //        this.getAlumnoModifica().setAlFoto(this.getFotoArchivoModifica());
-        quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
-        if (validarModifica(this.getAlumnoModifica())) {//valida el guardado
-            Long fotoId = guardarFoto(this.getFotoUsableModifica());
-            this.getAlumnoModifica().setAlFoto(fotoId);
-            if (this.getAlumnoModifica().getAlCarnet() == null) {
-                generarCarnet(this.getAlumnoModifica());
-            }
-            this.getAlumnoModifica().setAlNombreCompleto(this.getAlumnoModifica().getNombreCompleto());
-            sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Modificar", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-            new ValidationPojo().printMsj("Expediente Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+            quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
+            if (validarModifica(this.getAlumnoModifica())) {//valida el guardado
+                Long fotoId = guardarFoto(this.getFotoUsableModifica());
+                this.getAlumnoModifica().setAlFoto(fotoId);
+                if (this.getAlumnoModifica().getAlCarnet() == null) {
+                    generarCarnet(this.getAlumnoModifica());
+                }
+                this.getAlumnoModifica().setAlNombreCompleto(this.getAlumnoModifica().getNombreCompleto());
+                sieniAlumnoFacadeRemote.edit(this.getAlumnoModifica());
+                registrarEnBitacora("Modificar", "Alumno", this.getAlumnoModifica().getIdAlumno());
+                new ValidationPojo().printMsj("Expediente Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
 //            fill();
+            }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -273,13 +283,15 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     public void eliminarExpediente() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), "Eliminar", "Alumno", loginBean.getIdUsuario(), loginBean.getTipoUsuario().charAt(0), req.getRemoteAddr()));
-        this.getEliminar().setAlFechaBaja(new Date());
-        this.getEliminar().setAlEstado(new Character('I'));
-        sieniAlumnoFacadeRemote.edit(this.getEliminar());
-        fill();
+        try {
+            registrarEnBitacora("Eliminar", "Alumno", this.getEliminar().getIdAlumno());
+            this.getEliminar().setAlFechaBaja(new Date());
+            this.getEliminar().setAlEstado(new Character('I'));
+            sieniAlumnoFacadeRemote.edit(this.getEliminar());
+            fill();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public SieniAlumno generarCarnet(SieniAlumno alumno) {

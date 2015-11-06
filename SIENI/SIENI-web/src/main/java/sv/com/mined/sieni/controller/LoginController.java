@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
+import java.util.Date;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -14,16 +15,17 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.util.Base64;
-import org.springframework.validation.ValidationUtils;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
+import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.LoginForm;
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
-import utils.siteUrls;
 
 /**
  *
@@ -37,6 +39,8 @@ public class LoginController extends LoginForm {
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
+    @EJB
+    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
     public void login(ActionEvent actionEvent) {
         FacesMessage msg = null;
@@ -109,5 +113,10 @@ public class LoginController extends LoginForm {
             }
         }
         return ban;
+    }
+
+    public void registrarTransaccion(String accion, String tabla, Long regAfectado) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), accion, tabla, this.getIdUsuario(), this.getTipoUsuario().charAt(0), req.getRemoteAddr(), regAfectado));
     }
 }

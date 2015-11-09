@@ -15,6 +15,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniEvalRespAlumno;
 import sv.com.mined.sieni.model.SieniEvalRespItem;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniEvaluacionItem;
@@ -43,6 +44,8 @@ public class GestionarEvaluacionForm {
    private Double totalPonderacion;
 
     private List<SieniEvalRespItem> evalRespItemList;
+    private List<SieniEvalRespAlumno> evalRespAlumnoList;
+    
     private SieniEvalRespItem evalRespItemNuevo;
     private SieniEvalRespItem evalRespItemModifica;
     private SieniEvalRespItem evalRespItemElimina;
@@ -310,6 +313,14 @@ public class GestionarEvaluacionForm {
 
     public void setTipoPregunta(List<TipoP> tipoPregunta) {
         this.tipoPregunta = tipoPregunta;
+    }
+
+    public List<SieniEvalRespAlumno> getEvalRespAlumnoList() {
+        return evalRespAlumnoList;
+    }
+
+    public void setEvalRespAlumnoList(List<SieniEvalRespAlumno> evalRespAlumnoList) {
+        this.evalRespAlumnoList = evalRespAlumnoList;
     }
 
   

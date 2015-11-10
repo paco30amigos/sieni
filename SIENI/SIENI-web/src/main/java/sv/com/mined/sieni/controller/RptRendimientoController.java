@@ -81,31 +81,39 @@ public class RptRendimientoController extends RptRendimientoForm {
     public void fill() {
         RptRendimientoPojo elem = new RptRendimientoPojo();
 
-        List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getIdGrado(), this.getIdSeccion(), this.getIdMateria());
-        this.setListDatos(new ArrayList<RptRendimientoPojo>());
+        List<String> tipoEvaluacion = sieniEvaluacionFacadeRemote.findByTipo();
+        
+        if (!tipoEvaluacion.isEmpty()) {
+            for (String tipoActual : tipoEvaluacion) {
+                List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getIdGrado(), this.getIdSeccion(), this.getIdMateria(), tipoActual);
+                this.setListDatos(new ArrayList<RptRendimientoPojo>());
 
-        double totalNotas = notas.size();
-        float aprobados = 0;
-        float reprobados = 0;
-        float totalAprobados = 0;
-        float totalReprobados = 0;
-        float promedio = 0;
-        for (SieniNota actual : notas) {
-            if (actual.getNtCalificacion() >= 6.00) {
-                aprobados++;
-            } else {
-                reprobados++;
+                double totalNotas = notas.size();
+                float aprobados = 0;
+                float reprobados = 0;
+                float totalAprobados = 0;
+                float totalReprobados = 0;
+                float promedio = 0;
+                
+                for (SieniNota actual : notas) {
+                    if (actual.getNtCalificacion() >= 6.00) {
+                        aprobados++;
+                    } else {
+                        reprobados++;
+                    }
+                }
+                
+                totalAprobados = (float) ((aprobados * 100) / totalNotas);
+                totalReprobados = (float) ((reprobados * 100) / totalNotas);
+                promedio = (totalAprobados + totalReprobados) / 2;
+
+                for (SieniNota actual : notas) {
+                    elem = new RptRendimientoPojo(actual.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), actual.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), actual.getIdEvaluacion().getIdMateria().getMaNombre(), String.valueOf(totalNotas), tipoActual, Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
+                    this.getListDatos().add(elem);
+                }
             }
         }
-        totalAprobados = (float) ((aprobados * 100) / totalNotas);
-        totalReprobados = (float) ((reprobados * 100) / totalNotas);
-        promedio = (totalAprobados + totalReprobados) / 2;
-
-        for (SieniNota actual : notas) {
-            elem = new RptRendimientoPojo(actual.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), actual.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), actual.getIdEvaluacion().getIdMateria().getMaNombre(), null, actual.getIdEvaluacion().getEvTipo().toString(), Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
-            this.getListDatos().add(elem);
-        }
-
+                
         //List<SieniEvaluacion> evaluaciones = sieniEvaluacionFacadeRemote.findbyRendimientoRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
         this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));
     }

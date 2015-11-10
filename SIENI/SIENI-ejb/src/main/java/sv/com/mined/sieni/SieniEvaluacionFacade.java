@@ -94,9 +94,12 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
     List<SieniEvaluacion> res = q.getResultList();
        return res;
     }
-    
-    
-    
-    
 
+    @Override
+    public List<String> findByTipo() {
+        Query q = em.createNamedQuery("SieniEvaluacion.findByTipo");
+        List<String> res = q.getResultList();
+        return res;
+    }
+    
 }

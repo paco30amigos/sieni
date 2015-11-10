@@ -76,12 +76,18 @@ public class GestionCursoController extends GestionCursoForm {
     public void nuevo() {
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setGradoList(sieniGradoFacadeRemote.findAll());
-        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
-        this.setSeccionList(new ArrayList<SieniSeccion>());
+//        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
+//        this.setSeccionList(new ArrayList<SieniSeccion>());
         if (this.getGradoList() != null && !this.getGradoList().isEmpty()) {
             if (this.getGradoList().get(0).getSieniSeccionList() != null
                     && !this.getGradoList().get(0).getSieniSeccionList().isEmpty()) {
                 this.setSeccionList(this.getGradoList().get(0).getSieniSeccionList());
+            }
+            
+            if (this.getGradoList().get(0).getSieniMateriaList() != null
+                    && !this.getGradoList().get(0).getSieniMateriaList().isEmpty()) {
+                this.setMateriaList(this.getGradoList().get(0).getSieniMateriaList());
+//                this.setSeccionList(this.getGradoList().get(0).getSieniSeccionList());
             }
         }
         this.setIndexMenu(1);
@@ -250,6 +256,7 @@ public class GestionCursoController extends GestionCursoForm {
                 break;
             }
         }
+        this.setMateriaList(cod.getSieniMateriaList());
         this.setSeccionList(cod.getSieniSeccionList());
     }
 

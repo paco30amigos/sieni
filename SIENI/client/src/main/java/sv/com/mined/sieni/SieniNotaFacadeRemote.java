@@ -43,5 +43,5 @@ public interface SieniNotaFacadeRemote {
     
     public List<SieniNota> findByAlumno(Long idAlumno);
 
-    public List<SieniNota> findByGradoSecMatRpt(Date desde, Date hasta, Long grado, Long seccion, Long materia);
+    public List<SieniNota> findByGradoSecMatRpt(Date desde, Date hasta, Long grado, Long seccion, Long materia, String tipo);
 }

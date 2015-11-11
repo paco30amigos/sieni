@@ -49,7 +49,7 @@ public class SieniGrado implements Serializable {
     private List<SieniSeccion> sieniSeccionList;
     @OneToMany(mappedBy = "idGrado")
     private List<SieniMatricula> sieniMatriculaList;
-    @OneToMany(mappedBy = "idGrado")
+    @OneToMany(mappedBy = "idGrado", fetch = FetchType.EAGER)
     private List<SieniMateria> sieniMateriaList;
     @OneToMany(mappedBy = "idGrado")
     private List<SieniCurso> sieniCursoList;

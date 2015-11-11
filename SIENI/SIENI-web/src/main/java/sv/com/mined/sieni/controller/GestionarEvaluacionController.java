@@ -63,7 +63,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
     @EJB
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
-    
+
     @EJB
     private SieniEvalRespAlumnoFacadeRemote sieniEvalRespAlumnoFacadeRemote;
 
@@ -397,72 +397,64 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     }
 
     public void guardarResAlumno() {
-    HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-    final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("consultaForm:consulta");
-String inputs[] = req.getParameterValues("name1");
-List<String[]> respuestas=new ArrayList<>();
-int totalPag=this.getEvaluacionItemResp().getSieniEvaluacionItemList().size()/this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
-int reciduo=this.getEvaluacionItemResp().getSieniEvaluacionItemList().size()%this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
-int numPagina=d.getPage()+1;
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("consultaForm:consulta");
+        String inputs[] = req.getParameterValues("name1");
+        List<String[]> respuestas = new ArrayList<>();
+        int totalPag = this.getEvaluacionItemResp().getSieniEvaluacionItemList().size() / this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
+        int reciduo = this.getEvaluacionItemResp().getSieniEvaluacionItemList().size() % this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
+        int numPagina = d.getPage() + 1;
 
+        int fin = numPagina * this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
+        int inicio = fin - (this.getEvaluacionItemResp().getEvPreguntasPagina().intValue() - 1);
 
+        if (reciduo != 0) {
+            totalPag++;
 
-int fin=numPagina*this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
-int inicio=fin-(this.getEvaluacionItemResp().getEvPreguntasPagina().intValue()-1);
+            if (numPagina == totalPag) {
+                inicio = (numPagina - 1) * this.getEvaluacionItemResp().getEvPreguntasPagina().intValue() + 1;
+                fin = inicio + (reciduo - 1);
+                for (int i = inicio; i <= fin; i++) {
+                    respuestas.add(req.getParameterValues("name" + (i)));
+                }
+            } else {
 
-if(reciduo!=0){
-    totalPag++;
-    
-if(numPagina==totalPag){
-    inicio=(numPagina-1)*this.getEvaluacionItemResp().getEvPreguntasPagina().intValue()+1;
-    fin=inicio+(reciduo-1);
-    for (int i = inicio; i <= fin; i++) {
-        respuestas.add(req.getParameterValues("name"+(i)));
-    }
-}else{
-    
- for (int i = inicio; i <= fin; i++) {
-        respuestas.add(req.getParameterValues("name"+(i)));
-    }
-}
-    
-}else{
- for (int i = inicio; i <= fin; i++) {
-        respuestas.add(req.getParameterValues("name"+(i)));
-    }
-}
+                for (int i = inicio; i <= fin; i++) {
+                    respuestas.add(req.getParameterValues("name" + (i)));
+                }
+            }
 
-this.setEvalRespAlumnoList(new ArrayList<SieniEvalRespAlumno>());
+        } else {
+            for (int i = inicio; i <= fin; i++) {
+                respuestas.add(req.getParameterValues("name" + (i)));
+            }
+        }
+
+        this.setEvalRespAlumnoList(new ArrayList<SieniEvalRespAlumno>());
 //respuestas;
- 
+
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 
-       
-          
-for (int i = inicio-1; i <= fin-1; i++) {
-       SieniEvalRespAlumno respAlumno=new SieniEvalRespAlumno();
-            respAlumno.setRaRespuesta(String.join(",", respuestas.get(i)));
+        for (int i = inicio - 1; i <= fin - 1; i++) {
+            SieniEvalRespAlumno respAlumno = new SieniEvalRespAlumno();
+            respAlumno.setRaRespuesta(new StringBuffer(",").append(respuestas.get(i)).toString());
 //            respAlumno.setIdAlumno(loginBean.getAlumno());
-            SieniAlumno alumno=new SieniAlumno();
+            SieniAlumno alumno = new SieniAlumno();
             alumno.setIdAlumno(new Long("86"));
             respAlumno.setIdAlumno(loginBean.getAlumno());
             respAlumno.setIdEvaluacionItem(this.getEvaluacionItemResp().getSieniEvaluacionItemList().get(i));
             respAlumno.setRaEstado('A');
-       
+
             this.getEvalRespAlumnoList().add(respAlumno);
-            
+
             sieniEvalRespAlumnoFacadeRemote.create(respAlumno);
-            
-            
-    }
-        
 
-
+        }
 
 //Enumeration<String> totalinputs;
 //        totalinputs = req.getParameterNames();
-FacesMessage msg = new FacesMessage("Respuestas guardadas");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesMessage msg = new FacesMessage("Respuestas guardadas");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
 

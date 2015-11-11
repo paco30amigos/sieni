@@ -16,7 +16,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
-import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.form.GestionArchivoMultimediaForm;
 import sv.com.mined.sieni.model.SieniArchivo;
@@ -126,15 +125,13 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     //metodos para modificacion de datos
     public void mostrar(SieniArchivo ver) {
-//        byte[] archivo = sieniArchivoFacadeRemote.getArchivoLazy(ver.getIdArchivo());
-//        ver.setArArchivo(archivo);
         CopiaArchivos ca = new CopiaArchivos();
         ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
         if (ca.copyDataToResource(ver)) {
             this.setVer(ver);
             this.setIndexMenu(3);
         } else {
-            //error
+            new ValidationPojo().printMsj("Ocurrió un error, no se puede mostrar el archivo multimedia", FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -165,8 +162,8 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     }
 
     public boolean validarModifica(SieniArchivo nuevo) {
-        boolean ban = true;
-        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        boolean ban;
+        List<ValidationPojo> validaciones = new ArrayList<>();
         SieniArchivo archivoBD = sieniArchivoFacadeRemote.find(nuevo.getIdArchivo());
         if (!archivoBD.getArNombre().equals(nuevo.getArNombre())) {
             validaciones.add(new ValidationPojo(sieniArchivoFacadeRemote.findByNombre(nuevo.getArNombre()) != null, "El nombre del archivo ya existe", FacesMessage.SEVERITY_ERROR));

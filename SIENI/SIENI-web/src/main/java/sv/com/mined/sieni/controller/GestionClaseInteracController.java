@@ -156,7 +156,6 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     public List<SeccionPlantillaPojo> getSeccionesByElemPlantilla(List<SieniClaseSupComp> componentes, List<SieniElemPlantilla> elemsPlantilla) {
         List<SeccionPlantillaPojo> ret = new ArrayList();
         HashMap<Long, List<SieniClaseSupComp>> elemPlantillaAux = new HashMap();
-        List<Long> elemPlantillaDiferentes = new ArrayList<>();
         SeccionPlantillaPojo nuevo;
         for (SieniClaseSupComp componActual : componentes) {
             for (SieniElemPlantilla elemPlantilla : elemsPlantilla) {
@@ -166,8 +165,6 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                         elemPlantillaAux.put(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla(), new ArrayList<SieniClaseSupComp>());
                         //ingresa el componente actual
                         elemPlantillaAux.get(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(componActual);
-                        // lo agrega a la lista de elementos diferentes
-                        elemPlantillaDiferentes.add(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla());
                     } else {
                         //si el elemento de plantilla ya está registrado, agrega a la lista el componente
                         elemPlantillaAux.get(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(componActual);
@@ -206,11 +203,14 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                     pantallasAux.get(actual.getScNPantalla()).add(actual);
                 }
             }
+            //evita que las pantallas esten desordenadas
+            int cont = 1;
             for (Integer actual : pantallasDiferentes) {
                 nuevo = new PantallaPojo();
-                nuevo.setNumPantalla(actual);
+                nuevo.setNumPantalla(cont);
                 nuevo.setComponentes(getComponentesInteractivos(pantallasAux.get(actual)));
                 ret.add(nuevo);
+                cont++;
             }
         } else {//si no hay componentes, se agrega una pantalla en blanco
             nuevo = new PantallaPojo();
@@ -228,8 +228,6 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             this.setComponentesPantallaActual(getComponActuales());
             this.setIndexMenu(4);
         }
-
-//        this.setMaterias(sieniMateriaFacadeRemote.findAll());
     }
 
     public void configurarInterac(SieniClase ver) {
@@ -246,7 +244,6 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             this.setNuevaInterac(new SieniInteEntrComp());
             this.getNuevaInterac().setIeRetraso(0);
             updateInteractByTipoElemPlanPantalla(null);
-//            updateEventosComps2Seleccionados(null);
             this.setIndexMenu(5);
         }
     }
@@ -287,7 +284,6 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         //super componentes by clase
         CopiaArchivos ca = new CopiaArchivos();
         ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
-//        this.getSecciones().get(0).getPantallas().get(0).setComponentes(null);
 
         /*seteo de componentes correcto*/
         List<SieniClaseSupComp> listaComp = sieniClaseSupCompFacadeRemote.findByClase(clase.getIdClase());
@@ -504,7 +500,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     public void guardarConfiguracionComponentes() {
         List<SieniClaseSupComp> componentes = new ArrayList<>();
         List<SieniClaseSupComp> eliminados = new ArrayList<>();
-        int cont = 1;
+        int cont;
         for (SeccionPlantillaPojo sec : this.getSecciones()) {
             for (PantallaPojo pantalla : sec.getPantallas()) {
                 cont = 1;
@@ -598,9 +594,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     public boolean validaAddInteraccion(SieniInteEntrComp nuevo, List<SieniInteEntrComp> listaInteracActual) {
-        boolean valido = true;
-        DateUtils du = new DateUtils();
-        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        boolean valido;
+        List<ValidationPojo> validaciones = new ArrayList<>();
         validaciones.add(new ValidationPojo(tieneInteraccion(nuevo, listaInteracActual), "Ya existe la interacción entre esos componentes y eventos", FacesMessage.SEVERITY_ERROR));
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
@@ -646,9 +641,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     public boolean validaAddComponente(SieniClaseSupComp nuevo, List<ComponenteInteractivoPojo> listaInteracActual) {
-        boolean valido = true;
-        DateUtils du = new DateUtils();
-        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        boolean valido;
+        List<ValidationPojo> validaciones = new ArrayList<>();
         validaciones.add(new ValidationPojo(tieneComponente(nuevo, listaInteracActual), "Ya existe el componente en esta pantalla", FacesMessage.SEVERITY_ERROR));
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
@@ -887,7 +881,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                 index = 0;
             }
             //registra punto de control actual
-            SieniPntosContrl nuevo = new SieniPntosContrl();
+            SieniPntosContrl nuevo;
             SieniTipoElemPlantilla tipoElem = this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla();
             Integer nPantalla = seccionActual.getPantallas().get(index).getNumPantalla();
             //find punto de control by pantalla seccion alumno clase
@@ -910,7 +904,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     public List<SieniInteEntrComp> convertSuperCompon2ToInteractEntreCompon(List<SieniSuperCompon> componentes) {
         List<SieniInteEntrComp> ret = new ArrayList<>();
-        SieniInteEntrComp nuevo = new SieniInteEntrComp();
+        SieniInteEntrComp nuevo ;
         Long inc = -Long.parseLong(new DateUtils().getTime());
         for (SieniSuperCompon actual : componentes) {
             nuevo = new SieniInteEntrComp();

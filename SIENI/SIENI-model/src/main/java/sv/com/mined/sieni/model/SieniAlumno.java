@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,8 +57,9 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findByNombreCompleto", query = "SELECT s FROM SieniAlumno s where s.alNombreCompleto=:nombreCompleto"),
     @NamedQuery(name = "SieniAlumno.findSiguienteCorrelat", query = "SELECT max(s.alCorrelatCarnet) FROM SieniAlumno s where s.alCodigoCarnet=:codigo"),
     @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A' ORDER BY s.idAlumno"),
-    @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
+    @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s join fetch s.sieniAlumnRolList WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosMatriculados", query = "SELECT s FROM SieniAlumno s JOIN fetch s.sieniMatriculaList sr where sr.mtEstado=:estado and s.alEstado in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL"),// or s.alEstado=3 eliminado
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),
     @NamedQuery(name = "SieniAlumno.findByIdAlumno", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :idAlumno"),
@@ -151,13 +153,13 @@ public class SieniAlumno implements Serializable {
     @ManyToMany
     private List<SieniNotificacion> sieniNotificacionList;
     
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idAlumno")
     private List<SieniTemaDuda> sieniTemaDudaList;
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idAlumno",cascade = CascadeType.REFRESH)
     private List<SieniAlumnRol> sieniAlumnRolList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniPntosContrl> sieniPntosContrlList;
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idAlumno")
     private List<SieniMatricula> sieniMatriculaList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniNota> sieniNotaList;
@@ -165,8 +167,6 @@ public class SieniAlumno implements Serializable {
     private String nombreCompleto;
     @Transient
     private String fechaNacimientoFiltrable;
-    @Transient
-    private StreamedContent fotoContenido;
     @Transient
     private SieniGrado gradoActual;
 

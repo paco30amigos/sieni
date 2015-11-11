@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -63,7 +62,7 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
         DateUtils du = new DateUtils();
 
         for (SieniClase actual : clases) {
-            if (actual.getClEstado().equals(new Character('N'))
+            if (actual.getClEstado().equals('N')
                     && du.horarioValido(actual.getClHorario(), actual.getClHora())) {
                 actual.setClEstado('A');
                 clasesIniciadas.add(actual);
@@ -101,10 +100,10 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
 
     public boolean validarEstadoClase(SieniClase claseActual) {
         boolean ret = true;
-        if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals(new Character('N'))) {
+        if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals('N')) {
             ret = false;
             new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
-        } else if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals(new Character('T'))) {
+        } else if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals('T')) {
             ret = false;
             new ValidationPojo().printMsj("La clase ya ha terminado", FacesMessage.SEVERITY_ERROR);
         }
@@ -129,17 +128,16 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
 
     public void iniciarClase() {
         DateUtils du = new DateUtils();
-//        if (du.horarioValido(this.getClaseActual().getClHorario(), this.getClaseActual().getClHora())) {
-//            this.getClaseActual().setClEstado(new Character('A'));
-//            sieniClaseFacadeRemote.edit(this.getClaseActual());
-//        } else {
-//            FacesMessage msg = new FacesMessage("La clase no puede iniciar, revise el horario de la clase");
-//            FacesContext.getCurrentInstance().addMessage(null, msg);
-//        }
+        if (du.horarioValido(this.getClaseActual().getClHorario(), this.getClaseActual().getClHora())) {
+            this.getClaseActual().setClEstado('A');
+            sieniClaseFacadeRemote.edit(this.getClaseActual());
+        } else {
+            new ValidationPojo().printMsj("La clase no puede iniciarse, revise el horario de la clase", FacesMessage.SEVERITY_ERROR);
+        }
     }
 
     public void finalizarClase() {
-        this.getClaseActual().setClEstado(new Character('T'));
+        this.getClaseActual().setClEstado('T');
         sieniClaseFacadeRemote.edit(this.getClaseActual());
     }
 }

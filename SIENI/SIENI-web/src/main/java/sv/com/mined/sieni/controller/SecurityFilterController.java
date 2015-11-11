@@ -164,10 +164,12 @@ public class SecurityFilterController implements Filter {
     }
 
     List<String> getSubModulo(String base, String validos) {
-        String[] subModulos = validos.split(",");
         List<String> ret = new ArrayList<>();
-        for (String actual : subModulos) {
-            ret.add(base + "/" + actual + ".xhtml");
+        if (validos != null) {
+            String[] subModulos = validos.split(",");
+            for (String actual : subModulos) {
+                ret.add(base + actual + ".xhtml");
+            }
         }
         return ret;
     }

@@ -63,13 +63,23 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
+    public List<SieniAlumno> findAlumnosMatriculados() {
+        Character estado = 'A';
+        Query q = em.createNamedQuery("SieniAlumno.findAlumnosMatriculados");
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    @Override
     public SieniAlumno findAlumnoUsuario(String usuario, String password) {
         Query q = em.createNamedQuery("SieniAlumno.findAlumnoUsuario");
         q.setParameter("usuario", usuario);
         q.setParameter("pass", password);
         List<SieniAlumno> res = q.getResultList();
         if (res != null && !res.isEmpty()) {
-            return res.get(0);
+            SieniAlumno ret = res.get(0);
+            em.refresh(ret);
+            return ret;
         } else {
             return null;
         }
@@ -160,7 +170,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     @Override
     public List<SieniAlumno> findUsuariosRpt(Integer estadoUser) {
         Query q = em.createNamedQuery("SieniAlumno.findRptUsuariosAlumnos");
-        switch(estadoUser){
+        switch (estadoUser) {
             case 0: //TODOS
                 q = em.createNamedQuery("SieniAlumno.findRptUsuariosAlumnos");
                 break;
@@ -277,7 +287,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
             return null;
         }
     }
-    
+
     @Override
     public SieniAlumno findUsuario(String usuario) {
         Query q = em.createNamedQuery("SieniAlumno.findByAlUsuario");
@@ -289,7 +299,5 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
             return null;
         }
     }
-    
-    
-    
+
 }

@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -15,13 +14,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.form.GestionPlantillasForm;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniElemPlantilla;
 import sv.com.mined.sieni.model.SieniPlantilla;
 import sv.com.mined.sieni.model.SieniTipoElemPlantilla;
@@ -41,9 +38,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     @EJB
     private SieniElemPlantillaFacadeRemote sieniElemPlantillaFacadeRemote;
     @EJB
-    private SieniTipoElemPlantillaFacadeRemote sieniTipoElemPlantillaFacadeRemote;
-    @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+    private SieniTipoElemPlantillaFacadeRemote sieniTipoElemPlantillaFacadeRemote;    
     @EJB
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
 

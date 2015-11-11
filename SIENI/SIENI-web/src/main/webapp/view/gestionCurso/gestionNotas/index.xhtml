@@ -68,7 +68,7 @@
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Adicionar Nota" actionListener="#{gestionNotaController.setIndexMenu(1)}" rendered="#{loginController.mostrarA('1,2')}"></p:commandButton>
+                <p:commandButton value="Adicionar Nota" actionListener="#{gestionNotaController.nuevo()}" rendered="#{loginController.mostrarA('1,2')}"></p:commandButton>
                 <p:commandButton value="Cargar Notas desde Excel" actionListener="#{gestionNotaController.cargarDesdeExcel()}" rendered="#{loginController.mostrarA('1,2')}"></p:commandButton>
                 <p:commandButton value="Refrescar" action="#{gestionNotaController.refresh()}" update="consulta"></p:commandButton>
             </h:form>

@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +21,6 @@ import org.primefaces.event.DragDropEvent;
 import org.primefaces.event.TabChangeEvent;
 import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
-import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCatPuntosFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
@@ -31,13 +29,10 @@ import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniComponenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
-import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniSuperComponFacadeRemote;
-import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.form.GestionVideoClaseForm;
 import sv.com.mined.sieni.model.SieniArchivo;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCatPuntos;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
@@ -115,7 +110,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        List<SieniClase> listaClases = new ArrayList<>();
+        List<SieniClase> listaClases;
         //fill para alumnos
         if (loginBean.getTipoRol().equals("0")) {
 //*******fill
@@ -136,7 +131,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         DateUtils du = new DateUtils();
 
         for (SieniClase actual : clases) {
-            if (actual.getClEstado().equals(new Character('N'))
+            if (actual.getClEstado().equals('N')
                     && du.horarioValido(actual.getClHorario(), actual.getClHora())) {
                 actual.setClEstado('A');
                 clasesIniciadas.add(actual);
@@ -160,7 +155,6 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     public List<SeccionPlantillaPojo> getSeccionesByElemPlantilla(List<SieniClaseSupComp> componentes, List<SieniElemPlantilla> elemsPlantilla) {
         List<SeccionPlantillaPojo> ret = new ArrayList();
         HashMap<Long, List<SieniClaseSupComp>> elemPlantillaAux = new HashMap();
-        List<Long> elemPlantillaDiferentes = new ArrayList<>();
         SeccionPlantillaPojo nuevo;
         for (SieniClaseSupComp componActual : componentes) {
             for (SieniElemPlantilla elemPlantilla : elemsPlantilla) {
@@ -170,8 +164,6 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
                         elemPlantillaAux.put(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla(), new ArrayList<SieniClaseSupComp>());
                         //ingresa el componente actual
                         elemPlantillaAux.get(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(componActual);
-                        // lo agrega a la lista de elementos diferentes
-                        elemPlantillaDiferentes.add(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla());
                     } else {
                         //si el elemento de plantilla ya está registrado, agrega a la lista el componente
                         elemPlantillaAux.get(elemPlantilla.getIdTipoElemPlantilla().getIdTipoElemPlantilla()).add(componActual);
@@ -232,8 +224,6 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             this.setComponentesPantallaActual(getComponActuales());
             this.setIndexMenu(4);
         }
-
-//        this.setMaterias(sieniMateriaFacadeRemote.findAll());
     }
 
     public void configurarInterac(SieniClase ver) {

@@ -38,6 +38,12 @@ public class LoginForm {
             case "2":
                 ret = "Administrador";
                 break;
+            case "3":
+                ret = "Subdirector";
+                break;
+            case "4":
+                ret = "Director";
+                break;
         }
         return ret;
     }

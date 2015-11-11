@@ -65,6 +65,8 @@ public class SieniNota implements Serializable {
     @Column(name = "nt_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date ntFechaIngreso;
+    @Column(name = "nt_docente")
+    private Long ntDocente;
     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
     @ManyToOne
     private SieniAlumno idAlumno;
@@ -203,6 +205,14 @@ public class SieniNota implements Serializable {
 
     public void setNtFechaIngreso(Date ntFechaIngreso) {
         this.ntFechaIngreso = ntFechaIngreso;
+    }
+
+    public Long getNtDocente() {
+        return ntDocente;
+    }
+
+    public void setNtDocente(Long ntDocente) {
+        this.ntDocente = ntDocente;
     }
 
 }

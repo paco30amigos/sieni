@@ -72,14 +72,22 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void guardar() {
+        String matSelected = this.getMateriaNuevo().getMaNombre();
+        Integer gradoSelected = this.getMateriaNuevo().getIdGrado().getGrNumero();
+        String turnoSelected = this.getMateriaNuevo().getMaTurno();
         try {
             if (validarNuevo(this.getMateriaNuevo())) {
-                sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
-                registrarEnBitacora("Crear", "Materia", this.getMateriaNuevo().getIdMateria());
-                this.setMateriaNuevo(new SieniMateria());
-                FacesMessage msg = new FacesMessage("Materia Creado Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-                fill();
+                if (validarMateria(matSelected, gradoSelected, turnoSelected)) {
+                    sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
+                    registrarEnBitacora("Crear", "Materia", this.getMateriaNuevo().getIdMateria());
+                    this.setMateriaNuevo(new SieniMateria());
+                    FacesMessage msg = new FacesMessage("Materia Creado Exitosamente");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    fill();
+                } else {
+                    FacesMessage msg = new FacesMessage("La materia seleccionada ya existe para ese grado y seccion");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                }
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -135,5 +143,17 @@ public class GestionMateriasController extends GestionMateriasForm {
     public void ver(SieniMateria modificado) {
         this.setMateriaModifica(modificado);
         this.setIndexMenu(3);
+    }
+    
+    public boolean validarMateria(String materia, Integer grado, String turno){
+        
+        List<SieniMateria> mat = sieniMateriaFacadeRemote.findByMaNombre(materia);
+        
+        for(SieniMateria actual : mat){
+            if( ( actual.getIdGrado().getGrNumero().equals(grado) ) && ( actual.getMaTurno().equals(turno) ) ){
+                return false;
+            }
+        }
+        return true;
     }
 }

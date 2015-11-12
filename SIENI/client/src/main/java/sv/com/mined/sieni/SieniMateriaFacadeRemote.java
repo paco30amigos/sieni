@@ -36,4 +36,6 @@ public interface SieniMateriaFacadeRemote {
 
     public List<SieniMateria> findByAlumno(Long idAlumno);
 
+    public List<SieniMateria> findByMaNombre(String maNombre);
+
 }

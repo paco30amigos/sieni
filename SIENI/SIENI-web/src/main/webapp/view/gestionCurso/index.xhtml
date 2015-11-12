@@ -24,7 +24,7 @@
                         <p:commandButton value="Si" action="#{gestionCursoController.eliminarCurso()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                         <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                     </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                  
                     <div class="EmptyBox20"></div>
                     <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionCursoController.cursoList}" 
                                  paginator="true"

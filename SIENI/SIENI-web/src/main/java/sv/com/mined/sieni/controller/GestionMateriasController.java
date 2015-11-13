@@ -106,13 +106,21 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void guardarModifica() {
+        String matSelected = this.getMateriaModifica().getMaNombre();
+        Integer gradoSelected = this.getMateriaModifica().getIdGrado().getGrNumero();
+        String turnoSelected = this.getMateriaModifica().getMaTurno();
         try {
             if (validarModifica(this.getMateriaModifica())) {//valida el guardado            
-                sieniMateriaFacadeRemote.edit(this.getMateriaModifica());
-                registrarEnBitacora("Modificar", "Materia", this.getMateriaModifica().getIdMateria());
-                FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                if (validarMateria(matSelected, gradoSelected, turnoSelected)) {
+                    sieniMateriaFacadeRemote.edit(this.getMateriaModifica());
+                    registrarEnBitacora("Modificar", "Materia", this.getMateriaModifica().getIdMateria());
+                    FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
 //                fill();
+                } else {
+                    FacesMessage msg = new FacesMessage("La materia seleccionada ya existe para ese grado y seccion");
+                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                }
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -155,5 +163,9 @@ public class GestionMateriasController extends GestionMateriasForm {
             }
         }
         return true;
+    }
+    
+    public void refresh() {
+        fill();
     }
 }

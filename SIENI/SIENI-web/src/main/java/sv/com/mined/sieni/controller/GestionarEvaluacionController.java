@@ -435,14 +435,14 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 
-        for (int i = inicio - 1; i <= fin - 1; i++) {
+        for (int j = 0; j < (fin -inicio+1); j++) {
             SieniEvalRespAlumno respAlumno = new SieniEvalRespAlumno();
-            respAlumno.setRaRespuesta(new StringBuffer(",").append(respuestas.get(i)).toString());
+            respAlumno.setRaRespuesta(new StringBuffer(",").append(respuestas.get(j)).toString());
 //            respAlumno.setIdAlumno(loginBean.getAlumno());
             SieniAlumno alumno = new SieniAlumno();
             alumno.setIdAlumno(new Long("86"));
             respAlumno.setIdAlumno(loginBean.getAlumno());
-            respAlumno.setIdEvaluacionItem(this.getEvaluacionItemResp().getSieniEvaluacionItemList().get(i));
+            respAlumno.setIdEvaluacionItem(this.getEvaluacionItemResp().getSieniEvaluacionItemList().get(j));
             respAlumno.setRaEstado('A');
 
             this.getEvalRespAlumnoList().add(respAlumno);

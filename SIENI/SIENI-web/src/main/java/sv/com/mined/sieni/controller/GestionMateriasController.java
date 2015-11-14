@@ -81,9 +81,8 @@ public class GestionMateriasController extends GestionMateriasForm {
                     sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
                     registrarEnBitacora("Crear", "Materia", this.getMateriaNuevo().getIdMateria());
                     this.setMateriaNuevo(new SieniMateria());
-                    FacesMessage msg = new FacesMessage("Materia Creado Exitosamente");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
-                    fill();
+                    new ValidationPojo().printMsj("Materia Creada Exitosamente", FacesMessage.SEVERITY_INFO);
+                    //fill();
                 } else {
                     FacesMessage msg = new FacesMessage("La materia seleccionada ya existe para ese grado y seccion");
                     FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -116,7 +115,7 @@ public class GestionMateriasController extends GestionMateriasForm {
                     registrarEnBitacora("Modificar", "Materia", this.getMateriaModifica().getIdMateria());
                     FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
                     FacesContext.getCurrentInstance().addMessage(null, msg);
-//                fill();
+                fill();
                 } else {
                     FacesMessage msg = new FacesMessage("La materia seleccionada ya existe para ese grado y seccion");
                     FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -157,9 +156,11 @@ public class GestionMateriasController extends GestionMateriasForm {
         
         List<SieniMateria> mat = sieniMateriaFacadeRemote.findByMaNombre(materia);
         
-        for(SieniMateria actual : mat){
-            if( ( actual.getIdGrado().getGrNumero().equals(grado) ) && ( actual.getMaTurno().equals(turno) ) ){
-                return false;
+        if (mat != null) {
+            for (SieniMateria actual : mat) {
+                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno))) {
+                    return false;
+                }
             }
         }
         return true;

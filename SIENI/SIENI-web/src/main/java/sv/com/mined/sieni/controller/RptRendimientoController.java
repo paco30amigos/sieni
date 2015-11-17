@@ -89,10 +89,12 @@ public class RptRendimientoController extends RptRendimientoForm {
                 this.setListDatos(new ArrayList<RptRendimientoPojo>());
 
                 double totalNotas = notas.size();
+                Integer totalAlumnos = notas.size();
                 float aprobados = 0;
                 float reprobados = 0;
                 float totalAprobados = 0;
                 float totalReprobados = 0;
+                float suma = 0;
                 float promedio = 0;
                 
                 for (SieniNota actual : notas) {
@@ -101,14 +103,15 @@ public class RptRendimientoController extends RptRendimientoForm {
                     } else {
                         reprobados++;
                     }
+                    suma += actual.getNtCalificacion();
                 }
                 
                 totalAprobados = (float) ((aprobados * 100) / totalNotas);
                 totalReprobados = (float) ((reprobados * 100) / totalNotas);
-                promedio = (totalAprobados + totalReprobados) / 2;
+                promedio = suma / notas.size();
 
                 for (SieniNota actual : notas) {
-                    elem = new RptRendimientoPojo(actual.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), actual.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), actual.getIdEvaluacion().getIdMateria().getMaNombre(), String.valueOf(totalNotas), tipoActual, Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
+                    elem = new RptRendimientoPojo(actual.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), actual.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), actual.getIdEvaluacion().getIdMateria().getMaNombre(), String.valueOf(totalAlumnos), tipoActual, Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
                     this.getListDatos().add(elem);
                 }
             }

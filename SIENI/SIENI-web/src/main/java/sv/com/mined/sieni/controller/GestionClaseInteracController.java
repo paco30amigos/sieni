@@ -637,6 +637,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             seccionActual.getPantallas().get(index).getComponentes().addAll(a);
             this.setNuevoComponente(new SieniClaseSupComp());
             this.setComponentesPantallaActual(getComponActuales());
+            mostrarTodos();
         }
     }
 
@@ -805,6 +806,12 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     public void ocultarTodos() {
         for (ComponenteInteractivoPojo actual : getComponentesPantallaActual()) {
             actual.setMostrar(true);
+        }
+    }
+    
+    public void mostrarTodos() {
+        for (ComponenteInteractivoPojo actual : getComponentesPantallaActual()) {
+            actual.setMostrar(false);
         }
     }
 

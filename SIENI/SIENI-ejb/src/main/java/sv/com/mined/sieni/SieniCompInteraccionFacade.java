@@ -39,7 +39,10 @@ public class SieniCompInteraccionFacade extends AbstractFacade<SieniCompInteracc
         q.setParameter("idSuperCompon", idSuperCompon);
         q.setParameter("estado", estado);
         ret = q.getResultList();
-        return ret;
+        for (SieniCompInteraccion actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 
     public void merge(List<SieniCompInteraccion> lista, List<SieniCompInteraccion> eliminados) {

@@ -46,7 +46,11 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
         String estado = "I";
         Query q = em.createNamedQuery("SieniArchivo.findAllNoInactivos");
         q.setParameter("estado", estado);
-        return q.getResultList();
+        List<SieniArchivo> ret = q.getResultList();
+        for (SieniArchivo actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
     }
 
     @Override
@@ -55,7 +59,11 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
         Query q = em.createNamedQuery("SieniArchivo.findByIdSuperComp");
         q.setParameter("idSuperCompon", idSuperCompon);
         q.setParameter("estado", estado);
-        return q.getResultList();
+        List<SieniArchivo> ret = q.getResultList();
+        for (SieniArchivo actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
     }
 
     @Override
@@ -64,7 +72,11 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
         Query q = em.createNamedQuery("SieniArchivo.findByArTipoActivo");
         q.setParameter("arTipo", new Character(tipo.charAt(0)));
 //        q.setParameter("estado", estado);
-        return q.getResultList();
+        List<SieniArchivo> ret = q.getResultList();
+        for (SieniArchivo actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
     }
 
     @Override
@@ -108,6 +120,7 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
         List<SieniArchivo> res = q.getResultList();
         if (res != null && !res.isEmpty()) {
             ret = res.get(0);
+            em.refresh(ret);
         }
         return ret;
     }

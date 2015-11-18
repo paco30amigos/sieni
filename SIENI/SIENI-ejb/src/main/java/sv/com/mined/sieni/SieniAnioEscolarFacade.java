@@ -18,6 +18,7 @@ import sv.com.mined.sieni.model.SieniAnioEscolar;
  */
 @Stateless
 public class SieniAnioEscolarFacade extends AbstractFacade<SieniAnioEscolar> implements SieniAnioEscolarFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -29,12 +30,16 @@ public class SieniAnioEscolarFacade extends AbstractFacade<SieniAnioEscolar> imp
     public SieniAnioEscolarFacade() {
         super(SieniAnioEscolar.class);
     }
-    
+
     @Override
-    public List<SieniAnioEscolar> findAllNoInactivos(){
-        Character estado='I';
-        Query q=em.createNamedQuery("SieniAnioEscolar.findAllNoInactivos");
+    public List<SieniAnioEscolar> findAllNoInactivos() {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniAnioEscolar.findAllNoInactivos");
         q.setParameter("estado", estado);
-        return q.getResultList();
+        List<SieniAnioEscolar> ret = q.getResultList();
+        for (SieniAnioEscolar actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
     }
 }

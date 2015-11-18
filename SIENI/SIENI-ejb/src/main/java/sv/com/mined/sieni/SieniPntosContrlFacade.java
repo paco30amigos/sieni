@@ -42,6 +42,7 @@ public class SieniPntosContrlFacade extends AbstractFacade<SieniPntosContrl> imp
         req=q.getResultList();
         if(req!=null&&!req.isEmpty()){
             ret=req.get(0);
+            em.refresh(ret);
         }
         return ret;
     }

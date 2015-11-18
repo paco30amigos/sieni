@@ -39,7 +39,11 @@ public class SieniSuperComponFacade extends AbstractFacade<SieniSuperCompon> imp
         for(SieniSuperCompon actual:(List<SieniSuperCompon>)q.getResultList()){
             em.refresh(actual);
         }
-        return q.getResultList();
+        List<SieniSuperCompon> ret = q.getResultList();
+        for (SieniSuperCompon actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 
     @Override
@@ -48,12 +52,20 @@ public class SieniSuperComponFacade extends AbstractFacade<SieniSuperCompon> imp
         Query q = em.createNamedQuery("SieniSuperCompon.findByClase");
         q.setParameter("estado", estado);
         q.setParameter("idClase", idClase);
-        return q.getResultList();
+        List<SieniSuperCompon> ret = q.getResultList();
+        for (SieniSuperCompon actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 
     public List<SieniSuperCompon> findEstado(Character estado) {
         Query q = em.createNamedQuery("SieniSuperCompon.findByEstado");
         q.setParameter("estado", estado);
-        return q.getResultList();
+        List<SieniSuperCompon> ret = q.getResultList();
+        for (SieniSuperCompon actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 }

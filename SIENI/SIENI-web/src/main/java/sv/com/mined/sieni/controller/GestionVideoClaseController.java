@@ -987,6 +987,11 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         }
     }
 
+    public void mostrarTodos() {
+        for (ComponenteInteractivoPojo actual : getComponentesPantallaActual()) {
+            actual.setMostrar(false);
+        }
+    }
     //interacciones seleccionadas
     public void updateInteractByTipoElemPlanPantalla(TabChangeEvent ev) {
         SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());

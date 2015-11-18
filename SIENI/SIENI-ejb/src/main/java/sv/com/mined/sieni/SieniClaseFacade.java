@@ -37,7 +37,11 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         Character estado = 'I';
         Query q = em.createNamedQuery("SieniClase.findAllNoInactivos");
         q.setParameter("estado", estado);
-        return q.getResultList();
+        List<SieniClase> ret = q.getResultList();
+        for (SieniClase actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
     }
 
     @Override
@@ -46,7 +50,11 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         Query q = em.createNamedQuery("SieniClase.findClaseByTipo");
         q.setParameter("estado", estado);
         q.setParameter("tipoClase", tipoClase);
-        return q.getResultList();
+        List<SieniClase> ret = q.getResultList();
+        for (SieniClase actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
     }
 
     @Override
@@ -178,7 +186,11 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
                 }
             }
         }
-        return q.getResultList();
+        List<SieniClase> ret = q.getResultList();
+        for (SieniClase actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 
     @Override
@@ -191,7 +203,11 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         q.setParameter("tipoClase", tipoClase);
         q.setParameter("idAlumno", idAlumno);
 
-        return q.getResultList();
+        List<SieniClase> ret = q.getResultList();
+        for (SieniClase actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 
     @Override
@@ -203,7 +219,11 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         q.setParameter("estado", estado);
         q.setParameter("idAlumno", idAlumno);
 
-        return q.getResultList();
+        List<SieniClase> ret = q.getResultList();
+        for (SieniClase actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 
     @Override

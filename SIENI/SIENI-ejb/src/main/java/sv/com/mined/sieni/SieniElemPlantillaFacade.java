@@ -37,7 +37,11 @@ public class SieniElemPlantillaFacade extends AbstractFacade<SieniElemPlantilla>
         Query q = em.createNamedQuery("SieniElemPlantilla.findByIdPlantilla");
         q.setParameter("estado", estado);
         q.setParameter("idPlantilla", idPlantilla);
-        return q.getResultList();
+        List<SieniElemPlantilla> ret = q.getResultList();
+        for (SieniElemPlantilla actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 
     @Override

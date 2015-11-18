@@ -58,6 +58,10 @@ public class SieniComponenteFacade extends AbstractFacade<SieniComponente> imple
         Query q = em.createNamedQuery("SieniComponente.findByIdSuperComp");
         q.setParameter("idSuperCompon", idSuperCompon);
         q.setParameter("estado", estado);
-        return q.getResultList();
+        List<SieniComponente> ret = q.getResultList();
+        for (SieniComponente actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;        
     }
 }

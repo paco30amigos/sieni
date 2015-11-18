@@ -36,6 +36,7 @@
             var invertir = undefined;
             function controlarEvnt(id, rowIndex) {
                 //proceso normal
+//                alert(id+","+rowIndex+","+invertir+","+comps[rowIndex]);
                 if (invertir === undefined) {
                     if (comps[rowIndex] === undefined) {
                         comps[rowIndex] = false;
@@ -57,6 +58,13 @@
                     }
                 }
             }
+            function resetComps() {
+                if (invertir) {
+                    invertir = undefined;
+                }
+                comps = [];
+            }
+
             function ocultarTodos() {
                 invertir = true;
                 comps = [];
@@ -96,7 +104,7 @@
                     <p:selectOneMenu value="#{gestionClaseInteracController.nuevoComponente.FCompSuperCompon}" converter="superCompon" filter="true" filterMatchMode="contains">
                         <f:selectItems value="#{gestionClaseInteracController.componentesInteractDisponibles}" var="comps" itemLabel="#{comps.idTipoSuperCompon.tscDescripcion} - #{comps.scNombre}" itemValue="#{comps}"></f:selectItems>
                     </p:selectOneMenu>
-                    <p:commandButton value="Agregar Componente" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase,mostrar"></p:commandButton>
+                    <p:commandButton value="Agregar Componente" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase,mostrar" oncomplete="resetComps()"></p:commandButton>
                 </p:panelGrid>
                 <p:remoteCommand update="mostrar" name="updateMostrar"></p:remoteCommand>
                 <p:dataTable value="#{gestionClaseInteracController.componentesPantallaActual}" var="compActual" id="mostrar"
@@ -115,6 +123,7 @@
                     </p:column>
                 </p:dataTable>
                 <p:commandButton value="Ocultar Todos Los Componentes"  action="#{gestionClaseInteracController.ocultarTodos()}" update="mostrar" oncomplete="ocultarTodos()"></p:commandButton> 
+                <p:commandButton value="Mostrar Todos Los Componentes"  action="#{gestionClaseInteracController.mostrarTodos()}" update="mostrar,clase" oncomplete="resetComps()"></p:commandButton> 
                 <p:dialog widgetVar="dlgConfPantalla" header="Configurar Pantalla de Clase" modal="true">
                     <p:outputLabel value="Alto" class="TexAlCenter" ></p:outputLabel>
                     <p:spinner value="#{gestionClaseInteracController.claseConfig.clAlto}" max="1080" stepFactor="100"></p:spinner>

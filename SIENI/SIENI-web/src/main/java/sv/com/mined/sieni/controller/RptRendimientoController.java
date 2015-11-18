@@ -31,7 +31,9 @@ import sv.com.mined.sieni.form.RptRendimientoForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniGrado;
+import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
+import sv.com.mined.sieni.model.SieniSeccion;
 import sv.com.mined.sieni.pojos.rpt.RptRendimientoPojo;
 import utils.DateUtils;
 import utils.FormatUtils;
@@ -110,10 +112,12 @@ public class RptRendimientoController extends RptRendimientoForm {
                 totalReprobados = (float) ((reprobados * 100) / totalNotas);
                 promedio = suma / notas.size();
 
-                for (SieniNota actual : notas) {
-                    elem = new RptRendimientoPojo(actual.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), actual.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), actual.getIdEvaluacion().getIdMateria().getMaNombre(), String.valueOf(totalAlumnos), tipoActual, Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
-                    this.getListDatos().add(elem);
-                }
+                SieniGrado grado = sieniGradoFacadeRemote.findByIdGrado(this.getIdGrado());
+                SieniSeccion seccion = sieniSeccionFacadeRemote.findByIdSeccion(this.getIdSeccion());
+                SieniMateria materia = sieniMateriaFacadeRemote.findByIdMateria(this.getIdMateria());
+                
+                elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual, Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
+                this.getListDatos().add(elem);
             }
         }
                 

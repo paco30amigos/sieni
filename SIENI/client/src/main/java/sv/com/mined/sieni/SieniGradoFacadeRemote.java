@@ -32,4 +32,6 @@ public interface SieniGradoFacadeRemote {
     int count();
 
     public SieniGrado getGradoActualAlumno(Long idAlumno, Date anioDesde, Date anioHasta);
+
+    public SieniGrado findByIdGrado(Long idGrado);
 }

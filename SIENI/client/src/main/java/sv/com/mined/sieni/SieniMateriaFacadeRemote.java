@@ -38,4 +38,6 @@ public interface SieniMateriaFacadeRemote {
 
     public List<SieniMateria> findByMaNombre(String maNombre);
 
+    public SieniMateria findByIdMateria(Long idMateria);
+
 }

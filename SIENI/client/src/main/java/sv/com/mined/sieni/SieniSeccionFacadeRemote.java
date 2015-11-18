@@ -29,5 +29,7 @@ public interface SieniSeccionFacadeRemote {
     List<SieniSeccion> findRange(int[] range);
 
     int count();
+
+    public SieniSeccion findByIdSeccion(Long idSeccion);
     
 }

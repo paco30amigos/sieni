@@ -47,4 +47,16 @@ public class SieniGradoFacade extends AbstractFacade<SieniGrado> implements sv.c
             return null;
         }
     }
+
+    @Override
+    public SieniGrado findByIdGrado(Long idGrado) {
+        Query q = em.createNamedQuery("SieniGrado.findByIdGrado");
+        q.setParameter("idGrado", idGrado);
+        List<SieniGrado> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
+    }
 }

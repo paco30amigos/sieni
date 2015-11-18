@@ -78,4 +78,16 @@ public class SieniMateriaFacade extends AbstractFacade<SieniMateria> implements 
             return null;
         }
     }
+
+    @Override
+    public SieniMateria findByIdMateria(Long idMateria) {
+        Query q = em.createNamedQuery("SieniMateria.findByIdMateria");
+        q.setParameter("idMateria", idMateria);
+        List<SieniMateria> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
+    }
 }

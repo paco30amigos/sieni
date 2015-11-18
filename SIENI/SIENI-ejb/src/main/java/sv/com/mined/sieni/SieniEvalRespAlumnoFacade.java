@@ -5,10 +5,14 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniEvalRespAlumno;
+import sv.com.mined.sieni.model.SieniEvaluacion;
 
 /**
  *
@@ -27,5 +31,29 @@ public class SieniEvalRespAlumnoFacade extends AbstractFacade<SieniEvalRespAlumn
     public SieniEvalRespAlumnoFacade() {
         super(SieniEvalRespAlumno.class);
     }
+    
+   @Override
+     public int guardarRespuestasAlumno(List<SieniEvalRespAlumno> respAlumnos){
+         try {
+             for (SieniEvalRespAlumno respAlumno : respAlumnos) {
+            create(respAlumno);
+        }
+             return 1;
+         } catch (Exception e) {
+             return 0;
+         }
+         
+       
+    
+    }
+
+    @Override
+    public List<SieniEvalRespAlumno> findByAlumnoEv(SieniAlumno alumno, SieniEvaluacion evaluacion) {
+        Query q = em.createNamedQuery("SieniEvalRespAlumno.findByAlumnoEv");
+        q.setParameter("idAlumno", alumno.getIdAlumno());
+        q.setParameter("idEvaluacion", evaluacion.getIdEvaluacion());       
+        return q.getResultList();
+    }
+
     
 }

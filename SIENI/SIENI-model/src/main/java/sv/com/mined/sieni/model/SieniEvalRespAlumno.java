@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniEvalRespAlumno.findAll", query = "SELECT s FROM SieniEvalRespAlumno s"),
+    @NamedQuery(name = "SieniEvalRespAlumno.findByAlumnoEv", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.idAlumno.idAlumno=:idAlumno AND s.idEvaluacionItem.idEvaluacion.idEvaluacion=:idEvaluacion"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByIdEvalRespAlumno", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.idEvalRespAlumno = :idEvalRespAlumno"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByRaRespuesta", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.raRespuesta = :raRespuesta"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByRaEstado", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.raEstado = :raEstado"),

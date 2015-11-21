@@ -18,6 +18,8 @@ import sv.com.mined.sieni.model.SieniEvaluacion;
 public interface SieniEvaluacionFacadeRemote {
 
     void create(SieniEvaluacion sieniEvaluacion);
+    
+    SieniEvaluacion createAndReturn(SieniEvaluacion sieniEvaluacion);
 
     void edit(SieniEvaluacion sieniEvaluacion);
 

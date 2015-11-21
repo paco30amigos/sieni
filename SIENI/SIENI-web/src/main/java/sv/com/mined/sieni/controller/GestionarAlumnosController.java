@@ -69,7 +69,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
     }
 
     private void fill() {
-        this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnoActivos());
+        this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosNoInactivos());
     }
 
     public void nuevo() {
@@ -93,7 +93,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
                 generarCarnet(this.getAlumnoNuevo());
                 this.getAlumnoNuevo().setAlFechaIngreso(new Date());
                 this.getAlumnoNuevo().setAlNombreCompleto(this.getAlumnoNuevo().getNombreCompleto());
-                sieniAlumnoFacadeRemote.create(this.getAlumnoNuevo());
+                this.setAlumnoNuevo(sieniAlumnoFacadeRemote.createAndReturn(this.getAlumnoNuevo()));
                 registrarEnBitacora("Crear", "Alumno", this.getAlumnoNuevo().getIdAlumno());
                 this.getAlumnosList().add(this.getAlumnoNuevo());
                 this.setAlumnoNuevo(new SieniAlumno());

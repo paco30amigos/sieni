@@ -17,6 +17,8 @@ import sv.com.mined.sieni.model.SieniMateria;
 public interface SieniMateriaFacadeRemote {
 
     void create(SieniMateria sieniMateria);
+    
+    SieniMateria createAndReturn(SieniMateria sieniMateria);
 
     void edit(SieniMateria sieniMateria);
 

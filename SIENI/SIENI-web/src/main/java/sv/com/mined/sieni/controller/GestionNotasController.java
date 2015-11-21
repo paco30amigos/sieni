@@ -108,7 +108,7 @@ public class GestionNotasController extends GestionNotasForm {
                 this.getNotaNuevo().setNtAnio(fu.getFormatedAnioInt(new Date()));
                 this.getNotaNuevo().setNtDocente(loginBean.getDocente().getIdDocente());
                 registrarEnBitacora("Crear", "Nota", this.getNotaNuevo().getIdNota());
-                sieniNotaFacadeRemote.create(this.getNotaNuevo());
+                this.setNotaNuevo(sieniNotaFacadeRemote.createAndReturn(this.getNotaNuevo()));
                 new ValidationPojo().printMsj("Nota Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                 this.getNotaList().add(this.getNotaNuevo());
                 this.setNotaNuevo(new SieniNota());

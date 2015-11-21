@@ -19,6 +19,8 @@ public interface SieniAlumnoFacadeRemote {
 
     void create(SieniAlumno sieniAlumno);
 
+    SieniAlumno createAndReturn(SieniAlumno sieniAlumno);
+
     void edit(SieniAlumno sieniAlumno);
 
     void remove(SieniAlumno sieniAlumno);
@@ -33,10 +35,12 @@ public interface SieniAlumnoFacadeRemote {
 
     public List<SieniAlumno> findAlumnoActivos();
 
+    public List<SieniAlumno> findAlumnosNoInactivos();
+
     public List<SieniAlumno> findAlumnoSinUsuario();
 
     public List<SieniAlumno> findAlumnosNoMatriculados();
-    
+
     public List<SieniAlumno> findAlumnosMatriculados();
 
     public SieniAlumno findAlumnoUsuario(String usuario, String password);
@@ -52,10 +56,10 @@ public interface SieniAlumnoFacadeRemote {
     public Integer findSiguienteCorrelat(String inicial);
 
     public SieniAlumno findByNombreCompleto(String nombreCompleto);
-    
+
     public SieniAlumno findAlumnoById(Integer id);
-    
+
     public SieniAlumno findUsuario(String usuario);
 //    public List<SieniAlumno> findByGrado(Long idGrado);
-    
+
 }

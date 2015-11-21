@@ -63,7 +63,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     public void guardar() {
         try {
             if (validarNuevo(this.getPlantillaNuevo())) {//valida el guardado
-                sieniPlantillaFacadeRemote.create(this.getPlantillaNuevo());
+                this.setPlantillaNuevo(sieniPlantillaFacadeRemote.createAndReturn(this.getPlantillaNuevo()));
                 registrarEnBitacora("Crear", "Plantilla", this.getPlantillaNuevo().getIdPlantilla());
                 new ValidationPojo().printMsj("Plantilla Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                 this.setPlantillaNuevo(new SieniPlantilla());

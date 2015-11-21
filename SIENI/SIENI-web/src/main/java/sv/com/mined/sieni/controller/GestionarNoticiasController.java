@@ -117,7 +117,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
                 NotificacionesController notifyBean = (NotificacionesController) req.getSession().getAttribute("notificacionesController");
                 this.getNoticiaNueva().setNcEstado('A');
                 this.getNoticiaNueva().setNcPublica(loginBean.getUsuario());
-                sieniNoticiaFacadeRemote.create(this.getNoticiaNueva());
+                this.setNoticiaNueva(sieniNoticiaFacadeRemote.createAndReturn(this.getNoticiaNueva()));
                 registrarEnBitacora("Crear", "Noticia", this.getNoticiaNueva().getIdNoticia());
                 notifyBean.insertNotifyNoticia(this.getNoticiaNueva());
 

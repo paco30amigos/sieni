@@ -17,6 +17,8 @@ import sv.com.mined.sieni.model.SieniPlantilla;
 public interface SieniPlantillaFacadeRemote {
 
     void create(SieniPlantilla sieniPlantilla);
+    
+    SieniPlantilla createAndReturn(SieniPlantilla sieniPlantilla);
 
     void edit(SieniPlantilla sieniPlantilla);
 

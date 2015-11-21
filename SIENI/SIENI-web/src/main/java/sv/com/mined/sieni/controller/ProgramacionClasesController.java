@@ -92,7 +92,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
             }
             this.getNuevo().setClHorario(horario);
             if (validarNuevo(this.getNuevo())) {//valida el guardado
-                sieniClaseFacadeRemote.create(this.getNuevo());
+                this.setNuevo(sieniClaseFacadeRemote.createAndReturn(this.getNuevo()));
                 registrarEnBitacora("Crear", "Programacion de clases", this.getNuevo().getIdClase());
                 FacesMessage msg = new FacesMessage("Programación Creada Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);

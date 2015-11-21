@@ -46,10 +46,12 @@ public class SieniElemPlantillaFacade extends AbstractFacade<SieniElemPlantilla>
 
     @Override
     public void merge(List<SieniElemPlantilla> lista, List<SieniElemPlantilla> eliminados) {
+        int orden=1;
         for (SieniElemPlantilla actual : lista) {
             if (actual.getIdElemPlantilla() < 0) {
                 actual.setIdElemPlantilla(null);
             }
+            actual.setEpOrden(orden++);
             if (actual.getIdElemPlantilla() != null) {
                 this.edit(actual);
             } else {

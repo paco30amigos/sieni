@@ -18,6 +18,8 @@ import sv.com.mined.sieni.model.SieniCurso;
 public interface SieniClaseFacadeRemote {
 
     void create(SieniClase sieniClase);
+    
+    SieniClase createAndReturn(SieniClase sieniClase);
 
     void edit(SieniClase sieniClase);
 

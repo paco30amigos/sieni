@@ -120,7 +120,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
                 this.getMatriculaNuevo().setMtAnio(anioActual);
                 this.getMatriculaNuevo().setMtEstado('A');
                 this.getMatriculaNuevo().setMtFechaIngreso(new Date());
-                sieniMatriculaFacadeRemote.create(this.getMatriculaNuevo());
+                this.setMatriculaNuevo(sieniMatriculaFacadeRemote.createAndReturn(this.getMatriculaNuevo()));
                 registrarEnBitacora("Crear", "Matricula", this.getMatriculaNuevo().getIdMatricula());
                 FacesMessage msg = new FacesMessage("Matricula Creado Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);

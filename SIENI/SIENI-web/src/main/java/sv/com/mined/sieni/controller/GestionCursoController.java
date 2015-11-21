@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -22,7 +21,6 @@ import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionCursoForm;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniGrado;
@@ -42,14 +40,9 @@ public class GestionCursoController extends GestionCursoForm {
     private SieniCursoFacadeRemote sieniCursoFacadeRemote;
 
     @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
-
-    @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
-    private SieniGradoFacadeRemote sieniGradoFacadeRemote;
-    @EJB
-    private SieniSeccionFacadeRemote sieniSeccionFacadeRemote;
+    private SieniGradoFacadeRemote sieniGradoFacadeRemote;   
     @EJB
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
 
@@ -129,7 +122,7 @@ public class GestionCursoController extends GestionCursoForm {
                     FacesContext.getCurrentInstance().addMessage(null, msg);
 
                 } else {
-                    sieniCursoFacadeRemote.create(this.getCursoNuevo());
+                    this.setCursoNuevo(sieniCursoFacadeRemote.createAndReturn(this.getCursoNuevo()));
                     registrarEnBitacora("Crear", "Curso", this.getCursoNuevo().getIdCurso());
                     FacesMessage msg = new FacesMessage("Curso Creado Exitosamente");
                     FacesContext.getCurrentInstance().addMessage(null, msg);

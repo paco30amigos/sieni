@@ -51,7 +51,7 @@
                                     <p:outputLabel value="Ancho"></p:outputLabel>
                                     <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
                                     <p:outputLabel value="Archivo:"></p:outputLabel>
-                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}" filter="true" filterMatchMode="contains">
                                         <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('I')}" var="archivo"></f:selectItems>
                                     </p:selectOneMenu>
                                     <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivo()}" update="pick" oncomplete="refrescarImagen()"></p:commandButton>
@@ -77,10 +77,13 @@
                                     <p:outputLabel value="Ancho"></p:outputLabel>
                                     <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
                                     <p:outputLabel value="Archivo:"></p:outputLabel>
-                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}" filter="true" filterMatchMode="contains">
                                         <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('I')}" var="archivo"></f:selectItems>
                                     </p:selectOneMenu>
                                     <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" oncomplete="refrescarImagen()"></p:commandButton>
+                                    <p:commandLink onclick="refrescarImagen()" >
+                                        <p:graphicImage name="reload.jpg" library="images" width="20px" style="cursor: pointer"/>
+                                    </p:commandLink>
                                 </p:panelGrid>
                             </c:when>
                             <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==3}">
@@ -91,10 +94,13 @@
                                     <p:outputLabel value="Ancho"></p:outputLabel>
                                     <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
                                     <p:outputLabel value="Archivo:"></p:outputLabel>
-                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}" filter="true" filterMatchMode="contains">
                                         <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('V')}" var="archivo"></f:selectItems>
                                     </p:selectOneMenu>
                                     <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" oncomplete="refrescarImagen()"></p:commandButton>
+                                    <p:commandLink onclick="refrescarImagen()" >
+                                        <p:graphicImage name="reload.jpg" library="images" width="20px" style="cursor: pointer"/>
+                                    </p:commandLink>
                                 </p:panelGrid>
                             </c:when>
                             <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==4}">
@@ -108,10 +114,13 @@
                                     <p:outputLabel value="Ancho"></p:outputLabel>
                                     <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
                                     <p:outputLabel value="Archivo:"></p:outputLabel>
-                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}" filter="true" filterMatchMode="contains">
                                         <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('A')}" var="archivo"></f:selectItems>
                                     </p:selectOneMenu>
                                     <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivoUnico()}" oncomplete="refrescarImagen()"></p:commandButton>
+                                    <p:commandLink onclick="refrescarImagen()" >
+                                        <p:graphicImage name="reload.jpg" library="images" width="20px" style="cursor: pointer"/>
+                                    </p:commandLink>
                                 </p:panelGrid>
                             </c:when>
                             <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==6}">
@@ -122,10 +131,13 @@
                                     <p:outputLabel value="Ancho"></p:outputLabel>
                                     <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
                                     <p:outputLabel value="Archivo:"></p:outputLabel>
-                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}">
+                                    <p:selectOneMenu value="#{gestionComponentesInteractivosController.idArchivo}" filter="true" filterMatchMode="contains">
                                         <f:selectItems itemValue="#{archivo.idArchivo}" itemLabel="#{archivo.arNombre}" value="#{gestionComponentesInteractivosController.getListaArchivos('I')}" var="archivo"></f:selectItems>
                                     </p:selectOneMenu>
                                     <p:commandButton value="Agregar" actionListener="#{gestionComponentesInteractivosController.agregarArchivo()}" update="pick" oncomplete="refrescarImagen()"></p:commandButton>
+                                    <p:commandLink onclick="refrescarImagen()" >
+                                        <p:graphicImage name="reload.jpg" library="images" width="20px" style="cursor: pointer"/>
+                                    </p:commandLink>
                                 </p:panelGrid>
                                 <div class="Container50 Responsive">
                                     <p:pickList id="pick" value="#{gestionComponentesInteractivosController.listaOrdenable}"
@@ -143,6 +155,9 @@
                                     <p:spinner value="#{gestionComponentesInteractivosController.config.scAlto}" max="1080" min="100"></p:spinner>
                                     <p:outputLabel value="Ancho"></p:outputLabel>
                                     <p:spinner value="#{gestionComponentesInteractivosController.config.scAncho}" max="1920" min="100"></p:spinner>
+                                    <p:commandLink onclick="refrescarImagen()" >
+                                        <p:graphicImage name="reload.jpg" library="images" width="20px" style="cursor: pointer"/>
+                                    </p:commandLink>
                                 </p:panelGrid>
                                 <div class="EmptyBox5"></div>
                                 <p:editor value="#{gestionComponentesInteractivosController.texto}"></p:editor>

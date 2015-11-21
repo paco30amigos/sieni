@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -18,7 +17,6 @@ import sv.com.mined.sieni.SieniAnioEscolarFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.form.GestionarAnioEscolarForm;
 import sv.com.mined.sieni.model.SieniAnioEscolar;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 
 /**
@@ -57,7 +55,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     public void guardar() {
         try {
             if (validarNuevo(this.getAnioEscolarNuevo())) {//valida el guardado            
-                sieniAnioEscolarFacadeRemote.create(this.getAnioEscolarNuevo());
+                this.setAnioEscolarNuevo(sieniAnioEscolarFacadeRemote.createAndReturn(this.getAnioEscolarNuevo()));
                 registrarEnBitacora("Crear", "Anio Escolar", this.getAnioEscolarNuevo().getIdAnioEscolar());
                 FacesMessage msg = new FacesMessage("Año escolar Creado Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);

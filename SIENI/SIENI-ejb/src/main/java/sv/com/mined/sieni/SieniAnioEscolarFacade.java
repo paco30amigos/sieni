@@ -42,4 +42,18 @@ public class SieniAnioEscolarFacade extends AbstractFacade<SieniAnioEscolar> imp
         }
         return ret;
     }
+    
+    @Override
+    public SieniAnioEscolar findActivo() {
+        Character estado = 'A';
+        Query q = em.createNamedQuery("SieniAnioEscolar.findByAeEstado");
+        q.setParameter("estado", estado);
+        List<SieniAnioEscolar> res = q.getResultList();
+        SieniAnioEscolar ret=null;
+        if(res!=null&&!res.isEmpty()){
+            ret=res.get(0);
+            em.refresh(ret);
+        }        
+        return ret;
+    }
 }

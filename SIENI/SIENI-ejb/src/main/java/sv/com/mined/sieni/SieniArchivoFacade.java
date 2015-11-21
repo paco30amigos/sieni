@@ -11,7 +11,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniArchivo;
-import sv.com.mined.sieni.pojos.ComponenteArchivoPojo;
 
 /**
  *
@@ -37,8 +36,10 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
         String estado = "I";
         Query q = em.createNamedQuery("SieniArchivo.findArchivoLazy");
         q.setParameter("idArchivo", idArchivo);
-        q.setParameter("estado", estado);
-        return (byte[]) q.getSingleResult();
+        q.setParameter("estado", estado);        
+//        em.refresh(q.getSingleResult());
+        byte[] ret=(byte[])q.getSingleResult();
+        return ret;
     }
 
     @Override

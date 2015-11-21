@@ -12,6 +12,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.context.RequestContext;
@@ -30,7 +31,7 @@ import utils.DateUtils;
  *
  * @author INFORMATICA
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "notificacionesController")
 public class NotificacionesController extends NotificacionesForm {
 

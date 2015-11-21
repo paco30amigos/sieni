@@ -57,6 +57,7 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findByNombreCompleto", query = "SELECT s FROM SieniAlumno s where s.alNombreCompleto=:nombreCompleto"),
     @NamedQuery(name = "SieniAlumno.findSiguienteCorrelat", query = "SELECT max(s.alCorrelatCarnet) FROM SieniAlumno s where s.alCodigoCarnet=:codigo"),
     @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A' ORDER BY s.idAlumno"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosNoInactivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s join fetch s.sieniAlumnRolList WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosMatriculados", query = "SELECT s FROM SieniAlumno s JOIN fetch s.sieniMatriculaList sr where sr.mtEstado=:estado and s.alEstado in (:estado)"),

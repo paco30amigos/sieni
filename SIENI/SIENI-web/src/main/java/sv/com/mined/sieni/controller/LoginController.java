@@ -19,10 +19,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.util.Base64;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
+import sv.com.mined.sieni.SieniAnioEscolarFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.LoginForm;
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniAnioEscolar;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
@@ -37,6 +39,8 @@ public class LoginController extends LoginForm {
 
     @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
+    @EJB
+    private SieniAnioEscolarFacadeRemote sieniAnioEscolarFacadeRemote;
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
@@ -64,6 +68,7 @@ public class LoginController extends LoginForm {
                             this.setDocente(docente);
                             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
                             this.getsU().redirect("/faces/index.xhtml");
+                            this.setAnioEscolarActivo(sieniAnioEscolarFacadeRemote.findActivo());
                         } else {
                             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inactivo", this.getUsuario());
                         }
@@ -80,6 +85,7 @@ public class LoginController extends LoginForm {
                         this.setAlumno(alumno);
                         msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenid@", this.getUsuario());
                         this.getsU().redirect("/");
+                        this.setAnioEscolarActivo(sieniAnioEscolarFacadeRemote.findActivo());
                     } else {
                         msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Usuario inactivo", this.getUsuario());
                     }

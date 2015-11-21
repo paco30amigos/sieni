@@ -17,6 +17,8 @@ import sv.com.mined.sieni.model.SieniAlumnRol;
 public interface SieniAlumnRolFacadeRemote {
 
     void create(SieniAlumnRol sieniAlumnRol);
+    
+    SieniAlumnRol createAndReturn(SieniAlumnRol sieniAlumnRol);
 
     void edit(SieniAlumnRol sieniAlumnRol);
 

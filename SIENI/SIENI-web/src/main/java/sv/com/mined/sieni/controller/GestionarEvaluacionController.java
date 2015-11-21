@@ -135,7 +135,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
             if (validarNuevo(this.getEvaluacionNuevo())) {//valida el guardado
                 SieniEvaluacion existEvaluacion = new SieniEvaluacion();
-                sieniEvaluacionFacadeRemote.create(this.getEvaluacionNuevo());
+                this.setEvaluacionNuevo(sieniEvaluacionFacadeRemote.createAndReturn(this.getEvaluacionNuevo()));
                 registrarEnBitacora("Crear", "Evaluacion", this.getEvaluacionNuevo().getIdEvaluacion());
                 FacesMessage msg = new FacesMessage("Evaluacion Creado Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);

@@ -18,6 +18,8 @@ import sv.com.mined.sieni.model.SieniDocente;
 public interface SieniDocenteFacadeRemote {
 
     void create(SieniDocente sieniDocente);
+    
+    SieniDocente createAndReturn(SieniDocente sieniDocente);
 
     void edit(SieniDocente sieniDocente);
 

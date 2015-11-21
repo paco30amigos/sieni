@@ -91,11 +91,14 @@ public class GestionComponentesInteractivosController extends GestionComponentes
 
     private void fill() {
         this.setDatosList(sieniSuperComponFacadeRemote.findAllNoInactivos());
-        this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
-        this.setListaTipoModifica(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setNuevaInterac(new SieniCompInteraccion());
         this.getNuevaInterac().setIdAccion(new SieniAccion());
         this.getNuevaInterac().setIdEvento(new SieniEvento());
+    }
+    
+    public void nuevo(){
+        this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
+        this.setIndexMenu(1);
     }
 
     public void guardar() {
@@ -108,11 +111,12 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             }
             if (validarNuevo(this.getNuevo())) {//valida el guardado
                 this.getNuevo().setScEstado('A');
-                sieniSuperComponFacadeRemote.create(this.getNuevo());
+                this.setNuevo(sieniSuperComponFacadeRemote.createAndReturn(this.getNuevo()));
                 registrarEnBitacora("Guardar", "Componente interactivo", this.getNuevo().getIdSuperCompon());
                 new ValidationPojo().printMsj("Componente Interactivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                this.getDatosList().add(this.getNuevo());
                 this.setNuevo(new SieniSuperCompon());
-                fill();
+//                fill();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -142,6 +146,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
 
     //metodos para modificacion de datos
     public void modificar(SieniSuperCompon modificado) {
+        this.setListaTipoModifica(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setModifica(modificado);
         this.setIndexMenu(2);
     }
@@ -254,7 +259,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
                 sieniSuperComponFacadeRemote.edit(this.getModifica());                
                 registrarEnBitacora("Modificar", "Componente interactivo", this.getModifica().getIdSuperCompon());
                 new ValidationPojo().printMsj("Componente Interactivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
-                fill();
+//                fill();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -276,7 +281,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             registrarEnBitacora("Eliminar", "Componente interactivo", this.getEliminar().getIdSuperCompon());
             this.getEliminar().setScEstado('I');
             sieniSuperComponFacadeRemote.edit(this.getEliminar());
-            fill();
+            this.getDatosList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }

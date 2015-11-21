@@ -19,6 +19,8 @@ import sv.com.mined.sieni.model.SieniMatricula;
 public interface SieniMatriculaFacadeRemote {
 
     void create(SieniMatricula sieniMatricula);
+    
+    SieniMatricula createAndReturn(SieniMatricula sieniMatricula);
 
     void edit(SieniMatricula sieniMatricula);
 

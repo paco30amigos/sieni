@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,7 +22,6 @@ import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionMateriasForm;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 
@@ -78,7 +76,7 @@ public class GestionMateriasController extends GestionMateriasForm {
         try {
             if (validarNuevo(this.getMateriaNuevo())) {
                 if (validarMateria(matSelected, gradoSelected, turnoSelected)) {
-                    sieniMateriaFacadeRemote.create(this.getMateriaNuevo());
+                    this.setMateriaNuevo(sieniMateriaFacadeRemote.createAndReturn(this.getMateriaNuevo()));
                     registrarEnBitacora("Crear", "Materia", this.getMateriaNuevo().getIdMateria());
                     this.setMateriaNuevo(new SieniMateria());
                     new ValidationPojo().printMsj("Materia Creada Exitosamente", FacesMessage.SEVERITY_INFO);

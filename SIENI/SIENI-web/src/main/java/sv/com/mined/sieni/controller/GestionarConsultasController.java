@@ -102,7 +102,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
                 this.getConsultaNueva().setIdAlumno(loginBean.getAlumno());
                 this.getConsultaNueva().setTdTipo('C');
                 this.getConsultaNueva().setTdFecha(new Date());
-                sieniConsultaFacadeRemote.create(this.getConsultaNueva());
+                this.setConsultaNueva(sieniConsultaFacadeRemote.createAndReturn(this.getConsultaNueva()));
                 registrarEnBitacora("Crear", "Consulta", this.getConsultaNueva().getIdTemaDuda());
                 this.setConsultaNueva(new SieniTemaDuda());
                 FacesMessage msg = new FacesMessage("Consulta Enviada Exitosamente");

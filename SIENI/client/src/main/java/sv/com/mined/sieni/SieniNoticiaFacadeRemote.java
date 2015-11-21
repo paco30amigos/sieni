@@ -17,6 +17,8 @@ import sv.com.mined.sieni.model.SieniNoticia;
 public interface SieniNoticiaFacadeRemote {
 
     void create(SieniNoticia sieniNoticia);
+    
+    SieniNoticia createAndReturn(SieniNoticia sieniNoticia);
 
     void edit(SieniNoticia sieniNoticia);
 

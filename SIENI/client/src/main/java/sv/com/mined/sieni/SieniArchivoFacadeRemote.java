@@ -17,6 +17,8 @@ import sv.com.mined.sieni.model.SieniArchivo;
 public interface SieniArchivoFacadeRemote {
 
     void create(SieniArchivo sieniArchivo);
+    
+    SieniArchivo createAndReturn(SieniArchivo sieniArchivo);
 
     void edit(SieniArchivo sieniArchivo);
 

@@ -18,6 +18,8 @@ public interface SieniAnioEscolarFacadeRemote {
 
     void create(SieniAnioEscolar sieniAnioEscolar);
 
+    SieniAnioEscolar createAndReturn(SieniAnioEscolar sieniAnioEscolar);
+
     void edit(SieniAnioEscolar sieniAnioEscolar);
 
     void remove(SieniAnioEscolar sieniAnioEscolar);
@@ -29,6 +31,8 @@ public interface SieniAnioEscolarFacadeRemote {
     List<SieniAnioEscolar> findRange(int[] range);
 
     int count();
-    
+
     public List<SieniAnioEscolar> findAllNoInactivos();
+
+    public SieniAnioEscolar findActivo();
 }

@@ -18,6 +18,8 @@ import sv.com.mined.sieni.model.SieniNota;
 public interface SieniNotaFacadeRemote {
 
     void create(SieniNota sieniNota);
+    
+    SieniNota createAndReturn(SieniNota sieniNota);
 
     void edit(SieniNota sieniNota);
 

@@ -17,6 +17,8 @@ import sv.com.mined.sieni.model.SieniTemaDuda;
 public interface SieniTemaDudaFacadeRemote {
 
     void create(SieniTemaDuda sieniTemaDuda);
+    
+    SieniTemaDuda createAndReturn(SieniTemaDuda sieniTemaDuda);
 
     void edit(SieniTemaDuda sieniTemaDuda);
 

@@ -17,6 +17,8 @@ import sv.com.mined.sieni.model.SieniSuperCompon;
 public interface SieniSuperComponFacadeRemote {
 
     void create(SieniSuperCompon sieniSuperCompon);
+    
+    SieniSuperCompon createAndReturn(SieniSuperCompon sieniSuperCompon);
 
     void edit(SieniSuperCompon sieniSuperCompon);
 

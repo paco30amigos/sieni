@@ -47,6 +47,13 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         Query q = em.createNamedQuery("SieniAlumno.findAlumnosActivos");
         return q.getResultList();
     }
+    @Override
+    public List<SieniAlumno> findAlumnosNoInactivos() {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniAlumno.findAlumnosNoInactivos");
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
 
     @Override
     public List<SieniAlumno> findAlumnoSinUsuario() {

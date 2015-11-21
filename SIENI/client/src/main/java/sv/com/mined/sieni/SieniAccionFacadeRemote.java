@@ -17,6 +17,8 @@ import sv.com.mined.sieni.model.SieniAccion;
 public interface SieniAccionFacadeRemote {
 
     void create(SieniAccion sieniAccion);
+    
+    SieniAccion createAndReturn(SieniAccion sieniAccion);
 
     void edit(SieniAccion sieniAccion);
 

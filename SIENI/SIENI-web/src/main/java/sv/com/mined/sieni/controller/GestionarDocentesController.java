@@ -95,7 +95,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
                     Long fotoId = guardarFoto(this.getFotoUsable());
                     this.getDocenteNuevo().setDcFoto(fotoId);
                 }
-                sieniDocenteFacadeRemote.create(this.getDocenteNuevo());
+                this.setDocenteNuevo(sieniDocenteFacadeRemote.createAndReturn(this.getDocenteNuevo()));
                 registrarEnBitacora("Crear", "Docentes", this.getDocenteNuevo().getIdDocente());
                 FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);

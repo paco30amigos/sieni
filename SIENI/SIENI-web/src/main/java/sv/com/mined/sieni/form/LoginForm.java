@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.form;
 
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniAnioEscolar;
 import sv.com.mined.sieni.model.SieniDocente;
 import utils.siteUrls;
 
@@ -25,6 +26,7 @@ public class LoginForm {
     private String tipoUsuario;
     private String tipoRol;
     private String nombreCompleto;
+    private SieniAnioEscolar anioEscolarActivo;
 
     public String getTipoUsuario(String cod) {
         String ret = "";
@@ -122,6 +124,14 @@ public class LoginForm {
 
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
+    }
+
+    public SieniAnioEscolar getAnioEscolarActivo() {
+        return anioEscolarActivo;
+    }
+
+    public void setAnioEscolarActivo(SieniAnioEscolar anioEscolarActivo) {
+        this.anioEscolarActivo = anioEscolarActivo;
     }
 
 }

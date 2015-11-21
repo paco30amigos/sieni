@@ -251,4 +251,13 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         }
         em.flush();
     }
+    
+    
+    @Override
+    public List<SieniClase> findRptAvance() {
+        Query q = em.createNamedQuery("SieniClase.rptAvanceClases");
+        //q.setParameter("estado", estado);
+        List<SieniClase> res = q.getResultList();
+        return res;
+    }
 }

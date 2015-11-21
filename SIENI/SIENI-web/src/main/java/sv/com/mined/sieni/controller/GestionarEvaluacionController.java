@@ -389,7 +389,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
         for (int j = 0; j < (fin - inicio + 1); j++) {
             SieniEvalRespAlumno respAlumno = new SieniEvalRespAlumno();
-            respAlumno.setRaRespuesta(String.join(",", respuestas.get(j)));
+            //respAlumno.setRaRespuesta(String.join(",", respuestas.get(j)));
             SieniAlumno alumno = new SieniAlumno();
             respAlumno.setIdAlumno(loginBean.getAlumno());
             respAlumno.setIdEvaluacionItem(this.getEvaluacionItemResp().getSieniEvaluacionItemList().get(j));
@@ -400,7 +400,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 FacesMessage msg;
         sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList());
         if (ultimaPagina) {
-//            calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
+            calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
            msg = new FacesMessage("Examen finalizado, su nota es: "+calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp()));
         }else{
          msg = new FacesMessage("Se guardaron las respuestas");

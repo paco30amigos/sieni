@@ -7,6 +7,7 @@ package sv.com.mined.sieni;
 
 import java.util.List;
 import javax.ejb.Remote;
+import javax.management.Query;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniCurso;
 
@@ -44,4 +45,7 @@ public interface SieniClaseFacadeRemote {
     public List<SieniClase> findClaseByAlumno(Long idAlumno);
     
     public void merge(List<SieniClase> clases);
+    
+    
+    public List<SieniClase> findRptAvance();
 }

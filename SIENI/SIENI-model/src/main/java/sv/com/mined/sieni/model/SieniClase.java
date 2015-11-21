@@ -51,7 +51,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniClase.findClasesRptByCurso", query = "SELECT s FROM SieniClase s WHERE s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso"),
     @NamedQuery(name = "SieniClase.findClasesRptByCursoTipoEstado", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado = :clEstado AND s.idCurso.idCurso = :idCurso"),
     @NamedQuery(name = "SieniClase.findClasesRptByCursoEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado AND s.idCurso.idCurso = :idCurso"),
-    @NamedQuery(name = "SieniClase.findClasesRptByCursoTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso") })
+    @NamedQuery(name = "SieniClase.findClasesRptByCursoTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso") ,
+
+    @NamedQuery(name = "SieniClase.rptAvanceClases", query = "SELECT s FROM SieniClase s JOIN FETCH s.sieniCatPuntosList pt JOIN FETCH s.sieniPntosContrlList pa WHERE s.clEstado = 'A' ") })
 public class SieniClase implements Serializable {
 
     @OneToMany(mappedBy = "idClase")
@@ -81,6 +83,8 @@ public class SieniClase implements Serializable {
     @Column(name = "cl_hora")
     @Temporal(javax.persistence.TemporalType.TIMESTAMP)
     private Date clHora;
+    @OneToMany(mappedBy = "idClase")
+    private List<SieniCatPuntos> sieniCatPuntosList;
     @OneToMany(mappedBy = "idClase")
     private List<SieniPntosContrl> sieniPntosContrlList;
     @OneToMany(mappedBy = "idClase")
@@ -133,6 +137,15 @@ public class SieniClase implements Serializable {
 
     public void setClTipo(Character clTipo) {
         this.clTipo = clTipo;
+    }
+
+    @XmlTransient
+    public List<SieniCatPuntos> getSieniCatPuntosList() {
+        return sieniCatPuntosList;
+    }
+
+    public void setSieniCatPuntosList(List<SieniCatPuntos> sieniCatPuntosList) {
+        this.sieniCatPuntosList = sieniCatPuntosList;
     }
 
     
@@ -311,13 +324,30 @@ public class SieniClase implements Serializable {
         this.idArchivo = idArchivo;
     }
 
-    
-     public Integer getPtosAcumulados() {
-         Integer puntos = 5;
-//         for(SieniPntosContrl actual : this.getSieniPntosContrlList()){
-//             puntos = puntos + actual.getPcPantalla();
-//         }
+    public Integer getPtosTotales() {
+         Integer puntos = 0;
+         try{
+            if(this.getSieniCatPuntosList()!= null){
+                for(SieniCatPuntos actual : this.getSieniCatPuntosList()){
+                    puntos = puntos + actual.getCpNumPuntos();
+                }
+            }
+        }catch(Exception ex){}
         return puntos;
     }
+    
+    
+    public Integer getPtosAcumulados() {
+         Integer puntos = 0;
+         try{
+            if(this.getSieniPntosContrlList() != null){
+                for(SieniPntosContrl actual : this.getSieniPntosContrlList()){
+                    puntos = puntos + actual.getPcPantalla();
+                }
+            }
+        }catch(Exception ex){}
+        return puntos;
+    }
+     
 
 }

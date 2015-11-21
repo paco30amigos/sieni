@@ -25,6 +25,7 @@ import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCatPuntosFacadeRemote;
+import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
@@ -32,6 +33,7 @@ import sv.com.mined.sieni.form.RptEstadisticoAvanceForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCatPuntos;
+import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniSeccion;
@@ -56,6 +58,8 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
     @EJB
     private SieniCatPuntosFacadeRemote sieniCatPuntosFacadeRemote;
+    @EJB
+    private SieniClaseFacadeRemote sieniClaseFacadeRemote;
     
     
     
@@ -90,7 +94,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
         
         this.setListDatos(new ArrayList<RptEstadisticoAvancePojo>());
         
-        List<SieniCatPuntos> rptAvance = new ArrayList<SieniCatPuntos>();
+        List<SieniClase> rptAvance = new ArrayList<SieniClase>();
         
         for (SieniGrado actual : this.getListGrados()) {
             if(actual.getIdGrado().intValue() == this.getIdgrado()){
@@ -116,9 +120,9 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
             }
         }
         
-        rptAvance = sieniCatPuntosFacadeRemote.findRptAvance();
-        for (SieniCatPuntos actual : rptAvance) {
-             elem = new RptEstadisticoAvancePojo(actual.getIdClase(),null,actual.getIdClase().getIdCurso().getIdMateria().getMaCodigo(),actual.getIdClase().getClTema(),actual.getIdClase().getTipo(),actual.getCpNumPuntos(),actual.getIdClase().getPtosAcumulados());
+        rptAvance = sieniClaseFacadeRemote.findRptAvance();
+        for (SieniClase actual : rptAvance) {
+             elem = new RptEstadisticoAvancePojo(actual,null,actual.getIdCurso().getIdMateria().getMaNombre(),actual.getClTema(),actual.getTipo(),actual.getPtosTotales(),actual.getPtosAcumulados());
             this.getListDatos().add(elem);
         }
         this.setTotalAlumnos("" + this.getListDatos().size());
@@ -138,7 +142,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
             parameterMap.put("seccion", this.getSeccion().getScDescripcion());
         }
         if(this.getMateria()!= null){
-            parameterMap.put("materia", this.getMateria().getMaCodigo());
+            parameterMap.put("materia", this.getMateria().getMaNombre());
         }
         if(this.getAlumno()!= null){
             parameterMap.put("alumno", this.getAlumno().getAlCarnet());

@@ -375,6 +375,9 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             }
 
         } else {
+             if (numPagina == totalPag) {
+                ultimaPagina = true;
+            }
             for (int i = inicio; i <= fin; i++) {
                 respuestas.add(req.getParameterValues("name" + (i)));
             }
@@ -394,13 +397,15 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             this.getEvalRespAlumnoList().add(respAlumno);
 
         }
-
+FacesMessage msg;
         sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList());
         if (ultimaPagina) {
-            calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
+//            calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
+           msg = new FacesMessage("Examen finalizado, su nota es: "+calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp()));
+        }else{
+         msg = new FacesMessage("Se guardaron las respuestas");
         }
-
-        FacesMessage msg = new FacesMessage("Respuestas guardadas");
+       
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
     }
@@ -422,28 +427,32 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setEvalRespAlumnoList(new ArrayList<SieniEvalRespAlumno>());
         this.setEvalRespAlumnoList(sieniEvalRespAlumnoFacadeRemote.findByAlumnoEv(alumno, evaluacion));
 
-        for (SieniEvaluacionItem item : evaluacion.getSieniEvaluacionItemList()) {
-            for (SieniEvalRespItem res : item.getSieniEvalRespItemList()) {
-                resAux=resAux+(res.getErRespCorrecta())+",";
-            }
-            respuestas.add(resAux);
-            resAux = "";
-        }
+//        for (SieniEvaluacionItem item : evaluacion.getSieniEvaluacionItemList()) {
+//            for (SieniEvalRespItem res : item.getSieniEvalRespItemList()) {
+//                resAux=resAux+(res.getErRespCorrecta())+",";
+//            }
+//            respuestas.add(resAux);
+//            resAux = "";
+//        }
 
         for (int i = 0; i < this.getEvaluacionItemList().size(); i++) {
-            numFalsas = contaPalabra("NO", respuestas.get(i));
+            for (SieniEvalRespItem res : this.getEvalRespAlumnoList().get(i).getIdEvaluacionItem().getSieniEvalRespItemList()) {
+                resAux=resAux+(res.getErRespCorrecta())+",";
+            }
+            
+            numFalsas = contaPalabra("NO", resAux);
             numFalsasAlumno = contaPalabra("NO", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
-            numVerdaderas = contaPalabra("SI", respuestas.get(i));
+            numVerdaderas = contaPalabra("SI", resAux);
             numVerdaderasAlumno = contaPalabra("SI", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
-
+            resAux="";
             if (numFalsasAlumno > numVerdaderas) {
                 notaPregunta.add(new Double("0.0"));
             } else {
                 if (numFalsasAlumno > numVerdaderasAlumno) {
                     notaPregunta.add(new Double("0.0"));
                 } else {
-                   Double diferencia=new Double((numVerdaderasAlumno-numFalsasAlumno)/numVerdaderas);
-                   notaPregunta.add(diferencia*this.getEvalRespAlumnoList().get(i).getIdEvaluacionItem().getEiPonderacion()/10.0);
+//                   Double diferencia=((numVerdaderasAlumno-numFalsasAlumno)/numVerdaderas);
+                   notaPregunta.add(( (float) (numVerdaderasAlumno-numFalsasAlumno)/numVerdaderas)*this.getEvalRespAlumnoList().get(i).getIdEvaluacionItem().getEiPonderacion()/10.0);
                 }
             }
             

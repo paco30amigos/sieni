@@ -60,7 +60,7 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
     @Override
     public List<SieniClase> findClasesRpt(SieniCurso curso, Integer tipo, Integer estado) {
 
-        Query q = em.createNamedQuery("SieniClase.findClasesRpt");
+        Query q = null;
         if (curso == null) {// TODOS LOS CURSOS
             if (tipo.intValue() == 0 && estado.intValue() == 0) {
                 q = em.createNamedQuery("SieniClase.findClasesRpt");
@@ -83,6 +83,20 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
 
             } else if (tipo.intValue() == 0 && estado.intValue() != 0) {
                 q = em.createNamedQuery("SieniClase.findClasesRptByEstado");
+                switch (estado) {
+                    case 0:
+                        q.setParameter("clEstado", 'X');
+                        break;
+                    case 1:
+                        q.setParameter("clEstado", 'N');
+                        break;
+                    case 2:
+                        q.setParameter("clEstado", 'A');
+                        break;
+                    case 3:
+                        q.setParameter("clEstado", 'T');
+                        break;
+                }
 
             } else {
                 q = em.createNamedQuery("SieniClase.findClasesRptByTipoEstado");
@@ -187,9 +201,9 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
             }
         }
         List<SieniClase> ret = q.getResultList();
-        for (SieniClase actual : ret) {
-            em.refresh(actual);
-        }
+        //for (SieniClase actual : ret) {
+        //    em.refresh(actual);
+        //}
         return ret;        
     }
 

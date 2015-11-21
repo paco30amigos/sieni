@@ -32,7 +32,7 @@
                         </p:selectOneMenu>
                         <p:outputLabel for="materia" value="Materia: " class="  Responsive"></p:outputLabel>
                         <p:selectOneMenu id="materia" class=" Responsive" value="#{rptEstadisticoAvanceController.idmateria}" >
-                            <f:selectItems itemValue ="#{mt.idMateria}" itemLabel="#{mt.maCodigo}" value="#{rptEstadisticoAvanceController.listMaterias}" var="mt" />
+                            <f:selectItems itemValue ="#{mt.idMateria}" itemLabel="#{mt.maNombre}" value="#{rptEstadisticoAvanceController.listMaterias}" var="mt" />
                         </p:selectOneMenu>
                         <p:outputLabel for="alumno" value="Alumno: " class="  Responsive"></p:outputLabel>
                         <p:selectOneMenu id="alumno" class=" Responsive" value="#{rptEstadisticoAvanceController.idalumno}" >

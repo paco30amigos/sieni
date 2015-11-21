@@ -131,8 +131,9 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         DateUtils du = new DateUtils();
 
         for (SieniClase actual : clases) {
-            if (actual.getClEstado().equals('N')
-                    && du.horarioValido(actual.getClHorario(), actual.getClHora())) {
+            if (actual.getClEstado().equals(new Character('N'))
+                    && du.horarioValido(actual.getClHorario(), actual.getClHora())
+                    && actual.getClTipoPublicacion().equals(new Character('A'))) {
                 actual.setClEstado('A');
                 clasesIniciadas.add(actual);
             }
@@ -545,8 +546,14 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         //fill para alumnos
         if (loginBean.getTipoRol().equals("0")) {
             DateUtils du = new DateUtils();
-            if (validarEstadoClase(ver)) {
-                correcto = true;
+            if (du.horarioValido(ver.getClHorario(), ver.getClHora())) {
+                if (!validarEstadoClase(ver)) {
+                    correcto = false;
+                }
+            } else {
+                if (!validarEstadoClase(ver)) {
+                    correcto = false;
+                }
             }
         }
         if (correcto) {
@@ -992,7 +999,9 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             actual.setMostrar(false);
         }
     }
+
     //interacciones seleccionadas
+
     public void updateInteractByTipoElemPlanPantalla(TabChangeEvent ev) {
         SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
         Integer index = seccionActual.getPantallaActual();

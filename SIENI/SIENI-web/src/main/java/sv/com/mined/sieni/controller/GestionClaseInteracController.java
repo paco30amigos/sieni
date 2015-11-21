@@ -133,7 +133,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
         for (SieniClase actual : clases) {
             if (actual.getClEstado().equals(new Character('N'))
-                    && du.horarioValido(actual.getClHorario(), actual.getClHora())) {
+                    && du.horarioValido(actual.getClHorario(), actual.getClHora())
+                    &&actual.getClTipoPublicacion().equals(new Character('A'))) {
                 actual.setClEstado('A');
                 clasesIniciadas.add(actual);
             }
@@ -398,7 +399,10 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
                     correcto = false;
                 }
             } else {
-                new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
+                if (!validarEstadoClase(ver)) {
+                    correcto = false;
+                }
+//                new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
             }
         }
         if (correcto) {
@@ -417,10 +421,10 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     public boolean validarEstadoClase(SieniClase claseActual) {
         boolean ret = true;
-        if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals(new Character('N'))) {
+        if (claseActual.getClEstado() != null && claseActual.getClEstado().equals(new Character('N'))) {
             ret = false;
             new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
-        } else if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals(new Character('T'))) {
+        } else if (claseActual.getClEstado() != null && claseActual.getClEstado().equals(new Character('T'))) {
             ret = false;
             new ValidationPojo().printMsj("La clase ya ha terminado", FacesMessage.SEVERITY_ERROR);
         }

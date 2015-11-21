@@ -6,8 +6,10 @@
 package sv.com.mined.sieni.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,8 +21,10 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniPntosContrlFacadeRemote;
 import sv.com.mined.sieni.form.RptParticipacionForm;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniPntosContrl;
 import sv.com.mined.sieni.pojos.rpt.RptParticipacionPojo;
 import utils.DateUtils;
 import utils.FormatUtils;
@@ -36,6 +40,9 @@ public class RptParticipacionController extends RptParticipacionForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
     
+    @EJB
+    private SieniPntosContrlFacadeRemote sieniPntosContrlFacadeRemote;
+    
     @PostConstruct
     public void init() {
         this.setFormatoRpt("PDF");
@@ -46,7 +53,14 @@ public class RptParticipacionController extends RptParticipacionForm {
     private void fill() {
         RptParticipacionPojo elem = new RptParticipacionPojo();
 
-
+        List<SieniPntosContrl> puntos = sieniPntosContrlFacadeRemote.findAll();
+        this.setListDatos(new ArrayList<RptParticipacionPojo>());
+        
+        for(SieniPntosContrl actual : puntos){
+            
+        }
+        
+        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));
     }
 
     public void generarReporte() {

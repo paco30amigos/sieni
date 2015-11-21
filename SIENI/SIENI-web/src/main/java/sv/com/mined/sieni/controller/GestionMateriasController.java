@@ -84,8 +84,7 @@ public class GestionMateriasController extends GestionMateriasForm {
                     new ValidationPojo().printMsj("Materia Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                     //fill();
                 } else {
-                    FacesMessage msg = new FacesMessage("La materia seleccionada ya existe para ese grado y seccion");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    new ValidationPojo().printMsj("La materia seleccionada ya existe para ese grado y seccion", FacesMessage.SEVERITY_ERROR);
                 }
             }
         } catch (Exception e) {
@@ -117,8 +116,7 @@ public class GestionMateriasController extends GestionMateriasForm {
                     FacesContext.getCurrentInstance().addMessage(null, msg);
                 fill();
                 } else {
-                    FacesMessage msg = new FacesMessage("La materia seleccionada ya existe para ese grado y seccion");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    new ValidationPojo().printMsj("La materia seleccionada ya existe para ese grado y seccion", FacesMessage.SEVERITY_ERROR);
                 }
             }
         } catch (Exception e) {

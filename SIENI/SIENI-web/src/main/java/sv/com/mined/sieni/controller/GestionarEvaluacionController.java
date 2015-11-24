@@ -375,7 +375,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             }
 
         } else {
-             if (numPagina == totalPag) {
+            if (numPagina == totalPag) {
                 ultimaPagina = true;
             }
             for (int i = inicio; i <= fin; i++) {
@@ -389,7 +389,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
         for (int j = 0; j < (fin - inicio + 1); j++) {
             SieniEvalRespAlumno respAlumno = new SieniEvalRespAlumno();
-            respAlumno.setRaRespuesta(String.join(",", respuestas.get(j)));
+            respAlumno.setRaRespuesta(getCadena(respuestas.get(j)));
             SieniAlumno alumno = new SieniAlumno();
             respAlumno.setIdAlumno(loginBean.getAlumno());
             respAlumno.setIdEvaluacionItem(this.getEvaluacionItemResp().getSieniEvaluacionItemList().get(j));
@@ -397,17 +397,34 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             this.getEvalRespAlumnoList().add(respAlumno);
 
         }
-FacesMessage msg;
+        FacesMessage msg;
         sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList());
         if (ultimaPagina) {
 //            calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
-           msg = new FacesMessage("Examen finalizado, su nota es: "+calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp()));
-        }else{
-         msg = new FacesMessage("Se guardaron las respuestas");
+            msg = new FacesMessage("Examen finalizado, su nota es: " + calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp()));
+        } else {
+            msg = new FacesMessage("Se guardaron las respuestas");
         }
-       
+
         FacesContext.getCurrentInstance().addMessage(null, msg);
 
+    }
+
+    public String getCadena(String[] cad) {
+        StringBuilder st = new StringBuilder();
+        boolean ban;
+        int cont = 0;
+        if (cad != null) {
+            for (String actual : cad) {
+                st.append(actual);
+                ban = cont == cad.length - 1;
+                if (!ban) {
+                    st.append(",");
+                }
+                cont++;
+            }
+        }
+        return st.toString();
     }
 
     public Double calcularNotas(SieniAlumno alumno, SieniEvaluacion evaluacion) {
@@ -434,17 +451,16 @@ FacesMessage msg;
 //            respuestas.add(resAux);
 //            resAux = "";
 //        }
-
         for (int i = 0; i < this.getEvaluacionItemList().size(); i++) {
             for (SieniEvalRespItem res : this.getEvalRespAlumnoList().get(i).getIdEvaluacionItem().getSieniEvalRespItemList()) {
-                resAux=resAux+(res.getErRespCorrecta())+",";
+                resAux = resAux + (res.getErRespCorrecta()) + ",";
             }
-            
+
             numFalsas = contaPalabra("NO", resAux);
             numFalsasAlumno = contaPalabra("NO", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
             numVerdaderas = contaPalabra("SI", resAux);
             numVerdaderasAlumno = contaPalabra("SI", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
-            resAux="";
+            resAux = "";
             if (numFalsasAlumno > numVerdaderas) {
                 notaPregunta.add(new Double("0.0"));
             } else {
@@ -452,15 +468,14 @@ FacesMessage msg;
                     notaPregunta.add(new Double("0.0"));
                 } else {
 //                   Double diferencia=((numVerdaderasAlumno-numFalsasAlumno)/numVerdaderas);
-                   notaPregunta.add(( (float) (numVerdaderasAlumno-numFalsasAlumno)/numVerdaderas)*this.getEvalRespAlumnoList().get(i).getIdEvaluacionItem().getEiPonderacion()/10.0);
+                    notaPregunta.add(((float) (numVerdaderasAlumno - numFalsasAlumno) / numVerdaderas) * this.getEvalRespAlumnoList().get(i).getIdEvaluacionItem().getEiPonderacion() / 10.0);
                 }
             }
-            
-            
+
         }
-        
+
         for (Double notas : notaPregunta) {
-            nota=nota+notas;
+            nota = nota + notas;
         }
         return nota;
 

@@ -84,11 +84,10 @@ public class RptRendimientoController extends RptRendimientoForm {
         RptRendimientoPojo elem = new RptRendimientoPojo();
 
         List<String> tipoEvaluacion = sieniEvaluacionFacadeRemote.findByTipo();
-        
+        this.setListDatos(new ArrayList<RptRendimientoPojo>()); 
         if (!tipoEvaluacion.isEmpty()) {
             for (String tipoActual : tipoEvaluacion) {
-                List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getIdGrado(), this.getIdSeccion(), this.getIdMateria(), tipoActual);
-                this.setListDatos(new ArrayList<RptRendimientoPojo>());
+                List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getIdGrado(), this.getIdSeccion(), this.getIdMateria(), tipoActual);                
 
                 double totalNotas = notas.size();
                 Integer totalAlumnos = notas.size();

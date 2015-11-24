@@ -134,7 +134,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         for (SieniClase actual : clases) {
             if (actual.getClEstado().equals(new Character('N'))
                     && du.horarioValido(actual.getClHorario(), actual.getClHora())
-                    &&actual.getClTipoPublicacion().equals(new Character('A'))) {
+                    && actual.getClTipoPublicacion().equals(new Character('A'))) {
                 actual.setClEstado('A');
                 clasesIniciadas.add(actual);
             }
@@ -607,12 +607,14 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     private boolean tieneInteraccion(SieniInteEntrComp nueva, List<SieniInteEntrComp> listaInteracActual) {
         boolean ret = false;
-        for (SieniInteEntrComp inteAc : listaInteracActual) {
-            if (nueva.getIeSupC1().getIdSuperCompon().equals(inteAc.getIeSupC1().getIdSuperCompon())
-                    && nueva.getIeSupC2().getIdSuperCompon().equals(inteAc.getIeSupC2().getIdSuperCompon())
-                    && nueva.getIeEventoC1().getIdEvento().equals(inteAc.getIeEventoC1().getIdEvento())
-                    && nueva.getIeEventoC2().getIdEvento().equals(inteAc.getIeEventoC2().getIdEvento())) {
-                ret = true;
+        if (listaInteracActual != null) {
+            for (SieniInteEntrComp inteAc : listaInteracActual) {
+                if (nueva.getIeSupC1().getIdSuperCompon().equals(inteAc.getIeSupC1().getIdSuperCompon())
+                        && nueva.getIeSupC2().getIdSuperCompon().equals(inteAc.getIeSupC2().getIdSuperCompon())
+                        && nueva.getIeEventoC1().getIdEvento().equals(inteAc.getIeEventoC1().getIdEvento())
+                        && nueva.getIeEventoC2().getIdEvento().equals(inteAc.getIeEventoC2().getIdEvento())) {
+                    ret = true;
+                }
             }
         }
         return ret;
@@ -812,7 +814,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             actual.setMostrar(true);
         }
     }
-    
+
     public void mostrarTodos() {
         for (ComponenteInteractivoPojo actual : getComponentesPantallaActual()) {
             actual.setMostrar(false);
@@ -915,7 +917,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 
     public List<SieniInteEntrComp> convertSuperCompon2ToInteractEntreCompon(List<SieniSuperCompon> componentes) {
         List<SieniInteEntrComp> ret = new ArrayList<>();
-        SieniInteEntrComp nuevo ;
+        SieniInteEntrComp nuevo;
         Long inc = -Long.parseLong(new DateUtils().getTime());
         for (SieniSuperCompon actual : componentes) {
             nuevo = new SieniInteEntrComp();

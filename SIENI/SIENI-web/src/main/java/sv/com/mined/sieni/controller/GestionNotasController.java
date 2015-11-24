@@ -82,7 +82,9 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void nuevo() {
-        this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosMatriculados());
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar()));
         if (this.getAlumnosList() != null && !this.getAlumnosList().isEmpty()) {
             this.setMateriasList(sieniMateriaFacadeRemote.findByAlumno(this.getAlumnosList().get(0).getIdAlumno()));
             if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {

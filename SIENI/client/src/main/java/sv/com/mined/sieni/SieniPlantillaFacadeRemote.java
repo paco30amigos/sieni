@@ -25,6 +25,8 @@ public interface SieniPlantillaFacadeRemote {
     void remove(SieniPlantilla sieniPlantilla);
 
     SieniPlantilla find(Object id);
+    
+    SieniPlantilla refresh(SieniPlantilla sieniPlantilla);
 
     List<SieniPlantilla> findAll();
 

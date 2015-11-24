@@ -38,7 +38,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     @EJB
     private SieniElemPlantillaFacadeRemote sieniElemPlantillaFacadeRemote;
     @EJB
-    private SieniTipoElemPlantillaFacadeRemote sieniTipoElemPlantillaFacadeRemote;    
+    private SieniTipoElemPlantillaFacadeRemote sieniTipoElemPlantillaFacadeRemote;
     @EJB
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
 
@@ -66,8 +66,9 @@ public class GestionPlantillasController extends GestionPlantillasForm {
                 this.setPlantillaNuevo(sieniPlantillaFacadeRemote.createAndReturn(this.getPlantillaNuevo()));
                 registrarEnBitacora("Crear", "Plantilla", this.getPlantillaNuevo().getIdPlantilla());
                 new ValidationPojo().printMsj("Plantilla Creada Exitosamente", FacesMessage.SEVERITY_INFO);
+                this.getPlantillaList().add(this.getPlantillaNuevo());
                 this.setPlantillaNuevo(new SieniPlantilla());
-                fill();
+//                fill();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -115,7 +116,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
                 sieniPlantillaFacadeRemote.edit(this.getPlantillaModifica());
                 registrarEnBitacora("Modificar", "Plantilla", this.getPlantillaModifica().getIdPlantilla());
                 new ValidationPojo().printMsj("Plantilla Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
-                fill();
+//                fill();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -164,6 +165,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             for (int i = 0; i < getTipoPlantilla().size(); i++) {
                 if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
                     getTipoPlantilla().remove(i);
+                    break;
                 }
             }
         }
@@ -171,7 +173,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
 
     public void guardarElemPlantilla() {
         try {
-            sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados());
+            this.setElemPlantillaSelected(sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados()));
             new ValidationPojo().printMsj("Elementos de plantilla guardados exitosamente", FacesMessage.SEVERITY_INFO);
             fillElemPlantillaPlantilla(this.getPlantillaModifica());
         } catch (Exception e) {
@@ -196,13 +198,14 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void fillElemPlantillaPlantilla(SieniPlantilla plantilla) {
+        plantilla = sieniPlantillaFacadeRemote.refresh(plantilla);
         this.setPlantillaModifica(plantilla);
         this.setTipoPlantilla(sieniTipoElemPlantillaFacadeRemote.findAll());
         this.setNuevoElem(new SieniTipoElemPlantilla());
         this.setElemPlantillaEliminados(new ArrayList<SieniElemPlantilla>());
-        this.setElemPlantillaSelected(this.getPlantillaModifica().getSieniElemPlantillaList());
         if (this.getElemPlantillaSelected() == null) {
-            this.setElemPlantillaSelected(new ArrayList<SieniElemPlantilla>());
+//            this.setElemPlantillaSelected(new ArrayList<SieniElemPlantilla>());
+            this.setElemPlantillaSelected(this.getPlantillaModifica().getSieniElemPlantillaList());
         } else {
             for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
                 for (int i = 0; i < getTipoPlantilla().size(); i++) {

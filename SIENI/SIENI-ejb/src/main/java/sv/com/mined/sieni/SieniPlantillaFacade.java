@@ -43,6 +43,14 @@ public class SieniPlantillaFacade extends AbstractFacade<SieniPlantilla> impleme
         }
         return ret;
     }
+    
+    @Override
+    public SieniPlantilla refresh(SieniPlantilla sieniPlantilla){
+        em.flush();
+        sieniPlantilla=find(sieniPlantilla.getIdPlantilla());
+        em.refresh(sieniPlantilla);
+        return sieniPlantilla;
+    }
 
     @Override
     public List<SieniPlantilla> findAllNoInactivas() {

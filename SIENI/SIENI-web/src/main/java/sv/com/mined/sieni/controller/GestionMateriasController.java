@@ -112,9 +112,10 @@ public class GestionMateriasController extends GestionMateriasForm {
                     registrarEnBitacora("Modificar", "Materia", this.getMateriaModifica().getIdMateria());
                     FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
                     FacesContext.getCurrentInstance().addMessage(null, msg);
-                fill();
+                    fill();
                 } else {
                     new ValidationPojo().printMsj("La materia seleccionada ya existe para ese grado y seccion", FacesMessage.SEVERITY_ERROR);
+                    fill();
                 }
             }
         } catch (Exception e) {

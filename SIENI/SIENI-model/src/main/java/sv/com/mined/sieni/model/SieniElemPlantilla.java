@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
 @Table(name = "sieni_elem_plantilla")
 @NamedQueries({
     @NamedQuery(name = "SieniElemPlantilla.findAll", query = "SELECT s FROM SieniElemPlantilla s"),
-    @NamedQuery(name = "SieniElemPlantilla.findByIdPlantilla", query = "SELECT s FROM SieniElemPlantilla s where s.epEstado not in (:estado) and s.idPlantilla.idPlantilla=:idPlantilla")})
+    @NamedQuery(name = "SieniElemPlantilla.findByIdPlantilla", query = "SELECT s FROM SieniElemPlantilla s where s.epEstado not in (:estado) and s.idPlantilla.idPlantilla=:idPlantilla order by s.epOrden")})
 public class SieniElemPlantilla implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -210,7 +210,7 @@
                     }
                     document.addEventListener("DOMContentLoaded", function () {
                         // Create a popcorn instance by calling Popcorn("#id-of-my-video")
-                        notificaSound =new Popcorn('#notificaSound');
+                        notificaSound = new Popcorn('#notificaSound');
                     });
 
                 </script>
@@ -264,6 +264,9 @@
                     </div>
                 </div>
                 <h:form>
+                    <p:idleMonitor timeout="1800000">
+                        <p:ajax event="idle" listener="#{loginController.onIdle}" update="messages" />
+                    </p:idleMonitor>
                     <p:remoteCommand name="updatemessages" update="messages"></p:remoteCommand>
                     <p:growl sticky="true" id="messages" autoUpdate="true"></p:growl>
                 </h:form>

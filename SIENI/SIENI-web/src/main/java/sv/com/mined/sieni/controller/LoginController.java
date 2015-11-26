@@ -28,6 +28,7 @@ import sv.com.mined.sieni.model.SieniAnioEscolar;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
+import utils.siteUrls;
 
 /**
  *
@@ -46,6 +47,10 @@ public class LoginController extends LoginForm {
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
 
+    public void onIdle() {
+        logout();
+        new siteUrls().redirect("/login.xhtml");
+    }
     public void login(ActionEvent actionEvent) {
         FacesMessage msg = null;
         try {

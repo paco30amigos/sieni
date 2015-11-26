@@ -206,14 +206,14 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         if (this.getElemPlantillaSelected() == null) {
 //            this.setElemPlantillaSelected(new ArrayList<SieniElemPlantilla>());
             this.setElemPlantillaSelected(this.getPlantillaModifica().getSieniElemPlantillaList());
-        } else {
-            for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
-                for (int i = 0; i < getTipoPlantilla().size(); i++) {
-                    if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
-                        getTipoPlantilla().remove(i);
-                    }
+        }
+        for (SieniElemPlantilla actual : this.getElemPlantillaSelected()) {
+            for (int i = 0; i < getTipoPlantilla().size(); i++) {
+                if (actual.getIdTipoElemPlantilla().getIdTipoElemPlantilla().equals(getTipoPlantilla().get(i).getIdTipoElemPlantilla())) {
+                    getTipoPlantilla().remove(i);
                 }
             }
         }
+
     }
 }

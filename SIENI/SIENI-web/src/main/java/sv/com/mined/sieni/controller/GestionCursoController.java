@@ -14,6 +14,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
+import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
@@ -21,6 +22,7 @@ import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionCursoForm;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniGrado;
@@ -45,6 +47,8 @@ public class GestionCursoController extends GestionCursoForm {
     private SieniGradoFacadeRemote sieniGradoFacadeRemote;   
     @EJB
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
+    @EJB
+    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
 
     private void registrarEnBitacora(String accion, String tabla, Long id) {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -140,6 +144,13 @@ public class GestionCursoController extends GestionCursoForm {
 
     }
 
+    public void gestionarCursoAlumno(SieniCurso curso) {
+        this.setAlumnoList(new ArrayList<SieniAlumno>());
+        this.setAlumnoList(sieniAlumnoFacadeRemote.findAlumnosNoCursos(curso.getIdGrado().getIdGrado(),curso.getIdCurso()));
+        this.setCursoModifica(curso);
+        this.setIndexMenu(4);
+    }
+    
     public void refresh() {
         fill();
     }

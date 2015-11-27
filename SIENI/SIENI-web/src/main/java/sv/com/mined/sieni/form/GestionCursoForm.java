@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.form;
 
 import java.util.List;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniGrado;
@@ -30,6 +31,8 @@ public class GestionCursoForm {
     private List<SieniGrado> gradoList;
     private List<SieniSeccion> seccionList;
     private List<SieniMateria> materiaList;
+    private List<SieniAlumno> alumnoList;
+    private List<SieniAlumno> selectedAlumnoList;
     private Long idDocente;
     private Long idGrado;
     private Long idSeccion;
@@ -65,6 +68,9 @@ public class GestionCursoForm {
             case 3:
                 sU.redirect(sU.getBasegestionarCursos() + "ver.xhtml");
                 break;
+            case 4:
+                sU.redirect(sU.getBasegestionarCursos() + "cursoAlumno.xhtml");
+                break;    
         }
         this.indexMenu = indexMenu;
     }
@@ -163,6 +169,22 @@ public class GestionCursoForm {
 
     public void setGradoModificaList(List<SieniGrado> gradoModificaList) {
         this.gradoModificaList = gradoModificaList;
+    }
+
+    public List<SieniAlumno> getAlumnoList() {
+        return alumnoList;
+    }
+
+    public void setAlumnoList(List<SieniAlumno> alumnoList) {
+        this.alumnoList = alumnoList;
+    }
+
+    public List<SieniAlumno> getSelectedAlumnoList() {
+        return selectedAlumnoList;
+    }
+
+    public void setSelectedAlumnoList(List<SieniAlumno> selectedAlumnoList) {
+        this.selectedAlumnoList = selectedAlumnoList;
     }
 
     public Long getIdDocente() {

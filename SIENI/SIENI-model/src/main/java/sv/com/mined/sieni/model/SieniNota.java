@@ -153,11 +153,11 @@ public class SieniNota implements Serializable {
     }
 
     public String getTipoIngreso() {
-        if (ntTipoIngreso.equals("A")) {
-            tipoIngreso = "Automático";
-        } else if (ntTipoIngreso.equals("M")) {
+        if (ntTipoIngreso==null||ntTipoIngreso.equals("M")) {
             tipoIngreso = "Manual";
-        } else {
+        } else if (ntTipoIngreso.equals("A")) {
+            tipoIngreso = "Automático";
+        } else  {
             tipoIngreso = "Excel";
         }
         return tipoIngreso;

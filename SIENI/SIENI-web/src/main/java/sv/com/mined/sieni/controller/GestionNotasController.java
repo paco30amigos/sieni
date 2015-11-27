@@ -114,6 +114,7 @@ public class GestionNotasController extends GestionNotasForm {
                 new ValidationPojo().printMsj("Nota Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                 this.getNotaList().add(this.getNotaNuevo());
                 this.setNotaNuevo(new SieniNota());
+                this.getNotaNuevo().setNtTipoIngreso("M"); 
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -136,7 +137,7 @@ public class GestionNotasController extends GestionNotasForm {
         }
         validaciones.add(new ValidationPojo(!(this.getMateriasList() != null && !this.getMateriasList().isEmpty()), "El alumno no tiene materias disponibles", FacesMessage.SEVERITY_ERROR));
         validaciones.add(new ValidationPojo(!(this.getEvaluacionesList() != null && !this.getEvaluacionesList().isEmpty()), "El alumno no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
-        validaciones.add(new ValidationPojo(!(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() <= 10.0), "Nota no valida", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getNotaNuevo() != null && !(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() <= 10.0), "Nota no valida", FacesMessage.SEVERITY_ERROR));
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
@@ -150,21 +151,17 @@ public class GestionNotasController extends GestionNotasForm {
         //si es asi puede modificar todas las notas, sino solo las ingresadas por el
         if (validarUsuarioModificaNota(modificado)) {
             //llena los datos a utilizar en el formulario
-            this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAll());
-            if (this.getAlumnosModificaList() != null && !this.getAlumnosModificaList().isEmpty()) {
-                this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(this.getAlumnosModificaList().get(0).getIdAlumno()));
-                if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
-                    this.setIdMateriaModifica(this.getMateriasModificaList().get(0));
-                    this.setEvaluacionesModificaList(this.getIdMateriaModifica().getSieniEvaluacionList());
-                } else {
-                    this.setEvaluacionesModificaList(new ArrayList<SieniEvaluacion>());
-                }
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar()));
+            this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(modificado.getIdAlumno().getIdAlumno()));
+            if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
+                this.setEvaluacionesModificaList(modificado.getIdEvaluacion().getIdMateria().getSieniEvaluacionList());
             }
-
+            this.setIdMateriaModifica(modificado.getIdEvaluacion().getIdMateria());
             this.setNotaModifica(modificado);
             this.setIdAlumnoModifica(modificado.getIdAlumno());
-            this.setIdEvaluacion(modificado.getIdEvaluacion());
-            this.setMateria(modificado.getIdEvaluacion().getIdMateria());
+            this.setIdEvaluacionModifica(modificado.getIdEvaluacion());
 
             this.setIndexMenu(2);
         }
@@ -179,7 +176,7 @@ public class GestionNotasController extends GestionNotasForm {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 
-        if (!loginBean.getTipoUsuario().equals("0")) {
+        if (!loginBean.getTipoUsuario().equals("A")) {
             switch (loginBean.getTipoRol()) {
                 case "0":
                     //alumno no tiene permiso
@@ -202,6 +199,7 @@ public class GestionNotasController extends GestionNotasForm {
         } else {
             //los alumnos no pueden modificar notas aunque tengan permiso superiores a docentes
             new ValidationPojo().printMsj("Los alumnos no pueden modificar notas", FacesMessage.SEVERITY_ERROR);
+            ban = false;
         }
         return ban;
     }
@@ -219,7 +217,7 @@ public class GestionNotasController extends GestionNotasForm {
     public void guardarModifica() {
         try {
             this.getNotaModifica().setIdAlumno(this.getIdAlumnoModifica());
-            this.setIdEvaluacion(this.getIdEvaluacionModifica());
+            this.getNotaModifica().setIdEvaluacion(this.getIdEvaluacionModifica());
             if (validarModifica(this.getNotaModifica())) {//valida el guardado
                 sieniNotaFacadeRemote.edit(this.getNotaModifica());
                 registrarEnBitacora("Modificar", "Nota", this.getNotaModifica().getIdNota());
@@ -254,9 +252,9 @@ public class GestionNotasController extends GestionNotasForm {
                 validaciones.add(new ValidationPojo(sieniNotaFacadeRemote.findNotaRegistrada(nuevo), "La nota de la evaluación para ese alumno ya esta definida", FacesMessage.SEVERITY_ERROR));
             }
         }
-        validaciones.add(new ValidationPojo(!(this.getMateriasList() != null && !this.getMateriasList().isEmpty()), "El alumno no tiene materias disponibles", FacesMessage.SEVERITY_ERROR));
-        validaciones.add(new ValidationPojo(!(this.getEvaluacionesList() != null && !this.getEvaluacionesList().isEmpty()), "El alumno no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
-        validaciones.add(new ValidationPojo(!(this.getNotaNuevo().getNtCalificacion() >= 0.0 && this.getNotaNuevo().getNtCalificacion() <= 10.0), "Nota no valida", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(!(this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()), "El alumno no tiene materias disponibles", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(!(this.getEvaluacionesModificaList() != null && !this.getEvaluacionesModificaList().isEmpty()), "El alumno no tiene evaluaciones disponibles", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getNotaModifica().getNtCalificacion() != null && !(this.getNotaModifica().getNtCalificacion() >= 0.0 && this.getNotaModifica().getNtCalificacion() <= 10.0), "Nota no valida", FacesMessage.SEVERITY_ERROR));
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }

@@ -44,8 +44,11 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
         q.setParameter("usuario", usuario);
         q.setParameter("pass", pass);
         List<SieniDocente> res = q.getResultList();
+        SieniDocente ret=null;
         if (res != null && !res.isEmpty()) {
-            return res.get(0);
+            ret=res.get(0);
+            em.refresh(ret);
+            return ret;
         } else {
             return null;
         }

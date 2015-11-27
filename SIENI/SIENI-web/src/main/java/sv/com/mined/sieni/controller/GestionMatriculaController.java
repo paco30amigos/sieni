@@ -209,7 +209,8 @@ public class GestionMatriculaController extends GestionMatriculaForm {
             registrarEnBitacora("Eliminar", "Matricula", this.getEliminar().getIdMatricula());
             this.getEliminar().setMtEstado('I');//I:eliminado,D:disponible,N:no disponible, (I eliminado logico)
             sieniMatriculaFacadeRemote.edit(this.getEliminar());
-            fill();
+            this.getMatriculaList().remove(this.getEliminar());
+//            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }

@@ -122,11 +122,12 @@ public class GestionMatriculaController extends GestionMatriculaForm {
                 this.getMatriculaNuevo().setMtFechaIngreso(new Date());
                 this.setMatriculaNuevo(sieniMatriculaFacadeRemote.createAndReturn(this.getMatriculaNuevo()));
                 registrarEnBitacora("Crear", "Matricula", this.getMatriculaNuevo().getIdMatricula());
-                FacesMessage msg = new FacesMessage("Matricula Creado Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-                this.setIndexMenu(0);
+                new ValidationPojo().printMsj("Matricula Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                this.getMatriculaList().add(this.getMatriculaNuevo());
+                this.setMatriculaNuevo(new SieniMatricula());
+                //this.setIndexMenu(0);
             }
-            this.setMatriculaNuevo(new SieniMatricula());
+            //this.setMatriculaNuevo(new SieniMatricula());
 //            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -183,11 +184,10 @@ public class GestionMatriculaController extends GestionMatriculaForm {
             }
             if (validarModifica(this.getMatriculaModifica())) {//valida el guardado
                 sieniMatriculaFacadeRemote.edit(this.getMatriculaModifica());
-                registrarEnBitacora("Modificar", "Matricula", this.getMatriculaModifica().getIdMatricula());                
-                FacesMessage msg = new FacesMessage("Matricula Modificado Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-                resetModificaForm();
-                this.setIndexMenu(0);
+                registrarEnBitacora("Modificar", "Matricula", this.getMatriculaModifica().getIdMatricula());
+                new ValidationPojo().printMsj("Matricula Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+//                resetModificaForm();
+//                this.setIndexMenu(0);
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);

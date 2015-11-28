@@ -80,7 +80,8 @@ public class GestionMateriasController extends GestionMateriasForm {
                     registrarEnBitacora("Crear", "Materia", this.getMateriaNuevo().getIdMateria());
                     this.setMateriaNuevo(new SieniMateria());
                     new ValidationPojo().printMsj("Materia Creada Exitosamente", FacesMessage.SEVERITY_INFO);
-                    //fill();
+                    this.getMateriaList().add(this.getMateriaNuevo());
+                    this.setMateriaNuevo(new SieniMateria());
                 } else {
                     new ValidationPojo().printMsj("La materia seleccionada ya existe para ese grado y seccion", FacesMessage.SEVERITY_ERROR);
                 }
@@ -110,12 +111,9 @@ public class GestionMateriasController extends GestionMateriasForm {
                 if (validarMateria(matSelected, gradoSelected, turnoSelected)) {
                     sieniMateriaFacadeRemote.edit(this.getMateriaModifica());
                     registrarEnBitacora("Modificar", "Materia", this.getMateriaModifica().getIdMateria());
-                    FacesMessage msg = new FacesMessage("Archivo Modificado Exitosamente");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
-                    fill();
+                    new ValidationPojo().printMsj("Archivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
                 } else {
                     new ValidationPojo().printMsj("La materia seleccionada ya existe para ese grado y seccion", FacesMessage.SEVERITY_ERROR);
-                    fill();
                 }
             }
         } catch (Exception e) {
@@ -138,7 +136,7 @@ public class GestionMateriasController extends GestionMateriasForm {
             registrarEnBitacora("Eliminar", "Materia", this.getMateriaNuevo().getIdMateria());
             this.getEliminar().setMaEstado(new Character('I'));
             sieniMateriaFacadeRemote.edit(this.getEliminar());
-//        fill();
+            this.getMateriaList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
@@ -150,9 +148,7 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
     
     public boolean validarMateria(String materia, Integer grado, String turno){
-        
         List<SieniMateria> mat = sieniMateriaFacadeRemote.findByMaNombre(materia);
-        
         if (mat != null) {
             for (SieniMateria actual : mat) {
                 if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno))) {

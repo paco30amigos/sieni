@@ -14,8 +14,10 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.context.RequestContext;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniCursoAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
@@ -24,6 +26,7 @@ import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionCursoForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniCursoAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMateria;
@@ -49,6 +52,8 @@ public class GestionCursoController extends GestionCursoForm {
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
     @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
+    @EJB
+    private SieniCursoAlumnoFacadeRemote sieniCursoAlumnoFacadeRemote;
 
     private void registrarEnBitacora(String accion, String tabla, Long id) {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -275,5 +280,28 @@ public class GestionCursoController extends GestionCursoForm {
         }
         this.setSeccionModificaList(cod.getSieniSeccionList());
     }
+    
+    public void alumnosSeleccion() {
+        String alumnos="Se matricularon:\n";
+        SieniCursoAlumno cursoAlumno=new SieniCursoAlumno();
+        
+        for (SieniAlumno alumno : this.getSelectedAlumnoList()) {
+            cursoAlumno.setIdAlumno(alumno);
+            cursoAlumno.setIdCurso(this.getCursoModifica());
+            sieniCursoAlumnoFacadeRemote.create(cursoAlumno);
+                    
+            alumnos=alumnos+alumno.getAlNombreCompleto()+"\n";
+        }
+        refreshCursoAlumno();
+        FacesMessage msg = new FacesMessage(alumnos);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void refreshCursoAlumno(){
+     this.setAlumnoList(sieniAlumnoFacadeRemote.findAlumnosNoCursos(this.getCursoModifica().getIdGrado().getIdGrado(),this.getCursoModifica().getIdCurso()));
+//     RequestContext.getCurrentInstance().update("consulta");
+    
+    }
+ 
 
 }

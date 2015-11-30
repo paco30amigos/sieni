@@ -8,7 +8,7 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Gestionar Curso" url="#{siteUrls.gestionDocentes}"/>
+            <p:menuitem value="Gestionar Curso" url="#{siteUrls.gestionarCursos}"/>
             <p:menuitem value="Inscripcion de alumnos"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
@@ -34,6 +34,8 @@
                     
                    
                 </p:dataTable>
+         <p:commandButton  value="Inscribir" action="#{gestionCursoController.alumnosSeleccion()}" update="consulta"  />
+                    
          </h:form>
     </ui:define>
 </ui:composition>

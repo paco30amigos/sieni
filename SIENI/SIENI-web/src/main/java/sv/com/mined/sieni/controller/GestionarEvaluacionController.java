@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -37,6 +38,7 @@ import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniEvaluacionItem;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniMatricula;
+import sv.com.mined.sieni.model.SieniNota;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.DateUtils;
 import utils.FormatUtils;
@@ -400,8 +402,16 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         FacesMessage msg;
         sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList());
         if (ultimaPagina) {
-//            calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
-            msg = new FacesMessage("Examen finalizado, su nota es: " + calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp()));
+            Double nota=calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
+            SieniNota sieniNota=new SieniNota(); 
+            sieniNota.setIdAlumno(loginBean.getAlumno());
+            sieniNota.setIdEvaluacion(this.getEvaluacionItemResp());
+            sieniNota.setNtAnio(Calendar.getInstance().get(Calendar.YEAR));
+            sieniNota.setNtEstado('A');
+            sieniNota.setNtCalificacion(nota);
+            sieniNota.setNtTipoIngreso("A");
+            sieniNotaFacadeRemote.create(sieniNota);
+            msg = new FacesMessage("Examen finalizado, su nota es: " + nota);
         } else {
             msg = new FacesMessage("Se guardaron las respuestas");
         }

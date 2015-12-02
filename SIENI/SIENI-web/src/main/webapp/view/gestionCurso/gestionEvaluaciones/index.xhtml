@@ -43,10 +43,10 @@
                             #{car.evNombre}
                         </p:column>
                     <p:column headerText="Fecha de Inicio" filterBy="#{car.evFechaInicio}" filterable="true" filterMatchMode="contains">
-                            #{car.evFechaInicio}
+                            #{dateUtils.getFormatoFecha(car.evFechaInicio)}
                         </p:column>
                     <p:column headerText="Fecha de cierre" filterBy="#{car.evFechaCierre}" filterable="true" filterMatchMode="contains">
-                            #{car.evFechaCierre}
+                            #{dateUtils.getFormatoFecha(car.evFechaCierre)}
                         </p:column>
                     <p:column headerText="Duración" filterBy="#{car.evDuracion}" filterable="true" filterMatchMode="contains">
                             #{car.evDuracion}

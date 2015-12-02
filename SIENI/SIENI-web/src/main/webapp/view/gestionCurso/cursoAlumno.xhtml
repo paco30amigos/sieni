@@ -34,7 +34,25 @@
                     
                    
                 </p:dataTable>
+         
+         <div class="EmptyBox20"></div>
+                <div class="Container100">
          <p:commandButton  value="Inscribir" action="#{gestionCursoController.alumnosSeleccion()}" update="consulta"  />
+          <p:commandButton value="Regresa" immediate="true">
+                        <p:ajax listener="#{gestionCursoController.setIndexMenu(0)}"/>
+         </p:commandButton>
+          <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}">
+                        </p:menuitem>
+                    </p:tieredMenu> 
+                </div>
                     
          </h:form>
     </ui:define>

@@ -20,16 +20,16 @@ public class siteUrls {
     private final String gestionarAnioEscolar = "/faces/view/gestionAnioEscolar/index.xhtml";
     private final String gestionarAlumnos = "/faces/view/gestionarAlumnos/index.xhtml";
     private final String gestionarDocentes = "/faces/view/gestionarDocentes/index.xhtml";
-    private final String gestionarCursos = "/faces/view/gestionCurso/index.xhtml";
+    private final String gestionarCursos = "/faces/view/gestionCurso/MntoCurso/index.xhtml";
     private final String programacionClases = "/faces/view/gestionCurso/gestionClase/programacionClase/index.xhtml";
-    private final String gestionArchivosMultimedia = "/faces/view/gestionCurso/gestionArchivosMultimedia/index.xhtml";
+    private final String gestionArchivosMultimedia = "/faces/view/administracionSistema/gestionArchivosMultimedia/index.xhtml";
     private final String gestionConsulta = "/faces/view/portalConsultas/gestionConsultas/index.xhtml";
     private final String gestionEvaluacion = "/faces/view/gestionCurso/gestionEvaluaciones/index.xhtml";
     private final String gestionNoticia = "/faces/view/portalNoticias/gestionNoticias/index.xhtml";
     private final String gestionMateria = "/faces/view/gestionCurso/gestionMaterias/index.xhtml";
     private final String gestionNota = "/faces/view/gestionCurso/gestionNotas/index.xhtml";
     private final String gestionUsuarios = "/faces/view/administracionSistema/gestionUsuarios/index.xhtml";
-    private final String bitacora = "/faces/view/administracionSistema/gestionUsuarios/bitacora.xhtml";
+    private final String bitacora = "/faces/view/administracionSistema/bitacora/bitacora.xhtml";
     private final String gestionAlumnos = "/faces/view/gestionAnioEscolar/matricula/index.xhtml";
     private final String expedienteAlumnos = "/faces/view/gestionAlumnos/expediente/index.xhtml";
     private final String gestionDocentes = "/faces/view/gestionDocentes/mantenimientoDocentes/index.xhtml";
@@ -38,8 +38,8 @@ public class siteUrls {
     private final String claseOnline = "/faces/view/gestionCurso/gestionClase/claseOnline/index.xhtml";
     private final String claseVideoAlmacenada = "/faces/view/gestionCurso/gestionClase/claseVideoAlmacenada/index.xhtml";
     private final String claseInteractiva = "/faces/view/gestionCurso/gestionClase/claseInteractiva/index.xhtml";
-    private final String componenteInteractiva = "/faces/view/gestionCurso/gestionCompInteract/index.xhtml";
-    private final String gestionPlantilla = "/faces/view/gestionCurso/gestionClase/gestionPlantillas/index.xhtml";
+    private final String componenteInteractiva = "/faces/view/administracionSistema/gestionCompInteract/index.xhtml";
+    private final String gestionPlantilla = "/faces/view/administracionSistema/gestionPlantillas/index.xhtml";
 
     private final String reporteMatricula = "/faces/view/rpt/reporteMatricula/index.xhtml";
     private final String reporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/index.xhtml";
@@ -61,16 +61,16 @@ public class siteUrls {
     private final String basegestionarAnioEscolar = "/faces/view/gestionAnioEscolar/";
     private final String basegestionarAlumnos = "/faces/view/gestionarAlumnos/";
     private final String basegestionarDocentes = "/faces/view/gestionarDocentes/";
-    private final String basegestionarCursos = "/faces/view/gestionCurso/";
+    private final String basegestionarCursos = "/faces/view/gestionCurso/MntoCurso/";
     private final String baseprogramacionClases = "/faces/view/gestionCurso/gestionClase/programacionClase/";
-    private final String basegestionArchivosMultimedia = "/faces/view/gestionCurso/gestionArchivosMultimedia/";
+    private final String basegestionArchivosMultimedia = "/faces/view/administracionSistema/gestionArchivosMultimedia/";
     private final String basegestionConsulta = "/faces/view/portalConsultas/gestionConsultas/";
     private final String basegestionEvaluacion = "/faces/view/gestionCurso/gestionEvaluaciones/";
     private final String basegestionNoticia = "/faces/view/portalNoticias/gestionNoticias/";
     private final String basegestionMateria = "/faces/view/gestionCurso/gestionMaterias/";
     private final String basegestionNota = "/faces/view/gestionCurso/gestionNotas/";
     private final String basegestionUsuarios = "/faces/view/administracionSistema/gestionUsuarios/";
-    private final String basebitacora = "/faces/view/administracionSistema/gestionUsuarios/bitacora.xhtml";
+    private final String basebitacora = "/faces/view/administracionSistema/bitacora/bitacora.xhtml";
     private final String basegestionAlumnos = "/faces/view/gestionAnioEscolar/matricula/";
     private final String baseexpedienteAlumnos = "/faces/view/gestionAlumnos/expediente/";
     private final String basegestionDocentes = "/faces/view/gestionDocentes/mantenimientoDocentes/";
@@ -78,8 +78,8 @@ public class siteUrls {
     private final String baseclaseOnline = "/faces/view/gestionCurso/gestionClase/claseOnline/";
     private final String baseclaseVideoAlmacenada = "/faces/view/gestionCurso/gestionClase/claseVideoAlmacenada/";
     private final String baseclaseInteractiva = "/faces/view/gestionCurso/gestionClase/claseInteractiva/";
-    private final String basecomponenteInteractiva = "/faces/view/gestionCurso/gestionCompInteract/";
-    private final String basegestionPlantilla = "/faces/view/gestionCurso/gestionClase/gestionPlantillas/";
+    private final String basecomponenteInteractiva = "/faces/view/administracionSistema/gestionCompInteract/";
+    private final String basegestionPlantilla = "/faces/view/administracionSistema/gestionPlantillas/";
 
     private final String basereporteMatricula = "/faces/view/rpt/reporteMatricula/";
     private final String basereporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/";

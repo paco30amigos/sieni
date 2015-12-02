@@ -33,7 +33,7 @@
 
             <c:if test="#{loginController.tipoRol=='0'}">
                 <pr:menu >
-                    <p:submenu label="Cursos">
+                    <p:submenu label="Año Escolar">
                         <p:submenu label="Clases">
                             <p:menuitem value="Programación de Clases" url="#{siteUrls.programacionClases}" />
                             <p:menuitem value="Clase en Vivo" url="#{siteUrls.claseOnline}" />
@@ -53,11 +53,13 @@
             <c:if test="#{loginController.tipoRol=='1'}">
                 <pr:menu >
                     <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
+                    <p:submenu label="Administración de Sistema">
+                        <p:menuitem value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}" />
+                        <p:menuitem value="Gestionar Plantillas" url="#{siteUrls.gestionPlantilla}" />
+                        <p:menuitem value="Mantenimiento de Archivos Multimedia" url="#{siteUrls.gestionArchivosMultimedia}" />
+                    </p:submenu>
                     <p:submenu label="Gestionar Año Escolar">
                         <p:menuitem value="Matricula de Alumno" url="#{siteUrls.gestionAlumnos}" />
-                    </p:submenu>
-                    <p:submenu label="Gestionar Curso">
-                        <p:menuitem value="Mantenimiento de Archivos Multimedia" url="#{siteUrls.gestionArchivosMultimedia}" />
                         <p:menuitem value="Mantenimiento de Curso" url="#{siteUrls.gestionarCursos}" />
                         <p:submenu label="Gestionar Clases">
                             <p:menuitem value="Programación de Clases" url="#{siteUrls.programacionClases}" />
@@ -65,9 +67,7 @@
                             <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}" />
                             <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}" />
                             <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}" />
-                            <p:menuitem value="Gestionar Plantillas" url="#{siteUrls.gestionPlantilla}" />
                         </p:submenu>
-                        <p:menuitem value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}" />                        
                         <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" />
                         <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}" />
                     </p:submenu>
@@ -97,13 +97,13 @@
                     <p:submenu label="Administración de Sistema">
                         <p:menuitem value="Mantenimiento de Usuarios" url="#{siteUrls.gestionUsuarios}" />
                         <p:menuitem value="Bítacora" url="#{siteUrls.bitacora}" />
+                        <p:menuitem value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}" />
+                        <p:menuitem value="Gestionar Plantillas" url="#{siteUrls.gestionPlantilla}" />
+                        <p:menuitem value="Mantenimiento de Archivos Multimedia" url="#{siteUrls.gestionArchivosMultimedia}" />
                     </p:submenu>
                     <p:submenu label="Gestionar Año Escolar">
                         <p:menuitem value="Mantenimiento de Año escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
                         <p:menuitem value="Matricula de Alumno" url="#{siteUrls.gestionAlumnos}" />
-                    </p:submenu>
-                    <p:submenu label="Gestionar Curso">
-                        <p:menuitem value="Mantenimiento de Archivos Multimedia" url="#{siteUrls.gestionArchivosMultimedia}" />
                         <p:menuitem value="Mantenimiento de Curso" url="#{siteUrls.gestionarCursos}" />
                         <p:submenu label="Gestionar Clases">
                             <p:menuitem value="Programación de Clases" url="#{siteUrls.programacionClases}" />
@@ -111,12 +111,10 @@
                             <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}" />
                             <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}" />
                             <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}" />
-                            <p:menuitem value="Gestionar Plantillas" url="#{siteUrls.gestionPlantilla}" />
                         </p:submenu>
-                        <p:menuitem value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}" />
-                        <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
                         <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" />
                         <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}" />
+                        <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
                     </p:submenu>
                     <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
                     <p:menuitem value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />

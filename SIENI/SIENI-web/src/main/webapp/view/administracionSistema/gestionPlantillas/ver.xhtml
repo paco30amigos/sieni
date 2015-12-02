@@ -8,9 +8,9 @@
     <ui:define name="breadCrumb">
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
-            <p:menuitem value="Gestionar Curso" url="#"/> 
-            <p:menuitem value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}"/>
-            <p:menuitem value="Consultar Componente Interactivo" url="#"/>
+            <p:menuitem value="Administración de Sistema" url="#"/>
+            <p:menuitem value="Gestionar Plantillas" url="#{siteUrls.gestionPlantilla}"/>
+            <p:menuitem value="Consultar Plantilla" url="#"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -22,37 +22,35 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>
-                <p:remoteCommand name="redirect" actionListener="#{gestionComponentesInteractivosController.setIndexMenu(0)}"></p:remoteCommand>
+                <p:remoteCommand name="redirect" actionListener="#{gestionPlantillasController.setIndexMenu(0)}"></p:remoteCommand>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionComponentesInteractivosController.eliminarArchivo()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide();redirect();"></p:commandButton>
+                    <p:commandButton value="Si" action="#{gestionPlantillasController.eliminarPlantilla()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide();redirect();"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:panelGrid columns="2" id="p1">
-                    <p:outputLabel value="Nombre: "></p:outputLabel>
-                    <p:outputLabel value="#{gestionComponentesInteractivosController.ver.scNombre}"></p:outputLabel>
-                    <p:outputLabel value="Descripción: "></p:outputLabel>
-                    <p:outputLabel value="#{gestionComponentesInteractivosController.ver.scDescripcion}"></p:outputLabel>
-                    <p:outputLabel value="Tipo de Componente: "></p:outputLabel>
-                    <p:outputLabel value="#{gestionComponentesInteractivosController.ver.idTipoSuperCompon.tscDescripcion}"></p:outputLabel>                       
-                    <p:outputLabel value="Estado: " class="Responsive"></p:outputLabel>
-                    <p:outputLabel value="#{gestionComponentesInteractivosController.ver.estado}"></p:outputLabel>
+                    <p:outputLabel for="nombre" value="Nombre de plantilla: "></p:outputLabel>
+                    <p:outputLabel id="nombre" value="#{gestionPlantillasController.ver.plNombre}"></p:outputLabel>
+                    <p:outputLabel for="materia" value="Materia: "></p:outputLabel>
+                    <p:outputLabel id="materia" value="#{gestionPlantillasController.ver.idMateria.idGrado.grNombre}-#{gestionPlantillasController.ver.idMateria.maNombre}"></p:outputLabel>
+                    <p:outputLabel for="estado" value="Estado: " class="Responsive"></p:outputLabel>
+                    <p:outputLabel id="estado" value="#{gestionPlantillasController.ver.estado}"></p:outputLabel>                       
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton value="Modificar" action="#{gestionComponentesInteractivosController.modificar(gestionComponentesInteractivosController.ver)}" immediate="true" >
+                    <p:commandButton value="Modificar" action="#{gestionPlantillasController.modificar(gestionPlantillasController.ver)}" immediate="true" >
                     </p:commandButton>
-                    <p:commandButton value="Eliminar" action="#{gestionComponentesInteractivosController.eliminar(gestionComponentesInteractivosController.ver)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    <p:commandButton value="Eliminar" action="#{gestionPlantillasController.eliminar(gestionPlantillasController.ver)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                     </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
-                        <p:ajax resetValues="true" listener="#{gestionComponentesInteractivosController.setIndexMenu(0)}"/>
+                        <p:ajax resetValues="true" listener="#{gestionPlantillasController.setIndexMenu(0)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Archivos multimedia" url="#{siteUrls.gestionArchivosMultimedia}" >    
+                        <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
                         </p:menuitem>
-                        <p:menuitem value="Clase interactiva" url="#{siteUrls.claseInteractiva}">    
+                        <p:menuitem value="Clase interactiva" url="#{siteUrls.claseInteractiva}">
                         </p:menuitem>
                         <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}">
                         </p:menuitem>

@@ -77,7 +77,7 @@
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
             <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseVideoAlmacenada}"/>
-            <p:menuitem value="Configuración de Video-Clase Almacenada" url="#"/>
+            <p:menuitem value="Configuración de Video-Clase Almacenada:#{gestionVideoClaseController.claseConfig.clTema}" url="#"/>
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
@@ -90,6 +90,7 @@
                 </p:dialog>
                 <div class="EmptyBox5"></div>
                 #{gestionVideoClaseController.resetMostrar()}
+                <p:outputLabel value="Curso: #{gestionVideoClaseController.claseConfig.idCurso.crNombre}"></p:outputLabel>
                 <p:panelGrid columns="5">
                     <p:commandLink onclick="PF('dlgConfPantalla').show()">
                         <i class="icon-screen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>

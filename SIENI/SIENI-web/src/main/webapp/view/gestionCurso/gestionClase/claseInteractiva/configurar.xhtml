@@ -78,7 +78,7 @@
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
             <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}"/>
-            <p:menuitem value="Configuración de Clase Interactiva" url="#"/>
+            <p:menuitem value="Configuración de Clase Interactiva: #{gestionClaseInteracController.claseConfig.clTema}" url="#"/>
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
@@ -91,6 +91,7 @@
                 </p:dialog>
                 <div class="EmptyBox5"></div>
                 #{gestionClaseInteracController.resetMostrar()}
+                <p:outputLabel value="Curso: #{gestionClaseInteracController.claseConfig.idCurso.crNombre}"></p:outputLabel>
                 <p:panelGrid columns="5">
                     <p:commandLink onclick="PF('dlgConfPantalla').show()">
                         <i class="icon-screen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>

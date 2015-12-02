@@ -14,7 +14,7 @@
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
             <p:menuitem value="Clase en Vivo" url="#{siteUrls.claseOnline}"/>
-            <p:menuitem value="Recibir Clase En Vivo" url="#"/>
+            <p:menuitem value="Recibir Clase En Vivo:#{gestionClasesOnlineController.claseActual.clTema}" url="#"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -65,6 +65,7 @@
         </script>
         <p:panel>
             <h:form id="form">
+                <p:outputLabel value="Curso:#{gestionClasesOnlineController.claseActual.idCurso.crNombre}"></p:outputLabel>
                 <p:inputText id="usuarios" class="usuarios hide"></p:inputText>
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
                     <p:outputLabel value="Esta ayuda sirve un monton"/>

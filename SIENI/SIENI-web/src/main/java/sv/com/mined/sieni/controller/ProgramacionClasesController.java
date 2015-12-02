@@ -71,11 +71,16 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
         //fill para alumnos
         if (loginBean.getTipoRol().equals("0")) {
             this.setClasesList(sieniClaseFacadeRemote.findClaseByAlumno(loginBean.getAlumno().getIdAlumno()));
+//            this.setClasesList(sieniClaseFacadeRemote.findClaseByAlumno(loginBean.getAlumno().getIdAlumno()));
         } else {
             this.setClasesList(sieniClaseFacadeRemote.findAllNoInactivos());
-            this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
-            this.setCursosList(sieniCursoFacadeRemote.findByEstado('A'));
         }
+    }
+    
+    public void nuevoD(){
+        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
+        this.setCursosList(sieniCursoFacadeRemote.findByEstado('A'));
+        this.setIndexMenu(1);
     }
 
     public void guardar() {

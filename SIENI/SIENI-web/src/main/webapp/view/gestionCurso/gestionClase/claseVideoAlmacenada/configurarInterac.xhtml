@@ -11,7 +11,7 @@
             <p:menuitem value="Gestionar Curso" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
             <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseVideoAlmacenada}"/>
-            <p:menuitem value="Configuración de Interaccion Entre Componentes de Video-Clase Almacenada" url="#"/>
+            <p:menuitem value="Configuración de Interaccion Entre Componentes de Video-Clase Almacenada:#{gestionVideoClaseController.claseConfig.clTema}" url="#"/>
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
@@ -23,6 +23,7 @@
                     <p:outputLabel value="Esta ayuda sirve un monton"/>
                 </p:dialog>                
                 <div class="EmptyBox5"></div>
+                <p:outputLabel value="Curso: #{gestionVideoClaseController.claseConfig.idCurso.crNombre}"></p:outputLabel>
                 <p:tabView id="tabVie">
                     <p:tab title="Interacción única">
                         <p:panelGrid columns="4" id="panel">

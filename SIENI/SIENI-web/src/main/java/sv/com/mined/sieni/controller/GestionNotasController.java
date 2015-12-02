@@ -186,7 +186,7 @@ public class GestionNotasController extends GestionNotasForm {
                 case "1":
                     //si es el coordinador o el que ingresó la nota puede editarla
                     SieniMateria m = sieniMateriaFacadeRemote.find(modificado.getIdEvaluacion().getIdMateria().getIdMateria());
-                    if (!(modificado.getNtDocente().equals(loginBean.getDocente().getIdDocente()) || m.getMaCoordinador().equals(loginBean.getDocente().getIdDocente()))) {
+                    if (modificado.getNtDocente()!=null&&!(modificado.getNtDocente().equals(loginBean.getDocente().getIdDocente()) || m.getMaCoordinador().equals(loginBean.getDocente().getIdDocente()))) {
                         ban = false;
                     }
                     break;

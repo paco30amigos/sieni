@@ -147,9 +147,11 @@
                 <div class="EmptyBox5"></div>
                 <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
                 <p:tabView id="clase" activeIndex="#{gestionVideoClaseController.idElemenActive}" style="height: #{gestionVideoClaseController.claseConfig.clAlto+90}px;width: #{gestionVideoClaseController.claseConfig.clAncho+156}px">
+                    <p:ajax event="tabChange" listener="#{gestionVideoClaseController.updateComponConfigura}" update="consultaForm:mostrar"></p:ajax>
                     <c:forEach items="#{gestionVideoClaseController.secciones}" var="elemPlantilla">
                         <p:tab title="#{elemPlantilla.nombre}">
                             <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas">
+                                <p:ajax event="tabChange" listener="#{gestionVideoClaseController.updateComponConfigura}" update="consultaForm:mostrar"></p:ajax>
                                 <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                     <p:tab title="Pág #{pantalla.numPantalla}">
                                         <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionVideoClaseController.claseConfig.clAlto}px;width: #{gestionVideoClaseController.claseConfig.clAncho}px" toggleable="true">

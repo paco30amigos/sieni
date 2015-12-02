@@ -1152,4 +1152,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     public void updateEv2(Long idSuperCompon) {
         this.setEvn2(getEventoDiferenteBySuperCompon(sieniCompInteraccionFacadeRemote.findByIdSuperComp(idSuperCompon)));
     }
+    
+    public void updateComponConfigura(TabChangeEvent ev) {
+        setComponentesPantallaActual(getComponActuales());
+    }
 }

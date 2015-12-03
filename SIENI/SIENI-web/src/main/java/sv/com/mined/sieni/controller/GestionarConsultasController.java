@@ -86,7 +86,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
         this.setEliminar(eliminado);
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
 //        Character tipoUsuario = ;//hay que extraer el del usuario logueado
             for (SieniDocente actual : this.getDocentesList()) {
@@ -125,7 +125,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
         return valido;
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             for (SieniDocente actual : this.getDocentesList()) {
                 if (actual.getIdDocente().equals(this.getIdDocenteModifica())) {
@@ -177,7 +177,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
         return ret;
     }
 
-    public void eliminarConsulta() {
+    public synchronized void eliminarConsulta() {
         try {
             registrarEnBitacora("Eliminar", "Consulta", this.getEliminar().getIdTemaDuda());
             this.getEliminar().setTdEstado(new Character('I'));

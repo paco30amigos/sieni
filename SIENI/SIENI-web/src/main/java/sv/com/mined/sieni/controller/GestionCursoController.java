@@ -95,7 +95,7 @@ public class GestionCursoController extends GestionCursoForm {
         this.setIndexMenu(1);
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             for (SieniDocente actual : this.getDocentesList()) {
                 if (actual.getIdDocente().equals(this.getIdDocente())) {
@@ -196,7 +196,7 @@ public class GestionCursoController extends GestionCursoForm {
         this.setEliminar(eliminado);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             for (SieniDocente actual : this.getDocentesModificaList()) {
                 if (actual.getIdDocente().equals(this.getIdDocenteModifica())) {
@@ -246,7 +246,7 @@ public class GestionCursoController extends GestionCursoForm {
         return ban;
     }
 
-    public void eliminarCurso() {
+    public synchronized void eliminarCurso() {
         try {
             registrarEnBitacora("Eliminar", "Curso", this.getEliminar().getIdCurso());
             this.getEliminar().setCrEstado('I');
@@ -281,7 +281,7 @@ public class GestionCursoController extends GestionCursoForm {
         this.setSeccionModificaList(cod.getSieniSeccionList());
     }
     
-    public void alumnosSeleccion() {
+    public synchronized void alumnosSeleccion() {
         String alumnos="Se matricularon:\n";
         SieniCursoAlumno cursoAlumno=new SieniCursoAlumno();
         

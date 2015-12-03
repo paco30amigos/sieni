@@ -69,7 +69,7 @@ public class GestionMateriasController extends GestionMateriasForm {
         this.setGradoList(sieniGradoFacadeRemote.findAll());
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         String matSelected = this.getMateriaNuevo().getMaNombre();
         Integer gradoSelected = this.getMateriaNuevo().getIdGrado().getGrNumero();
         String turnoSelected = this.getMateriaNuevo().getMaTurno();
@@ -102,7 +102,7 @@ public class GestionMateriasController extends GestionMateriasForm {
         this.setIndexMenu(2);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         String matSelected = this.getMateriaModifica().getMaNombre();
         Integer gradoSelected = this.getMateriaModifica().getIdGrado().getGrNumero();
         String turnoSelected = this.getMateriaModifica().getMaTurno();
@@ -131,7 +131,7 @@ public class GestionMateriasController extends GestionMateriasForm {
         this.setEliminar(eliminado);
     }
 
-    public void eliminarArchivo() {
+    public synchronized void eliminarArchivo() {
         try {
             registrarEnBitacora("Eliminar", "Materia", this.getMateriaNuevo().getIdMateria());
             this.getEliminar().setMaEstado(new Character('I'));

@@ -101,7 +101,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.setIndexMenu(1);
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             for (SieniTipoSuperCompon actual : this.getListaTipo()) {
                 if (this.getTipoSuperCompon().equals(actual.getIdTipoSuperCompon())) {
@@ -247,7 +247,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.setIndexMenu(3);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             for (SieniTipoSuperCompon actual : this.getListaTipoModifica()) {
                 if (this.getTipoSuperComponModifica().equals(actual.getIdTipoSuperCompon())) {
@@ -276,7 +276,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         return ban;
     }
 
-    public void eliminarArchivo() {
+    public synchronized void eliminarArchivo() {
         try {
             registrarEnBitacora("Eliminar", "Componente interactivo", this.getEliminar().getIdSuperCompon());
             this.getEliminar().setScEstado('I');
@@ -379,7 +379,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         }
     }
 
-    private void guardarConfiguracionInteraccion() {
+    private synchronized void guardarConfiguracionInteraccion() {
         List<SieniComponente> componentes = sieniComponenteFacadeRemote.findByIdSuperComp(this.getConfig().getIdSuperCompon());
         //limpia los id temporales
         int orden = 1;
@@ -402,7 +402,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         }
     }
 
-    private void guardarConfiguracionComponente() {
+    private synchronized void guardarConfiguracionComponente() {
         List<SieniComponente> lista = new ArrayList<>();
         List<SieniComponente> listaEliminados = new ArrayList<>();
         SieniComponente nuevo;
@@ -547,7 +547,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     }
 
     //guarda texto como archivo
-    public List<SieniArchivo> guardarArchivoNoMultimedia(List<SieniArchivo> list) {
+    public synchronized List<SieniArchivo> guardarArchivoNoMultimedia(List<SieniArchivo> list) {
         list = sieniArchivoFacadeRemote.merge(list, new ArrayList());
         return list;
     }
@@ -572,7 +572,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         }
     }
 
-    private SieniArchivo crearArchivo() {
+    private synchronized SieniArchivo crearArchivo() {
         SieniArchivo ret = new SieniArchivo();
         List<SieniArchivo> list = new ArrayList<>();
         ret.setArNombre(new DateUtils().getTime());

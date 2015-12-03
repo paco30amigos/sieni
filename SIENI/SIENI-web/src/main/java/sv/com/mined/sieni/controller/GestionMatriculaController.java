@@ -94,7 +94,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         }
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             for (SieniAlumno actual : this.getAlumnosList()) {
                 if (actual.getIdAlumno().equals(this.getIdAlumno())) {
@@ -162,7 +162,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         this.setEliminar(eliminado);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             for (SieniAlumno actual : this.getAlumnosModificaList()) {
                 if (actual.getIdAlumno().equals(this.getMatriculaModifica().getIdAlumno())) {
@@ -204,7 +204,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         return ban;
     }
 
-    public void eliminarMatricula() {
+    public synchronized void eliminarMatricula() {
         try {
             registrarEnBitacora("Eliminar", "Matricula", this.getEliminar().getIdMatricula());
             this.getEliminar().setMtEstado('I');//I:eliminado,D:disponible,N:no disponible, (I eliminado logico)

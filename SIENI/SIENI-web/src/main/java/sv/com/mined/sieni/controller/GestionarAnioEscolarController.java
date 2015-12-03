@@ -52,7 +52,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         this.setAnioEscolarList(sieniAnioEscolarFacadeRemote.findAllNoInactivos());
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             if (validarNuevo(this.getAnioEscolarNuevo())) {//valida el guardado            
                 this.setAnioEscolarNuevo(sieniAnioEscolarFacadeRemote.createAndReturn(this.getAnioEscolarNuevo()));
@@ -101,7 +101,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         this.setEliminar(eliminado);
     }
 
-    public void guardarModifica() {
+    public synchronized  void guardarModifica() {
         try {
             if (validarModifica(this.getAnioEscolarModifica())) {//valida el guardado
                 sieniAnioEscolarFacadeRemote.edit(this.getAnioEscolarModifica());
@@ -127,7 +127,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         return ban;
     }
 
-    public void eliminaraAnioEscolar() {
+    public synchronized void eliminaraAnioEscolar() {
         try {
             registrarEnBitacora("Eliminar", "Anio Escolar", this.getEliminar().getIdAnioEscolar());
             this.getEliminar().setAeEstado('I');

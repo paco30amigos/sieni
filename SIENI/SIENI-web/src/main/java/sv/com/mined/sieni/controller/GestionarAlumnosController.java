@@ -79,7 +79,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.setIndexMenu(1);
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
 //        Character tipoUsuario = ;//hay que extraer el del usuario logueado
         try {
             CopiaArchivos ca = new CopiaArchivos();
@@ -116,7 +116,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         actual.setAlTercNombre(actual.getAlTercNombre().trim());
     }
 
-    public Long guardarFoto(SieniArchivo archivo) {
+    public synchronized Long guardarFoto(SieniArchivo archivo) {
         SieniArchivo id = sieniArchivoFacadeRemote.merge(archivo);
         return id.getIdArchivo();
     }
@@ -212,7 +212,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.setFotoUsableModifica(ca.updateDataToResource(this.getFotoUsableModifica()));
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
 //        this.getAlumnoModifica().setAlFoto(this.getFotoArchivoModifica());
             quitarFormato(this.getAlumnoModifica());//quita el formato de los campos
@@ -282,7 +282,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         return ret;
     }
 
-    public void eliminarExpediente() {
+    public synchronized void eliminarExpediente() {
         try {
             registrarEnBitacora("Eliminar", "Alumno", this.getEliminar().getIdAlumno());
             this.getEliminar().setAlFechaBaja(new Date());
@@ -294,7 +294,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         }
     }
 
-    public SieniAlumno generarCarnet(SieniAlumno alumno) {
+    public synchronized SieniAlumno generarCarnet(SieniAlumno alumno) {
         String carnet = "";
         String inicial = alumno.getAlPrimNombre().charAt(0) + "" + alumno.getAlPrimApe().charAt(0) + "";
         inicial = inicial.toUpperCase();

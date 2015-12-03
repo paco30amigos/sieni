@@ -101,7 +101,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         this.setFotoUsableModifica(getImage(event.getFile().getContents()));
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
 //        Character tipoUsuario = ;//hay que extraer el del usuario logueado
             for (SieniCurso actual : this.getCursosList()) {
@@ -141,7 +141,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         return valido;
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             for (SieniCurso actual : this.getCursosList()) {
                 if (actual.getIdCurso().equals(this.getIdCursoModifica())) {
@@ -196,7 +196,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
         return ret;
     }
 
-    public void eliminarNoticia() {
+    public synchronized void eliminarNoticia() {
         try {
             registrarEnBitacora("Eliminar", "Noticia", this.getEliminar().getIdNoticia());
             this.getEliminar().setNcEstado(new Character('I'));

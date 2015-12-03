@@ -123,7 +123,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         }
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             for (SieniCurso actual : this.getCursoList()) {
                 if (actual.getIdCurso().equals(this.getIdCurso())) {
@@ -150,7 +150,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         }
     }
 
-    public void guardarItem() {
+    public synchronized void guardarItem() {
 
         try {
             if ((this.getTotalPonderacion() + this.getEvaluacionItemNuevo().getEiPonderacion()) <= 100.0) {
@@ -179,7 +179,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
     }
 
-    public void guardarRespuesta() {
+    public synchronized void guardarRespuesta() {
         try {
             Boolean guardarBoolean = true;
 
@@ -309,7 +309,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setEliminar(eliminado);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             if (validarModifica(this.getEvaluacionModifica())) {//valida el guardado
                 sieniEvaluacionFacadeRemote.edit(this.getEvaluacionModifica());
@@ -322,7 +322,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         }
     }
 
-    public void guardarModificaItem() {
+    public synchronized void guardarModificaItem() {
 
         try {
             sieniEvaluacionItemFacadeRemote.edit(this.getEvaluacionItemModifica());
@@ -334,7 +334,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         }
     }
 
-    public void guardarModificaResp() {
+    public synchronized void guardarModificaResp() {
         try {
 
             sieniEvalRespItemFacadeRemote.edit(this.getEvalRespItemModifica());
@@ -346,7 +346,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         }
     }
 
-    public void guardarResAlumno() {
+    public synchronized void guardarResAlumno() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("consultaForm:consulta");
         Boolean ultimaPagina = false;
@@ -548,7 +548,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         return ret;
     }
 
-    public void eliminarExpediente() {
+    public synchronized void eliminarExpediente() {
         try {
             registrarEnBitacora("Eliminar", "Evaluacion", this.getEliminar().getIdEvaluacion());
             this.getEliminar().setEvEstado(new Character('I'));

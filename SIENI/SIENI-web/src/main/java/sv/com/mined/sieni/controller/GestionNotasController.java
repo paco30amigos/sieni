@@ -97,7 +97,7 @@ public class GestionNotasController extends GestionNotasForm {
         this.setIndexMenu(1);
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             FormatUtils fu = new FormatUtils();
             this.getNotaNuevo().setIdAlumno(this.getIdAlumno());
@@ -214,7 +214,7 @@ public class GestionNotasController extends GestionNotasForm {
         this.setEliminar(eliminado);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             this.getNotaModifica().setIdAlumno(this.getIdAlumnoModifica());
             this.getNotaModifica().setIdEvaluacion(this.getIdEvaluacionModifica());
@@ -259,7 +259,7 @@ public class GestionNotasController extends GestionNotasForm {
         return valido;
     }
 
-    public void eliminarNota() {
+    public synchronized void eliminarNota() {
         try {
             registrarEnBitacora("Eliminar", "Nota", this.getEliminar().getIdNota());
             this.getEliminar().setNtEstado('I');
@@ -327,7 +327,7 @@ public class GestionNotasController extends GestionNotasForm {
         }
     }
 
-    public void guardarNotasExcel() {
+    public synchronized void guardarNotasExcel() {
         try {
             boolean error = false;
             List<SieniNota> notas = new ArrayList<>();

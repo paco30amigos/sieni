@@ -83,7 +83,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
         this.setIndexMenu(1);
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             boolean inicio = true;
             String horario = "";
@@ -169,7 +169,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
         this.setIndexMenu(3);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             boolean inicio = true;
             String horario = "";
@@ -211,7 +211,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
         return ban;
     }
 
-    public void eliminarArchivo() {
+    public synchronized void eliminarArchivo() {
         try {
             registrarEnBitacora("Eliminar", "Programacion de clases", this.getEliminar().getIdClase());
             this.getEliminar().setClEstado('I');

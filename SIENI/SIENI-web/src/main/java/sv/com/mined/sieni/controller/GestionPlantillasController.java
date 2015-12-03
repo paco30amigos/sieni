@@ -60,7 +60,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         this.setMaterias(sieniMateriaFacadeRemote.findMateriasActivas());
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             if (validarNuevo(this.getPlantillaNuevo())) {//valida el guardado
                 this.setPlantillaNuevo(sieniPlantillaFacadeRemote.createAndReturn(this.getPlantillaNuevo()));
@@ -110,7 +110,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         this.setIndexMenu(3);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             if (validarModifica(this.getPlantillaModifica())) {//valida el guardado
                 sieniPlantillaFacadeRemote.edit(this.getPlantillaModifica());
@@ -138,7 +138,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         return ban;
     }
 
-    public void eliminarPlantilla() {
+    public synchronized void eliminarPlantilla() {
         try {
             registrarEnBitacora("Eliminar", "Plantilla", this.getEliminar().getIdPlantilla());
             this.getEliminar().setPlEstado('I');
@@ -171,7 +171,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         }
     }
 
-    public void guardarElemPlantilla() {
+    public synchronized void guardarElemPlantilla() {
         try {
             this.setElemPlantillaSelected(sieniElemPlantillaFacadeRemote.merge(this.getElemPlantillaSelected(), this.getElemPlantillaEliminados()));
             new ValidationPojo().printMsj("Elementos de plantilla guardados exitosamente", FacesMessage.SEVERITY_INFO);

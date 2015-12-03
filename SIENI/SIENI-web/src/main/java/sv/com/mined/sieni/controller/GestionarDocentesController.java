@@ -85,7 +85,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         this.setIndexMenu(1);
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             CopiaArchivos ca = new CopiaArchivos();
             quitarFormato(this.getDocenteNuevo());//quita el formato de los campos
@@ -191,7 +191,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         this.setFotoUsableModifica(ca.updateDataToResource(this.getFotoUsableModifica()));
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             quitarFormato(this.getDocenteModifica());//quita el formato de los campos
             if (validarModifica(this.getDocenteModifica())) {//valida el guardado
@@ -210,7 +210,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
 //        fill();
     }
 
-    public Long guardarFoto(SieniArchivo archivo) {
+    public synchronized Long guardarFoto(SieniArchivo archivo) {
         SieniArchivo id = sieniArchivoFacadeRemote.merge(archivo);
         return id.getIdArchivo();
     }
@@ -227,7 +227,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         return ban;
     }
 
-    public void eliminarExpediente() {
+    public synchronized void eliminarExpediente() {
         try {
             registrarEnBitacora("Eliminar", "Docentes", this.getEliminar().getIdDocente());
             this.getEliminar().setDcEstado(new Character('I'));
@@ -271,7 +271,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
 //        sieniMateriaDocenteFacadeRemote.create(nuevo);
     }
 
-    public void guardarMaterias() {
+    public synchronized void guardarMaterias() {
         try {
             registrarEnBitacora("Modificar", "Docente - Materias", this.getDocenteModifica().getIdDocente());
             sieniMateriaDocenteFacadeRemote.merge(this.getMateriasDocente(), this.getMateriasDocenteEliminadas());

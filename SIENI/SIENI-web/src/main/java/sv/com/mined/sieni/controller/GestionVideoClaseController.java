@@ -126,7 +126,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
 
     }
 
-    private void updateEstadoClase(List<SieniClase> clases) {
+    private synchronized void updateEstadoClase(List<SieniClase> clases) {
         List<SieniClase> clasesIniciadas = new ArrayList<>();
         DateUtils du = new DateUtils();
 
@@ -372,7 +372,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         this.setIndexMenu(6);
     }
 
-    public void guardarInteraccionPantallas() {
+    public synchronized void guardarInteraccionPantallas() {
         try {
             this.getClaseConfig().setIdArchivo(this.getVideo().getIdArchivo());
             sieniClaseFacadeRemote.edit(this.getClaseConfig());
@@ -604,7 +604,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         return ret;
     }
 
-    public void guardarPuntosControl() {
+    public synchronized void guardarPuntosControl() {
         try {
             int contador = 0;
             for (SeccionPlantillaPojo sec : this.getSecciones()) {
@@ -637,7 +637,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         this.setFuncionJS(ciu.getCodigoEventosEntreComp());
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             if (validarModifica(this.getClaseModifica())) {//valida el guardado
                 sieniClaseFacadeRemote.edit(this.getClaseModifica());
@@ -666,7 +666,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         return ban;
     }
 
-    public void eliminarClase() {
+    public synchronized void eliminarClase() {
         try {
             registrarEnBitacora("Eliminar", "Video Clase Almacenada ", this.getEliminar().getIdClase());
             this.getEliminar().setClEstado('I');
@@ -677,7 +677,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         }
     }
 
-    public void guardarConfiguracion() {
+    public synchronized void guardarConfiguracion() {
         try {
             List<SieniClaseSupComp> componentes = new ArrayList<>();
             List<SieniClaseSupComp> eliminados = new ArrayList<>();
@@ -707,7 +707,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         }
     }
 
-    public void guardarConfiguracionInteracciones() {
+    public synchronized void guardarConfiguracionInteracciones() {
         try {
             int cont = 1;
             for (SieniInteEntrComp actual : this.getInteracTotal()) {

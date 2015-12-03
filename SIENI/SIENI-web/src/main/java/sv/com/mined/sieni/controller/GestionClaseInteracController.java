@@ -127,7 +127,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     //actualiza el estado de las clases si ya estan disponibles segun el horario
-    private void updateEstadoClase(List<SieniClase> clases) {
+    private  synchronized void updateEstadoClase(List<SieniClase> clases) {
         List<SieniClase> clasesIniciadas = new ArrayList<>();
         DateUtils du = new DateUtils();
 
@@ -440,7 +440,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         this.setFuncionJS(ciu.getCodigoEventosEntreComp());
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             if (validarModifica(this.getClaseModifica())) {//valida el guardado
                 sieniClaseFacadeRemote.edit(this.getClaseModifica());
@@ -459,7 +459,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         return ban;
     }
 
-    public void eliminarClase() {
+    public synchronized void eliminarClase() {
         try {
             registrarEnBitacora("Eliminar", "Clase interactiva", this.getEliminar().getIdClase());
             this.getEliminar().setClEstado('I');
@@ -470,7 +470,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 //        fill();
     }
 
-    public void guardarConfiguracion() {
+    public synchronized void guardarConfiguracion() {
         try {
             guardarConfiguracionComponentes();
             guardarPuntosControl();
@@ -525,7 +525,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
     }
 
-    public void guardarConfiguracionInteracciones() {
+    public synchronized void guardarConfiguracionInteracciones() {
         try {
             int cont = 1;
             for (SieniInteEntrComp actual : this.getInteracTotal()) {

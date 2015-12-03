@@ -199,7 +199,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         return ret;
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             if (validarNuevo(this.getUsuarioNuevo())) {//valida el guardado
                 if (this.getUsuarioNuevo().getCodTipoUsuario().equals("0")) {
@@ -308,7 +308,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         this.setEliminar(eliminado);
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             if (validarModifica(this.getUsuarioModifica())) {//valida el guardado
 
@@ -378,7 +378,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         return valido;
     }
 
-    public void eliminarUsuario() {
+    public synchronized void eliminarUsuario() {
         try {
             registrarEnBitacora("Eliminar", "Usuario", this.getUsuarioNuevo().getIdUsuario());
             if (this.getEliminar().getTipoUsuario().equals("Alumno")) {
@@ -405,7 +405,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         this.setIndexMenu(3);
     }
 
-    public void guardarModPassword() {
+    public synchronized void guardarModPassword() {
         try {
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");

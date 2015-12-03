@@ -131,7 +131,7 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
         }
     }
 
-    public void iniciarClase() {
+    public synchronized void iniciarClase() {
         DateUtils du = new DateUtils();
         if (du.horarioValido(this.getClaseActual().getClHorario(), this.getClaseActual().getClHora())) {
             this.getClaseActual().setClEstado('A');
@@ -141,7 +141,7 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
         }
     }
 
-    public void finalizarClase() {
+    public synchronized void finalizarClase() {
         this.getClaseActual().setClEstado('T');
         sieniClaseFacadeRemote.edit(this.getClaseActual());
     }

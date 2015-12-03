@@ -56,7 +56,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         this.setArchivoList(sieniArchivoFacadeRemote.findAllNoInactivos());
     }
 
-    public void guardar() {
+    public synchronized void guardar() {
         try {
             this.getArchivoNuevo().setArArchivo(this.getArchivoUsable());
             if (validarNuevo(this.getArchivoNuevo())) {//valida el guardado
@@ -135,7 +135,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         }
     }
 
-    public void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             if (validarModifica(this.getArchivoModifica())) {//valida el guardado
                 if (this.getArchivoUsableModifica() != null) {
@@ -172,7 +172,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         return !ban;
     }
 
-    public void eliminarArchivo() {
+    public synchronized void eliminarArchivo() {
         try {
             registrarEnBitacora("Eliminar", "Archivo", this.getEliminar().getIdArchivo());
             CopiaArchivos ca = new CopiaArchivos();

@@ -1,0 +1,66 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}"/>
+            <p:menuitem value="Consultar Nota"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
+    </ui:define>
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:remoteCommand name="redirect" actionListener="#{gestionNotaController.setIndexMenu(0)}"></p:remoteCommand>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" actionListener="#{gestionNotaController.eliminarNota()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide();redirect();"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:panelGrid columns="4" class="Container50 Responsive" id="mod_p1">
+                    <p:outputLabel for="mod_alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_alumno" value="#{gestionNotaController.notaModifica.idAlumno.nombreCompleto}"></p:outputLabel>
+                    <p:outputLabel for="mod_materia" value="Materia: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_materia" value="#{gestionNotaController.notaModifica.idEvaluacion.idMateria.maNombre}"></p:outputLabel>
+                    <p:outputLabel for="mod_evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_evaluacion" value="#{gestionNotaController.notaModifica.idEvaluacion.evNombre}"></p:outputLabel>
+                    <p:outputLabel for="mod_nota" value="Nota: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_nota" value="#{gestionNotaController.notaModifica.ntCalificacion}"></p:outputLabel>
+                    <p:outputLabel for="mod_tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_tipoIngreso" value="#{gestionNotaController.notaModifica.tipoIngreso}"></p:outputLabel>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Modificar" action="#{gestionNotaController.modificar(gestionNotaController.notaModifica)}" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Eliminar" action="#{gestionNotaController.eliminar(gestionNotaController.notaModifica)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    </p:commandButton>
+                    <p:commandButton value="Regresar" immediate="true">
+                        <p:ajax update="mod_p1" resetValues="true" listener="#{gestionNotaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Materia" url="#{siteUrls.gestionMateria}">    
+                        </p:menuitem>
+                        <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}">
+                        </p:menuitem>
+                    </p:tieredMenu>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

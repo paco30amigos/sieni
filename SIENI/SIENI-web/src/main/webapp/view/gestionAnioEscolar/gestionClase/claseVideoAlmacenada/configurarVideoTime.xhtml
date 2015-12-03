@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Clase" url="#"/>
+            <p:menuitem value="Consulta de Video-Clase Almacenada:#{gestionVideoClaseController.claseConfig.clTema}" url="#{siteUrls.claseVideoAlmacenada}"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <h:form id="formP">
+
+            <div class="EmptyBox5"></div>
+            <script type="text/javascript">
+                #{gestionVideoClaseController.funcionJS}
+            </script>
+            <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Si" action="#{gestionVideoClaseController.seccionInteractivaEliminad()}" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+            </p:dialog>
+            <p:outputLabel value="Curso: #{gestionVideoClaseController.claseConfig.idCurso.crNombre}"></p:outputLabel>
+            <p:panelGrid columns="5" id="panelG">
+                <p:outputLabel value="Sección de plantilla"></p:outputLabel>
+                <p:selectOneMenu value="#{gestionVideoClaseController.nuevoPunto.idTipoElemPlantilla}" converter="tipoElemPlantilla">
+                    <f:selectItems value="#{gestionVideoClaseController.listaTipoElemPlantilla}" itemLabel="#{elemPlan.teDescripcion}" itemValue="#{elemPlan}" var="elemPlan"></f:selectItems> 
+                </p:selectOneMenu>
+                <p:outputLabel value="Tiempo de activación en segundos"></p:outputLabel>
+                <p:spinner class="duracion" value="#{gestionVideoClaseController.nuevoPunto.vpTiempoActiv}" min="0" max="3600"></p:spinner>            
+                <p:commandButton value="Agregar seccion interactiva" action="#{gestionVideoClaseController.agregarSeccionInteractiva()}" update="panelPpal"></p:commandButton>
+                <p:outputLabel value="Seleccione Video:"></p:outputLabel>
+                <p:selectOneMenu value="#{gestionVideoClaseController.video}" converter="archivo" filter="true" filterMatchMode="contains">
+                    <f:selectItems value="#{gestionVideoClaseController.videosList}" itemLabel="#{videos.arNombre}" var="videos" itemValue="#{videos}"></f:selectItems>
+                </p:selectOneMenu>
+                <p:commandButton value="Seleccionar video" action="#{gestionVideoClaseController.agregarVideo()}" update="panelPpal"></p:commandButton>
+            </p:panelGrid>
+            <p:dataTable value="#{gestionVideoClaseController.puntosVid}" var="puntosVid">
+                <p:column headerText="Sección de plantilla">
+                    #{puntosVid.idTipoElemPlantilla.teDescripcion}
+                </p:column>
+                <p:column headerText="Tiempo de activación en segundos">
+                    #{puntosVid.vpTiempoActiv}
+                </p:column>
+                <p:column headerText="Acciones">
+                    <p:commandLink action="#{gestionVideoClaseController.setSeccionInteractivaEliminada(puntosVid)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Clase"></i>
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+            <p:panel id="panelPpal">
+                <video id="videoPpal" controls="true" width="640px" height="480px" preload="true">
+                    <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{gestionVideoClaseController.video.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
+                </video>
+                <div class="EmptyBox50"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar Configuracion de interacciones" actionListener="#{gestionVideoClaseController.guardarInteraccionPantallas()}" ajax="true"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionVideoClaseController.setIndexMenu(6)}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax resetValues="true" listener="#{gestionVideoClaseController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Docentes" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Alumnos">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Cursos">    
+                        </p:menuitem>
+                    </p:tieredMenu> 
+                </div>
+            </p:panel>
+            <c:forEach items="#{gestionVideoClaseController.secciones}" var="elemPlantilla">
+                <p:dialog widgetVar="dlg_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}" header="#{elemPlantilla.nombre}" height="#{gestionVideoClaseController.claseConfig.clAlto+90}px" width="#{gestionVideoClaseController.claseConfig.clAncho+156}px" fitViewport="true" onHide="videoPpal.play()" hideEffect="puff" showEffect="puff">
+                    <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas">
+                        <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
+                            <p:tab title="Pág #{pantalla.numPantalla}">
+                                <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionVideoClaseController.claseConfig.clAlto}px;width: #{gestionVideoClaseController.claseConfig.clAncho}px">
+                                    <c:forEach items="#{pantalla.componentes}" var="superComponente">                                                
+                                        <p:panel class="multimedia compon#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;position: absolute;">
+                                            <c:choose>
+                                                <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==1}">
+                                                    <c:if test="#{superComponente.data.size()>0}">
+                                                        <p:galleria id="archivosEvnt"  value="#{superComponente.data}"
+                                                                    var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                    panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="true">
+                                                            <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                        </p:galleria>
+                                                    </c:if>
+                                                    <c:if test="#{superComponente.data.size()==0}">
+                                                        <p:galleria   value="#{superComponente.data}"
+                                                                      var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                      panelWidth="#{superComponente.superComp.scAncho}">
+                                                        </p:galleria>
+                                                    </c:if>
+                                                    <div class="EmptyBox50"></div>
+                                                </c:when>
+                                                <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==2}">
+                                                    <c:if test="#{superComponente.data.size()>0}">
+                                                        <p:galleria id="archivosEvnt" value="#{superComponente.data}" 
+                                                                    var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                    panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="false">
+                                                            <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                        </p:galleria>
+                                                    </c:if>
+                                                    <c:if test="#{superComponente.data.size()==0}">
+                                                        <p:galleria   value="#{superComponente.data}" 
+                                                                      var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                      panelWidth="#{superComponente.superComp.scAncho}">
+                                                        </p:galleria>
+                                                    </c:if>
+                                                </c:when>
+                                                <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==3}">
+                                                    <c:if test="#{superComponente.data.size()>0}">
+                                                        <ui:repeat value="#{superComponente.data}" var="video">
+                                                            <video class="media#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" controls="true" width="#{superComponente.superComp.scAncho}" height="#{superComponente.superComp.scAlto}" preload="true">
+                                                                <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
+                                                            </video>
+                                                        </ui:repeat>
+                                                    </c:if>
+                                                </c:when>
+                                                <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==4}">
+                                                </c:when>
+                                                <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==5}">
+                                                    <c:if test="#{superComponente.data.size()>0}">
+                                                        <ui:repeat value="#{superComponente.data}" var="audio">
+                                                            <audio class="media#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" controls="true" preload="true">
+                                                                <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
+                                                            </audio>
+                                                        </ui:repeat>
+                                                    </c:if>
+                                                </c:when>
+                                                <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==6}">
+                                                    <c:if test="#{superComponente.data.size()>0}">
+                                                        <p:contentFlow  value="#{superComponente.data}"
+                                                                        var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px">
+                                                            <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" cache="false" styleClass="content"></p:graphicImage>
+                                                            <div class="caption">#{imgs.archivoBD.arNombre}</div>
+                                                        </p:contentFlow>
+                                                    </c:if>
+                                                    <c:if test="#{superComponente.data.size()==0}">
+                                                        <p:contentFlow id="archivosEvnt"  value="#{superComponente.data}"
+                                                                       var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px" styleClass="content">
+                                                        </p:contentFlow>
+                                                    </c:if>
+                                                </c:when>
+                                                <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==7}">
+                                                    <h:outputText id="archivosEvnt" escape="false" value="#{superComponente.texto}" style="float: left"/>
+                                                </c:when>
+                                            </c:choose>
+                                        </p:panel>
+                                    </c:forEach>
+                                </p:panel>
+                            </p:tab>
+                        </c:forEach>
+                    </p:tabView>
+                </p:dialog>
+            </c:forEach>
+        </h:form>
+    </ui:define>
+</ui:composition>

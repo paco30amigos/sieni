@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Clase" url="#"/>
+            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseVideoAlmacenada}"/>
+            <p:menuitem value="Busqueda de Video-Clase Almacenada" url="#"/>
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionVideoClaseController.eliminarClase()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionVideoClaseController.claseList}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Materia"  filterBy="#{car.idCurso.idMateria.maNombre}" filterMatchMode="contains" filterable="true">
+                        #{car.idCurso.idMateria.maNombre}
+                    </p:column>
+                    <p:column headerText="Curso"  filterBy="#{car.idCurso.crNombre}" filterMatchMode="contains" filterable="true">
+                        #{car.idCurso.crNombre}
+                    </p:column>
+                    <p:column headerText="Tema de clase"  filterBy="#{car.clTema}" filterMatchMode="contains" filterable="true">
+                        #{car.clTema}
+                    </p:column>
+                    <p:column headerText="Docente"  filterBy="#{car.idCurso.idDocente.nombreCompleto}" filterMatchMode="contains" filterable="true">
+                        #{car.idCurso.idDocente.nombreCompleto}
+                    </p:column>
+                    <p:column headerText="Plantilla"  filterBy="#{car.idPlantilla.plNombre}" filterMatchMode="contains" filterable="true">
+                        #{car.nombrePlantilla}
+                    </p:column>
+                    <p:column headerText="Estado"  filterBy="#{car.estado}" filterMatchMode="contains" filterable="true">
+                        #{car.estado}
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandLink action="#{gestionVideoClaseController.mostrar(car)}" rendered="#{loginController.mostrarA('0')}">
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Recibir Clase"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.mostrar(car)}" rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Vista previa de Clase"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.modificar(car)}" rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar detalles Clase"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Clase"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.configurar(car)}"  rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-settings Fs25 Red MarRight10" style="cursor: pointer" title="Configurar componentes de la clase"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.configurarInterac(car)}"  rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-magic20 Fs25 Red MarRight10" style="cursor: pointer" title="Configurar Interacciones entre componentes"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.configurarTiemposVisualizacion(car)}"  rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-photo212 Fs25 Red MarRight10" style="cursor: pointer" title="Configurar tiempos de visualización de pantallas"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Configurar Clase interactiva" action="#{gestionVideoClaseController.setIndexMenu(3)}" rendered="#{loginController.mostrarA('1,2')}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{gestionVideoClaseController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

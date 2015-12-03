@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}"/>
+            <p:menuitem value="Busqueda de Notas" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionNotaController.eliminarNota()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionNotaController.notaList}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Grado" filterBy="#{car.idEvaluacion.idMateria.idGrado.grNombre}" filterable="true" filterMatchMode="contains" style="width: 50px">
+                        #{car.idEvaluacion.idMateria.idGrado.grNombre}
+                    </p:column>
+                    <p:column headerText="carnet" filterBy="#{car.idAlumno.alCarnet}" filterable="true" filterMatchMode="contains" style="width: 80px">
+                        #{car.idAlumno.alCarnet}
+                    </p:column>
+                    <p:column headerText="Alumno" filterBy="#{car.idAlumno.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                        #{car.idAlumno.nombreCompleto}
+                    </p:column>
+                    <p:column headerText="Materia" filterBy="#{car.idEvaluacion.idMateria.maNombre}" filterable="true" filterMatchMode="contains">
+                        #{car.idEvaluacion.idMateria.maNombre}
+                    </p:column>
+                    <p:column headerText="Evaluación" filterBy="#{car.idEvaluacion.evNombre}" filterable="true" filterMatchMode="contains">
+                        #{car.idEvaluacion.evNombre}
+                    </p:column>
+                    <p:column headerText="Tipo de Evaluación" filterBy="#{car.idEvaluacion.evTipo}" filterable="true" filterMatchMode="contains">
+                        #{car.idEvaluacion.evTipo}
+                    </p:column>
+                    <p:column headerText="Nota" filterBy="#{car.idNota}" filterable="true" filterMatchMode="contains" style="width: 50px">
+                        #{car.ntCalificacion}
+                    </p:column>
+                    <p:column headerText="Tipo de ingreso" filterBy="#{car.ntTipoIngreso}" filterable="true" filterMatchMode="contains">
+                        #{car.tipoIngreso}
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandLink action="#{gestionNotaController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Nota" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionNotaController.modificar(car)}" rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Nota"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionNotaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" rendered="#{loginController.mostrarA('1,2')}" >
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Nota"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Adicionar Nota" actionListener="#{gestionNotaController.nuevo()}" rendered="#{loginController.mostrarA('1,2')}"></p:commandButton>
+                <p:commandButton value="Cargar Notas desde Excel" actionListener="#{gestionNotaController.cargarDesdeExcel()}" rendered="#{loginController.mostrarA('1,2')}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{gestionNotaController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,68 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}"/>
+            <p:menuitem value="Modificar Nota"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda.show();"></i>
+    </ui:define>
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:focus id="focus" context="mod_p1"></p:focus>
+                <p:panelGrid columns="4" class="Container50 Responsive" id="mod_p1">
+                    <p:outputLabel for="mod_alumno" value="Alumno: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="1" id="mod_alumno"  class=" Responsive" value="#{gestionNotaController.idAlumnoModifica}" valueChangeListener="#{gestionNotaController.getMateriasAlumnoModifica}" converter="alumno" filter="true" filterMatchMode="contains">
+                        <f:selectItems itemValue ="#{al}" itemLabel="#{al.nombreCompleto}" value="#{gestionNotaController.alumnosModificaList}" var="al"/>
+                        <p:ajax event="valueChange" update="mod_materia,mod_evaluacion"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_materia" value="Materia: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="2" id="mod_materia" class=" Responsive" value="#{gestionNotaController.idMateriaModifica}" valueChangeListener="#{gestionNotaController.getSeccionesGradoModifica}" converter="materia" filter="true" filterMatchMode="contains">
+                        <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.idGrado.grNombre} - #{mat.maNombre}" value="#{gestionNotaController.materiasModificaList}" var="mat"/>
+                        <p:ajax event="valueChange" update="mod_evaluacion"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="3" id="mod_evaluacion" class=" Responsive" value="#{gestionNotaController.idEvaluacionModifica}" converter="evaluacion" filter="true" filterMatchMode="contains">
+                        <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesModificaList}" var="eval"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_nota" value="Nota: " class=" Responsive"></p:outputLabel>
+                    <p:spinner tabindex="4" id="mod_nota" min="0.0" value="#{gestionNotaController.notaModifica.ntCalificacion}" max="10.0" stepFactor="0.5"></p:spinner>
+                    <p:outputLabel for="mod_tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="mod_tipoIngreso" value="#{gestionNotaController.notaModifica.tipoIngreso}" class=" Responsive"></p:outputLabel>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton tabindex="6" value="Guardar" action="#{gestionNotaController.guardarModifica()}" update="mod_p1,focus" oncomplete="configurarEnterTab()" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="mod_p1,focus" resetValues="true" oncomplete="configurarEnterTab()" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="mod_p1" resetValues="true" listener="#{gestionNotaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Materia" url="#{siteUrls.gestionMateria}">    
+                        </p:menuitem>
+                        <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}">
+                        </p:menuitem>
+                    </p:tieredMenu>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

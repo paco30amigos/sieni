@@ -1,0 +1,78 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
+            <p:menuitem value="Busqueda de Materias" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionMateriasController.eliminarArchivo()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionMateriasController.materiaList}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">   
+                    <p:column headerText="Nombre" filterBy="#{car.maNombre}" filterable="true" filterMatchMode="contains">
+                        #{car.maNombre}
+                    </p:column>
+                    <p:column headerText="Grado" filterBy="#{car.idGrado.grNombre}" filterable="true" filterMatchMode="contains">
+                        #{car.idGrado.grNombre}
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{car.maEstado}" filterable="true" filterMatchMode="contains">
+                        <c:choose>
+                            <c:when test="${car.maEstado == A}">
+                                DISPONIBLE
+                            </c:when>
+                            <c:when test="${car.maEstado == N}">
+                                NO DISPONIBLE
+                            </c:when>
+                            <c:otherwise>
+                                
+                            </c:otherwise>
+                        </c:choose>
+                    </p:column>
+<!--                    <p:column headerText="Coordinador" filterBy="#{car.maCoordinador}" filterable="true" filterMatchMode="contains">
+                    #{car.maCoordinador}
+                </p:column>-->
+                    <p:column headerText="Turno" filterBy="#{car.maTurno}" filterable="true" filterMatchMode="contains">
+                        #{car.maTurno}
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandLink action="#{gestionMateriasController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Materia" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionMateriasController.modificar(car)}" >
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Materia"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{gestionMateriasController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Materia"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Adicionar Materia" action="#{gestionMateriasController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{gestionMateriasController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

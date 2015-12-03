@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestion de evaluaciones" url="#{siteUrls.gestionEvaluacion}"/>
+            <p:menuitem value="Agregar items"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
+    </ui:define>
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" id="consultaForm" >
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton consulta"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar2" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está Realmente seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionarEvaluacionController.eliminarExpediente()}" update="consultaForm" oncomplete="PF('dlgEliminar2').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar2').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" onclick="PF('dlgEliminar2').show()" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
+                <p:dataTable id="consulta" paginatorPosition="bottom"  var="car" value="#{gestionarEvaluacionController.evaluacionItemList}" 
+                             paginator="true" rows="10"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true" rowIndexVar="rowIndex">
+                    <p:column headerText="N°" style="width: 5%">
+                        #{rowIndex+1}
+                    </p:column>
+                    <p:column headerText="Tipo" style="width: 18%">
+                        <h:outputText value="Seleccion unica" rendered="#{car.eiTipoResp eq '1'}"/>
+                        <h:outputText value="Seleccion multiple" rendered="#{car.eiTipoResp eq '2'}"/>
+                        <h:outputText value="Falso/Verdadero" rendered="#{car.eiTipoResp eq '3'}"/>
+                        <h:outputText value="Abierta" rendered="#{car.eiTipoResp eq '4'}"/>
+                    </p:column>
+                    <p:column headerText="Pregunta" style="width: 55%">
+                        #{car.eiPregunta}
+                    </p:column>                                                          
+                    <p:column headerText="Ponderación (%)" style="width: 10%">
+                        #{car.eiPonderacion}
+                    </p:column>
+                    <p:column headerText="Acciones" style="width: 12%">
+                        <!--<p:commandLink ><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Item" ></i></p:commandLink>-->
+                        <p:commandLink action="#{gestionarEvaluacionController.modificarItem(car)}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Item" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarEvaluacionController.gestionarItemsResp(car)}" ><i class="icon-portfolio Fs25 Red MarRight10" title="Agregar Respuestas" ></i></p:commandLink>
+<!--                        <p:commandLink  onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red MarRight10" title="Eliminar Item"></i>
+                        </p:commandLink>-->
+                    </p:column>
+                    <f:facet name="footer">
+                        Ponderacion Global: #{gestionarEvaluacionController.totalPonderacion}
+                    </f:facet>
+                </p:dataTable>
+
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Adicionar Item" action="#{gestionarEvaluacionController.setIndexMenu(5)}"></p:commandButton>
+                <p:commandButton value="Refrescar"  update="consulta" action="#{gestionarEvaluacionController.fillItemsEvaluacion()}"></p:commandButton>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

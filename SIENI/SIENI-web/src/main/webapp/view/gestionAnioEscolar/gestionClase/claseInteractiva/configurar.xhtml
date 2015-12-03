@@ -1,0 +1,280 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="head">
+        <script type="text/javascript">
+            PrimeFaces.widget.Droppable.prototype.bindDropListener = function () {
+                var _self = this;
+
+                this.cfg.drop = function (event, ui) {
+                    if (_self.cfg.onDrop) {
+                        _self.cfg.onDrop.call(_self, event, ui);
+                    }
+                    if (_self.cfg.behaviors) {
+                        var dropBehavior = _self.cfg.behaviors['drop'];
+
+                        if (dropBehavior) {
+                            var ext = {
+                                params: [
+                                    {name: _self.id + '_dragId', value: ui.draggable.attr('id')},
+                                    {name: _self.id + '_dropId', value: _self.cfg.target},
+                                    {name: ui.draggable.attr('id') + '_left', value: ui.position.left},
+                                    {name: ui.draggable.attr('id') + '_top', value: ui.position.top},
+                                    {name: ui.draggable.attr('id') + '_height', value: jQuery("#" + (ui.draggable.attr('id').replace(/\:/g, '\\:'))).height()}
+                                ]
+                            };
+                            dropBehavior.call(_self, ext);
+                        }
+                    }
+                };
+            }
+            var comps = [];
+            var invertir = undefined;
+            function controlarEvnt(id, rowIndex) {
+                //proceso normal
+//                alert(id+","+rowIndex+","+invertir+","+comps[rowIndex]);
+                if (invertir === undefined) {
+                    if (comps[rowIndex] === undefined) {
+                        comps[rowIndex] = false;
+                        PF(id).close();
+                    } else {
+                        comps[rowIndex] = undefined;
+                        PF(id).show();
+                    }
+                    invertir = undefined;
+                    //correccion de bug
+                } else {
+//                    invertir = undefined;
+                    if (comps[rowIndex] === undefined) {
+                        comps[rowIndex] = false;
+                        PF(id).show();
+                    } else {
+                        comps[rowIndex] = undefined;
+                        PF(id).close();
+                    }
+                }
+            }
+            function resetComps() {
+                if (invertir) {
+                    invertir = undefined;
+                }
+                comps = [];
+            }
+
+            function ocultarTodos() {
+                invertir = true;
+                comps = [];
+                jQuery('.multimedia').hide();
+            }
+        </script>
+    </ui:define>
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Clase" url="#"/>
+            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}"/>
+            <p:menuitem value="Configuración de Clase Interactiva: #{gestionClaseInteracController.claseConfig.clTema}" url="#"/>
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog>
+                <div class="EmptyBox5"></div>
+                #{gestionClaseInteracController.resetMostrar()}
+                <p:outputLabel value="Curso: #{gestionClaseInteracController.claseConfig.idCurso.crNombre}"></p:outputLabel>
+                <p:panelGrid columns="5">
+                    <p:commandLink onclick="PF('dlgConfPantalla').show()">
+                        <i class="icon-screen Fs25 Red" style="cursor: pointer" title="Modificar tamaño de pantalla de clase"></i>
+                    </p:commandLink>
+                    <p:commandLink action="#{gestionClaseInteracController.agregarPantalla()}" update="clase">
+                        <i class="icon-add180 Fs25 Red" style="cursor: pointer" title="Añadir Página a sección Actual"></i>
+                    </p:commandLink>
+                    <p:commandLink action="#{gestionClaseInteracController.refreshConfig()}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <i class="icon-trash Fs25 Red" style="cursor: pointer" title="Eliminar página Actual"></i>
+                    </p:commandLink>
+                    <p:selectOneMenu value="#{gestionClaseInteracController.nuevoComponente.FCompSuperCompon}" converter="superCompon" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{gestionClaseInteracController.componentesInteractDisponibles}" var="comps" itemLabel="#{comps.idTipoSuperCompon.tscDescripcion} - #{comps.scNombre}" itemValue="#{comps}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Agregar Componente" action="#{gestionClaseInteracController.agregarComponentePantallaActual()}" update="clase,mostrar" oncomplete="resetComps()"></p:commandButton>
+                </p:panelGrid>
+                <p:remoteCommand update="mostrar" name="updateMostrar"></p:remoteCommand>
+                <p:dataTable value="#{gestionClaseInteracController.componentesPantallaActual}" var="compActual" id="mostrar"
+                             paginatorPosition="bottom" rows="5"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="5,10,20,40"
+                             reflow="true"
+                             rowIndexVar="rowIndex"
+                             >
+                    <p:column headerText="Componente">
+                        #{compActual.claseSuperComp.FCompSuperCompon.scNombre}
+                    </p:column>
+                    <p:column>
+                        <p:inputSwitch class="switch" offLabel="Ocultar" onLabel="Mostrar" onchange="controlarEvnt('wb_id_#{compActual.claseSuperComp.idClaseSupComp}_#{gestionClaseInteracController.idTipoElempPlantilla}_#{gestionClaseInteracController.npantalla}',#{rowIndex})" value="#{compActual.mostrar}" ></p:inputSwitch>
+                    </p:column>
+                </p:dataTable>
+                <p:commandButton value="Ocultar Todos Los Componentes"  action="#{gestionClaseInteracController.ocultarTodos()}" update="mostrar" oncomplete="ocultarTodos()"></p:commandButton> 
+                <p:commandButton value="Mostrar Todos Los Componentes"  action="#{gestionClaseInteracController.mostrarTodos()}" update="mostrar,clase" oncomplete="resetComps()"></p:commandButton> 
+                <p:dialog widgetVar="dlgConfPantalla" header="Configurar Pantalla de Clase" modal="true">
+                    <p:outputLabel value="Alto" class="TexAlCenter" ></p:outputLabel>
+                    <p:spinner value="#{gestionClaseInteracController.claseConfig.clAlto}" max="1080" stepFactor="100"></p:spinner>
+                    <p:outputLabel value="Ancho" class="TexAlCenter" ></p:outputLabel>
+                    <p:spinner value="#{gestionClaseInteracController.claseConfig.clAncho}" max="1920" stepFactor="100"></p:spinner>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Guardar" update="clase" oncomplete="PF('dlgConfPantalla').hide()"></p:commandButton>
+                    <p:commandButton value="Cancelar" onclick="PF('dlgConfPantalla').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar la pantalla actual y todos sus componentes?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarPantallaActual()}" update="clase,mostrar" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminarComponente" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el componente actual?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionClaseInteracController.eliminarComponenteActual()}" update="clase,mostrar" oncomplete="PF('dlgEliminarComponente').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminarComponente').hide();" immediate="true" ></p:commandButton>
+                </p:dialog>
+                <div class="EmptyBox5"></div>
+                <p:remoteCommand name="refrescarClase" update="clase"></p:remoteCommand>
+                <p:tabView id="clase" activeIndex="#{gestionClaseInteracController.idElemenActive}" style="height: #{gestionClaseInteracController.claseConfig.clAlto+90}px;width: #{gestionClaseInteracController.claseConfig.clAncho+156}px">
+                    <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateComponConfigura}" update="consultaForm:mostrar"></p:ajax>
+                    <c:forEach items="#{gestionClaseInteracController.secciones}" var="elemPlantilla">
+                        <p:tab title="#{elemPlantilla.nombre}">
+                            <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas">
+                                <p:ajax event="tabChange" listener="#{gestionClaseInteracController.updateComponConfigura}" update="consultaForm:mostrar"></p:ajax>
+                                <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
+                                    <p:tab title="Pág #{pantalla.numPantalla}">
+                                        <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionClaseInteracController.claseConfig.clAlto}px;width: #{gestionClaseInteracController.claseConfig.clAncho}px" toggleable="true">
+                                            <c:forEach items="#{pantalla.componentes}" var="superComponente">                                                
+                                                <p:draggable for="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" handle=".move" opacity="0.3">
+                                                </p:draggable>
+                                                <p:droppable for="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" >
+                                                    <p:ajax listener="#{gestionClaseInteracController.onDrop}"></p:ajax>
+                                                </p:droppable>
+                                                <p:panel class="multimedia" id="elem_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="left: #{superComponente.claseSuperComp.scPosX}px;top: #{superComponente.claseSuperComp.scPosY}px;height: #{superComponente.superComp.scAlto+10}px;width: #{superComponente.superComp.scAncho+10}px;position: absolute;" widgetVar="wb_id_#{superComponente.claseSuperComp.idClaseSupComp}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}">
+                                                    <p:panelGrid columns="3">
+                                                        <p:commandLink class="move">
+                                                            <i class="icon-gamepad4 Fs15 Red" style="cursor: pointer" title="Mover componente"></i>
+                                                        </p:commandLink>
+                                                        <p:commandLink action="#{gestionClaseInteracController.eliminarSuperComponente(superComponente)}" onclick="PF('dlgEliminarComponente').show();" immediate="true" >
+                                                            <i class="icon-trash-alt Fs15 Red" style="cursor: pointer" title="Eliminar componente"></i>
+                                                        </p:commandLink>
+                                                        <p:selectBooleanCheckbox value="#{superComponente.visible}" itemLabel="visible" style="transform: scale(0.7,0.7)"></p:selectBooleanCheckbox>
+                                                    </p:panelGrid>
+                                                    <c:choose>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==1}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:galleria id="archivosEvnt"  value="#{superComponente.data}"
+                                                                            var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                            panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="true">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:galleria   value="#{superComponente.data}"
+                                                                              var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                              panelWidth="#{superComponente.superComp.scAncho}">
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <div class="EmptyBox50"></div>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==2}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:galleria id="archivosEvnt" value="#{superComponente.data}" 
+                                                                            var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                            panelWidth="#{superComponente.superComp.scAncho}" showCaption="true" showFilmstrip="false">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" title="#{imgs.archivoBD.arNombre}"  class="Container100" cache="false"></p:graphicImage>
+                                                                </p:galleria>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:galleria   value="#{superComponente.data}" 
+                                                                              var="imgs" autoPlay="false" panelHeight="#{superComponente.superComp.scAlto}" 
+                                                                              panelWidth="#{superComponente.superComp.scAncho}">
+                                                                </p:galleria>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==3}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <ui:repeat value="#{superComponente.data}" var="video">
+                                                                    <video class="media#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" controls="true" width="#{superComponente.superComp.scAncho}" height="#{superComponente.superComp.scAlto}" preload="true">
+                                                                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{video.archivoBD.arRuta}?unico=#{dateUtils.time}" type="video/mp4" />
+                                                                    </video>
+                                                                </ui:repeat>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==4}">
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==5}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <ui:repeat value="#{superComponente.data}" var="audio">
+                                                                    <audio class="#{pantalla.numPantalla}_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{superComponente.superComp.idSuperCompon}" controls="true" preload="true">
+                                                                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeResourcesUrl}#{audio.archivoBD.arRuta}?unico=#{dateUtils.time}" type="audio/mpeg" />
+                                                                    </audio>
+                                                                </ui:repeat>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==6}">
+                                                            <c:if test="#{superComponente.data.size()>0}">
+                                                                <p:contentFlow  value="#{superComponente.data}"
+                                                                                var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px">
+                                                                    <p:graphicImage name="#{copiaArchivos.multimediaBaseUrl}/#{imgs.archivoBD.arRuta}" cache="false" styleClass="content"></p:graphicImage>
+                                                                    <div class="caption">#{imgs.archivoBD.arNombre}</div>
+                                                                </p:contentFlow>
+                                                            </c:if>
+                                                            <c:if test="#{superComponente.data.size()==0}">
+                                                                <p:contentFlow id="archivosEvnt"  value="#{superComponente.data}"
+                                                                               var="imgs" style="height: #{superComponente.superComp.scAlto}px;width: #{superComponente.superComp.scAncho}px" styleClass="content">
+                                                                </p:contentFlow>
+                                                            </c:if>
+                                                        </c:when>
+                                                        <c:when test="#{superComponente.superComp.idTipoSuperCompon.idTipoSuperCompon==7}">
+                                                            <h:outputText id="archivosEvnt" escape="false" value="#{superComponente.texto}" style="float: left"/>
+                                                        </c:when>
+                                                    </c:choose>
+                                                </p:panel>
+                                            </c:forEach>
+                                        </p:panel>
+                                    </p:tab>
+                                </c:forEach>
+                            </p:tabView>
+                        </p:tab>
+                    </c:forEach>
+                </p:tabView>
+
+                <div class="EmptyBox50"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar Configuracion" actionListener="#{gestionClaseInteracController.guardarConfiguracion()}" ajax="true"></p:commandButton>
+                    <p:commandButton value="Refrescar" actionListener="#{gestionClaseInteracController.setIndexMenu(4)}" ajax="true" oncomplete="refrescarClase()"></p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax resetValues="true" listener="#{gestionClaseInteracController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Componentes interactivos" url="#{siteUrls.componenteInteractiva}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Archivos Multimedia" url="#{siteUrls.gestionArchivosMultimedia}" >
+                        </p:menuitem>
+                        <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Clase interactiva" url="#{siteUrls.claseInteractiva}">
+                        </p:menuitem>
+                        <p:menuitem value="Clase en vivo" url="#{siteUrls.claseOnline}">
+                        </p:menuitem>
+                    </p:tieredMenu> 
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

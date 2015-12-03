@@ -1,0 +1,77 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Clases" url="#"/>
+            <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}"/>
+            <p:separator />
+        </p:breadCrumb>
+    </ui:define>
+    <ui:define name="content">
+        <p:tabView>
+            <p:tab title="Diseño de Ejercicio">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:graphicImage id="consulta" value="#{gestionDisenioEjercicioController.graphicText}" styleClass="Fleft"  ></p:graphicImage>
+
+                    <div class="EmptyBox20"></div>
+                    <div class="Container100 Responsive">
+                        <p:commandButton value="Registrar Curso" action="#{gestionDisenioEjercicioController.refresh()}" update="consulta"></p:commandButton>
+                    <p:commandButton value="Refrescar" action="#{gestionDisenioEjercicioController.refresh()}" ></p:commandButton>
+
+                    </div>
+                </h:form>
+
+
+
+            </p:tab>
+
+            <p:tab title="Ejercicio Resuelto">
+                <h:form>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    </p:dialog>
+                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    <div class="EmptyBox20"></div>
+                    <p:outputLabel  value="Algebra " class="  Responsive"></p:outputLabel>  
+                    <div class="EmptyBox20"></div>
+
+                    <h:graphicImage  name="ejerResuelto.png" styleClass="Fleft" library="images" />
+
+                    <div class="EmptyBox20"></div>
+                    <div class="Container100 Responsive">
+                        <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                            <p:outputLabel value="Exportar a:"></p:outputLabel>
+                            <p:selectOneRadio  id="console" value="#{radioView.console}">
+                                <f:selectItem itemLabel="PNG" itemValue="PNG" />
+                                <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                            </p:selectOneRadio>
+                            <p:commandButton  value="Generar" ></p:commandButton>
+                            <p:commandButton value="Regresar"></p:commandButton>
+                        </h:panelGrid>
+
+                    </div>
+
+
+                </h:form>
+
+
+
+            </p:tab>
+
+
+        </p:tabView>
+
+
+    </ui:define>
+</ui:composition>

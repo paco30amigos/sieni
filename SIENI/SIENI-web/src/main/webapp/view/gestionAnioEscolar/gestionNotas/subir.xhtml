@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}"/>
+            <p:menuitem value="Subir Notas desde Excel" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="dataForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                </p:dialog> 
+                <p:focus id="focus" context="p1"></p:focus>
+                <p:panelGrid columns="4" class="Responsive" id="p1">
+                    <p:outputLabel for="materia" value="Materia: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="materia" class="Responsive" value="#{gestionNotaController.materiaSubir}" valueChangeListener="#{gestionNotaController.getSeccionesGradoExcel}" converter="materia" filterMatchMode="contains" filter="true">
+                        <f:selectItems itemValue ="#{mat}" itemLabel="#{mat.maNombre} - #{mat.idGrado.grNombre}" value="#{gestionNotaController.materiasExcelList}" var="mat"/>
+                        <p:ajax event="valueChange" update="evaluacion"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="evaluacion" value="Evaluación: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu  id="evaluacion" class=" Responsive" value="#{gestionNotaController.evaluacionSubir}" converter="evaluacion" filterMatchMode="contains" filter="true">
+                        <f:selectItems itemValue ="#{eval}" itemLabel="#{eval.evNombre}" value="#{gestionNotaController.evaluacionesExcelList}" var="eval"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <div class="Container100">
+                    <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionNotaController.getArchivoNuevo}"
+                                  uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="#{gestionNotaController.formatoArchivo}" 
+                                  value="#{gestionNotaController.archivoSubidoNuevo}" sizeLimit="${gestionNotaController.tamanioMaxExcel}"
+                                  invalidSizeMessage="Archivo muy grande"
+                                  invalidFileMessage="Tipo de archivo no valido"
+                                  update="consulta"
+                                  >
+                    </p:fileUpload>
+                </div>
+                <div class="EmptyBox5"></div>
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionNotaController.listaNotasSubidas}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Alumno" filterBy="#{car.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                        #{car.nombreCompleto}
+                    </p:column>
+                    <p:column headerText="Nota" filterBy="#{car.ntCalificacion}" filterable="true" filterMatchMode="contains">
+                        #{car.ntCalificacion}
+                    </p:column>
+                    <p:column style="width: 40px">
+                        <p:commandLink rendered="#{car.errores.size()==0}"><i class="fa fa-check Fs25 Green"></i></p:commandLink>
+                        <p:commandLink rendered="#{car.errores.size()>0}" action="#{gestionNotaController.mostrarErrores(car)}" update="dataForm:dlErr" oncomplete="PF('dlgError').show()" >
+                            <i class="icon-problems Fs25 Red MarRight10"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+
+                <p:dialog widgetVar="dlgError" modal="true" appendTo="@(body)" header="Errores" id="dlErr">
+                    <p:outputLabel value="Se encontraron los siguientes errores:"/>
+                    <p:dataList value="#{gestionNotaController.error.errores}" var="errors" type="ordered">
+                        <p:outputLabel value="#{errors}"/>
+                    </p:dataList>
+                </p:dialog>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar" action="#{gestionNotaController.guardarNotasExcel()}" update="p1,consulta" />
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{gestionNotaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Materia" url="#{siteUrls.gestionMateria}">    
+                        </p:menuitem>
+                        <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}">
+                        </p:menuitem>
+                    </p:tieredMenu>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

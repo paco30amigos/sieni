@@ -80,6 +80,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     public void nuevoD(){
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setCursosList(sieniCursoFacadeRemote.findByEstado('A'));
+        this.setHorarioSelected(new ArrayList<String>());
         this.setIndexMenu(1);
     }
 

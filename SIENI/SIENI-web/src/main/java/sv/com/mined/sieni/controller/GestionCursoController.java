@@ -156,6 +156,13 @@ public class GestionCursoController extends GestionCursoForm {
         this.setIndexMenu(4);
     }
     
+    public void gestionarAlumnoInscrito(SieniCurso curso) {
+        this.setAlumnoInscritoList(new ArrayList<SieniAlumno>());
+        this.setAlumnoInscritoList(sieniAlumnoFacadeRemote.findAlumnosInscritos(curso.getIdCurso()));
+        this.setCursoModifica(curso);
+        this.setIndexMenu(5);
+    }
+    
     public void refresh() {
         fill();
     }
@@ -194,6 +201,18 @@ public class GestionCursoController extends GestionCursoForm {
     //metodos para modificacion de datos
     public void eliminar(SieniCurso eliminado) {
         this.setEliminar(eliminado);
+    }
+    
+     //metodos para modificacion de datos
+    public void eliminarInscrito(SieniCurso curso,SieniAlumno alumno) {
+        for (SieniCursoAlumno cursos : alumno.getSieniCursoAlumnoList()) {
+            if(cursos.getIdCurso().equals(curso)){
+            this.setEliminarInscrito(cursos);
+            break;
+            }
+                
+        }
+        
     }
 
     public synchronized void guardarModifica() {
@@ -253,6 +272,17 @@ public class GestionCursoController extends GestionCursoForm {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
+    
+    public synchronized void eliminarInscripcionCurso() {
+        try {
+            registrarEnBitacora("Eliminar", "Inscripcion", this.getEliminarInscrito().getIdAlumno().getIdAlumno());
+//            this.getEliminar().setCrEstado('I');
+//            sieniCursoFacadeRemote.edit(this.getEliminar());
+            sieniCursoAlumnoFacadeRemote.remove(this.getEliminarInscrito());
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
+    }
 
     public void getSeccionesGrado(ValueChangeEvent a) {
         Long idGrado = (Long) a.getNewValue();
@@ -298,6 +328,11 @@ public class GestionCursoController extends GestionCursoForm {
     public void refreshCursoAlumno(){
      this.setAlumnoList(sieniAlumnoFacadeRemote.findAlumnosNoCursos(this.getCursoModifica().getIdGrado().getIdGrado(),this.getCursoModifica().getIdCurso()));
 //     RequestContext.getCurrentInstance().update("consulta");
+    
+    }
+    
+    public void refreshInscritos(){
+          this.setAlumnoInscritoList(sieniAlumnoFacadeRemote.findAlumnosInscritos(this.getCursoModifica().getIdCurso()));
     
     }
  

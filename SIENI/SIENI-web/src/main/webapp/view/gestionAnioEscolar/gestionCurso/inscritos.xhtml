@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Gestionar Año Escolar" url="#"/>
+            <p:menuitem value="Gestion de Cursos" url="#{siteUrls.gestionarCursos}"></p:menuitem>
+            <p:menuitem value="Alumnos inscritos"></p:menuitem>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionCursoController.indexMenu}').show();"></i>
+    </ui:define>
+    <ui:define name="content">  
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" id="consultaForm" >
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <p:outputLabel value="Esta ayuda sirve un monton consulta"/>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar2" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está Realmente seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{gestionCursoController.eliminarInscripcionCurso()}" update="consultaForm" oncomplete="PF('dlgEliminar2').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar2').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" onclick="PF('dlgEliminar2').show()" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionCursoController.alumnoInscritoList}" 
+                             paginator="true" rows="5"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Nombre" filterBy="#{car.alNombreCompleto}" filterable="true" filterMatchMode="contains">
+                            #{car.alNombreCompleto}
+                        </p:column>
+                    <p:column headerText="Carnet" filterBy="#{car.alCarnet}" filterable="true" filterMatchMode="contains">
+                            #{car.alCarnet}
+                        </p:column>
+                    <p:column headerText="Telefono" filterBy="#{car.alTelefonoEm1}" filterable="true" filterMatchMode="contains">
+                            #{car.alTelefonoEm1}
+                        </p:column>
+                    <p:column headerText="Direccion" filterBy="#{car.alDireccion}" filterable="true" filterMatchMode="contains">
+                            #{car.alDireccion}
+                        </p:column>
+                  
+                    <p:column headerText="Acciones" style="width: 12%">
+                        <p:commandLink action="#{gestionCursoController.eliminarInscrito(gestionCursoController.cursoModifica, car)}"  onclick="PF('dlgEliminar').show();" immediate="true">
+                            <i class="icon-close Fs25 Red MarRight10" title="Eliminar Inscripcion"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Refrescar" action="#{gestionCursoController.refreshInscritos()}" update="consulta"></p:commandButton>
+                <p:commandButton value="Regresa" immediate="true">
+                        <p:ajax listener="#{gestionCursoController.setIndexMenu(0)}"/>
+         </p:commandButton>
+         
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

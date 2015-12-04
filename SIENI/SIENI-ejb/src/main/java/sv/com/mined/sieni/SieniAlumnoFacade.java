@@ -319,4 +319,14 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
 
     }
 
+    
+    @Override
+    public List<SieniAlumno> findAlumnosInscritos(Long idCurso) {
+        Query q = em.createNamedQuery("SieniAlumno.findAlumnosInscritos");
+        q.setParameter("idCurso", idCurso);        
+        q.setParameter("alEstado", 'I');
+
+        return q.getResultList();
+
+    }
 }

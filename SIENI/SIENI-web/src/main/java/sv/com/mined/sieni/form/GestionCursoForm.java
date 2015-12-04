@@ -8,6 +8,7 @@ package sv.com.mined.sieni.form;
 import java.util.List;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniCurso;
+import sv.com.mined.sieni.model.SieniCursoAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMateria;
@@ -22,6 +23,7 @@ public class GestionCursoForm {
 
     private int indexMenu;
     private SieniCurso eliminar;
+    private SieniCursoAlumno eliminarInscrito;
 
     // consulta de curso
     private List<SieniCurso> cursoList;
@@ -32,6 +34,7 @@ public class GestionCursoForm {
     private List<SieniSeccion> seccionList;
     private List<SieniMateria> materiaList;
     private List<SieniAlumno> alumnoList;
+    private List<SieniAlumno> alumnoInscritoList;
     private List<SieniAlumno> selectedAlumnoList;
     private Long idDocente;
     private Long idGrado;
@@ -70,6 +73,9 @@ public class GestionCursoForm {
                 break;
             case 4:
                 sU.redirect(sU.getBasegestionarCursos() + "cursoAlumno.xhtml");
+                break;
+            case 5:
+                sU.redirect(sU.getBasegestionarCursos() + "inscritos.xhtml");
                 break;    
         }
         this.indexMenu = indexMenu;
@@ -81,6 +87,14 @@ public class GestionCursoForm {
 
     public void setEliminar(SieniCurso eliminar) {
         this.eliminar = eliminar;
+    }
+
+    public SieniCursoAlumno getEliminarInscrito() {
+        return eliminarInscrito;
+    }
+
+    public void setEliminarInscrito(SieniCursoAlumno eliminarInscrito) {
+        this.eliminarInscrito = eliminarInscrito;
     }
 
     public List<SieniCurso> getCursoList() {
@@ -169,6 +183,14 @@ public class GestionCursoForm {
 
     public void setGradoModificaList(List<SieniGrado> gradoModificaList) {
         this.gradoModificaList = gradoModificaList;
+    }
+
+    public List<SieniAlumno> getAlumnoInscritoList() {
+        return alumnoInscritoList;
+    }
+
+    public void setAlumnoInscritoList(List<SieniAlumno> alumnoInscritoList) {
+        this.alumnoInscritoList = alumnoInscritoList;
     }
 
     public List<SieniAlumno> getAlumnoList() {

@@ -445,8 +445,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             if (validarModifica(this.getClaseModifica())) {//valida el guardado
                 sieniClaseFacadeRemote.edit(this.getClaseModifica());
                 registrarEnBitacora("Modificar", "Clase interactiva", this.getClaseModifica().getIdArchivo());
-                FacesMessage msg = new FacesMessage("Plantilla Modificado Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                new ValidationPojo().printMsj("Clase modificada exitosamente", FacesMessage.SEVERITY_INFO);
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -674,8 +673,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             nuevaPantalla.setComponentes(new ArrayList<ComponenteInteractivoPojo>());
             seccionActual.getPantallas().add(nuevaPantalla);
         } else {
-            FacesMessage msg = new FacesMessage("No se puede agregar más pantallas a este elemento de plantilla, máximo " + maxPantallas + " pantallas");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("No se puede agregar más pantallas a este elemento de plantilla, máximo " + maxPantallas + " pantallas", FacesMessage.SEVERITY_ERROR);
         }
     }
 
@@ -725,8 +723,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             seccionActual.setPantallaActual(0);
 
         } else {
-            FacesMessage msg = new FacesMessage("El elemento de plantilla debe tener almenos 1 página");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            new ValidationPojo().printMsj("El elemento de plantilla debe tener almenos 1 página", FacesMessage.SEVERITY_ERROR);
         }
     }
 

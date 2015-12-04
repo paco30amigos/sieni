@@ -20,7 +20,7 @@
         <p:panel>
             <h:form id="consultaForm">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    <ui:include src="ayuda/ver.xhtml"></ui:include>
                 </p:dialog>
                 <p:remoteCommand name="redirect" actionListener="#{gestionComponentesInteractivosController.setIndexMenu(0)}"></p:remoteCommand>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">

@@ -127,18 +127,18 @@ public class GestionCursoController extends GestionCursoForm {
                 SieniCurso existCurso = new SieniCurso();
                 existCurso = sieniCursoFacadeRemote.finByDocGrSecMat(this.getCursoNuevo().getIdDocente().getIdDocente(), this.getCursoNuevo().getIdGrado().getIdGrado(), this.getCursoNuevo().getIdSeccion().getIdSeccion(), this.getCursoNuevo().getIdMateria().getIdMateria(), this.getCursoNuevo().getCrNombre());
                 if (existCurso != null) {
-                    FacesMessage msg = new FacesMessage("No se puede crear el curso, ya existe para esa materia");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    new ValidationPojo().printMsj("No se puede crear el curso, ya existe para esa materia", FacesMessage.SEVERITY_ERROR);
 
                 } else {
                     this.setCursoNuevo(sieniCursoFacadeRemote.createAndReturn(this.getCursoNuevo()));
                     registrarEnBitacora("Crear", "Curso", this.getCursoNuevo().getIdCurso());
-                    FacesMessage msg = new FacesMessage("Curso Creado Exitosamente");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
-                    this.setIndexMenu(0);
+                    new ValidationPojo().printMsj("Curso Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                    //agrega el curso a la tabla de busqueda
+                    this.getCursoList().add(this.getCursoNuevo());
+                    //limpia solo si es guardado exitosamente
+                    this.setCursoNuevo(new SieniCurso());
                 }
             }
-            this.setCursoNuevo(new SieniCurso());
 //        fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -225,10 +225,7 @@ public class GestionCursoController extends GestionCursoForm {
             if (validarModifica(this.getCursoModifica())) {//valida el guardado
                 sieniCursoFacadeRemote.edit(this.getCursoModifica());
                 registrarEnBitacora("Modificar", "Curso", this.getCursoModifica().getIdCurso());
-                FacesMessage msg = new FacesMessage("Curso Modificado Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-                resetModificaForm();
-                this.setIndexMenu(0);
+                new ValidationPojo().printMsj("Curso Modificado Exitosamente" , FacesMessage.SEVERITY_INFO);
             }
 //        fill();
         } catch (Exception e) {
@@ -251,6 +248,7 @@ public class GestionCursoController extends GestionCursoForm {
             registrarEnBitacora("Eliminar", "Curso", this.getEliminar().getIdCurso());
             this.getEliminar().setCrEstado('I');
             sieniCursoFacadeRemote.edit(this.getEliminar());
+            this.getCursoList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }

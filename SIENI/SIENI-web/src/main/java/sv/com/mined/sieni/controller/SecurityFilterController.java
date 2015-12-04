@@ -304,6 +304,6 @@ public class SecurityFilterController implements Filter {
 
     public void log(String msg) {
         filterConfig.getServletContext().log(msg);
-    }
+        }
 
 }

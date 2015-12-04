@@ -42,6 +42,9 @@
             <h:form >
                 <p:tabView>
                     <p:tab title="Configuración Componente">
+                        <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                            <ui:include src="ayuda/configurar.xhtml"></ui:include>
+                        </p:dialog>
                         <c:choose>
                             <c:when test="#{gestionComponentesInteractivosController.config.idTipoSuperCompon.idTipoSuperCompon==1}">
                                 <p:focus context="p1"/>

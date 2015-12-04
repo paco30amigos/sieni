@@ -642,9 +642,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             if (validarModifica(this.getClaseModifica())) {//valida el guardado
                 sieniClaseFacadeRemote.edit(this.getClaseModifica());
                 registrarEnBitacora("Modificar", "Video Clase Almacenada", this.getClaseModifica().getIdClase());
-                FacesMessage msg = new FacesMessage("Plantilla Modificado Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-                fill();
+                new ValidationPojo().printMsj("Plantilla Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+//                fill();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -671,7 +670,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             registrarEnBitacora("Eliminar", "Video Clase Almacenada ", this.getEliminar().getIdClase());
             this.getEliminar().setClEstado('I');
             sieniClaseFacadeRemote.edit(this.getEliminar());
-            fill();
+            this.getClaseList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }

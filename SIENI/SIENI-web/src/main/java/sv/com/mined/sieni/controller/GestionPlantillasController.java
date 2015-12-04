@@ -143,7 +143,8 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             registrarEnBitacora("Eliminar", "Plantilla", this.getEliminar().getIdPlantilla());
             this.getEliminar().setPlEstado('I');
             sieniPlantillaFacadeRemote.edit(this.getEliminar());
-            fill();
+            this.getPlantillaList().remove(this.getEliminar());
+//            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }

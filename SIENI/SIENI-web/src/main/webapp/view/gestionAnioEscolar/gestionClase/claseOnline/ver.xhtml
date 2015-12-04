@@ -68,10 +68,7 @@
                 <p:outputLabel value="Curso:#{gestionClasesOnlineController.claseActual.idCurso.crNombre}"></p:outputLabel>
                 <p:inputText id="usuarios" class="usuarios hide"></p:inputText>
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton"/>
-                </p:dialog>
-                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    <ui:include src="ayuda/ver.xhtml"></ui:include>
                 </p:dialog>
                 <div class="EmptyBox20"></div>
                 <div id="video"></div>

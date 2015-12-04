@@ -12,14 +12,14 @@
             <p:menuitem value="Busqueda de Expedientes"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">  
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form enctype="multipart/form-data" id="consultaForm" >
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton consulta"/>
+                    <ui:include src="ayuda/index_1.xhtml"></ui:include>
                 </p:dialog>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>

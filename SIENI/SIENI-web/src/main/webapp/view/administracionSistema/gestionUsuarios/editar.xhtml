@@ -20,7 +20,7 @@
         <p:panel>
             <h:form enctype="multipart/form-data" >
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton Modifica"/>
+                    <ui:include src="ayuda/editar.xhtml"></ui:include>
                 </p:dialog>
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="4" class="Container50 Responsive" id="p1">

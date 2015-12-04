@@ -20,7 +20,7 @@
         <p:panel>
             <h:form id="consultaForm">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    <ui:include src="ayuda/index.xhtml"></ui:include>
                 </p:dialog>
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
@@ -41,8 +41,8 @@
                         #{car.estado}
                     </p:column>
 <!--                    <p:column headerText="Elementos" filterBy="#{car.elemPlantilla}" filterMatchMode="contains">
-                        #{car.elemPlantilla}
-                    </p:column>-->
+                    #{car.elemPlantilla}
+                </p:column>-->
                     <p:column headerText="Materia" filterBy="#{car.idMateria.maNombre}" filterMatchMode="contains">
                         #{car.idMateria.maNombre}
                     </p:column>

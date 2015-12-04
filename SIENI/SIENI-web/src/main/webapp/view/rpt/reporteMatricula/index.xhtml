@@ -13,7 +13,7 @@
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
         <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-            <p:outputLabel value="Esta ayuda sirve un monton"/>
+            <ui:include src="ayuda/index.xhtml"></ui:include>
         </p:dialog>
     </ui:define>
     <ui:define name="content">

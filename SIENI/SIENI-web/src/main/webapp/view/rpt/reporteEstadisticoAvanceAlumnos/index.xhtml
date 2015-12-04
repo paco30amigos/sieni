@@ -5,21 +5,21 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Reportes" url="#"/>
             <p:menuitem value="Reporte Estadistico de Avance por Alumno" url="#{siteUrls.reporteEstadisticoAvanceAlumno}"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+            <ui:include src="ayuda/index.xhtml"></ui:include>
+        </p:dialog>
     </ui:define>
     <ui:define name="content">
         <p:tabView>
             <p:tab title="Reporte Estadistico de Avance por Alumno">
                 <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:panelGrid columns="4">
                         <p:outputLabel for="grado" value="Grado: " class="  Responsive"></p:outputLabel>

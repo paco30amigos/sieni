@@ -13,14 +13,14 @@
             <p:menuitem value="Modificar Nota"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda.show();"></i>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">  
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form>
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    <ui:include src="ayuda/editar.xhtml"></ui:include>
                 </p:dialog>
                 <p:focus id="focus" context="mod_p1"></p:focus>
                 <p:panelGrid columns="4" class="Container50 Responsive" id="mod_p1">

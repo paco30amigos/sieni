@@ -6,18 +6,18 @@
                 template="/WEB-INF/template.xhtml">
     <ui:define name="head">
         <script type="text/javascript">
-            function indice(){
+            function indice() {
                 var textarea = document.getElementById("j_idt75:j_idt77:formula");
                 var input = document.getElementById("j_idt75:j_idt77:indice");
-                var cursorPosition=textarea.selectionStart;
-                input.value=cursorPosition;   
+                var cursorPosition = textarea.selectionStart;
+                input.value = cursorPosition;
             }
-            
-            
-            
+
+
+
         </script>
     </ui:define>
-    <ui:define name="breadCrumb">
+    <ui:define name="breadCrumb" class="Container90">
         <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
@@ -25,30 +25,34 @@
             <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
         <p:tabView>
             <p:tab title="Diseño de Ejercicio">
                 <h:form>
-
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <ui:include src="ayuda/ver.xhtml"></ui:include>
+                    </p:dialog>
                     <p:menubar>
                         <p:submenu label="Funciones" >   
                             <p:submenu label="Trigonometricas">
                                 <p:menuitem value="sen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(9)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="cos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(10)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="tan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(11)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="cot(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(12)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="senh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(13)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="cosh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(14)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="tanh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(15)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="coth(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(16)}" update="formula,myScript" onclick="indice();"/>
-                            <p:separator />
-                            <p:menuitem value="arcsen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(17)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="arccos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(18)}" update="formula,myScript" onclick="indice();"/>
-                            <p:menuitem value="arctan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(19)}" update="formula,myScript" onclick="indice();"/>                                  
+                                <p:menuitem value="cos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(10)}" update="formula,myScript" onclick="indice();"/>
+                                <p:menuitem value="tan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(11)}" update="formula,myScript" onclick="indice();"/>
+                                <p:menuitem value="cot(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(12)}" update="formula,myScript" onclick="indice();"/>
+                                <p:menuitem value="senh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(13)}" update="formula,myScript" onclick="indice();"/>
+                                <p:menuitem value="cosh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(14)}" update="formula,myScript" onclick="indice();"/>
+                                <p:menuitem value="tanh(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(15)}" update="formula,myScript" onclick="indice();"/>
+                                <p:menuitem value="coth(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(16)}" update="formula,myScript" onclick="indice();"/>
+                                <p:separator />
+                                <p:menuitem value="arcsen(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(17)}" update="formula,myScript" onclick="indice();"/>
+                                <p:menuitem value="arccos(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(18)}" update="formula,myScript" onclick="indice();"/>
+                                <p:menuitem value="arctan(x)" action="#{gestionDisenioEjercicioController.formulaConstruct(19)}" update="formula,myScript" onclick="indice();"/>                                  
                             </p:submenu>
-                            
-                            <p:menuitem value="Absoluto" icon="ui-icon-absoluto" action="#{gestionDisenioEjercicioController.formulaConstruct(1)}" update="formula,myScript" onclick="indice(); "/>
+
+                            <p:menuitem value="Absoluto" icon="ui-icon-absoluto" action="#{gestionDisenioEjercicioController.formulaConstruct(1)}" update="formula,myScript" onclick="indice();
+                                    "/>
                             <p:menuitem value="Factorial" icon="ui-icon-factorial" action="#{gestionDisenioEjercicioController.formulaConstruct(2)}" update="formula,myScript" onclick="indice();"/>
                             <p:menuitem value="Raiz" icon="ui-icon-raiz" action="#{gestionDisenioEjercicioController.formulaConstruct(3)}" update="formula,myScript" onclick="indice();"/>
                             <p:menuitem value="Raiz n" icon="ui-icon-raizx" action="#{gestionDisenioEjercicioController.formulaConstruct(4)}" update="formula,myScript" onclick="indice();"/>
@@ -56,9 +60,9 @@
                             <p:menuitem value="Potencia" icon="ui-icon-xb" action="#{gestionDisenioEjercicioController.formulaConstruct(6)}" update="formula,myScript" onclick="indice();"/>
                             <p:menuitem value="log natural" icon="ui-icon-ex" action="#{gestionDisenioEjercicioController.formulaConstruct(7)}" update="formula,myScript" onclick="indice();"/>
                             <p:menuitem value="log base 10" icon="ui-icon-log" action="#{gestionDisenioEjercicioController.formulaConstruct(8)}" update="formula,myScript" onclick="indice();"/>
-                            
-                                                     
-                                                       
+
+
+
                         </p:submenu>
 
                         <p:submenu label="Agrupaciones" icon="ui-icon-pencil">
@@ -72,18 +76,19 @@
                             <p:menuitem value="Binomio" icon="ui-icon-binomio" action="#{gestionDisenioEjercicioController.formulaConstruct(27)}" update="formula,myScript" onclick="indice();"/>
                             <p:menuitem value="Matriz 2x3" icon="ui-icon-matriz" action="#{gestionDisenioEjercicioController.formulaConstruct(28)}" update="formula,myScript" onclick="indice();"/>
                         </p:submenu>                      
-                       
-                        <p:menuitem value="Salto" action="#{gestionDisenioEjercicioController.salto()}" update="formula,myScript" onclick="indice(); "/>
 
-                                                
+                        <p:menuitem value="Salto" action="#{gestionDisenioEjercicioController.salto()}" update="formula,myScript" onclick="indice();
+                                "/>
+
+
                     </p:menubar>
 
                     <div class="EmptyBox20"></div>
-                                        <p:inputText id="indice" class=" Responsive" value="#{gestionDisenioEjercicioController.indice}" type="hidden"/>
+                    <p:inputText id="indice" class=" Responsive" value="#{gestionDisenioEjercicioController.indice}" type="hidden"/>
 
-                                        <p:outputLabel for="formula" value="Formula: " class=" Responsive" ></p:outputLabel>
-                                        
-                                        <p:inputTextarea  class="Container100" id="formula" value="#{gestionDisenioEjercicioController.formula}" ></p:inputTextarea>
+                    <p:outputLabel for="formula" value="Formula: " class=" Responsive" ></p:outputLabel>
+
+                    <p:inputTextarea  class="Container100" id="formula" value="#{gestionDisenioEjercicioController.formula}" ></p:inputTextarea>
 
                     <p:graphicImage id="consulta" value="#{gestionDisenioEjercicioController.graphicText}" styleClass="Fleft"  cache="false"></p:graphicImage>
 
@@ -94,29 +99,29 @@
 
                     </div>
 
-<h:panelGroup id="myScript">
-   <script type="text/javascript">
+                    <h:panelGroup id="myScript">
+                        <script type="text/javascript">
 
 
- var valor = document.getElementById("j_idt75:j_idt77:indice");
- 
-   var input=document.getElementById("j_idt75:j_idt77:formula");
-    if (input.setSelectionRange) {
-    input.focus();
-    input.setSelectionRange(valor.value, valor.value);
-  }
-  else if (input.createTextRange) {
-    var range = input.createTextRange();
-    range.collapse(true);
-    range.moveEnd('character', valor.value);
-    range.moveStart('character', valor.value);
-    range.select();
-  }      
-           
-            
-           
-    </script>
-</h:panelGroup>
+                            var valor = document.getElementById("j_idt75:j_idt77:indice");
+
+                            var input = document.getElementById("j_idt75:j_idt77:formula");
+                            if (input.setSelectionRange) {
+                                input.focus();
+                                input.setSelectionRange(valor.value, valor.value);
+                            }
+                            else if (input.createTextRange) {
+                                var range = input.createTextRange();
+                                range.collapse(true);
+                                range.moveEnd('character', valor.value);
+                                range.moveStart('character', valor.value);
+                                range.select();
+                            }
+
+
+
+                        </script>
+                    </h:panelGroup>
 
                 </h:form>
 
@@ -124,7 +129,7 @@
 
             </p:tab>
 
-            
+
         </p:tabView>
 
 

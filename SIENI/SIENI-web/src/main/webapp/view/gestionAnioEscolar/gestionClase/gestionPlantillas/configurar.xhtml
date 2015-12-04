@@ -20,6 +20,9 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form enctype="multipart/form-data" id="f">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <ui:include src="ayuda/configurar.xhtml"></ui:include>
+                </p:dialog>
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:remoteCommand name="actualizarElem" update="elementos"></p:remoteCommand>
                 <p:panelGrid id="p1" columns="4"> 

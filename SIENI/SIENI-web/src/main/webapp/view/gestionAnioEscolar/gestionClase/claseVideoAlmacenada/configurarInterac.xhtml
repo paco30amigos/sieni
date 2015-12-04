@@ -20,8 +20,8 @@
         <p:panel>
             <h:form id="consultaForm">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton"/>
-                </p:dialog>                
+                    <ui:include src="ayuda/configurarInterac.xhtml"></ui:include>
+                </p:dialog>               
                 <div class="EmptyBox5"></div>
                 <p:outputLabel value="Curso: #{gestionVideoClaseController.claseConfig.idCurso.crNombre}"></p:outputLabel>
                 <p:tabView id="tabVie">

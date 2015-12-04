@@ -5,21 +5,21 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
             <p:separator />
         </p:breadCrumb>
+        <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
+        <div class="EmptyBox5"></div>
         <p:tabView>
             <p:tab title="Consultar Notificaciones">
                 <h:form>
-                    
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                        <ui:include src="ayuda/index.xhtml"></ui:include>
                     </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:dataScroller value="#{notificacionesController.listNotificaciones}" var="notify" >
                         <p:panel  header="#{notify.fechaInicioFormat}" closable="true">

@@ -18,6 +18,9 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <ui:include src="ayuda/bitacora.xhtml"></ui:include>
+                </p:dialog>
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="5">
                     <p:outputLabel for="desde" value="Fecha desde:"></p:outputLabel>

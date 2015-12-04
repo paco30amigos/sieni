@@ -13,13 +13,16 @@
             <p:menuitem value="Matricular Alumno"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda1').show();"></i>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form>
                 <div class="EmptyBox20"></div>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <ui:include src="ayuda/crear.xhtml"></ui:include>
+                </p:dialog>
                 <p:panelGrid columns="2" class="Container50 Responsive" id="p1">
                     <p:outputLabel for="carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
                     <p:inputText id="carnet" value="#{gestionMatriculaController.alumno.alCarnet}" disabled="true"></p:inputText>

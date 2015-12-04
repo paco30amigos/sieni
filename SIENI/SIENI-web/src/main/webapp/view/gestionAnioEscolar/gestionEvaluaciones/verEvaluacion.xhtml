@@ -13,7 +13,7 @@
             <p:menuitem value="Vizualizar evaluacion"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
         <style type="text/css">
             .ui-datatable.borderless thead th,
             .ui-datatable.borderless tbody,
@@ -29,7 +29,7 @@
         <p:panel>
             <h:form enctype="multipart/form-data" id="consultaForm" >
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton consulta"/>
+                    <ui:include src="ayuda/verEvaluacion.xhtml"></ui:include>
                 </p:dialog>
                 <p:dialog widgetVar="dlgEliminar2" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está Realmente seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>

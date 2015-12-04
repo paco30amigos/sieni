@@ -17,7 +17,7 @@
             <p:tab title="Consultar Evaluaciones"> 
                 <h:form>
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                        <ui:include src="ayuda/index_1.xhtml"></ui:include>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
@@ -56,8 +56,8 @@
             </p:tab>
             <p:tab title="Crear Evaluación">
                 <h:form>
-                    <p:dialog widgetVar="dlgAyuda2" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
+                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                        <ui:include src="ayuda/index_1.xhtml"></ui:include>
                     </p:dialog>
                     <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda2').show();"></i>
                     <div class="EmptyBox20"></div>

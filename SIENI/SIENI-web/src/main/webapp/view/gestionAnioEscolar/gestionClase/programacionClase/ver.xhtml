@@ -13,14 +13,14 @@
             <p:menuitem value="Consultar Programación de clase"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda#{gestionarAlumnosController.indexMenu}').show();"></i>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">  
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form enctype="multipart/form-data" >
-                <p:dialog widgetVar="dlgAyuda1" modal="true" appendTo="@(body)" header="Ayuda">
-                    <p:outputLabel value="Esta ayuda sirve un monton registrar"/>
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                    <ui:include src="ayuda/ver.xhtml"></ui:include>
                 </p:dialog>
                 <p:focus context="p1" id="focus"></p:focus>
                 <p:panelGrid columns="4" class="Container100" id="p1">

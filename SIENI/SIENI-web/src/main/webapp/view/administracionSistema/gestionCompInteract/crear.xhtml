@@ -20,23 +20,23 @@
         <p:panel>
             <h:form>
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                            <ui:include src="ayuda/crear.xhtml"></ui:include>
-                        </p:dialog>
+                    <ui:include src="ayuda/crear.xhtml"></ui:include>
+                </p:dialog>
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="2" id="p1">
                     <p:outputLabel for="nombre" value="Nombre: "></p:outputLabel>
                     <p:inputText id="nombre" tabindex="1" value="#{gestionComponentesInteractivosController.nuevo.scNombre}" required="true" requiredMessage="Debe ingresar un nombre" maxlength="#{tamanioUtils.nombreSuperCompMax}"></p:inputText>
                     <p:outputLabel for="descripcion" value="Descripción: "></p:outputLabel>
                     <p:inputText id="descripcion" tabindex="2" value="#{gestionComponentesInteractivosController.nuevo.scDescripcion}" maxlength="#{tamanioUtils.descSuperCompMax}"></p:inputText>
-                                 <p:outputLabel for="tipo" value="Tipo de Componente: "></p:outputLabel>
-                        <p:selectOneMenu id="tipo" tabindex="2" value="#{gestionComponentesInteractivosController.tipoSuperCompon}">
-                            <f:selectItems  itemValue="#{tipo.idTipoSuperCompon}" itemLabel="#{tipo.tscDescripcion}" value="#{gestionComponentesInteractivosController.listaTipo}" var="tipo"></f:selectItems>
-                        </p:selectOneMenu>                        
-                        <p:outputLabel for="estado" value="Estado: " class="Responsive"></p:outputLabel>
-                        <p:selectOneMenu id="estado"  tabindex="4" value="#{gestionComponentesInteractivosController.nuevo.scEstado}" >
-                            <f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
-                            <f:selectItem itemValue="T" itemLabel="Trabajando"></f:selectItem>
-                        </p:selectOneMenu>
+                    <p:outputLabel for="tipo" value="Tipo de Componente: "></p:outputLabel>
+                    <p:selectOneMenu id="tipo" tabindex="2" value="#{gestionComponentesInteractivosController.tipoSuperCompon}">
+                        <f:selectItems  itemValue="#{tipo.idTipoSuperCompon}" itemLabel="#{tipo.tscDescripcion}" value="#{gestionComponentesInteractivosController.listaTipo}" var="tipo"></f:selectItems>
+                    </p:selectOneMenu>                        
+                    <p:outputLabel for="estado" value="Estado: " class="Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="estado"  tabindex="4" value="#{gestionComponentesInteractivosController.nuevo.scEstado}" >
+                        <f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
+                        <f:selectItem itemValue="T" itemLabel="Trabajando"></f:selectItem>
+                    </p:selectOneMenu>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">

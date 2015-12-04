@@ -5,29 +5,29 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb>
+        <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Gestionar Clases" url="#"/>
             <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}"/>
             <p:separator />
+            <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
+        <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+            <ui:include src="ayuda/index1.xhtml"></ui:include>
+        </p:dialog>
         <p:tabView>
             <p:tab title="Diseño de Ejercicio">
                 <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:graphicImage id="consulta" value="#{gestionDisenioEjercicioController.graphicText}" styleClass="Fleft"  ></p:graphicImage>
 
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
                         <p:commandButton value="Registrar Curso" action="#{gestionDisenioEjercicioController.refresh()}" update="consulta"></p:commandButton>
-                    <p:commandButton value="Refrescar" action="#{gestionDisenioEjercicioController.refresh()}" ></p:commandButton>
+                        <p:commandButton value="Refrescar" action="#{gestionDisenioEjercicioController.refresh()}" ></p:commandButton>
 
                     </div>
                 </h:form>
@@ -38,10 +38,6 @@
 
             <p:tab title="Ejercicio Resuelto">
                 <h:form>
-                    <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
-                        <p:outputLabel value="Esta ayuda sirve un monton"/>
-                    </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                     <div class="EmptyBox20"></div>
                     <p:outputLabel  value="Algebra " class="  Responsive"></p:outputLabel>  
                     <div class="EmptyBox20"></div>

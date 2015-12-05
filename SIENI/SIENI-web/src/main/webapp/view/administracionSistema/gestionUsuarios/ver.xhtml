@@ -19,7 +19,7 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
-                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/ver.xhtml"></ui:include>
                 </p:dialog>
                 <p:remoteCommand name="redirect" actionListener="#{mntoUsuariosController.setIndexMenu(0)}"></p:remoteCommand>

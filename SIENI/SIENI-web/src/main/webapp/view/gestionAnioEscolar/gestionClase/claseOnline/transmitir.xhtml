@@ -114,7 +114,7 @@
             <h:form id="form">
                 <p:outputLabel value="Curso:#{gestionClasesOnlineController.claseActual.idCurso.crNombre}"></p:outputLabel>
                 <p:inputText id="usuarios" class="usuarios" style="display: none"></p:inputText>
-                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/transmitir.xhtml"></ui:include>
                 </p:dialog>
                 <div class="EmptyBox20"></div>

@@ -7,7 +7,7 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <p:panel>
         <c:set value="14" var="pagina"></c:set>
-        <object width="100%" height="300" data="#{copiaArchivos.relativeBaseResourcesUrl}documentosAyuda/manualUsuario.pdf#page=#{pagina}" type="application/pdf">
+        <object width="100%" height="400" data="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}documentosAyuda/manualUsuario.pdf#page=#{pagina}" type="application/pdf">
             No se puede visualizar el documento <a href="#{copiaArchivos.relativeBaseResourcesUrl}documentosAyuda/manualUsuario.pdf">haz click</a> para descargarlo, la información se encuentra en la página #{pagina}.
         </object>
     </p:panel>

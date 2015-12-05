@@ -100,7 +100,7 @@ public class SecurityFilterController implements Filter {
     private boolean noProteger(String urlStr, HttpServletRequest req) {
         boolean ban = false;
         //url no protegidas
-        String[] urls = {"login.xhtml", "access-denied.xhtml", "error.xhtml", "404.xhtml", "password.xhtml"};
+        String[] urls = {"login.xhtml", "access-denied.xhtml", "error.xhtml", "404.xhtml", "password.xhtml","documentosAyuda/manualUsuario.pdf","primepush/notifyNotice"};
         for (String actual : urls) {
             if (urlStr.endsWith("/faces/" + actual)) {
                 ban = true;
@@ -127,6 +127,7 @@ public class SecurityFilterController implements Filter {
         //modulos
         //url validas para alumno protegidas
         String[] urls = {"/faces/index.xhtml",
+            "ayuda/",
             su.getBaseprogramacionClases(),
             su.getBaseclaseOnline(),
             su.getBaseclaseVideoAlmacenada(),
@@ -160,6 +161,8 @@ public class SecurityFilterController implements Filter {
         if (urlStr.endsWith(req.getContextPath() + "/")) {
             ban = true;
         }
+        //TODO eliminar
+        ban = true;
         return ban;
     }
 
@@ -180,6 +183,7 @@ public class SecurityFilterController implements Filter {
 
         //url validas para alumno protegidas
         String[] urls = {"/faces/index.xhtml",
+            "ayuda/",
             su.getBaseexpedienteAlumnos(),
             su.getBasegestionarAnioEscolar(),
             su.getBasegestionAlumnos(),
@@ -228,6 +232,8 @@ public class SecurityFilterController implements Filter {
         if (urlStr.endsWith(req.getContextPath() + "/")) {
             ban = true;
         }
+        //TODO eliminar
+        ban = true;
         return ban;
     }
 

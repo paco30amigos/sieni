@@ -96,7 +96,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.getNuevaInterac().setIdEvento(new SieniEvento());
     }
     
-    public void nuevo(){
+    public void nuevoReg(){
         this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setIndexMenu(1);
     }

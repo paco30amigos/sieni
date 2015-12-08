@@ -38,6 +38,15 @@
                         <f:selectItem itemValue="T" itemLabel="Trabajando"></f:selectItem>
                     </p:selectOneMenu>
                 </p:panelGrid>
+                <p:tooltip for="nombre">
+                    <h:outputText value="Nombre del Componente Interactivo, ejemplo: Galería de volcanes de El Salvador"/>
+                </p:tooltip>
+                <p:tooltip for="descripcion">
+                    <h:outputText value="Descripción del Componente Interactivo, ejemplo: Contiene los 23 volcanes de El Salvador"/>
+                </p:tooltip>
+                <p:tooltip for="estado">
+                    <h:outputText value="activo:el Componente Interactivo puede ser utilizado, trabajando:el Componente Interactivo no puede ser utilizado"/>
+                </p:tooltip>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionComponentesInteractivosController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"/>

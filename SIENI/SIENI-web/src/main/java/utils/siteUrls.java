@@ -40,6 +40,10 @@ public class siteUrls {
     private final String claseInteractiva = "/faces/view/gestionAnioEscolar/gestionClase/claseInteractiva/index.xhtml";
     private final String componenteInteractiva = "/faces/view/administracionSistema/gestionCompInteract/index.xhtml";
     private final String gestionPlantilla = "/faces/view/administracionSistema/gestionPlantillas/index.xhtml";
+    private final String catTipoElemPlantilla = "/faces/view/administracionSistema/catalogos/tipoElemPlantilla/index.xhtml";
+    private final String catSeccion = "/faces/view/administracionSistema/catalogos/seccion/index.xhtml";
+    private final String catGrado = "/faces/view/administracionSistema/catalogos/grados/index.xhtml";
+    private final String catMateria = "/faces/view/administracionSistema/catalogos/materias/index.xhtml";
 
     private final String reporteMatricula = "/faces/view/rpt/reporteMatricula/index.xhtml";
     private final String reporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/index.xhtml";
@@ -96,6 +100,10 @@ public class siteUrls {
 
     private final String baseejerciciosRes = "/faces/view/gestionAnioEscolar/gestionClase/ejerciciosRes/";
     private final String basereporteRendimientoAlumno = "/faces/view/rpt/rendimientoAlumno/";
+    private final String basecatTipoElemPlantilla = "/faces/view/administracionSistema/catalogos/tipoElemPlantilla/";
+    private final String basecatSeccion = "/faces/view/administracionSistema/catalogos/seccion/";
+    private final String basecatGrado = "/faces/view/administracionSistema/catalogos/grados/";
+    private final String basecatMateria = "/faces/view/administracionSistema/catalogos/materias/";
 
     public void redirect(String url) {
 
@@ -392,6 +400,38 @@ public class siteUrls {
 
     public String getBasegestionPlantilla() {
         return basegestionPlantilla;
+    }
+
+    public String getCatTipoElemPlantilla() {
+        return catTipoElemPlantilla;
+    }
+
+    public String getCatSeccion() {
+        return catSeccion;
+    }
+
+    public String getCatGrado() {
+        return catGrado;
+    }
+
+    public String getCatMateria() {
+        return catMateria;
+    }
+
+    public String getBasecatTipoElemPlantilla() {
+        return basecatTipoElemPlantilla;
+    }
+
+    public String getBasecatSeccion() {
+        return basecatSeccion;
+    }
+
+    public String getBasecatGrado() {
+        return basecatGrado;
+    }
+
+    public String getBasecatMateria() {
+        return basecatMateria;
     }
 
 }

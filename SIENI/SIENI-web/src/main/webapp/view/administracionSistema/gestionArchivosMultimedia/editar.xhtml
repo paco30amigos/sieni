@@ -42,6 +42,15 @@
                                   >
                     </p:fileUpload>
                 </p:panelGrid>
+                <p:tooltip for="mod_nombre">
+                    <h:outputText value="Nombre del archivo multimedia, ejemplo: Proceso de fotosíntesis detallado"/>
+                </p:tooltip>
+                <p:tooltip for="mod_estado">
+                    <h:outputText value="activo:el archivo puede ser utilizado, trabajando:el archivo no puede ser utilizado"/>
+                </p:tooltip>
+                <p:tooltip for="mod_archivo">
+                    <h:outputText value="Los archivos admitidos son: imagen-jpg, video-mp4 y audio-mp3"/>
+                </p:tooltip>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardarModifica()}" update="mod_p1" oncomplete="configurarEnterTab()" />

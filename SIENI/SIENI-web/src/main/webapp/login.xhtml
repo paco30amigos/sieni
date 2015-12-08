@@ -37,6 +37,12 @@
                                 <p:outputLabel for="pass" value="Contraseña:"></p:outputLabel>
                                 <p:inputText id="pass" autocomplete="false" tabindex="2" type="password" value="#{loginController.password}" placeholder="Contraseña" maxlength="30" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar contraseña"/>
                             </h:panelGrid>
+                            <p:tooltip for="usuario">
+                                <h:outputText value="Usuario registrado en el sistema" />
+                            </p:tooltip>
+                            <p:tooltip for="pass">
+                                <h:outputText value="Contraseña de usuario registrado" />
+                            </p:tooltip>
                         </div>
                         <div class="EmptyBox30"></div>
                         <p:commandButton value="Ingresar" icon="fa fa-sign-in" styleClass="Wid60 Fs18 White RaisedButton " actionListener="#{loginController.login}" update="form" class="Wid100" />

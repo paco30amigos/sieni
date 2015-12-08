@@ -68,6 +68,7 @@
                             <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}" />
                             <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}" />
                         </p:submenu>
+                        <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
                         <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" />
                         <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}" />
                     </p:submenu>
@@ -98,6 +99,12 @@
                         <p:menuitem value="Mantenimiento de Usuarios" url="#{siteUrls.gestionUsuarios}" />
                         <p:menuitem value="Bítacora" url="#{siteUrls.bitacora}" />
                     </p:submenu>
+                    <p:submenu label="Gestionar Catálogos">
+                        <p:menuitem value="Tipo de elementos de plantilla" url="#{siteUrls.catTipoElemPlantilla}" />
+                        <p:menuitem value="Materias" url="#{siteUrls.catMateria}" />
+                        <p:menuitem value="Grados" url="#{siteUrls.catGrado}" />
+                        <p:menuitem value="Secciones" url="#{siteUrls.catSeccion}"/>
+                    </p:submenu>
                     <p:separator />
                 </pr:menu>
             </c:if>
@@ -109,6 +116,7 @@
                         <p:menuitem value="Bítacora" url="#{siteUrls.bitacora}" />
                     </p:submenu>
                     <p:submenu label="Gestionar Año Escolar">
+                        <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
                         <p:menuitem value="Mantenimiento de Año escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
                     </p:submenu>
                     <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
@@ -138,6 +146,7 @@
                         <p:menuitem value="Bítacora" url="#{siteUrls.bitacora}" />
                     </p:submenu>
                     <p:submenu label="Gestionar Año Escolar">
+                        <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
                         <p:menuitem value="Mantenimiento de Año escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
                     </p:submenu>
                     <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />

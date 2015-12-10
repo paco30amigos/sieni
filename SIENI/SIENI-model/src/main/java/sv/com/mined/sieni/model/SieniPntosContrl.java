@@ -42,7 +42,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniPntosContrl.findByPcSiguiente", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcSiguiente = :pcSiguiente"),
     @NamedQuery(name = "SieniPntosContrl.findByPcAnterior", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcAnterior = :pcAnterior"),
     @NamedQuery(name = "SieniPntosContrl.findByPcUltimo", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcUltimo = :pcUltimo"),
-    @NamedQuery(name = "SieniPntosContrl.findByPcEstado", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcEstado = :pcEstado")})
+    @NamedQuery(name = "SieniPntosContrl.findByPcEstado", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcEstado = :pcEstado"),
+    @NamedQuery(name = "SieniPntosContrl.findByAlumno", query = "SELECT DISTINCT s.idAlumno FROM SieniPntosContrl s"),
+    @NamedQuery(name = "SieniPntosContrl.findByClasesAlumnos", query = "SELECT DISTINCT s.idClase FROM SieniPntosContrl s WHERE s.idAlumno.idAlumno = :idAlumno")})
 public class SieniPntosContrl implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -20,10 +20,14 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
+import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniPntosContrlFacadeRemote;
+import sv.com.mined.sieni.converter.AlumnoConverter;
 import sv.com.mined.sieni.form.RptParticipacionForm;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniPntosContrl;
 import sv.com.mined.sieni.pojos.rpt.RptParticipacionPojo;
 import utils.DateUtils;
@@ -43,6 +47,9 @@ public class RptParticipacionController extends RptParticipacionForm {
     @EJB
     private SieniPntosContrlFacadeRemote sieniPntosContrlFacadeRemote;
     
+    @EJB
+    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
+    
     @PostConstruct
     public void init() {
         this.setFormatoRpt("PDF");
@@ -50,14 +57,22 @@ public class RptParticipacionController extends RptParticipacionForm {
         fill();
     }
     
-    private void fill() {
+    public void fill() {
         RptParticipacionPojo elem = new RptParticipacionPojo();
 
-        List<SieniPntosContrl> puntos = sieniPntosContrlFacadeRemote.findAll();
+        //List<SieniPntosContrl> puntos = sieniPntosContrlFacadeRemote.findAll();
         this.setListDatos(new ArrayList<RptParticipacionPojo>());
         
-        for(SieniPntosContrl actual : puntos){
+        List<SieniAlumno> alumnos = sieniPntosContrlFacadeRemote.findByAlumno();
+        for(SieniAlumno actual : alumnos){
+            List<SieniClase> clases = sieniPntosContrlFacadeRemote.findByClasesAlumnos(actual.getIdAlumno());
+            for(SieniClase clase : clases){
+                
+                
             
+                elem = new RptParticipacionPojo(actual.getAlNombreCompleto(), clase.getIdCurso().getCrNombre(), null, null, null);
+                this.getListDatos().add(elem);
+            }            
         }
         
         this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));

@@ -11,6 +11,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniPntosContrl;
 
 /**
@@ -45,5 +47,28 @@ public class SieniPntosContrlFacade extends AbstractFacade<SieniPntosContrl> imp
             em.refresh(ret);
         }
         return ret;
+    }
+
+    @Override
+    public List<SieniAlumno> findByAlumno() {
+        Query q = em.createNamedQuery("SieniPntosContrl.findByAlumno");
+        List<SieniAlumno> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<SieniClase> findByClasesAlumnos(Long idAlumno) {
+        Query q = em.createNamedQuery("SieniPntosContrl.findByClasesAlumnos");
+        q.setParameter("idAlumno", idAlumno);
+        List<SieniClase> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res;
+        } else {
+            return null;
+        }
     }
 }

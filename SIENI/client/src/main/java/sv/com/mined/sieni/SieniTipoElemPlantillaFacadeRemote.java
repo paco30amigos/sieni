@@ -18,16 +18,24 @@ public interface SieniTipoElemPlantillaFacadeRemote {
 
     void create(SieniTipoElemPlantilla sieniTipoElemPlantilla);
 
+    SieniTipoElemPlantilla createAndReturn(SieniTipoElemPlantilla sieniSuperCompon);
+
     void edit(SieniTipoElemPlantilla sieniTipoElemPlantilla);
 
     void remove(SieniTipoElemPlantilla sieniTipoElemPlantilla);
 
     SieniTipoElemPlantilla find(Object id);
+    
+    SieniTipoElemPlantilla findByNombre(String nombre);
 
     List<SieniTipoElemPlantilla> findAll();
 
     List<SieniTipoElemPlantilla> findRange(int[] range);
 
     int count();
+
+    public List<SieniTipoElemPlantilla> findAllNoInactivos();
     
+    public List<SieniTipoElemPlantilla> findAllActivos();
+
 }

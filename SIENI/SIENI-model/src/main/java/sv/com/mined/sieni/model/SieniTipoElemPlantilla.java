@@ -6,17 +6,19 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Transient;
 
 /**
  *
@@ -25,12 +27,17 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "sieni_tipo_elem_plantilla")
 @NamedQueries({
+    @NamedQuery(name = "SieniTipoElemPlantilla.findByEstado", query = "SELECT s FROM SieniTipoElemPlantilla s where s.teEstado=:estado"),
+    @NamedQuery(name = "SieniTipoElemPlantilla.findAllNoInactivos", query = "SELECT s FROM SieniTipoElemPlantilla s where s.teEstado not in (:estado)"),
+    @NamedQuery(name = "SieniTipoElemPlantilla.findByNombre", query = "SELECT s FROM SieniTipoElemPlantilla s where s.teEstado not in (:estado) and s.teDescripcion=:nombre"),
     @NamedQuery(name = "SieniTipoElemPlantilla.findAll", query = "SELECT s FROM SieniTipoElemPlantilla s")})
 public class SieniTipoElemPlantilla implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_tipo_elem_plantilla")
+    @SequenceGenerator(name = "sec_sieni_tipo_elem_plantilla", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_tipo_elem_plantilla")
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id_tipo_elem_plantilla")
     private Long idTipoElemPlantilla;
     @Column(name = "te_descripcion")
@@ -39,6 +46,8 @@ public class SieniTipoElemPlantilla implements Serializable {
     private Character teEstado;
     @OneToMany(mappedBy = "idTipoElemPlantilla")
     private List<SieniElemPlantilla> sieniElemPlantillaList;
+    @Transient
+    String estado;
 
     public SieniTipoElemPlantilla() {
     }
@@ -103,5 +112,23 @@ public class SieniTipoElemPlantilla implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniTipoElemPlantilla[ idTipoElemPlantilla=" + idTipoElemPlantilla + " ]";
     }
-    
+
+    public String getEstado() {
+        estado = "";
+        if (this.getTeEstado() != null) {
+            switch (this.getTeEstado()) {
+                case 'A':
+                    estado = "Disponible";
+                    break;
+                case 'T':
+                    estado = "Trabajando";
+                    break;
+                case 'I':
+                    estado = "Eliminado";
+                    break;
+            }
+        }
+        return estado;
+    }
+
 }

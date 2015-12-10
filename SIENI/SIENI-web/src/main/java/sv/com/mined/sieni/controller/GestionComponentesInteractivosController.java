@@ -95,8 +95,8 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.getNuevaInterac().setIdAccion(new SieniAccion());
         this.getNuevaInterac().setIdEvento(new SieniEvento());
     }
-    
-    public void nuevoReg(){
+
+    public void nuevoReg() {
         this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setIndexMenu(1);
     }
@@ -256,7 +256,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
                 }
             }
             if (validarModifica(this.getModifica())) {//valida el guardado
-                sieniSuperComponFacadeRemote.edit(this.getModifica());                
+                sieniSuperComponFacadeRemote.edit(this.getModifica());
                 registrarEnBitacora("Modificar", "Componente interactivo", this.getModifica().getIdSuperCompon());
                 new ValidationPojo().printMsj("Componente Interactivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
 //                fill();

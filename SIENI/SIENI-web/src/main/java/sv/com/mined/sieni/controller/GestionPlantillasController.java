@@ -201,7 +201,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     public void fillElemPlantillaPlantilla(SieniPlantilla plantilla) {
         plantilla = sieniPlantillaFacadeRemote.refresh(plantilla);
         this.setPlantillaModifica(plantilla);
-        this.setTipoPlantilla(sieniTipoElemPlantillaFacadeRemote.findAll());
+        this.setTipoPlantilla(sieniTipoElemPlantillaFacadeRemote.findAllActivos());
         this.setNuevoElem(new SieniTipoElemPlantilla());
         this.setElemPlantillaEliminados(new ArrayList<SieniElemPlantilla>());
         if (this.getElemPlantillaSelected() == null) {

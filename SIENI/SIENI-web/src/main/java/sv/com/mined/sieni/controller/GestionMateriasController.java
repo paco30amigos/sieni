@@ -151,7 +151,7 @@ public class GestionMateriasController extends GestionMateriasForm {
         List<SieniMateria> mat = sieniMateriaFacadeRemote.findByMaNombre(materia);
         if (mat != null) {
             for (SieniMateria actual : mat) {
-                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno))) {
+                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado()=='I') {
                     return false;
                 }
             }

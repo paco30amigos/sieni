@@ -71,4 +71,16 @@ public class SieniPntosContrlFacade extends AbstractFacade<SieniPntosContrl> imp
             return null;
         }
     }
+    
+    @Override
+    public Integer findByCountClase(Long idClase) {
+        Query q = em.createNamedQuery("SieniPntosContrl.findByCountClase");
+        q.setParameter("idClase", idClase);
+        Integer res = q.getResultList().size();
+        if (res != null) {
+            return res;
+        } else {
+            return null;
+        }
+    }
 }

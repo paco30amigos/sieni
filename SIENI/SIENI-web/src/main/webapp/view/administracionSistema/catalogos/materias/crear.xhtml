@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Administración de Sistema" url="#"/>
+            <p:menuitem value="Gestión de catalogos" url="#"/>
+            <p:menuitem value="Tipo de elemento de plantilla" url="#{siteUrls.catTipoElemPlantilla}"/>
+            <p:menuitem value="Adicionar tipo de elemento de plantilla" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" >
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
+                    <ui:include src="ayuda/crear.xhtml"></ui:include>
+                </p:dialog>
+                <p:focus id="focus" context="p1"/>
+                <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
+                    <p:outputLabel for="nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
+                    <p:inputText tabindex="1" id="nombre" value="#{catMateriaController.nuevo.teDescripcion}" required="true" requiredMessage="Debe ingresar un nombre al archivo" maxlength="#{tamanioUtils.nombreArchivoMax}"></p:inputText>
+                    <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="2" id="estado" class=" Responsive" value="#{catMateriaController.nuevo.teEstado}">
+                        <f:selectItem itemValue ="A" itemLabel="Activo"/>
+                        <f:selectItem itemValue="P" itemLabel="Trabajando"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+                <p:tooltip for="nombre">
+                    <h:outputText value="Nombre del tipo de elemento de plantilla, ejemplo: Marco teórico"/>
+                </p:tooltip>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar" action="#{catMateriaController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"/>
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1,focus" resetValues="true" listener="#{catMateriaController.resetNuevoForm()}" oncomplete="configurarEnterTab()" />
+                    </p:commandButton>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{catMateriaController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Gestionar Componentes interactivos" url="#{siteUrls.componenteInteractiva}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Clase interactiva" url="#{siteUrls.claseInteractiva}">    
+                        </p:menuitem>
+                        <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}">
+                        </p:menuitem>
+                    </p:tieredMenu> 
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

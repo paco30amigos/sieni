@@ -73,7 +73,7 @@ public abstract class AbstractFacade<T> {
         return ((Long) q.getSingleResult()).intValue();
     }
 
-    private Predicate getFilterCondition(CriteriaBuilder cb, Root<T> myObj, Map<String, String> filters) {
+    public Predicate getFilterCondition(CriteriaBuilder cb, Root<T> myObj, Map<String, String> filters) {
         Predicate filterCondition = cb.conjunction();
         String wildCard = "%";
         for (Map.Entry<String, String> filter : filters.entrySet()) {

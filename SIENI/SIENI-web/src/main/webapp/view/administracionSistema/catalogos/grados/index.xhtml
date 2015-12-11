@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Administración de Sistema" url="#"/>
+            <p:menuitem value="Gestión de catalogos" url="#"/>
+            <p:menuitem value="Grados" url="#{siteUrls.catGrado}"/>
+            <p:menuitem value="Búsqueda de Grados" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
+                    <ui:include src="ayuda/index.xhtml"></ui:include>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{catGradoController.eliminarGrado()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{catGradoController.list}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Nombre" filterBy="#{car.grNombre}" filterable="true" filterMatchMode="contains">
+                        #{car.grNombre}
+                    </p:column>
+                    <p:column headerText="Numero" filterBy="#{car.grNumero}" filterable="true" filterMatchMode="contains">
+                        #{car.grNumero}
+                    </p:column>
+                    <p:column headerText="Estado" filterBy="#{car.estado}" filterable="true" filterMatchMode="contains">
+                        #{car.estado}
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandLink action="#{catGradoController.mostrar(car)}" >
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Ver Tipo de elemento de plantilla"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{catGradoController.modificar(car)}">
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Tipo de elemento de plantilla"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{catGradoController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Tipo de elemento de plantilla"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Adicionar Grado" action="#{catGradoController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{catGradoController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

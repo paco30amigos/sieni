@@ -5,8 +5,6 @@
  */
 package sv.com.mined.sieni.model;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -15,14 +13,11 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import static javax.persistence.FetchType.LAZY;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,10 +27,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
 
 /**
  *
@@ -67,25 +61,25 @@ import org.primefaces.model.StreamedContent;
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),
     @NamedQuery(name = "SieniAlumno.findByPuntosControl", query = "SELECT s FROM SieniAlumno s join fetch s.sieniPntosContrlList ctrl"),
     @NamedQuery(name = "SieniAlumno.findByIdAlumno", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :idAlumno"),
-    @NamedQuery(name = "SieniAlumno.findByAlPrimNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alPrimNombre = :alPrimNombre"),
-    @NamedQuery(name = "SieniAlumno.findByAlSeguNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alSeguNombre = :alSeguNombre"),
-    @NamedQuery(name = "SieniAlumno.findByAlTercNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alTercNombre = :alTercNombre"),
-    @NamedQuery(name = "SieniAlumno.findByAlPrimApe", query = "SELECT s FROM SieniAlumno s WHERE s.alPrimApe = :alPrimApe"),
-    @NamedQuery(name = "SieniAlumno.findByAlSeguApe", query = "SELECT s FROM SieniAlumno s WHERE s.alSeguApe = :alSeguApe"),
-    @NamedQuery(name = "SieniAlumno.findByAlTercApe", query = "SELECT s FROM SieniAlumno s WHERE s.alTercApe = :alTercApe"),
-    @NamedQuery(name = "SieniAlumno.findByAlDireccion", query = "SELECT s FROM SieniAlumno s WHERE s.alDireccion = :alDireccion"),
-    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm1", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm1 = :alTelefonoEm1"),
-    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm2", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm2 = :alTelefonoEm2"),
-    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm3", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm3 = :alTelefonoEm3"),
+//    @NamedQuery(name = "SieniAlumno.findByAlPrimNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alPrimNombre = :alPrimNombre"),
+//    @NamedQuery(name = "SieniAlumno.findByAlSeguNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alSeguNombre = :alSeguNombre"),
+//    @NamedQuery(name = "SieniAlumno.findByAlTercNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alTercNombre = :alTercNombre"),
+//    @NamedQuery(name = "SieniAlumno.findByAlPrimApe", query = "SELECT s FROM SieniAlumno s WHERE s.alPrimApe = :alPrimApe"),
+//    @NamedQuery(name = "SieniAlumno.findByAlSeguApe", query = "SELECT s FROM SieniAlumno s WHERE s.alSeguApe = :alSeguApe"),
+//    @NamedQuery(name = "SieniAlumno.findByAlTercApe", query = "SELECT s FROM SieniAlumno s WHERE s.alTercApe = :alTercApe"),
+//    @NamedQuery(name = "SieniAlumno.findByAlDireccion", query = "SELECT s FROM SieniAlumno s WHERE s.alDireccion = :alDireccion"),
+//    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm1", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm1 = :alTelefonoEm1"),
+//    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm2", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm2 = :alTelefonoEm2"),
+//    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm3", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm3 = :alTelefonoEm3"),
     @NamedQuery(name = "SieniAlumno.findByAlUsuario", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario = :alUsuario"),
-    @NamedQuery(name = "SieniAlumno.findByAlContrasenia", query = "SELECT s FROM SieniAlumno s WHERE s.alContrasenia = :alContrasenia"),
-    @NamedQuery(name = "SieniAlumno.findByAlCorreo", query = "SELECT s FROM SieniAlumno s WHERE s.alCorreo = :alCorreo"),
-    @NamedQuery(name = "SieniAlumno.findByAlFechaNacimiento", query = "SELECT s FROM SieniAlumno s WHERE s.alFechaNacimiento = :alFechaNacimiento"),
-    @NamedQuery(name = "SieniAlumno.findByAlEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alEstado = :alEstado"),
+//    @NamedQuery(name = "SieniAlumno.findByAlContrasenia", query = "SELECT s FROM SieniAlumno s WHERE s.alContrasenia = :alContrasenia"),
+//    @NamedQuery(name = "SieniAlumno.findByAlCorreo", query = "SELECT s FROM SieniAlumno s WHERE s.alCorreo = :alCorreo"),
+//    @NamedQuery(name = "SieniAlumno.findByAlFechaNacimiento", query = "SELECT s FROM SieniAlumno s WHERE s.alFechaNacimiento = :alFechaNacimiento"),
+//    @NamedQuery(name = "SieniAlumno.findByAlEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alEstado = :alEstado"),
     @NamedQuery(name = "SieniAlumno.findAlumnoById", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :id"),
     @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario IS NOT NULL AND s.alUsuario <> ''"),
     @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnosByEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario IS NOT NULL AND s.alUsuario <> '' AND s.alEstado = :alEstado ")
-   
+
     
 })
 public class SieniAlumno implements Serializable {
@@ -104,30 +98,43 @@ public class SieniAlumno implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_alumno")
     private Long idAlumno;
+    @Size(max = 50)
     @Column(name = "al_prim_nombre")
     private String alPrimNombre;
+    @Size(max = 50)
     @Column(name = "al_segu_nombre")
     private String alSeguNombre;
+    @Size(max = 50)
     @Column(name = "al_terc_nombre")
     private String alTercNombre;
+    @Size(max = 50)
     @Column(name = "al_prim_ape")
     private String alPrimApe;
+    @Size(max = 50)
     @Column(name = "al_segu_ape")
     private String alSeguApe;
+    @Size(max = 50)
     @Column(name = "al_terc_ape")
     private String alTercApe;
+    @Size(max = 200)
     @Column(name = "al_direccion")
     private String alDireccion;
+    @Size(max = 8)
     @Column(name = "al_telefono_em_1")
     private String alTelefonoEm1;
+    @Size(max = 8)
     @Column(name = "al_telefono_em_2")
     private String alTelefonoEm2;
+    @Size(max = 8)
     @Column(name = "al_telefono_em_3")
     private String alTelefonoEm3;
+    @Size(max = 20)
     @Column(name = "al_usuario")
     private String alUsuario;
+    @Size(max = 256)
     @Column(name = "al_contrasenia")
     private String alContrasenia;
+    @Size(max = 50)
     @Column(name = "al_correo")
     private String alCorreo;
     @Column(name = "al_fecha_nacimiento")
@@ -136,10 +143,12 @@ public class SieniAlumno implements Serializable {
     @Column(name = "al_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date alFechaIngreso;
+    @Size(max = 8)
     @Column(name = "al_carnet")
     private String alCarnet;
     @Column(name = "al_correlat_carnet")
     private Integer alCorrelatCarnet;
+    @Size(max = 4)
     @Column(name = "al_codigo_carnet")
     private String alCodigoCarnet;
     @Column(name = "al_estado")
@@ -517,4 +526,4 @@ public class SieniAlumno implements Serializable {
     public void setSieniEvalRespAlumnoList(List<SieniEvalRespAlumno> sieniEvalRespAlumnoList) {
         this.sieniEvalRespAlumnoList = sieniEvalRespAlumnoList;
     }
-}
+    }

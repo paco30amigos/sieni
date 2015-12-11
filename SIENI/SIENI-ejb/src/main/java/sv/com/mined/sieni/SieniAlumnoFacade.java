@@ -8,6 +8,7 @@ package sv.com.mined.sieni;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -21,7 +22,9 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.primefaces.model.SortOrder;
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.pojos.PagedResult;
 
 /**
  *
@@ -47,6 +50,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         Query q = em.createNamedQuery("SieniAlumno.findAlumnosActivos");
         return q.getResultList();
     }
+
     @Override
     public List<SieniAlumno> findAlumnosNoInactivos() {
         Character estado = 'I';
@@ -319,14 +323,67 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
 
     }
 
-    
     @Override
     public List<SieniAlumno> findAlumnosInscritos(Long idCurso) {
         Query q = em.createNamedQuery("SieniAlumno.findAlumnosInscritos");
-        q.setParameter("idCurso", idCurso);        
+        q.setParameter("idCurso", idCurso);
         q.setParameter("alEstado", 'I');
-
+        
         return q.getResultList();
 
+    }
+
+    @Override
+    public Predicate getFilterCondition(CriteriaBuilder cb, Root<SieniAlumno> myObj, Map<String, String> filters) {
+        Predicate filterCondition = cb.conjunction();
+        String wildCard = "%";
+        for (Map.Entry<String, String> filter : filters.entrySet()) {
+            String value = wildCard + filter.getValue() + wildCard;
+            if (!filter.getValue().equals("")) {
+                javax.persistence.criteria.Path<String> path = myObj.get(filter.getKey());
+                filterCondition = cb.and(filterCondition, cb.like(path, value));
+            }
+        }
+        return filterCondition;
+    }
+
+    @Override
+    public int countAllResultList(Map<String, String> filters) {
+
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<SieniAlumno> myObj = cq.from(SieniAlumno.class);
+        //filters
+        cq.where(this.getFilterCondition(cb, myObj, filters));
+        //count
+        cq.select(cb.count(myObj));
+        return getEntityManager().createQuery(cq).getSingleResult().intValue();
+    }
+
+    @Override
+    public PagedResult<SieniAlumno> getAllResultList(PagedResult<SieniAlumno> ret) {
+        //query
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<SieniAlumno> cq = cb.createQuery(SieniAlumno.class);
+        Root<SieniAlumno> myObj = cq.from(SieniAlumno.class);
+        //filters
+        cq.where(this.getFilterCondition(cb, myObj, ret.getFilters()));
+        //sort
+        if (ret.getSortField() != null) {
+            if (ret.getSortOrder() == SortOrder.ASCENDING) {
+                cq.orderBy(cb.asc(myObj.get(ret.getSortField())));
+            } else if (ret.getSortOrder() == SortOrder.DESCENDING) {
+                cq.orderBy(cb.desc(myObj.get(ret.getSortField())));
+            }
+        }
+        //pagination
+        ret.setResutl(getEntityManager().createQuery(cq).setFirstResult(ret.getFirst()).setMaxResults(ret.getPageSize()).getResultList());
+        return ret;
+    }
+
+    public PagedResult<SieniAlumno> getAllNoInactivosResultList(PagedResult<SieniAlumno> val) {
+        PagedResult<SieniAlumno> ret = getAllResultList(val);
+        ret.setCount(countAllResultList(ret.getFilters()));
+        return ret;
     }
 }

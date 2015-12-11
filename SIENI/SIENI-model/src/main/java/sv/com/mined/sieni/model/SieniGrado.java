@@ -11,11 +11,15 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -29,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "SieniGrado.findGradoActualAlumno", query = "SELECT s FROM SieniGrado s join fetch s.sieniMatriculaList mt where mt.idAlumno.idAlumno=:idAlumno and mt.mtFechaIngreso =:anioDesde and mt.mtFechaIngreso =:anioHasta and mt.mtEstado not in (:estado) and s.grEstado not in (:estado)"),
     @NamedQuery(name = "SieniGrado.findAll", query = "SELECT s FROM SieniGrado s"),
+    @NamedQuery(name = "SieniGrado.findAllNoInactivos", query = "SELECT s FROM SieniGrado s where s.grEstado not in (:estado)"),
     @NamedQuery(name = "SieniGrado.findByIdGrado", query = "SELECT s FROM SieniGrado s WHERE s.idGrado = :idGrado"),
     @NamedQuery(name = "SieniGrado.findByGrNombre", query = "SELECT s FROM SieniGrado s WHERE s.grNombre = :grNombre"),
     @NamedQuery(name = "SieniGrado.findByGrNumero", query = "SELECT s FROM SieniGrado s WHERE s.grNumero = :grNumero")})
@@ -36,6 +41,8 @@ public class SieniGrado implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_grado")
+    @SequenceGenerator(name = "sec_sieni_grado", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_grado")
     @Basic(optional = false)
     @Column(name = "id_grado")
     private Long idGrado;
@@ -53,7 +60,9 @@ public class SieniGrado implements Serializable {
     private List<SieniMateria> sieniMateriaList;
     @OneToMany(mappedBy = "idGrado")
     private List<SieniCurso> sieniCursoList;
-
+    @Transient
+    private String estado;
+    
     public SieniGrado() {
     }
 
@@ -152,5 +161,23 @@ public class SieniGrado implements Serializable {
 
     public void setGrEstado(Character grEstado) {
         this.grEstado = grEstado;
+    }
+    
+    public String getEstado() {
+        estado = "";
+        if (this.getGrEstado() != null) {
+            switch (this.getGrEstado()) {
+                case 'A':
+                    estado = "Disponible";
+                    break;
+                case 'T':
+                    estado = "Trabajando";
+                    break;
+                case 'I':
+                    estado = "Eliminado";
+                    break;
+            }
+        }
+        return estado;
     }
 }

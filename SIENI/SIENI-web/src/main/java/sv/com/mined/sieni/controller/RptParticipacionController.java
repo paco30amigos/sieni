@@ -22,11 +22,13 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniCatPuntosFacadeRemote;
 import sv.com.mined.sieni.SieniPntosContrlFacadeRemote;
 import sv.com.mined.sieni.converter.AlumnoConverter;
 import sv.com.mined.sieni.form.RptParticipacionForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniCatPuntos;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniPntosContrl;
 import sv.com.mined.sieni.pojos.rpt.RptParticipacionPojo;
@@ -48,6 +50,9 @@ public class RptParticipacionController extends RptParticipacionForm {
     private SieniPntosContrlFacadeRemote sieniPntosContrlFacadeRemote;
     
     @EJB
+    private SieniCatPuntosFacadeRemote sieniCatPuntosFacadeRemote;
+    
+    @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
     
     @PostConstruct
@@ -64,13 +69,22 @@ public class RptParticipacionController extends RptParticipacionForm {
         this.setListDatos(new ArrayList<RptParticipacionPojo>());
         
         List<SieniAlumno> alumnos = sieniPntosContrlFacadeRemote.findByAlumno();
-        for(SieniAlumno actual : alumnos){
-            List<SieniClase> clases = sieniPntosContrlFacadeRemote.findByClasesAlumnos(actual.getIdAlumno());
-            for(SieniClase clase : clases){
+        for(SieniAlumno alumnoActual : alumnos){
+            List<SieniClase> clases = sieniPntosContrlFacadeRemote.findByClasesAlumnos(alumnoActual.getIdAlumno());
+            for(SieniClase claseActual : clases){
                 
-                
+                Integer numPuntos = sieniCatPuntosFacadeRemote.findByClase(claseActual.getIdClase()).getCpNumPuntos();
             
-                elem = new RptParticipacionPojo(actual.getAlNombreCompleto(), clase.getIdCurso().getCrNombre(), null, null, null);
+                Integer totalClases = sieniPntosContrlFacadeRemote.findByCountClase(claseActual.getIdClase());
+                
+                float participacion = 0;
+                if(totalClases >= numPuntos){
+                    participacion = 100;
+                }else{
+                    participacion = (float) ((totalClases * 100) / numPuntos);
+                }
+                
+                elem = new RptParticipacionPojo(alumnoActual.getAlNombreCompleto(), claseActual.getIdCurso().getCrNombre(), numPuntos.toString(), totalClases.toString(), participacion +" %");
                 this.getListDatos().add(elem);
             }            
         }

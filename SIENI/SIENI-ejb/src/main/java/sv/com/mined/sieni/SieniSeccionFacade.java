@@ -77,9 +77,9 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
     
 
     @Override
-    public List<SieniSeccion> findByAnioEscolar(SieniAnioEscolar anio) {
+    public List<SieniSeccion> findByAnioEscolar(Integer anio) {
         Query q = em.createNamedQuery("SieniSeccion.findByAnioEscolar");
-        q.setParameter("anio", anio.getIdAnioEscolar());
+        q.setParameter("anio", anio);
         List<SieniSeccion> ret = q.getResultList();
         return ret;
     }

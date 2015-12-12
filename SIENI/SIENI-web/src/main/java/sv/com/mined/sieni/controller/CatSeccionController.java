@@ -52,7 +52,6 @@ public class CatSeccionController extends CatSeccionForm {
         this.setNuevo(new SieniSeccion());
         this.setModifica(new SieniSeccion());
         this.setList(new ArrayList<SieniSeccion>());
-        this.setListAnios(sieniAnioEscolarRemote.findAll());
         this.setListGrados(sieniGradoRemote.findAllNoInactivos());
         fill();
     }
@@ -60,12 +59,8 @@ public class CatSeccionController extends CatSeccionForm {
     private void fill() {
         this.setAnio(null);
         this.setList(new ArrayList<SieniSeccion>());
-        for (SieniAnioEscolar actual : this.getListAnios()) {
-            if(actual.getIdAnioEscolar().intValue() == this.getAnio()){
-                this.setAnioEscolar(actual);
-            }
-        }
-        this.setList(sieniSeccionRemote.findByAnioEscolar(this.getAnioEscolar()));
+        
+        this.setList(sieniSeccionRemote.findByAnioEscolar(this.getAnio()));
     }
 
     public synchronized void guardar() {

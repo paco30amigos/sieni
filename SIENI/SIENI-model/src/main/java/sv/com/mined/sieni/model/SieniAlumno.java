@@ -119,13 +119,10 @@ public class SieniAlumno implements Serializable {
     @Size(max = 200)
     @Column(name = "al_direccion")
     private String alDireccion;
-    @Size(max = 8)
     @Column(name = "al_telefono_em_1")
-    private String alTelefonoEm1;
-    @Size(max = 8)
+    private String alTelefonoEm1;    
     @Column(name = "al_telefono_em_2")
     private String alTelefonoEm2;
-    @Size(max = 8)
     @Column(name = "al_telefono_em_3")
     private String alTelefonoEm3;
     @Size(max = 20)

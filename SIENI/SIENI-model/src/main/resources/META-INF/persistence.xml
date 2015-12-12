@@ -3,10 +3,10 @@
   <persistence-unit name="sv.com.mined.sieni_SIENI-model_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/bd_sieni"/>
-      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://sieni.ckkeowigttcx.us-west-1.rds.amazonaws.com:5432/bd_sieni"/>
+      <property name="javax.persistence.jdbc.user" value="sieni"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="postgres"/>
+      <property name="javax.persistence.jdbc.password" value="sieni2015"/>
     </properties>
   </persistence-unit>
 </persistence>

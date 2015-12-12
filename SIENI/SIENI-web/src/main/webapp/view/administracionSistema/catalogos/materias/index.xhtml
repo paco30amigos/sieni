@@ -10,8 +10,8 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Administración de Sistema" url="#"/>
             <p:menuitem value="Gestión de catalogos" url="#"/>
-            <p:menuitem value="Tipo de elemento de plantilla" url="#{siteUrls.catTipoElemPlantilla}"/>
-            <p:menuitem value="Búsqueda de tipo de elemento de plantilla" url="#"/>
+            <p:menuitem value="Materia" url="#{siteUrls.catMateria}"/>
+            <p:menuitem value="Búsqueda de Materia" url="#"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -26,7 +26,7 @@
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{catMateriaController.eliminarTipoElemPlantilla()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{catMateriaController.eliminarCatMateria()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{catMateriaController.list}" 
@@ -34,8 +34,8 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              reflow="true">
-                    <p:column headerText="Nombre" filterBy="#{car.teDescripcion}" filterable="true" filterMatchMode="contains">
-                        #{car.teDescripcion}
+                    <p:column headerText="Nombre" filterBy="#{car.catNombre}" filterable="true" filterMatchMode="contains">
+                        #{car.catNombre}
                     </p:column>
                     <p:column headerText="Estado" filterBy="#{car.estado}" filterable="true" filterMatchMode="contains">
                         #{car.estado}
@@ -53,7 +53,7 @@
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Adicionar Tipo de elemento de plantilla" action="#{catMateriaController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Adicionar Materia" action="#{catMateriaController.setIndexMenu(1)}"></p:commandButton>
                 <p:commandButton value="Refrescar" action="#{catMateriaController.refresh()}" update="consulta"></p:commandButton>
             </h:form>
         </p:panel>

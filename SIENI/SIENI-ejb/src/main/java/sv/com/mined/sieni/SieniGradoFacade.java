@@ -55,7 +55,7 @@ public class SieniGradoFacade extends AbstractFacade<SieniGrado> implements sv.c
         String jpql = "select s from SieniGrado s";
         HashMap<String, Object> params = new HashMap<>();
         boolean where = false;
-        String filter = " where s.grEstado=:estado";
+        String filter = " where s.grEstado not in (:estado)";
         if (grado != null) {
             Character estado = 'I';
             if (grado.getGrNombre() != null) {
@@ -71,7 +71,12 @@ public class SieniGradoFacade extends AbstractFacade<SieniGrado> implements sv.c
             Query q = em.createQuery(jpql + filter);
             q.setParameter("estado", estado);
             for (String actual : params.keySet()) {
-                q.setParameter(actual, params.get(actual));
+                if (actual.equals("grNombre")) {
+                    q.setParameter(actual, (String) params.get(actual));
+                }
+                if (actual.equals("grNumero")) {
+                    q.setParameter(actual, (Integer) params.get(actual));
+                }
             }
             ret = q.getResultList();
             if (ret == null || ret.isEmpty()) {

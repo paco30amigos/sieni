@@ -34,16 +34,16 @@ public class CatMateriaForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasecatTipoElemPlantilla() + "index.xhtml");
+                sU.redirect(sU.getBasecatMateria()+ "index.xhtml");
                 break;
             case 1:
-                sU.redirect(sU.getBasecatTipoElemPlantilla() + "crear.xhtml");
+                sU.redirect(sU.getBasecatMateria() + "crear.xhtml");
                 break;
             case 2:
-                sU.redirect(sU.getBasecatTipoElemPlantilla() + "editar.xhtml");
+                sU.redirect(sU.getBasecatMateria() + "editar.xhtml");
                 break;
             case 3:
-                sU.redirect(sU.getBasecatTipoElemPlantilla() + "ver.xhtml");
+                sU.redirect(sU.getBasecatMateria() + "ver.xhtml");
                 break;
         }
         this.indexMenu = indexMenu;

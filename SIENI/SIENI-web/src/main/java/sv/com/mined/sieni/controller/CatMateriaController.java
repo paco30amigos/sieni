@@ -57,7 +57,7 @@ public class CatMateriaController extends CatMateriaForm {
                 this.setNuevo(sieniCatMateriaFacadeRemote.createAndReturn(this.getNuevo()));
 //                sieniCatMateriaFacadeRemote.create(this.getNuevo());
                 registrarEnBitacora("Guardar", "CatMateria", this.getNuevo().getIdCatMateria());
-                new ValidationPojo().printMsj("CatMateria Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                new ValidationPojo().printMsj("Materia Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                 //agrega el nuevo archivo a la lista de la tabla actual para no hacer el fill
                 this.getList().add(this.getNuevo());
                 //limpia los datos para un registro nuevo

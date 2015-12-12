@@ -1,0 +1,49 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Administración de Sistema" url="#"/>
+            <p:menuitem value="Gestión de catalogos" url="#"/>
+            <p:menuitem value="Grados" url="#{siteUrls.catGrado}"/>
+            <p:menuitem value="Adicionar Grados" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form enctype="multipart/form-data" >
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
+                    <ui:include src="ayuda/crear.xhtml"></ui:include>
+                </p:dialog>
+                <p:focus id="focus" context="p1"/>
+                <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
+                    <p:outputLabel for="anio"  value="Año Escolar " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel tabindex="1" id="anio" value="#{catSeccionController.getAnioEscolar.aeAnio}" />
+                    <p:outputLabel for="grado" value="Grado: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="grado" class=" Responsive" value="#{catSeccionController.nuevo.idGrado}" >
+                        <f:selectItems itemValue ="#{gr}" itemLabel="#{gr.grNombre}" value="#{catSeccionController.listGrados}" var="gr" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="seccion"  value="Seccion: " class=" Responsive"></p:outputLabel>
+                    <p:inputText tabindex="1" id="seccion" value="#{catSeccionController.nuevo.scDescripcion}" required="true" requiredMessage="Debe ingresar seccion" maxlength="1"></p:inputText>
+                </p:panelGrid>
+                
+                <div class="EmptyBox20"></div>
+                <div class="Container100 Responsive">
+                    <p:commandButton value="Guardar" action="#{catSeccionController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"/>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax update="p1" resetValues="true" listener="#{catSeccionController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

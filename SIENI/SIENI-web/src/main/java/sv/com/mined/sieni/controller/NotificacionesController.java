@@ -21,10 +21,16 @@ import org.primefaces.push.EventBusFactory;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniNotificacionFacadeRemote;
+import sv.com.mined.sieni.converter.DocenteConverter;
 import sv.com.mined.sieni.form.NotificacionesForm;
+import sv.com.mined.sieni.model.AlumnoRecibeNoti;
+import sv.com.mined.sieni.model.DocRecibeNoti;
 import sv.com.mined.sieni.model.SieniNoticia;
 import sv.com.mined.sieni.model.SieniNotificacion;
+import sv.com.mined.sieni.model.SieniTemaDuda;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
+import sv.com.mined.sieni.pojos.rpt.NotificacionesPojo;
+import sv.com.mined.sieni.pojos.rpt.RptUsuariosPojo;
 import utils.DateUtils;
 
 /**
@@ -67,14 +73,24 @@ public class NotificacionesController extends NotificacionesForm {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 
-        List<SieniNotificacion> notify = new ArrayList<SieniNotificacion>();
+        NotificacionesPojo elem = new NotificacionesPojo();
+        this.setListNotificaciones(new ArrayList<NotificacionesPojo>());
+        
+        List<DocRecibeNoti> notifyDocente = new ArrayList<DocRecibeNoti>();
+        List<AlumnoRecibeNoti> notifyAlumno = new ArrayList<AlumnoRecibeNoti>();
         if (loginBean.getDocente() != null) {
-            notify = sieniNotificacionFacadeRemote.findDocenteNotify(loginBean.getDocente().getIdDocente().intValue());
-            this.setListNotificaciones(notify);
+            notifyDocente = sieniNotificacionFacadeRemote.findDocenteNotify(loginBean.getDocente().getIdDocente().intValue());
         } else if (loginBean.getAlumno() != null) {
-            notify = sieniNotificacionFacadeRemote.findAlumnoNotify(loginBean.getAlumno().getIdAlumno().intValue());
+            notifyAlumno = sieniNotificacionFacadeRemote.findAlumnoNotify(loginBean.getAlumno().getIdAlumno().intValue());
         }
-        this.setListNotificaciones(notify);
+        for (DocRecibeNoti actual : notifyDocente) {
+            elem = new NotificacionesPojo(actual,null,actual.getIdDocente().getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
+            this.getListNotificaciones().add(elem);
+        }
+        for (AlumnoRecibeNoti actual : notifyAlumno) {
+            elem = new NotificacionesPojo(null,actual,actual.getIdAlumno().getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
+            this.getListNotificaciones().add(elem);
+        }
         this.setCount(this.getListNotificaciones().size());
     }
 
@@ -98,7 +114,24 @@ public class NotificacionesController extends NotificacionesForm {
             noty.setNfEstado('A');
             noty.setNfFechaIngreso(new DateUtils().getFechaActual());
             noty.setNfFechaFin(new DateUtils().getFechaActual());
-            noty.setNfMensaje("Nueva Noticia: " + noticia.getNcMensaje() + "Publicado por: " + noticia.getNcPublica());
+            noty.setNfMensaje("NOTICIA: " + noticia.getNcMensaje() + " \nPublicado por: " + noticia.getNcPublica());
+            sieniNotificacionFacadeRemote.create(noty);
+            obtenerNotifyUsuario();
+            notificarPUSH();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
+    }
+    
+    
+    
+    public void insertNotifyConsulta(SieniTemaDuda consulta) {
+        try {
+            SieniNotificacion noty = new SieniNotificacion();
+            noty.setNfEstado('A');
+            noty.setNfFechaIngreso(new DateUtils().getFechaActual());
+            noty.setNfFechaFin(new DateUtils().getFechaActual());
+            noty.setNfMensaje("CONSULTA: " + consulta.getTdTema()+"\n DETALLE: "+consulta.getTdConsulta());
             sieniNotificacionFacadeRemote.create(noty);
             obtenerNotifyUsuario();
             notificarPUSH();

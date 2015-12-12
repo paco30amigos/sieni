@@ -137,6 +137,8 @@ public class SieniDocente implements Serializable {
     private List<SieniCurso> sieniCursoList;
     @OneToMany(mappedBy = "idDocente")
     private List<SieniTemaDuda> sieniTemaDudaList;
+    @OneToMany(mappedBy = "idDocente")
+    private List<DocRecibeNoti> notificacionesList;
     @Transient
     private String nombreCompleto;
     @Transient
@@ -293,14 +295,7 @@ public class SieniDocente implements Serializable {
         this.dcEstado = dcEstado;
     }
 
-//    @XmlTransient
-//    public List<SieniNotificacion> getSieniNotificacionList() {
-//        return sieniNotificacionList;
-//    }
-//
-//    public void setSieniNotificacionList(List<SieniNotificacion> sieniNotificacionList) {
-//        this.sieniNotificacionList = sieniNotificacionList;
-//    }
+
 
     @XmlTransient
     public List<SieniDocentRol> getSieniDocentRolList() {
@@ -331,12 +326,25 @@ public class SieniDocente implements Serializable {
         this.sieniTemaDudaList = sieniTemaDudaList;
     }
 
+    @XmlTransient
+    public List<DocRecibeNoti> getNotificacionesList() {
+        return notificacionesList;
+    }
+
+    public void setNotificacionesList(List<DocRecibeNoti> notificacionesList) {
+        this.notificacionesList = notificacionesList;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
         hash += (idDocente != null ? idDocente.hashCode() : 0);
         return hash;
     }
+
+    
 
     @Override
     public boolean equals(Object object) {

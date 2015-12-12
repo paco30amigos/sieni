@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,10 +36,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "SieniNotificacion.findByNfMensaje", query = "SELECT s FROM SieniNotificacion s WHERE s.nfMensaje = :nfMensaje"),
     @NamedQuery(name = "SieniNotificacion.findByNfFechaIngreso", query = "SELECT s FROM SieniNotificacion s WHERE s.nfFechaIngreso = :nfFechaIngreso"),
     @NamedQuery(name = "SieniNotificacion.findByNfFechaFin", query = "SELECT s FROM SieniNotificacion s WHERE s.nfFechaFin = :nfFechaFin"),
-    @NamedQuery(name = "SieniNotificacion.findByNfEstado", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = :nfEstado"),
-    @NamedQuery(name = "SieniNotificacion.findByDocenteNotify", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = 'A' ORDER BY s.nfFechaIngreso DESC "),
-    @NamedQuery(name = "SieniNotificacion.findByAlumnoNotify", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = 'A' ORDER BY s.nfFechaIngreso DESC ")
+    @NamedQuery(name = "SieniNotificacion.findByNfEstado", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = :nfEstado")
      })
+
 public class SieniNotificacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,6 +60,10 @@ public class SieniNotificacion implements Serializable {
     @Column(name = "nf_estado")
     private Character nfEstado;
 
+    
+    @Transient
+    private String fechaIngresoFiltrable;
+    
     public SieniNotificacion() {
     }
 
@@ -130,5 +135,15 @@ public class SieniNotificacion implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniNotificacion[ idNotificacion=" + idNotificacion + " ]";
     }
+    
+    
+    public String getFechaIngresoFiltrable() {
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
+        if (this.nfFechaIngreso != null) {
+            fechaIngresoFiltrable = dt1.format(this.nfFechaIngreso);
+        }
+        return fechaIngresoFiltrable;
+    }
+    
     
 }

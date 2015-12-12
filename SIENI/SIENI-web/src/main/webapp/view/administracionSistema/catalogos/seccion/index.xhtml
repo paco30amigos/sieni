@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Administración de Sistema" url="#"/>
+            <p:menuitem value="Gestión de catalogos" url="#"/>
+            <p:menuitem value="Secciones" url="#{siteUrls.catSeccion}"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
+                    <ui:include src="ayuda/index.xhtml"></ui:include>
+                </p:dialog>
+                <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
+                    <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Si" action="#{catSeccionController.eliminarSeccion()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
+                </p:dialog>
+                
+                
+                
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="sec" value="#{catSeccionController.list}" 
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
+                    <p:column headerText="Año Escolar" filterBy="#{sec.idAnioEscolar.aeAnio}" filterable="true" filterMatchMode="contains">
+                        #{sec.idAnioEscolar.aeAnio}
+                    </p:column>
+                    <p:column headerText="Grado" filterBy="#{sec.idGrado.grNombre}" filterable="true" filterMatchMode="contains">
+                        #{sec.idGrado.grNombre}
+                    </p:column>
+                    <p:column headerText="Seccion" filterBy="#{sec.scDescripcion}" filterable="true" filterMatchMode="contains">
+                        #{sec.scDescripcion}
+                    </p:column>
+                    <p:column headerText="Acciones">
+                        <p:commandLink action="#{catSeccionController.mostrar(sec)}" >
+                            <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Ver Seccion"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{catSeccionController.modificar(sec)}">
+                            <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Seccion"></i>
+                        </p:commandLink>
+                        <p:commandLink action="#{catSeccionController.eliminar(sec)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Seccion"></i>
+                        </p:commandLink>
+                    </p:column>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <p:commandButton value="Adicionar Seccion" action="#{catSeccionController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{catSeccionController.refresh()}" update="consulta"></p:commandButton>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

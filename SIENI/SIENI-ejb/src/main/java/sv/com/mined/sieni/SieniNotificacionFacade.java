@@ -11,6 +11,8 @@ import javax.management.Notification;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import sv.com.mined.sieni.model.AlumnoRecibeNoti;
+import sv.com.mined.sieni.model.DocRecibeNoti;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniNotificacion;
@@ -34,18 +36,18 @@ public class SieniNotificacionFacade extends AbstractFacade<SieniNotificacion> i
     }
     
     @Override
-    public List<SieniNotificacion> findDocenteNotify(Integer iddocente){
-        Query q = em.createNamedQuery("SieniNotificacion.findByDocenteNotify");
-        //q.setParameter("iddocente", iddocente);
-        List<SieniNotificacion> res = q.getResultList();
+    public List<DocRecibeNoti> findDocenteNotify(Integer iddocente){
+        Query q = em.createNamedQuery("DocRecibeNoti.findByIdDocente");
+        q.setParameter("idDocente", iddocente);
+        List<DocRecibeNoti> res = q.getResultList();
         return res;
     }
     
     @Override
-    public List<SieniNotificacion> findAlumnoNotify(Integer idalumno){
-        Query q = em.createNamedQuery("SieniNotificacion.findByAlumnoNotify");
-        //q.setParameter("idalumno", idalumno);
-        List<SieniNotificacion> res = q.getResultList();
+    public List<AlumnoRecibeNoti> findAlumnoNotify(Integer idalumno){
+        Query q = em.createNamedQuery("AlumnoRecibeNoti.findByIdAlumno");
+        q.setParameter("idAlumno", idalumno);
+        List<AlumnoRecibeNoti> res = q.getResultList();
         return res;
     }
     

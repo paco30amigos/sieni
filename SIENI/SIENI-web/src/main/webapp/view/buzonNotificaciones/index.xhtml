@@ -21,15 +21,15 @@
                         <ui:include src="ayuda/index.xhtml"></ui:include>
                     </p:dialog>
                     <div class="EmptyBox20"></div>
-                    <p:dataScroller value="#{notificacionesController.listNotificaciones}" var="notify" >
-                        <p:panel  header="#{notify.fechaInicioFormat}" closable="true">
-                            <p:outputLabel value="#{notify.nfMensaje}"></p:outputLabel>
+                    <p:dataScroller value="#{notificacionesController.listNotificaciones}" var="nt" >
+                        <p:panel  header="#{nt.notify.fechaIngresoFiltrable}" closable="true">
+                            <p:outputLabel value="#{nt.notify.nfMensaje}"></p:outputLabel>
                             <div class="EmptyBox20"></div>
-                            <div class="Container73" style="cursor: pointer" >
+                            <!-- <div class="Container73" style="cursor: pointer" >
                                 <i class="fa fa-file-movie-o Fs25"></i>
                                 <i class="fa fa-file-image-o Fs25"></i>
                                 <i class="fa fa-file-audio-o Fs25"></i>
-                            </div>
+                            </div> -->
                             <div class="EmptyBox20"></div>
                         </p:panel>
                     </p:dataScroller>

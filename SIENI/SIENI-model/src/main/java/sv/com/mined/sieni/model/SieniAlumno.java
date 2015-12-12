@@ -160,11 +160,12 @@ public class SieniAlumno implements Serializable {
     private Date alFechaBaja;
     
     
-    @JoinTable(name = "alumno_recibe_noti", joinColumns = {
+    /*@JoinTable(name = "alumno_recibe_noti", joinColumns = {
         @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
         @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
     @ManyToMany
     private List<SieniNotificacion> sieniNotificacionList;
+    */
     
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniTemaDuda> sieniTemaDudaList;
@@ -176,6 +177,8 @@ public class SieniAlumno implements Serializable {
     private List<SieniMatricula> sieniMatriculaList;
     @OneToMany(mappedBy = "idAlumno")
     private List<SieniNota> sieniNotaList;
+    @OneToMany(mappedBy = "idAlumno")
+    private List<AlumnoRecibeNoti> notificacionesList;
     @Transient
     private String nombreCompleto;
     @Transient
@@ -335,20 +338,14 @@ public class SieniAlumno implements Serializable {
         this.sieniTemaDudaList = sieniTemaDudaList;
     }
 
-    @XmlTransient
-    public List<SieniNotificacion> getSieniNotificacionList() {
-        return sieniNotificacionList;
-    }
-
-    public void setSieniNotificacionList(List<SieniNotificacion> sieniNotificacionList) {
-        this.sieniNotificacionList = sieniNotificacionList;
-    }
-
+    
 
     @XmlTransient
     public List<SieniAlumnRol> getSieniAlumnRolList() {
         return sieniAlumnRolList;
     }
+
+     
 
     public void setSieniAlumnRolList(List<SieniAlumnRol> sieniAlumnRolList) {
         this.sieniAlumnRolList = sieniAlumnRolList;
@@ -381,6 +378,15 @@ public class SieniAlumno implements Serializable {
         this.sieniNotaList = sieniNotaList;
     }
 
+    @XmlTransient
+    public List<AlumnoRecibeNoti> getNotificacionesList() {
+        return notificacionesList;
+    }
+
+    public void setNotificacionesList(List<AlumnoRecibeNoti> notificacionesList) {
+        this.notificacionesList = notificacionesList;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -22,6 +22,15 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/editar.xhtml"></ui:include>
                 </p:dialog>
+                <p:tooltip for="nombre">
+                    <h:outputText value="Ingrese el nombre de la plantilla"/>
+                </p:tooltip>
+                <p:tooltip for="materia">
+                    <h:outputText value="Seleccione la materia"/>
+                </p:tooltip>
+                <p:tooltip for="estado">
+                    <h:outputText value="activo:el archivo puede ser utilizado, trabajando:el archivo no puede ser utilizado en ninguna clase"/>
+                </p:tooltip>
                 <p:panelGrid columns="2" id="p1">
                     <p:outputLabel for="nombre" value="Nombre de plantilla: "></p:outputLabel>
                     <p:inputText id="nombre" tabindex="1" value="#{gestionPlantillasController.plantillaModifica.plNombre}" required="true" requiredMessage="Debe ingresar un nombre" maxlength="#{tamanioUtils.nombrePlantillaMax}"></p:inputText>

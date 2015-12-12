@@ -21,7 +21,25 @@
             <h:form enctype="multipart/form-data" >
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/crear.xhtml"></ui:include>
-                </p:dialog>                
+                </p:dialog>
+                <p:tooltip for="usuario">
+                    <h:outputText value="Digite un nombre de usuario"/>
+                </p:tooltip>
+                <p:tooltip for="tipoUsuario">
+                    <h:outputText value="Seleccione el tipo de usuario"/>
+                </p:tooltip>
+                <p:tooltip for="tipoPermiso">
+                    <h:outputText value="Seleccione el tipo de permiso que se le asignara al usuario"/>
+                </p:tooltip>
+                <p:tooltip for="nombre">
+                    <h:outputText value="Seleccione a quien se le asignara el usuario"/>
+                </p:tooltip>
+                <p:tooltip for="estado">
+                    <h:outputText value="Seleccione el estado del usario"/>
+                </p:tooltip>
+                <p:tooltip for="pass1">
+                    <h:outputText value="Digite la contraseña del usuario"/>
+                </p:tooltip>
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="4" class="Container50 Responsive" id="p1">
                     <p:outputLabel for="usuario" value="Usuario: " class=" Responsive"></p:outputLabel>

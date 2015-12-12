@@ -22,6 +22,18 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/editar.xhtml"></ui:include>
                 </p:dialog>
+                <p:tooltip for="mod_anio">
+                    <h:outputText value="Digite el año a registrar"/>
+                </p:tooltip>
+                <p:tooltip for="mod_fInicio">
+                    <h:outputText value="Ingrese la fecha de inicio del año escolar"/>
+                </p:tooltip>
+                <p:tooltip for="mod_fFin">
+                    <h:outputText value="Ingrese la fecha de fin del año escolar"/>
+                </p:tooltip>
+                <p:tooltip for="mod_estado">
+                    <h:outputText value="Seleccione el estado del año escolar"/>
+                </p:tooltip>
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="2" id="p1">
                     <p:outputLabel for="mod_anio" value="Año: " class=" Responsive"></p:outputLabel>

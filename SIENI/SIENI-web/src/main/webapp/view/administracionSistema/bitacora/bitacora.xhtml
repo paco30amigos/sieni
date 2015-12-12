@@ -29,6 +29,12 @@
                     <p:calendar id="hasta" value="#{bitacoraController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     <p:commandButton value="generar" actionListener="#{bitacoraController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
+                <p:tooltip for="desde">
+                    <h:outputText value="Ingrese la fecha de inicio a consultar"/>
+                </p:tooltip>
+                <p:tooltip for="hasta">
+                    <h:outputText value="Ingrese la fecha de fin a consultar"/>
+                </p:tooltip>
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{bitacoraController.listDatos}" 
                              paginator="true" rows="10"

@@ -43,6 +43,12 @@
                     <p:outputLabel for="tipoIngreso" value="Tipo de ingreso: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel id="tipoIngreso" value="#{gestionNotaController.notaNuevo.tipoIngreso}" class=" Responsive"></p:outputLabel>
                 </p:panelGrid>
+                <p:tooltip for="alumno" value="Seleccione el alumno al cual se le registrara una nota"/>
+                <p:tooltip for="materia" value="Seleccione la materia a la cual pertenece la nota"/>
+                <p:tooltip for="evaluacion" value="Seleccione la evaluacion a la cual pertenece la nota"/>
+                <p:tooltip for="nota" value="Ingrese la nota, debe estar en 0.0 y 10.0"/>
+                
+                
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton tabindex="6" value="Guardar" action="#{gestionNotaController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()" />

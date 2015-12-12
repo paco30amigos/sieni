@@ -56,6 +56,14 @@
                         <f:selectItems var="horarios" value="#{programacionClasesController.horarios}" itemLabel="#{horarios.description}" itemValue="#{horarios.value}"/>
                     </p:selectManyButton>
                 </p:panelGrid>
+                <p:tooltip for="tipoClase" value="Seleccione el tipo de clase, por ejemplo clase en vivo."/>
+                <p:tooltip for="curso" value="Seleccione el curso en el cual se impartira la clase"/>
+                <p:tooltip for="tema" value="Ingrese un tema para la clase"/>
+                <p:tooltip for="hora" value="Defina la hora en la cual se impartira la clase."/>
+                <p:tooltip for="tipoPublic" value="Seleccione el tipo de publicacion para la clase, por ejemplo atomatica"/>
+                <p:tooltip for="estadoClase" value="Seleccione el estado de la clase, por ejemplo clase iniciada."/>
+                <p:tooltip for="horario" value="Defina el horario para la clase."/>
+                
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
                     <p:commandButton tabindex="12" value="Guardar" action="#{programacionClasesController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()" />

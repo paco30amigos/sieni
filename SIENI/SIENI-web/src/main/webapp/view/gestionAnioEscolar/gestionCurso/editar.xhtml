@@ -48,6 +48,13 @@
                         <f:selectItems itemValue ="#{materia.idMateria}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaModificaList}" var="materia" />
                     </p:selectOneMenu>
                 </p:panelGrid>
+                
+                <p:tooltip for="mod_nombre" value="Ingrese un nombre para el curso."/>
+                <p:tooltip for="mod_capacidad" value="Defina la capacidad que tendra el curso"/>
+                <p:tooltip for="mod_docente" value="Seleccione el docente que impartira el curso"/>
+                <p:tooltip for="mod_grado" value="Seleccione el grado con el que se asociara el curso"/>
+                <p:tooltip for="mod_seccion" value="seleccione la seccion del grado"/>
+                <p:tooltip for="mod_materia" value="seleccione la materia para la cual se creara el curso"/>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
                     <p:commandButton tabindex="7" value="Guardar" action="#{gestionCursoController.guardarModifica()}" update="p1" />

@@ -63,7 +63,7 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void fill() {
-        this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAll());
+        this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAllActivos());
         this.setMateriaList(sieniMateriaFacadeRemote.findAllNoInactivas());
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setGradoList(sieniGradoFacadeRemote.findAll());
@@ -151,7 +151,8 @@ public class GestionMateriasController extends GestionMateriasForm {
         List<SieniMateria> mat = sieniMateriaFacadeRemote.findByMaNombre(materia);
         if (mat != null) {
             for (SieniMateria actual : mat) {
-                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado()=='I') {
+//                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado()=='I') {
+                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno))) {
                     return false;
                 }
             }

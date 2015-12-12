@@ -59,6 +59,18 @@
                     <p:outputLabel for="direccion" value="Dirección: " class=" Responsive"></p:outputLabel>
                     <p:inputTextarea maxlength="#{tamanioUtils.direccionMax}" tabindex="11" class="Container100" id="direccion" value="#{gestionarDocentesController.docenteModifica.dcDireccion}" required="true" requiredMessage="Debe ingresar dirección"></p:inputTextarea>
                 </p:panelGrid>
+                
+                <p:tooltip for="primNombreNuevo" value="Ingrese el primer nombre del docente"/>
+                <p:tooltip for="segNombreNuevo" value="Ingrese el segundo nombre del docente"/>
+                <p:tooltip for="tercNombreNuevo" value="Ingrese el tercer nombre del docente"/>
+                <p:tooltip for="primApeNuevo" value="Ingrese el primer apellido del docente"/>
+                <p:tooltip for="segApeNuevo" value="Ingrese el segundo apellido del docente"/>
+                <p:tooltip for="tercApeNuevo" value="Ingrese el tercer apellido del docente"/>
+                <p:tooltip for="fechNacimNuevo" value="Seleccione la fecha de nacimiento del docente"/>
+                <p:tooltip for="emailNuevo" value="Ingrese el email del docente"/>
+                <p:tooltip for="telefonoNuevo" value="Ingrese el numero de telefono del docente"/>
+                <p:tooltip for="celularNuevo" value="Ingrese el numero de celular del docente"/>
+                <p:tooltip for="direccion" value="Ingrese la direccion del docente"/>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
                     <p:commandButton value="Guardar" tabindex="12" action="#{gestionarDocentesController.guardarModifica()}" update="p1,focus" />

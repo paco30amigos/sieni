@@ -18,6 +18,8 @@ public interface SieniCatMateriaFacadeRemote {
 
     void create(SieniCatMateria sieniCatMateria);
 
+    public SieniCatMateria createAndReturn(SieniCatMateria sieniCatMateria);
+
     void edit(SieniCatMateria sieniCatMateria);
 
     void remove(SieniCatMateria sieniCatMateria);
@@ -29,5 +31,11 @@ public interface SieniCatMateriaFacadeRemote {
     List<SieniCatMateria> findRange(int[] range);
 
     int count();
-        
+
+    public List<SieniCatMateria> findAllNoInactivos();
+
+    public SieniCatMateria findByNombre(String nombre);
+
+    public List<SieniCatMateria> findAllActivos();
+
 }

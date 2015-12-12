@@ -55,7 +55,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s join fetch s.sieniAlumnRolList WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoCursos", query = "SELECT s FROM SieniAlumno s JOIN s.sieniMatriculaList sr where s.idAlumno not in(SELECT ca.idAlumno.idAlumno FROM SieniCursoAlumno ca WHERE ca.idCurso.idCurso=:idCurso) AND sr.idGrado.idGrado=:idGrado AND s.alEstado not in (:alEstado)"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosInscritos", query = "SELECT s FROM SieniAlumno s JOIN fetch s.sieniCursoAlumnoList ca where s.idAlumno in(SELECT ca.idAlumno.idAlumno FROM SieniCursoAlumno ca WHERE ca.idCurso.idCurso=:idCurso) AND s.alEstado not in (:alEstado)"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosInscritos", query = "SELECT s FROM SieniAlumno s JOIN fetch s.sieniCursoAlumnoList ca where ca.idCurso.idCurso=:idCurso AND s.alEstado not in (:alEstado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosMatriculados", query = "SELECT s FROM SieniAlumno s JOIN fetch s.sieniMatriculaList sr where sr.mtEstado=:estado and s.alEstado in (:estado) and sr.mtAnio=:idAnio"),
     @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL"),// or s.alEstado=3 eliminado
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),
@@ -119,13 +119,10 @@ public class SieniAlumno implements Serializable {
     @Size(max = 200)
     @Column(name = "al_direccion")
     private String alDireccion;
-    @Size(max = 8)
     @Column(name = "al_telefono_em_1")
-    private String alTelefonoEm1;
-    @Size(max = 8)
+    private String alTelefonoEm1;    
     @Column(name = "al_telefono_em_2")
     private String alTelefonoEm2;
-    @Size(max = 8)
     @Column(name = "al_telefono_em_3")
     private String alTelefonoEm3;
     @Size(max = 20)

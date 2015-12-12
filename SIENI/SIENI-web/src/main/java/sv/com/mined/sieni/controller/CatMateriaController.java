@@ -14,9 +14,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import sv.com.mined.sieni.SieniTipoElemPlantillaFacadeRemote;
-import sv.com.mined.sieni.form.CatTipoElemPlantillaForm;
-import sv.com.mined.sieni.model.SieniTipoElemPlantilla;
+import sv.com.mined.sieni.SieniCatMateriaFacadeRemote;
+import sv.com.mined.sieni.form.CatMateriaForm;
+import sv.com.mined.sieni.model.SieniCatMateria;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 
 /**
@@ -25,10 +25,10 @@ import sv.com.mined.sieni.pojos.controller.ValidationPojo;
  */
 @SessionScoped
 @ManagedBean(name = "catMateriaController")
-public class CatMateriaController extends CatTipoElemPlantillaForm {
+public class CatMateriaController extends CatMateriaForm {
 
     @EJB
-    private SieniTipoElemPlantillaFacadeRemote sieniTipoElemPlantillaFacadeRemote;
+    private SieniCatMateriaFacadeRemote sieniCatMateriaFacadeRemote;
 
     private void registrarEnBitacora(String accion, String tabla, Long id) {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -39,29 +39,29 @@ public class CatMateriaController extends CatTipoElemPlantillaForm {
 
     @PostConstruct
     public void init() {
-        this.setNuevo(new SieniTipoElemPlantilla());
-        this.setModifica(new SieniTipoElemPlantilla());
-        this.setList(new ArrayList<SieniTipoElemPlantilla>());
+        this.setNuevo(new SieniCatMateria());
+        this.setModifica(new SieniCatMateria());
+        this.setList(new ArrayList<SieniCatMateria>());
         fill();
     }
 
     private void fill() {
-        this.setList(sieniTipoElemPlantillaFacadeRemote.findAllNoInactivos());
+        this.setList(sieniCatMateriaFacadeRemote.findAllNoInactivos());
     }
 
     public synchronized void guardar() {
         try {
             if (validarNuevo(this.getNuevo())) {//valida el guardado
-                this.getNuevo().setTeEstado('A');
+                this.getNuevo().setCatEstado('A');
 
-                this.setNuevo(sieniTipoElemPlantillaFacadeRemote.createAndReturn(this.getNuevo()));
-//                sieniTipoElemPlantillaFacadeRemote.create(this.getNuevo());
-                registrarEnBitacora("Guardar", "TipoElemPlantilla", this.getNuevo().getIdTipoElemPlantilla());
-                new ValidationPojo().printMsj("TipoElemPlantilla Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                this.setNuevo(sieniCatMateriaFacadeRemote.createAndReturn(this.getNuevo()));
+//                sieniCatMateriaFacadeRemote.create(this.getNuevo());
+                registrarEnBitacora("Guardar", "CatMateria", this.getNuevo().getIdCatMateria());
+                new ValidationPojo().printMsj("Materia Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                 //agrega el nuevo archivo a la lista de la tabla actual para no hacer el fill
                 this.getList().add(this.getNuevo());
                 //limpia los datos para un registro nuevo
-                this.setNuevo(new SieniTipoElemPlantilla());
+                this.setNuevo(new SieniCatMateria());
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -72,10 +72,10 @@ public class CatMateriaController extends CatTipoElemPlantillaForm {
         fill();
     }
 
-    public boolean validarNuevo(SieniTipoElemPlantilla nuevo) {
+    public boolean validarNuevo(SieniCatMateria nuevo) {
         boolean ban = true;
         List<ValidationPojo> validaciones = new ArrayList<>();
-        validaciones.add(new ValidationPojo(sieniTipoElemPlantillaFacadeRemote.findByNombre(nuevo.getTeDescripcion()) != null, "El tipo de elemento de plantilla ya existe", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(sieniCatMateriaFacadeRemote.findByNombre(nuevo.getCatNombre()) != null, "La materia ya existe", FacesMessage.SEVERITY_ERROR));
         ban = ValidationPojo.printErrores(validaciones);
         return !ban;
     }
@@ -84,18 +84,18 @@ public class CatMateriaController extends CatTipoElemPlantillaForm {
     }
 
     //metodos para modificacion de datos
-    public void modificar(SieniTipoElemPlantilla modificado) {
+    public void modificar(SieniCatMateria modificado) {
         this.setModifica(modificado);
         this.setIndexMenu(2);
     }
 
     //metodos para modificacion de datos
-    public void eliminar(SieniTipoElemPlantilla eliminado) {
+    public void eliminar(SieniCatMateria eliminado) {
         this.setEliminar(eliminado);
     }
 
     //metodos para modificacion de datos
-    public void mostrar(SieniTipoElemPlantilla ver) {
+    public void mostrar(SieniCatMateria ver) {
         this.setVer(ver);
         this.setIndexMenu(3);
     }
@@ -104,9 +104,9 @@ public class CatMateriaController extends CatTipoElemPlantillaForm {
         try {
             if (validarModifica(this.getModifica())) {//valida el guardado
 
-                sieniTipoElemPlantillaFacadeRemote.edit(this.getModifica());
-                registrarEnBitacora("Modificar", "TipoElemPlantilla", this.getModifica().getIdTipoElemPlantilla());
-                new ValidationPojo().printMsj("TipoElemPlantilla Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+                sieniCatMateriaFacadeRemote.edit(this.getModifica());
+                registrarEnBitacora("Modificar", "CatMateria", this.getModifica().getIdCatMateria());
+                new ValidationPojo().printMsj("Materia Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -114,29 +114,29 @@ public class CatMateriaController extends CatTipoElemPlantillaForm {
     }
 
     public void resetModificaForm() {
-        this.setModifica(new SieniTipoElemPlantilla());
+        this.setModifica(new SieniCatMateria());
     }
 
     public void resetNuevoForm() {
-        this.setNuevo(new SieniTipoElemPlantilla());
+        this.setNuevo(new SieniCatMateria());
     }
 
-    public boolean validarModifica(SieniTipoElemPlantilla nuevo) {
+    public boolean validarModifica(SieniCatMateria nuevo) {
         boolean ban;
         List<ValidationPojo> validaciones = new ArrayList<>();
-        SieniTipoElemPlantilla archivoBD = sieniTipoElemPlantillaFacadeRemote.find(nuevo.getIdTipoElemPlantilla());
-        if (!archivoBD.getTeDescripcion().equals(nuevo.getTeDescripcion())) {
-            validaciones.add(new ValidationPojo(sieniTipoElemPlantillaFacadeRemote.findByNombre(nuevo.getTeDescripcion()) != null, "El tipo de elemento de plantilla ya existe", FacesMessage.SEVERITY_ERROR));
+        SieniCatMateria archivoBD = sieniCatMateriaFacadeRemote.find(nuevo.getIdCatMateria());
+        if (!archivoBD.getCatNombre().equals(nuevo.getCatNombre())) {
+            validaciones.add(new ValidationPojo(sieniCatMateriaFacadeRemote.findByNombre(nuevo.getCatNombre()) != null, "La materia ya existe", FacesMessage.SEVERITY_ERROR));
         }
         ban = ValidationPojo.printErrores(validaciones);
         return !ban;
     }
 
-    public synchronized void eliminarTipoElemPlantilla() {
+    public synchronized void eliminarCatMateria() {
         try {
-            registrarEnBitacora("Eliminar", "TipoElemPlantilla", this.getEliminar().getIdTipoElemPlantilla());
-            this.getEliminar().setTeEstado('I');
-            sieniTipoElemPlantillaFacadeRemote.edit(this.getEliminar());
+            registrarEnBitacora("Eliminar", "CatMateria", this.getEliminar().getIdCatMateria());
+            this.getEliminar().setCatEstado('I');
+            sieniCatMateriaFacadeRemote.edit(this.getEliminar());
             //elimina el archivo de la lista de datos para no volver a hacer el fill
             this.getList().remove(this.getEliminar());
         } catch (Exception e) {

@@ -31,6 +31,8 @@
                     </p:selectOneMenu>
                     <p:commandButton value="Agregar" action="#{gestionarDocentesController.agregarMateria()}" update="consulta,materias"></p:commandButton>
                 </p:panelGrid>
+                <p:tooltip for="materias" value="Seleccione la materia a asignar al docente"/>
+                
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>

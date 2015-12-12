@@ -22,6 +22,15 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/crear.xhtml"></ui:include>
                 </p:dialog>
+                <p:tooltip for="nombre">
+                    <h:outputText value="Ingrese el nombre de la plantilla"/>
+                </p:tooltip>
+                <p:tooltip for="materia">
+                    <h:outputText value="Seleccione la materia"/>
+                </p:tooltip>
+                <p:tooltip for="estado">
+                    <h:outputText value="activo:el archivo puede ser utilizado, trabajando:el archivo no puede ser utilizado en ninguna clase"/>
+                </p:tooltip>
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="2" id="p1">
                     <p:outputLabel for="nombre" value="Nombre de plantilla: "></p:outputLabel>

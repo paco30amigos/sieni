@@ -22,6 +22,9 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/configurar.xhtml"></ui:include>
                 </p:dialog>
+                <p:tooltip for="elementos">
+                    <h:outputText value="Seleccione un elemento para la plantilla"/>
+                </p:tooltip>
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:remoteCommand name="actualizarElem" update="elementos"></p:remoteCommand>
                 <p:panelGrid id="p1" columns="4"> 

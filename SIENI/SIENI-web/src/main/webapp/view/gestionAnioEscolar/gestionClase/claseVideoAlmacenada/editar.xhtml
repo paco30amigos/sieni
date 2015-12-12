@@ -40,6 +40,11 @@
                         <f:selectItem itemValue="T" itemLabel="Terminada"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
+                <p:tooltip for="estado">
+                    <h:outputText value="Seleccione el estado de la video clase, por ejemplo clase terminada."/>
+                </p:tooltip>
+                
+                
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionVideoClaseController.guardarModifica()}" update="mod_p1" oncomplete="configurarEnterTab()" />

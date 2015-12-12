@@ -33,7 +33,7 @@
                         <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente" />
                     </p:selectOneMenu>
                     <p:outputLabel value="Turno: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maTurno}">
+                    <p:selectOneMenu id="turno" class=" Responsive" value="#{gestionMateriasController.materiaNuevo.maTurno}">
                         <f:selectItem itemValue ="MATUTINO" itemLabel="MATUTINO"/>
                         <f:selectItem itemValue ="VESPERTINO" itemLabel="VESPERTINO"/>
                     </p:selectOneMenu>
@@ -49,6 +49,11 @@
                         <f:selectItems itemValue="#{grado}" itemLabel="#{grado.grNombre}" value="#{gestionMateriasController.gradoList}" var="grado"></f:selectItems>
                     </p:selectOneMenu>
                 </p:panelGrid>
+                <p:tooltip for="nombre" value="Seleccione el nombre de la materia a ingresar"/>
+                <p:tooltip for="docente" value="Seleccione el docente responsable de la materia"/>
+                <p:tooltip for="turno" value="Seleccione el turno en la cual se impartira la materia"/>       
+                <p:tooltip for="estado" value="Seleccione el estado de la materia, por ejempo materia disponible"/>
+                
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionMateriasController.guardar()}"/>

@@ -44,6 +44,10 @@
                                   >
                     </p:fileUpload>
                 </div>
+                
+                <p:tooltip for="materia" value="Seleccione la materia a la cual pertenece la nota"/>
+                <p:tooltip for="evaluacion" value="Seleccione la evaluacion a la cual pertenece la nota"/>
+                <p:tooltip for="archivo" value="Adjuntar archivo excel el cual tiene las notas de alumnos"/>
                 <div class="EmptyBox5"></div>
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionNotaController.listaNotasSubidas}" 
                              paginator="true"

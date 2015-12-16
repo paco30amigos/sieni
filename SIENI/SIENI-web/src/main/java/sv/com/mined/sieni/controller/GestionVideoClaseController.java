@@ -594,10 +594,10 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
 
     public boolean validarEstadoClase(SieniClase ver) {
         boolean ret = true;
-        if (ver.getClEstado() != null && !ver.getClEstado().equals(new Character('N'))) {
+        if (ver.getClEstado() != null && ver.getClEstado().equals(new Character('N'))) {
             ret = false;
             new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
-        } else if (ver.getClEstado() != null && !ver.getClEstado().equals(new Character('T'))) {
+        } else if (ver.getClEstado() != null && ver.getClEstado().equals(new Character('T'))) {
             ret = false;
             new ValidationPojo().printMsj("La clase ya ha terminado", FacesMessage.SEVERITY_ERROR);
         }

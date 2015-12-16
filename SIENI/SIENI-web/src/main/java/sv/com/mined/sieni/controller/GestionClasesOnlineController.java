@@ -105,10 +105,10 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
 
     public boolean validarEstadoClase(SieniClase claseActual) {
         boolean ret = true;
-        if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals('N')) {
+        if (claseActual.getClEstado() != null && claseActual.getClEstado().equals('N')) {
             ret = false;
             new ValidationPojo().printMsj("La clase aun no esta disponible", FacesMessage.SEVERITY_ERROR);
-        } else if (claseActual.getClEstado() != null && !claseActual.getClEstado().equals('T')) {
+        } else if (claseActual.getClEstado() != null && claseActual.getClEstado().equals('T')) {
             ret = false;
             new ValidationPojo().printMsj("La clase ya ha terminado", FacesMessage.SEVERITY_ERROR);
         }

@@ -6,6 +6,7 @@
 package sv.com.mined.sieni;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -50,8 +51,10 @@ public class SieniPntosContrlFacade extends AbstractFacade<SieniPntosContrl> imp
     }
 
     @Override
-    public List<SieniAlumno> findByAlumno() {
+    public List<SieniAlumno> findByAlumno(Date desde, Date hasta) {
         Query q = em.createNamedQuery("SieniPntosContrl.findByAlumno");
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
         List<SieniAlumno> res = q.getResultList();
         if (res != null && !res.isEmpty()) {
             return res;

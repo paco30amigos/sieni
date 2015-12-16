@@ -59,16 +59,15 @@ public class RptParticipacionController extends RptParticipacionForm {
     public void init() {
         this.setFormatoRpt("PDF");
         this.setAnio("2,015");
-        fill();
+        //fill();
     }
     
     public void fill() {
         RptParticipacionPojo elem = new RptParticipacionPojo();
 
-        //List<SieniPntosContrl> puntos = sieniPntosContrlFacadeRemote.findAll();
         this.setListDatos(new ArrayList<RptParticipacionPojo>());
         
-        List<SieniAlumno> alumnos = sieniPntosContrlFacadeRemote.findByAlumno();
+        List<SieniAlumno> alumnos = sieniPntosContrlFacadeRemote.findByAlumno(this.getDesde(), this.getHasta());
         for(SieniAlumno alumnoActual : alumnos){
             List<SieniClase> clases = sieniPntosContrlFacadeRemote.findByClasesAlumnos(alumnoActual.getIdAlumno());
             for(SieniClase claseActual : clases){

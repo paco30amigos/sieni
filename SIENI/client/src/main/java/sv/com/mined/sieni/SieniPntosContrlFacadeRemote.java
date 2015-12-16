@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniAlumno;
@@ -34,7 +35,7 @@ public interface SieniPntosContrlFacadeRemote {
     
     public SieniPntosContrl findPuntos(Long idTipoElemPlantilla,Integer nPantalla,Long idClase,Long idAlumno);
 
-    public List<SieniAlumno> findByAlumno();
+    public List<SieniAlumno> findByAlumno(Date desde, Date hasta);
     
     public List<SieniClase> findByClasesAlumnos(Long actual);
     

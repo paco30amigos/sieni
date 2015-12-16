@@ -7,6 +7,7 @@ package sv.com.mined.sieni;
 
 import java.util.List;
 import javax.ejb.Remote;
+import sv.com.mined.sieni.model.SieniAnioEscolar;
 import sv.com.mined.sieni.model.SieniSeccion;
 
 /**
@@ -18,6 +19,8 @@ public interface SieniSeccionFacadeRemote {
 
     void create(SieniSeccion sieniSeccion);
 
+    SieniSeccion createAndReturn(SieniSeccion sieniSeccion);
+    
     void edit(SieniSeccion sieniSeccion);
 
     void remove(SieniSeccion sieniSeccion);
@@ -31,5 +34,10 @@ public interface SieniSeccionFacadeRemote {
     int count();
 
     public SieniSeccion findByIdSeccion(Long idSeccion);
+    
+    public List<SieniSeccion> findBy(SieniSeccion grado);
+    
+    public List<SieniSeccion> findByAnioEscolar(Integer anio);
+
     
 }

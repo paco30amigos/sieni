@@ -7,6 +7,8 @@ package sv.com.mined.sieni;
 
 import java.util.List;
 import javax.ejb.Remote;
+import sv.com.mined.sieni.model.AlumnoRecibeNoti;
+import sv.com.mined.sieni.model.DocRecibeNoti;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniNotificacion;
@@ -32,7 +34,7 @@ public interface SieniNotificacionFacadeRemote {
 
     int count();
     
-    public List<SieniNotificacion> findDocenteNotify(Integer iddocente);
+    public List<DocRecibeNoti> findDocenteNotify(Integer iddocente);
     
-    public List<SieniNotificacion> findAlumnoNotify(Integer idalumno);
+    public List<AlumnoRecibeNoti> findAlumnoNotify(Integer idalumno);
 }

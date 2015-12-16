@@ -8,6 +8,7 @@ package sv.com.mined.sieni.form;
 import java.util.List;
 import sv.com.mined.sieni.controller.ReportesController;
 import sv.com.mined.sieni.model.SieniNotificacion;
+import sv.com.mined.sieni.pojos.rpt.NotificacionesPojo;
 import utils.FormatUtils;
 
 
@@ -17,7 +18,7 @@ import utils.FormatUtils;
  */
 public class NotificacionesForm extends ReportesController{
     private int numNoty;
-    private List<SieniNotificacion> listNotificaciones;
+    private List<NotificacionesPojo> listNotificaciones;
 
     public int getNumNoty() {
         return numNoty;
@@ -27,11 +28,11 @@ public class NotificacionesForm extends ReportesController{
         this.numNoty = numNoty;
     }
 
-    public List<SieniNotificacion> getListNotificaciones() {
+    public List<NotificacionesPojo> getListNotificaciones() {
         return listNotificaciones;
     }
 
-    public void setListNotificaciones(List<SieniNotificacion> listNotificaciones) {
+    public void setListNotificaciones(List<NotificacionesPojo> listNotificaciones) {
         this.listNotificaciones = listNotificaciones;
     }
 

@@ -205,13 +205,13 @@ public class GestionCursoController extends GestionCursoForm {
     
      //metodos para modificacion de datos
     public void eliminarInscrito(SieniCurso curso,SieniAlumno alumno) {
-        for (SieniCursoAlumno cursos : alumno.getSieniCursoAlumnoList()) {
-            if(cursos.getIdCurso().equals(curso)){
-            this.setEliminarInscrito(cursos);
-            break;
-            }
+//        for (SieniCursoAlumno cursos : alumno.getSieniCursoAlumnoList()) {
+//            if(cursos.getIdCurso().getIdCurso().equals(curso.getIdCurso())){
+            this.setEliminarInscrito(sieniCursoAlumnoFacadeRemote.findByIdCursoIdAlumno(curso.getIdCurso(),alumno.getIdAlumno()));
+//            break;
+//            }
                 
-        }
+//        }
         
     }
 

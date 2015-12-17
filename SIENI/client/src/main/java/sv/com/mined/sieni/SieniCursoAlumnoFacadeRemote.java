@@ -28,6 +28,7 @@ public interface SieniCursoAlumnoFacadeRemote {
 
     List<SieniCursoAlumno> findRange(int[] range);
 
+    SieniCursoAlumno findByIdCursoIdAlumno(Long idCurso,Long idAlumno);
     int count();
     
 }

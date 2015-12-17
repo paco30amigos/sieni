@@ -8,6 +8,7 @@ package sv.com.mined.sieni;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniCursoAlumno;
 
 /**
@@ -16,6 +17,7 @@ import sv.com.mined.sieni.model.SieniCursoAlumno;
  */
 @Stateless
 public class SieniCursoAlumnoFacade extends AbstractFacade<SieniCursoAlumno> implements sv.com.mined.sieni.SieniCursoAlumnoFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +29,19 @@ public class SieniCursoAlumnoFacade extends AbstractFacade<SieniCursoAlumno> imp
     public SieniCursoAlumnoFacade() {
         super(SieniCursoAlumno.class);
     }
-    
+
+    @Override
+    public SieniCursoAlumno findByIdCursoIdAlumno(Long idCurso, Long idAlumno) {
+
+        try {
+            Query q = em.createNamedQuery("SieniCursoAlumno.findByIdCursoIdAlumno");
+            q.setParameter("idCurso", idCurso);
+            q.setParameter("idAlumno", idAlumno);
+            return (SieniCursoAlumno) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
+
 }

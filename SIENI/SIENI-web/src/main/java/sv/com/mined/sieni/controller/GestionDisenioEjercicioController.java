@@ -13,12 +13,15 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
+import javax.servlet.ServletContext;
 import javax.swing.JLabel;
 import org.primefaces.model.ByteArrayContent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -44,6 +47,8 @@ import sv.com.mined.sieni.model.SieniCurso;
 public class GestionDisenioEjercicioController extends GestionEjercicioForm {
       
   private StreamedContent graphicText;
+  
+  private StreamedContent file;
     @EJB
     private SieniCursoFacadeRemote sieniCursoFacadeRemote;
 
@@ -108,6 +113,9 @@ public class GestionDisenioEjercicioController extends GestionEjercicioForm {
             ImageIO.write(image, "png",os);
             os.flush();
             graphicText=new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "image/png");
+            
+//            InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/demo/images/optimus.jpg");
+        file = new DefaultStreamedContent(new ByteArrayInputStream(os.toByteArray()), "image/jpg", "formula.jpg");
 //           graphicText=new ByteArrayContent(os.toByteArray(), "image/jpg");
          os.close();            
 	    
@@ -124,6 +132,10 @@ public class GestionDisenioEjercicioController extends GestionEjercicioForm {
         this.graphicText = graphicText;
     }
 
+
+public StreamedContent getFile() {
+        return file;
+    }
     
 public void  formulaConstruct(int f){
     String valor="";

@@ -7,13 +7,20 @@
     <ui:define name="head">
         <script type="text/javascript">
             function indice() {
-                var textarea = document.getElementById("j_idt75:j_idt77:formula");
-                var input = document.getElementById("j_idt75:j_idt77:indice");
+                var textarea = document.getElementById("tabEj:formEj:formula");
+                var input = document.getElementById("tabEj:formEj:indice");
                 var cursorPosition = textarea.selectionStart;
                 input.value = cursorPosition;
             }
 
 
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
 
         </script>
     </ui:define>
@@ -28,9 +35,9 @@
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
+        <p:tabView id="tabEj">
             <p:tab title="Diseño de Ejercicio">
-                <h:form>
+                <h:form id="formEj">
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                         <ui:include src="ayuda/index.xhtml"></ui:include>
                     </p:dialog>
@@ -52,7 +59,7 @@
                             </p:submenu>
 
                             <p:menuitem value="Absoluto" icon="ui-icon-absoluto" action="#{gestionDisenioEjercicioController.formulaConstruct(1)}" update="formula,myScript" onclick="indice();
-                                    "/>
+                                        "/>
                             <p:menuitem value="Factorial" icon="ui-icon-factorial" action="#{gestionDisenioEjercicioController.formulaConstruct(2)}" update="formula,myScript" onclick="indice();"/>
                             <p:menuitem value="Raiz" icon="ui-icon-raiz" action="#{gestionDisenioEjercicioController.formulaConstruct(3)}" update="formula,myScript" onclick="indice();"/>
                             <p:menuitem value="Raiz n" icon="ui-icon-raizx" action="#{gestionDisenioEjercicioController.formulaConstruct(4)}" update="formula,myScript" onclick="indice();"/>
@@ -78,7 +85,7 @@
                         </p:submenu>                      
 
                         <p:menuitem value="Salto" action="#{gestionDisenioEjercicioController.salto()}" update="formula,myScript" onclick="indice();
-                                "/>
+                                    "/>
 
 
                     </p:menubar>
@@ -88,24 +95,35 @@
 
                     <p:outputLabel for="formula" value="Formula: " class=" Responsive" ></p:outputLabel>
 
-                    <p:inputTextarea  class="Container100" id="formula" value="#{gestionDisenioEjercicioController.formula}" ></p:inputTextarea>
+                    <p:inputTextarea  id="formula" class="Container100"  value="#{gestionDisenioEjercicioController.formula}" ></p:inputTextarea>
 
                     <p:graphicImage id="consulta" value="#{gestionDisenioEjercicioController.graphicText}" styleClass="Fleft"  cache="false"></p:graphicImage>
 
                     <div class="EmptyBox20"></div>
                     <div class="Container100 Responsive">
                         <p:commandButton value="Generar" action="#{gestionDisenioEjercicioController.refresh()}"  update="consulta"></p:commandButton>
+
+
+                        <p:commandButton value="Descargar" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                            <p:fileDownload value="#{gestionDisenioEjercicioController.file}" />
+                        </p:commandButton>
+
+
                         <p:commandButton value="Refrescar" action="#{gestionDisenioEjercicioController.refresh()}" ></p:commandButton>
 
                     </div>
+
+                    <p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" resizable="false">
+                        <h:graphicImage name="ajax-loader.gif" styleClass="Fleft" library="images" />
+                    </p:dialog>
 
                     <h:panelGroup id="myScript">
                         <script type="text/javascript">
 
 
-                            var valor = document.getElementById("j_idt75:j_idt77:indice");
+                            var valor = document.getElementById("tabEj:formEj:indice");
 
-                            var input = document.getElementById("j_idt75:j_idt77:formula");
+                            var input = document.getElementById("tabEj:formEj:formula");
                             if (input.setSelectionRange) {
                                 input.focus();
                                 input.setSelectionRange(valor.value, valor.value);

@@ -6,6 +6,8 @@
 package sv.com.mined.sieni.controller;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -110,11 +112,13 @@ public class GestionNotasController extends GestionNotasForm {
                 this.getNotaNuevo().setNtAnio(fu.getFormatedAnioInt(new Date()));
                 this.getNotaNuevo().setNtDocente(loginBean.getDocente().getIdDocente());
                 registrarEnBitacora("Crear", "Nota", this.getNotaNuevo().getIdNota());
+                BigDecimal nota = new BigDecimal(this.getNotaNuevo().getNtCalificacion());
+                this.getNotaNuevo().setNtCalificacion(nota.setScale(2, RoundingMode.HALF_UP).doubleValue());
                 this.setNotaNuevo(sieniNotaFacadeRemote.createAndReturn(this.getNotaNuevo()));
                 new ValidationPojo().printMsj("Nota Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                 this.getNotaList().add(this.getNotaNuevo());
                 this.setNotaNuevo(new SieniNota());
-                this.getNotaNuevo().setNtTipoIngreso("M"); 
+                this.getNotaNuevo().setNtTipoIngreso("M");
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -186,7 +190,7 @@ public class GestionNotasController extends GestionNotasForm {
                 case "1":
                     //si es el coordinador o el que ingresó la nota puede editarla
                     SieniMateria m = sieniMateriaFacadeRemote.find(modificado.getIdEvaluacion().getIdMateria().getIdMateria());
-                    if (modificado.getNtDocente()!=null&&!(modificado.getNtDocente().equals(loginBean.getDocente().getIdDocente()) || m.getMaCoordinador().equals(loginBean.getDocente().getIdDocente()))) {
+                    if (m.getMaCoordinador() != null && modificado.getNtDocente() != null && !(modificado.getNtDocente().equals(loginBean.getDocente().getIdDocente()) || m.getMaCoordinador().equals(loginBean.getDocente().getIdDocente()))) {
                         ban = false;
                     }
                     break;
@@ -219,6 +223,8 @@ public class GestionNotasController extends GestionNotasForm {
             this.getNotaModifica().setIdAlumno(this.getIdAlumnoModifica());
             this.getNotaModifica().setIdEvaluacion(this.getIdEvaluacionModifica());
             if (validarModifica(this.getNotaModifica())) {//valida el guardado
+                BigDecimal nota = new BigDecimal(this.getNotaModifica().getNtCalificacion());
+                this.getNotaModifica().setNtCalificacion(nota.setScale(2, RoundingMode.HALF_UP).doubleValue());
                 sieniNotaFacadeRemote.edit(this.getNotaModifica());
                 registrarEnBitacora("Modificar", "Nota", this.getNotaModifica().getIdNota());
                 new ValidationPojo().printMsj("Nota Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
@@ -343,6 +349,8 @@ public class GestionNotasController extends GestionNotasForm {
                     actual.setNtTipoIngreso("E");
                     actual.setNtDocente(loginBean.getDocente().getIdDocente());
                     actual.setNtAnio(fu.getFormatedAnioInt(new Date()));
+                    BigDecimal nota = new BigDecimal(actual.getNtCalificacion());
+                    actual.setNtCalificacion(nota.setScale(2, RoundingMode.HALF_UP).doubleValue());
                     notas.add(actual);
                     if (actual.getErrores() != null && !actual.getErrores().isEmpty()) {
                         error = true;

@@ -15,6 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.DragDropEvent;
@@ -30,6 +31,7 @@ import sv.com.mined.sieni.SieniComponenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
 import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
+import sv.com.mined.sieni.SieniPntosContrlFacadeRemote;
 import sv.com.mined.sieni.SieniSuperComponFacadeRemote;
 import sv.com.mined.sieni.form.GestionVideoClaseForm;
 import sv.com.mined.sieni.model.SieniArchivo;
@@ -43,6 +45,7 @@ import sv.com.mined.sieni.model.SieniElemPlantilla;
 import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
+import sv.com.mined.sieni.model.SieniPntosContrl;
 import sv.com.mined.sieni.model.SieniSuperCompon;
 import sv.com.mined.sieni.model.SieniTipoElemPlantilla;
 import sv.com.mined.sieni.pojos.controller.ComponenteInteractivoPojo;
@@ -69,6 +72,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     private SieniElemPlantillaFacadeRemote sieniElemPlantillaFacadeRemote;
     @EJB
     private SieniClaseFacadeRemote sieniClaseFacadeRemote;
+    @EJB
+    private SieniPntosContrlFacadeRemote sieniPntosContrlFacadeRemote;
     @EJB
     private SieniSuperComponFacadeRemote sieniSuperComponFacadeRemote;
     @EJB
@@ -1000,7 +1005,6 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     }
 
     //interacciones seleccionadas
-
     public void updateInteractByTipoElemPlanPantalla(TabChangeEvent ev) {
         SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
         Integer index = seccionActual.getPantallaActual();
@@ -1151,8 +1155,41 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     public void updateEv2(Long idSuperCompon) {
         this.setEvn2(getEventoDiferenteBySuperCompon(sieniCompInteraccionFacadeRemote.findByIdSuperComp(idSuperCompon)));
     }
-    
+
     public void updateComponConfigura(TabChangeEvent ev) {
         setComponentesPantallaActual(getComponActuales());
+    }
+
+    public void updatePuntoCtrlSeleccionados(TabChangeEvent ev) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+
+        if (loginBean.getTipoRol().equals("0")) {//alumno
+            SeccionPlantillaPojo seccionActual = this.getSecciones().get(this.getIdElemenActive());
+            Integer index = seccionActual.getPantallaActual();
+
+            if (index == null) {
+                index = 0;
+            }
+            //registra punto de control actual
+            SieniPntosContrl nuevo;
+            SieniTipoElemPlantilla tipoElem = this.getSecciones().get(this.getIdElemenActive()).getIdElemPlantilla().getIdTipoElemPlantilla();
+            Integer nPantalla = seccionActual.getPantallas().get(index).getNumPantalla();
+            //find punto de control by pantalla seccion alumno clase
+            nuevo = sieniPntosContrlFacadeRemote.findPuntos(tipoElem.getIdTipoElemPlantilla(), nPantalla, this.getClaseConfig().getIdClase(), loginBean.getAlumno().getIdAlumno());
+            if (nuevo.getIdPntosContrl() == null) {
+                nuevo.setIdClase(this.getClaseConfig());
+                nuevo.setIdAlumno(loginBean.getAlumno());
+                nuevo.setIdTipoElemPlantilla(tipoElem);
+                nuevo.setPcPantalla(nPantalla);
+                nuevo.setPcEstado('V');
+                sieniPntosContrlFacadeRemote.create(nuevo);
+            } else {
+                //cuando la pantalla ya existe pero ha sido eliminada se actualiza el estado
+                nuevo.setPcEstado('V');
+                sieniPntosContrlFacadeRemote.edit(nuevo);
+            }
+
+        }
     }
 }

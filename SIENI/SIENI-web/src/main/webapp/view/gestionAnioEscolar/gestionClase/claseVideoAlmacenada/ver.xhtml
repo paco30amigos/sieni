@@ -36,6 +36,7 @@
                 <c:forEach items="#{gestionVideoClaseController.secciones}" var="elemPlantilla">
                     <p:dialog widgetVar="dlg_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}" header="#{elemPlantilla.nombre}" height="#{gestionVideoClaseController.claseConfig.clAlto+90}px" width="#{gestionVideoClaseController.claseConfig.clAncho+156}px" fitViewport="true" onHide="videoPpal.play()" hideEffect="puff" showEffect="puff">
                         <p:tabView orientation="left" activeIndex="#{elemPlantilla.pantallaActual}" class="paginas">
+                            <p:ajax event="tabChange" listener="#{gestionVideoClaseController.updatePuntoCtrlSeleccionados}"></p:ajax>
                             <c:forEach items="#{elemPlantilla.pantallas}" var="pantalla">
                                 <p:tab title="Pág #{pantalla.numPantalla}">
                                     <p:panel id="pantalla_id_#{elemPlantilla.idElemPlantilla.idTipoElemPlantilla.idTipoElemPlantilla}_#{pantalla.numPantalla}" style="height: #{gestionVideoClaseController.claseConfig.clAlto}px;width: #{gestionVideoClaseController.claseConfig.clAncho}px">

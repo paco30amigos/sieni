@@ -37,10 +37,8 @@
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta" rows="10" var="user" value="#{rptUsuariosController.listDatos}" 
+                    <p:dataTable id="consulta" var="user" value="#{rptUsuariosController.listDatos}" 
                                  paginator="false" emptyMessage="No hay usuarios que mostrar"
-                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                 rowsPerPageTemplate="10,20,40"
                                  reflow="true">
 
                         <p:column headerText="Usuario" >

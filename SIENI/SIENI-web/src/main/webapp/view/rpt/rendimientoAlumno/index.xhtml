@@ -41,10 +41,8 @@
                     <p:commandButton value="generar" actionListener="#{rptRendimientoController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
-                <p:dataTable id="consulta" rows="10" var="car" value="#{rptRendimientoController.listDatos}" 
+                <p:dataTable id="consulta" var="car" value="#{rptRendimientoController.listDatos}" 
                              paginator="false"
-                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="10,20,40"
                              reflow="true">
                     <p:column headerText="Grado"  filterMatchMode="contains" filterable="true">
                         #{car.grado}

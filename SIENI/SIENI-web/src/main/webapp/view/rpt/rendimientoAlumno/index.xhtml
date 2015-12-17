@@ -77,9 +77,9 @@
 
                     <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
                         <p:outputLabel value="Exportar a:"></p:outputLabel>
-                        <p:selectOneRadio  id="console" value="#{radioView.console}">
-                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                        <p:selectOneRadio  id="console" value="#{rptRendimientoController.tipoRpt}">
+                            <f:selectItem itemLabel="Excel" itemValue="2" />
+                            <f:selectItem itemLabel="PDF" itemValue="0" />
                         </p:selectOneRadio>
                         <p:commandButton  value="Generar" action="#{rptRendimientoController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
                         <p:commandButton value="Refrescar"></p:commandButton>

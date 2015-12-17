@@ -70,9 +70,9 @@
 
                     <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
                         <p:outputLabel value="Exportar a:"></p:outputLabel>
-                        <p:selectOneRadio  id="console" value="#{bitacoraController.formatoRpt}" tabindex="0">
-                            <f:selectItem itemLabel="Excel" itemValue="Excel" />
-                            <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                        <p:selectOneRadio  id="console" value="#{bitacoraController.tipoRpt}">
+                            <f:selectItem itemLabel="Excel" itemValue="2" />
+                            <f:selectItem itemLabel="PDF" itemValue="0" />
                         </p:selectOneRadio>
                         <p:commandButton  value="Generar" action="#{bitacoraController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
                         <p:commandButton value="Refrescar" action="#{bitacoraController.refresh()}" update="consulta"></p:commandButton>

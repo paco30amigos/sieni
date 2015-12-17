@@ -57,7 +57,7 @@ public class RptParticipacionController extends RptParticipacionForm {
     
     @PostConstruct
     public void init() {
-        this.setFormatoRpt("PDF");
+        this.setTipoRpt(0);
         this.setAnio("2,015");
         //fill();
     }

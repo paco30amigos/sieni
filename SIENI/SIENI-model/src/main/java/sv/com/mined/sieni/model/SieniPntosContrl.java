@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -43,7 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniPntosContrl.findByPcAnterior", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcAnterior = :pcAnterior"),
     @NamedQuery(name = "SieniPntosContrl.findByPcUltimo", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcUltimo = :pcUltimo"),
     @NamedQuery(name = "SieniPntosContrl.findByPcEstado", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcEstado = :pcEstado"),
-    @NamedQuery(name = "SieniPntosContrl.findByAlumno", query = "SELECT DISTINCT s.idAlumno FROM SieniPntosContrl s"),
+    @NamedQuery(name = "SieniPntosContrl.findByAlumno", query = "SELECT DISTINCT s.idAlumno FROM SieniPntosContrl s WHERE s.pcFechaIngreso >= :desde and s.pcFechaIngreso <= :hasta "),
     @NamedQuery(name = "SieniPntosContrl.findByClasesAlumnos", query = "SELECT DISTINCT s.idClase FROM SieniPntosContrl s WHERE s.idAlumno.idAlumno = :idAlumno"),
     @NamedQuery(name = "SieniPntosContrl.findByCountClase", query = "SELECT s.idClase.idClase FROM SieniPntosContrl s WHERE s.idClase.idClase =:idClase")})
 public class SieniPntosContrl implements Serializable {
@@ -71,6 +72,9 @@ public class SieniPntosContrl implements Serializable {
     private BigInteger pcUltimo;
     @Column(name = "pc_pantalla")
     private Integer pcPantalla;
+    @Column(name = "pc_fecha_ingreso")
+    @Temporal(TemporalType.DATE)
+    private Date pcFechaIngreso;
     @JoinColumn(name = "id_tipo_elem_plantilla", referencedColumnName = "id_tipo_elem_plantilla")
     @ManyToOne
     private SieniTipoElemPlantilla idTipoElemPlantilla;
@@ -83,6 +87,11 @@ public class SieniPntosContrl implements Serializable {
     @ManyToOne
     private SieniClase idClase;
 
+    @PrePersist
+    protected void onCreate() {
+        pcFechaIngreso = new Date();
+    }
+    
     public SieniPntosContrl() {
     }
 
@@ -176,6 +185,14 @@ public class SieniPntosContrl implements Serializable {
 
     public void setIdClase(SieniClase idClase) {
         this.idClase = idClase;
+    }
+
+    public Date getPcFechaIngreso() {
+        return pcFechaIngreso;
+    }
+
+    public void setPcFechaIngreso(Date pcFechaIngreso) {
+        this.pcFechaIngreso = pcFechaIngreso;
     }
 
     @Override

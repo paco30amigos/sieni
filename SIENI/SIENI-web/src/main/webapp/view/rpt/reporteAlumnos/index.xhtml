@@ -20,6 +20,7 @@
         <div class="EmptyBox5"></div>
         <h:form>            
             <p:panel>
+                <div class="EmptyBox20"></div>
                 <p:panelGrid columns="4">
                     <p:outputLabel for="anioDesde" value="Registrado desde:"></p:outputLabel>
                     <p:calendar id="anioDesde" value="#{rptAlumnosController.anioDesde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true">

@@ -42,10 +42,9 @@
                     <p:commandButton value="generar" actionListener="#{rptNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
-                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{rptNotasController.listaDatos}" 
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{rptNotasController.listaDatos}" 
                              paginator="false"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="10,20,40"
                              reflow="true">
                     <p:column headerText="Carnet" >
                         #{car.carnet}

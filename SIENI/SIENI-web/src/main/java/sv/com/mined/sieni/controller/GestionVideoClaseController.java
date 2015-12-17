@@ -642,7 +642,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             if (validarModifica(this.getClaseModifica())) {//valida el guardado
                 sieniClaseFacadeRemote.edit(this.getClaseModifica());
                 registrarEnBitacora("Modificar", "Video Clase Almacenada", this.getClaseModifica().getIdClase());
-                new ValidationPojo().printMsj("Plantilla Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
+                new ValidationPojo().printMsj("Video Clase Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
 //                fill();
             }
         } catch (Exception e) {

@@ -63,19 +63,24 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void fill() {
-        this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAllActivos());
         this.setMateriaList(sieniMateriaFacadeRemote.findAllNoInactivas());
-        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
+//        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
+    }
+
+    public void initNuevo() {
+        this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAllActivos());
         this.setGradoList(sieniGradoFacadeRemote.findAll());
+        this.setIndexMenu(1);
     }
 
     public synchronized void guardar() {
         String matSelected = this.getMateriaNuevo().getMaNombre();
         Integer gradoSelected = this.getMateriaNuevo().getIdGrado().getGrNumero();
         String turnoSelected = this.getMateriaNuevo().getMaTurno();
+        Character estado = this.getMateriaNuevo().getMaEstado();
         try {
             if (validarNuevo(this.getMateriaNuevo())) {
-                if (validarMateria(matSelected, gradoSelected, turnoSelected)) {
+                if (validarMateria(matSelected, gradoSelected, turnoSelected, estado)) {
                     this.setMateriaNuevo(sieniMateriaFacadeRemote.createAndReturn(this.getMateriaNuevo()));
                     registrarEnBitacora("Crear", "Materia", this.getMateriaNuevo().getIdMateria());
                     this.setMateriaNuevo(new SieniMateria());
@@ -98,6 +103,8 @@ public class GestionMateriasController extends GestionMateriasForm {
     }
 
     public void modificar(SieniMateria modificado) {
+        this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAllActivos());
+        this.setGradoList(sieniGradoFacadeRemote.findAll());
         this.setMateriaModifica(modificado);
         this.setIndexMenu(2);
     }
@@ -106,9 +113,10 @@ public class GestionMateriasController extends GestionMateriasForm {
         String matSelected = this.getMateriaModifica().getMaNombre();
         Integer gradoSelected = this.getMateriaModifica().getIdGrado().getGrNumero();
         String turnoSelected = this.getMateriaModifica().getMaTurno();
+        Character estado = this.getMateriaModifica().getMaEstado();
         try {
             if (validarModifica(this.getMateriaModifica())) {//valida el guardado            
-                if (validarMateria(matSelected, gradoSelected, turnoSelected)) {
+                if (validarMateria(matSelected, gradoSelected, turnoSelected, estado)) {
                     sieniMateriaFacadeRemote.edit(this.getMateriaModifica());
                     registrarEnBitacora("Modificar", "Materia", this.getMateriaModifica().getIdMateria());
                     new ValidationPojo().printMsj("Archivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
@@ -146,20 +154,20 @@ public class GestionMateriasController extends GestionMateriasForm {
         this.setMateriaModifica(modificado);
         this.setIndexMenu(3);
     }
-    
-    public boolean validarMateria(String materia, Integer grado, String turno){
+
+    public boolean validarMateria(String materia, Integer grado, String turno, Character estado) {
         List<SieniMateria> mat = sieniMateriaFacadeRemote.findByMaNombre(materia);
         if (mat != null) {
             for (SieniMateria actual : mat) {
 //                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado()=='I') {
-                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno))) {
+                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado().equals(estado)) {
                     return false;
                 }
             }
         }
         return true;
     }
-    
+
     public void refresh() {
         fill();
     }

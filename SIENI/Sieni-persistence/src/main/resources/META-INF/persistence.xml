@@ -54,11 +54,12 @@
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
-            <property name="eclipselink.jdbc.batch-writing.size" value="1000" />
+            <property name="eclipselink.jdbc.batch-writing.size" value="10" />
             <property name="eclipselink.persistence-context.flush-mode" value="commit"/>
             <property name="eclipselink.persistence-context.close-on-commit" value="true"/>
             <property name="eclipselink.persistence-context.persist-on-commit" value="false"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://sieni.ckkeowigttcx.us-west-1.rds.amazonaws.com:5432/bd_sieni?rewriteBatchedStatements=true"/>
+            <!--<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://sieni.ckkeowigttcx.us-west-1.rds.amazonaws.com:5432/bd_sieni?rewriteBatchedStatements=true"/>-->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/bd_sieni?rewriteBatchedStatements=true"/>
         </properties>
     </persistence-unit>
 </persistence>

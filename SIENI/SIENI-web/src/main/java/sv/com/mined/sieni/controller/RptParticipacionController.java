@@ -94,8 +94,9 @@ public class RptParticipacionController extends RptParticipacionForm {
     public void generarReporte() {
         fill();
         String path = "resources/reportes/rtpParticipacion.jasper";
-        Map parameterMap = new HashMap();
-        parameterMap.put("anio", this.getAnio());
+        Map parameterMap = new HashMap();        
+        parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getDesde()));
+        parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getHasta()));        
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
         try {
             RptParticipacionController.generateReport(path, "rtpParticipacion" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());

@@ -18,50 +18,51 @@
         </p:dialog>
     </ui:define>
     <ui:define name="content">
-        <p:tabView>
-            <p:tab title="Reporte de Usuarios">
-                <h:form>
-                    <div class="EmptyBox20"></div>
-                    <p:panelGrid columns="4">
-                        <p:outputLabel value="Tipo Usuario:"></p:outputLabel>
-                        <p:selectOneMenu id="tipoU" value="#{rptUsuariosController.tipoUser}">
-                            <f:selectItem itemValue="0" itemLabel="TODOS"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="DOCENTE"></f:selectItem>
-                            <f:selectItem itemValue="2" itemLabel="ALUMNO"></f:selectItem>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="Estado:"></p:outputLabel>
-                        <p:selectOneMenu id="estadoU" value="#{rptUsuariosController.estadoUser}">
-                            <f:selectItem itemValue="0" itemLabel="TODOS"></f:selectItem>
-                            <f:selectItem itemValue="1" itemLabel="ACTIVO"></f:selectItem>
-                            <f:selectItem itemValue="2" itemLabel="INACTIVO"></f:selectItem>
-                        </p:selectOneMenu>
-                    </p:panelGrid>
-                    <div class="EmptyBox20"></div>
-                    <p:dataTable id="consulta" var="user" value="#{rptUsuariosController.listDatos}" 
-                                 paginator="false" emptyMessage="No hay usuarios que mostrar"
-                                 reflow="true">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="Tipo Usuario:"></p:outputLabel>
+                    <p:selectOneMenu id="tipoU" value="#{rptUsuariosController.tipoUser}">
+                        <f:selectItem itemValue="0" itemLabel="TODOS"></f:selectItem>
+                        <f:selectItem itemValue="1" itemLabel="DOCENTE"></f:selectItem>
+                        <f:selectItem itemValue="2" itemLabel="ALUMNO"></f:selectItem>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Estado:"></p:outputLabel>
+                    <p:selectOneMenu id="estadoU" value="#{rptUsuariosController.estadoUser}">
+                        <f:selectItem itemValue="0" itemLabel="TODOS"></f:selectItem>
+                        <f:selectItem itemValue="1" itemLabel="ACTIVO"></f:selectItem>
+                        <f:selectItem itemValue="2" itemLabel="INACTIVO"></f:selectItem>
+                    </p:selectOneMenu>
+                    <p:commandButton value="Refrescar" actionListener="#{rptUsuariosController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta" var="user" value="#{rptUsuariosController.listDatos}" 
+                             paginator="false" emptyMessage="No hay usuarios que mostrar"
+                             reflow="true">
 
-                        <p:column headerText="Usuario" >
-                            #{user.usuario}
-                        </p:column>
-                        <p:column headerText="Nombre" >
-                            #{user.nombre}
-                        </p:column>
-                        <p:column headerText="Tipo de usuario" >
-                            #{user.tipo}
-                        </p:column>
-                        <p:column headerText="Activo" >
-                            #{user.activo}
-                        </p:column>
+                    <p:column headerText="Usuario" >
+                        #{user.usuario}
+                    </p:column>
+                    <p:column headerText="Nombre" >
+                        #{user.nombre}
+                    </p:column>
+                    <p:column headerText="Tipo de usuario" >
+                        #{user.tipo}
+                    </p:column>
+                    <p:column headerText="Activo" >
+                        #{user.activo}
+                    </p:column>
 
 
-                        <f:facet name="footer">
-                            Total de Usuarios #{rptUsuariosController.totalUsuarios}
-                        </f:facet>
-                    </p:dataTable>
+                    <f:facet name="footer">
+                        Total de Usuarios #{rptUsuariosController.totalUsuarios}
+                    </f:facet>
+                </p:dataTable>
 
-                    <div class="EmptyBox20"></div>
-                    <div class="TexAlCenter">
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
 
                     <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
                         <p:outputLabel value="Exportar a:"></p:outputLabel>
@@ -72,13 +73,10 @@
                         <p:commandButton  value="Generar" ajax="false" actionListener="#{rptUsuariosController.generarReporte()}"></p:commandButton>
                         <p:commandButton value="Refrescar" actionListener="#{rptUsuariosController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                     </h:panelGrid>
-                    </div>
+                </div>
 
-                </h:form>
-            </p:tab>
-
-        </p:tabView>
-
+            </h:form>
+        </p:panel>
     </ui:define>
 
 </ui:composition>

@@ -5,6 +5,8 @@
  */
 package sv.com.mined.sieni.controller;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -409,9 +411,11 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             sieniNota.setNtAnio(Calendar.getInstance().get(Calendar.YEAR));
             sieniNota.setNtEstado('A');
             sieniNota.setNtCalificacion(nota);
+            BigDecimal notaAux = new BigDecimal(sieniNota.getNtCalificacion());
+            sieniNota.setNtCalificacion(notaAux.setScale(2, RoundingMode.HALF_UP).doubleValue());
             sieniNota.setNtTipoIngreso("A");
             sieniNotaFacadeRemote.create(sieniNota);
-            msg = new FacesMessage("Examen finalizado, su nota es: " + nota);
+            msg = new FacesMessage("Examen finalizado, su nota es: " + notaAux.setScale(2, RoundingMode.HALF_UP).doubleValue());
         } else {
             msg = new FacesMessage("Se guardaron las respuestas");
         }

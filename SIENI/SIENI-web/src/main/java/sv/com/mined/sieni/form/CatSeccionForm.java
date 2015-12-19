@@ -17,12 +17,13 @@ import utils.siteUrls;
  */
 public class CatSeccionForm {
     private int indexMenu;
-    private Integer anio;
+    private Integer idanio;
+    private Integer idgrado;
     private SieniSeccion eliminar;
     private SieniSeccion ver;
 
     // consulta de archivo
-    private SieniAnioEscolar anioEscolar;
+    private SieniAnioEscolar anio;
     private List<SieniAnioEscolar> listAnios;
     private List<SieniGrado> listGrados;
     private List<SieniSeccion> list;
@@ -70,13 +71,34 @@ public class CatSeccionForm {
         this.ver = ver;
     }
 
-    public SieniAnioEscolar getAnioEscolar() {
-        return anioEscolar;
+    public Integer getIdanio() {
+        return idanio;
     }
 
-    public void setAnioEscolar(SieniAnioEscolar anioEscolar) {
-        this.anioEscolar = anioEscolar;
+    public void setIdanio(Integer idanio) {
+        this.idanio = idanio;
     }
+
+    public Integer getIdgrado() {
+        return idgrado;
+    }
+
+    public void setIdgrado(Integer idgrado) {
+        this.idgrado = idgrado;
+    }
+    
+    
+    
+
+    public SieniAnioEscolar getAnio() {
+        return anio;
+    }
+
+    public void setAnio(SieniAnioEscolar anio) {
+        this.anio = anio;
+    }
+
+    
 
     public List<SieniGrado> getListGrados() {
         return listGrados;
@@ -120,13 +142,6 @@ public class CatSeccionForm {
         this.modifica = modifica;
     }
 
-    public Integer getAnio() {
-        return anio;
-    }
-
-    public void setAnio(Integer anio) {
-        this.anio = anio;
-    }
     
     
     

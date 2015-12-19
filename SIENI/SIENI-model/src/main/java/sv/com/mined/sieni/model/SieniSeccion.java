@@ -11,12 +11,15 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -33,11 +36,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniSeccion.findByIdSeccion", query = "SELECT s FROM SieniSeccion s WHERE s.idSeccion = :idSeccion"),
     @NamedQuery(name = "SieniSeccion.findByScDescripcion", query = "SELECT s FROM SieniSeccion s WHERE s.scDescripcion = :scDescripcion"),
     @NamedQuery(name = "SieniSeccion.findByScCoordinador", query = "SELECT s FROM SieniSeccion s WHERE s.scCoordinador = :scCoordinador"),
-    @NamedQuery(name = "SieniSeccion.findByAnioEscolar", query = "SELECT s FROM SieniSeccion s WHERE s.idAnioEscolar.idAnioEscolar = :anio")
+    @NamedQuery(name = "SieniSeccion.findByAnioEscolar", query = "SELECT s FROM SieniSeccion s WHERE s.idAnioEscolar = :anio ORDER BY s.idGrado.grNombre,s.scDescripcion")
 })
 public class SieniSeccion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_seccion")
+    @SequenceGenerator(name = "sec_sieni_seccion", initialValue = 1, allocationSize = 1, sequenceName = "sec_sieni_seccion")
     @Basic(optional = false)
     @Column(name = "id_seccion")
     private Long idSeccion;

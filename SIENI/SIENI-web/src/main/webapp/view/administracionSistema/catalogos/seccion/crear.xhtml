@@ -10,8 +10,8 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Administración de Sistema" url="#"/>
             <p:menuitem value="Gestión de catalogos" url="#"/>
-            <p:menuitem value="Grados" url="#{siteUrls.catGrado}"/>
-            <p:menuitem value="Adicionar Grados" url="#"/>
+            <p:menuitem value="Secciones" url="#{siteUrls.catSeccion}"/>
+            <p:menuitem value="Adicionar Seccion" url="#"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -25,14 +25,16 @@
                 </p:dialog>
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
-                    <p:outputLabel for="anio"  value="Año Escolar " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel tabindex="1" id="anio" value="#{catSeccionController.getAnioEscolar.aeAnio}" />
+                    <p:outputLabel for="anio" value="Año Escolar: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="anio" class=" Responsive" value="#{catSeccionController.idanio}" required="true" requiredMessage="Debe seleccionar Año Escolar">
+                        <f:selectItems itemValue ="#{an.idAnioEscolar}" itemLabel="#{an.aeAnio}" value="#{catSeccionController.listAnios}" var="an" />
+                    </p:selectOneMenu>
                     <p:outputLabel for="grado" value="Grado: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="grado" class=" Responsive" value="#{catSeccionController.nuevo.idGrado}" >
-                        <f:selectItems itemValue ="#{gr}" itemLabel="#{gr.grNombre}" value="#{catSeccionController.listGrados}" var="gr" />
+                    <p:selectOneMenu id="grado" class=" Responsive" value="#{catSeccionController.idgrado}" required="true" requiredMessage="Debe seleccionar grado">
+                        <f:selectItems itemValue ="#{gr.idGrado}" itemLabel="#{gr.grNombre}" value="#{catSeccionController.listGrados}" var="gr" />
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion"  value="Seccion: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="1" id="seccion" value="#{catSeccionController.nuevo.scDescripcion}" required="true" requiredMessage="Debe ingresar seccion" maxlength="1"></p:inputText>
+                    <p:inputText tabindex="1" id="seccion" value="#{catSeccionController.nuevo.scDescripcion}" required="true" onblur="value=value.toUpperCase()" requiredMessage="Debe ingresar seccion" maxlength="1"></p:inputText>
                 </p:panelGrid>
                 
                 <div class="EmptyBox20"></div>

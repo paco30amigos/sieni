@@ -49,19 +49,21 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
         List<SieniSeccion> ret = null;
         String jpql = "select s from SieniSeccion s";
         HashMap<String, Object> params = new HashMap<>();
-        boolean where = false;
-        String filter = " where 1==1";
+        String filter = " where 1=1";
         if (seccion != null) {
+            if (seccion.getIdAnioEscolar()!= null) {
+                filter += " and s.idAnioEscolar =:idAnioEscolar";
+                params.put("idAnioEscolar", seccion.getIdAnioEscolar());
+            }
+            if (seccion.getIdGrado() != null) {
+                filter += " and s.idGrado =:idGrado";
+                params.put("idGrado", seccion.getIdGrado());
+            }
             if (seccion.getScDescripcion()!= null) {
                 filter += " and s.scDescripcion =:scDescripcion ";
                 params.put("scDescripcion", seccion.getScDescripcion());
-                where = true;
             }
-            if (seccion.getIdGrado() != null) {
-                filter += where ? " and " : "";
-                filter += " s.idGrado =:idGrado";
-                params.put("idGrado", seccion.getIdGrado());
-            }
+            
             Query q = em.createQuery(jpql + filter);
             for (String actual : params.keySet()) {
                 q.setParameter(actual, params.get(actual));
@@ -77,7 +79,7 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
     
 
     @Override
-    public List<SieniSeccion> findByAnioEscolar(Integer anio) {
+    public List<SieniSeccion> findByAnioEscolar(SieniAnioEscolar anio) {
         Query q = em.createNamedQuery("SieniSeccion.findByAnioEscolar");
         q.setParameter("anio", anio);
         List<SieniSeccion> ret = q.getResultList();

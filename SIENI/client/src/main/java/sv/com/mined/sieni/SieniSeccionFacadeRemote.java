@@ -37,7 +37,7 @@ public interface SieniSeccionFacadeRemote {
     
     public List<SieniSeccion> findBy(SieniSeccion grado);
     
-    public List<SieniSeccion> findByAnioEscolar(Integer anio);
+    public List<SieniSeccion> findByAnioEscolar(SieniAnioEscolar anio);
 
     
 }

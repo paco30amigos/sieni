@@ -18,14 +18,14 @@
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
-        <h:form>            
-            <p:panel>
+        <p:panel>
+            <h:form>         
                 <p:panelGrid columns="5">
-                     <p:outputLabel for="desde" value="Fecha Desde: " class=" Responsive"></p:outputLabel>
-                     <p:calendar class="Container100" id="desde" value="#{rptCursosController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de inicio" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
-                     <p:outputLabel for="hasta" value="hasta: " class=" Responsive"></p:outputLabel>
-                     <p:calendar class="Container100" id="hasta" value="#{rptCursosController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de fin" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
-                     <p:commandButton value="generar" actionListener="#{rptCursosController.fill()}" update="consulta" ajax="true"></p:commandButton>
+                    <p:outputLabel for="desde" value="Fecha Desde: " class=" Responsive"></p:outputLabel>
+                    <p:calendar class="Container100" id="desde" value="#{rptCursosController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de inicio" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
+                    <p:outputLabel for="hasta" value="hasta: " class=" Responsive"></p:outputLabel>
+                    <p:calendar class="Container100" id="hasta" value="#{rptCursosController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de fin" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
+                    <p:commandButton value="generar" actionListener="#{rptCursosController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta"  var="car" value="#{rptCursosController.listDatos}" 
@@ -49,7 +49,7 @@
                     <p:column headerText="Materia" >
                         #{car.materia}
                     </p:column>
-                   
+
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
                 <div class="TexAlCenter">
@@ -63,7 +63,8 @@
                         <p:commandButton value="Refrescar" actionListener="#{rptCursosController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                     </h:panelGrid>
                 </div>
-            </p:panel>
-        </h:form>
+            </h:form>
+            <div class="EmptyBox5"></div>
+        </p:panel>
     </ui:define>
 </ui:composition>

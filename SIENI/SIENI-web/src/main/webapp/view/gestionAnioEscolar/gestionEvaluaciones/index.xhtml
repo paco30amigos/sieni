@@ -68,6 +68,7 @@
                 <p:commandButton value="Adicionar Evaluacion" action="#{gestionarEvaluacionController.setIndexMenu(1)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
                 <p:commandButton value="Refrescar" action="#{gestionarEvaluacionController.refresh()}" update="consulta" rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
             </h:form>
+            <div class="EmptyBox5"></div>
         </p:panel>
     </ui:define>
 </ui:composition>

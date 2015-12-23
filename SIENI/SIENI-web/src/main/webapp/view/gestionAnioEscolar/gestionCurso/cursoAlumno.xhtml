@@ -17,49 +17,51 @@
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
-        <h:form enctype="multipart/form-data" id="consultaForm" >
-            <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
-                <ui:include src="ayuda/cursoAlumno.xhtml"></ui:include>
-            </p:dialog>
-            <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
-            <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionCursoController.alumnoList}" 
-                         selection="#{gestionCursoController.selectedAlumnoList}" rowKey="#{car.idAlumno}" paginator="true" rows="10"
-                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                         rowsPerPageTemplate="10,20,40"
-                         reflow="true">
+        <p:panel>
+            <h:form enctype="multipart/form-data" id="consultaForm" >
+                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
+                    <ui:include src="ayuda/cursoAlumno.xhtml"></ui:include>
+                </p:dialog>
+                <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionCursoController.alumnoList}" 
+                             selection="#{gestionCursoController.selectedAlumnoList}" rowKey="#{car.idAlumno}" paginator="true" rows="10"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,20,40"
+                             reflow="true">
 
-                <p:column selectionMode="multiple" style="text-align:center"/>
-                <p:column headerText="Alummno" filterBy="#{car.alNombreCompleto}" filterable="true" filterMatchMode="contains">
-                    #{car.alNombreCompleto}
-                </p:column>
-                <p:column headerText="Carnet" filterBy="#{car.alCarnet}" filterable="true" filterMatchMode="contains">
-                    #{car.alCarnet}
-                </p:column>
+                    <p:column selectionMode="multiple" style="text-align:center"/>
+                    <p:column headerText="Alummno" filterBy="#{car.alNombreCompleto}" filterable="true" filterMatchMode="contains">
+                        #{car.alNombreCompleto}
+                    </p:column>
+                    <p:column headerText="Carnet" filterBy="#{car.alCarnet}" filterable="true" filterMatchMode="contains">
+                        #{car.alCarnet}
+                    </p:column>
 
 
-            </p:dataTable>
+                </p:dataTable>
 
-            <p:tooltip for="consulta" value="Seleccione los alumnos a inscribir en el curso"/>
-            
-            <div class="EmptyBox20"></div>
-            <div class="Container100">
-                <p:commandButton  value="Inscribir" action="#{gestionCursoController.alumnosSeleccion()}" update="consulta"  />
-                <p:commandButton value="Regresa" immediate="true">
-                    <p:ajax listener="#{gestionCursoController.setIndexMenu(0)}"/>
-                </p:commandButton>
-                <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
-                <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                    <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
-                    </p:menuitem>
-                    <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}">    
-                    </p:menuitem>
-                    <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">
-                    </p:menuitem>
-                    <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}">
-                    </p:menuitem>
-                </p:tieredMenu> 
-            </div>
+                <p:tooltip for="consulta" value="Seleccione los alumnos a inscribir en el curso"/>
 
-        </h:form>
+                <div class="EmptyBox20"></div>
+                <div class="Container100">
+                    <p:commandButton  value="Inscribir" action="#{gestionCursoController.alumnosSeleccion()}" update="consulta"  />
+                    <p:commandButton value="Regresa" immediate="true">
+                        <p:ajax listener="#{gestionCursoController.setIndexMenu(0)}"/>
+                    </p:commandButton>
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}">    
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">
+                        </p:menuitem>
+                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}">
+                        </p:menuitem>
+                    </p:tieredMenu> 
+                </div>
+            </h:form>
+            <div class="EmptyBox5"></div>
+        </p:panel>
     </ui:define>
 </ui:composition>

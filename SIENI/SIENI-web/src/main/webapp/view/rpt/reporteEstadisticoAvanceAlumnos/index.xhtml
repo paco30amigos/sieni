@@ -18,8 +18,8 @@
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
-        <h:form>
-            <p:panel>
+        <p:panel>
+            <h:form>
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="4">
                     <p:outputLabel for="grado" value="Grado: " class="  Responsive"></p:outputLabel>
@@ -81,7 +81,8 @@
                         <p:commandButton value="Refrescar" actionListener="#{rptEstadisticoAvanceController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                     </h:panelGrid>
                 </div>
-            </p:panel>
-        </h:form>
+            </h:form>
+            <div class="EmptyBox5"></div>
+        </p:panel>
     </ui:define>
 </ui:composition>

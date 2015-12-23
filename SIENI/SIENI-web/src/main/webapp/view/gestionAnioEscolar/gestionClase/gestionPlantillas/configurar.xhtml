@@ -41,7 +41,7 @@
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{gestionPlantillasController.elemPlantillaSelected}" 
-                             paginator="true" rows="5"
+                             paginator="true" rows="10"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              reflow="true" draggableRows="true">

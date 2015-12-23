@@ -33,7 +33,7 @@
                 <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
                 
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="noti" value="#{gestionarNoticiasController.noticiasList}" 
-                             paginator="true" rows="5" emptyMessage="No hay noticias que mostrar"
+                             paginator="true" rows="10" emptyMessage="No hay noticias que mostrar"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              reflow="true">

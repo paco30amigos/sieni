@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -80,16 +81,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnos", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario IS NOT NULL AND s.alUsuario <> ''"),
     @NamedQuery(name = "SieniAlumno.findRptUsuariosAlumnosByEstado", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario IS NOT NULL AND s.alUsuario <> '' AND s.alEstado = :alEstado ")
 
-    
 })
 public class SieniAlumno implements Serializable {
-
-    @Column(name = "al_foto")
-    private Long alFoto;
-    @OneToMany(mappedBy = "idAlumno")
-    private List<SieniEvalRespAlumno> sieniEvalRespAlumnoList;
-    @OneToMany(mappedBy = "idAlumno")
-    private List<SieniCursoAlumno> sieniCursoAlumnoList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -120,7 +113,7 @@ public class SieniAlumno implements Serializable {
     @Column(name = "al_direccion")
     private String alDireccion;
     @Column(name = "al_telefono_em_1")
-    private String alTelefonoEm1;    
+    private String alTelefonoEm1;
     @Column(name = "al_telefono_em_2")
     private String alTelefonoEm2;
     @Column(name = "al_telefono_em_3")
@@ -155,26 +148,29 @@ public class SieniAlumno implements Serializable {
     @Column(name = "al_fecha_baja")
     @Temporal(TemporalType.DATE)
     private Date alFechaBaja;
-    
-    
+    @Column(name = "al_foto")
+    private Long alFoto;
     /*@JoinTable(name = "alumno_recibe_noti", joinColumns = {
-        @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
-        @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
-    @ManyToMany
-    private List<SieniNotificacion> sieniNotificacionList;
-    */
-    
-    @OneToMany(mappedBy = "idAlumno")
+     @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")}, inverseJoinColumns = {
+     @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
+     @ManyToMany
+     private List<SieniNotificacion> sieniNotificacionList;
+     */
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+    private List<SieniEvalRespAlumno> sieniEvalRespAlumnoList;
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+    private List<SieniCursoAlumno> sieniCursoAlumnoList;
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
     private List<SieniTemaDuda> sieniTemaDudaList;
-    @OneToMany(mappedBy = "idAlumno",cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "idAlumno", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     private List<SieniAlumnRol> sieniAlumnRolList;
-    @OneToMany(mappedBy = "idAlumno")
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
     private List<SieniPntosContrl> sieniPntosContrlList;
-    @OneToMany(mappedBy = "idAlumno")
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
     private List<SieniMatricula> sieniMatriculaList;
-    @OneToMany(mappedBy = "idAlumno")
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
     private List<SieniNota> sieniNotaList;
-    @OneToMany(mappedBy = "idAlumno")
+    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
     private List<AlumnoRecibeNoti> notificacionesList;
     @Transient
     private String nombreCompleto;
@@ -335,14 +331,10 @@ public class SieniAlumno implements Serializable {
         this.sieniTemaDudaList = sieniTemaDudaList;
     }
 
-    
-
     @XmlTransient
     public List<SieniAlumnRol> getSieniAlumnRolList() {
         return sieniAlumnRolList;
     }
-
-     
 
     public void setSieniAlumnRolList(List<SieniAlumnRol> sieniAlumnRolList) {
         this.sieniAlumnRolList = sieniAlumnRolList;
@@ -383,7 +375,7 @@ public class SieniAlumno implements Serializable {
     public void setNotificacionesList(List<AlumnoRecibeNoti> notificacionesList) {
         this.notificacionesList = notificacionesList;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -520,7 +512,6 @@ public class SieniAlumno implements Serializable {
         this.sieniCursoAlumnoList = sieniCursoAlumnoList;
     }
 
-   
     @XmlTransient
     public List<SieniEvalRespAlumno> getSieniEvalRespAlumnoList() {
         return sieniEvalRespAlumnoList;
@@ -529,4 +520,4 @@ public class SieniAlumno implements Serializable {
     public void setSieniEvalRespAlumnoList(List<SieniEvalRespAlumno> sieniEvalRespAlumnoList) {
         this.sieniEvalRespAlumnoList = sieniEvalRespAlumnoList;
     }
-    }
+}

@@ -25,6 +25,8 @@ import javax.persistence.criteria.Root;
 import org.primefaces.model.SortOrder;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.pojos.PagedResult;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
 /**
  *
@@ -56,6 +58,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         Character estado = 'I';
         Query q = em.createNamedQuery("SieniAlumno.findAlumnosNoInactivos");
         q.setParameter("estado", estado);
+        q.setHint("eclipselink.BATCH_SIZE", "3");
         return q.getResultList();
     }
 
@@ -328,7 +331,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         Query q = em.createNamedQuery("SieniAlumno.findAlumnosInscritos");
         q.setParameter("idCurso", idCurso);
         q.setParameter("alEstado", 'I');
-        
+
         return q.getResultList();
 
     }

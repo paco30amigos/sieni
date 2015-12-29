@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,6 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAlumnRol.findAll", query = "SELECT s FROM SieniAlumnRol s"),
+    @NamedQuery(name = "SieniAlumnRol.findRolesAlumno", query = "SELECT s FROM SieniAlumnRol s where s.idAlumno=:idAlumno"),
     @NamedQuery(name = "SieniAlumnRol.findAllNoInactivos", query = "SELECT s FROM SieniAlumnRol s where s.sarEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumnRol.findByIdAlumnRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.idAlumnRol = :idAlumnRol"),
     @NamedQuery(name = "SieniAlumnRol.findByFRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.fRol = :fRol")})
@@ -45,9 +48,12 @@ public class SieniAlumnRol implements Serializable {
     private long fRol;
     @Column(name = "sar_estado")
     private Character sarEstado;
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
-    @ManyToOne
-    private SieniAlumno idAlumno;
+//    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+//    @ManyToOne
+    @Column(name = "id_alumno")
+    private Long idAlumno;
+    @Transient
+    private SieniAlumno alumno;
 
     public SieniAlumnRol() {
     }
@@ -77,13 +83,9 @@ public class SieniAlumnRol implements Serializable {
         this.fRol = fRol;
     }
 
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
+//    public SieniAlumno getIdAlumno() {
+//        return idAlumno;
+//    }
 
     @Override
     public int hashCode() {
@@ -116,6 +118,22 @@ public class SieniAlumnRol implements Serializable {
 
     public void setSarEstado(Character sarEstado) {
         this.sarEstado = sarEstado;
+    }
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
     }
     
 }

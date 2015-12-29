@@ -34,7 +34,7 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
 
     @Override
     public List<SieniDocente> findDocentesSinUsuario() {
-        Query q = em.createNamedQuery("SieniDocente.findDocentesSinUsuario");
+        Query q = em.createNativeQuery("select * from sieni_docente d left outer join sieni_docent_rol dr on(d.id_docente=dr.id_docente) where dr.id_docente_rol is null",SieniDocente.class);
         return q.getResultList();
     }
 
@@ -44,9 +44,9 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
         q.setParameter("usuario", usuario);
         q.setParameter("pass", pass);
         List<SieniDocente> res = q.getResultList();
-        SieniDocente ret=null;
+        SieniDocente ret = null;
         if (res != null && !res.isEmpty()) {
-            ret=res.get(0);
+            ret = res.get(0);
             em.refresh(ret);
             return ret;
         } else {
@@ -108,5 +108,17 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
             return null;
         }
     }
-    
+
+    @Override
+    public SieniDocente findByDocenteId(Long idDocente) {
+        Query q = em.createNamedQuery("SieniDocente.findByIdDocente");
+        q.setParameter("idDocente", idDocente);
+        List<SieniDocente> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
+    }
+
 }

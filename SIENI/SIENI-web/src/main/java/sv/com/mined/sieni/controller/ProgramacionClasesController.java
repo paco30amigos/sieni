@@ -76,7 +76,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
             this.setClasesList(sieniClaseFacadeRemote.findAllNoInactivos());
         }
     }
-    
+
     public void nuevoD(){
 //        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setCursosList(sieniCursoFacadeRemote.findByEstado('A'));
@@ -149,6 +149,7 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
 //        this.setDocentesModificaList(sieniDocenteFacadeRemote.findDocentesActivos());
         DateUtils du = new DateUtils();
         this.setHorarioSelected(du.getAllNamesOfWeekList(modificado.getClHorario()));
+        this.setCursosModificaList(sieniCursoFacadeRemote.findByEstado('A'));
         this.setModifica(modificado);
         this.setIndexMenu(2);
     }

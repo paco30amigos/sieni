@@ -68,7 +68,7 @@ public class RptBoletaNotasController extends RptNotasForm {
         }
         this.setListaDatos(new ArrayList<RptNotasPojo>());
         for (SieniNota nota : sieniNotasFacadeRemote.getNotasRpt(desde, hasta, this.getGrado().getIdGrado(), this.getSeccion().getIdSeccion())) {
-            this.getListaDatos().add(new RptNotasPojo(nota.getIdAlumno().getNombreCompleto(), nota.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), nota.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), nota.getIdEvaluacion().getIdMateria().getMaNombre(), nota.getIdEvaluacion().getEvNombre(), nota.getNtCalificacion().toString(), nota.getIdAlumno().getAlCarnet(), nota.getIdEvaluacion().getEvTipo()));
+//            this.getListaDatos().add(new RptNotasPojo(nota.getIdAlumno().getNombreCompleto(), nota.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), nota.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), nota.getIdEvaluacion().getIdMateria().getMaNombre(), nota.getIdEvaluacion().getEvNombre(), nota.getNtCalificacion().toString(), nota.getIdAlumno().getAlCarnet(), nota.getIdEvaluacion().getEvTipo()));
         }
         this.setTotalTransacciones(this.getListaDatos().size());
     }

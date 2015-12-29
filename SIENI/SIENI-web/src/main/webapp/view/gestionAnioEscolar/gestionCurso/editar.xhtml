@@ -22,15 +22,14 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/editar.xhtml"></ui:include>
                 </p:dialog>
-                <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="mod_nombre"  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="1" id="mod_nombre" class=" Responsive" value="#{gestionCursoController.cursoModifica.crNombre}"><f:validateLength minimum="10" maximum="50" /></p:inputText>
+                    <p:inputText tabindex="1" id="mod_nombre" class=" Responsive" value="#{gestionCursoController.cursoModifica.crNombre}" required="true" requiredMessage="Debe ingresar un nombre para el curso"><f:validateLength minimum="10" maximum="50" /></p:inputText>
                     <p:outputLabel for="mod_capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
-                    <p:spinner tabindex="2" id="mod_capacidad" class=" Responsive" value="#{gestionCursoController.cursoModifica.crCapacidad}" max="999" min="1"></p:spinner>
+                    <p:spinner tabindex="2" id="mod_capacidad" class=" Responsive" value="#{gestionCursoController.cursoModifica.crCapacidad}" max="999" min="1" required="true" requiredMessage="Debe ingresar la capacidad del curso"></p:spinner>
                     <p:outputLabel for="mod_docente" value="Docente: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="3" id="mod_docente" class=" Responsive" value="#{gestionCursoController.cursoModifica.idDocente.idDocente}" filter="true" filterMatchMode="contains" required="true">
+                    <p:selectOneMenu tabindex="3" id="mod_docente" class=" Responsive" value="#{gestionCursoController.cursoModifica.idDocente}" filter="true" filterMatchMode="contains" required="true">
                         <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesModificaList}" var="docente" />
                     </p:selectOneMenu>
 

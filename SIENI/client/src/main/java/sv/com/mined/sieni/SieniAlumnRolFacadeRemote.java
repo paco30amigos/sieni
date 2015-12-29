@@ -33,4 +33,6 @@ public interface SieniAlumnRolFacadeRemote {
     int count();
 
     public List<SieniAlumnRol> findAllNoInactivos();
+    
+    public List<SieniAlumnRol> findRolesAlumno(Long idAlumno);
 }

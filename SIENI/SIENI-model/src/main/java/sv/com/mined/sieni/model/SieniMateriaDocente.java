@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "sieni_materia_docente")
 @NamedQueries({
-    @NamedQuery(name = "SieniMateriaDocente.findByDocente", query = "SELECT s FROM SieniMateriaDocente s where s.idDocente.idDocente=:idDocente and s.mdEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMateriaDocente.findByDocente", query = "SELECT s FROM SieniMateriaDocente s where s.idDocente=:idDocente and s.mdEstado not in (:estado)"),
     @NamedQuery(name = "SieniMateriaDocente.findAll", query = "SELECT s FROM SieniMateriaDocente s")})
 public class SieniMateriaDocente implements Serializable {
 
@@ -44,9 +45,13 @@ public class SieniMateriaDocente implements Serializable {
     @JoinColumn(name = "id_materia", referencedColumnName = "id_materia")
     @ManyToOne
     private SieniMateria idMateria;
-    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
-    @ManyToOne
-    private SieniDocente idDocente;
+//    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
+//    @ManyToOne
+//    private SieniDocente idDocente;
+    @Column(name = "id_docente")
+    private Long idDocente;
+    @Transient
+    private SieniDocente docente;
 
     public SieniMateriaDocente() {
     }
@@ -71,14 +76,13 @@ public class SieniMateriaDocente implements Serializable {
         this.idMateria = idMateria;
     }
 
-    public SieniDocente getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(SieniDocente idDocente) {
-        this.idDocente = idDocente;
-    }
-
+//    public SieniDocente getIdDocente() {
+//        return idDocente;
+//    }
+//
+//    public void setIdDocente(SieniDocente idDocente) {
+//        this.idDocente = idDocente;
+//    }
     @Override
     public int hashCode() {
         int hash = 0;
@@ -110,6 +114,22 @@ public class SieniMateriaDocente implements Serializable {
 
     public void setMdEstado(Character mdEstado) {
         this.mdEstado = mdEstado;
+    }
+
+    public Long getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(Long idDocente) {
+        this.idDocente = idDocente;
+    }
+
+    public SieniDocente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(SieniDocente docente) {
+        this.docente = docente;
     }
 
 }

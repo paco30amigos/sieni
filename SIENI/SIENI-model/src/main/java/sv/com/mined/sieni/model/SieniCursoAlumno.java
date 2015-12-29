@@ -9,6 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,7 +19,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,10 +31,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniCursoAlumno.findAll", query = "SELECT s FROM SieniCursoAlumno s"),
-    @NamedQuery(name = "SieniCursoAlumno.findByIdAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idAlumno.idAlumno=:idAlumno"),
-    @NamedQuery(name = "SieniCursoAlumno.findByIdCursoIdAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idCurso.idCurso=:idCurso AND s.idAlumno.idAlumno=:idAlumno"),
+    @NamedQuery(name = "SieniCursoAlumno.findByIdAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idAlumno=:idAlumno"),
+    @NamedQuery(name = "SieniCursoAlumno.findByIdCursoIdAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idCurso.idCurso=:idCurso AND s.idAlumno=:idAlumno"),
     @NamedQuery(name = "SieniCursoAlumno.findByIdCursoAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idCursoAlumno = :idCursoAlumno")})
 public class SieniCursoAlumno implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_curso_alumno")
@@ -41,12 +43,16 @@ public class SieniCursoAlumno implements Serializable {
     @Basic(optional = false)
     @Column(name = "id_curso_alumno")
     private Integer idCursoAlumno;
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
-    @ManyToOne
-    private SieniAlumno idAlumno;
+//    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private SieniAlumno idAlumno;
+    @Column(name = "id_alumno")
+    private Long idAlumno;
     @JoinColumn(name = "id_curso", referencedColumnName = "id_curso")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private SieniCurso idCurso;
+    @Transient
+    private SieniAlumno alumno;
 
     public SieniCursoAlumno() {
     }
@@ -63,14 +69,13 @@ public class SieniCursoAlumno implements Serializable {
         this.idCursoAlumno = idCursoAlumno;
     }
 
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-
+//    public SieniAlumno getIdAlumno() {
+//        return idAlumno;
+//    }
+//
+//    public void setIdAlumno(SieniAlumno idAlumno) {
+//        this.idAlumno = idAlumno;
+//    }
     public SieniCurso getIdCurso() {
         return idCurso;
     }
@@ -103,5 +108,21 @@ public class SieniCursoAlumno implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniCursoAlumno[ idCursoAlumno=" + idCursoAlumno + " ]";
     }
-    
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
+    }
+
 }

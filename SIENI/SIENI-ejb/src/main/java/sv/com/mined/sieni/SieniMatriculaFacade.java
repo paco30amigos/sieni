@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -35,10 +36,10 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
 
     @Override
     public List<SieniMatricula> getMatriculasAnio(Integer anio) {
-//        Character estado='I';
-        Query q = em.createNamedQuery("SieniMatricula.findMatriculasByAnio");
-        q.setParameter("anio", anio);
-//        q.setParameter("estado", estado);
+        Character estado='A';
+        Query q = em.createNamedQuery("SieniMatricula.findMatriculasByAnioEstado");
+        q.setParameter("anio", anio.toString());
+        q.setParameter("estado", estado);
         return q.getResultList();
     }
 
@@ -101,7 +102,11 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
         Query q = em.createNamedQuery("SieniMatricula.findByIdAlumnoAnio");
         q.setParameter("idAlumno", idAlumno);
         q.setParameter("mtAnio", mtAnio);
-     
-        return (SieniMatricula) q.getSingleResult();
+        List<SieniMatricula> res = q.getResultList();
+        SieniMatricula ret = null;
+        if (res != null && !res.isEmpty()) {
+            ret = res.get(0);
+        }
+        return ret;
     }
 }

@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -14,15 +15,12 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
-import org.primefaces.context.RequestContext;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
-import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
-import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionCursoForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniCurso;
@@ -61,6 +59,18 @@ public class GestionCursoController extends GestionCursoForm {
         loginBean.registrarTransaccion(accion, tabla, id);
 
     }
+    private List<SieniCurso> setDocente(List<SieniCurso> matriculas) {
+        List<SieniCurso> ret = new ArrayList<>();
+        for (SieniCurso actual : matriculas) {
+            ret.add(setInfoDocente(actual));
+        }
+        return ret;
+    }
+
+    public SieniCurso setInfoDocente(SieniCurso matActual) {
+        matActual.setDocente(sieniDocenteFacadeRemote.findByDocenteId(matActual.getIdDocente()));
+        return matActual;
+    }
 
     @PostConstruct
     public void init() {
@@ -71,7 +81,7 @@ public class GestionCursoController extends GestionCursoForm {
     }
 
     private void fill() {
-        this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
+        this.setCursoList(setDocente(sieniCursoFacadeRemote.findByEstado('A')));
         //nuevo        
     }
 
@@ -99,7 +109,7 @@ public class GestionCursoController extends GestionCursoForm {
         try {
             for (SieniDocente actual : this.getDocentesList()) {
                 if (actual.getIdDocente().equals(this.getIdDocente())) {
-                    this.getCursoNuevo().setIdDocente(actual);
+                    this.getCursoNuevo().setIdDocente(actual.getIdDocente());
                     break;
                 }
             }
@@ -125,7 +135,8 @@ public class GestionCursoController extends GestionCursoForm {
             this.getCursoNuevo().setCrEstado('A');
             if (validarNuevo(this.getCursoNuevo())) {//valida el guardado
                 SieniCurso existCurso = new SieniCurso();
-                existCurso = sieniCursoFacadeRemote.finByDocGrSecMat(this.getCursoNuevo().getIdDocente().getIdDocente(), this.getCursoNuevo().getIdGrado().getIdGrado(), this.getCursoNuevo().getIdSeccion().getIdSeccion(), this.getCursoNuevo().getIdMateria().getIdMateria(), this.getCursoNuevo().getCrNombre());
+                
+                existCurso = sieniCursoFacadeRemote.finByDocGrSecMat(this.getCursoNuevo().getIdDocente(), this.getCursoNuevo().getIdGrado().getIdGrado(), this.getCursoNuevo().getIdSeccion().getIdSeccion(), this.getCursoNuevo().getIdMateria().getIdMateria(), this.getCursoNuevo().getCrNombre());
                 if (existCurso != null) {
                     new ValidationPojo().printMsj("No se puede crear el curso, ya existe para esa materia", FacesMessage.SEVERITY_ERROR);
 
@@ -133,6 +144,7 @@ public class GestionCursoController extends GestionCursoForm {
                     this.setCursoNuevo(sieniCursoFacadeRemote.createAndReturn(this.getCursoNuevo()));
                     registrarEnBitacora("Crear", "Curso", this.getCursoNuevo().getIdCurso());
                     new ValidationPojo().printMsj("Curso Creado Exitosamente", FacesMessage.SEVERITY_INFO);
+                    this.setCursoNuevo(setInfoDocente(this.getCursoNuevo()));
                     //agrega el curso a la tabla de busqueda
                     this.getCursoList().add(this.getCursoNuevo());
                     //limpia solo si es guardado exitosamente
@@ -219,7 +231,7 @@ public class GestionCursoController extends GestionCursoForm {
         try {
             for (SieniDocente actual : this.getDocentesModificaList()) {
                 if (actual.getIdDocente().equals(this.getIdDocenteModifica())) {
-                    this.getCursoModifica().setIdDocente(actual);
+                    this.getCursoModifica().setIdDocente(actual.getIdDocente());
                     break;
                 }
             }
@@ -275,9 +287,9 @@ public class GestionCursoController extends GestionCursoForm {
     
     public synchronized void eliminarInscripcionCurso() {
         try {
-            registrarEnBitacora("Eliminar", "Inscripcion", this.getEliminarInscrito().getIdAlumno().getIdAlumno());
-//            this.getEliminar().setCrEstado('I');
-//            sieniCursoFacadeRemote.edit(this.getEliminar());
+            registrarEnBitacora("Eliminar", "Inscripcion", this.getEliminarInscrito().getIdAlumno());
+            this.getEliminar().setCrEstado('I');
+            sieniCursoFacadeRemote.edit(this.getEliminar());
             sieniCursoAlumnoFacadeRemote.remove(this.getEliminarInscrito());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -314,7 +326,7 @@ public class GestionCursoController extends GestionCursoForm {
         SieniCursoAlumno cursoAlumno=new SieniCursoAlumno();
         
         for (SieniAlumno alumno : this.getSelectedAlumnoList()) {
-            cursoAlumno.setIdAlumno(alumno);
+            cursoAlumno.setIdAlumno(alumno.getIdAlumno());
             cursoAlumno.setIdCurso(this.getCursoModifica());
             sieniCursoAlumnoFacadeRemote.create(cursoAlumno);
                     

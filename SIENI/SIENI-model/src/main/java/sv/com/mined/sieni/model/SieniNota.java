@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,13 +34,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_nota")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniNota.findAllNoEliminadas", query = "SELECT s FROM SieniNota s where s.ntEstado not in (:estado) and s.idAlumno.alEstado not in (:estado)"),
+        @NamedQuery(name = "SieniNota.findAllNoEliminadas", query = "SELECT s FROM SieniNota s,SieniAlumno al where s.idAlumno=al.idAlumno and s.ntEstado not in (:estado) and al.alEstado not in (:estado) ORDER BY s.idNota"),
     @NamedQuery(name = "SieniNota.findAll", query = "SELECT s FROM SieniNota s"),
-    @NamedQuery(name = "SieniNota.findByAlumno", query = "SELECT s FROM SieniNota s where s.idAlumno.idAlumno=:idAlumno and s.ntEstado not in (:estado)"),
+    @NamedQuery(name = "SieniNota.findByAlumno", query = "SELECT s FROM SieniNota s,SieniAlumno al where s.idAlumno=al.idAlumno and al.idAlumno=:idAlumno and s.ntEstado not in (:estado)"),
     @NamedQuery(name = "SieniNota.findRango", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta"),
     @NamedQuery(name = "SieniNota.findRangoGrado", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta and s.idEvaluacion.idCurso.idGrado.idGrado=:grado"),
     @NamedQuery(name = "SieniNota.findRangoGradoSeccion", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta and s.idEvaluacion.idCurso.idGrado.idGrado=:grado and s.idEvaluacion.idCurso.idSeccion.idSeccion=:seccion"),
-    @NamedQuery(name = "SieniNota.findNotaRegistrada", query = "SELECT s FROM SieniNota s where s.idAlumno.idAlumno=:idAlumno and s.idEvaluacion.idEvaluacion=:idEvaluacion and s.ntEstado not in (:estado) and s.idAlumno.alEstado not in (:estado) and s.idEvaluacion.evEstado not in (:estado)"),
+    @NamedQuery(name = "SieniNota.findNotaRegistrada", query = "SELECT s FROM SieniNota s,SieniAlumno al where s.idAlumno=al.idAlumno and al.idAlumno=:idAlumno and s.idEvaluacion.idEvaluacion=:idEvaluacion and s.ntEstado not in (:estado) and al.alEstado not in (:estado) and s.idEvaluacion.evEstado not in (:estado)"),
     @NamedQuery(name = "SieniNota.findByIdNota", query = "SELECT s FROM SieniNota s WHERE s.idNota = :idNota"),
     @NamedQuery(name = "SieniNota.findByNtCalificacion", query = "SELECT s FROM SieniNota s WHERE s.ntCalificacion = :ntCalificacion"),
     @NamedQuery(name = "SieniNota.findByNtTipoIngreso", query = "SELECT s FROM SieniNota s WHERE s.ntTipoIngreso = :ntTipoIngreso"),
@@ -67,9 +68,12 @@ public class SieniNota implements Serializable {
     private Date ntFechaIngreso;
     @Column(name = "nt_docente")
     private Long ntDocente;
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
-    @ManyToOne
-    private SieniAlumno idAlumno;
+//    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+//    @ManyToOne
+    @Transient
+    private SieniAlumno alumno;
+    @Column(name = "id_alumno")
+    private Long idAlumno;
     @JoinColumn(name = "id_evaluacion", referencedColumnName = "id_evaluacion")
     @ManyToOne
     private SieniEvaluacion idEvaluacion;
@@ -111,14 +115,9 @@ public class SieniNota implements Serializable {
         this.ntTipoIngreso = ntTipoIngreso;
     }
 
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-
+//    public SieniAlumno getIdAlumno() {
+//        return idAlumno;
+//    }
     public SieniEvaluacion getIdEvaluacion() {
         return idEvaluacion;
     }
@@ -153,11 +152,11 @@ public class SieniNota implements Serializable {
     }
 
     public String getTipoIngreso() {
-        if (ntTipoIngreso==null||ntTipoIngreso.equals("M")) {
+        if (ntTipoIngreso == null || ntTipoIngreso.equals("M")) {
             tipoIngreso = "Manual";
         } else if (ntTipoIngreso.equals("A")) {
             tipoIngreso = "Automático";
-        } else  {
+        } else {
             tipoIngreso = "Excel";
         }
         return tipoIngreso;
@@ -213,6 +212,22 @@ public class SieniNota implements Serializable {
 
     public void setNtDocente(Long ntDocente) {
         this.ntDocente = ntDocente;
+    }
+
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
+    }
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
     }
 
 }

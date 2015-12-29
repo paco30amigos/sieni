@@ -9,7 +9,6 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.primefaces.util.Base64;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -27,7 +26,6 @@ import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.MntoUsuariosForm;
 import sv.com.mined.sieni.model.SieniAlumnRol;
 import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocentRol;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.UsuariosPojo;
@@ -92,14 +90,15 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             aux.setCodTipoUsuario(tipo.toString());
             aux.setCodTipoPermiso(actual.getFRolDoc());
             aux.setDocenteRol(actual);
-            aux.setNombre(actual.getIdDocente().getNombreCompleto());
-            aux.setUsuario(actual.getIdDocente().getDcUsuario());
-            aux.setEstado(getEstado(actual.getIdDocente().getDcEstado()));
-            aux.setCodEstado(actual.getIdDocente().getDcEstado());
+            SieniDocente d = sieniDocenteFacadeRemote.findByDocenteId(actual.getIdDocente());
+            aux.setNombre(d.getNombreCompleto());
+            aux.setUsuario(d.getDcUsuario());
+            aux.setEstado(getEstado(d.getDcEstado()));
+            aux.setCodEstado(d.getDcEstado());
 
             aux.setTipoPermiso(getTipoUsuario(Integer.parseInt(sb.toString())));
-            aux.setIdUsuario(actual.getIdDocente().getIdDocente());
-            aux.setDocente(actual.getIdDocente());
+            aux.setIdUsuario(d.getIdDocente());
+            aux.setDocente(d);
             ret.add(aux);
         }
         return ret;
@@ -115,16 +114,17 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             sb = new StringBuffer();
             sb.append(actual.getFRol());
             aux = new UsuariosPojo();
-            aux.setNombre(actual.getIdAlumno().getNombreCompleto());
-            aux.setUsuario(actual.getIdAlumno().getAlUsuario());
+            SieniAlumno a = sieniAlumnoFacadeRemote.findAlumnoById(actual.getIdAlumno());
+            aux.setNombre(a.getNombreCompleto());
+            aux.setUsuario(a.getAlUsuario());
             aux.setTipoUsuario(getTipoUsuario(tipo));
             aux.setCodTipoUsuario(tipo.toString());
-            aux.setEstado(getEstado(actual.getIdAlumno().getAlEstado()));
-            aux.setCodEstado(actual.getIdAlumno().getAlEstado());
+            aux.setEstado(getEstado(a.getAlEstado()));
+            aux.setCodEstado(a.getAlEstado());
             aux.setTipoPermiso(getTipoUsuario(Integer.parseInt(sb.toString())));
             aux.setCodTipoPermiso(actual.getFRol());
-            aux.setIdUsuario(actual.getIdAlumno().getIdAlumno());
-            aux.setAlumno(actual.getIdAlumno());
+            aux.setIdUsuario(actual.getIdAlumno());
+            aux.setAlumno(a);
             aux.setAlumnoRol(actual);
             ret.add(aux);
         }
@@ -216,7 +216,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     alumnoEdit.setAlEstado(this.getUsuarioNuevo().getCodEstado());
                     alumnoEdit.setAlUsuario(this.getUsuarioNuevo().getUsuario());
 
-                    alumnoRolNuevo.setIdAlumno(alumnoEdit);
+                    alumnoRolNuevo.setIdAlumno(alumnoEdit.getIdAlumno());
                     alumnoRolNuevo.setFRol(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
                     alumnoRolNuevo.setSarEstado('A');
                     //actualiza la contraseña y usuario
@@ -236,7 +236,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     docenteEdit.setDcEstado(this.getUsuarioNuevo().getCodEstado());
                     docenteEdit.setDcUsuario(this.getUsuarioNuevo().getUsuario());
 
-                    docenteRolNuevo.setIdDocente(docenteEdit);
+                    docenteRolNuevo.setIdDocente(docenteEdit.getIdDocente());
                     docenteRolNuevo.setFRolDoc(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
                     docenteRolNuevo.setSdrEstado('A');
                     //actualiza la contraseña y usuario
@@ -324,7 +324,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     alumnoEdit.setAlEstado(this.getUsuarioModifica().getCodEstado());
                     alumnoEdit.setAlUsuario(this.getUsuarioModifica().getUsuario());
 
-                    alumnoRolNuevo.setIdAlumno(alumnoEdit);
+                    alumnoRolNuevo.setIdAlumno(alumnoEdit.getIdAlumno());
                     alumnoRolNuevo.setFRol(this.getUsuarioModifica().getCodTipoPermiso());
                     //actualiza la contraseña y usuario
                     sieniAlumnoFacadeRemote.edit(alumnoEdit);
@@ -340,7 +340,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     }
                     docenteEdit.setDcEstado(this.getUsuarioModifica().getCodEstado());
                     docenteEdit.setDcUsuario(this.getUsuarioModifica().getUsuario());
-                    docenteRolNuevo.setIdDocente(docenteEdit);
+                    docenteRolNuevo.setIdDocente(docenteEdit.getIdDocente());
                     docenteRolNuevo.setFRolDoc(this.getUsuarioModifica().getCodTipoPermiso());
                     //actualiza la contraseña y usuario
                     sieniDocenteFacadeRemote.edit(docenteEdit);

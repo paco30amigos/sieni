@@ -41,8 +41,8 @@
                     <p:column headerText="Tema de clase"  filterBy="#{car.clTema}" filterMatchMode="contains" filterable="true">
                         #{car.clTema}
                     </p:column>
-                    <p:column headerText="Docente"  filterBy="#{car.idCurso.idDocente.nombreCompleto}" filterMatchMode="contains" filterable="true">
-                        #{car.idCurso.idDocente.nombreCompleto}
+                    <p:column headerText="Docente"  filterBy="#{car.idCurso.docente.nombreCompleto}" filterMatchMode="contains" filterable="true">
+                        #{car.idCurso.docente.nombreCompleto}
                     </p:column>
                     <p:column headerText="Plantilla"  filterBy="#{car.idPlantilla.plNombre}" filterMatchMode="contains" filterable="true">
                         #{car.nombrePlantilla}

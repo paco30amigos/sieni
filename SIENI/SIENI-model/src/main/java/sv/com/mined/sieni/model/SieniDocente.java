@@ -35,8 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_docente")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniDocente.findDocenteUsuario", query = "SELECT s FROM SieniDocente s JOIN fetch s.sieniDocentRolList sr  WHERE s.dcUsuario=:usuario AND s.dcContrasenia=:pass"),
-    @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s LEFT JOIN fetch s.sieniDocentRolList sr WHERE sr.idDocenteRol IS NULL"),
+    @NamedQuery(name = "SieniDocente.findDocenteUsuario", query = "SELECT s FROM SieniDocente s  WHERE s.dcUsuario=:usuario AND s.dcContrasenia=:pass"),
+//    @NamedQuery(name = "SieniDocente.findDocentesSinUsuario", query = "SELECT s FROM SieniDocente s ,SieniDocentRol sr WHERE s.idDocente=sr.idDocente od sr.idDocenteRol IS NULL"),
     @NamedQuery(name = "SieniDocente.findAll", query = "SELECT s FROM SieniDocente s"),
     @NamedQuery(name = "SieniDocente.findDocenteActivo", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A' ORDER BY s.idDocente"),
     @NamedQuery(name = "SieniDocente.findByDesdeHasta", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado='A' AND s.dcFechaIngreso BETWEEN :desde AND :hasta"),
@@ -59,16 +59,16 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniDocente.findByDcEstado", query = "SELECT s FROM SieniDocente s WHERE s.dcEstado = :dcEstado"),
     @NamedQuery(name = "SieniDocente.findRptUsuariosDocentes", query = "SELECT s FROM SieniDocente s WHERE s.dcUsuario IS NOT NULL AND s.dcUsuario <> ''"),
     @NamedQuery(name = "SieniDocente.findRptUsuariosDocentesByEstado", query = "SELECT s FROM SieniDocente s WHERE s.dcUsuario IS NOT NULL AND s.dcUsuario <> '' AND s.dcEstado = :dcEstado")
-    
+
 })
 public class SieniDocente implements Serializable {
 
     @Column(name = "dc_foto")
     private Long dcFoto;
-    @OneToMany(mappedBy = "idDocente")
-    private List<SieniMateriaDocente> sieniMateriaDocenteList;
-    @OneToMany(mappedBy = "idDocente")
-    private List<SieniClaseDocente> sieniClaseDocenteList;
+//    @OneToMany(mappedBy = "idDocente")
+//    private List<SieniMateriaDocente> sieniMateriaDocenteList;
+//    @OneToMany(mappedBy = "idDocente")
+//    private List<SieniClaseDocente> sieniClaseDocenteList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -130,15 +130,14 @@ public class SieniDocente implements Serializable {
 //        @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion")})
 //    @ManyToMany
 //    private List<SieniNotificacion> sieniNotificacionList;
-    
-    @OneToMany(mappedBy = "idDocente")
-    private List<SieniDocentRol> sieniDocentRolList;
-    @OneToMany(mappedBy = "idDocente")
-    private List<SieniCurso> sieniCursoList;
-    @OneToMany(mappedBy = "idDocente")
-    private List<SieniTemaDuda> sieniTemaDudaList;
-    @OneToMany(mappedBy = "idDocente")
-    private List<DocRecibeNoti> notificacionesList;
+//    @OneToMany(mappedBy = "idDocente")
+//    private List<SieniDocentRol> sieniDocentRolList;
+//    @OneToMany(mappedBy = "idDocente")
+//    private List<SieniCurso> sieniCursoList;
+//    @OneToMany(mappedBy = "idDocente")
+//    private List<SieniTemaDuda> sieniTemaDudaList;
+//    @OneToMany(mappedBy = "idDocente")
+//    private List<DocRecibeNoti> notificacionesList;
     @Transient
     private String nombreCompleto;
     @Transient
@@ -295,47 +294,41 @@ public class SieniDocente implements Serializable {
         this.dcEstado = dcEstado;
     }
 
-
-
-    @XmlTransient
-    public List<SieniDocentRol> getSieniDocentRolList() {
-        return sieniDocentRolList;
-    }
-
-    public void setSieniDocentRolList(List<SieniDocentRol> sieniDocentRolList) {
-        this.sieniDocentRolList = sieniDocentRolList;
-    }
-
-    
-
-    @XmlTransient
-    public List<SieniCurso> getSieniCursoList() {
-        return sieniCursoList;
-    }
-
-    public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
-        this.sieniCursoList = sieniCursoList;
-    }
-
-    @XmlTransient
-    public List<SieniTemaDuda> getSieniTemaDudaList() {
-        return sieniTemaDudaList;
-    }
-
-    public void setSieniTemaDudaList(List<SieniTemaDuda> sieniTemaDudaList) {
-        this.sieniTemaDudaList = sieniTemaDudaList;
-    }
-
-    @XmlTransient
-    public List<DocRecibeNoti> getNotificacionesList() {
-        return notificacionesList;
-    }
-
-    public void setNotificacionesList(List<DocRecibeNoti> notificacionesList) {
-        this.notificacionesList = notificacionesList;
-    }
-    
-    
+//    @XmlTransient
+//    public List<SieniDocentRol> getSieniDocentRolList() {
+//        return sieniDocentRolList;
+//    }
+//
+//    public void setSieniDocentRolList(List<SieniDocentRol> sieniDocentRolList) {
+//        this.sieniDocentRolList = sieniDocentRolList;
+//    }
+//
+//    @XmlTransient
+//    public List<SieniCurso> getSieniCursoList() {
+//        return sieniCursoList;
+//    }
+//
+//    public void setSieniCursoList(List<SieniCurso> sieniCursoList) {
+//        this.sieniCursoList = sieniCursoList;
+//    }
+//
+//    @XmlTransient
+//    public List<SieniTemaDuda> getSieniTemaDudaList() {
+//        return sieniTemaDudaList;
+//    }
+//
+//    public void setSieniTemaDudaList(List<SieniTemaDuda> sieniTemaDudaList) {
+//        this.sieniTemaDudaList = sieniTemaDudaList;
+//    }
+//
+//    @XmlTransient
+//    public List<DocRecibeNoti> getNotificacionesList() {
+//        return notificacionesList;
+//    }
+//
+//    public void setNotificacionesList(List<DocRecibeNoti> notificacionesList) {
+//        this.notificacionesList = notificacionesList;
+//    }
 
     @Override
     public int hashCode() {
@@ -343,8 +336,6 @@ public class SieniDocente implements Serializable {
         hash += (idDocente != null ? idDocente.hashCode() : 0);
         return hash;
     }
-
-    
 
     @Override
     public boolean equals(Object object) {
@@ -403,22 +394,21 @@ public class SieniDocente implements Serializable {
         this.dcFechaBaja = dcFechaBaja;
     }
 
-    public List<SieniClaseDocente> getSieniClaseDocenteList() {
-        return sieniClaseDocenteList;
-    }
-
-    public void setSieniClaseDocenteList(List<SieniClaseDocente> sieniClaseDocenteList) {
-        this.sieniClaseDocenteList = sieniClaseDocenteList;
-    }
-
-    public List<SieniMateriaDocente> getSieniMateriaDocenteList() {
-        return sieniMateriaDocenteList;
-    }
-
-    public void setSieniMateriaDocenteList(List<SieniMateriaDocente> sieniMateriaDocenteList) {
-        this.sieniMateriaDocenteList = sieniMateriaDocenteList;
-    }
-
+//    public List<SieniClaseDocente> getSieniClaseDocenteList() {
+//        return sieniClaseDocenteList;
+//    }
+//
+//    public void setSieniClaseDocenteList(List<SieniClaseDocente> sieniClaseDocenteList) {
+//        this.sieniClaseDocenteList = sieniClaseDocenteList;
+//    }
+//
+//    public List<SieniMateriaDocente> getSieniMateriaDocenteList() {
+//        return sieniMateriaDocenteList;
+//    }
+//
+//    public void setSieniMateriaDocenteList(List<SieniMateriaDocente> sieniMateriaDocenteList) {
+//        this.sieniMateriaDocenteList = sieniMateriaDocenteList;
+//    }
     public Date getDcFechaIngreso() {
         return dcFechaIngreso;
     }

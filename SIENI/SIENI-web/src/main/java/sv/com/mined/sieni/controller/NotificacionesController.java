@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -21,16 +20,16 @@ import org.primefaces.push.EventBusFactory;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniNotificacionFacadeRemote;
-import sv.com.mined.sieni.converter.DocenteConverter;
 import sv.com.mined.sieni.form.NotificacionesForm;
 import sv.com.mined.sieni.model.AlumnoRecibeNoti;
 import sv.com.mined.sieni.model.DocRecibeNoti;
+import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniNoticia;
 import sv.com.mined.sieni.model.SieniNotificacion;
 import sv.com.mined.sieni.model.SieniTemaDuda;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import sv.com.mined.sieni.pojos.rpt.NotificacionesPojo;
-import sv.com.mined.sieni.pojos.rpt.RptUsuariosPojo;
 import utils.DateUtils;
 
 /**
@@ -84,11 +83,13 @@ public class NotificacionesController extends NotificacionesForm {
             notifyAlumno = sieniNotificacionFacadeRemote.findAlumnoNotify(loginBean.getAlumno().getIdAlumno().intValue());
         }
         for (DocRecibeNoti actual : notifyDocente) {
-            elem = new NotificacionesPojo(actual,null,actual.getIdDocente().getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
+            SieniDocente d=sieniDocenteFacadeRemote.findByDocenteId(actual.getDocRecibeNotiPK().getIdDocente());
+            elem = new NotificacionesPojo(actual,null,d.getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
             this.getListNotificaciones().add(elem);
         }
         for (AlumnoRecibeNoti actual : notifyAlumno) {
-            elem = new NotificacionesPojo(null,actual,actual.getIdAlumno().getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
+            SieniAlumno alumno=sieniAlumnoFacadeRemote.findAlumnoById(actual.getAlumnoRecibeNotiPK().getIdAlumno());
+            elem = new NotificacionesPojo(null,actual,alumno.getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
             this.getListNotificaciones().add(elem);
         }
         this.setCount(this.getListNotificaciones().size());

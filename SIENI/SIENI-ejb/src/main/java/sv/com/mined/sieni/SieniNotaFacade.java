@@ -67,7 +67,7 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
         boolean ret = false;
         Query q = em.createNamedQuery("SieniNota.findNotaRegistrada");
         q.setParameter("estado", estado);
-        q.setParameter("idAlumno", nota.getIdAlumno().getIdAlumno());
+        q.setParameter("idAlumno", nota.getIdAlumno());
         q.setParameter("idEvaluacion", nota.getIdEvaluacion().getIdEvaluacion());
         List<SieniNota> res = q.getResultList();
         if (res != null && !res.isEmpty()) {

@@ -45,11 +45,11 @@
                         <p:column headerText="Tema" filterBy="#{consulta.tdTema}" filterable="true" filterMatchMode="contains">
                             #{consulta.tdTema}
                         </p:column>
-                        <p:column headerText="ENVIADA A" filterBy="#{consulta.idDocente.nombreCompleto}" filterable="true" filterMatchMode="contains">
-                            #{consulta.idDocente.nombreCompleto}
+                        <p:column headerText="ENVIADA A" filterBy="#{consulta.docente.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                            #{consulta.docente.nombreCompleto}
                         </p:column>
-                        <p:column headerText="REALIZADA POR" filterBy="#{consulta.idAlumno.nombreCompleto}" filterable="true" filterMatchMode="contains">
-                            #{consulta.idAlumno.nombreCompleto}
+                        <p:column headerText="REALIZADA POR" filterBy="#{consulta.alumno.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                            #{consulta.alumno.nombreCompleto}
                         </p:column>
                         
                     <p:column headerText="Acciones" style="width: 12%">

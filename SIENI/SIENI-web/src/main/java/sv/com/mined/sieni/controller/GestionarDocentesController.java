@@ -257,7 +257,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
 
     public void agregarMateria() {
         SieniMateriaDocente nuevo = new SieniMateriaDocente();
-        nuevo.setIdDocente(this.getDocenteModifica());
+        nuevo.setIdDocente(this.getDocenteModifica().getIdDocente());
         nuevo.setIdMateria(this.getMateria());
         nuevo.setMdEstado('A');
         nuevo.setIdMateriaDocente(-Long.parseLong(new DateUtils().getTime()));

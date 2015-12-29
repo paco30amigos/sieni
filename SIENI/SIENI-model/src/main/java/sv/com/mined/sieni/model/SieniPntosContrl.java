@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,7 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniPntosContrl.findAll", query = "SELECT s FROM SieniPntosContrl s"),
-    @NamedQuery(name = "SieniPntosContrl.findPtosByClaseAlumnPantallaSeccion", query = "SELECT s FROM SieniPntosContrl s where s.idClase.idClase=:idClase and s.idAlumno.idAlumno=:idAlumno and s.pcPantalla=:nPantalla and s.idTipoElemPlantilla.idTipoElemPlantilla=:idTipoElemPlantilla"),
+    @NamedQuery(name = "SieniPntosContrl.findPtosByClaseAlumnPantallaSeccion", query = "SELECT s FROM SieniPntosContrl s,SieniAlumno al where s.idClase.idClase=:idClase and al.idAlumno=:idAlumno and s.pcPantalla=:nPantalla and s.idTipoElemPlantilla.idTipoElemPlantilla=:idTipoElemPlantilla"),
     @NamedQuery(name = "SieniPntosContrl.findByIdPntosContrl", query = "SELECT s FROM SieniPntosContrl s WHERE s.idPntosContrl = :idPntosContrl"),
     @NamedQuery(name = "SieniPntosContrl.findByPcTipo", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcTipo = :pcTipo"),
     @NamedQuery(name = "SieniPntosContrl.findByPcIdentificador", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcIdentificador = :pcIdentificador"),
@@ -45,9 +47,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniPntosContrl.findByPcUltimo", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcUltimo = :pcUltimo"),
     @NamedQuery(name = "SieniPntosContrl.findByPcEstado", query = "SELECT s FROM SieniPntosContrl s WHERE s.pcEstado = :pcEstado"),
     @NamedQuery(name = "SieniPntosContrl.findByAlumno", query = "SELECT DISTINCT s.idAlumno FROM SieniPntosContrl s WHERE s.pcFechaIngreso >= :desde and s.pcFechaIngreso <= :hasta "),
-    @NamedQuery(name = "SieniPntosContrl.findByClasesAlumnos", query = "SELECT DISTINCT s.idClase FROM SieniPntosContrl s WHERE s.idAlumno.idAlumno = :idAlumno"),
+    @NamedQuery(name = "SieniPntosContrl.findByClasesAlumnos", query = "SELECT DISTINCT s.idClase FROM SieniPntosContrl s WHERE s.idAlumno = :idAlumno"),
     @NamedQuery(name = "SieniPntosContrl.findByCountClase", query = "SELECT s.idClase.idClase FROM SieniPntosContrl s WHERE s.idClase.idClase =:idClase")})
 public class SieniPntosContrl implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_pntos_contrl")
@@ -80,9 +83,12 @@ public class SieniPntosContrl implements Serializable {
     private SieniTipoElemPlantilla idTipoElemPlantilla;
     @Column(name = "pc_estado")
     private Character pcEstado;
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
-    @ManyToOne
-    private SieniAlumno idAlumno;
+//    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "id_alumno")
+    private Long idAlumno;
+    @Transient
+    private SieniAlumno alumno;
     @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
     @ManyToOne
     private SieniClase idClase;
@@ -91,7 +97,7 @@ public class SieniPntosContrl implements Serializable {
     protected void onCreate() {
         pcFechaIngreso = new Date();
     }
-    
+
     public SieniPntosContrl() {
     }
 
@@ -171,14 +177,13 @@ public class SieniPntosContrl implements Serializable {
         this.pcEstado = pcEstado;
     }
 
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-
+//    public SieniAlumno getIdAlumno() {
+//        return idAlumno;
+//    }
+//
+//    public void setIdAlumno(SieniAlumno idAlumno) {
+//        this.idAlumno = idAlumno;
+//    }
     public SieniClase getIdClase() {
         return idClase;
     }
@@ -235,5 +240,21 @@ public class SieniPntosContrl implements Serializable {
     public void setIdTipoElemPlantilla(SieniTipoElemPlantilla idTipoElemPlantilla) {
         this.idTipoElemPlantilla = idTipoElemPlantilla;
     }
-    
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
+    }
+
 }

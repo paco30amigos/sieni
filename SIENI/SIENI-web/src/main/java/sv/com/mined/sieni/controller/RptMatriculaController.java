@@ -20,9 +20,11 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
+import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.form.RptMatriculaForm;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.pojos.rpt.RptMatriculasPojo;
@@ -42,6 +44,8 @@ public class RptMatriculaController extends RptMatriculaForm {
 
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+    @EJB
+    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -58,10 +62,11 @@ public class RptMatriculaController extends RptMatriculaForm {
         List<SieniMatricula> matriculas = sieniMatriculaFacadeRemote.findAllNoInactivosRpt(this.getDesde(), this.getHasta());
         this.setListDatos(new ArrayList<RptMatriculasPojo>());
         for (SieniMatricula actual : matriculas) {
-            elem = new RptMatriculasPojo(actual.getIdMatricula().toString(), actual.getMtAnio(), actual.getIdAlumno().getAlCarnet(), actual.getIdAlumno().getNombreCompleto(), actual.getIdGrado().getGrNombre(), actual.getIdSeccion().getScDescripcion());
+            SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoById(actual.getIdAlumno());
+            elem = new RptMatriculasPojo(actual.getIdMatricula().toString(), actual.getMtAnio(), alumno.getAlCarnet(), alumno.getNombreCompleto(), actual.getIdGrado().getGrNombre(), actual.getIdSeccion().getScDescripcion());
             this.getListDatos().add(elem);
         }
-        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size()+""));
+        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));
     }
 
     public void generarReporte() {

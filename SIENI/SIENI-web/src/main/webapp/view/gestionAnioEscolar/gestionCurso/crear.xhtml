@@ -24,9 +24,9 @@
                 </p:dialog>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="nombre"  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="1" id="nombre" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crNombre}"><f:validateLength minimum="10" maximum="50" /></p:inputText>
+                    <p:inputText tabindex="1" id="nombre" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crNombre}" required="true" requiredMessage="Debe ingresar un nombre para el curso"><f:validateLength minimum="10" maximum="50"  /></p:inputText>
                     <p:outputLabel for="capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
-                    <p:spinner tabindex="2" id="capacidad" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crCapacidad}" max="999" min="1"></p:spinner>
+                    <p:spinner tabindex="2" id="capacidad" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crCapacidad}" max="999" min="1" required="true" requiredMessage="Debe ingresar la capacidad del curso"></p:spinner>
                     <p:outputLabel for="docente" value="Docente: " class="  Responsive"></p:outputLabel>
                     <p:selectOneMenu tabindex="3" id="docente" class=" Responsive" value="#{gestionCursoController.idDocente}" filter="true" filterMatchMode="contains" required="true">
                         <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesList}" var="docente" />

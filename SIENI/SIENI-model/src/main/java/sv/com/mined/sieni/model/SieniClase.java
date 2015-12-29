@@ -36,8 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "SieniClase.findAll", query = "SELECT s FROM SieniClase s"),
     @NamedQuery(name = "SieniClase.findClaseByTipo", query = "SELECT s FROM SieniClase s where s.clEstado not in (:estado) and s.clTipo=:tipoClase ORDER BY s.idClase"),
-    @NamedQuery(name = "SieniClase.findClaseByTipoAlumno", query = "SELECT s FROM SieniClase s,SieniAlumno al join fetch al.sieniMatriculaList m where m.idGrado.idGrado=s.idCurso.idGrado.idGrado and m.idAlumno.idAlumno=al.idAlumno and s.clEstado not in (:estado) and s.clTipo=:tipoClase and al.idAlumno=:idAlumno  ORDER BY s.idClase"),
-    @NamedQuery(name = "SieniClase.findClaseByAlumno", query = "SELECT s FROM SieniClase s join fetch s.idCurso.sieniCursoAlumnoList al join fetch al.idAlumno.sieniMatriculaList m where m.idGrado.idGrado=s.idCurso.idGrado.idGrado and m.idAlumno.idAlumno=al.idAlumno and s.clEstado not in (:estado) and al.idAlumno=:idAlumno"),
+    @NamedQuery(name = "SieniClase.findClaseByTipoAlumno", query = "SELECT s FROM SieniClase s,SieniAlumno al, SieniMatricula m where al.idAlumno=m.idAlumno and m.idGrado.idGrado=s.idCurso.idGrado.idGrado and m.idAlumno=al.idAlumno and s.clEstado not in (:estado) and s.clTipo=:tipoClase and al.idAlumno=:idAlumno  ORDER BY s.idClase"),
+    @NamedQuery(name = "SieniClase.findClaseByAlumno", query = "SELECT s FROM SieniMatricula m,SieniClase s join fetch s.idCurso.sieniCursoAlumnoList al where m.idAlumno=al.idAlumno and m.idGrado.idGrado=s.idCurso.idGrado.idGrado and s.clEstado not in (:estado) and al.idAlumno=:idAlumno"),
 //    @NamedQuery(name = "SieniClase.findClaseByAlumno", query = "SELECT s FROM SieniClase s,SieniAlumno al join fetch al.sieniMatriculaList m where m.idGrado.idGrado=s.idCurso.idGrado.idGrado and m.idAlumno.idAlumno=al.idAlumno and s.clEstado not in (:estado) and al.idAlumno=:idAlumno"),
     @NamedQuery(name = "SieniClase.findAllNoInactivos", query = "SELECT s FROM SieniClase s where s.clEstado not in (:estado)"),
     @NamedQuery(name = "SieniClase.findByIdClase", query = "SELECT s FROM SieniClase s WHERE s.idClase = :idClase"),

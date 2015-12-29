@@ -26,6 +26,7 @@ import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
 import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniComponenteFacadeRemote;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
 import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
@@ -85,6 +86,8 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     private SieniPntosContrlFacadeRemote sieniPntosContrlFacadeRemote;
     @EJB
     private SieniCatPuntosFacadeRemote sieniCatPuntosFacadeRemote;
+    @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -107,6 +110,19 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         loginBean.registrarTransaccion(accion, tabla, id);
 
     }
+    
+    private List<SieniClase> setDocente(List<SieniClase> matriculas) {
+        List<SieniClase> ret = new ArrayList<>();
+        for (SieniClase actual : matriculas) {
+            ret.add(setInfoDocente(actual));
+        }
+        return ret;
+    }
+
+    public SieniClase setInfoDocente(SieniClase matActual) {
+        matActual.getIdCurso().setDocente(sieniDocenteFacadeRemote.findByDocenteId(matActual.getIdCurso().getIdDocente()));
+        return matActual;
+    }
 
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -116,11 +132,11 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         if (loginBean.getTipoRol().equals("0")) {
 //*******fill
             //clases interact
-            listaClases = sieniClaseFacadeRemote.findClaseByTipoAlumno('I', loginBean.getAlumno().getIdAlumno());//clases interactivas
+            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipoAlumno('I', loginBean.getAlumno().getIdAlumno()));//clases interactivas
         } else {
             //*******fill
             //clases interact
-            listaClases = sieniClaseFacadeRemote.findClaseByTipo('I');//clases interactivas
+            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('I'));//clases interactivas
         }
         updateEstadoClase(listaClases);
         this.setClaseList(listaClases);
@@ -898,7 +914,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             nuevo = sieniPntosContrlFacadeRemote.findPuntos(tipoElem.getIdTipoElemPlantilla(), nPantalla, this.getClaseConfig().getIdClase(), loginBean.getAlumno().getIdAlumno());
             if (nuevo.getIdPntosContrl() == null) {
                 nuevo.setIdClase(this.getClaseConfig());
-                nuevo.setIdAlumno(loginBean.getAlumno());
+                nuevo.setIdAlumno(loginBean.getAlumno().getIdAlumno());
                 nuevo.setIdTipoElemPlantilla(tipoElem);
                 nuevo.setPcPantalla(nPantalla);
                 nuevo.setPcEstado('V');

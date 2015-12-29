@@ -12,6 +12,7 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,6 +25,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -40,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniTemaDuda.findByTdTipo", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdTipo = :tdTipo"),
     @NamedQuery(name = "SieniTemaDuda.findConsultasActivas", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A'")})
 public class SieniTemaDuda implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_tema_duda")
@@ -58,15 +61,22 @@ public class SieniTemaDuda implements Serializable {
     private Character tdTipo;
     @Column(name = "td_estado")
     private Character tdEstado;
-    
+
     @OneToMany(mappedBy = "idTemaDuda")
     private List<SieniResolDuda> sieniResolDudaList;
-    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
-    @ManyToOne
-    private SieniDocente idDocente;
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
-    @ManyToOne
-    private SieniAlumno idAlumno;
+//    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
+//    @ManyToOne
+//    private SieniDocente idDocente;
+    @Transient
+    private SieniDocente docente;
+    @Column(name = "id_docente")
+    private Long idDocente;
+//    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+//    @ManyToOne
+    @Column(name = "id_alumno")
+    private Long idAlumno;
+    @Transient
+    private SieniAlumno alumno;
 
     public SieniTemaDuda() {
     }
@@ -98,7 +108,6 @@ public class SieniTemaDuda implements Serializable {
     public void setTdTema(String tdTema) {
         this.tdTema = tdTema;
     }
-    
 
     public String getTdConsulta() {
         return tdConsulta;
@@ -107,8 +116,6 @@ public class SieniTemaDuda implements Serializable {
     public void setTdConsulta(String tdConsulta) {
         this.tdConsulta = tdConsulta;
     }
-
-    
 
     public Character getTdTipo() {
         return tdTipo;
@@ -126,7 +133,6 @@ public class SieniTemaDuda implements Serializable {
         this.tdEstado = tdEstado;
     }
 
-
     @XmlTransient
     public List<SieniResolDuda> getSieniResolDudaList() {
         return sieniResolDudaList;
@@ -136,23 +142,16 @@ public class SieniTemaDuda implements Serializable {
         this.sieniResolDudaList = sieniResolDudaList;
     }
 
-    public SieniDocente getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(SieniDocente idDocente) {
-        this.idDocente = idDocente;
-    }
-
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-    
-    
+//    public SieniDocente getIdDocente() {
+//        return idDocente;
+//    }
+//
+//    public void setIdDocente(SieniDocente idDocente) {
+//        this.idDocente = idDocente;
+//    }
+//    public SieniAlumno getIdAlumno() {
+//        return idAlumno;
+//    }
     public String getFechaFiltrable() {
         String fechaF = null;
         SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
@@ -186,6 +185,37 @@ public class SieniTemaDuda implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniTemaDuda[ idTemaDuda=" + idTemaDuda + " ]";
     }
-    
-    
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
+    }
+
+    public SieniDocente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(SieniDocente docente) {
+        this.docente = docente;
+    }
+
+    public Long getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(Long idDocente) {
+        this.idDocente = idDocente;
+    }
+
 }

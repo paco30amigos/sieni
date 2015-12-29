@@ -24,6 +24,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -37,14 +38,15 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "SieniCurso.findAll", query = "SELECT s FROM SieniCurso s"),
     @NamedQuery(name = "SieniCurso.findAllByMateria", query = "SELECT s FROM SieniCurso s where s.idMateria.idMateria=:idMateria and s.crEstado!='I'"),
-    @NamedQuery(name = "SieniCurso.finByDocGrSecMat", query = "SELECT s FROM SieniCurso s WHERE s.idDocente.idDocente=:idDocente AND s.idGrado.idGrado=:idGrado AND s.idSeccion.idSeccion=:idSeccion AND s.idMateria.idMateria=:idMateria AND s.crNombre=:nombre"),
+    @NamedQuery(name = "SieniCurso.finByDocGrSecMat", query = "SELECT s FROM SieniCurso s WHERE s.idDocente=:idDocente AND s.idGrado.idGrado=:idGrado AND s.idSeccion.idSeccion=:idSeccion AND s.idMateria.idMateria=:idMateria AND s.crNombre=:nombre"),
     @NamedQuery(name = "SieniCurso.findAByEstado", query = "SELECT s FROM SieniCurso s WHERE s.crEstado=:estado"),
     @NamedQuery(name = "SieniCurso.findByIdCurso", query = "SELECT s FROM SieniCurso s WHERE s.idCurso = :idCurso"),
     @NamedQuery(name = "SieniCurso.findByCrNombre", query = "SELECT s FROM SieniCurso s WHERE s.crNombre = :crNombre"),
     @NamedQuery(name = "SieniCurso.findByCrCapacidad", query = "SELECT s FROM SieniCurso s WHERE s.crCapacidad = :crCapacidad"),
     @NamedQuery(name = "SieniCurso.findByCrFechaIngreso", query = "SELECT s FROM SieniCurso s WHERE s.crFechaIngreso = :crFechaIngreso"),
-    @NamedQuery(name = "SieniCurso.findActivos", query = "SELECT s FROM SieniCurso s WHERE s.crEstado != 'I' ") })
+    @NamedQuery(name = "SieniCurso.findActivos", query = "SELECT s FROM SieniCurso s WHERE s.crEstado != 'I' ")})
 public class SieniCurso implements Serializable {
+
     @OneToMany(mappedBy = "idCurso")
     private List<SieniCursoAlumno> sieniCursoAlumnoList;
     private static final long serialVersionUID = 1L;
@@ -65,9 +67,13 @@ public class SieniCurso implements Serializable {
     private List<SieniNoticia> sieniNoticiaList;
     @OneToMany(mappedBy = "idCurso")
     private List<SieniEvaluacion> sieniEvaluacionList;
-    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
-    @ManyToOne
-    private SieniDocente idDocente;
+//    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
+//    @ManyToOne
+//    private SieniDocente idDocente;
+    @Column(name = "id_docente")
+    private Long idDocente;
+    @Transient
+    private SieniDocente docente;
     @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
     @ManyToOne
     private SieniGrado idGrado;
@@ -81,11 +87,11 @@ public class SieniCurso implements Serializable {
     private List<SieniClase> sieniClaseList;
     @Column(name = "cr_estado")
     private Character crEstado;
-    
+
     @PrePersist
-protected void onCreate() {
-    crFechaIngreso = new Date();
-}
+    protected void onCreate() {
+        crFechaIngreso = new Date();
+    }
 
     public Character getCrEstado() {
         return crEstado;
@@ -152,14 +158,13 @@ protected void onCreate() {
         this.sieniEvaluacionList = sieniEvaluacionList;
     }
 
-    public SieniDocente getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(SieniDocente idDocente) {
-        this.idDocente = idDocente;
-    }
-
+//    public SieniDocente getIdDocente() {
+//        return idDocente;
+//    }
+//
+//    public void setIdDocente(SieniDocente idDocente) {
+//        this.idDocente = idDocente;
+//    }
     public SieniGrado getIdGrado() {
         return idGrado;
     }
@@ -223,8 +228,20 @@ protected void onCreate() {
         return sieniCursoAlumnoList;
     }
 
-    public void setSieniCursoAlumnoList(List<SieniCursoAlumno> sieniCursoAlumnoList) {
-        this.sieniCursoAlumnoList = sieniCursoAlumnoList;
+    public Long getIdDocente() {
+        return idDocente;
     }
-    
+
+    public void setIdDocente(Long idDocente) {
+        this.idDocente = idDocente;
+    }
+
+    public SieniDocente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(SieniDocente docente) {
+        this.docente = docente;
+    }
+
 }

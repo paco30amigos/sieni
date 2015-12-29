@@ -10,6 +10,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -41,9 +42,9 @@ public class AlumnoRecibeNoti implements Serializable {
     @Column(name = "noti_visto")
     private boolean notiVisto;
     
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private SieniAlumno idAlumno;
+//    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno", insertable = false, updatable = false)
+//    @ManyToOne(optional = false)
+//    private SieniAlumno idAlumno;
     @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private SieniNotificacion idNotificacion;
@@ -80,13 +81,9 @@ public class AlumnoRecibeNoti implements Serializable {
         this.notiVisto = notiVisto;
     }
 
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
+//    public SieniAlumno getIdAlumno() {
+//        return idAlumno;
+//    }
 
     public SieniNotificacion getIdNotificacion() {
         return idNotificacion;

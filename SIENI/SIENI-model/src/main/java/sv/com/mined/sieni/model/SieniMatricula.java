@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +23,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,14 +34,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_matricula")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniMatricula.findAnio", query = "SELECT s FROM SieniMatricula s where s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idAlumno.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
-    @NamedQuery(name = "SieniMatricula.findAnioGrado", query = "SELECT s FROM SieniMatricula s where s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idGrado.idGrado=:grado and s.idAlumno.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
-    @NamedQuery(name = "SieniMatricula.findAnioGradoSeccion", query = "SELECT s FROM SieniMatricula s  where s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idGrado.idGrado=:grado and s.idSeccion.idSeccion=:seccion and s.idAlumno.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMatricula.findAnio", query = "SELECT s FROM SieniMatricula s,SieniAlumno al where s.idAlumno=al.idAlumno and s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and al.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMatricula.findAnioGrado", query = "SELECT s FROM SieniMatricula s,SieniAlumno al where s.idAlumno=al.idAlumno and s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idGrado.idGrado=:grado and al.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMatricula.findAnioGradoSeccion", query = "SELECT s FROM SieniMatricula s ,SieniAlumno al where s.idAlumno=al.idAlumno and s.mtFechaIngreso>=:anioDesde and s.mtFechaIngreso<=:anioHasta and s.idGrado.idGrado=:grado and s.idSeccion.idSeccion=:seccion and al.alEstado not in (:estado) and s.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniMatricula.findAllNoInactivos", query = "SELECT s FROM SieniMatricula s where s.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniMatricula.findAllNoInactivosRpt", query = "SELECT s FROM SieniMatricula s where s.mtEstado not in (:estado) AND s.mtFechaIngreso BETWEEN :desde AND :hasta"),
     @NamedQuery(name = "SieniMatricula.findAll", query = "SELECT s FROM SieniMatricula s"),
+    @NamedQuery(name = "SieniMatricula.findMatriculasByAnioEstado", query = "SELECT s FROM SieniMatricula s where s.mtAnio=:anio and s.mtEstado=:estado"),
     @NamedQuery(name = "SieniMatricula.findByIdMatricula", query = "SELECT s FROM SieniMatricula s WHERE s.idMatricula = :idMatricula"),
-    @NamedQuery(name = "SieniMatricula.findByIdAlumnoAnio", query = "SELECT s FROM SieniMatricula s WHERE s.idAlumno.idAlumno = :idAlumno AND s.mtAnio=:mtAnio"),
+    @NamedQuery(name = "SieniMatricula.findByIdAlumnoAnio", query = "SELECT s FROM SieniMatricula s,SieniAlumno al WHERE s.idAlumno=al.idAlumno and al.idAlumno = :idAlumno AND s.mtAnio=:mtAnio and al.alEstado='A'"),
     @NamedQuery(name = "SieniMatricula.findByMtFechaIngreso", query = "SELECT s FROM SieniMatricula s WHERE s.mtFechaIngreso = :mtFechaIngreso"),
     @NamedQuery(name = "SieniMatricula.findByMtEstado", query = "SELECT s FROM SieniMatricula s WHERE s.mtEstado = :mtEstado"),
     @NamedQuery(name = "SieniMatricula.findByMtAnio", query = "SELECT s FROM SieniMatricula s WHERE s.mtAnio = :mtAnio")})
@@ -58,16 +61,20 @@ public class SieniMatricula implements Serializable {
     @Column(name = "mt_estado")
     private Character mtEstado;
     @Column(name = "mt_anio")
-    private String mtAnio;    
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
-    @ManyToOne
-    private SieniAlumno idAlumno;
+    private String mtAnio;
+//    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+//    @ManyToOne
+//    private SieniAlumno idAlumno;
+    @Column(name = "id_alumno")
+    private Long idAlumno;
     @JoinColumn(name = "id_grado", referencedColumnName = "id_grado")
     @ManyToOne
     private SieniGrado idGrado;
     @JoinColumn(name = "id_seccion", referencedColumnName = "id_seccion")
     @ManyToOne
     private SieniSeccion idSeccion;
+    @Transient
+    private SieniAlumno alumno;
 
     @PrePersist
     protected void onCreate() {
@@ -113,14 +120,9 @@ public class SieniMatricula implements Serializable {
         this.mtAnio = mtAnio;
     }
 
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
-
+//    public SieniAlumno getIdAlumno() {
+//        return idAlumno;
+//    }
     public SieniGrado getIdGrado() {
         return idGrado;
     }
@@ -160,6 +162,22 @@ public class SieniMatricula implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniMatricula[ idMatricula=" + idMatricula + " ]";
+    }
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
     }
 
 }

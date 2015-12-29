@@ -110,7 +110,7 @@ public class ExcelUtils {
                 if (alumno == null) {
                     notaActual.getErrores().add("Nombre de alumno no se encontró");
                 } else {
-                    notaActual.setIdAlumno(alumno);
+                    notaActual.setIdAlumno(alumno.getIdAlumno()); 
                 }
             }
             if (notaActual.getNombreCompleto() == null) {

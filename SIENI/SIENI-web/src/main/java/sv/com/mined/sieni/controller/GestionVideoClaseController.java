@@ -15,7 +15,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.DragDropEvent;
@@ -28,6 +27,7 @@ import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
 import sv.com.mined.sieni.SieniClaseVidPtosFacadeRemote;
 import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniComponenteFacadeRemote;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
 import sv.com.mined.sieni.SieniPlantillaFacadeRemote;
@@ -41,6 +41,7 @@ import sv.com.mined.sieni.model.SieniClaseSupComp;
 import sv.com.mined.sieni.model.SieniClaseVidPtos;
 import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniComponente;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniElemPlantilla;
 import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
@@ -90,6 +91,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     private SieniClaseVidPtosFacadeRemote sieniClaseVidPtosFacadeRemote;
     @EJB
     private SieniCatPuntosFacadeRemote sieniCatPuntosFacadeRemote;
+    @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
 
     private void registrarEnBitacora(String accion, String tabla, Long id) {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -112,6 +115,23 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         fill();
     }
 
+    private List<SieniClase> setDocente(List<SieniClase> matriculas) {
+        List<SieniClase> ret = new ArrayList<>();
+        for (SieniClase actual : matriculas) {
+            ret.add(setInfoDocente(actual));
+        }
+        return ret;
+    }
+
+    public SieniClase setInfoDocente(SieniClase matActual) {
+        if (matActual.getIdCurso() != null && matActual.getIdCurso().getIdDocente() != null) {
+            matActual.getIdCurso().setDocente(sieniDocenteFacadeRemote.findByDocenteId(matActual.getIdCurso().getIdDocente()));
+        } else {            
+            matActual.getIdCurso().setDocente(new SieniDocente());
+        }
+        return matActual;
+    }
+
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
@@ -120,11 +140,11 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         if (loginBean.getTipoRol().equals("0")) {
 //*******fill
             //clases interact
-            listaClases = sieniClaseFacadeRemote.findClaseByTipoAlumno('V', loginBean.getAlumno().getIdAlumno());//video clases
+            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipoAlumno('V', loginBean.getAlumno().getIdAlumno()));//video clases
         } else {
             //*******fill
             //clases interact
-            listaClases = sieniClaseFacadeRemote.findClaseByTipo('V');//video clases
+            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('V'));//video clases
         }
         updateEstadoClase(listaClases);
         this.setClaseList(listaClases);
@@ -1179,7 +1199,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             nuevo = sieniPntosContrlFacadeRemote.findPuntos(tipoElem.getIdTipoElemPlantilla(), nPantalla, this.getClaseConfig().getIdClase(), loginBean.getAlumno().getIdAlumno());
             if (nuevo.getIdPntosContrl() == null) {
                 nuevo.setIdClase(this.getClaseConfig());
-                nuevo.setIdAlumno(loginBean.getAlumno());
+                nuevo.setIdAlumno(loginBean.getAlumno().getIdAlumno());
                 nuevo.setIdTipoElemPlantilla(tipoElem);
                 nuevo.setPcPantalla(nPantalla);
                 nuevo.setPcEstado('V');

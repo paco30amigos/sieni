@@ -18,7 +18,7 @@ import sv.com.mined.sieni.model.SieniDocente;
 public interface SieniDocenteFacadeRemote {
 
     void create(SieniDocente sieniDocente);
-    
+
     SieniDocente createAndReturn(SieniDocente sieniDocente);
 
     void edit(SieniDocente sieniDocente);
@@ -36,13 +36,15 @@ public interface SieniDocenteFacadeRemote {
     public List<SieniDocente> findDocentesSinUsuario();
 
     public SieniDocente findDocenteUsuario(String usuario, String pass);
-    
+
     public List<SieniDocente> findDocentesActivos();
-    
-    public List<SieniDocente> findDocentesDesdeHasta(Date desde,Date hasta);
+
+    public List<SieniDocente> findDocentesDesdeHasta(Date desde, Date hasta);
 
     public List<SieniDocente> findUsuariosRpt(Integer estadoUser);
-    
+
     public SieniDocente findUsuario(String usuario);
-    
+
+    public SieniDocente findByDocenteId(Long idDocente);
+
 }

@@ -71,15 +71,28 @@ public class GestionNotasController extends GestionNotasForm {
         this.setMateriasModificaList(new ArrayList());
         fill();
     }
+    
+    private List<SieniNota> setAlumnos(List<SieniNota> notas) {
+        List<SieniNota> ret = new ArrayList<>();
+        for (SieniNota actual : notas) {
+            ret.add(setInfoAlumno(actual));
+        }
+        return ret;
+    }
+
+    public SieniNota setInfoAlumno(SieniNota matActual) {
+        matActual.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(matActual.getIdAlumno()));
+        return matActual;
+    }
 
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         //fill para alumnos
         if (loginBean.getTipoRol().equals("0")) {
-            this.setNotaList(sieniNotaFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno()));
+            this.setNotaList(setAlumnos(sieniNotaFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno())));
         } else {
-            this.setNotaList(sieniNotaFacadeRemote.findAllNoEliminadas());
+            this.setNotaList(setAlumnos(sieniNotaFacadeRemote.findAllNoEliminadas()));
         }
     }
 
@@ -102,7 +115,7 @@ public class GestionNotasController extends GestionNotasForm {
     public synchronized void guardar() {
         try {
             FormatUtils fu = new FormatUtils();
-            this.getNotaNuevo().setIdAlumno(this.getIdAlumno());
+            this.getNotaNuevo().setIdAlumno(this.getIdAlumno().getIdAlumno());
             this.getNotaNuevo().setIdEvaluacion(this.getIdEvaluacion());
             if (validarNuevo(this.getNotaNuevo())) {//valida el guardado
                 HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -116,6 +129,7 @@ public class GestionNotasController extends GestionNotasForm {
                 this.getNotaNuevo().setNtCalificacion(nota.setScale(2, RoundingMode.HALF_UP).doubleValue());
                 this.setNotaNuevo(sieniNotaFacadeRemote.createAndReturn(this.getNotaNuevo()));
                 new ValidationPojo().printMsj("Nota Creada Exitosamente", FacesMessage.SEVERITY_INFO);
+                this.setNotaNuevo(setInfoAlumno(this.getNotaNuevo()));
                 this.getNotaList().add(this.getNotaNuevo());
                 this.setNotaNuevo(new SieniNota());
                 this.getNotaNuevo().setNtTipoIngreso("M");
@@ -158,13 +172,13 @@ public class GestionNotasController extends GestionNotasForm {
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar()));
-            this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(modificado.getIdAlumno().getIdAlumno()));
+            this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(modificado.getIdAlumno()));
             if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
                 this.setEvaluacionesModificaList(modificado.getIdEvaluacion().getIdMateria().getSieniEvaluacionList());
             }
             this.setIdMateriaModifica(modificado.getIdEvaluacion().getIdMateria());
             this.setNotaModifica(modificado);
-            this.setIdAlumnoModifica(modificado.getIdAlumno());
+            this.setIdAlumnoModifica(sieniAlumnoFacadeRemote.findAlumnoById(modificado.getIdAlumno()));
             this.setIdEvaluacionModifica(modificado.getIdEvaluacion());
 
             this.setIndexMenu(2);
@@ -220,7 +234,7 @@ public class GestionNotasController extends GestionNotasForm {
 
     public synchronized void guardarModifica() {
         try {
-            this.getNotaModifica().setIdAlumno(this.getIdAlumnoModifica());
+            this.getNotaModifica().setIdAlumno(this.getIdAlumnoModifica().getIdAlumno());
             this.getNotaModifica().setIdEvaluacion(this.getIdEvaluacionModifica());
             if (validarModifica(this.getNotaModifica())) {//valida el guardado
                 BigDecimal nota = new BigDecimal(this.getNotaModifica().getNtCalificacion());
@@ -253,7 +267,7 @@ public class GestionNotasController extends GestionNotasForm {
         boolean valido;
         List<ValidationPojo> validaciones = new ArrayList<>();
         SieniNota notaOriginal = sieniNotaFacadeRemote.find(nuevo.getIdNota());
-        if (!notaOriginal.getIdAlumno().getIdAlumno().equals(nuevo.getIdAlumno().getIdAlumno())) {
+        if (!notaOriginal.getIdAlumno().equals(nuevo.getIdAlumno())) {
             if (nuevo.getIdEvaluacion() != null && nuevo.getIdEvaluacion().getIdEvaluacion() != null) {
                 validaciones.add(new ValidationPojo(sieniNotaFacadeRemote.findNotaRegistrada(nuevo), "La nota de la evaluación para ese alumno ya esta definida", FacesMessage.SEVERITY_ERROR));
             }

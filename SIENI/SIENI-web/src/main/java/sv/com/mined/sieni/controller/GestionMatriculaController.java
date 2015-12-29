@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -24,9 +25,6 @@ import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionMatriculaForm;
 import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniBitacora;
-import sv.com.mined.sieni.model.SieniCurso;
-import sv.com.mined.sieni.model.SieniCursoAlumno;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniSeccion;
@@ -70,12 +68,29 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         fill();
     }
 
+    private List<SieniMatricula> setAlumnos(List<SieniMatricula> matriculas) {
+        List<SieniMatricula> ret = new ArrayList<>();
+        for (SieniMatricula actual : matriculas) {
+            ret.add(setInfoAlumno(actual));
+        }
+        return ret;
+    }
+
+    public SieniMatricula setInfoAlumno(SieniMatricula matActual) {
+        matActual.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(matActual.getIdAlumno()));
+        return matActual;
+    }
+
     private void fill() {
-        this.setMatriculaList(sieniMatriculaFacadeRemote.findAllNoInactivos());//tenes q traer los q no sean I (eliminados)
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        this.setMatriculaList(setAlumnos(sieniMatriculaFacadeRemote.getMatriculasAnio(loginBean.getAnioEscolarActivo().getAeAnio())));
+    }
+
+    public void initNuevo() {
         this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosNoMatriculados());
-        this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosNoMatriculados());
         //nuevo
-        this.setGradosList(sieniGradoFacadeRemote.findAll());
+        this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
         this.setSeccionesList(new ArrayList<SieniSeccion>());
         if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
             if (this.getGradosList().get(0).getSieniSeccionList() != null
@@ -83,22 +98,17 @@ public class GestionMatriculaController extends GestionMatriculaForm {
                 this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
             }
         }
-        //modifica
-        this.setGradosModificaList(sieniGradoFacadeRemote.findAll());
-        this.setSeccionesModificaList(new ArrayList<SieniSeccion>());
-        if (this.getGradosModificaList() != null && !this.getGradosModificaList().isEmpty()) {
-            if (this.getGradosModificaList().get(0).getSieniSeccionList() != null
-                    && !this.getGradosModificaList().get(0).getSieniSeccionList().isEmpty()) {
-                this.setSeccionesModificaList(this.getGradosModificaList().get(0).getSieniSeccionList());
-            }
-        }
+        this.setMatriculaNuevo(new SieniMatricula());
+        this.setIndexMenu(1);
     }
 
     public synchronized void guardar() {
         try {
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             for (SieniAlumno actual : this.getAlumnosList()) {
                 if (actual.getIdAlumno().equals(this.getIdAlumno())) {
-                    this.getMatriculaNuevo().setIdAlumno(actual);
+                    this.getMatriculaNuevo().setIdAlumno(actual.getIdAlumno());
                     break;
                 }
             }
@@ -115,15 +125,20 @@ public class GestionMatriculaController extends GestionMatriculaForm {
                 }
             }
 
-            if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado                
-                String anioActual = new FormatUtils().getFormatedAnio(new Date());
-                this.getMatriculaNuevo().setMtAnio(anioActual);
+            this.getMatriculaNuevo().setMtAnio(loginBean.getAnioEscolarActivo().getAeAnio().toString());
+            if (validarNuevo(this.getMatriculaNuevo())) {//valida el guardado
+                SieniMatricula mat = sieniMatriculaFacadeRemote.findByIdAlumnoAnio(this.getMatriculaNuevo().getIdAlumno(), this.getMatriculaNuevo().getMtAnio());
                 this.getMatriculaNuevo().setMtEstado('A');
                 this.getMatriculaNuevo().setMtFechaIngreso(new Date());
-                this.setMatriculaNuevo(sieniMatriculaFacadeRemote.createAndReturn(this.getMatriculaNuevo()));
+                if (mat != null) {
+                    this.getMatriculaNuevo().setIdMatricula(mat.getIdMatricula());
+                    sieniMatriculaFacadeRemote.edit(this.getMatriculaNuevo());
+                } else {
+                    this.setMatriculaNuevo(sieniMatriculaFacadeRemote.createAndReturn(this.getMatriculaNuevo()));
+                }
                 registrarEnBitacora("Crear", "Matricula", this.getMatriculaNuevo().getIdMatricula());
                 new ValidationPojo().printMsj("Matricula Creado Exitosamente", FacesMessage.SEVERITY_INFO);
-                this.getMatriculaList().add(this.getMatriculaNuevo());
+                this.getMatriculaList().add(setInfoAlumno(this.getMatriculaNuevo()));
                 this.setMatriculaNuevo(new SieniMatricula());
                 //this.setIndexMenu(0);
             }
@@ -143,9 +158,12 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public boolean validarNuevo(SieniMatricula nuevo) {
-        boolean ban = true;
-
-        return ban;
+        boolean valido = true;
+        List<ValidationPojo> validaciones = new ArrayList<>();
+        SieniMatricula mat = sieniMatriculaFacadeRemote.findByIdAlumnoAnio(nuevo.getIdAlumno(), nuevo.getMtAnio());
+        validaciones.add(new ValidationPojo((mat != null && mat.getMtEstado().equals(new Character('A'))), "El Alumno ya ha sido matriculado para ese año", FacesMessage.SEVERITY_ERROR));
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public void cancelar() {
@@ -153,6 +171,16 @@ public class GestionMatriculaController extends GestionMatriculaForm {
 
     //metodos para modificacion de datos
     public void modificar(SieniMatricula modificado) {
+        this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosNoMatriculados());
+        //modifica
+        this.setGradosModificaList(sieniGradoFacadeRemote.findAllNoInactivos());
+        this.setSeccionesModificaList(new ArrayList<SieniSeccion>());
+        if (this.getGradosModificaList() != null && !this.getGradosModificaList().isEmpty()) {
+            if (this.getGradosModificaList().get(0).getSieniSeccionList() != null
+                    && !this.getGradosModificaList().get(0).getSieniSeccionList().isEmpty()) {
+                this.setSeccionesModificaList(this.getGradosModificaList().get(0).getSieniSeccionList());
+            }
+        }
         this.setMatriculaModifica(modificado);
         this.setIndexMenu(2);
     }
@@ -166,7 +194,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         try {
             for (SieniAlumno actual : this.getAlumnosModificaList()) {
                 if (actual.getIdAlumno().equals(this.getMatriculaModifica().getIdAlumno())) {
-                    this.getMatriculaModifica().setIdAlumno(actual);
+                    this.getMatriculaModifica().setIdAlumno(actual.getIdAlumno());
                     break;
                 }
             }
@@ -199,9 +227,12 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public boolean validarModifica(SieniMatricula nuevo) {
-        boolean ban = true;
-
-        return ban;
+        boolean valido = true;
+//        List<ValidationPojo> validaciones = new ArrayList<>();
+//        SieniMatricula mat = sieniMatriculaFacadeRemote.findByIdAlumnoAnio(nuevo.getIdAlumno(), nuevo.getMtAnio());
+//        validaciones.add(new ValidationPojo(!(mat != null), "El Alumno ya ha sido matriculado para ese año", FacesMessage.SEVERITY_ERROR));
+//        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public synchronized void eliminarMatricula() {
@@ -246,7 +277,7 @@ public class GestionMatriculaController extends GestionMatriculaForm {
     }
 
     public void getCarnetAlumno(ValueChangeEvent a) {
-        Integer cod = new Integer(a.getNewValue().toString());
+        Long cod = new Long(a.getNewValue().toString());
         this.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(cod));
 //        if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {
 //            this.setIdMateria(this.getMateriasList().get(0));

@@ -36,11 +36,11 @@
                     <p:column headerText="Grado" filterBy="#{car.idEvaluacion.idMateria.idGrado.grNombre}" filterable="true" filterMatchMode="contains" style="width: 50px">
                         #{car.idEvaluacion.idMateria.idGrado.grNombre}
                     </p:column>
-                    <p:column headerText="carnet" filterBy="#{car.idAlumno.alCarnet}" filterable="true" filterMatchMode="contains" style="width: 80px">
-                        #{car.idAlumno.alCarnet}
+                    <p:column headerText="carnet" filterBy="#{car.alumno.alCarnet}" filterable="true" filterMatchMode="contains" style="width: 80px">
+                        #{car.alumno.alCarnet}
                     </p:column>
-                    <p:column headerText="Alumno" filterBy="#{car.idAlumno.nombreCompleto}" filterable="true" filterMatchMode="contains">
-                        #{car.idAlumno.nombreCompleto}
+                    <p:column headerText="Alumno" filterBy="#{car.alumno.nombreCompleto}" filterable="true" filterMatchMode="contains">
+                        #{car.alumno.nombreCompleto}
                     </p:column>
                     <p:column headerText="Materia" filterBy="#{car.idEvaluacion.idMateria.maNombre}" filterable="true" filterMatchMode="contains">
                         #{car.idEvaluacion.idMateria.maNombre}

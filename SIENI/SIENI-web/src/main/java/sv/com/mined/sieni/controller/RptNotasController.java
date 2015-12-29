@@ -18,10 +18,12 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
 import net.sf.jasperreports.engine.JRException;
+import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.form.RptNotasForm;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniNota;
 import sv.com.mined.sieni.model.SieniSeccion;
@@ -44,6 +46,8 @@ public class RptNotasController extends RptNotasForm {
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
     @EJB
     private SieniGradoFacadeRemote sieniGradoFacadeRemote;
+    @EJB
+    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -71,7 +75,8 @@ public class RptNotasController extends RptNotasForm {
         }
         this.setListaDatos(new ArrayList<RptNotasPojo>());
         for (SieniNota nota : sieniNotasFacadeRemote.getNotasRpt(desde, hasta, this.getGrado().getIdGrado(), this.getSeccion().getIdSeccion())) {
-            this.getListaDatos().add(new RptNotasPojo(nota.getIdAlumno().getNombreCompleto(), nota.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), nota.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), nota.getIdEvaluacion().getIdMateria().getMaNombre(), nota.getIdEvaluacion().getEvNombre(), nota.getNtCalificacion().toString(), nota.getIdAlumno().getAlCarnet(), nota.getIdEvaluacion().getEvTipo()));
+            SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoById(nota.getIdAlumno());
+            this.getListaDatos().add(new RptNotasPojo(alumno.getNombreCompleto(), nota.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), nota.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), nota.getIdEvaluacion().getIdMateria().getMaNombre(), nota.getIdEvaluacion().getEvNombre(), nota.getNtCalificacion().toString(), alumno.getAlCarnet(), nota.getIdEvaluacion().getEvTipo()));
         }
         this.setTotalTransacciones(this.getListaDatos().size());
     }
@@ -79,13 +84,13 @@ public class RptNotasController extends RptNotasForm {
     public void generarReporte() {
         fill();
         String txtGrado = "", txtSeccion = "";
-        if (this.getGrado() != null && this.getGrado().getIdGrado() != null&&!this.getGrado().getIdGrado().equals(0L)) {
+        if (this.getGrado() != null && this.getGrado().getIdGrado() != null && !this.getGrado().getIdGrado().equals(0L)) {
             txtGrado = this.getGrado().getGrNombre();
         } else {
             txtGrado = "Todos";
         }
 
-        if (this.getSeccion() != null && this.getSeccion().getIdSeccion() != null&&!this.getSeccion().getIdSeccion().equals(0L)) {
+        if (this.getSeccion() != null && this.getSeccion().getIdSeccion() != null && !this.getSeccion().getIdSeccion().equals(0L)) {
             txtSeccion = this.getSeccion().getScDescripcion();
         } else {
             txtSeccion = "Todos";

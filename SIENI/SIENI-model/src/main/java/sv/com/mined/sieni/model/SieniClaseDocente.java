@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -27,15 +28,20 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "SieniClaseDocente.findAll", query = "SELECT s FROM SieniClaseDocente s"),
     @NamedQuery(name = "SieniClaseDocente.findByIdClaseDocente", query = "SELECT s FROM SieniClaseDocente s WHERE s.idClaseDocente = :idClaseDocente")})
 public class SieniClaseDocente implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id_clase_docente")
     private Long idClaseDocente;
-    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
-    @ManyToOne
-    private SieniDocente idDocente;
+//    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
+//    @ManyToOne
+//    private SieniDocente idDocente;
+    @Transient
+    private SieniDocente docente;
+    @Column(name = "id_docente")
+    private Long idDocente;
     @JoinColumn(name = "id_clase", referencedColumnName = "id_clase")
     @ManyToOne
     private SieniClase idClase;
@@ -55,14 +61,13 @@ public class SieniClaseDocente implements Serializable {
         this.idClaseDocente = idClaseDocente;
     }
 
-    public SieniDocente getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(SieniDocente idDocente) {
-        this.idDocente = idDocente;
-    }
-
+//    public SieniDocente getIdDocente() {
+//        return idDocente;
+//    }
+//
+//    public void setIdDocente(SieniDocente idDocente) {
+//        this.idDocente = idDocente;
+//    }
     public SieniClase getIdClase() {
         return idClase;
     }
@@ -95,5 +100,21 @@ public class SieniClaseDocente implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniClaseDocente[ idClaseDocente=" + idClaseDocente + " ]";
     }
-    
+
+    public SieniDocente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(SieniDocente docente) {
+        this.docente = docente;
+    }
+
+    public Long getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(Long idDocente) {
+        this.idDocente = idDocente;
+    }
+
 }

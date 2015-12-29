@@ -8,6 +8,7 @@ package sv.com.mined.sieni.controller;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -18,14 +19,16 @@ import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.primefaces.util.Base64;
+import sv.com.mined.sieni.SieniAlumnRolFacadeRemote;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniAnioEscolarFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniDocentRolFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.LoginForm;
 import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniAnioEscolar;
 import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniDocentRol;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.siteUrls;
@@ -46,11 +49,16 @@ public class LoginController extends LoginForm {
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+    @EJB
+    private SieniAlumnRolFacadeRemote sieniAlumnRolFacadeRemote;
+    @EJB
+    private SieniDocentRolFacadeRemote sieniDocentRolFacadeRemote;
 
     public void onIdle() {
         logout();
         new siteUrls().redirect("/login.xhtml");
     }
+
     public void login(ActionEvent actionEvent) {
         FacesMessage msg = null;
         try {
@@ -67,7 +75,8 @@ public class LoginController extends LoginForm {
                         if (docente.getDcEstado() != null && docente.getDcEstado().equals('A')) {
                             this.setLogeado(true);
                             this.setTipoUsuario("D");
-                            this.setTipoRol(docente.getSieniDocentRolList().get(0).getFRolDoc() + "");
+                            List<SieniDocentRol> r = sieniDocentRolFacadeRemote.findRoles(docente.getIdDocente());
+                            this.setTipoRol(r.get(0).getFRolDoc() + "");
                             this.setIdUsuario(docente.getIdDocente());
                             this.setNombreCompleto(docente.getNombreCompleto());
                             this.setDocente(docente);
@@ -84,7 +93,7 @@ public class LoginController extends LoginForm {
                     if (alumno.getAlEstado() != null && alumno.getAlEstado().equals('A')) {
                         this.setLogeado(true);
                         this.setTipoUsuario("A");
-                        this.setTipoRol(alumno.getSieniAlumnRolList().get(0).getFRol() + "");
+                        this.setTipoRol(sieniAlumnRolFacadeRemote.findRolesAlumno(alumno.getIdAlumno()).get(0).getFRol() + "");
                         this.setIdUsuario(alumno.getIdAlumno());
                         this.setNombreCompleto(alumno.getNombreCompleto());
                         this.setAlumno(alumno);

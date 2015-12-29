@@ -15,6 +15,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.GestionClasesOnlineForm;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
@@ -31,12 +32,27 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
 
     @EJB
     private SieniClaseFacadeRemote sieniClaseFacadeRemote;
+    @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
 
     @PostConstruct
     public void init() {
         this.setListaUsuarios(new ArrayList<String>());
         this.setClaseActual(new SieniClase());
         fill();
+    }
+    
+    private List<SieniClase> setDocente(List<SieniClase> matriculas) {
+        List<SieniClase> ret = new ArrayList<>();
+        for (SieniClase actual : matriculas) {
+            ret.add(setInfoDocente(actual));
+        }
+        return ret;
+    }
+
+    public SieniClase setInfoDocente(SieniClase matActual) {
+        matActual.getIdCurso().setDocente(sieniDocenteFacadeRemote.findByDocenteId(matActual.getIdCurso().getIdDocente()));
+        return matActual;
     }
 
     public void fill() {
@@ -47,11 +63,11 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
         if (loginBean.getTipoRol().equals("0")) {
 //*******fill
             //clases interact
-            listaClases = sieniClaseFacadeRemote.findClaseByTipoAlumno('O', loginBean.getAlumno().getIdAlumno());//clases online
+            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipoAlumno('O', loginBean.getAlumno().getIdAlumno()));//clases online
         } else {
             //*******fill
             //clases interact
-            listaClases = sieniClaseFacadeRemote.findClaseByTipo('O');//clases online
+            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('O'));//clases online
         }
         updateEstadoClase(listaClases);
         this.setClasesOnlineList(listaClases);

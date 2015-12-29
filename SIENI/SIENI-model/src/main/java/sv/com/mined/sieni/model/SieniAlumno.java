@@ -40,27 +40,27 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_alumno")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado)"),
-    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado)"),
-    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and sec.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado)"),
-    @NamedQuery(name = "SieniAlumno.findAnioMatriculadoActual", query = "SELECT s FROM SieniAlumno s join fetch s.sieniMatriculaList mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtAnio=:anio"),
-    @NamedQuery(name = "SieniAlumno.findAnioGradoMatriculadoActual", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and mat.mtAnio=:anio "),
-    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccionMatriculadoActual", query = "SELECT s FROM SieniAlumno s  left join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and sec.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and mat.mtAnio=:anio"),
-    @NamedQuery(name = "SieniAlumno.findAnioNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s left join fetch s.sieniMatriculaList mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
-    @NamedQuery(name = "SieniAlumno.findAnioGradoNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s left join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
-    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccionNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s  join fetch s.sieniMatriculaList mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
+    @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s ,SieniMatricula mat join fetch mat.idGrado gr where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  ,SieniMatricula mat join fetch mat.idGrado gr where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  ,SieniMatricula mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and sec.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAnioMatriculadoActual", query = "SELECT s FROM SieniAlumno s ,SieniMatricula mat where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtAnio=:anio"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoMatriculadoActual", query = "SELECT s FROM SieniAlumno s  ,SieniMatricula mat join fetch mat.idGrado gr where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and mat.mtAnio=:anio "),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccionMatriculadoActual", query = "SELECT s FROM SieniAlumno s  ,SieniMatricula mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and sec.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and mat.mtAnio=:anio"),
+    @NamedQuery(name = "SieniAlumno.findAnioNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s ,SieniMatricula mat where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s ,SieniMatricula mat join fetch mat.idGrado gr where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
+    @NamedQuery(name = "SieniAlumno.findAnioGradoSeccionNoMatriculadoActual", query = "SELECT s FROM SieniAlumno s  ,SieniMatricula mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.idAlumno=mat.idAlumno and  s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado) and (mat.mtAnio not in(:anio) or mat.idMatricula IS NULL)"),
     @NamedQuery(name = "SieniAlumno.findByNombreCompleto", query = "SELECT s FROM SieniAlumno s where s.alNombreCompleto=:nombreCompleto"),
     @NamedQuery(name = "SieniAlumno.findSiguienteCorrelat", query = "SELECT max(s.alCorrelatCarnet) FROM SieniAlumno s where s.alCodigoCarnet=:codigo"),
     @NamedQuery(name = "SieniAlumno.findAlumnosActivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado='A' ORDER BY s.idAlumno"),
     @NamedQuery(name = "SieniAlumno.findAlumnosNoInactivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado not in (:estado)"),
-    @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s join fetch s.sieniAlumnRolList WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosNoCursos", query = "SELECT s FROM SieniAlumno s JOIN s.sieniMatriculaList sr where s.idAlumno not in(SELECT ca.idAlumno.idAlumno FROM SieniCursoAlumno ca WHERE ca.idCurso.idCurso=:idCurso) AND sr.idGrado.idGrado=:idGrado AND s.alEstado not in (:alEstado)"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosInscritos", query = "SELECT s FROM SieniAlumno s JOIN fetch s.sieniCursoAlumnoList ca where ca.idCurso.idCurso=:idCurso AND s.alEstado not in (:alEstado)"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosMatriculados", query = "SELECT s FROM SieniAlumno s JOIN fetch s.sieniMatriculaList sr where sr.mtEstado=:estado and s.alEstado in (:estado) and sr.mtAnio=:idAnio"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL"),// or s.alEstado=3 eliminado
+    @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
+//    @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosNoCursos", query = "SELECT s FROM SieniAlumno s ,SieniMatricula sr where s.idAlumno=sr.idAlumno and s.idAlumno not in(SELECT ca.idAlumno FROM SieniCursoAlumno ca WHERE ca.idCurso.idCurso=:idCurso) AND sr.idGrado.idGrado=:idGrado AND s.alEstado not in (:alEstado)"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosInscritos", query = "SELECT s FROM SieniAlumno s, SieniCursoAlumno ca where s.idAlumno=ca.idAlumno and ca.idCurso.idCurso=:idCurso AND s.alEstado not in (:alEstado)"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosMatriculados", query = "SELECT s FROM SieniAlumno s ,SieniMatricula sr where s.idAlumno=sr.idAlumno and sr.mtEstado=:estado and s.alEstado in (:estado) and sr.mtAnio=:idAnio"),
+//    @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL"),// or s.alEstado=3 eliminado
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),
-    @NamedQuery(name = "SieniAlumno.findByPuntosControl", query = "SELECT s FROM SieniAlumno s join fetch s.sieniPntosContrlList ctrl"),
+//    @NamedQuery(name = "SieniAlumno.findByPuntosControl", query = "SELECT s FROM SieniAlumno s join fetch s.sieniPntosContrlList ctrl"),
     @NamedQuery(name = "SieniAlumno.findByIdAlumno", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :idAlumno"),
 //    @NamedQuery(name = "SieniAlumno.findByAlPrimNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alPrimNombre = :alPrimNombre"),
 //    @NamedQuery(name = "SieniAlumno.findByAlSeguNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alSeguNombre = :alSeguNombre"),
@@ -156,22 +156,22 @@ public class SieniAlumno implements Serializable {
      @ManyToMany
      private List<SieniNotificacion> sieniNotificacionList;
      */
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
-    private List<SieniEvalRespAlumno> sieniEvalRespAlumnoList;
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
-    private List<SieniCursoAlumno> sieniCursoAlumnoList;
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
-    private List<SieniTemaDuda> sieniTemaDudaList;
-    @OneToMany(mappedBy = "idAlumno", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-    private List<SieniAlumnRol> sieniAlumnRolList;
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
-    private List<SieniPntosContrl> sieniPntosContrlList;
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
-    private List<SieniMatricula> sieniMatriculaList;
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
-    private List<SieniNota> sieniNotaList;
-    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
-    private List<AlumnoRecibeNoti> notificacionesList;
+//    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+//    private List<SieniEvalRespAlumno> sieniEvalRespAlumnoList;
+//    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+//    private List<SieniCursoAlumno> sieniCursoAlumnoList;
+//    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+//    private List<SieniTemaDuda> sieniTemaDudaList;
+//    @OneToMany(mappedBy = "idAlumno", cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
+//    private List<SieniAlumnRol> sieniAlumnRolList;
+//    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+//    private List<SieniPntosContrl> sieniPntosContrlList;
+//    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+//    private List<SieniMatricula> sieniMatriculaList;
+//    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+//    private List<SieniNota> sieniNotaList;
+//    @OneToMany(mappedBy = "idAlumno", fetch = FetchType.LAZY)
+//    private List<AlumnoRecibeNoti> notificacionesList;
     @Transient
     private String nombreCompleto;
     @Transient
@@ -322,59 +322,59 @@ public class SieniAlumno implements Serializable {
         this.alEstado = alEstado;
     }
 
-    @XmlTransient
-    public List<SieniTemaDuda> getSieniTemaDudaList() {
-        return sieniTemaDudaList;
-    }
+//    @XmlTransient
+//    public List<SieniTemaDuda> getSieniTemaDudaList() {
+//        return sieniTemaDudaList;
+//    }
+//
+//    public void setSieniTemaDudaList(List<SieniTemaDuda> sieniTemaDudaList) {
+//        this.sieniTemaDudaList = sieniTemaDudaList;
+//    }
 
-    public void setSieniTemaDudaList(List<SieniTemaDuda> sieniTemaDudaList) {
-        this.sieniTemaDudaList = sieniTemaDudaList;
-    }
+//    @XmlTransient
+//    public List<SieniAlumnRol> getSieniAlumnRolList() {
+//        return sieniAlumnRolList;
+//    }
+//
+//    public void setSieniAlumnRolList(List<SieniAlumnRol> sieniAlumnRolList) {
+//        this.sieniAlumnRolList = sieniAlumnRolList;
+//    }
 
-    @XmlTransient
-    public List<SieniAlumnRol> getSieniAlumnRolList() {
-        return sieniAlumnRolList;
-    }
+//    @XmlTransient
+//    public List<SieniPntosContrl> getSieniPntosContrlList() {
+//        return sieniPntosContrlList;
+//    }
+//
+//    public void setSieniPntosContrlList(List<SieniPntosContrl> sieniPntosContrlList) {
+//        this.sieniPntosContrlList = sieniPntosContrlList;
+//    }
 
-    public void setSieniAlumnRolList(List<SieniAlumnRol> sieniAlumnRolList) {
-        this.sieniAlumnRolList = sieniAlumnRolList;
-    }
+//    @XmlTransient
+//    public List<SieniMatricula> getSieniMatriculaList() {
+//        return sieniMatriculaList;
+//    }
+//
+//    public void setSieniMatriculaList(List<SieniMatricula> sieniMatriculaList) {
+//        this.sieniMatriculaList = sieniMatriculaList;
+//    }
+//
+//    @XmlTransient
+//    public List<SieniNota> getSieniNotaList() {
+//        return sieniNotaList;
+//    }
 
-    @XmlTransient
-    public List<SieniPntosContrl> getSieniPntosContrlList() {
-        return sieniPntosContrlList;
-    }
+//    public void setSieniNotaList(List<SieniNota> sieniNotaList) {
+//        this.sieniNotaList = sieniNotaList;
+//    }
 
-    public void setSieniPntosContrlList(List<SieniPntosContrl> sieniPntosContrlList) {
-        this.sieniPntosContrlList = sieniPntosContrlList;
-    }
-
-    @XmlTransient
-    public List<SieniMatricula> getSieniMatriculaList() {
-        return sieniMatriculaList;
-    }
-
-    public void setSieniMatriculaList(List<SieniMatricula> sieniMatriculaList) {
-        this.sieniMatriculaList = sieniMatriculaList;
-    }
-
-    @XmlTransient
-    public List<SieniNota> getSieniNotaList() {
-        return sieniNotaList;
-    }
-
-    public void setSieniNotaList(List<SieniNota> sieniNotaList) {
-        this.sieniNotaList = sieniNotaList;
-    }
-
-    @XmlTransient
-    public List<AlumnoRecibeNoti> getNotificacionesList() {
-        return notificacionesList;
-    }
-
-    public void setNotificacionesList(List<AlumnoRecibeNoti> notificacionesList) {
-        this.notificacionesList = notificacionesList;
-    }
+//    @XmlTransient
+//    public List<AlumnoRecibeNoti> getNotificacionesList() {
+//        return notificacionesList;
+//    }
+//
+//    public void setNotificacionesList(List<AlumnoRecibeNoti> notificacionesList) {
+//        this.notificacionesList = notificacionesList;
+//    }
 
     @Override
     public int hashCode() {
@@ -427,27 +427,27 @@ public class SieniAlumno implements Serializable {
     public SieniMatricula getMatriculaActual() {
         SieniMatricula ret = null;
         int max = 0, anioActual = 0;
-        if (this.getSieniMatriculaList() != null) {
-            for (SieniMatricula actual : this.getSieniMatriculaList()) {
-                anioActual = Integer.parseInt(actual.getMtAnio());
-                if (max < anioActual) {
-                    max = anioActual;
-                    ret = actual;
-                }
-            }
-        }
+//        if (this.getSieniMatriculaList() != null) {
+//            for (SieniMatricula actual : this.getSieniMatriculaList()) {
+//                anioActual = Integer.parseInt(actual.getMtAnio());
+//                if (max < anioActual) {
+//                    max = anioActual;
+//                    ret = actual;
+//                }
+//            }
+//        }
         return ret;
     }
 
     public SieniGrado getGradoActual() {
         int max = 0, anioActual = 0;
-        for (SieniMatricula actual : this.getSieniMatriculaList()) {
-            anioActual = Integer.parseInt(actual.getMtAnio());
-            if (max < anioActual) {
-                max = anioActual;
-                gradoActual = actual.getIdGrado();
-            }
-        }
+//        for (SieniMatricula actual : this.getSieniMatriculaList()) {
+//            anioActual = Integer.parseInt(actual.getMtAnio());
+//            if (max < anioActual) {
+//                max = anioActual;
+//                gradoActual = actual.getIdGrado();
+//            }
+//        }
         return gradoActual;
     }
 
@@ -505,19 +505,19 @@ public class SieniAlumno implements Serializable {
 
     @XmlTransient
     public List<SieniCursoAlumno> getSieniCursoAlumnoList() {
-        return sieniCursoAlumnoList;
+        return null;
     }
 
     public void setSieniCursoAlumnoList(List<SieniCursoAlumno> sieniCursoAlumnoList) {
-        this.sieniCursoAlumnoList = sieniCursoAlumnoList;
+//        this.sieniCursoAlumnoList = sieniCursoAlumnoList;
     }
 
-    @XmlTransient
-    public List<SieniEvalRespAlumno> getSieniEvalRespAlumnoList() {
-        return sieniEvalRespAlumnoList;
-    }
-
-    public void setSieniEvalRespAlumnoList(List<SieniEvalRespAlumno> sieniEvalRespAlumnoList) {
-        this.sieniEvalRespAlumnoList = sieniEvalRespAlumnoList;
-    }
+//    @XmlTransient
+//    public List<SieniEvalRespAlumno> getSieniEvalRespAlumnoList() {
+//        return sieniEvalRespAlumnoList;
+//    }
+//
+//    public void setSieniEvalRespAlumnoList(List<SieniEvalRespAlumno> sieniEvalRespAlumnoList) {
+//        this.sieniEvalRespAlumnoList = sieniEvalRespAlumnoList;
+//    }
 }

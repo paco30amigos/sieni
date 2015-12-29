@@ -32,4 +32,6 @@ public interface SieniDocentRolFacadeRemote {
     
     public List<SieniDocentRol> findAllNoInactivos();
     
+    public List<SieniDocentRol> findRoles(Long idDocente);
+    
 }

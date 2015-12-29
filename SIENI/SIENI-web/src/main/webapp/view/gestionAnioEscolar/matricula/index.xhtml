@@ -9,7 +9,7 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Matricula de Alumno" url="#{siteUrls.gestionAnioEscolar}"/>
-            <p:menuitem value="Matricula Alumnos" url="#{siteUrls.gestionAlumnos}"/>
+            <p:menuitem value="Busqueda de alumnos matriculados para año ${loginController.anioEscolarActivo.aeAnio}" url="#{siteUrls.gestionAlumnos}"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -25,7 +25,7 @@
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionMatriculaController.eliminarMatricula()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{gestionMatriculaController.eliminarMatricula()}" update="consulta" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>            
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{gestionMatriculaController.matriculaList}" 
@@ -33,11 +33,11 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              reflow="true">
-                    <p:column headerText="Carnet" filterBy="#{car.idAlumno.alCarnet}" filterMatchMode="contains" filterable="true">
-                        #{car.idAlumno.alCarnet}
+                    <p:column headerText="Carnet" filterBy="#{car.alumno.alCarnet}" filterMatchMode="contains" filterable="true">
+                        #{car.alumno.alCarnet}
                     </p:column>
-                    <p:column headerText="Nombre" filterBy="#{car.idAlumno.nombreCompleto}" filterMatchMode="contains" filterable="true">
-                        #{car.idAlumno.nombreCompleto}
+                    <p:column headerText="Nombre" filterBy="#{car.alumno.nombreCompleto}" filterMatchMode="contains" filterable="true">
+                        #{car.alumno.nombreCompleto}
                     </p:column>
                     <p:column headerText="Grado" filterBy="#{car.idGrado.grNombre}" filterMatchMode="contains" filterable="true">
                         #{car.idGrado.grNombre}
@@ -46,17 +46,17 @@
                         #{car.idSeccion.scDescripcion}
                     </p:column>
                     <p:column headerText="Acciones">
-                         <p:commandLink action="#{gestionMatriculaController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Matricula" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionMatriculaController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Matricula" ></i></p:commandLink>
                         <p:commandLink action="#{gestionMatriculaController.modificar(car)}" >
                             <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Matrícula"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{gestionMatriculaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <p:commandLink action="#{gestionMatriculaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true">
                             <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Matrícula"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Matricular Alumno" action="#{gestionMatriculaController.setIndexMenu(1)}"></p:commandButton>
+                <p:commandButton value="Matricular Alumno" action="#{gestionMatriculaController.initNuevo()}"></p:commandButton>
                 <p:commandButton value="Refrescar" action="#{gestionMatriculaController.refresh()}" update="consulta"></p:commandButton>
             </h:form>
             <div class="EmptyBox5"></div>

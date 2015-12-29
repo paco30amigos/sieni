@@ -59,7 +59,7 @@ public class SieniPntosContrlFacade extends AbstractFacade<SieniPntosContrl> imp
         if (res != null && !res.isEmpty()) {
             return res;
         } else {
-            return null;
+            return new ArrayList<>();
         }
     }
 

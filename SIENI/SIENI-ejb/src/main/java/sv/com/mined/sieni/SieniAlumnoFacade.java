@@ -64,15 +64,16 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
 
     @Override
     public List<SieniAlumno> findAlumnoSinUsuario() {
-        Query q = em.createNamedQuery("SieniAlumno.findAlumnosSinUsuario");
+        Query q = em.createNativeQuery("select * from sieni_alumno al left outer join sieni_alumn_rol sar on (al.id_alumno=sar.id_alumno) where sar.id_alumn_rol is null",SieniAlumno.class);
         return q.getResultList();
     }
 
     @Override
     public List<SieniAlumno> findAlumnosNoMatriculados() {
         Character estado = 'I';
-        Query q = em.createNamedQuery("SieniAlumno.findAlumnosNoMatriculados");
-        q.setParameter("estado", estado);
+        //SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)
+        Query q = em.createNativeQuery("select distinct al.* from sieni_alumno al left outer join sieni_matricula mat on (al.id_alumno=mat.id_alumno) where (mat.id_Matricula IS NULL or mat.mt_Estado='"+estado+"') and al.al_Estado not in ('"+estado+"')",SieniAlumno.class);
+//        q.setParameter("estado", estado);
         return q.getResultList();
     }
 
@@ -292,7 +293,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
-    public SieniAlumno findAlumnoById(Integer id) {
+    public SieniAlumno findAlumnoById(Long id) {
         Query q = em.createNamedQuery("SieniAlumno.findAlumnoById");
         q.setParameter("id", id);
         SieniAlumno res = (SieniAlumno) q.getSingleResult();

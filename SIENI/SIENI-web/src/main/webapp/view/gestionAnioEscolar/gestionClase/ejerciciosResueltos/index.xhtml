@@ -7,8 +7,8 @@
     <ui:define name="head">
         <script type="text/javascript">
             function indice() {
-                var textarea = document.getElementById("tabEj:formEj:formula");
-                var input = document.getElementById("tabEj:formEj:indice");
+                var textarea = document.getElementById("formEj:formula");
+                var input = document.getElementById("formEj:indice");
                 var cursorPosition = textarea.selectionStart;
                 input.value = cursorPosition;
             }
@@ -36,7 +36,7 @@
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
-        <p:panel>
+        <p:panel id="tabEj">
             <h:form id="formEj">
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/index.xhtml"></ui:include>
@@ -120,10 +120,9 @@
                 <h:panelGroup id="myScript">
                     <script type="text/javascript">
 
+                        var valor = document.getElementById("formEj:indice");
 
-                        var valor = document.getElementById("tabEj:formEj:indice");
-
-                        var input = document.getElementById("tabEj:formEj:formula");
+                        var input = document.getElementById("formEj:formula");
                         if (input.setSelectionRange) {
                             input.focus();
                             input.setSelectionRange(valor.value, valor.value);

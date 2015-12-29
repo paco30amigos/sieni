@@ -32,7 +32,7 @@
                     </p:selectOneMenu>                    
                     <p:outputLabel for="curso" value="Curso: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:selectOneMenu id="curso" value="#{programacionClasesController.modifica.idCurso}" class="Contanier10 Responsive" converter="curso" filter="true" filterMatchMode="contains">
-                        <f:selectItems itemLabel="#{curso.crNombre}" itemValue="#{curso}" value="#{programacionClasesController.cursosList}" var="curso"></f:selectItems>
+                        <f:selectItems itemLabel="#{curso.crNombre}" itemValue="#{curso}" value="#{programacionClasesController.cursosModificaList}" var="curso"></f:selectItems>
                     </p:selectOneMenu>
                     <p:outputLabel for="tema" value="Tema de Clase: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:inputText id="tema" value="#{programacionClasesController.modifica.clTema}"></p:inputText>

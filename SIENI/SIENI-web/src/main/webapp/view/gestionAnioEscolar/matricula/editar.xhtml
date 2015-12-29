@@ -25,9 +25,9 @@
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="2" class="Container50 Responsive" id="mod_p1">
                     <p:outputLabel for="mod_carnet" value="Carnet: " class=" Responsive"></p:outputLabel>
-                    <p:inputText id="mod_carnet" value="#{gestionMatriculaController.matriculaModifica.idAlumno.alCarnet}" disabled="true"></p:inputText>
+                    <p:inputText id="mod_carnet" value="#{gestionMatriculaController.matriculaModifica.alumno.alCarnet}" disabled="true"></p:inputText>
                     <p:outputLabel for="mod_nombre" value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel id="mod_nombre" value="#{gestionMatriculaController.matriculaModifica.idAlumno.nombreCompleto}"></p:outputLabel>                        
+                    <p:outputLabel id="mod_nombre" value="#{gestionMatriculaController.matriculaModifica.alumno.nombreCompleto}"></p:outputLabel>                        
                     <p:outputLabel for="mod_grado" value="Grado: " class=" Responsive" ></p:outputLabel>
                     <p:selectOneMenu id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionMatriculaController.matriculaModifica.idGrado.idGrado}" valueChangeListener="#{gestionMatriculaController.getSeccionesGradoModifica}">
                         <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionMatriculaController.gradosModificaList}" var="grado"></f:selectItems>

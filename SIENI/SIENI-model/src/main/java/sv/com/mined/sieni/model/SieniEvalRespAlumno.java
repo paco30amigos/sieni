@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +22,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -34,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniEvalRespAlumno.findAll", query = "SELECT s FROM SieniEvalRespAlumno s"),
-    @NamedQuery(name = "SieniEvalRespAlumno.findByAlumnoEv", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.idAlumno.idAlumno=:idAlumno AND s.idEvaluacionItem.idEvaluacion.idEvaluacion=:idEvaluacion"),
+    @NamedQuery(name = "SieniEvalRespAlumno.findByAlumnoEv", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.idAlumno=:idAlumno AND s.idEvaluacionItem.idEvaluacion.idEvaluacion=:idEvaluacion"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByIdEvalRespAlumno", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.idEvalRespAlumno = :idEvalRespAlumno"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByRaRespuesta", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.raRespuesta = :raRespuesta"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByRaEstado", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.raEstado = :raEstado"),
@@ -55,11 +56,14 @@ public class SieniEvalRespAlumno implements Serializable {
     @Column(name = "ra_fecha_ingreso")
     @Temporal(TemporalType.TIMESTAMP)
     private Date raFechaIngreso;
-    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
-    @ManyToOne
-    private SieniAlumno idAlumno;
+//    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(name = "id_alumno")
+    private Long idAlumno;
+    @Transient
+    private SieniAlumno alumno;
     @JoinColumn(name = "id_evaluacion_item", referencedColumnName = "id_evaluacion_item")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private SieniEvaluacionItem idEvaluacionItem;
 
     public SieniEvalRespAlumno() {
@@ -101,13 +105,13 @@ public class SieniEvalRespAlumno implements Serializable {
         this.raFechaIngreso = raFechaIngreso;
     }
 
-    public SieniAlumno getIdAlumno() {
-        return idAlumno;
-    }
-
-    public void setIdAlumno(SieniAlumno idAlumno) {
-        this.idAlumno = idAlumno;
-    }
+//    public SieniAlumno getIdAlumno() {
+//        return idAlumno;
+//    }
+//
+//    public void setIdAlumno(SieniAlumno idAlumno) {
+//        this.idAlumno = idAlumno;
+//    }
 
     public SieniEvaluacionItem getIdEvaluacionItem() {
         return idEvaluacionItem;
@@ -140,6 +144,22 @@ public class SieniEvalRespAlumno implements Serializable {
     @Override
     public String toString() {
         return "sv.com.mined.sieni.model.SieniEvalRespAlumno[ idEvalRespAlumno=" + idEvalRespAlumno + " ]";
+    }
+
+    public Long getIdAlumno() {
+        return idAlumno;
+    }
+
+    public void setIdAlumno(Long idAlumno) {
+        this.idAlumno = idAlumno;
+    }
+
+    public SieniAlumno getAlumno() {
+        return alumno;
+    }
+
+    public void setAlumno(SieniAlumno alumno) {
+        this.alumno = alumno;
     }
     
 }

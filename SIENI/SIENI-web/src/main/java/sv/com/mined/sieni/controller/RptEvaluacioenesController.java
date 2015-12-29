@@ -1,4 +1,3 @@
-
 package sv.com.mined.sieni.controller;
 
 import java.io.IOException;
@@ -35,37 +34,40 @@ import utils.FormatUtils;
  */
 @SessionScoped
 @ManagedBean(name = "rptEvaluacioenesController")
-public class RptEvaluacioenesController extends RptEvaluacionesForm{
-    
-     @EJB
+public class RptEvaluacioenesController extends RptEvaluacionesForm {
+
+    @EJB
     SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
-     
-     @EJB
+
+    @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
-     
-     @PostConstruct
+    @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
+
+    @PostConstruct
     public void init() {
-      
+
         this.setTipoRpt(0);
-         this.setListDatos(new ArrayList<RptEvaluacionesPojo>());
+        this.setListDatos(new ArrayList<RptEvaluacionesPojo>());
 //        fill();
     }
+
     public void fill() {
         RptEvaluacionesPojo elem = new RptEvaluacionesPojo();
-        
+
 //        List<SieniDocente> docente= sieniDocenteFacadeRemote.findAll();
-        List<SieniEvaluacion> evaluacion= sieniEvaluacionFacadeRemote.findEvaluacionDesdeHasta(this.getDesde(), this.getHasta());
-        
+        List<SieniEvaluacion> evaluacion = sieniEvaluacionFacadeRemote.findEvaluacionDesdeHasta(this.getDesde(), this.getHasta());
+
         this.setListDatos(new ArrayList<RptEvaluacionesPojo>());
         for (SieniEvaluacion actual : evaluacion) {
 //            SieniGrado grado=sieniGradoFacadeRemote.getGradoActualAlumno(actual.getIdAlumno(),new FormatUtils().getFormatedAnio(new Date()));
 //           public RptDocentesPojo(SieniDocente docenteEntity, String docente, String fechaNacimiento, String edad, String direccion, String telefono, String gradoResponsable) {
-            elem = new RptEvaluacionesPojo(actual, actual.getIdCurso().getIdDocente().getNombreCompleto(), actual.getIdCurso().getCrNombre(),actual.getEvNombre(),actual.getEvPonderacion().toString(),new DateUtils().getFormatoFecha(actual.getEvFechaInicio()),new DateUtils().getFormatoFecha(actual.getEvFechaCierre()));
+            SieniDocente d = sieniDocenteFacadeRemote.findByDocenteId(actual.getIdCurso().getIdDocente());
+            elem = new RptEvaluacionesPojo(actual, d.getNombreCompleto(), actual.getIdCurso().getCrNombre(), actual.getEvNombre(), actual.getEvPonderacion().toString(), new DateUtils().getFormatoFecha(actual.getEvFechaInicio()), new DateUtils().getFormatoFecha(actual.getEvFechaCierre()));
 //        RptAlumnosPojo(actual, grado, actual.getNombreCompleto(), actual.getFechaNacimientoFiltrable(), new DateUtils().getEdad(actual.getAlFechaNacimiento()), actual.getAlDireccion(), new FormatUtils().getFormatedPhone(actual.getAlTelefonoEm1()), grado.getGrNombre());
             this.getListDatos().add(elem);
         }
-        
-       
+
     }
 
     public void generarReporte() {
@@ -74,7 +76,7 @@ public class RptEvaluacioenesController extends RptEvaluacionesForm{
 //         List<SieniDocente> docente2= sieniDocenteFacadeRemote.findDocentesDesdeHasta(this.getDesde(), this.getHasta());
         String path = "resources/reportes/rtpEvaluaciones.jasper";
         Map parameterMap = new HashMap();
-       
+
 //        parameterMap.put("grado", this.getGrado() != null ? this.getGrado() : "Todos");
 //        parameterMap.put("seccion", this.getSeccion() != null ? this.getSeccion() : "Todos");
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));

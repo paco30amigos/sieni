@@ -18,6 +18,7 @@ import sv.com.mined.sieni.model.SieniAlumnRol;
  */
 @Stateless
 public class SieniAlumnRolFacade extends AbstractFacade<SieniAlumnRol> implements sv.com.mined.sieni.SieniAlumnRolFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -29,13 +30,22 @@ public class SieniAlumnRolFacade extends AbstractFacade<SieniAlumnRol> implement
     public SieniAlumnRolFacade() {
         super(SieniAlumnRol.class);
     }
-    
+
     @Override
-    public List<SieniAlumnRol> findAllNoInactivos(){
-        Character estado='I';
-        Query q=em.createNamedQuery("SieniAlumnRol.findAllNoInactivos");
+    public List<SieniAlumnRol> findAllNoInactivos() {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniAlumnRol.findAllNoInactivos");
         q.setParameter("estado", estado);
         return q.getResultList();
     }
-    
+
+    @Override
+    public List<SieniAlumnRol> findRolesAlumno(Long idAlumno) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniAlumnRol.findRolesAlumno");
+        q.setParameter("estado", estado);
+        q.setParameter("idAlumno", idAlumno);
+        return q.getResultList();
+    }
+
 }

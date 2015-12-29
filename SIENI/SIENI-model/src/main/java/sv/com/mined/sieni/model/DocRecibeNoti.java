@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -31,20 +32,23 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "DocRecibeNoti.findByIdNotificacion", query = "SELECT d FROM DocRecibeNoti d WHERE d.docRecibeNotiPK.idNotificacion = :idNotificacion"),
     @NamedQuery(name = "DocRecibeNoti.findByNotiVisto", query = "SELECT d FROM DocRecibeNoti d WHERE d.notiVisto = :notiVisto")})
 public class DocRecibeNoti implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected DocRecibeNotiPK docRecibeNotiPK;
     @Basic(optional = false)
     @Column(name = "noti_visto")
     private boolean notiVisto;
-    
-    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
-    private SieniDocente idDocente;
+
+//    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente", insertable = false, updatable = false)
+//    @ManyToOne(optional = false)
+//    private SieniDocente idDocente;
+    @Transient
+    private SieniDocente docente;
     @JoinColumn(name = "id_notificacion", referencedColumnName = "id_notificacion", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private SieniNotificacion idNotificacion;
-    
+
     public DocRecibeNoti() {
     }
 
@@ -77,14 +81,13 @@ public class DocRecibeNoti implements Serializable {
         this.notiVisto = notiVisto;
     }
 
-    public SieniDocente getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(SieniDocente idDocente) {
-        this.idDocente = idDocente;
-    }
-
+//    public SieniDocente getIdDocente() {
+//        return idDocente;
+//    }
+//
+//    public void setIdDocente(SieniDocente idDocente) {
+//        this.idDocente = idDocente;
+//    }
     public SieniNotificacion getIdNotificacion() {
         return idNotificacion;
     }
@@ -92,8 +95,6 @@ public class DocRecibeNoti implements Serializable {
     public void setIdNotificacion(SieniNotificacion idNotificacion) {
         this.idNotificacion = idNotificacion;
     }
-    
-    
 
     @Override
     public int hashCode() {
@@ -119,5 +120,13 @@ public class DocRecibeNoti implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.DocRecibeNoti[ docRecibeNotiPK=" + docRecibeNotiPK + " ]";
     }
-    
+
+    public SieniDocente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(SieniDocente docente) {
+        this.docente = docente;
+    }
+
 }

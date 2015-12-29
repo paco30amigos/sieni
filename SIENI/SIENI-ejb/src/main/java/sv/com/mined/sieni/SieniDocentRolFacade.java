@@ -31,9 +31,17 @@ public class SieniDocentRolFacade extends AbstractFacade<SieniDocentRol> impleme
     }
     @Override
     public List<SieniDocentRol> findAllNoInactivos(){
-    Character estado='I';
-        Query q=em.createNamedQuery("SieniDocentRol.findAllNoInactivos");
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniDocentRol.findAllNoInactivos");
         q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+    @Override
+    public List<SieniDocentRol> findRoles(Long idDocente){
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniDocentRol.findRoles");
+        q.setParameter("estado", estado);
+        q.setParameter("idDocente", idDocente);
         return q.getResultList();
     }
 }

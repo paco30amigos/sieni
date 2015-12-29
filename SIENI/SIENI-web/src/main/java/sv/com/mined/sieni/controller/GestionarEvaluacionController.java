@@ -395,7 +395,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             SieniEvalRespAlumno respAlumno = new SieniEvalRespAlumno();
             respAlumno.setRaRespuesta(getCadena(respuestas.get(j)));
             SieniAlumno alumno = new SieniAlumno();
-            respAlumno.setIdAlumno(loginBean.getAlumno());
+            respAlumno.setIdAlumno(loginBean.getAlumno().getIdAlumno());
             respAlumno.setIdEvaluacionItem(this.getEvaluacionItemResp().getSieniEvaluacionItemList().get(j));
             respAlumno.setRaEstado('A');
             this.getEvalRespAlumnoList().add(respAlumno);
@@ -406,7 +406,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         if (ultimaPagina) {
             Double nota=calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
             SieniNota sieniNota=new SieniNota(); 
-            sieniNota.setIdAlumno(loginBean.getAlumno());
+            sieniNota.setIdAlumno(loginBean.getAlumno().getIdAlumno());
             sieniNota.setIdEvaluacion(this.getEvaluacionItemResp());
             sieniNota.setNtAnio(Calendar.getInstance().get(Calendar.YEAR));
             sieniNota.setNtEstado('A');

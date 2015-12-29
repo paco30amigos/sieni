@@ -18,6 +18,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "SieniDocentRol.findAllNoInactivos", query = "SELECT s FROM SieniDocentRol s where s.sdrEstado not in (:estado)"),
     @NamedQuery(name = "SieniDocentRol.findAll", query = "SELECT s FROM SieniDocentRol s"),
+    @NamedQuery(name = "SieniDocentRol.findRoles", query = "SELECT s FROM SieniDocentRol s where s.idDocente=:idDocente and s.sdrEstado not in (:estado)"),
     @NamedQuery(name = "SieniDocentRol.findByIdDocenteRol", query = "SELECT s FROM SieniDocentRol s WHERE s.idDocenteRol = :idDocenteRol"),
     @NamedQuery(name = "SieniDocentRol.findByFRolDoc", query = "SELECT s FROM SieniDocentRol s WHERE s.fRolDoc = :fRolDoc")})
 public class SieniDocentRol implements Serializable {
@@ -46,9 +48,13 @@ public class SieniDocentRol implements Serializable {
     private long fRolDoc;
     @Column(name = "sdr_estado")
     private Character sdrEstado;
-    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
-    @ManyToOne
-    private SieniDocente idDocente;
+//    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
+//    @ManyToOne
+//    private SieniDocente idDocente;
+    @Column(name = "id_docente")
+    private Long idDocente;
+    @Transient
+    private SieniDocente docente;
 
     public SieniDocentRol() {
     }
@@ -78,14 +84,13 @@ public class SieniDocentRol implements Serializable {
         this.fRolDoc = fRolDoc;
     }
 
-    public SieniDocente getIdDocente() {
-        return idDocente;
-    }
-
-    public void setIdDocente(SieniDocente idDocente) {
-        this.idDocente = idDocente;
-    }
-
+//    public SieniDocente getIdDocente() {
+//        return idDocente;
+//    }
+//
+//    public void setIdDocente(SieniDocente idDocente) {
+//        this.idDocente = idDocente;
+//    }
     @Override
     public int hashCode() {
         int hash = 0;
@@ -117,6 +122,22 @@ public class SieniDocentRol implements Serializable {
 
     public void setSdrEstado(Character sdrEstado) {
         this.sdrEstado = sdrEstado;
+    }
+
+    public Long getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(Long idDocente) {
+        this.idDocente = idDocente;
+    }
+
+    public SieniDocente getDocente() {
+        return docente;
+    }
+
+    public void setDocente(SieniDocente docente) {
+        this.docente = docente;
     }
 
 }

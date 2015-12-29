@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_materia")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniMateria.findByAlumno", query = "SELECT s FROM SieniMateria s join fetch s.idGrado.sieniMatriculaList m JOIN FETCH s.sieniEvaluacionList e where m.idAlumno.idAlumno=:idAlumno and s.maEstado not in (:estado) and m.mtEstado not in (:estado) and e.evEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMateria.findByAlumno", query = "SELECT s FROM SieniAlumno al, SieniMateria s join fetch s.idGrado.sieniMatriculaList m JOIN FETCH s.sieniEvaluacionList e where al.idAlumno=m.idAlumno and al.idAlumno=:idAlumno and s.maEstado not in (:estado) and m.mtEstado not in (:estado) and e.evEstado not in (:estado)"),
     @NamedQuery(name = "SieniMateria.findAll", query = "SELECT s FROM SieniMateria s"),
     @NamedQuery(name = "SieniMateria.findMateriasByEstado", query = "SELECT s FROM SieniMateria s WHERE s.maEstado =:estado"),
     @NamedQuery(name = "SieniMateria.findAllNoInactivas", query = "SELECT s FROM SieniMateria s WHERE s.maEstado not in (:estado)"),

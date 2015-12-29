@@ -217,6 +217,7 @@
                                 <p:editor value="#{gestionComponentesInteractivosController.texto}"></p:editor>
                             </c:when>
                         </c:choose>
+                        <div class="EmptyBox5"></div>
                     </p:tab>
                     <p:tab title="Configurar acciones">
                         <p:focus context="p2"/>
@@ -289,6 +290,7 @@
                                 </p:commandLink>
                             </p:column>
                         </p:dataTable>
+                        <div class="EmptyBox20"></div>
                     </p:tab>
                 </p:tabView>
                 <div class="EmptyBox20"></div>
@@ -442,8 +444,8 @@
                             </c:choose>                                    
                         </c:forEach>
                     </p:panel>
+                    <div class="EmptyBox50"></div>
                 </p:fieldset>
-                <div class="EmptyBox50"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar Configuracion" actionListener="#{gestionComponentesInteractivosController.guardarConfiguracion()}" ajax="true"></p:commandButton>
                     <p:commandButton value="Refrescar" actionListener="#{gestionComponentesInteractivosController.refreshConfig()}" ajax="true" oncomplete="refrescarImagen()"></p:commandButton>

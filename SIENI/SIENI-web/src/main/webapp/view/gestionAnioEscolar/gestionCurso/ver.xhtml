@@ -28,28 +28,18 @@
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
-                    <p:outputLabel for="mod_nombre"  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
-                    <p:inputText id="mod_nombre" class=" Responsive" value="#{gestionCursoController.cursoModifica.crNombre}" disabled="true"/>
-                    <p:outputLabel for="mod_capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
-                    <p:spinner id="mod_capacidad" class=" Responsive" value="#{gestionCursoController.cursoModifica.crCapacidad}" max="999" min="1" disabled="true"></p:spinner>
-                    <p:outputLabel for="mod_docente" value="Docente: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="mod_docente" class=" Responsive" value="#{gestionCursoController.cursoModifica.idDocente.idDocente}" disabled="true">
-                        <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesModificaList}" var="docente" />
-                    </p:selectOneMenu>
-
-                    <p:outputLabel for="mod_grado" value="Grado: " class=" Responsive" ></p:outputLabel>
-                    <p:selectOneMenu id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionCursoController.cursoModifica.idGrado.idGrado}" disabled="true">
-                        <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionCursoController.gradoModificaList}" var="grado" ></f:selectItems>
-                        <p:ajax event="valueChange" update="mod_seccion"/>
-                    </p:selectOneMenu>
-                    <p:outputLabel for="mod_seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="mod_seccion" value="#{gestionCursoController.cursoModifica.idSeccion.idSeccion}" disabled="true">
-                        <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionCursoController.seccionModificaList}" var="seccion"></f:selectItems>
-                    </p:selectOneMenu>
-                    <p:outputLabel for="mod_materia" value="Materia: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="mod_materia" class=" Responsive" value="#{gestionCursoController.cursoModifica.idMateria.idMateria}" disabled="true">
-                        <f:selectItems itemValue ="#{materia.idMateria}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaModificaList}" var="materia" />
-                    </p:selectOneMenu>
+                    <p:outputLabel  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel value="#{gestionCursoController.cursoModifica.crNombre}"/>
+                    <p:outputLabel value="Capacidad: "></p:outputLabel>
+                    <p:outputLabel value="#{gestionCursoController.cursoModifica.crCapacidad}"></p:outputLabel>
+                    <p:outputLabel value="Docente: "></p:outputLabel>
+                    <p:outputLabel value="#{gestionCursoController.cursoModifica.docente.nombreCompleto}"></p:outputLabel>
+                    <p:outputLabel value="Grado: " class=" Responsive" ></p:outputLabel>
+                    <p:outputLabel value="#{gestionCursoController.cursoModifica.idGrado.grNombre}"></p:outputLabel>
+                    <p:outputLabel value="Sección del grado: " class="  Responsive"></p:outputLabel>
+                    <p:outputLabel value="#{gestionCursoController.cursoModifica.idSeccion.scDescripcion}"></p:outputLabel>
+                    <p:outputLabel value="Materia: " class="  Responsive"></p:outputLabel>
+                    <p:outputLabel value="#{gestionCursoController.cursoModifica.idMateria.maNombre}"></p:outputLabel>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">

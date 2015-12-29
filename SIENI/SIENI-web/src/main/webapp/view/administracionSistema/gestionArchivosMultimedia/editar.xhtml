@@ -55,7 +55,7 @@
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionArchivoMultimediaController.guardarModifica()}" update="mod_p1" oncomplete="configurarEnterTab()" />
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="mod_p1,focus" resetValues="true" />
+                        <p:ajax update="mod_p1,focus" resetValues="true" oncomplete="configurarEnterTab()"/>
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="mod_p1" resetValues="true" listener="#{gestionArchivoMultimediaController.setIndexMenu(0)}"/>

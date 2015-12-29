@@ -26,7 +26,7 @@
                     <p:outputLabel for="docente" value="Docente:"></p:outputLabel>
                     <p:outputLabel id="docente" value="#{gestionarDocentesController.docenteModifica.nombreCompleto}"></p:outputLabel>
                     <p:outputLabel for="materias" value="Materias: "></p:outputLabel>
-                    <p:selectOneMenu tabindex="1" id="materias" value="#{gestionarDocentesController.materia}" converter="materia">
+                    <p:selectOneMenu tabindex="1" id="materias" value="#{gestionarDocentesController.materia}" converter="materia" filter="true" filterMatchMode="contains">
                         <f:selectItems itemLabel="#{mat.idGrado.grNombre} - #{mat.maNombre}" itemValue="#{mat}" value="#{gestionarDocentesController.materias}" var="mat" ></f:selectItems>
                     </p:selectOneMenu>
                     <p:commandButton value="Agregar" action="#{gestionarDocentesController.agregarMateria()}" update="consulta,materias"></p:commandButton>

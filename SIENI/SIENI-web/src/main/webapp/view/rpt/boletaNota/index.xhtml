@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb class="Container90">
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Reportes" url="#"/>
+            <p:menuitem value="Boleta de Notas" url="#{siteUrls.boletaNota}"/>
+            <p:separator />
+        </p:breadCrumb>
+        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
+            <ui:include src="ayuda/index.xhtml"></ui:include>
+        </p:dialog>
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="anioDesde" value="Fecha desde:"></p:outputLabel>
+                    <p:calendar id="anioDesde" value="#{rptBoletaNotasController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true">
+                        <p:ajax event="dateSelect" update="anioHasta"></p:ajax>
+                    </p:calendar>
+                    <p:outputLabel for="anioHasta" value="hasta:"></p:outputLabel>
+                    <p:calendar id="anioHasta" value="#{rptBoletaNotasController.hasta}" mindate="#{rptBoletaNotasController.desde}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
+                    <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
+                    <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{rptBoletaNotasController.grado.idGrado}" valueChangeListener="#{rptBoletaNotasController.getSeccionesGrado}">
+                        <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{rptBoletaNotasController.gradosList}" var="grado"></f:selectItems>
+                        <p:ajax event="valueChange" update="seccion,alumno"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="seccion" value="#{rptBoletaNotasController.seccion.idSeccion}" valueChangeListener="#{rptBoletaNotasController.getAlumnosSecciones}">
+                        <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptBoletaNotasController.seccionesList}" var="seccion"></f:selectItems>
+                        <p:ajax event="valueChange" update="alumno"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="alumno" value="Alumno: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="alumno" value="#{rptBoletaNotasController.alumno}" filter="true" filterMatchMode="contains" converter="alumno">
+                        <f:selectItems itemValue="#{alumno}" itemLabel="#{alumno.nombreCompleto}" value="#{rptBoletaNotasController.alumnos}" var="alumno"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:commandButton value="generar" actionListener="#{rptBoletaNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{rptBoletaNotasController.listaDatos}" 
+                             paginator="false"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             reflow="true">
+                    <p:column headerText="Materia" >
+                        #{car.materia}
+                    </p:column>
+                    <p:column headerText="Trimestre 1" >
+                        #{car.nota1}
+                    </p:column>
+                    <p:column headerText="Trimestre 2" >
+                        #{car.nota2}
+                    </p:column>
+                    <p:column headerText="Trimestre 3">
+                        #{car.nota3}
+                    </p:column>
+                    <p:column headerText="Promedio">
+                        #{car.promedio}
+                    </p:column>
+                    <f:facet name="footer">
+                        Total de Materias #{rptBoletaNotasController.totalTransacciones}
+                        <br />
+                        Promedio Total #{rptBoletaNotasController.total.doubleValue()}
+                    </f:facet>
+                </p:dataTable>
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptBoletaNotasController.tipoRpt}">
+                            <f:selectItem itemValue="2" itemLabel="Excel" />
+                            <f:selectItem itemValue="0" itemLabel="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptBoletaNotasController.generarReporte()}"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptBoletaNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    </h:panelGrid>
+                </div>
+            </h:form>
+            <div class="EmptyBox5"></div>
+        </p:panel>
+    </ui:define>
+</ui:composition>

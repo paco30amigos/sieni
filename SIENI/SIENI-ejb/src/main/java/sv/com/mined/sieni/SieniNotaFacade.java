@@ -134,4 +134,19 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
         }
         return ret;
     }
+
+    @Override
+    public List<SieniNota> getBoletaNotasRpt(Date desde, Date hasta, Long grado, Long seccion, Long idAlumno) {
+
+        List<SieniNota> ret;
+        Query q = null;
+        q = em.createNamedQuery("SieniNota.findBoletaNotasRpt");
+        q.setParameter("grado", grado);
+        q.setParameter("seccion", seccion);
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        q.setParameter("idAlumno", idAlumno);
+        ret = q.getResultList();
+        return ret;
+    }
 }

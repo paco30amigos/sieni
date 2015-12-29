@@ -38,6 +38,8 @@ public interface SieniNotaFacadeRemote {
     public List<SieniNota> getNotasRangoFecha(Date desde, Date hasta);
     
     public List<SieniNota> getNotasRpt(Date desde, Date hasta,Long grado,Long seccion);
+    
+    public List<SieniNota> getBoletaNotasRpt(Date desde, Date hasta,Long grado,Long seccion,Long idAlumno);
 
     List<SieniNota> findAllNoEliminadas();
 

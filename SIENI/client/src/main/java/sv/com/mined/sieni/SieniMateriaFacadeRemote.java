@@ -29,6 +29,8 @@ public interface SieniMateriaFacadeRemote {
     List<SieniMateria> findAll();
 
     List<SieniMateria> findMateriasActivas();
+    
+    public List<SieniMateria> findMateriasActivasByGrado(Long idGrado);
 
     List<SieniMateria> findRange(int[] range);
 

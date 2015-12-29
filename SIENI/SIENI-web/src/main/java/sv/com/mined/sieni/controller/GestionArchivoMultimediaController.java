@@ -244,11 +244,13 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     public void getArchivoNuevo(FileUploadEvent event) {
         this.setArchivoUsable(event.getFile().getContents());
         this.setArchivoData(getArchivo(event.getFile().getContents()));
+        new ValidationPojo().printMsj("Archivo subido correctamente", FacesMessage.SEVERITY_INFO);
     }
 
     public void getArchivoModifica(FileUploadEvent event) {
         this.setArchivoUsableModifica(event.getFile().getContents());
         this.setArchivoModificaData(getArchivo(event.getFile().getContents()));
+        new ValidationPojo().printMsj("Archivo subido correctamente", FacesMessage.SEVERITY_INFO);
     }
 
 }

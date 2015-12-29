@@ -151,6 +151,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
     }
 
     public void configurar(SieniPlantilla plantilla) {
+        this.setElemPlantillaSelected(null);
         fillElemPlantillaPlantilla(plantilla);
         this.setIndexMenu(4);
     }

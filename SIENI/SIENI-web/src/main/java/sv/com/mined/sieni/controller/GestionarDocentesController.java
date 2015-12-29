@@ -42,8 +42,6 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
-    @EJB
     private SieniMateriaDocenteFacadeRemote sieniMateriaDocenteFacadeRemote;
     @EJB
     private SieniMateriaFacadeRemote sieniMateriaFacadeRemote;
@@ -241,7 +239,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
 
     public void gestionarMateriasDocente(SieniDocente docente) {
         this.setDocenteModifica(docente);
-        this.setMaterias(sieniMateriaFacadeRemote.findAll());
+        this.setMaterias(sieniMateriaFacadeRemote.findAllNoInactivas());
         fillMateriasDocente();
         this.setMateria(new SieniMateria());
         for (int j = 0; j < this.getMaterias().size(); j++) {

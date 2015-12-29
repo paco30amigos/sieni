@@ -55,11 +55,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniAlumno.findAlumnosNoInactivos", query = "SELECT s FROM SieniAlumno s  WHERE s.alEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnoUsuario", query = "SELECT s FROM SieniAlumno s  WHERE s.alUsuario=:usuario AND s.alContrasenia=:pass"),
 //    @NamedQuery(name = "SieniAlumno.findAlumnosNoMatriculados", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniMatriculaList sr where sr.idMatricula IS NULL or sr.mtEstado=:estado and s.alEstado not in (:estado)"),
-    @NamedQuery(name = "SieniAlumno.findAlumnosNoCursos", query = "SELECT s FROM SieniAlumno s ,SieniMatricula sr where s.idAlumno=sr.idAlumno and s.idAlumno not in(SELECT ca.idAlumno FROM SieniCursoAlumno ca WHERE ca.idCurso.idCurso=:idCurso) AND sr.idGrado.idGrado=:idGrado AND s.alEstado not in (:alEstado)"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosNoCursos", query = "SELECT s FROM SieniAlumno s ,SieniMatricula sr where s.idAlumno=sr.idAlumno and s.idAlumno not in(SELECT ca.idAlumno FROM SieniCursoAlumno ca WHERE ca.idCurso.idCurso=:idCurso) AND sr.idGrado.idGrado=:idGrado AND s.alEstado not in (:alEstado) and sr.idSeccion.idSeccion=:idSeccion"),
     @NamedQuery(name = "SieniAlumno.findAlumnosInscritos", query = "SELECT s FROM SieniAlumno s, SieniCursoAlumno ca where s.idAlumno=ca.idAlumno and ca.idCurso.idCurso=:idCurso AND s.alEstado not in (:alEstado)"),
     @NamedQuery(name = "SieniAlumno.findAlumnosMatriculados", query = "SELECT s FROM SieniAlumno s ,SieniMatricula sr where s.idAlumno=sr.idAlumno and sr.mtEstado=:estado and s.alEstado in (:estado) and sr.mtAnio=:idAnio"),
 //    @NamedQuery(name = "SieniAlumno.findAlumnosSinUsuario", query = "SELECT s FROM SieniAlumno s LEFT JOIN s.sieniAlumnRolList sr where sr.idAlumnRol IS NULL"),// or s.alEstado=3 eliminado
     @NamedQuery(name = "SieniAlumno.findAll", query = "SELECT s FROM SieniAlumno s"),
+    @NamedQuery(name = "SieniAlumno.findAlumnosGradoSeccionAnio", query = "SELECT s FROM SieniAlumno s,SieniMatricula mat where mat.idAlumno=s.idAlumno and mat.idGrado.idGrado=:idGrado and mat.idSeccion.idSeccion=:idSeccion and mat.mtAnio=:anio and mat.mtEstado not in (:estado) and s.alEstado not in (:estado)"),
 //    @NamedQuery(name = "SieniAlumno.findByPuntosControl", query = "SELECT s FROM SieniAlumno s join fetch s.sieniPntosContrlList ctrl"),
     @NamedQuery(name = "SieniAlumno.findByIdAlumno", query = "SELECT s FROM SieniAlumno s WHERE s.idAlumno = :idAlumno"),
 //    @NamedQuery(name = "SieniAlumno.findByAlPrimNombre", query = "SELECT s FROM SieniAlumno s WHERE s.alPrimNombre = :alPrimNombre"),

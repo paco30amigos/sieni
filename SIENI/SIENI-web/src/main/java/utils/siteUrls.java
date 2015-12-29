@@ -48,6 +48,7 @@ public class siteUrls {
     private final String reporteMatricula = "/faces/view/rpt/reporteMatricula/index.xhtml";
     private final String reporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/index.xhtml";
     private final String reporteNotasAlumnoAnioEscolar = "/faces/view/rpt/reporteNotasAlumnoAnioEscolar/index.xhtml";
+    private final String boletaNota = "/faces/view/rpt/boletaNota/index.xhtml";
     private final String reporteEvaluaciones = "/faces/view/rpt/reporteEvaluaciones/index.xhtml";
     private final String reporteClases = "/faces/view/rpt/reporteClases/index.xhtml";
     private final String reporteDocentes = "/faces/view/rpt/reporteDocentes/index.xhtml";
@@ -88,6 +89,7 @@ public class siteUrls {
     private final String basereporteMatricula = "/faces/view/rpt/reporteMatricula/";
     private final String basereporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/";
     private final String basereporteNotasAlumnoAnioEscolar = "/faces/view/rpt/reporteNotasAlumnoAnioEscolar/";
+    private final String baseboletaNota = "/faces/view/rpt/boletaNota/";
     private final String basereporteEvaluaciones = "/faces/view/rpt/reporteEvaluaciones/";
     private final String basereporteClases = "/faces/view/rpt/reporteClases/";
     private final String basereporteDocentes = "/faces/view/rpt/reporteDocentes/";
@@ -432,6 +434,14 @@ public class siteUrls {
 
     public String getBasecatMateria() {
         return basecatMateria;
+    }
+
+    public String getBoletaNota() {
+        return boletaNota;
+    }
+
+    public String getBaseboletaNota() {
+        return baseboletaNota;
     }
 
 }

@@ -65,6 +65,20 @@ public class SieniMateriaFacade extends AbstractFacade<SieniMateria> implements 
             return null;
         }
     }
+    
+    @Override
+    public List<SieniMateria> findMateriasActivasByGrado(Long idGrado) {
+        Character estado = 'A';
+        Query q = em.createNamedQuery("SieniMateria.findMateriasActivasByGrado");
+        q.setParameter("estado", estado);
+        q.setParameter("grado", idGrado);
+        List<SieniMateria> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res;
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public List<SieniMateria> findByMaNombre(String maNombre) {

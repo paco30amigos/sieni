@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniCurso.findAll", query = "SELECT s FROM SieniCurso s"),
     @NamedQuery(name = "SieniCurso.findAllByMateria", query = "SELECT s FROM SieniCurso s where s.idMateria.idMateria=:idMateria and s.crEstado!='I'"),
     @NamedQuery(name = "SieniCurso.finByDocGrSecMat", query = "SELECT s FROM SieniCurso s WHERE s.idDocente=:idDocente AND s.idGrado.idGrado=:idGrado AND s.idSeccion.idSeccion=:idSeccion AND s.idMateria.idMateria=:idMateria AND s.crNombre=:nombre"),
-    @NamedQuery(name = "SieniCurso.findAByEstado", query = "SELECT s FROM SieniCurso s WHERE s.crEstado=:estado"),
+    @NamedQuery(name = "SieniCurso.findAByEstado", query = "SELECT s FROM SieniCurso s WHERE s.crEstado=:estado order by s.idCurso"),
     @NamedQuery(name = "SieniCurso.findByIdCurso", query = "SELECT s FROM SieniCurso s WHERE s.idCurso = :idCurso"),
     @NamedQuery(name = "SieniCurso.findByCrNombre", query = "SELECT s FROM SieniCurso s WHERE s.crNombre = :crNombre"),
     @NamedQuery(name = "SieniCurso.findByCrCapacidad", query = "SELECT s FROM SieniCurso s WHERE s.crCapacidad = :crCapacidad"),

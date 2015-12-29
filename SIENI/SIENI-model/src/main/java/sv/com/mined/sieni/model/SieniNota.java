@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniNota.findRango", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta"),
     @NamedQuery(name = "SieniNota.findRangoGrado", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta and s.idEvaluacion.idCurso.idGrado.idGrado=:grado"),
     @NamedQuery(name = "SieniNota.findRangoGradoSeccion", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta and s.idEvaluacion.idCurso.idGrado.idGrado=:grado and s.idEvaluacion.idCurso.idSeccion.idSeccion=:seccion"),
+    @NamedQuery(name = "SieniNota.findBoletaNotasRpt", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta and s.idEvaluacion.idCurso.idGrado.idGrado=:grado and s.idEvaluacion.idCurso.idSeccion.idSeccion=:seccion and s.idAlumno=:idAlumno"),
     @NamedQuery(name = "SieniNota.findNotaRegistrada", query = "SELECT s FROM SieniNota s,SieniAlumno al where s.idAlumno=al.idAlumno and al.idAlumno=:idAlumno and s.idEvaluacion.idEvaluacion=:idEvaluacion and s.ntEstado not in (:estado) and al.alEstado not in (:estado) and s.idEvaluacion.evEstado not in (:estado)"),
     @NamedQuery(name = "SieniNota.findByIdNota", query = "SELECT s FROM SieniNota s WHERE s.idNota = :idNota"),
     @NamedQuery(name = "SieniNota.findByNtCalificacion", query = "SELECT s FROM SieniNota s WHERE s.ntCalificacion = :ntCalificacion"),

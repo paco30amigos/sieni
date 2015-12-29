@@ -317,10 +317,11 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
-    public List<SieniAlumno> findAlumnosNoCursos(Long idGrado, Long idCurso) {
+    public List<SieniAlumno> findAlumnosNoCursos(Long idGrado,Long idSeccion, Long idCurso) {
         Query q = em.createNamedQuery("SieniAlumno.findAlumnosNoCursos");
         q.setParameter("idCurso", idCurso);
         q.setParameter("idGrado", idGrado);
+        q.setParameter("idSeccion", idSeccion);
         q.setParameter("alEstado", 'I');
 
         return q.getResultList();
@@ -333,6 +334,17 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         q.setParameter("idCurso", idCurso);
         q.setParameter("alEstado", 'I');
 
+        return q.getResultList();
+
+    }
+    
+    @Override
+    public List<SieniAlumno> findAlumnosGradoSeccionAnio(Long idGrado, Long idSeccion,String Anio) {
+        Query q = em.createNamedQuery("SieniAlumno.findAlumnosGradoSeccionAnio");
+        q.setParameter("idSeccion", idSeccion);
+        q.setParameter("idGrado", idGrado);
+        q.setParameter("anio", Anio);
+        q.setParameter("estado", 'I');
         return q.getResultList();
 
     }

@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni.form;
 
+import java.util.Date;
 import java.util.List;
 import sv.com.mined.sieni.controller.ReportesController;
 import sv.com.mined.sieni.model.SieniAlumno;
@@ -18,22 +19,24 @@ import sv.com.mined.sieni.pojos.rpt.RptEstadisticoAvancePojo;
  * @author INFORMATICA
  */
 public class RptEstadisticoAvanceForm extends ReportesController {
-    
+
     private Integer idgrado;
     private Integer idseccion;
     private Integer idmateria;
     private Long idalumno;
-    
+    private Date desde;
+    private Date hasta;
+
     private SieniGrado grado;
     private SieniSeccion seccion;
     private SieniMateria materia;
     private SieniAlumno alumno;
-    
+
     private List<SieniGrado> listGrados;
     private List<SieniSeccion> listSecciones;
     private List<SieniMateria> listMaterias;
     private List<SieniAlumno> listAlumnos;
-    
+
     private List<RptEstadisticoAvancePojo> listDatos;
     private String totalAlumnos;
     private Integer tipoRpt;
@@ -158,7 +161,20 @@ public class RptEstadisticoAvanceForm extends ReportesController {
         this.tipoRpt = tipoRpt;
     }
 
-    
-    
-    
+    public Date getDesde() {
+        return desde;
+    }
+
+    public void setDesde(Date desde) {
+        this.desde = desde;
+    }
+
+    public Date getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(Date hasta) {
+        this.hasta = hasta;
+    }
+
 }

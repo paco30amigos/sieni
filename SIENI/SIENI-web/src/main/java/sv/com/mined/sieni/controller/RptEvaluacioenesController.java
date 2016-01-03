@@ -11,19 +11,14 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
+import javax.faces.bean.ViewScoped;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
-import sv.com.mined.sieni.form.RptDocentesForm;
 import sv.com.mined.sieni.form.RptEvaluacionesForm;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniEvaluacion;
-import sv.com.mined.sieni.pojos.rpt.RptDocentesPojo;
 import sv.com.mined.sieni.pojos.rpt.RptEvaluacionesPojo;
 import utils.DateUtils;
 import utils.FormatUtils;
@@ -32,15 +27,13 @@ import utils.FormatUtils;
  *
  * @author ever
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptEvaluacioenesController")
 public class RptEvaluacioenesController extends RptEvaluacionesForm {
 
     @EJB
     SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
 
-    @EJB
-    private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
 
@@ -49,6 +42,8 @@ public class RptEvaluacioenesController extends RptEvaluacionesForm {
 
         this.setTipoRpt(0);
         this.setListDatos(new ArrayList<RptEvaluacionesPojo>());
+        this.setDesde(new Date());
+        this.setHasta(new Date());
 //        fill();
     }
 

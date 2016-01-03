@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
@@ -27,9 +27,7 @@ import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.form.RptAlumnosForm;
 import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniGrado;
-import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniSeccion;
 import sv.com.mined.sieni.pojos.rpt.RptAlumnosPojo;
 import utils.DateUtils;
@@ -39,7 +37,7 @@ import utils.FormatUtils;
  *
  * @author Laptop
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptAlumnosController")
 public class RptAlumnosController extends RptAlumnosForm {
 

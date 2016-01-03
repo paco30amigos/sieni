@@ -339,11 +339,11 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
     
     @Override
-    public List<SieniAlumno> findAlumnosGradoSeccionAnio(Long idGrado, Long idSeccion,String Anio) {
+    public List<SieniAlumno> findAlumnosGradoSeccionAnio(Long idGrado, Long idSeccion) {
         Query q = em.createNamedQuery("SieniAlumno.findAlumnosGradoSeccionAnio");
         q.setParameter("idSeccion", idSeccion);
         q.setParameter("idGrado", idGrado);
-        q.setParameter("anio", Anio);
+//        q.setParameter("anio", Anio);
         q.setParameter("estado", 'I');
         return q.getResultList();
 

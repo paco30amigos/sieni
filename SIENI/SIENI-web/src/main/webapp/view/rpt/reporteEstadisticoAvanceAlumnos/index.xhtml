@@ -22,21 +22,25 @@
             <h:form>
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="4">
-                    <p:outputLabel for="grado" value="Grado: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="grado" class=" Responsive" value="#{rptEstadisticoAvanceController.idgrado}" >
-                        <f:selectItems itemValue ="#{gr.idGrado}" itemLabel="#{gr.grNombre}" value="#{rptEstadisticoAvanceController.listGrados}" var="gr" />
+                    <p:outputLabel for="anioDesde" value="Fecha desde:"></p:outputLabel>
+                    <p:calendar id="anioDesde" value="#{rptEstadisticoAvanceController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true">
+                        <p:ajax event="dateSelect" update="anioHasta"></p:ajax>
+                    </p:calendar>
+                    <p:outputLabel for="anioHasta" value="hasta:"></p:outputLabel>
+                    <p:calendar id="anioHasta" value="#{rptEstadisticoAvanceController.hasta}" mindate="#{rptEstadisticoAvanceController.desde}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
+                    <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
+                    <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{rptEstadisticoAvanceController.grado.idGrado}" valueChangeListener="#{rptEstadisticoAvanceController.getSeccionesGrado}">
+                        <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{rptEstadisticoAvanceController.listGrados}" var="grado"></f:selectItems>
+                        <p:ajax event="valueChange" update="seccion,alumno"/>
                     </p:selectOneMenu>
-                    <p:outputLabel for="seccion" value="Seccion: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="seccion" class=" Responsive" value="#{rptEstadisticoAvanceController.idseccion}" >
-                        <f:selectItems itemValue ="#{sc.idSeccion}" itemLabel="#{sc.scDescripcion}" value="#{rptEstadisticoAvanceController.listSecciones}" var="sc" />
-                    </p:selectOneMenu>
-                    <p:outputLabel for="materia" value="Materia: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="materia" class=" Responsive" value="#{rptEstadisticoAvanceController.idmateria}" >
-                        <f:selectItems itemValue ="#{mt.idMateria}" itemLabel="#{mt.maNombre}" value="#{rptEstadisticoAvanceController.listMaterias}" var="mt" />
+                    <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="seccion" value="#{rptEstadisticoAvanceController.seccion.idSeccion}" valueChangeListener="#{rptEstadisticoAvanceController.getAlumnosSecciones}">
+                        <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptEstadisticoAvanceController.listSecciones}" var="seccion"></f:selectItems>
+                        <p:ajax event="valueChange" update="alumno"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="alumno" value="Alumno: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="alumno" class=" Responsive" value="#{rptEstadisticoAvanceController.idalumno}" filter="true" filterMatchMode="contains" >
-                        <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.alNombreCompleto}" value="#{rptEstadisticoAvanceController.listAlumnos}" var="al" />
+                    <p:selectOneMenu id="alumno" value="#{rptEstadisticoAvanceController.alumno}" filter="true" filterMatchMode="contains" converter="alumno">
+                        <f:selectItems itemValue="#{alumno}" itemLabel="#{alumno.nombreCompleto}" value="#{rptEstadisticoAvanceController.listAlumnos}" var="alumno"></f:selectItems>
                     </p:selectOneMenu>
                     <p:commandButton value="Refrescar" actionListener="#{rptEstadisticoAvanceController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>

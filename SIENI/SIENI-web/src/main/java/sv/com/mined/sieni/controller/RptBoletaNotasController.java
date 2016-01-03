@@ -19,7 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
@@ -39,7 +39,7 @@ import utils.FormatUtils;
  *
  * @author francisco_medina
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptBoletaNotasController")
 public class RptBoletaNotasController extends RptBoletaNotasForm {
 
@@ -70,13 +70,13 @@ public class RptBoletaNotasController extends RptBoletaNotasForm {
                     this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
                     this.setSeccion(new SieniSeccion());
                     this.setSeccion(this.getSeccionesList().get(0));
-                    String anio = "2015";
-                    if (getDesde() != null) {
-                        anio = new FormatUtils().getFormatedAnio(getDesde());
-                    } else if (getHasta() != null) {
-                        anio = new FormatUtils().getFormatedAnio(getDesde());
-                    }
-                    this.setAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion(), anio));
+//                    String anio = "2015";
+//                    if (getDesde() != null) {
+//                        anio = new FormatUtils().getFormatedAnio(getDesde());
+//                    } else if (getHasta() != null) {
+//                        anio = new FormatUtils().getFormatedAnio(getDesde());
+//                    }
+                    this.setAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion()));
                 } else {
                     this.setAlumnos(new ArrayList<SieniAlumno>());
                 }
@@ -241,13 +241,13 @@ public class RptBoletaNotasController extends RptBoletaNotasForm {
         if (!this.getSeccionesList().isEmpty()) {
             this.setSeccion(this.getSeccionesList().get(0));
             if (this.getSeccion() != null) {
-                String anio = "2015";
-                if (getDesde() != null) {
-                    anio = new FormatUtils().getFormatedAnio(getDesde());
-                } else if (getHasta() != null) {
-                    anio = new FormatUtils().getFormatedAnio(getDesde());
-                }
-                this.setAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion(), anio));
+//                String anio = "2015";
+//                if (getDesde() != null) {
+//                    anio = new FormatUtils().getFormatedAnio(getDesde());
+//                } else if (getHasta() != null) {
+//                    anio = new FormatUtils().getFormatedAnio(getDesde());
+//                }
+                this.setAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion()));
             }
         } else {
             this.setAlumnos(new ArrayList<SieniAlumno>());
@@ -265,13 +265,13 @@ public class RptBoletaNotasController extends RptBoletaNotasForm {
             }
         }
         if (selec != null) {
-            String anio = "2015";
-            if (getDesde() != null) {
-                anio = new FormatUtils().getFormatedAnio(getDesde());
-            } else if (getHasta() != null) {
-                anio = new FormatUtils().getFormatedAnio(getDesde());
-            }
-            this.setAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(selec.getIdGrado().getIdGrado(), selec.getIdSeccion(), anio));
+//            String anio = "2015";
+//            if (getDesde() != null) {
+//                anio = new FormatUtils().getFormatedAnio(getDesde());
+//            } else if (getHasta() != null) {
+//                anio = new FormatUtils().getFormatedAnio(getDesde());
+//            }
+            this.setAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(selec.getIdGrado().getIdGrado(), selec.getIdSeccion()));
         }
     }
 

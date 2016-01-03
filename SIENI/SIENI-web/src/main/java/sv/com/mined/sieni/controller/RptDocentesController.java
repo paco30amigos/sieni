@@ -12,14 +12,11 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
+import javax.faces.bean.ViewScoped;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.RptDocentesForm;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.rpt.RptDocentesPojo;
 import utils.DateUtils;
@@ -29,7 +26,7 @@ import utils.FormatUtils;
  *
  * @author ever
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptDocentesController")
 public class RptDocentesController extends RptDocentesForm{
     
@@ -44,6 +41,8 @@ public class RptDocentesController extends RptDocentesForm{
        this.setAnioEscolar("2015");
         this.setTipoRpt(0);
          this.setListDatos(new ArrayList<RptDocentesPojo>());
+         this.setDesde(new Date());
+         this.setHasta(new Date());
 //        fill();
     }
     public void fill() {

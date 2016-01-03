@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
@@ -35,7 +35,7 @@ import utils.FormatUtils;
  *
  * @author francisco_medina
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptNotasController")
 public class RptNotasController extends RptNotasForm {
 

@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,15 +16,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
+import javax.faces.bean.ViewScoped;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.RptUsuariosForm;
 import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.rpt.RptUsuariosPojo;
 import utils.DateUtils;
@@ -35,7 +32,7 @@ import utils.FormatUtils;
  *
  * @author Marlon Alexander Palacios Díaz
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptUsuariosController")
 public class RptUsuariosController extends RptUsuariosForm {
 

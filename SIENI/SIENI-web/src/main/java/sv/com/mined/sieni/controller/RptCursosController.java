@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
@@ -32,7 +32,7 @@ import utils.FormatUtils;
  *
  * @author ever
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptCursosController")
 public class RptCursosController extends RptCursosForm {
 
@@ -48,6 +48,8 @@ public class RptCursosController extends RptCursosForm {
     public void init() {
         this.setTipoRpt(0);
         this.setListDatos(new ArrayList<RptCursosPojo>());
+        this.setDesde(new Date());
+        this.setHasta(new Date());
     }
 
     public void fill() {

@@ -16,16 +16,13 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
+import javax.faces.bean.ViewScoped;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.form.RptMatriculaForm;
 import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.pojos.rpt.RptMatriculasPojo;
 import utils.DateUtils;
@@ -35,7 +32,7 @@ import utils.FormatUtils;
  *
  * @author francisco_medina
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptMatriculaController")
 public class RptMatriculaController extends RptMatriculaForm {
 
@@ -51,6 +48,8 @@ public class RptMatriculaController extends RptMatriculaForm {
     public void init() {
         this.setTipoRpt(0);
         this.setAnio("2015");
+        this.setDesde(new Date());
+        this.setHasta(new Date());
         //fill();
     }
 

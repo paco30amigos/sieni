@@ -16,15 +16,12 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletRequest;
+import javax.faces.bean.ViewScoped;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniClaseFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.form.RptClasesForm;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.pojos.rpt.RptClasesPojo;
@@ -35,7 +32,7 @@ import utils.FormatUtils;
  *
  * @author INFORMATICA
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptClasesController")
 public class RptClasesController extends RptClasesForm{
     

@@ -16,10 +16,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
+import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
-import javax.servlet.http.HttpServletRequest;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
@@ -28,8 +26,6 @@ import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.RptRendimientoForm;
-import sv.com.mined.sieni.model.SieniBitacora;
-import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
@@ -42,7 +38,7 @@ import utils.FormatUtils;
  *
  * @author Alejandro
  */
-@SessionScoped
+@ViewScoped
 @ManagedBean(name = "rptRendimientoController")
 public class RptRendimientoController extends RptRendimientoForm {
 

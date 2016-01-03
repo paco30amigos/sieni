@@ -65,34 +65,43 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
         return q.getResultList();
     }
 
-@Override
+    @Override
     public SieniEvaluacion findEvalItemResp(Long idEvaluacion) {
-       Query q = em.createNamedQuery("SieniEvaluacion.findEvalItemResp");
-       q.setParameter("idEvaluacion", idEvaluacion);
-    SieniEvaluacion res = (SieniEvaluacion) q.getSingleResult();
+        Query q = em.createNamedQuery("SieniEvaluacion.findEvalItemResp");
+        q.setParameter("idEvaluacion", idEvaluacion);
+        SieniEvaluacion res = (SieniEvaluacion) q.getSingleResult();
 //    for (SieniInteEntrComp actual : ret) {
-            em.refresh(res);
+        em.refresh(res);
 //            em.refresh(res.getSieniEvaluacionItemList());
-            for (SieniEvaluacionItem actual : res.getSieniEvaluacionItemList()) {
-         em.refresh(actual);
-                for (SieniEvalRespItem rep : actual.getSieniEvalRespItemList()) {
-                    em.refresh(rep);
-                }
-    }
-            
+        for (SieniEvaluacionItem actual : res.getSieniEvaluacionItemList()) {
+            em.refresh(actual);
+            for (SieniEvalRespItem rep : actual.getSieniEvalRespItemList()) {
+                em.refresh(rep);
+            }
+        }
+
 //            em.refresh(res.getSieniEvaluacionItemList());
-            
 //        }
         em.flush();
-       return res;
+        return res;
     }
 
     @Override
     public List<SieniEvaluacion> findByIdMateria(List<Long> listIdMateria) {
-       Query q = em.createNamedQuery("SieniEvaluacion.findEvalItemResp");
-       q.setParameter("listIdMateria", listIdMateria);
-    List<SieniEvaluacion> res = q.getResultList();
-       return res;
+        Query q = em.createNamedQuery("SieniEvaluacion.findEvalItemResp");
+        q.setParameter("listIdMateria", listIdMateria);
+        List<SieniEvaluacion> res = q.getResultList();
+        return res;
+    }
+
+    @Override
+    public List<SieniEvaluacion> findIdMateria(Long idMateria) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniEvaluacion.findIdMateria");
+        q.setParameter("idMateria", idMateria);
+        q.setParameter("estado", estado);
+        List<SieniEvaluacion> res = q.getResultList();
+        return res;
     }
 
     @Override
@@ -101,5 +110,5 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
         List<String> res = q.getResultList();
         return res;
     }
-    
+
 }

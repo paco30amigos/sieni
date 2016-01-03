@@ -19,7 +19,7 @@ import sv.com.mined.sieni.model.SieniMatricula;
 public interface SieniMatriculaFacadeRemote {
 
     void create(SieniMatricula sieniMatricula);
-    
+
     SieniMatricula createAndReturn(SieniMatricula sieniMatricula);
 
     void edit(SieniMatricula sieniMatricula);
@@ -37,12 +37,13 @@ public interface SieniMatriculaFacadeRemote {
     public List<SieniMatricula> getMatriculasAnio(Integer anio);
 
     public List<SieniMatricula> findAllNoInactivos();
-    
+
     public List<SieniMatricula> findAllNoInactivosRpt(Date desde, Date hasta);
 
+    public List<SieniAlumno> findAlumNoInactivos(Date desde, Date hasta);
+
     public List<SieniMatricula> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion);
-    
+
     public SieniMatricula findByIdAlumnoAnio(Long idAlumno, String mtAnio);
-    
-    
+
 }

@@ -21,6 +21,7 @@ import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
+import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.form.GestionNotasForm;
@@ -48,6 +49,9 @@ public class GestionNotasController extends GestionNotasForm {
 
     @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
+    
+    @EJB
+    private SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
 
 //docente->curso->materia->grado
 //docente->materia->grado->poner notas
@@ -104,7 +108,7 @@ public class GestionNotasController extends GestionNotasForm {
             this.setMateriasList(sieniMateriaFacadeRemote.findByAlumno(this.getAlumnosList().get(0).getIdAlumno()));
             if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {
                 this.setIdMateria(this.getMateriasList().get(0));
-                this.setEvaluacionesList(this.getIdMateria().getSieniEvaluacionList());
+                this.setEvaluacionesList(sieniEvaluacionFacadeRemote.findIdMateria(this.getMateriasList().get(0).getIdMateria()));
             } else {
                 this.setEvaluacionesList(new ArrayList<SieniEvaluacion>());
             }
@@ -296,7 +300,8 @@ public class GestionNotasController extends GestionNotasForm {
         this.setMateriasList(sieniMateriaFacadeRemote.findByAlumno(cod.getIdAlumno()));
         if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {
             this.setIdMateria(this.getMateriasList().get(0));
-            this.setEvaluacionesList(this.getIdMateria().getSieniEvaluacionList());
+            this.setEvaluacionesList(sieniEvaluacionFacadeRemote.findIdMateria(this.getMateriasList().get(0).getIdMateria()));
+            
         } else {
             this.setEvaluacionesList(new ArrayList<SieniEvaluacion>());
         }
@@ -307,7 +312,7 @@ public class GestionNotasController extends GestionNotasForm {
         this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(cod.getIdAlumno()));
         if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
             this.setIdMateriaModifica(this.getMateriasModificaList().get(0));
-            this.setEvaluacionesModificaList(this.getIdMateriaModifica().getSieniEvaluacionList());
+            this.setEvaluacionesList(sieniEvaluacionFacadeRemote.findIdMateria(this.getMateriasModificaList().get(0).getIdMateria()));
         } else {
             this.setEvaluacionesModificaList(new ArrayList<SieniEvaluacion>());
         }
@@ -316,7 +321,7 @@ public class GestionNotasController extends GestionNotasForm {
     public void getSeccionesGrado(ValueChangeEvent a) {
         SieniMateria cod = (SieniMateria) a.getNewValue();
         if (cod != null) {
-            this.setEvaluacionesList(cod.getSieniEvaluacionList());
+            this.setEvaluacionesList(sieniEvaluacionFacadeRemote.findIdMateria(cod.getIdMateria()));
         }
     }
 
@@ -330,7 +335,7 @@ public class GestionNotasController extends GestionNotasForm {
     public void getSeccionesGradoModifica(ValueChangeEvent a) {
         SieniMateria cod = (SieniMateria) a.getNewValue();
         if (cod != null) {
-            this.setEvaluacionesModificaList(cod.getSieniEvaluacionList());
+            this.setEvaluacionesModificaList(sieniEvaluacionFacadeRemote.findIdMateria(cod.getIdMateria()));
         }
     }
 

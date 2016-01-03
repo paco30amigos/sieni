@@ -65,7 +65,7 @@ public class RptNotasController extends RptNotasForm {
     private void fill() {
         Date desde = this.getDesde();
         Date hasta = this.getHasta();
-        this.setGradosList(sieniGradoFacadeRemote.findAll());
+        this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
         this.setSeccionesList(new ArrayList<SieniSeccion>());
         if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
             if (this.getGradosList().get(0).getSieniSeccionList() != null
@@ -76,7 +76,7 @@ public class RptNotasController extends RptNotasForm {
         this.setListaDatos(new ArrayList<RptNotasPojo>());
         for (SieniNota nota : sieniNotasFacadeRemote.getNotasRpt(desde, hasta, this.getGrado().getIdGrado(), this.getSeccion().getIdSeccion())) {
             SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoById(nota.getIdAlumno());
-            this.getListaDatos().add(new RptNotasPojo(alumno.getNombreCompleto(), nota.getIdEvaluacion().getIdCurso().getIdGrado().getGrNombre(), nota.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), nota.getIdEvaluacion().getIdMateria().getMaNombre(), nota.getIdEvaluacion().getEvNombre(), nota.getNtCalificacion().toString(), alumno.getAlCarnet(), nota.getIdEvaluacion().getEvTipo()));
+            this.getListaDatos().add(new RptNotasPojo(alumno.getNombreCompleto(), nota.getIdEvaluacion().getIdMateria().getIdGrado().getGrNombre(), nota.getIdEvaluacion().getIdCurso().getIdSeccion().getScDescripcion(), nota.getIdEvaluacion().getIdMateria().getMaNombre(), nota.getIdEvaluacion().getEvNombre(), nota.getNtCalificacion().toString(), alumno.getAlCarnet(), nota.getIdEvaluacion().getEvTipo()));
         }
         this.setTotalTransacciones(this.getListaDatos().size());
     }
@@ -126,6 +126,7 @@ public class RptNotasController extends RptNotasForm {
                 break;
             }
         }
+        this.setGrado(cod);
         this.setSeccion(new SieniSeccion());
         this.setSeccionesList(cod.getSieniSeccionList());
     }

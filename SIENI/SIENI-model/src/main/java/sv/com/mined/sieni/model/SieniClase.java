@@ -37,14 +37,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniClase.findAll", query = "SELECT s FROM SieniClase s"),
     @NamedQuery(name = "SieniClase.findClaseByTipo", query = "SELECT s FROM SieniClase s where s.clEstado not in (:estado) and s.clTipo=:tipoClase ORDER BY s.idClase"),
     @NamedQuery(name = "SieniClase.findClaseByTipoAlumno", query = "SELECT s FROM SieniClase s,SieniAlumno al, SieniMatricula m where al.idAlumno=m.idAlumno and m.idGrado.idGrado=s.idCurso.idGrado.idGrado and m.idAlumno=al.idAlumno and s.clEstado not in (:estado) and s.clTipo=:tipoClase and al.idAlumno=:idAlumno  ORDER BY s.idClase"),
-    @NamedQuery(name = "SieniClase.findClaseByAlumno", query = "SELECT s FROM SieniMatricula m,SieniClase s join fetch s.idCurso.sieniCursoAlumnoList al where m.idAlumno=al.idAlumno and m.idGrado.idGrado=s.idCurso.idGrado.idGrado and s.clEstado not in (:estado) and al.idAlumno=:idAlumno order by s.idClase"),
+    @NamedQuery(name = "SieniClase.findClaseByAlumno", query = "SELECT DISTINCT s FROM SieniMatricula m,SieniClase s join fetch s.idCurso.sieniCursoAlumnoList al where m.idAlumno=al.idAlumno and m.idGrado.idGrado=s.idCurso.idGrado.idGrado and s.clEstado not in (:estado) and al.idAlumno=:idAlumno order by s.idClase"),
 //    @NamedQuery(name = "SieniClase.findClaseByAlumno", query = "SELECT s FROM SieniClase s,SieniAlumno al join fetch al.sieniMatriculaList m where m.idGrado.idGrado=s.idCurso.idGrado.idGrado and m.idAlumno.idAlumno=al.idAlumno and s.clEstado not in (:estado) and al.idAlumno=:idAlumno"),
     @NamedQuery(name = "SieniClase.findAllNoInactivos", query = "SELECT s FROM SieniClase s where s.clEstado not in (:estado) order by s.idClase"),
     @NamedQuery(name = "SieniClase.findByIdClase", query = "SELECT s FROM SieniClase s WHERE s.idClase = :idClase"),
     @NamedQuery(name = "SieniClase.findByClHorario", query = "SELECT s FROM SieniClase s WHERE s.clHorario = :clHorario"),
     @NamedQuery(name = "SieniClase.findByClEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado"),
     @NamedQuery(name = "SieniClase.findByClTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo"),
-    
+
     @NamedQuery(name = "SieniClase.findClasesRpt", query = "SELECT s FROM SieniClase s WHERE s.clEstado != 'I'"),
     @NamedQuery(name = "SieniClase.findClasesRptByTipoEstado", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado = :clEstado"),
     @NamedQuery(name = "SieniClase.findClasesRptByEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado"),
@@ -52,9 +52,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniClase.findClasesRptByCurso", query = "SELECT s FROM SieniClase s WHERE s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso"),
     @NamedQuery(name = "SieniClase.findClasesRptByCursoTipoEstado", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado = :clEstado AND s.idCurso.idCurso = :idCurso"),
     @NamedQuery(name = "SieniClase.findClasesRptByCursoEstado", query = "SELECT s FROM SieniClase s WHERE s.clEstado = :clEstado AND s.idCurso.idCurso = :idCurso"),
-    @NamedQuery(name = "SieniClase.findClasesRptByCursoTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso") ,
+    @NamedQuery(name = "SieniClase.findClasesRptByCursoTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso"),
 
-    @NamedQuery(name = "SieniClase.rptAvanceClases", query = "SELECT s FROM SieniClase s JOIN FETCH s.sieniCatPuntosList pt JOIN FETCH s.sieniPntosContrlList pa WHERE s.clEstado = 'A' ") })
+    @NamedQuery(name = "SieniClase.rptAvanceClases", query = "SELECT DISTINCT s FROM SieniClase s JOIN FETCH s.sieniCatPuntosList pt JOIN FETCH s.sieniPntosContrlList pa WHERE s.clEstado = 'A' and pa.idAlumno=:idAlumno")})
 public class SieniClase implements Serializable {
 
     @OneToMany(mappedBy = "idClase")
@@ -149,8 +149,6 @@ public class SieniClase implements Serializable {
         this.sieniCatPuntosList = sieniCatPuntosList;
     }
 
-    
-    
     @XmlTransient
     public List<SieniPntosContrl> getSieniPntosContrlList() {
         return sieniPntosContrlList;
@@ -326,29 +324,31 @@ public class SieniClase implements Serializable {
     }
 
     public Integer getPtosTotales() {
-         Integer puntos = 0;
-         try{
-            if(this.getSieniCatPuntosList()!= null){
-                for(SieniCatPuntos actual : this.getSieniCatPuntosList()){
+        Integer puntos = 0;
+        try {
+            if (this.getSieniCatPuntosList() != null) {
+                for (SieniCatPuntos actual : this.getSieniCatPuntosList()) {
                     puntos = puntos + actual.getCpNumPuntos();
                 }
             }
-        }catch(Exception ex){}
+        } catch (Exception ex) {
+            puntos = 0;
+        }
         return puntos;
     }
-    
-    
+
     public Integer getPtosAcumulados() {
-         Integer puntos = 0;
-         try{
-            if(this.getSieniPntosContrlList() != null){
-                for(SieniPntosContrl actual : this.getSieniPntosContrlList()){
+        Integer puntos = 0;
+        try {
+            if (this.getSieniPntosContrlList() != null) {
+                for (SieniPntosContrl actual : this.getSieniPntosContrlList()) {
                     puntos = puntos + actual.getPcPantalla();
                 }
             }
-        }catch(Exception ex){}
+        } catch (Exception ex) {
+            puntos = 0;
+        }
         return puntos;
     }
-     
 
 }

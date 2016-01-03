@@ -35,8 +35,8 @@
                         <f:selectItems itemValue ="#{mt.idMateria}" itemLabel="#{mt.maNombre}" value="#{rptEstadisticoAvanceController.listMaterias}" var="mt" />
                     </p:selectOneMenu>
                     <p:outputLabel for="alumno" value="Alumno: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="alumno" class=" Responsive" value="#{rptEstadisticoAvanceController.idalumno}" >
-                        <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.alCarnet}" value="#{rptEstadisticoAvanceController.listAlumnos}" var="al" />
+                    <p:selectOneMenu id="alumno" class=" Responsive" value="#{rptEstadisticoAvanceController.idalumno}" filter="true" filterMatchMode="contains" >
+                        <f:selectItems itemValue ="#{al.idAlumno}" itemLabel="#{al.alNombreCompleto}" value="#{rptEstadisticoAvanceController.listAlumnos}" var="al" />
                     </p:selectOneMenu>
                     <p:commandButton value="Refrescar" actionListener="#{rptEstadisticoAvanceController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>

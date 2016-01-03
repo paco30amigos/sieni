@@ -33,8 +33,8 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              reflow="true">
-                    <p:column headerText="Grado" filterBy="#{car.idEvaluacion.idMateria.idGrado.grNombre}" filterable="true" filterMatchMode="contains" style="width: 50px">
-                        #{car.idEvaluacion.idMateria.idGrado.grNombre}
+                    <p:column headerText="Grado" filterBy="#{car.idEvaluacion.idCurso.idGrado.grNombre}" filterable="true" filterMatchMode="contains" style="width: 50px">
+                        #{car.idEvaluacion.idCurso.idGrado.grNombre}
                     </p:column>
                     <p:column headerText="carnet" filterBy="#{car.alumno.alCarnet}" filterable="true" filterMatchMode="contains" style="width: 80px">
                         #{car.alumno.alCarnet}

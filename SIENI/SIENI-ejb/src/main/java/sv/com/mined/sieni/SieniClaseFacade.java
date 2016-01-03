@@ -254,9 +254,9 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
     
     
     @Override
-    public List<SieniClase> findRptAvance() {
+    public List<SieniClase> findRptAvance(Long idAlumno) {
         Query q = em.createNamedQuery("SieniClase.rptAvanceClases");
-        //q.setParameter("estado", estado);
+        q.setParameter("idAlumno", idAlumno);
         List<SieniClase> res = q.getResultList();
         return res;
     }

@@ -68,6 +68,7 @@ public class RptBoletaNotasController extends RptBoletaNotasForm {
                 if (this.getGradosList().get(0).getSieniSeccionList() != null
                         && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
                     this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
+                    this.setSeccion(new SieniSeccion());
                     this.setSeccion(this.getSeccionesList().get(0));
                     String anio = "2015";
                     if (getDesde() != null) {
@@ -259,6 +260,7 @@ public class RptBoletaNotasController extends RptBoletaNotasForm {
         for (SieniSeccion actual : this.getSeccionesList()) {
             if (actual.getIdSeccion().equals(idSeccion)) {
                 selec = actual;
+                this.setSeccion(selec);
                 break;
             }
         }

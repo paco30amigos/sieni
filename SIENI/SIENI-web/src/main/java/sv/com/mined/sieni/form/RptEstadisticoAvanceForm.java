@@ -22,7 +22,7 @@ public class RptEstadisticoAvanceForm extends ReportesController {
     private Integer idgrado;
     private Integer idseccion;
     private Integer idmateria;
-    private Integer idalumno;
+    private Long idalumno;
     
     private SieniGrado grado;
     private SieniSeccion seccion;
@@ -62,11 +62,11 @@ public class RptEstadisticoAvanceForm extends ReportesController {
         this.idmateria = idmateria;
     }
 
-    public Integer getIdalumno() {
+    public Long getIdalumno() {
         return idalumno;
     }
 
-    public void setIdalumno(Integer idalumno) {
+    public void setIdalumno(Long idalumno) {
         this.idalumno = idalumno;
     }
 

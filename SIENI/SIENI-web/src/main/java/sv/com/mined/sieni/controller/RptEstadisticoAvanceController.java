@@ -63,7 +63,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
     public void init() {
         this.setIdgrado(0);
         this.setIdseccion(0);
-        this.setIdalumno(0);
+        this.setIdalumno(0L);
         this.setIdmateria(0);
         this.setGrado(null);
         this.setSeccion(null);
@@ -72,11 +72,11 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
         this.setTotalAlumnos("0");
         this.setTipoRpt(0);
         this.setListDatos(new ArrayList<RptEstadisticoAvancePojo>());
-        this.setListGrados(sieniGradoFacadeRemote.findAll());
+        this.setListGrados(sieniGradoFacadeRemote.findAllNoInactivos());
         this.setListSecciones(sieniSeccionFacadeRemote.findAll());
         this.setListMaterias(sieniMateriaFacadeRemote.findMateriasActivas());
         this.setListAlumnos(sieniAlumnoFacadeRemote.findAlumnoActivos());
-        fill();
+//        fill();
     }
 
     
@@ -111,12 +111,12 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
         }
         
         for (SieniAlumno actual : this.getListAlumnos()) {
-            if(actual.getIdAlumno().intValue() == this.getIdalumno()){
+            if(actual.getIdAlumno().equals(this.getIdalumno())){
                 this.setAlumno(actual);
             }
         }
         
-        rptAvance = sieniClaseFacadeRemote.findRptAvance();
+        rptAvance = sieniClaseFacadeRemote.findRptAvance(this.getIdalumno());
         for (SieniClase actual : rptAvance) {
              elem = new RptEstadisticoAvancePojo(actual,null,actual.getIdCurso().getIdMateria().getMaNombre(),actual.getClTema(),actual.getTipo(),actual.getPtosTotales(),actual.getPtosAcumulados());
             this.getListDatos().add(elem);
@@ -127,7 +127,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
     }
 
     public void generarReporte() {
-        fill();
+//        fill();
         String path = "resources/reportes/rtpAvance.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));

@@ -88,7 +88,7 @@ public class GestionCursoController extends GestionCursoForm {
 
     public void nuevo() {
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
-        this.setGradoList(sieniGradoFacadeRemote.findAll());
+        this.setGradoList(sieniGradoFacadeRemote.findAllNoInactivos());
 //        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
 //        this.setSeccionList(new ArrayList<SieniSeccion>());
         if (this.getGradoList() != null && !this.getGradoList().isEmpty()) {

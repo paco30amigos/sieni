@@ -22,6 +22,7 @@ import sv.com.mined.sieni.model.SieniPntosContrl;
  */
 @Stateless
 public class SieniPntosContrlFacade extends AbstractFacade<SieniPntosContrl> implements sv.com.mined.sieni.SieniPntosContrlFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -33,18 +34,19 @@ public class SieniPntosContrlFacade extends AbstractFacade<SieniPntosContrl> imp
     public SieniPntosContrlFacade() {
         super(SieniPntosContrl.class);
     }
+
     @Override
-    public SieniPntosContrl findPuntos(Long idTipoElemPlantilla,Integer nPantalla,Long idClase,Long idAlumno){
-        List<SieniPntosContrl> req=new ArrayList<>();
-        SieniPntosContrl ret=new SieniPntosContrl();
-        Query q=em.createNamedQuery("SieniPntosContrl.findPtosByClaseAlumnPantallaSeccion");
+    public SieniPntosContrl findPuntos(Long idTipoElemPlantilla, Integer nPantalla, Long idClase, Long idAlumno) {
+        List<SieniPntosContrl> req = new ArrayList<>();
+        SieniPntosContrl ret = new SieniPntosContrl();
+        Query q = em.createNamedQuery("SieniPntosContrl.findPtosByClaseAlumnPantallaSeccion");
         q.setParameter("idTipoElemPlantilla", idTipoElemPlantilla);
         q.setParameter("nPantalla", nPantalla);
         q.setParameter("idClase", idClase);
         q.setParameter("idAlumno", idAlumno);
-        req=q.getResultList();
-        if(req!=null&&!req.isEmpty()){
-            ret=req.get(0);
+        req = q.getResultList();
+        if (req != null && !req.isEmpty()) {
+            ret = req.get(0);
             em.refresh(ret);
         }
         return ret;
@@ -74,14 +76,21 @@ public class SieniPntosContrlFacade extends AbstractFacade<SieniPntosContrl> imp
             return null;
         }
     }
-    
+
     @Override
-    public Integer findByCountClase(Long idClase) {
+    public Integer findByCountClase(Long idClase,Long idAlumno) {
         Query q = em.createNamedQuery("SieniPntosContrl.findByCountClase");
         q.setParameter("idClase", idClase);
-        Integer res = q.getResultList().size();
+        q.setParameter("idAlumno", idAlumno);
+        List<SieniPntosContrl> res = q.getResultList();
+        Integer total = 0;
+        if (res != null && !res.isEmpty()) {
+            for (SieniPntosContrl actual : res) {
+                total += actual.getPcPantalla();
+            }
+        }
         if (res != null) {
-            return res;
+            return total;
         } else {
             return null;
         }

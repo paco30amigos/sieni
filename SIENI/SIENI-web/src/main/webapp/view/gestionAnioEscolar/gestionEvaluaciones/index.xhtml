@@ -41,20 +41,23 @@
                              rowsPerPageTemplate="10,20,40"
                              reflow="true">
                     <p:column headerText="Título" filterBy="#{car.evNombre}" filterable="true" filterMatchMode="contains">
-                            #{car.evNombre}
-                        </p:column>
+                        #{car.evNombre}
+                    </p:column>
+                    <p:column headerText="Tipo de Evaluación" filterBy="#{car.evTipo}" filterable="true" filterMatchMode="contains">
+                        #{car.evTipo}
+                    </p:column>
                     <p:column headerText="Fecha de Inicio" filterBy="#{car.evFechaInicio}" filterable="true" filterMatchMode="contains">
-                            #{dateUtils.getFormatoFecha(car.evFechaInicio)}
-                        </p:column>
+                        #{dateUtils.getFormatoFecha(car.evFechaInicio)}
+                    </p:column>
                     <p:column headerText="Fecha de cierre" filterBy="#{car.evFechaCierre}" filterable="true" filterMatchMode="contains">
-                            #{dateUtils.getFormatoFecha(car.evFechaCierre)}
-                        </p:column>
+                        #{dateUtils.getFormatoFecha(car.evFechaCierre)}
+                    </p:column>
                     <p:column headerText="Duración" filterBy="#{car.evDuracion}" filterable="true" filterMatchMode="contains">
-                            #{car.evDuracion}
-                        </p:column>
+                        #{car.evDuracion}
+                    </p:column>
                     <p:column headerText="Intentos" filterBy="#{car.evIntentos}" filterable="true" filterMatchMode="contains">
-                            #{car.evIntentos}
-                        </p:column>
+                        #{car.evIntentos}
+                    </p:column>
                     <p:column headerText="Acciones" style="width: 12%">
                         <p:commandLink action="#{gestionarEvaluacionController.verEvaluacion(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Evaluacion" ></i></p:commandLink>
                         <p:commandLink action="#{gestionarEvaluacionController.modificar(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Evaluacion" ></i></p:commandLink>
@@ -65,7 +68,7 @@
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
-                <p:commandButton value="Adicionar Evaluacion" action="#{gestionarEvaluacionController.setIndexMenu(1)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
+                <p:commandButton value="Adicionar Evaluacion" action="#{gestionarEvaluacionController.initNuevo()}" rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
                 <p:commandButton value="Refrescar" action="#{gestionarEvaluacionController.refresh()}" update="consulta" rendered="#{!gestionarEvaluacionController.validaAlumno()}"></p:commandButton>
             </h:form>
             <div class="EmptyBox5"></div>

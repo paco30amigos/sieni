@@ -32,20 +32,20 @@ public class GestionarEvaluacionForm {
     private List<SieniEvaluacionItem> evaluacionItemList;
     // consulta de alumnos
     private List<SieniEvaluacion> evaluacionList;
-    
+
     private SieniEvaluacion evaluacionItemResp;
     //registro de alumnos
     private SieniEvaluacion evaluacionNuevo;
     private SieniEvaluacionItem evaluacionItemNuevo;
     private SieniEvaluacionItem evaluacionItemModifica;
     private SieniEvaluacionItem evaluacionItemElimina;
-    
-   private List<TipoP> tipoPregunta;
-   private Double totalPonderacion;
+
+    private List<TipoP> tipoPregunta;
+    private Double totalPonderacion;
 
     private List<SieniEvalRespItem> evalRespItemList;
     private List<SieniEvalRespAlumno> evalRespAlumnoList;
-    
+
     private SieniEvalRespItem evalRespItemNuevo;
     private SieniEvalRespItem evalRespItemModifica;
     private SieniEvalRespItem evalRespItemElimina;
@@ -59,6 +59,7 @@ public class GestionarEvaluacionForm {
     private byte[] fotoArchivoModifica;
     private Long idCurso;
     private List<SieniCurso> cursoList;
+    private String tipoEvaluacion;
 
     public UploadedFile getFoto() {
         return foto;
@@ -172,25 +173,23 @@ public class GestionarEvaluacionForm {
                 break;
             case 5:
                 sU.redirect(sU.getBasegestionEvaluacion() + "crearItem.xhtml");
-                break; 
-             case 6:
+                break;
+            case 6:
                 sU.redirect(sU.getBasegestionEvaluacion() + "editarItem.xhtml");
-                break;  
+                break;
             case 7:
                 sU.redirect(sU.getBasegestionEvaluacion() + "indexRespuesta.xhtml");
-                break;  
+                break;
             case 8:
                 sU.redirect(sU.getBasegestionEvaluacion() + "crearRespuesta.xhtml");
-                break;  
+                break;
             case 9:
                 sU.redirect(sU.getBasegestionEvaluacion() + "editarRespuesta.xhtml");
-                break;    
+                break;
             case 10:
                 sU.redirect(sU.getBasegestionEvaluacion() + "verEvaluacion.xhtml");
-                break;    
-                
-                   
-                
+                break;
+
         }
         this.indexMenu = indexMenu;
     }
@@ -323,9 +322,15 @@ public class GestionarEvaluacionForm {
         this.evalRespAlumnoList = evalRespAlumnoList;
     }
 
-  
-    
-    public class TipoP{
+    public String getTipoEvaluacion() {
+        return tipoEvaluacion;
+    }
+
+    public void setTipoEvaluacion(String tipoEvaluacion) {
+        this.tipoEvaluacion = tipoEvaluacion;
+    }
+
+    public class TipoP {
 
         public int getId() {
             return id;
@@ -347,9 +352,9 @@ public class GestionarEvaluacionForm {
             this.id = id;
             this.tipo = tipo;
         }
-    private int id;
-    private String tipo;
+        private int id;
+        private String tipo;
 
-}
+    }
 
 }

@@ -8,7 +8,7 @@
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Reportes" url="#"/>
-            <p:menuitem value="Reporte de Rendimiento de Clases" url="#{siteUrls.reporteRendimientoAlumno}"/>
+            <p:menuitem value="Reporte de Rendimiento" url="#{siteUrls.reporteRendimientoAlumno}"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -28,14 +28,14 @@
                     <p:outputLabel  value="Grado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu id="grado" class=" Responsive" value="#{rptRendimientoController.idGrado}" valueChangeListener="#{rptRendimientoController.getSeccionesGrado}">
                         <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{rptRendimientoController.gradosList}" var="grado"></f:selectItems>
-                        <p:ajax event="valueChange" update="seccion"/>
+                        <p:ajax event="valueChange" update="seccion,materia"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion" value="Seccion:" class="Responsive"></p:outputLabel>
                     <p:selectOneMenu id="seccion" class=" Responsive" value="#{rptRendimientoController.idSeccion}" >
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptRendimientoController.seccionesList}" var="seccion"></f:selectItems>
                     </p:selectOneMenu>                    
-                    <p:outputLabel id="materia" value="Materia:"></p:outputLabel>
-                    <p:selectOneMenu class=" Responsive" value="#{rptRendimientoController.idMateria}" >
+                    <p:outputLabel for="materia" value="Materia:"></p:outputLabel> 
+                    <p:selectOneMenu id="materia" class=" Responsive" value="#{rptRendimientoController.idMateria}" >
                         <f:selectItems itemValue="#{materia.idMateria}" itemLabel="#{materia.maNombre}" value="#{rptRendimientoController.materiaList}" var="materia"></f:selectItems>
                     </p:selectOneMenu>
                     <p:commandButton value="generar" actionListener="#{rptRendimientoController.fill()}" update="consulta" ajax="true"></p:commandButton>
@@ -82,7 +82,7 @@
                             <f:selectItem itemLabel="PDF" itemValue="0" />
                         </p:selectOneRadio>
                         <p:commandButton  value="Generar" action="#{rptRendimientoController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
-                        <p:commandButton value="Refrescar"></p:commandButton>
+                        <p:commandButton value="Refrescar" action="#{rptRendimientoController.refresh()}" update="consulta"></p:commandButton>
                     </h:panelGrid>
                 </div>
             </p:panel>

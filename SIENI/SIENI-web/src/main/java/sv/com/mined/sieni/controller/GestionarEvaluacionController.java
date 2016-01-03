@@ -95,7 +95,14 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.getTipoPregunta().add(new TipoP(2, "Seleccion multiple"));
         this.getTipoPregunta().add(new TipoP(3, "Falso/Verdadero"));
         this.getTipoPregunta().add(new TipoP(4, "Abierta"));
+        this.setTipoEvaluacion("Digital");
         fill();
+    }
+    
+    public void initNuevo(){
+        this.setEvaluacionNuevo(new SieniEvaluacion());
+        this.getEvaluacionNuevo().setEvTipo("Digital");
+        this.setIndexMenu(1);
     }
 
     private void fill() {

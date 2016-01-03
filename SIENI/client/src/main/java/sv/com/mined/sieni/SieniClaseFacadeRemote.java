@@ -47,5 +47,5 @@ public interface SieniClaseFacadeRemote {
     public void merge(List<SieniClase> clases);
     
     
-    public List<SieniClase> findRptAvance();
+    public List<SieniClase> findRptAvance(Long idAlumno);
 }

@@ -5,14 +5,13 @@
  */
 package sv.com.mined.sieni;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import sv.com.mined.sieni.model.SieniMatricula;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniMatricula;
 
 /**
@@ -55,6 +54,16 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
     public List<SieniMatricula> findAllNoInactivosRpt(Date desde, Date hasta) {
         Character estado = 'I';
         Query q = em.createNamedQuery("SieniMatricula.findAllNoInactivosRpt");
+        q.setParameter("estado", estado);
+        q.setParameter("desde", desde);
+        q.setParameter("hasta", hasta);
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<SieniAlumno> findAlumNoInactivos(Date desde, Date hasta) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniMatricula.findAlumNoInactivos");
         q.setParameter("estado", estado);
         q.setParameter("desde", desde);
         q.setParameter("hasta", hasta);

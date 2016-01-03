@@ -42,6 +42,8 @@ public interface SieniEvaluacionFacadeRemote {
     public List<SieniEvaluacion> findbyRendimientoRpt(Date desde, Date hasta, String grado, String seccion, String materia);
     
     public List<SieniEvaluacion> findByIdMateria(List<Long> listIdMateria);
+    
+    public List<SieniEvaluacion> findIdMateria(Long idMateria);
 
     public List<String> findByTipo();
     

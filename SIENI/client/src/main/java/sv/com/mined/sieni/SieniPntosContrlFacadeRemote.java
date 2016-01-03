@@ -39,5 +39,5 @@ public interface SieniPntosContrlFacadeRemote {
     
     public List<SieniClase> findByClasesAlumnos(Long actual);
     
-    public Integer findByCountClase(Long idClase);
+    public Integer findByCountClase(Long idClase,Long idAlumno);
 }

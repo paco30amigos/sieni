@@ -63,8 +63,10 @@ public class RptRendimientoController extends RptRendimientoForm {
     public void init() {
         this.setTipoRpt(0);
         this.setAnio("2,015");
-        this.setGradosList(sieniGradoFacadeRemote.findAll());
-        this.setMateriaList(sieniMateriaFacadeRemote.findAll());
+        this.setDesde(new Date());
+        this.setHasta(new Date());
+        this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
+//        this.setMateriaList(sieniMateriaFacadeRemote.findAllNoInactivas());
 //        this.setSeccionesList(sieniSeccionFacadeRemote.findAll());
         if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
             Long idGrado = (Long) this.getGradosList().get(0).getIdGrado();
@@ -75,7 +77,10 @@ public class RptRendimientoController extends RptRendimientoForm {
                     break;
                 }
             }
+            this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(idGrado));
             this.setSeccionesList(cod.getSieniSeccionList());
+        } else {
+            this.setMateriaList(new ArrayList<SieniMateria>());
         }
         //fill();
     }
@@ -115,7 +120,7 @@ public class RptRendimientoController extends RptRendimientoForm {
                 SieniSeccion seccion = sieniSeccionFacadeRemote.findByIdSeccion(this.getIdSeccion());
                 SieniMateria materia = sieniMateriaFacadeRemote.findByIdMateria(this.getIdMateria());
                 if (totalAlumnos == 0) {
-                    elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual, "No Definido" , "No Definido", "No Definido");
+                    elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual, "No Definido", "No Definido", "No Definido");
                 } else {
                     elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual, Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
                 }
@@ -146,9 +151,7 @@ public class RptRendimientoController extends RptRendimientoForm {
     }
 
     public void refresh() {
-        String anio = this.getAnio().replaceAll(",", "");
-        Integer anioInt = Integer.parseInt(anio);
-
+        fill();
     }
 
     public void getSeccionesGrado(ValueChangeEvent a) {
@@ -160,6 +163,7 @@ public class RptRendimientoController extends RptRendimientoForm {
                 break;
             }
         }
+        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(idGrado));
         this.setSeccionesList(cod.getSieniSeccionList());
     }
 }

@@ -50,7 +50,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniEvaluacion.findByEvFechaCierre", query = "SELECT s FROM SieniEvaluacion s WHERE s.evFechaCierre = :evFechaCierre"),
     @NamedQuery(name = "SieniEvaluacion.findByEvTipo", query = "SELECT s FROM SieniEvaluacion s WHERE s.evTipo = :evTipo"),
     @NamedQuery(name = "SieniEvaluacion.findbyRendimientoRpt", query = "SELECT s FROM SieniEvaluacion s where s.evFechaInicio BETWEEN :desde AND :hasta"),
-    @NamedQuery(name = "SieniEvaluacion.findByTipo", query = "SELECT DISTINCT s.evTipo FROM SieniEvaluacion s")})
+    @NamedQuery(name = "SieniEvaluacion.findByMateria", query = "SELECT s FROM SieniEvaluacion s where s.evEstado='A' and s.idMateria.idMateria=:idMateria")})
 public class SieniEvaluacion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

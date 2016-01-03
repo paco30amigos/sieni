@@ -11,8 +11,8 @@ import java.io.Serializable;
  *
  * @author Alejandro
  */
-public class RptRendimientoPojo implements Serializable{
-    
+public class RptRendimientoPojo implements Serializable {
+
     private String grado;
     private String seccion;
     private String materia;
@@ -21,11 +21,9 @@ public class RptRendimientoPojo implements Serializable{
     private String aprobados;
     private String reprobados;
     private String promedio;
+    private String evaluacion;
 
-    public RptRendimientoPojo() {
-    }
-
-    public RptRendimientoPojo(String grado, String seccion, String materia, String alumnos, String tipoEvaluacion, String aprobados, String reprobados, String promedio) {
+    public RptRendimientoPojo(String grado, String seccion, String materia, String alumnos, String tipoEvaluacion, String aprobados, String reprobados, String promedio, String evaluacion) {
         this.grado = grado;
         this.seccion = seccion;
         this.materia = materia;
@@ -34,6 +32,10 @@ public class RptRendimientoPojo implements Serializable{
         this.aprobados = aprobados;
         this.reprobados = reprobados;
         this.promedio = promedio;
+        this.evaluacion = evaluacion;
+    }
+
+    public RptRendimientoPojo() {
     }
 
     public String getGrado() {
@@ -98,6 +100,14 @@ public class RptRendimientoPojo implements Serializable{
 
     public void setPromedio(String promedio) {
         this.promedio = promedio;
+    }
+
+    public String getEvaluacion() {
+        return evaluacion;
+    }
+
+    public void setEvaluacion(String evaluacion) {
+        this.evaluacion = evaluacion;
     }
 
 }

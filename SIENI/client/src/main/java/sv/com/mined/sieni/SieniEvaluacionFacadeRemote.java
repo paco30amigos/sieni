@@ -45,6 +45,6 @@ public interface SieniEvaluacionFacadeRemote {
     
     public List<SieniEvaluacion> findIdMateria(Long idMateria);
 
-    public List<String> findByTipo();
+    public List<SieniEvaluacion> findByMateria(Long idMateria);
     
 }

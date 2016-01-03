@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import net.sf.jasperreports.engine.JRException;
@@ -39,7 +40,7 @@ import utils.FormatUtils;
  *
  * @author francisco_medina
  */
-@ViewScoped
+@SessionScoped
 @ManagedBean(name = "rptBoletaNotasController")
 public class RptBoletaNotasController extends RptBoletaNotasForm {
 

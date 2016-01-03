@@ -15,7 +15,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import net.sf.jasperreports.engine.JRException;
@@ -26,10 +28,12 @@ import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.RptRendimientoForm;
+import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
 import sv.com.mined.sieni.model.SieniSeccion;
+import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import sv.com.mined.sieni.pojos.rpt.RptRendimientoPojo;
 import utils.DateUtils;
 import utils.FormatUtils;
@@ -38,7 +42,7 @@ import utils.FormatUtils;
  *
  * @author Alejandro
  */
-@ViewScoped
+@SessionScoped
 @ManagedBean(name = "rptRendimientoController")
 public class RptRendimientoController extends RptRendimientoForm {
 
@@ -83,59 +87,101 @@ public class RptRendimientoController extends RptRendimientoForm {
 
     public void fill() {
         RptRendimientoPojo elem = new RptRendimientoPojo();
+        if (this.getIdMateria() == null) {
+            new ValidationPojo().printMsj("No se ha seleccionado una materia valida", FacesMessage.SEVERITY_ERROR);
+        } else {
+            List<SieniEvaluacion> tipoEvaluacion = sieniEvaluacionFacadeRemote.findByMateria(this.getIdMateria());
+            this.setListDatos(new ArrayList<RptRendimientoPojo>());
+            if (!tipoEvaluacion.isEmpty()) {
+                for (SieniEvaluacion tipoActual : tipoEvaluacion) {
+                    List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getIdGrado(), this.getIdSeccion(), this.getIdMateria(), tipoActual.getIdEvaluacion());
 
-        List<String> tipoEvaluacion = sieniEvaluacionFacadeRemote.findByTipo();
-        this.setListDatos(new ArrayList<RptRendimientoPojo>());
-        if (!tipoEvaluacion.isEmpty()) {
-            for (String tipoActual : tipoEvaluacion) {
-                List<SieniNota> notas = sieniNotaFacadeRemote.findByGradoSecMatRpt(this.getDesde(), this.getHasta(), this.getIdGrado(), this.getIdSeccion(), this.getIdMateria(), tipoActual);
+                    double totalNotas = notas.size();
+                    Integer totalAlumnos = notas.size();
+                    float aprobados = 0;
+                    float reprobados = 0;
+                    float totalAprobados = 0;
+                    float totalReprobados = 0;
+                    float suma = 0;
+                    float promedio = 0;
 
-                double totalNotas = notas.size();
-                Integer totalAlumnos = notas.size();
-                float aprobados = 0;
-                float reprobados = 0;
-                float totalAprobados = 0;
-                float totalReprobados = 0;
-                float suma = 0;
-                float promedio = 0;
-
-                for (SieniNota actual : notas) {
-                    if (actual.getNtCalificacion() >= 6.00) {
-                        aprobados++;
-                    } else {
-                        reprobados++;
+                    for (SieniNota actual : notas) {
+                        if (actual.getNtCalificacion() >= 6.00) {
+                            aprobados++;
+                        } else {
+                            reprobados++;
+                        }
+                        suma += actual.getNtCalificacion();
                     }
-                    suma += actual.getNtCalificacion();
-                }
 
-                totalAprobados = (float) ((aprobados * 100) / totalNotas);
-                totalReprobados = (float) ((reprobados * 100) / totalNotas);
-                promedio = suma / notas.size();
+                    totalAprobados = (float) ((aprobados * 100) / totalNotas);
+                    totalReprobados = (float) ((reprobados * 100) / totalNotas);
+                    promedio = suma / notas.size();
 
-                SieniGrado grado = sieniGradoFacadeRemote.findByIdGrado(this.getIdGrado());
-                SieniSeccion seccion = sieniSeccionFacadeRemote.findByIdSeccion(this.getIdSeccion());
-                SieniMateria materia = sieniMateriaFacadeRemote.findByIdMateria(this.getIdMateria());
-                if (totalAlumnos == 0) {
-                    elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual, "No Definido", "No Definido", "No Definido");
-                } else {
-                    elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual, Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio));
+                    SieniGrado grado = sieniGradoFacadeRemote.findByIdGrado(this.getIdGrado());
+                    SieniSeccion seccion = sieniSeccionFacadeRemote.findByIdSeccion(this.getIdSeccion());
+                    SieniMateria materia = sieniMateriaFacadeRemote.findByIdMateria(this.getIdMateria());
+                    if (totalAlumnos == 0) {
+                        elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual.getEvTipo(), "No Definido", "No Definido", "No Definido", tipoActual.getEvNombre());
+                    } else {
+                        elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual.getEvTipo(), Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio), tipoActual.getEvNombre());
+                    }
+                    this.getListDatos().add(elem);
                 }
-                this.getListDatos().add(elem);
             }
-        }
 
-        //List<SieniEvaluacion> evaluaciones = sieniEvaluacionFacadeRemote.findbyRendimientoRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
-        this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));
+            //List<SieniEvaluacion> evaluaciones = sieniEvaluacionFacadeRemote.findbyRendimientoRpt(this.getDesde(), this.getHasta(), this.getGrado(), this.getSeccion(), this.getMateria());
+            this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));
+        }
     }
 
     public void generarReporte() {
-        fill();
+//        fill();
         String path = "resources/reportes/rtpRendimiento.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("anio", this.getAnio());
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
         parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getDesde()));
         parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getHasta()));
+
+        SieniGrado gradoSelec = null;
+        for (SieniGrado grado : this.getGradosList()) {
+            if (grado.getIdGrado().equals(this.getIdGrado())) {
+                gradoSelec = grado;
+                break;
+            }
+        }
+        if (gradoSelec != null) {
+            parameterMap.put("grado", gradoSelec.getGrNombre());
+        } else {
+            parameterMap.put("grado", "Grado no seleccionado");
+        }
+        SieniSeccion seccSelec = null;
+        for (SieniSeccion actual : this.getSeccionesList()) {
+            if (actual.getIdSeccion().equals(this.getIdSeccion())) {
+                seccSelec = actual;
+                break;
+            }
+        }
+        if (seccSelec != null) {
+            parameterMap.put("seccion", seccSelec.getScDescripcion());
+        } else {
+            parameterMap.put("seccion", "Seccion no seleccionada");
+        }
+
+        SieniMateria materia = null;
+        for (SieniMateria actual : this.getMateriaList()) {
+            if (actual.getIdMateria().equals(this.getIdMateria())) {
+                materia = actual;
+                break;
+            }
+        }
+        if (materia != null) {
+            parameterMap.put("materia", materia.getMaNombre());
+        } else {
+            parameterMap.put("materia", "Materia no seleccionada");
+        }
+
         try {
             RptRendimientoController.generateReport(path, "rtpRendimiento" + new Date().getTime(), this.getListDatos(), parameterMap, this.getTipoRpt());
             registrarEnBitacora("Reporte", "Rendimiento", 0L);

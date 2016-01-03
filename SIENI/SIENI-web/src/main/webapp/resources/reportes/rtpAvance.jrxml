@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2016-01-03T16:49:54 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAvance" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -23,13 +25,13 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="92" splitType="Stretch">
+		<band height="107" splitType="Stretch">
 			<image>
-				<reportElement uuid="efe7bbf6-afb3-4970-a868-fac4475e6689" x="22" y="-1" width="105" height="46"/>
+				<reportElement x="22" y="-1" width="105" height="46" uuid="efe7bbf6-afb3-4970-a868-fac4475e6689"/>
 				<imageExpression><![CDATA["../images/mined.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement uuid="cb2d6042-f989-42c2-ab39-7e624bbe6c10" x="185" y="0" width="205" height="29"/>
+				<reportElement x="185" y="0" width="205" height="29" uuid="cb2d6042-f989-42c2-ab39-7e624bbe6c10"/>
 				<textElement textAlignment="Center">
 					<font size="11" isBold="true"/>
 				</textElement>
@@ -37,58 +39,54 @@
 Reporte de Avance de Alumno]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="4267cde1-db7d-4399-8a03-21a638f6a319" x="397" y="0" width="164" height="30"/>
+				<reportElement x="397" y="0" width="164" height="30" uuid="4267cde1-db7d-4399-8a03-21a638f6a319"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="477d492a-c50c-4770-9204-5267f911be67" x="397" y="50" width="164" height="20"/>
+				<reportElement x="397" y="50" width="164" height="20" uuid="477d492a-c50c-4770-9204-5267f911be67"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["F. Generación:   "+ $P{fechaGeneracion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="cab49e17-ced0-414e-8838-1a2960a8f8fc" x="22" y="70" width="79" height="20"/>
+				<reportElement x="22" y="45" width="79" height="20" uuid="cab49e17-ced0-414e-8838-1a2960a8f8fc"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Alumno:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="c8ab534b-b5ba-4731-b2dc-73881b65d8b8" x="101" y="70" width="112" height="20"/>
-				<textElement/>
+				<reportElement x="101" y="45" width="268" height="20" uuid="c8ab534b-b5ba-4731-b2dc-73881b65d8b8"/>
 				<textFieldExpression><![CDATA[$P{alumno}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="a71b1ec7-6e6f-49d3-a05e-0577a97a637a" x="234" y="50" width="50" height="20"/>
+				<reportElement x="213" y="87" width="50" height="20" uuid="a71b1ec7-6e6f-49d3-a05e-0577a97a637a"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Seccion:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="47a0bcc4-d53f-4541-9369-7e28981c7b26" x="284" y="50" width="106" height="20"/>
-				<textElement/>
+				<reportElement x="263" y="87" width="106" height="20" uuid="47a0bcc4-d53f-4541-9369-7e28981c7b26"/>
 				<textFieldExpression><![CDATA[$P{seccion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="608e4d18-3fee-42ab-96fc-025646559ecf" x="22" y="50" width="79" height="20"/>
+				<reportElement x="22" y="87" width="79" height="20" uuid="608e4d18-3fee-42ab-96fc-025646559ecf"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Grado:]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="c74029e6-c1d7-494f-9a2c-efd76cbaa7cc" x="101" y="50" width="112" height="20"/>
-				<textElement/>
+				<reportElement x="101" y="87" width="112" height="20" uuid="c74029e6-c1d7-494f-9a2c-efd76cbaa7cc"/>
 				<textFieldExpression><![CDATA[$P{grado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e949bc3b-0bcf-45ed-9a62-5973ee1da7db" x="284" y="70" width="168" height="20"/>
-				<textElement/>
+				<reportElement x="101" y="66" width="268" height="20" uuid="e949bc3b-0bcf-45ed-9a62-5973ee1da7db"/>
 				<textFieldExpression><![CDATA[$P{materia}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement uuid="97a08945-e7a1-4cb7-bbc6-7619b8afd065" x="234" y="70" width="50" height="20"/>
+				<reportElement x="23" y="66" width="78" height="20" uuid="97a08945-e7a1-4cb7-bbc6-7619b8afd065"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>
@@ -99,7 +97,7 @@ Reporte de Avance de Alumno]]></text>
 	<columnHeader>
 		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement uuid="98b02a91-6fd2-4292-b970-710b9e603e1e" x="490" y="5" width="82" height="16"/>
+				<reportElement x="490" y="5" width="82" height="16" uuid="98b02a91-6fd2-4292-b970-710b9e603e1e"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -112,7 +110,7 @@ Reporte de Avance de Alumno]]></text>
 				<text><![CDATA[Avance %]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="882627b9-2f98-46e6-899e-a0205159ad27" x="0" y="4" width="101" height="16"/>
+				<reportElement x="0" y="5" width="101" height="16" uuid="882627b9-2f98-46e6-899e-a0205159ad27"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -125,7 +123,7 @@ Reporte de Avance de Alumno]]></text>
 				<text><![CDATA[Materia]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1b8b91a3-d8fc-4d82-8804-42d4fd75bac4" x="213" y="5" width="91" height="16"/>
+				<reportElement x="213" y="5" width="91" height="16" uuid="1b8b91a3-d8fc-4d82-8804-42d4fd75bac4"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -138,7 +136,7 @@ Reporte de Avance de Alumno]]></text>
 				<text><![CDATA[Tipo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="82dc9e40-7708-4216-9b0e-417c6e0c071f" x="101" y="5" width="112" height="16"/>
+				<reportElement x="101" y="5" width="112" height="16" uuid="82dc9e40-7708-4216-9b0e-417c6e0c071f"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -151,7 +149,7 @@ Reporte de Avance de Alumno]]></text>
 				<text><![CDATA[Clase]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="2289429f-ccc3-423d-b16d-0d547a4788dd" x="304" y="5" width="93" height="16"/>
+				<reportElement x="304" y="5" width="93" height="16" uuid="2289429f-ccc3-423d-b16d-0d547a4788dd"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -164,7 +162,7 @@ Reporte de Avance de Alumno]]></text>
 				<text><![CDATA[Total Puntos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="053d130f-5964-469c-af19-db2c6e7b708a" x="397" y="5" width="93" height="16"/>
+				<reportElement x="397" y="5" width="93" height="16" uuid="053d130f-5964-469c-af19-db2c6e7b708a"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -181,18 +179,17 @@ Reporte de Avance de Alumno]]></text>
 	<detail>
 		<band height="29" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement uuid="86df671e-2b3c-481f-81a3-19cc7bdae722" x="0" y="0" width="101" height="19"/>
+				<reportElement x="0" y="0" width="101" height="19" uuid="86df671e-2b3c-481f-81a3-19cc7bdae722"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement/>
 				<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement uuid="2e5b58ec-11ed-4769-a89c-1db7b8553d42" x="213" y="0" width="91" height="19"/>
+				<reportElement x="213" y="0" width="91" height="19" uuid="2e5b58ec-11ed-4769-a89c-1db7b8553d42"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -203,7 +200,7 @@ Reporte de Avance de Alumno]]></text>
 				<textFieldExpression><![CDATA[$F{tipo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00 %" isBlankWhenNull="true">
-				<reportElement uuid="311bb16a-3f20-4cfb-8851-ef3ec6a751d8" x="490" y="0" width="82" height="19"/>
+				<reportElement x="490" y="0" width="82" height="19" uuid="311bb16a-3f20-4cfb-8851-ef3ec6a751d8"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -214,7 +211,7 @@ Reporte de Avance de Alumno]]></text>
 				<textFieldExpression><![CDATA[$F{porcentaje}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="1aa73ae9-3388-4040-9ba4-2f49d54cb956" x="304" y="0" width="93" height="19"/>
+				<reportElement x="304" y="0" width="93" height="19" uuid="1aa73ae9-3388-4040-9ba4-2f49d54cb956"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -225,7 +222,7 @@ Reporte de Avance de Alumno]]></text>
 				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="41ec8b5b-0a04-4bc0-8357-049423460f7d" mode="Transparent" x="101" y="0" width="112" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<reportElement mode="Transparent" x="101" y="0" width="112" height="19" forecolor="#000000" backcolor="#FFFFFF" uuid="41ec8b5b-0a04-4bc0-8357-049423460f7d"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -239,7 +236,7 @@ Reporte de Avance de Alumno]]></text>
 				<textFieldExpression><![CDATA[$F{clase}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement uuid="ca968015-0fdc-4c66-afed-e748eff112c7" x="397" y="0" width="93" height="19"/>
+				<reportElement x="397" y="0" width="93" height="19" uuid="ca968015-0fdc-4c66-afed-e748eff112c7"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -254,7 +251,7 @@ Reporte de Avance de Alumno]]></text>
 	<summary>
 		<band height="34">
 			<textField>
-				<reportElement uuid="acdcfa32-9f0e-49ab-9f21-4cb802c38097" x="0" y="14" width="234" height="20"/>
+				<reportElement x="0" y="14" width="234" height="20" uuid="acdcfa32-9f0e-49ab-9f21-4cb802c38097"/>
 				<textElement>
 					<font isBold="true"/>
 				</textElement>

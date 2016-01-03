@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import net.sf.jasperreports.engine.JRException;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
@@ -32,7 +33,7 @@ import utils.FormatUtils;
  *
  * @author Marlon Alexander Palacios Díaz
  */
-@ViewScoped
+@SessionScoped
 @ManagedBean(name = "rptUsuariosController")
 public class RptUsuariosController extends RptUsuariosForm {
 

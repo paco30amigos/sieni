@@ -44,17 +44,14 @@
                 <p:dataTable id="consulta" var="car" value="#{rptRendimientoController.listDatos}" 
                              paginator="false"
                              reflow="true">
-                    <p:column headerText="Grado"  filterMatchMode="contains" filterable="true">
-                        #{car.grado}
-                    </p:column>
-                    <p:column headerText="Seccion"  filterMatchMode="contains" filterable="true">
-                        #{car.seccion}
-                    </p:column>
                     <p:column headerText="Materia"  filterMatchMode="contains" filterable="true">
                         #{car.materia}
                     </p:column>
                     <p:column headerText="Alumnos"  filterMatchMode="contains" filterable="true">
                         #{car.alumnos}
+                    </p:column>
+                    <p:column headerText="Evaluacion"  filterMatchMode="contains" filterable="true">
+                        #{car.evaluacion}
                     </p:column>
                     <p:column headerText="Tipo de Evaluacion"  filterMatchMode="contains" filterable="true">
                         #{car.tipoEvaluacion}

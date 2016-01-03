@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.event.ValueChangeEvent;
 import net.sf.jasperreports.engine.JRException;
@@ -35,7 +36,7 @@ import utils.FormatUtils;
  *
  * @author francisco_medina
  */
-@ViewScoped
+@SessionScoped
 @ManagedBean(name = "rptNotasController")
 public class RptNotasController extends RptNotasForm {
 
@@ -59,7 +60,7 @@ public class RptNotasController extends RptNotasForm {
         this.setListaDatos(new ArrayList<RptNotasPojo>());
         this.setGrado(new SieniGrado());
         this.setSeccion(new SieniSeccion());
-        fill();
+//        fill();
     }
 
     private void fill() {
@@ -82,7 +83,7 @@ public class RptNotasController extends RptNotasForm {
     }
 
     public void generarReporte() {
-        fill();
+//        fill();
         String txtGrado = "", txtSeccion = "";
         if (this.getGrado() != null && this.getGrado().getIdGrado() != null && !this.getGrado().getIdGrado().equals(0L)) {
             txtGrado = this.getGrado().getGrNombre();

@@ -105,9 +105,10 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
     }
 
     @Override
-    public List<String> findByTipo() {
-        Query q = em.createNamedQuery("SieniEvaluacion.findByTipo");
-        List<String> res = q.getResultList();
+    public List<SieniEvaluacion> findByMateria(Long idMateria) {
+        Query q = em.createNamedQuery("SieniEvaluacion.findByMateria");
+        q.setParameter("idMateria", idMateria);
+        List<SieniEvaluacion> res = q.getResultList();
         return res;
     }
 

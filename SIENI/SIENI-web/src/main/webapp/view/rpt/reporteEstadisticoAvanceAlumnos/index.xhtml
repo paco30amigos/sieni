@@ -40,7 +40,8 @@
                     </p:selectOneMenu>
                     <p:outputLabel for="alumno" value="Alumno: " class="  Responsive"></p:outputLabel>
                     <p:selectOneMenu id="alumno" value="#{rptEstadisticoAvanceController.alumno}" filter="true" filterMatchMode="contains" converter="alumno">
-                        <f:selectItems itemValue="#{alumno}" itemLabel="#{alumno.nombreCompleto}" value="#{rptEstadisticoAvanceController.listAlumnos}" var="alumno"></f:selectItems>
+                        <f:selectItems itemValue="#{al}" itemLabel="#{al.nombreCompleto}" value="#{rptEstadisticoAvanceController.listAlumnos}" var="al"></f:selectItems>
+                        <p:ajax event="valueChange" update="alumno"/>
                     </p:selectOneMenu>
                     <p:commandButton value="Refrescar" actionListener="#{rptEstadisticoAvanceController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>

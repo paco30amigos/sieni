@@ -84,6 +84,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
 //                    anio = new FormatUtils().getFormatedAnio(getDesde());
 //                }
                 this.setListAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion()));
+                this.setAlumno(this.getListAlumnos().get(0));
             } else {
                 this.setListAlumnos(new ArrayList<SieniAlumno>());
             }
@@ -122,7 +123,12 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
 //                            System.out.println("aja");
 //                        }
             SieniCatPuntos ptos = sieniCatPuntosFacadeRemote.findByClase(actual.getIdClase());
-            totalPuntos = ptos.getCpNumPuntos();
+            if (ptos != null && ptos.getCpNumPuntos() != null) {
+                totalPuntos = ptos.getCpNumPuntos();
+            } else {
+                totalPuntos = 0;
+            }
+
             elem = new RptEstadisticoAvancePojo(actual, null, actual.getIdCurso().getIdMateria().getMaNombre(), actual.getClTema(), actual.getTipo(), totalPuntos, puntosAl);
             this.getListDatos().add(elem);
         }
@@ -159,7 +165,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
     }
 
     public void refresh() {
-        init();
+//        init();
         fill();
     }
 
@@ -169,6 +175,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
         for (SieniGrado actual : this.getListGrados()) {
             if (actual.getIdGrado().equals(idGrado)) {
                 cod = actual;
+                this.setGrado(cod);
                 break;
             }
         }

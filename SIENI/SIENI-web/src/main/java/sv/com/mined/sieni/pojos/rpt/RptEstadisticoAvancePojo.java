@@ -17,10 +17,10 @@ import sv.com.mined.sieni.model.SieniSeccion;
  * @author INFORMATICA
  */
 public class RptEstadisticoAvancePojo implements Serializable {
-    
+
     private SieniClase claseEntity;
     private SieniAlumno alumnoEntity;
-    
+
     private String materia;
     private String clase;
     private String tipo;
@@ -71,12 +71,13 @@ public class RptEstadisticoAvancePojo implements Serializable {
     }
 
     public float getPorcentaje() {
-        porcentaje = this.acumulado*100/this.total;
+        if (this.total != 0) {
+            porcentaje = this.acumulado * 100 / this.total;
+        } else {
+            porcentaje = 0;
+        }
+
         return porcentaje;
     }
 
-    
-    
-
-    
 }

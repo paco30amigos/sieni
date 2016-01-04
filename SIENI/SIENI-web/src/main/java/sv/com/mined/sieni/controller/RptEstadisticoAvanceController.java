@@ -151,7 +151,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
             parameterMap.put("materia", this.getMateria().getMaNombre());
         }
         if (this.getAlumno() != null) {
-            parameterMap.put("alumno", this.getAlumno().getAlCarnet());
+            parameterMap.put("alumno", this.getAlumno().getAlNombreCompleto());
         }
 
         try {

@@ -3,6 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ui/extensions"
                 template="/WEB-INF/template.xhtml"
                 xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:define name="breadCrumb">
@@ -44,6 +45,16 @@
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
+ 
+  <h:panelGrid columns="1" style="background: #90A4AE">  
+    <h:outputText value="Tiempo Restante:"/>  
+    
+                
+                <pe:timer  
+                    timeout="#{gestionarEvaluacionController.evaluacionItemResp.evDuracion*60}"  
+        format="HH:mm:ss"
+        visible="true"/>
+               </h:panelGrid>
                 <p:dataTable id="consulta" paginatorPosition="bottom"  var="car" value="#{gestionarEvaluacionController.evaluacionItemResp.sieniEvaluacionItemList}" 
                              paginator="true" rows="#{gestionarEvaluacionController.evaluacionItemResp.evPreguntasPagina}"
                              paginatorTemplate="{CurrentPageReport} {guardarRespuesta}  {NextPageLink} "

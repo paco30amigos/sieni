@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -98,8 +99,8 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setTipoEvaluacion("Digital");
         fill();
     }
-    
-    public void initNuevo(){
+
+    public void initNuevo() {
         this.setEvaluacionNuevo(new SieniEvaluacion());
         this.getEvaluacionNuevo().setEvTipo("Digital");
         this.setIndexMenu(1);
@@ -309,7 +310,10 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setEvaluacionItemResp(new SieniEvaluacion());
         this.setEvaluacionItemResp(sieniEvaluacionFacadeRemote.findEvalItemResp(modificado.getIdEvaluacion()));
         this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());
-        this.setEvaluacionItemList(sieniEvaluacionFacadeRemote.findEvalItemResp(modificado.getIdEvaluacion()).getSieniEvaluacionItemList());
+        this.setEvaluacionItemList(this.getEvaluacionItemResp().getSieniEvaluacionItemList());
+          if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
+            Collections.shuffle(this.getEvaluacionItemList());
+        }
         this.setIndexMenu(10);
     }
 
@@ -411,8 +415,8 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         FacesMessage msg;
         sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList());
         if (ultimaPagina) {
-            Double nota=calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
-            SieniNota sieniNota=new SieniNota(); 
+            Double nota = calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
+            SieniNota sieniNota = new SieniNota();
             sieniNota.setIdAlumno(loginBean.getAlumno().getIdAlumno());
             sieniNota.setIdEvaluacion(this.getEvaluacionItemResp());
             sieniNota.setNtAnio(Calendar.getInstance().get(Calendar.YEAR));

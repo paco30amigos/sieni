@@ -26,6 +26,11 @@
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="mod_nombre"  value="Nombre del Curso:  " class=" Responsive"></p:outputLabel>
                     <p:inputText tabindex="1" id="mod_nombre" class=" Responsive" value="#{gestionCursoController.cursoModifica.crNombre}" required="true" requiredMessage="Debe ingresar un nombre para el curso"><f:validateLength minimum="10" maximum="50" /></p:inputText>
+                    <p:outputLabel for="tipoCurso" value="Tipo de Curso: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="2" id="tipoCurso" class=" Responsive" value="#{gestionCursoController.cursoModifica.crTipoCurso}" filter="true" filterMatchMode="contains" required="true">
+                        <f:selectItem itemValue="Escrito" itemLabel="Escrito"></f:selectItem>
+                        <f:selectItem itemValue="Digital" itemLabel="Digital"></f:selectItem>
+                    </p:selectOneMenu>
                     <p:outputLabel for="mod_capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
                     <p:spinner tabindex="2" id="mod_capacidad" class=" Responsive" value="#{gestionCursoController.cursoModifica.crCapacidad}" max="999" min="1" required="true" requiredMessage="Debe ingresar la capacidad del curso"></p:spinner>
                     <p:outputLabel for="mod_docente" value="Docente: " class="  Responsive"></p:outputLabel>
@@ -47,7 +52,7 @@
                         <f:selectItems itemValue ="#{materia.idMateria}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaModificaList}" var="materia" />
                     </p:selectOneMenu>
                 </p:panelGrid>
-                
+
                 <p:tooltip for="mod_nombre" value="Ingrese un nombre para el curso."/>
                 <p:tooltip for="mod_capacidad" value="Defina la capacidad que tendra el curso"/>
                 <p:tooltip for="mod_docente" value="Seleccione el docente que impartira el curso"/>

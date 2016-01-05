@@ -10,7 +10,7 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Gestionar Evaluacion" url="#{siteUrls.gestionEvaluacion}"/>
-            <p:menuitem value="Modificar Evaluacion"></p:menuitem>
+            <p:menuitem value="Consultar Evaluacion"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -26,11 +26,7 @@
                 <div class="EmptyBox20"></div>
                 <p:panelGrid columns="2">
                     <p:outputLabel value="Tipo de Evaluación"></p:outputLabel>
-                    <p:selectOneMenu value="#{gestionarEvaluacionController.evaluacionModifica.evTipo}" valueChangeListener="#{gestionarEvaluacionController.actualizarTipoCurso}">
-                        <f:selectItem itemLabel="Escrita" itemValue="Escrita"></f:selectItem>
-                        <f:selectItem itemLabel="Digital" itemValue="Digital"></f:selectItem>
-                        <p:ajax event="valueChange" update="p1"/>
-                    </p:selectOneMenu>
+                    <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.evTipo}"></p:outputLabel>
                 </p:panelGrid>
 
                 <p:focus id="focus" context="p1"/>
@@ -38,74 +34,60 @@
                     <c:if test="#{gestionarEvaluacionController.evaluacionModifica.evTipo=='Escrita'}">
                         <p:panelGrid columns="4" class="Container100 Responsive">
                             <p:outputLabel  value="Título: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:inputText id="titulo" value="#{gestionarEvaluacionController.evaluacionModifica.evNombre}" ></p:inputText>
-                            <p:outputLabel for="Curso" value="Curso: " class=" Responsive" ></p:outputLabel>
-                            <p:selectOneMenu id="Curso" filter="true" filterMatchMode="contains" value="#{gestionarEvaluacionController.idCurso}" >
-                                <f:selectItems itemValue="#{curso.idCurso}" itemLabel="#{curso.crNombre}" value="#{gestionarEvaluacionController.cursoList}" var="curso"></f:selectItems>
-                            </p:selectOneMenu>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.evNombre}" ></p:outputLabel>
+                            <p:outputLabel  value="Curso: " class=" Responsive" ></p:outputLabel>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.idCurso.crNombre}"></p:outputLabel>
                             <p:outputLabel  value="Ponderacion de la evaluación (%): " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:spinner id="ponderacion" min="0" max="100" value="#{gestionarEvaluacionController.evaluacionModifica.evPonderacion}"></p:spinner>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.evPonderacion}"></p:outputLabel>
                             <p:outputLabel  value="Fecha de Evaluación: " class="Contanier10 Responsive"></p:outputLabel>                        
-                            <p:calendar  class="Container100" id="fechInicio" value="#{gestionarEvaluacionController.evaluacionModifica.evFechaInicio}" mindate="#{dateUtils.fechaMinima}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de inicio" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
+                            <p:outputLabel value="#{dateUtils.getFormatoFecha(gestionarEvaluacionController.evaluacionModifica.evFechaInicio)}"></p:outputLabel>
                             <p:outputLabel  value="Duración en minutos: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:spinner id="duracion" value="#{gestionarEvaluacionController.evaluacionModifica.evDuracion}"></p:spinner>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.evDuracion}"></p:outputLabel>
                         </p:panelGrid>
-                        <p:tooltip for="titulo" value="Ingrese el titulo de la evaluacion"/>
-                        <p:tooltip for="Curso" value="Seleccione el curso en la cual se creara la evaluacion"/>
-                        <p:tooltip for="ponderacion" value="Defina la ponderacion de la evaluacion en puntos porcentuales, ejemplo 25%"/>
-                        <p:tooltip for="fechInicio" value="seleccione la fecha de inicio para la evaluacion"/>
                     </c:if>
                     <c:if test="#{gestionarEvaluacionController.evaluacionModifica.evTipo=='Digital'}">
                         <p:panelGrid columns="4" class="Container100 Responsive">
                             <p:outputLabel  value="Título: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:inputText id="titulo" value="#{gestionarEvaluacionController.evaluacionModifica.evNombre}" ></p:inputText>
-                            <p:outputLabel for="Curso" value="Curso: " class=" Responsive" ></p:outputLabel>
-                            <p:selectOneMenu id="Curso" filter="true" filterMatchMode="contains" value="#{gestionarEvaluacionController.idCurso}" >
-                                <f:selectItems itemValue="#{curso.idCurso}" itemLabel="#{curso.crNombre}" value="#{gestionarEvaluacionController.cursoList}" var="curso"></f:selectItems>
-                            </p:selectOneMenu>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.evNombre}" ></p:outputLabel>
+                            <p:outputLabel  value="Curso: " class=" Responsive" ></p:outputLabel>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.idCurso.crNombre}"></p:outputLabel>
                             <p:outputLabel  value="Ponderacion de la evaluación (%): " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:spinner id="ponderacion" min="0" max="100" value="#{gestionarEvaluacionController.evaluacionModifica.evPonderacion}"></p:spinner>
-                            <p:outputLabel  value="Fecha de Inicio: " class="Contanier10 Responsive"></p:outputLabel>                        
-                            <p:calendar  class="Container100" id="fechInicio" value="#{gestionarEvaluacionController.evaluacionModifica.evFechaInicio}" mindate="#{dateUtils.fechaMinima}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de inicio" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
-                            <p:outputLabel  value="Fecha de Cierre: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:calendar  class="Container100" id="fechaCierre" value="#{gestionarEvaluacionController.evaluacionModifica.evFechaCierre}" mindate="#{dateUtils.fechaMinima}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de Cierre" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true"></p:calendar>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.evPonderacion}"></p:outputLabel>
+                            <p:outputLabel  value="Fecha de Inicio " class="Contanier10 Responsive"></p:outputLabel>                        
+                            <p:outputLabel value="#{dateUtils.getFormatoFecha(gestionarEvaluacionController.evaluacionModifica.evFechaInicio)}"></p:outputLabel>
                             <p:outputLabel  value="Duración en minutos: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:spinner value="#{gestionarEvaluacionController.evaluacionModifica.evDuracion}"></p:spinner>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.evDuracion}"></p:outputLabel>
+                            <p:outputLabel  value="Fecha de Cierre: " class="Contanier10 Responsive"></p:outputLabel>
+                            <p:outputLabel value="#{dateUtils.getFormatoFecha(gestionarEvaluacionController.evaluacionModifica.evFechaCierre)}"></p:outputLabel>
+                            <p:outputLabel  value="Duración en minutos: " class="Contanier10 Responsive"></p:outputLabel>
+                            <p:outputLabel value="#{gestionarEvaluacionController.evaluacionModifica.evDuracion}"></p:outputLabel>
                             <p:outputLabel  value="Intentos permitidos: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:spinner  id="intentos" value="#{gestionarEvaluacionController.evaluacionModifica.evIntentos}"></p:spinner>
+                            <p:outputLabel id="intentos" value="#{gestionarEvaluacionController.evaluacionModifica.evIntentos}"></p:outputLabel>
                             <p:outputLabel  value="Consultar Nota al finalizar evaluación: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:selectOneRadio  id="console" value="#{gestionarEvaluacionController.evaluacionModifica.evNotaFin}">
+                            <p:selectOneRadio  id="console" value="#{gestionarEvaluacionController.evaluacionModifica.evNotaFin}" disabled="true">
                                 <f:selectItem itemValue="Si" itemLabel="Si" />
                                 <f:selectItem itemValue="No" itemLabel="No" />
                             </p:selectOneRadio>
                             <p:outputLabel  value="Total de preguntas de la evaluación: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:spinner  value="#{gestionarEvaluacionController.evaluacionModifica.evTotalPreguntas}"></p:spinner>
-                            <p:outputLabel  value="Preguntas aleatorias: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:selectOneRadio  id="pa" value="#{gestionarEvaluacionController.evaluacionModifica.evPreguntasAleatorias}">
+                            <p:outputLabel  value="#{gestionarEvaluacionController.evaluacionModifica.evTotalPreguntas}"></p:outputLabel>
+                            <p:outputLabel  value="Preguntas aleatorias: " class="Contanier10 Responsive" ></p:outputLabel>
+                            <p:selectOneRadio  id="pa" value="#{gestionarEvaluacionController.evaluacionModifica.evPreguntasAleatorias}" disabled="true">
                                 <f:selectItem itemValue="Si" itemLabel="Si" />
                                 <f:selectItem itemValue="No" itemLabel="No" />
                             </p:selectOneRadio>                        
                             <p:outputLabel value="Respuestas aleatorias: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:selectOneRadio  id="ra" value="#{gestionarEvaluacionController.evaluacionModifica.evRespuestasAleatorias}">
+                            <p:selectOneRadio  id="ra" value="#{gestionarEvaluacionController.evaluacionModifica.evRespuestasAleatorias}" disabled="true">
                                 <f:selectItem itemValue="Si" itemLabel="Si" />
                                 <f:selectItem itemValue="No" itemLabel="No" />
                             </p:selectOneRadio>
                             <p:outputLabel  value="Consultar respuestas al final: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:selectOneRadio  id="rf" value="#{gestionarEvaluacionController.evaluacionModifica.evVerRespuesta}">
+                            <p:selectOneRadio  id="rf" value="#{gestionarEvaluacionController.evaluacionModifica.evVerRespuesta}" disabled="true">
                                 <f:selectItem itemValue="Si" itemLabel="Si" />
                                 <f:selectItem itemValue="No" itemLabel="No" />
                             </p:selectOneRadio>
                             <p:outputLabel  value="Preguntas por página: " class="Contanier10 Responsive"></p:outputLabel>
-                            <p:spinner  value="#{gestionarEvaluacionController.evaluacionModifica.evPreguntasPagina}"></p:spinner>
+                            <p:outputLabel  value="#{gestionarEvaluacionController.evaluacionModifica.evPreguntasPagina}"></p:outputLabel>
                         </p:panelGrid>
-                        <p:tooltip for="titulo" value="Ingrese el titulo de la evaluacion"/>
-                        <p:tooltip for="Curso" value="Seleccione el curso en la cual se creara la evaluacion"/>
-                        <p:tooltip for="ponderacion" value="Defina la ponderacion de la evaluacion en puntos porcentuales, ejemplo 25%"/>
-                        <p:tooltip for="fechInicio" value="seleccione la fecha de inicio para la evaluacion"/>
-                        <p:tooltip for="fechaCierre" value="seleccione la fecha de finalizacion para la evaluacion"/>
-                        <p:tooltip for="intentos" value="Numero de intentos permitidos en la evaluacion"/>
-                        <p:tooltip for="pa" value="Define si las preguntas se presentaran en orden aleatorio"/>
-                        <p:tooltip for="rf" value="Define si el alumno podra ver las respuestas tras finalizar la evaluacion"/>
                     </c:if>
                 </p:panel>
                 <div class="EmptyBox20"></div>

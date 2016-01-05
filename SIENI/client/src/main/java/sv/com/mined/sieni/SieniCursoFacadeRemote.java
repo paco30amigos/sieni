@@ -17,7 +17,7 @@ import sv.com.mined.sieni.model.SieniCurso;
 public interface SieniCursoFacadeRemote {
 
     void create(SieniCurso sieniCurso);
-    
+
     SieniCurso createAndReturn(SieniCurso sieniCurso);
 
     void edit(SieniCurso sieniCurso);
@@ -29,16 +29,17 @@ public interface SieniCursoFacadeRemote {
     List<SieniCurso> findAll();
 
     List<SieniCurso> findRange(int[] range);
-    
+
     List<SieniCurso> findByEstado(Character estado);
-    
-     public SieniCurso finByDocGrSecMat(Long idDocente,Long idGrado,Long idSeccion,Long idMateria,String nombre);
+
+    public List<SieniCurso> findByTipoCurso(String tipoCurso);
+
+    public SieniCurso finByDocGrSecMat(Long idDocente, Long idGrado, Long idSeccion, Long idMateria, String nombre);
 
     int count();
-    
-    
+
     public List<SieniCurso> findActivos();
-    
+
     public List<SieniCurso> findAllByMateria(Long idMateria);
-    
+
 }

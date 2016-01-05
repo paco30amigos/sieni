@@ -26,7 +26,7 @@
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="2">
                     <p:outputLabel value="Tipo de Evaluación"></p:outputLabel>
-                    <p:selectOneMenu value="#{gestionarEvaluacionController.evaluacionNuevo.evTipo}">
+                    <p:selectOneMenu value="#{gestionarEvaluacionController.evaluacionNuevo.evTipo}" valueChangeListener="#{gestionarEvaluacionController.actualizarTipoCurso}">
                         <f:selectItem itemLabel="Escrita" itemValue="Escrita"></f:selectItem>
                         <f:selectItem itemLabel="Digital" itemValue="Digital"></f:selectItem>
                         <p:ajax event="valueChange" update="p1"/>
@@ -67,7 +67,7 @@
                             <p:spinner id="duracion" value="#{gestionarEvaluacionController.evaluacionNuevo.evDuracion}"></p:spinner>
                             <p:outputLabel  value="Intentos permitidos: " class="Contanier10 Responsive"></p:outputLabel>
                             <p:spinner  id="intentos" value="#{gestionarEvaluacionController.evaluacionNuevo.evIntentos}"></p:spinner>
-                            <p:outputLabel  value="Ver Nota al finalizar evaluación: " class="Contanier10 Responsive"></p:outputLabel>
+                            <p:outputLabel  value="Consultar Nota al finalizar evaluación: " class="Contanier10 Responsive"></p:outputLabel>
                             <p:selectOneRadio  id="console" value="#{gestionarEvaluacionController.evaluacionNuevo.evNotaFin}">
                                 <f:selectItem itemValue="Si" itemLabel="Si" />
                                 <f:selectItem itemValue="No" itemLabel="No" />
@@ -84,7 +84,7 @@
                                 <f:selectItem itemValue="Si" itemLabel="Si" />
                                 <f:selectItem itemValue="No" itemLabel="No" />
                             </p:selectOneRadio>
-                            <p:outputLabel  value="Ver respuestas al final: " class="Contanier10 Responsive"></p:outputLabel>
+                            <p:outputLabel  value="Consultar respuestas al final: " class="Contanier10 Responsive"></p:outputLabel>
                             <p:selectOneRadio  id="rf" value="#{gestionarEvaluacionController.evaluacionNuevo.evVerRespuesta}">
                                 <f:selectItem itemValue="Si" itemLabel="Si" />
                                 <f:selectItem itemValue="No" itemLabel="No" />

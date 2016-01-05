@@ -60,7 +60,7 @@ public class RptNotasController extends RptNotasForm {
         this.setListaDatos(new ArrayList<RptNotasPojo>());
         this.setGrado(new SieniGrado());
         this.setSeccion(new SieniSeccion());
-//        fill();
+        fill();
     }
 
     private void fill() {

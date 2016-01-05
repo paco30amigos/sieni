@@ -37,7 +37,7 @@
                     <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
                     <p:selectOneMenu id="seccion" value="#{rptNotasController.seccion.idSeccion}">
                         <f:selectItem itemValue="0" itemLabel="Todos"></f:selectItem>
-                        <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}-#{seccion.idSeccion}" value="#{rptNotasController.seccionesList}" var="seccion"></f:selectItems>
+                        <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptNotasController.seccionesList}" var="seccion"></f:selectItems>
                         <p:ajax event="valueChange" update="seccion"/>
                     </p:selectOneMenu>
                     <p:commandButton value="generar" actionListener="#{rptNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>

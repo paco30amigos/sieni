@@ -37,6 +37,9 @@
                     <p:column headerText="Nombre" filterBy="#{car.crNombre}" filterable="true" filterMatchMode="contains">
                         #{car.crNombre}
                     </p:column>
+                    <p:column headerText="Tipo de Curso" filterBy="#{car.crTipoCurso}" filterable="true" filterMatchMode="contains">
+                        #{car.crTipoCurso}
+                    </p:column>
                     <p:column headerText="Capacidad" filterBy="#{car.crCapacidad}" filterable="true" filterMatchMode="contains">
                         #{car.crCapacidad}
                     </p:column>
@@ -54,7 +57,7 @@
                     </p:column>
                     <p:column headerText="Acciones">
 
-                        <p:commandLink action="#{gestionCursoController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Curso" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionCursoController.ver(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Consultar Curso" ></i></p:commandLink>
                         <p:commandLink action="#{gestionCursoController.modificar(car)}" ><i class="icon-compose Fs25 Red MarRight10" title="Modificar Curso" ></i></p:commandLink>
                         <p:commandLink action="#{gestionCursoController.gestionarCursoAlumno(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}" ><i class="fa fa-mortar-board Fs25 Red MarRight10" title="Inscribir alumnos" ></i></p:commandLink>
                         <p:commandLink action="#{gestionCursoController.gestionarAlumnoInscrito(car)}"  rendered="#{loginController.mostrarA('1,2')}"> <i class="icon-portfolio Fs25 Red MarRight10" title="Consultar Alumnos inscritos" ></i></p:commandLink>

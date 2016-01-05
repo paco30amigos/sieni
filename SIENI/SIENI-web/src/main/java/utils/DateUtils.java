@@ -208,12 +208,15 @@ public class DateUtils {
     public String getFormatoFecha(Date fecha) {
         java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-        String fechaFormato = sdf.format(fecha);
+        String fechaFormato="";
+        if (fecha != null) {
+            fechaFormato = sdf.format(fecha);
+        }
         return fechaFormato;
     }
 
     public String getFormatoHora(Date hora) {
-        
+
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(formatoHora);
         String fechaFormato = sdf.format(hora);
         return fechaFormato;

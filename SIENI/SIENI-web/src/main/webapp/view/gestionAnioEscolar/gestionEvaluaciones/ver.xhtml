@@ -10,7 +10,7 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Gestionar Evaluacion" url="#{siteUrls.gestionEvaluacion}"/>
-            <p:menuitem value="Ver Evaluacion"></p:menuitem>
+            <p:menuitem value="Consultar Evaluacion"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -40,7 +40,7 @@
                     <p:spinner value="#{gestionarEvaluacionController.evaluacionModifica.evDuracion}" disabled="true"></p:spinner>
                     <p:outputLabel  value="Intentos permitidos: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:spinner  value="#{gestionarEvaluacionController.evaluacionModifica.evIntentos}" disabled="true"></p:spinner>
-                    <p:outputLabel  value="Ver Nota al finalizar evaluación: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:outputLabel  value="Consultar Nota al finalizar evaluación: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:inputText value="#{gestionarEvaluacionController.evaluacionModifica.evNotaFin}" disabled="true" ></p:inputText>                        
                     <p:outputLabel  value="Total de preguntas de la evaluación: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:spinner  value="#{gestionarEvaluacionController.evaluacionModifica.evTotalPreguntas}"  disabled="true"></p:spinner>
@@ -48,7 +48,7 @@
                     <p:inputText value="#{gestionarEvaluacionController.evaluacionModifica.evPreguntasAleatorias}" disabled="true" ></p:inputText>
                     <p:outputLabel value="Respuestas aleatorias: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:inputText value="#{gestionarEvaluacionController.evaluacionModifica.evRespuestasAleatorias}" disabled="true" ></p:inputText>
-                    <p:outputLabel  value="Ver respuestas al final: " class="Contanier10 Responsive"></p:outputLabel>
+                    <p:outputLabel  value="Consultar respuestas al final: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:inputText value="#{gestionarEvaluacionController.evaluacionModifica.evVerRespuesta}" disabled="true" ></p:inputText>                        
                     <p:outputLabel  value="Preguntas por página: " class="Contanier10 Responsive"></p:outputLabel>
                     <p:spinner  value="#{gestionarEvaluacionController.evaluacionModifica.evPreguntasPagina}" disabled="true"></p:spinner>

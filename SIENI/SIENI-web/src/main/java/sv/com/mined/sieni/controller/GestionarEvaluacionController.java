@@ -19,6 +19,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.FileUploadEvent;
@@ -101,6 +102,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     }
 
     public void initNuevo() {
+        this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso("Digital"));
         this.setEvaluacionNuevo(new SieniEvaluacion());
         this.getEvaluacionNuevo().setEvTipo("Digital");
         this.setIndexMenu(1);
@@ -287,6 +289,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
     //metodos para modificacion de datos
     public void modificar(SieniEvaluacion modificado) {
+        this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso(modificado.getIdCurso().getCrTipoCurso()));
         this.setEvaluacionModifica(modificado);
         this.setIndexMenu(2);
     }
@@ -306,12 +309,17 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setIndexMenu(3);
     }
 
+    public void mostrar(SieniEvaluacion modificado) {
+        this.setEvaluacionModifica(modificado);
+        this.setIndexMenu(11);
+    }
+
     public void verEvaluacion(SieniEvaluacion modificado) {
         this.setEvaluacionItemResp(new SieniEvaluacion());
         this.setEvaluacionItemResp(sieniEvaluacionFacadeRemote.findEvalItemResp(modificado.getIdEvaluacion()));
         this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());
         this.setEvaluacionItemList(this.getEvaluacionItemResp().getSieniEvaluacionItemList());
-          if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
+        if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
             Collections.shuffle(this.getEvaluacionItemList());
         }
         this.setIndexMenu(10);
@@ -572,5 +580,10 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
+    }
+
+    public void actualizarTipoCurso(ValueChangeEvent a) {
+        String cod = (String) a.getNewValue();
+        this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso(cod));
     }
 }

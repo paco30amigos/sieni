@@ -67,8 +67,10 @@
                     <p:column >
 
                         #{rowIndex+1}<p:outputLabel value=") " class="TexAlCenter" ></p:outputLabel> #{car.eiPregunta}
+                        <input type="hidden" name="id#{rowIndex+1}" value="#{car.idEvaluacionItem}"/>
                         <p:dataTable id="respuestas"  var="res" value="#{car.sieniEvalRespItemList}">
                             <p:column>
+                                <f:param name="#{rowIndex+1}" value="#{car.idEvalRespItem}" />
                                 
                                 <input type="#{res.erTipoInput}" name="name#{rowIndex+1}"  value="#{res.erRespCorrecta}"/> 
                                 <h:outputText value="" rendered="#{car.eiTipoResp eq '4'}"/>

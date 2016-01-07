@@ -478,13 +478,19 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
     public Boolean evaluacionDisponible(SieniEvaluacion evaluacion) {
         Date fechaActual = new Date();
-        if ((fechaActual.getTime() >= evaluacion.getEvFechaInicio().getTime() && fechaActual.getTime() <= evaluacion.getEvFechaCierre().getTime())) {
-            disponible = true;
-        } else {
+        try {
+            if (evaluacion.getEvFechaCierre() != null && evaluacion.getEvFechaInicio() != null) {
+                if ((fechaActual.getTime() >= evaluacion.getEvFechaInicio().getTime() && fechaActual.getTime() <= evaluacion.getEvFechaCierre().getTime())) {
+                    disponible = true;
+                } else {
+                    disponible = false;
+                }
+            }
+            if (!validaAlumno()) {
+                disponible = true;
+            }
+        } catch (Exception e) {
             disponible = false;
-        }
-        if (!validaAlumno()) {
-            disponible = true;
         }
 
         return disponible;

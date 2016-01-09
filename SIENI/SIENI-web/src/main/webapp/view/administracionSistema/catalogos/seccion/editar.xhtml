@@ -36,6 +36,9 @@
                     <p:outputLabel for="seccion"  value="Seccion: " class=" Responsive"></p:outputLabel>
                     <p:inputText tabindex="1" id="seccion" value="#{catSeccionController.modifica.scDescripcion}" onblur="value=value.toUpperCase()" required="true" requiredMessage="Debe ingresar seccion" maxlength="1"></p:inputText>
                 </p:panelGrid>
+                <p:tooltip for="seccion">
+                    <h:outputText value="Sigla de la seccion, ejemplo: A"/>
+                </p:tooltip>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{catSeccionController.guardarModifica()}" update="p1,focus" oncomplete="configurarEnterTab()"/>

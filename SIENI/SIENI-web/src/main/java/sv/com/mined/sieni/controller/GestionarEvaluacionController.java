@@ -371,8 +371,10 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         }
     }
 
-    public synchronized void guardarResAlumno() {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+    public synchronized void guardarResAlumno(Boolean timeout) {
+        
+        try {
+              HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("consultaForm:consulta");
         Boolean ultimaPagina = false;
@@ -438,7 +440,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         }
         FacesMessage msg;
         sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList());
-        if (ultimaPagina) {
+        if (ultimaPagina || timeout) {            
             Double nota = calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
             SieniNota sieniNota = new SieniNota();
             sieniNota.setIdAlumno(loginBean.getAlumno().getIdAlumno());
@@ -455,7 +457,12 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             msg = new FacesMessage("Se guardaron las respuestas");
         }
 
-        FacesContext.getCurrentInstance().addMessage(null, msg);
+        FacesContext.getCurrentInstance().addMessage(null, msg);  
+            } catch (Exception e) {
+                new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            }
+        
+        
 
     }
 
@@ -480,7 +487,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         Date fechaActual = new Date();
         try {
             if (evaluacion.getEvFechaCierre() != null && evaluacion.getEvFechaInicio() != null) {
-                if ((fechaActual.getTime() >= evaluacion.getEvFechaInicio().getTime() && fechaActual.getTime() <= evaluacion.getEvFechaCierre().getTime())) {
+                if ((fechaActual.getTime() >= evaluacion.getEvFechaInicio().getTime() && fechaActual.getTime() <= evaluacion.getEvFechaCierre().getTime()) && !"Escrita".equals(evaluacion.getEvTipo())) {
                     disponible = true;
                 } else {
                     disponible = false;
@@ -488,7 +495,8 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             }
             if (!validaAlumno()) {
                 disponible = true;
-            }
+            }            
+           
         } catch (Exception e) {
             disponible = false;
         }
@@ -505,18 +513,38 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         Double nota = new Double("0.0");
         List<String> respuestas = new ArrayList<>();
         String resAux = "";
+        String respuestalibreAlumno = null;
+        String respuestLibre = null;
         this.setEvalRespAlumnoList(new ArrayList<SieniEvalRespAlumno>());
         this.setEvalRespAlumnoList(sieniEvalRespAlumnoFacadeRemote.findByAlumnoEv(alumno, evaluacion));
 
-        for (int i = 0; i < this.getEvaluacionItemList().size(); i++) {
+        for (int i = 0; i < this.getEvalRespAlumnoList().size(); i++) {
             for (SieniEvalRespItem res : this.getEvalRespAlumnoList().get(i).getIdEvaluacionItem().getSieniEvalRespItemList()) {
                 resAux = resAux + (res.getErRespCorrecta()) + ",";
+                if (this.getEvalRespAlumnoList().get(i).getIdEvaluacionItem().getEiTipoResp().equals("4")) {
+                    respuestLibre = res.getErRespuesta();
+
+                }
             }
 
-            numFalsas = contaPalabra("NO", resAux);
-            numFalsasAlumno = contaPalabra("NO", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
-            numVerdaderas = contaPalabra("SI", resAux);
-            numVerdaderasAlumno = contaPalabra("SI", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
+            if (respuestLibre != null) {
+                numFalsas = 0;
+                numFalsasAlumno = 0;
+                if (respuestLibre.equals(this.getEvalRespAlumnoList().get(i).getRaRespuesta())) {                  
+                numVerdaderas = 1;
+                numVerdaderasAlumno = 1;
+                }
+                else{
+                numVerdaderas = 1;
+                numVerdaderasAlumno = 0;
+                }
+                
+            } else {
+                numFalsas = contaPalabra("NO", resAux);
+                numFalsasAlumno = contaPalabra("NO", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
+                numVerdaderas = contaPalabra("SI", resAux);
+                numVerdaderasAlumno = contaPalabra("SI", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
+            }
             resAux = "";
             if (numFalsasAlumno > numVerdaderas) {
                 notaPregunta.add(new Double("0.0"));
@@ -609,5 +637,9 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     public void actualizarTipoCurso(ValueChangeEvent a) {
         String cod = (String) a.getNewValue();
         this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso(cod));
+    }
+
+    public void onTimeout() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "BOOM", null));
     }
 }

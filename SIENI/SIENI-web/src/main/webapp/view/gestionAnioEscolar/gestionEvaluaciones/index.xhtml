@@ -61,12 +61,9 @@
                     <p:column headerText="Acciones" style="width: 12%">
 
                         <p:commandLink action="#{gestionarEvaluacionController.mostrar(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Consultar Evaluacion" ></i></p:commandLink>
-
-                        <p:commandLink action="#{gestionarEvaluacionController.verEvaluacion(car)}" rendered="#{gestionarEvaluacionController.evaluacionDisponible(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver Evaluacion"></i></p:commandLink>
-
+                        <p:commandLink action="#{gestionarEvaluacionController.verEvaluacion(car)}" rendered="#{gestionarEvaluacionController.evaluacionDisponible(car)}"><i class="icon-list88 Fs30 Red MarRight10" title="Realizar Evaluacion" ></i></p:commandLink>
                         <p:commandLink action="#{gestionarEvaluacionController.modificar(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Evaluacion" ></i></p:commandLink>
-                        <p:commandLink action="#{gestionarEvaluacionController.gestionarItemsEvaluacion(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno() and car.evTipo!='Escrita'}" ><i class="icon-portfolio Fs25 Red MarRight10" title="Agregar items" ></i></p:commandLink>
-                        <p:commandLink action="#{gestionarEvaluacionController.verEvaluacion(car)}" rendered="#{car.evTipo!='Escrita'}"><i class="icon-list88 Fs30 Red MarRight10" title="Realizar Evaluacion" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarEvaluacionController.gestionarItemsEvaluacion(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno() and car.evTipo!='Escrita'}" ><i class="icon-portfolio Fs25 Red MarRight10" title="Agregar items" ></i></p:commandLink>                        
                         <p:commandLink action="#{gestionarEvaluacionController.eliminar(car)}"  onclick="PF('dlgEliminar').show();" immediate="true" rendered="#{!gestionarEvaluacionController.validaAlumno()}" >
                             <i class="icon-close Fs25 Red MarRight10" title="Eliminar Evaluacion"></i>
                         </p:commandLink>

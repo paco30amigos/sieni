@@ -53,7 +53,9 @@
                 <pe:timer  
                     timeout="#{gestionarEvaluacionController.evaluacionItemResp.evDuracion*60}"  
         format="HH:mm:ss"
-        visible="true"/>
+        visible="true"
+        listener="#{gestionarEvaluacionController.guardarResAlumno(true)}"
+        />
                </h:panelGrid>
                 <p:dataTable id="consulta" paginatorPosition="bottom"  var="car" value="#{gestionarEvaluacionController.evaluacionItemResp.sieniEvaluacionItemList}" 
                              paginator="true" rows="#{gestionarEvaluacionController.evaluacionItemResp.evPreguntasPagina}"
@@ -61,7 +63,7 @@
                              reflow="true" rowIndexVar="rowIndex"
                              styleClass="borderless">
                     <f:facet name="{guardarRespuesta}">
-                        <p:commandButton value="Guardar" action="#{gestionarEvaluacionController.guardarResAlumno()}"  ></p:commandButton>
+                        <p:commandButton value="Guardar" action="#{gestionarEvaluacionController.guardarResAlumno(false)}"  ></p:commandButton>
         </f:facet>  
 
                     <p:column >

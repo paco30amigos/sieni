@@ -25,9 +25,9 @@
         </style>
        
     </ui:define>
-    <ui:define name="content">  
+    <ui:define name="content"> 
         <div class="EmptyBox5"></div>
-        <p:panel>
+        <p:panel id="panelEV">
             <h:form enctype="multipart/form-data" id="consultaForm" >
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/verEvaluacion.xhtml"></ui:include>
@@ -44,10 +44,30 @@
                     <p:commandButton value="Si" onclick="PF('dlgEliminar2').show()" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
-                <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
+                <p:dialog id="dlgfinEva" widgetVar="dlgfinEvaVar" header="Evaluacion" modal="true">
+                    <p:outputLabel value="La evaluacion ha finalizado" class="TexAlCenter" ></p:outputLabel>
+                    <br/>
+                    <p:outputLabel value="Su calificacion es: #{gestionarEvaluacionController.calificacion}" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Finalizar" action="#{gestionarEvaluacionController.setIndexMenu(0)}"></p:commandButton>
+                    <p:ajax event="close"  listener="#{gestionarEvaluacionController.handleClose}"/>
+                    <p:commandButton value="Repetir evaluacion" action="#{gestionarEvaluacionController.setIndexMenu(10)}" ></p:commandButton>
+                    
+                </p:dialog>
+                <p:dialog id="dlgfin" widgetVar="dlgfinVar" header="Evaluacion" modal="true">
+                    <p:outputLabel value="La evaluacion ha finalizado" class="TexAlCenter" ></p:outputLabel>
+                    <br/>
+                    <p:outputLabel value="Su calificaicon será publicada posteriormente" class="TexAlCenter" ></p:outputLabel>
+                    <div class="EmptyBox20"></div>
+                    <p:commandButton value="Finalizar" action="#{gestionarEvaluacionController.setIndexMenu(0)}"></p:commandButton>
+                    <p:ajax event="close"  listener="#{gestionarEvaluacionController.handleClose}"/>
+                    <p:commandButton value="Repetir evaluacion" action="#{gestionarEvaluacionController.setIndexMenu(10)}"></p:commandButton>
+                    
+                </p:dialog>
+                <p:remoteCommand name="updateTablaConsulta" update="panelEV"></p:remoteCommand>
  
-  <h:panelGrid columns="1" style="background: #90A4AE">  
-    <h:outputText value="Tiempo Restante:"/>  
+  <h:panelGrid columns="1" style="background: #0288D1">  
+      <h:outputText value="Tiempo Restante:" style="color: #ffffff"/>  
     
                 
                 <pe:timer  
@@ -63,7 +83,7 @@
                              reflow="true" rowIndexVar="rowIndex"
                              styleClass="borderless">
                     <f:facet name="{guardarRespuesta}">
-                        <p:commandButton value="Guardar" action="#{gestionarEvaluacionController.guardarResAlumno(false)}"  ></p:commandButton>
+                        <p:commandButton value="Guardar" action="#{gestionarEvaluacionController.guardarResAlumno(false)}" rendered="#{gestionarEvaluacionController.validaAlumno()}" ></p:commandButton>
         </f:facet>  
 
                     <p:column >

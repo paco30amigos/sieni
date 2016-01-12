@@ -21,73 +21,72 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form>
-            <div class="EmptyBox20"></div>
-            <p:panelGrid columns="4">
-                <p:outputLabel for="curso" value="Curso: " class="  Responsive"></p:outputLabel>
-                <p:selectOneMenu id="curso" class=" Responsive" value="#{rptClasesController.idCurso}" >
-                    <f:selectItem itemValue="0" itemLabel="TODOS LOS CURSOS" />
-                    <f:selectItems itemValue ="#{cur.idCurso}" itemLabel="#{cur.crNombre}" value="#{rptClasesController.listCursos}" var="cur" />
-                </p:selectOneMenu>
-                <p:outputLabel for="tipoC" value="Tipo De Clase:"></p:outputLabel>
-                <p:selectOneMenu id="tipoC" value="#{rptClasesController.tipoC}">
-                    <f:selectItem itemLabel="TODOS" itemValue="0"></f:selectItem>
-                    <f:selectItem itemLabel="Clase en vivo" itemValue="1"></f:selectItem>
-                    <f:selectItem itemLabel="Video Clase" itemValue="2"></f:selectItem>
-                    <f:selectItem itemLabel="Clase Interactiva" itemValue="3"></f:selectItem>
-                </p:selectOneMenu>
-                <p:outputLabel for="estadoC" value="Estado:"></p:outputLabel>
-                <p:selectOneMenu id="estadoC" value="#{rptClasesController.estadoC}">
-                    <f:selectItem itemValue="0" itemLabel="TODOS" ></f:selectItem>
-                    <f:selectItem itemValue="1" itemLabel="No Iniciada"></f:selectItem>
-                    <f:selectItem itemValue="2" itemLabel="Iniciada"></f:selectItem>
-                    <f:selectItem itemValue="3" itemLabel="Terminada"></f:selectItem>
-                </p:selectOneMenu>
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="curso" value="Curso: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="curso" class=" Responsive" value="#{rptClasesController.idCurso}" >
+                        <f:selectItem itemValue="0" itemLabel="TODOS LOS CURSOS" />
+                        <f:selectItems itemValue ="#{cur.idCurso}" itemLabel="#{cur.crNombre}" value="#{rptClasesController.listCursos}" var="cur" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="tipoC" value="Tipo De Clase:"></p:outputLabel>
+                    <p:selectOneMenu id="tipoC" value="#{rptClasesController.tipoC}">
+                        <f:selectItem itemLabel="TODOS" itemValue="0"></f:selectItem>
+                        <f:selectItem itemLabel="Clase en vivo" itemValue="1"></f:selectItem>
+                        <f:selectItem itemLabel="Video Clase" itemValue="2"></f:selectItem>
+                        <f:selectItem itemLabel="Clase Interactiva" itemValue="3"></f:selectItem>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="estadoC" value="Estado:"></p:outputLabel>
+                    <p:selectOneMenu id="estadoC" value="#{rptClasesController.estadoC}">
+                        <f:selectItem itemValue="0" itemLabel="TODOS" ></f:selectItem>
+                        <f:selectItem itemValue="1" itemLabel="No Iniciada"></f:selectItem>
+                        <f:selectItem itemValue="2" itemLabel="Iniciada"></f:selectItem>
+                        <f:selectItem itemValue="3" itemLabel="Terminada"></f:selectItem>
+                    </p:selectOneMenu>
+                    <p:commandButton value="generar" actionListener="#{rptClasesController.fill()}" update="consulta" ajax="true"></p:commandButton>
+                </p:panelGrid>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta" var="clase" value="#{rptClasesController.listDatos}" 
+                             paginator="false" emptyMessage="No hay clases que mostrar"                                 
+                             reflow="true">
+
+                    <p:column headerText="Curso" >
+                        #{clase.curso}
+                    </p:column>
+                    <p:column headerText="Tema" >
+                        #{clase.tema}
+                    </p:column>
+                    <p:column headerText="Tipo" >
+                        #{clase.tipo}
+                    </p:column>
+                    <p:column headerText="Hora" >
+                        #{clase.horatext}
+                    </p:column>
+                    <p:column headerText="Horario" >
+                        #{clase.horario}
+                    </p:column>
+                    <p:column headerText="Estado" >
+                        #{clase.estado}
+                    </p:column>
 
 
-            </p:panelGrid>
-            <div class="EmptyBox20"></div>
-            <p:dataTable id="consulta" var="clase" value="#{rptClasesController.listDatos}" 
-                         paginator="false" emptyMessage="No hay clases que mostrar"                                 
-                         reflow="true">
+                    <f:facet name="footer">
+                        Total de Clases #{rptClasesController.totalClases}
+                    </f:facet>
+                </p:dataTable>
 
-                <p:column headerText="Curso" >
-                    #{clase.curso}
-                </p:column>
-                <p:column headerText="Tema" >
-                    #{clase.tema}
-                </p:column>
-                <p:column headerText="Tipo" >
-                    #{clase.tipo}
-                </p:column>
-                <p:column headerText="Hora" >
-                    #{clase.horatext}
-                </p:column>
-                <p:column headerText="Horario" >
-                    #{clase.horario}
-                </p:column>
-                <p:column headerText="Estado" >
-                    #{clase.estado}
-                </p:column>
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
 
-
-                <f:facet name="footer">
-                    Total de Clases #{rptClasesController.totalClases}
-                </f:facet>
-            </p:dataTable>
-
-            <div class="EmptyBox20"></div>
-            <div class="TexAlCenter">
-
-                <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
-                    <p:outputLabel value="Exportar a:"></p:outputLabel>
-                    <p:selectOneRadio  id="console" value="#{rptClasesController.tipoRpt}">
-                        <f:selectItem itemValue="2" itemLabel="Excel" />
-                        <f:selectItem itemValue="0" itemLabel="PDF" />
-                    </p:selectOneRadio>
-                    <p:commandButton  value="Generar" ajax="false" actionListener="#{rptClasesController.generarReporte()}"></p:commandButton>
-                    <p:commandButton value="Refrescar" actionListener="#{rptClasesController.refresh()}" update="consulta" ajax="true"></p:commandButton>
-                </h:panelGrid>
-            </div>
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptClasesController.tipoRpt}">
+                            <f:selectItem itemValue="2" itemLabel="Excel" />
+                            <f:selectItem itemValue="0" itemLabel="PDF" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptClasesController.generarReporte()}"></p:commandButton>
+                        <p:commandButton value="Refrescar" actionListener="#{rptClasesController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    </h:panelGrid>
+                </div>
 
             </h:form>
             <div class="EmptyBox5"></div>

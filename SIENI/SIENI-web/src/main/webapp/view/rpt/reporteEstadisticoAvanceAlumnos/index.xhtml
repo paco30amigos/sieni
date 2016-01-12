@@ -43,7 +43,7 @@
                         <f:selectItems itemValue="#{al}" itemLabel="#{al.nombreCompleto}" value="#{rptEstadisticoAvanceController.listAlumnos}" var="al"></f:selectItems>
                         <p:ajax event="valueChange" update="alumno"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="Refrescar" actionListener="#{rptEstadisticoAvanceController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    <p:commandButton value="generar" actionListener="#{rptEstadisticoAvanceController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
 
 
@@ -82,7 +82,7 @@
                             <f:selectItem itemValue="2" itemLabel="Excel" />
                             <f:selectItem itemValue="0" itemLabel="PDF" />
                         </p:selectOneRadio>
-                        <p:commandButton  value="Generar" ajax="false" actionListener="#{rptEstadisticoAvanceController.generarReporte()}"></p:commandButton>
+                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptEstadisticoAvanceController.generarReporte()}"></p:commandButton>
                         <p:commandButton value="Refrescar" actionListener="#{rptEstadisticoAvanceController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                     </h:panelGrid>
                 </div>

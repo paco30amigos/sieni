@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -25,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.datatable.DataTable;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniCursoAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniEvalRespAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniEvalRespItemFacadeRemote;
@@ -35,7 +35,6 @@ import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
 import sv.com.mined.sieni.form.GestionarEvaluacionForm;
 import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.model.SieniEvalRespAlumno;
 import sv.com.mined.sieni.model.SieniEvalRespItem;
@@ -64,6 +63,8 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     private SieniEvalRespItemFacadeRemote sieniEvalRespItemFacadeRemote;
     @EJB
     private SieniCursoFacadeRemote sieniCursoFacadeRemote;
+    @EJB
+    private SieniCursoAlumnoFacadeRemote sieniCursoAlumnoFacadeRemote;
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
     @EJB
@@ -117,11 +118,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 
         if (loginBean.getTipoRol().charAt(0) == '0') {
-            List<SieniMateria> sieniMateria = sieniMateriaFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno());
-            SieniMatricula sieniMatricula = new SieniMatricula();//sieniMatriculaFacadeRemote
-            for (SieniMateria materia : sieniMateria) {
-                this.getEvaluacionList().addAll(materia.getSieniEvaluacionList());
-            }
+            this.setEvaluacionList(sieniEvaluacionFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno()));            
         } else {
             this.setEvaluacionList(sieniEvaluacionFacadeRemote.findActivos());
             this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));

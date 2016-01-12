@@ -112,4 +112,11 @@ public class SieniEvaluacionFacade extends AbstractFacade<SieniEvaluacion> imple
         return res;
     }
 
+    public List<SieniEvaluacion> findByAlumno(Long idAlumno) {
+        Query q = em.createNamedQuery("SieniEvaluacion.findByAlumno");
+        q.setParameter("idAlumno", idAlumno);
+        List<SieniEvaluacion> res = q.getResultList();
+        return res;
+    }
+
 }

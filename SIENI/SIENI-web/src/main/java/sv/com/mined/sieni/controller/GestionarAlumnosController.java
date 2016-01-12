@@ -85,7 +85,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
             CopiaArchivos ca = new CopiaArchivos();
             quitarFormato(this.getAlumnoNuevo());//quita el formato de los campos
             if (validarNuevo(this.getAlumnoNuevo())) {//valida el guardado
-                if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
+                if (!this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
                     Long fotoId = guardarFoto(this.getFotoUsable());
                     this.getAlumnoNuevo().setAlFoto(fotoId);
                 }
@@ -153,13 +153,25 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         CopiaArchivos ca = new CopiaArchivos();
         ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
         this.getFotoUsable().setArArchivo(event.getFile().getContents());
-        if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
+        if (this.getFotoUsable().getArRuta() == null
+                || this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
             this.getFotoUsable().setArRuta(null);
         } else {
             ca.deleteDataToResource(this.getFotoUsable());
             this.getFotoUsable().setArRuta(null);
         }
         this.setFotoUsable(ca.updateDataToResource(this.getFotoUsable()));
+        
+//        CopiaArchivos ca = new CopiaArchivos();
+//        ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
+//        this.getFotoUsable().setArArchivo(event.getFile().getContents());
+//        if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
+//            this.getFotoUsable().setArRuta(null);
+//        } else {
+//            ca.deleteDataToResource(this.getFotoUsable());
+//            this.getFotoUsable().setArRuta(null);
+//        }
+//        this.setFotoUsable(ca.updateDataToResource(this.getFotoUsable()));
     }
 
     //metodos para modificacion de datos

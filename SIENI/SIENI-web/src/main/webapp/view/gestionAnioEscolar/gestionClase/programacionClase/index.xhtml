@@ -8,8 +8,8 @@
         <p:breadCrumb class="Container90">
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
-            <p:menuitem value="Programación de clases" url="#{siteUrls.programacionClases}"/>
-            <p:menuitem value="Busqueda Programación de clases" url="#{siteUrls.programacionClases}"/>
+            <p:menuitem value="Programación de clases" url="#"/>
+            <p:menuitem value="Busqueda Programación de clases" url="#"/>
             <p:separator />
         </p:breadCrumb>
         <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
@@ -33,14 +33,17 @@
                          rowsPerPageTemplate="10,20,40"
                          reflow="true"
                          >
-                <p:column headerText="Tipo" filterBy="#{car.tipo}" filterable="true" filterMatchMode="contains">
-                    #{car.tipo}
-                </p:column>
                 <p:column headerText="Curso" filterBy="#{car.idCurso.crNombre}" filterable="true" filterMatchMode="contains">
                     #{car.idCurso.crNombre}
                 </p:column>
+                <p:column headerText="Grado" filterBy="#{car.idCurso.idGrado.grNombre} #{car.idCurso.idSeccion.scDescripcion}" filterable="true" filterMatchMode="contains">
+                    #{car.idCurso.idGrado.grNombre} #{car.idCurso.idSeccion.scDescripcion}
+                </p:column>
                 <p:column headerText="Tema" filterBy="#{car.clTema}" filterable="true" filterMatchMode="contains">
                     #{car.clTema}
+                </p:column>
+                <p:column headerText="Tipo" filterBy="#{car.tipo}" filterable="true" filterMatchMode="contains">
+                    #{car.tipo}
                 </p:column>
                 <p:column headerText="Hora" filterBy="#{formatUtils.getFormatedTime(car.clHora)}" filterable="true" filterMatchMode="contains">
                     #{formatUtils.getFormatedTime(car.clHora)}

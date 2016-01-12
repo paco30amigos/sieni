@@ -89,7 +89,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
             quitarFormato(this.getDocenteNuevo());//quita el formato de los campos
             this.getDocenteNuevo().setDcEstado('A');
             if (validarNuevo(this.getDocenteNuevo())) {//valida el guardado
-                if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
+                if (!this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
                     Long fotoId = guardarFoto(this.getFotoUsable());
                     this.getDocenteNuevo().setDcFoto(fotoId);
                 }
@@ -126,11 +126,12 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     public void cancelar() {
     }
 
-    public void getFotoNueva(FileUploadEvent event) {
+    public void getFotoNueva(FileUploadEvent event) {        
         CopiaArchivos ca = new CopiaArchivos();
         ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
         this.getFotoUsable().setArArchivo(event.getFile().getContents());
-        if (this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
+        if (this.getFotoUsable().getArRuta() == null
+                || this.getFotoUsable().getArRuta().equals(ca.getFotoDefault())) {
             this.getFotoUsable().setArRuta(null);
         } else {
             ca.deleteDataToResource(this.getFotoUsable());

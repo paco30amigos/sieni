@@ -42,7 +42,7 @@
                     <p:selectOneMenu id="alumno" value="#{rptBoletaNotasController.alumno}" filter="true" filterMatchMode="contains" converter="alumno">
                         <f:selectItems itemValue="#{alumno}" itemLabel="#{alumno.nombreCompleto}" value="#{rptBoletaNotasController.alumnos}" var="alumno"></f:selectItems>
                     </p:selectOneMenu>
-                    <p:commandButton value="generar" actionListener="#{rptBoletaNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    <p:commandButton value="Generar" actionListener="#{rptBoletaNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{rptBoletaNotasController.listaDatos}" 
@@ -78,7 +78,7 @@
                             <f:selectItem itemValue="2" itemLabel="Excel" />
                             <f:selectItem itemValue="0" itemLabel="PDF" />
                         </p:selectOneRadio>
-                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptBoletaNotasController.generarReporte()}"></p:commandButton>
+                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptBoletaNotasController.GenerarReporte()}"></p:commandButton>
                         <p:commandButton value="Refrescar" actionListener="#{rptBoletaNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                     </h:panelGrid>
                 </div>

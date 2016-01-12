@@ -38,7 +38,7 @@
                     <p:selectOneMenu id="materia" class=" Responsive" value="#{rptRendimientoController.idMateria}" >
                         <f:selectItems itemValue="#{materia.idMateria}" itemLabel="#{materia.maNombre}" value="#{rptRendimientoController.materiaList}" var="materia"></f:selectItems>
                     </p:selectOneMenu>
-                    <p:commandButton value="generar" actionListener="#{rptRendimientoController.fill()}" update="consulta" ajax="true"></p:commandButton>
+                    <p:commandButton value="Generar" actionListener="#{rptRendimientoController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta" var="car" value="#{rptRendimientoController.listDatos}" 
@@ -78,7 +78,7 @@
                             <f:selectItem itemLabel="Excel" itemValue="2" />
                             <f:selectItem itemLabel="PDF" itemValue="0" />
                         </p:selectOneRadio>
-                        <p:commandButton  value="Exportar" action="#{rptRendimientoController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
+                        <p:commandButton  value="Exportar" action="#{rptRendimientoController.GenerarReporte()}" update="consulta" ajax="false"></p:commandButton>
                         <p:commandButton value="Refrescar" action="#{rptRendimientoController.refresh()}" update="consulta"></p:commandButton>
                     </h:panelGrid>
                 </div>

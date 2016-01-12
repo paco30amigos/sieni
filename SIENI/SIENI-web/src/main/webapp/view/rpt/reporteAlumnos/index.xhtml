@@ -45,7 +45,7 @@
                         <f:selectItem itemLabel="Si" itemValue="1"></f:selectItem>
                         <f:selectItem itemLabel="No" itemValue="2"></f:selectItem>
                     </p:selectOneMenu>
-                    <p:commandButton value="generar" actionListener="#{rptAlumnosController.fill()}" update="consulta" ajax="true"></p:commandButton>
+                    <p:commandButton value="Generar" actionListener="#{rptAlumnosController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta"  var="car" value="#{rptAlumnosController.listDatos}" 
@@ -84,7 +84,7 @@
                             <f:selectItem itemValue="2" itemLabel="Excel" />
                             <f:selectItem itemValue="0" itemLabel="PDF" />
                         </p:selectOneRadio>
-                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptAlumnosController.generarReporte()}"></p:commandButton>
+                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptAlumnosController.GenerarReporte()}"></p:commandButton>
                         <p:commandButton value="Refrescar" actionListener="#{rptAlumnosController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                     </h:panelGrid>
                 </div>

@@ -22,6 +22,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.datatable.DataTable;
+import org.primefaces.context.RequestContext;
+import org.primefaces.event.CloseEvent;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCursoAlumnoFacadeRemote;
@@ -97,6 +99,8 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setEvaluacionItemNuevo(new SieniEvaluacionItem());
         this.setEvalRespItemNuevo(new SieniEvalRespItem());
         this.setTipoPregunta(new ArrayList<TipoP>());
+        
+//        this.setCalificacion(Double.valueOf(0));
         this.getTipoPregunta().add(new TipoP(1, "Seleccion unica"));
         this.getTipoPregunta().add(new TipoP(2, "Seleccion multiple"));
         this.getTipoPregunta().add(new TipoP(3, "Falso/Verdadero"));
@@ -439,22 +443,34 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList());
         if (ultimaPagina || timeout) {            
             Double nota = calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
-            SieniNota sieniNota = new SieniNota();
+            SieniNota sieniNota = new SieniNota();            
             sieniNota.setIdAlumno(loginBean.getAlumno().getIdAlumno());
             sieniNota.setIdEvaluacion(this.getEvaluacionItemResp());
             sieniNota.setNtAnio(Calendar.getInstance().get(Calendar.YEAR));
             sieniNota.setNtEstado('A');
             sieniNota.setNtCalificacion(nota);
             BigDecimal notaAux = new BigDecimal(sieniNota.getNtCalificacion());
-            sieniNota.setNtCalificacion(notaAux.setScale(2, RoundingMode.HALF_UP).doubleValue());
+            this.setCalificacion(notaAux.setScale(2, RoundingMode.HALF_UP).doubleValue());
+            sieniNota.setNtCalificacion(this.getCalificacion());
             sieniNota.setNtTipoIngreso("A");
             sieniNotaFacadeRemote.create(sieniNota);
-            msg = new FacesMessage("Examen finalizado, su nota es: " + notaAux.setScale(2, RoundingMode.HALF_UP).doubleValue());
+//            this.setNotaALumno(sieniNota);
+            RequestContext context = RequestContext.getCurrentInstance();
+            if("Si".equals(this.getEvaluacionItemResp().getEvNotaFin())){
+            context.execute("PF('dlgfinEvaVar').show();");
+            context.update("consultaForm:dlgfinEva");
+            }else{
+            context.execute("PF('dlgfinVar').show();");
+            context.update("consultaForm:dlgfin");
+            }
+            
+//            msg = new FacesMessage("Examen finalizado, su nota es: " + this.getCalificacion());
         } else {
             msg = new FacesMessage("Se guardaron las respuestas");
+            FacesContext.getCurrentInstance().addMessage(null, msg); 
         }
 
-        FacesContext.getCurrentInstance().addMessage(null, msg);  
+         
             } catch (Exception e) {
                 new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             }
@@ -638,5 +654,9 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
     public void onTimeout() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "BOOM", null));
+    }
+    
+    public void handleClose(CloseEvent event) {
+       setIndexMenu(0);
     }
 }

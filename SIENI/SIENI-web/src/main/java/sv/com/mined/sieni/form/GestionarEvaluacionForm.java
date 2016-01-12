@@ -7,6 +7,7 @@ package sv.com.mined.sieni.form;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import javax.faces.context.FacesContext;
@@ -19,6 +20,7 @@ import sv.com.mined.sieni.model.SieniEvalRespAlumno;
 import sv.com.mined.sieni.model.SieniEvalRespItem;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniEvaluacionItem;
+import sv.com.mined.sieni.model.SieniNota;
 import utils.siteUrls;
 
 /**
@@ -32,6 +34,8 @@ public class GestionarEvaluacionForm {
     private List<SieniEvaluacionItem> evaluacionItemList;
     // consulta de alumnos
     private List<SieniEvaluacion> evaluacionList;
+    
+    private SieniNota notaALumno;
 
     private SieniEvaluacion evaluacionItemResp;
     //registro de alumnos
@@ -60,6 +64,7 @@ public class GestionarEvaluacionForm {
     private Long idCurso;
     private List<SieniCurso> cursoList;
     private String tipoEvaluacion;
+    Double calificacion;
 
     public UploadedFile getFoto() {
         return foto;
@@ -317,12 +322,28 @@ public class GestionarEvaluacionForm {
         this.tipoPregunta = tipoPregunta;
     }
 
+    public SieniNota getNotaALumno() {
+        return notaALumno;
+    }
+
+    public void setNotaALumno(SieniNota notaALumno) {
+        this.notaALumno = notaALumno;
+    }
+
     public List<SieniEvalRespAlumno> getEvalRespAlumnoList() {
         return evalRespAlumnoList;
     }
 
     public void setEvalRespAlumnoList(List<SieniEvalRespAlumno> evalRespAlumnoList) {
         this.evalRespAlumnoList = evalRespAlumnoList;
+    }
+
+    public Double getCalificacion() {
+        return calificacion;
+    }
+
+    public void setCalificacion(Double calificacion) {
+        this.calificacion = calificacion;
     }
 
     public String getTipoEvaluacion() {

@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -36,6 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "SieniEvalRespAlumno.findAll", query = "SELECT s FROM SieniEvalRespAlumno s"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByAlumnoEv", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.idAlumno=:idAlumno AND s.idEvaluacionItem.idEvaluacion.idEvaluacion=:idEvaluacion"),
+    @NamedQuery(name = "SieniEvalRespAlumno.findByAlumnoItemEv", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.idAlumno=:idAlumno AND s.idEvaluacionItem.idEvaluacionItem=:idEvaluacionItem"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByIdEvalRespAlumno", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.idEvalRespAlumno = :idEvalRespAlumno"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByRaRespuesta", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.raRespuesta = :raRespuesta"),
     @NamedQuery(name = "SieniEvalRespAlumno.findByRaEstado", query = "SELECT s FROM SieniEvalRespAlumno s WHERE s.raEstado = :raEstado"),
@@ -53,9 +55,15 @@ public class SieniEvalRespAlumno implements Serializable {
     private String raRespuesta;
     @Column(name = "ra_estado")
     private Character raEstado;
-    @Column(name = "ra_fecha_ingreso")
+    @Column(name = "ra_fecha_ingreso", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date raFechaIngreso;
+    
+    @PrePersist
+    protected void onCreate() {
+        raFechaIngreso = new Date();
+    }
+    
 //    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
 //    @ManyToOne(fetch = FetchType.LAZY)
     @Column(name = "id_alumno")

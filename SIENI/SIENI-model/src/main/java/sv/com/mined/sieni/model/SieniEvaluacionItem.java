@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -59,9 +60,15 @@ public class SieniEvaluacionItem implements Serializable {
     @Lob
     @Column(name = "ei_imagen")
     private byte[] eiImagen;
-    @Column(name = "ei_fecha_ingreso")
+    @Column(name = "ei_fecha_ingreso",nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date eiFechaIngreso;
+    private Date eiFechaIngreso;    
+      
+    @PrePersist
+    protected void onCreate() {
+        eiFechaIngreso = new Date();
+    }
+    
     @Column(name = "ei_estado")
     private Character eiEstado;
      @Column(name = "ei_ponderacion")

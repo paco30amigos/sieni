@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniEvalRespAlumno;
 import sv.com.mined.sieni.model.SieniEvaluacion;
+import sv.com.mined.sieni.model.SieniEvaluacionItem;
 
 /**
  *
@@ -35,8 +36,16 @@ public class SieniEvalRespAlumnoFacade extends AbstractFacade<SieniEvalRespAlumn
    @Override
      public int guardarRespuestasAlumno(List<SieniEvalRespAlumno> respAlumnos){
          try {
+             SieniEvalRespAlumno sieniEvalRespAlumno=new SieniEvalRespAlumno();
              for (SieniEvalRespAlumno respAlumno : respAlumnos) {
-            create(respAlumno);
+                 sieniEvalRespAlumno=findByAlumnoItemEv(respAlumno.getIdAlumno(), respAlumno.getIdEvaluacionItem());
+                 if(sieniEvalRespAlumno!=null){
+                 sieniEvalRespAlumno.setRaRespuesta(respAlumno.getRaRespuesta());
+                     edit(sieniEvalRespAlumno);
+                 }else{
+                 create(respAlumno);
+                 }                  
+            
         }
              return 1;
          } catch (Exception e) {
@@ -53,6 +62,17 @@ public class SieniEvalRespAlumnoFacade extends AbstractFacade<SieniEvalRespAlumn
         q.setParameter("idAlumno", alumno.getIdAlumno());
         q.setParameter("idEvaluacion", evaluacion.getIdEvaluacion());       
         return q.getResultList();
+    }
+    
+    public SieniEvalRespAlumno findByAlumnoItemEv(Long idAlumno, SieniEvaluacionItem evaluacionItem) {
+        try {
+            Query q = em.createNamedQuery("SieniEvalRespAlumno.findByAlumnoItemEv");
+        q.setParameter("idAlumno", idAlumno);
+        q.setParameter("idEvaluacionItem", evaluacionItem.getIdEvaluacionItem());       
+        return (SieniEvalRespAlumno) q.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     

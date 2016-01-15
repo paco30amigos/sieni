@@ -34,14 +34,19 @@ public class SieniEvalRespAlumnoFacade extends AbstractFacade<SieniEvalRespAlumn
     }
     
    @Override
-     public int guardarRespuestasAlumno(List<SieniEvalRespAlumno> respAlumnos){
+     public int guardarRespuestasAlumno(List<SieniEvalRespAlumno> respAlumnos,int numIntento){
          try {
              SieniEvalRespAlumno sieniEvalRespAlumno=new SieniEvalRespAlumno();
              for (SieniEvalRespAlumno respAlumno : respAlumnos) {
                  sieniEvalRespAlumno=findByAlumnoItemEv(respAlumno.getIdAlumno(), respAlumno.getIdEvaluacionItem());
-                 if(sieniEvalRespAlumno!=null){
-                 sieniEvalRespAlumno.setRaRespuesta(respAlumno.getRaRespuesta());
+                 if(sieniEvalRespAlumno!=null){                     
+                     if(numIntento>0){
+                         remove(sieniEvalRespAlumno);
+                         create(respAlumno);
+                     }else{
+                     sieniEvalRespAlumno.setRaRespuesta(respAlumno.getRaRespuesta());
                      edit(sieniEvalRespAlumno);
+                     }
                  }else{
                  create(respAlumno);
                  }                  

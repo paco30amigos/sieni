@@ -37,6 +37,8 @@ public class GestionarEvaluacionForm {
     
     private SieniNota notaALumno;
 
+    private int numIntento;
+    
     private SieniEvaluacion evaluacionItemResp;
     //registro de alumnos
     private SieniEvaluacion evaluacionNuevo;
@@ -108,6 +110,14 @@ public class GestionarEvaluacionForm {
 
     public byte[] getFotoArchivo() {
         return fotoArchivo;
+    }
+
+    public int getNumIntento() {
+        return numIntento;
+    }
+
+    public void setNumIntento(int numIntento) {
+        this.numIntento = numIntento;
     }
 
     public Double getTotalPonderacion() {

@@ -320,14 +320,38 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     }
 
     public void verEvaluacion(SieniEvaluacion modificado) {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         this.setEvaluacionItemResp(new SieniEvaluacion());
         this.setEvaluacionItemResp(sieniEvaluacionFacadeRemote.findEvalItemResp(modificado.getIdEvaluacion()));
-        this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());
+        List<SieniNota> notas=new ArrayList<>();
+        notas=sieniNotaFacadeRemote.findNotasAlumnoEv(loginBean.getAlumno().getIdAlumno(), modificado.getIdEvaluacion());
+        if(notas!=null){
+            this.setNumIntento(notas.size());
+            if(this.getNumIntento()<modificado.getEvIntentos()){
+            this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());        
         this.setEvaluacionItemList(this.getEvaluacionItemResp().getSieniEvaluacionItemList());
         if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
             Collections.shuffle(this.getEvaluacionItemList());
         }
         this.setIndexMenu(10);
+            }else{
+//                FacesMessage msg;
+//            msg = new FacesMessage("La evaluacion no permite mas intentos");
+//            FacesContext.getCurrentInstance().addMessage(, msg); 
+                new ValidationPojo().printMsj("La evaluacion no permite mas intentos" ,FacesMessage.SEVERITY_WARN);
+            }
+        }
+        else{
+        this.setNumIntento(0);
+        this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());        
+        this.setEvaluacionItemList(this.getEvaluacionItemResp().getSieniEvaluacionItemList());
+        if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
+            Collections.shuffle(this.getEvaluacionItemList());
+        }
+        this.setIndexMenu(10);
+        }
+        
     }
 
     //metodos para modificacion de datos
@@ -375,7 +399,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     public synchronized void guardarResAlumno(Boolean timeout) {
         
         try {
-              HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("consultaForm:consulta");
         Boolean ultimaPagina = false;
@@ -440,7 +464,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
         }
         FacesMessage msg;
-        sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList());
+        sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList(),this.getNumIntento());
         if (ultimaPagina || timeout) {            
             Double nota = calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
             SieniNota sieniNota = new SieniNota();            

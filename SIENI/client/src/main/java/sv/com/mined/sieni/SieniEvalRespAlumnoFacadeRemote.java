@@ -30,7 +30,7 @@ public interface SieniEvalRespAlumnoFacadeRemote {
 
     List<SieniEvalRespAlumno> findRange(int[] range);
     
-    int guardarRespuestasAlumno(List<SieniEvalRespAlumno> respAlumnos);
+    int guardarRespuestasAlumno(List<SieniEvalRespAlumno> respAlumnos,int numIntento);
     
     List<SieniEvalRespAlumno> findByAlumnoEv(SieniAlumno alumno,SieniEvaluacion evaluacion);
 

@@ -48,6 +48,7 @@
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{rptBoletaNotasController.listaDatos}" 
                              paginator="false"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             emptyMessage="No se encontraron datos"
                              reflow="true">
                     <p:column headerText="Materia" >
                         #{car.materia}

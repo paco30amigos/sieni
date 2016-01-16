@@ -38,6 +38,7 @@
                              paginator="true" rows="10"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
+                             emptyMessage="No se encontraron datos"
                              reflow="true">
                     <p:column headerText="Carnet" style="width:8%" filterBy="#{car.alCarnet}" filterMatchMode="contains" filterable="true">
                         #{car.alCarnet}

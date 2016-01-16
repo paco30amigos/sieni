@@ -30,6 +30,7 @@
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta"  var="car" value="#{rptEvaluacioenesController.listDatos}" 
                              paginator="false"
+                             emptyMessage="No se encontraron datos"
                              reflow="true">
                     <p:column headerText="Evaluacion" >
                         #{car.nombreEvaluacion}

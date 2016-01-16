@@ -32,6 +32,7 @@
                              paginator="true" rows="10"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
+                             emptyMessage="No se encontraron datos"
                              reflow="true">
                     <p:column headerText="Nombre" style="width: 20%" filterBy="#{car.nombreCompleto}" filterMatchMode="contains" filterable="true">
                         #{car.nombreCompleto}

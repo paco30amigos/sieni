@@ -45,7 +45,7 @@
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{rptNotasController.listaDatos}" 
                              paginator="false"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             emptyMessage="No se encontraron datos"
                              reflow="true">
                     <p:column headerText="Carnet" >
                         #{car.carnet}

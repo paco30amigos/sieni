@@ -43,6 +43,7 @@
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta" var="car" value="#{rptRendimientoController.listDatos}" 
                              paginator="false"
+                             emptyMessage="No se encontraron datos"
                              reflow="true">
                     <p:column headerText="Materia"  filterMatchMode="contains" filterable="true">
                         #{car.materia}

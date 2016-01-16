@@ -88,6 +88,11 @@ public class GestionNotasController extends GestionNotasForm {
         matActual.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(matActual.getIdAlumno()));
         return matActual;
     }
+    
+    public void cancelaModifica(SieniNota modifica) {
+        modifica = sieniNotaFacadeRemote.find(modifica.getIdNota());
+        this.setIndexMenu(0);
+    }
 
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

@@ -80,6 +80,11 @@ public class GestionCursoController extends GestionCursoForm {
         this.setCursoList(new ArrayList<SieniCurso>());
         fill();
     }
+    
+    public void cancelaModifica(SieniCurso modifica) {
+        modifica = sieniCursoFacadeRemote.find(modifica.getIdCurso());
+        this.setIndexMenu(0);
+    }
 
     private void fill() {
         this.setCursoList(setDocente(sieniCursoFacadeRemote.findByEstado('A')));

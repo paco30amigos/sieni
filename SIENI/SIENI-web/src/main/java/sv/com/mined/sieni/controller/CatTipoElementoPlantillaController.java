@@ -49,6 +49,11 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
     private void fill() {
         this.setList(sieniTipoElemPlantillaFacadeRemote.findAllNoInactivos());
     }
+    
+    public void cancelaModifica(SieniTipoElemPlantilla modifica) {
+        modifica = sieniTipoElemPlantillaFacadeRemote.find(modifica.getIdTipoElemPlantilla());
+        this.setIndexMenu(0);
+    }
 
     public synchronized void guardar() {
         try {

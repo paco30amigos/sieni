@@ -39,5 +39,6 @@ public interface SieniSeccionFacadeRemote {
     
     public List<SieniSeccion> findByAnioEscolar(SieniAnioEscolar anio);
 
+    public List<SieniSeccion> findAllNoInactivos();
     
 }

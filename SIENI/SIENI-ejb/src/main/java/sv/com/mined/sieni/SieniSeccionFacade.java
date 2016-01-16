@@ -20,6 +20,7 @@ import sv.com.mined.sieni.model.SieniAnioEscolar;
  */
 @Stateless
 public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements sv.com.mined.sieni.SieniSeccionFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -43,7 +44,7 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
             return null;
         }
     }
-    
+
     @Override
     public List<SieniSeccion> findBy(SieniSeccion seccion) {
         List<SieniSeccion> ret = null;
@@ -51,7 +52,7 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
         HashMap<String, Object> params = new HashMap<>();
         String filter = " where 1=1";
         if (seccion != null) {
-            if (seccion.getIdAnioEscolar()!= null) {
+            if (seccion.getIdAnioEscolar() != null) {
                 filter += " and s.idAnioEscolar =:idAnioEscolar";
                 params.put("idAnioEscolar", seccion.getIdAnioEscolar());
             }
@@ -59,11 +60,11 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
                 filter += " and s.idGrado =:idGrado";
                 params.put("idGrado", seccion.getIdGrado());
             }
-            if (seccion.getScDescripcion()!= null) {
+            if (seccion.getScDescripcion() != null) {
                 filter += " and s.scDescripcion =:scDescripcion ";
                 params.put("scDescripcion", seccion.getScDescripcion());
             }
-            
+
             Query q = em.createQuery(jpql + filter);
             for (String actual : params.keySet()) {
                 q.setParameter(actual, params.get(actual));
@@ -76,8 +77,6 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
         return ret;
     }
 
-    
-
     @Override
     public List<SieniSeccion> findByAnioEscolar(SieniAnioEscolar anio) {
         Query q = em.createNamedQuery("SieniSeccion.findByAnioEscolar");
@@ -85,5 +84,12 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
         List<SieniSeccion> ret = q.getResultList();
         return ret;
     }
-    
+
+    @Override
+    public List<SieniSeccion> findAllNoInactivos() {
+        Query q = em.createNamedQuery("SieniSeccion.findAllNoInactivos");
+        List<SieniSeccion> ret = q.getResultList();
+        return ret;
     }
+
+}

@@ -44,12 +44,9 @@
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{gestionClaseInteracController.guardarModifica()}" update="mod_p1" oncomplete="configurarEnterTab()" />
-                    <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="mod_p1,focus" resetValues="true" />
-                    </p:commandButton>
+                    <p:commandButton value="Guardar" action="#{gestionClaseInteracController.guardarModifica()}" update="mod_p1" oncomplete="configurarEnterTab()" />                    
                     <p:commandButton value="Cancelar" immediate="true">
-                        <p:ajax update="mod_p1" resetValues="true" listener="#{gestionClaseInteracController.setIndexMenu(0)}"/>
+                        <p:ajax update="mod_p1" resetValues="true" listener="#{gestionClaseInteracController.cancelaModifica(gestionClaseInteracController.claseModifica)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

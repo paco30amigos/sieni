@@ -56,12 +56,17 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         this.setArchivoList(sieniArchivoFacadeRemote.findAllNoInactivos());
     }
 
+    public void cancelaModifica(SieniArchivo modifica) {
+        modifica = sieniArchivoFacadeRemote.find(modifica.getIdArchivo());
+        this.setIndexMenu(0);
+    }
+
     public synchronized void guardar() {
         try {
             this.getArchivoNuevo().setArArchivo(this.getArchivoUsable());
             if (validarNuevo(this.getArchivoNuevo())) {//valida el guardado
                 guardarCopia();
-                this.setArchivoNuevo(sieniArchivoFacadeRemote.createAndReturn(this.getArchivoNuevo())); 
+                this.setArchivoNuevo(sieniArchivoFacadeRemote.createAndReturn(this.getArchivoNuevo()));
                 registrarEnBitacora("Guardar", "Archivo", this.getArchivoNuevo().getIdArchivo());
                 new ValidationPojo().printMsj("Archivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
                 //agrega el nuevo archivo a la lista de la tabla actual para no hacer el fill

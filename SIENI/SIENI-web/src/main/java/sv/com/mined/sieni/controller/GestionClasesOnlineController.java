@@ -54,6 +54,11 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
         matActual.getIdCurso().setDocente(sieniDocenteFacadeRemote.findByDocenteId(matActual.getIdCurso().getIdDocente()));
         return matActual;
     }
+    
+    public void cancelaModifica(SieniClase modifica) {
+        modifica = sieniClaseFacadeRemote.find(modifica.getIdClase());
+        this.setIndexMenu(0);
+    }
 
     public void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

@@ -131,6 +131,11 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
         }
         return matActual;
     }
+    
+    public void cancelaModifica(SieniClase modifica) {
+        modifica = sieniClaseFacadeRemote.find(modifica.getIdClase());
+        this.setIndexMenu(0);
+    }
 
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

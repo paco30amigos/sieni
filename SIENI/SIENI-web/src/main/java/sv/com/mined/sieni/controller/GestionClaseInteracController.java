@@ -110,7 +110,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
         loginBean.registrarTransaccion(accion, tabla, id);
 
     }
-    
+
     private List<SieniClase> setDocente(List<SieniClase> matriculas) {
         List<SieniClase> ret = new ArrayList<>();
         for (SieniClase actual : matriculas) {
@@ -122,6 +122,11 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     public SieniClase setInfoDocente(SieniClase matActual) {
         matActual.getIdCurso().setDocente(sieniDocenteFacadeRemote.findByDocenteId(matActual.getIdCurso().getIdDocente()));
         return matActual;
+    }
+
+    public void cancelaModifica(SieniClase modifica) {
+        modifica = sieniClaseFacadeRemote.find(modifica.getIdClase());
+        this.setIndexMenu(0);
     }
 
     private void fill() {
@@ -143,7 +148,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     }
 
     //actualiza el estado de las clases si ya estan disponibles segun el horario
-    private  synchronized void updateEstadoClase(List<SieniClase> clases) {
+    private synchronized void updateEstadoClase(List<SieniClase> clases) {
         List<SieniClase> clasesIniciadas = new ArrayList<>();
         DateUtils du = new DateUtils();
 

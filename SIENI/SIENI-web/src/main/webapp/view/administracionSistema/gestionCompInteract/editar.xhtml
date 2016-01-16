@@ -49,12 +49,9 @@
                 </p:tooltip>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{gestionComponentesInteractivosController.guardarModifica()}" update="p1" />
-                    <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()"/>
-                    </p:commandButton>
+                    <p:commandButton value="Guardar" action="#{gestionComponentesInteractivosController.guardarModifica()}" update="p1" />                    
                     <p:commandButton value="Cancelar" immediate="true">
-                        <p:ajax update="p1" resetValues="true" listener="#{gestionComponentesInteractivosController.setIndexMenu(0)}"/>
+                        <p:ajax update="p1" resetValues="true" listener="#{gestionComponentesInteractivosController.cancelaModifica(gestionComponentesInteractivosController.modifica)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

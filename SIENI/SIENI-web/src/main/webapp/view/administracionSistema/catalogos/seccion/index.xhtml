@@ -29,21 +29,13 @@
                     <p:commandButton value="Si" action="#{catSeccionController.eliminarSeccion()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
-                
-                <p:outputLabel for="anio" value="Año Escolar: " class="  Responsive"></p:outputLabel>
-                <p:selectOneMenu id="anio" class=" Responsive" value="#{catSeccionController.idanio}" >
-                    <f:selectItems itemValue ="#{an.idAnioEscolar}" itemLabel="#{an.aeAnio}" value="#{catSeccionController.listAnios}" var="an" />
-                </p:selectOneMenu>
-                
+                                
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="sec" value="#{catSeccionController.list}" 
                              paginator="true" emptyMessage="NO HAY SECCIONES QUE MOSTRAR"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              emptyMessage="No se encontraron datos"
                              reflow="true">
-                    <p:column headerText="Año Escolar" filterBy="#{sec.idAnioEscolar.aeAnio}" filterable="true" filterMatchMode="contains">
-                        #{sec.idAnioEscolar.aeAnio}
-                    </p:column>
                     <p:column headerText="Grado" filterBy="#{sec.idGrado.grNombre}" filterable="true" filterMatchMode="contains">
                         #{sec.idGrado.grNombre}
                     </p:column>

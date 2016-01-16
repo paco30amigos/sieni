@@ -117,6 +117,10 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setIndexMenu(1);
     }
 
+    public void cancelaModifica(SieniEvaluacion modifica) {
+        modifica = sieniEvaluacionFacadeRemote.find(modifica.getIdEvaluacion());
+        this.setIndexMenu(0);
+    }
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");

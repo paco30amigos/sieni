@@ -51,9 +51,8 @@
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionMateriasController.guardarModifica()}"/>
-<!--                    <p:commandButton value="Limpiar"/>-->
-                    <p:commandButton value="Regresar" immediate="true">
-                        <p:ajax resetValues="true" listener="#{gestionMateriasController.setIndexMenu(0)}"/>
+                    <p:commandButton value="Cancelar" immediate="true">
+                        <p:ajax resetValues="true" listener="#{gestionMateriasController.cancelaModifica(gestionMateriasController.materiaModifica)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
@@ -61,7 +60,7 @@
                         </p:menuitem>
                         <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.basegestionEvaluacion}">    
+                        <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}">    
                         </p:menuitem>
                         <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionAlumnos}">    
                         </p:menuitem>

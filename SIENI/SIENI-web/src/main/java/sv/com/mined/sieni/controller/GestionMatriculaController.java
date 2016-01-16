@@ -80,6 +80,11 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         matActual.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(matActual.getIdAlumno()));
         return matActual;
     }
+    
+    public void cancelaModifica(SieniMatricula modifica) {
+        modifica = sieniMatriculaFacadeRemote.find(modifica.getIdMatricula());
+        this.setIndexMenu(0);
+    }
 
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();

@@ -61,6 +61,11 @@ public class GestionMateriasController extends GestionMateriasForm {
         this.setMateriaList(new ArrayList<SieniMateria>());
         fill();
     }
+    
+    public void cancelaModifica(SieniMateria modifica) {
+        modifica = sieniMateriaFacadeRemote.find(modifica.getIdMateria());
+        this.setIndexMenu(0);
+    }
 
     public void fill() {
         this.setMateriaList(sieniMateriaFacadeRemote.findAllNoInactivas());

@@ -64,7 +64,7 @@
                 <div class="Container100">
                     <p:commandButton tabindex="12" value="Guardar" action="#{mntoUsuariosController.guardarModifica()}" update="p1,focus" />
                     <p:commandButton value="Cancelar" immediate="true">
-                        <p:ajax update="p1" resetValues="true" listener="#{mntoUsuariosController.setIndexMenu(0)}"/>
+                        <p:ajax update="p1" resetValues="true" listener="#{mntoUsuariosController.cancelaModifica(mntoUsuariosController.usuarioModifica)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

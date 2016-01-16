@@ -100,6 +100,11 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setIndexMenu(1);
     }
+    
+    public void cancelaModifica(SieniSuperCompon modifica) {
+        modifica = sieniSuperComponFacadeRemote.find(modifica.getIdSuperCompon());
+        this.setIndexMenu(0);
+    }
 
     public synchronized void guardar() {
         try {

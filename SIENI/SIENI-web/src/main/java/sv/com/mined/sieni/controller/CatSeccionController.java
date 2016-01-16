@@ -53,35 +53,39 @@ public class CatSeccionController extends CatSeccionForm {
         this.setNuevo(new SieniSeccion());
         this.setModifica(new SieniSeccion());
         this.setList(new ArrayList<SieniSeccion>());
-        this.setListAnios(sieniAnioEscolarRemote.findAllNoInactivos());
-        if(this.getListAnios()!= null && this.getListAnios().size() > 0){
-            this.setIdanio(this.getListAnios().get(this.getListAnios().size() - 1).getIdAnioEscolar().intValue());
-        }
+//        this.setListAnios(sieniAnioEscolarRemote.findAllNoInactivos());
+//        if(this.getListAnios()!= null && this.getListAnios().size() > 0){
+//            this.setIdanio(this.getListAnios().get(this.getListAnios().size() - 1).getIdAnioEscolar().intValue());
+//        }
         this.setListGrados(sieniGradoRemote.findAllNoInactivos());
         fill();
     }
 
     private void fill() {
         this.setAnio(null);
-        this.setList(new ArrayList<SieniSeccion>());
-        for (SieniAnioEscolar actual : this.getListAnios()) {
-            if((actual.getIdAnioEscolar()).intValue() == this.getIdanio()){
-                this.setAnio(actual);
-            }
-        }
-        this.setList(sieniSeccionRemote.findByAnioEscolar(this.getAnio()));
+//        this.setList(new ArrayList<SieniSeccion>());
+//        for (SieniAnioEscolar actual : this.getListAnios()) {
+//            if((actual.getIdAnioEscolar()).intValue() == this.getIdanio()){
+//                this.setAnio(actual);
+//            }
+//        }
+        this.setList(sieniSeccionRemote.findAllNoInactivos());
     }
     
+    public void cancelaModifica(SieniSeccion modifica) {
+        modifica = sieniSeccionRemote.find(modifica.getIdSeccion());
+        this.setIndexMenu(0);
+    }
     
 
     public synchronized void guardar() {
         try {
-            for (SieniAnioEscolar actual : this.getListAnios()) {
-                if((actual.getIdAnioEscolar()).intValue() == this.getIdanio()){
-                    this.getNuevo().setIdAnioEscolar(actual);
-                    break;
-                }
-            }
+//            for (SieniAnioEscolar actual : this.getListAnios()) {
+//                if((actual.getIdAnioEscolar()).intValue() == this.getIdanio()){
+//                    this.getNuevo().setIdAnioEscolar(actual);
+//                    break;
+//                }
+//            }
             for (SieniGrado actual : this.getListGrados()) {
                 if((actual.getIdGrado()).intValue() == this.getIdgrado()){
                     this.getNuevo().setIdGrado(actual);
@@ -89,6 +93,7 @@ public class CatSeccionController extends CatSeccionForm {
                 }
             }
             if (validarNuevo(this.getNuevo())) {//valida el guardado
+                this.getNuevo().setIdAnioEscolar(new SieniAnioEscolar(1L));
                 this.getNuevo().setScCoordinador(BigInteger.ZERO);
                 this.setNuevo(sieniSeccionRemote.createAndReturn(this.getNuevo()));
 //                sieniGradoRemote.create(this.getNuevo());
@@ -122,8 +127,8 @@ public class CatSeccionController extends CatSeccionForm {
     //metodos para modificacion de datos
     public void modificar(SieniSeccion modificado) {
         this.setModifica(modificado);
-        this.setIdanio(this.getModifica().getIdAnioEscolar().getIdAnioEscolar().intValue());
-        this.setIdgrado(this.getModifica().getIdGrado().getIdGrado().intValue());
+//        this.setIdanio(this.getModifica().getIdAnioEscolar().getIdAnioEscolar().intValue());
+//        this.setIdgrado(this.getModifica().getIdGrado().getIdGrado().intValue());
         this.setIndexMenu(2);
     }
 
@@ -140,12 +145,12 @@ public class CatSeccionController extends CatSeccionForm {
 
     public synchronized void guardarModifica() {
         try {
-            for (SieniAnioEscolar actual : this.getListAnios()) {
-                if((actual.getIdAnioEscolar()).intValue() == this.getIdanio()){
-                    this.getModifica().setIdAnioEscolar(actual);
-                    break;
-                }
-            }
+//            for (SieniAnioEscolar actual : this.getListAnios()) {
+//                if((actual.getIdAnioEscolar()).intValue() == this.getIdanio()){
+//                    this.getModifica().setIdAnioEscolar(actual);
+//                    break;
+//                }
+//            }
             for (SieniGrado actual : this.getListGrados()) {
                 if((actual.getIdGrado()).intValue() == this.getIdgrado()){
                     this.getModifica().setIdGrado(actual);
@@ -174,8 +179,7 @@ public class CatSeccionController extends CatSeccionForm {
         boolean ban;
         List<ValidationPojo> validaciones = new ArrayList<>();
         SieniSeccion archivoBD = sieniSeccionRemote.findByIdSeccion(nuevo.getIdSeccion());
-        if (!archivoBD.getIdAnioEscolar().getIdAnioEscolar().equals(nuevo.getIdAnioEscolar().getIdAnioEscolar()) || 
-                !archivoBD.getIdGrado().getIdGrado().equals(nuevo.getIdGrado().getIdGrado()) ||
+        if (!archivoBD.getIdGrado().getIdGrado().equals(nuevo.getIdGrado().getIdGrado()) ||
                 !archivoBD.getScDescripcion().equals(nuevo.getScDescripcion())) {
             validaciones.add(new ValidationPojo(sieniSeccionRemote.findBy(nuevo) != null, "La seccion ya existe", FacesMessage.SEVERITY_ERROR));
         }

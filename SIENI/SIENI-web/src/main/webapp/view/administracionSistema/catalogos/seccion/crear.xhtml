@@ -34,7 +34,7 @@
                         <f:selectItems itemValue ="#{gr.idGrado}" itemLabel="#{gr.grNombre}" value="#{catSeccionController.listGrados}" var="gr" />
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion"  value="Seccion: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="1" id="seccion" value="#{catSeccionController.nuevo.scDescripcion}" required="true" onblur="value=value.toUpperCase()" requiredMessage="Debe ingresar seccion" maxlength="1"></p:inputText>
+                    <p:inputText tabindex="1" id="seccion" value="#{catSeccionController.nuevo.scDescripcion}" required="true" onblur="value = value.toUpperCase()" requiredMessage="Debe ingresar seccion" maxlength="1"></p:inputText>
                 </p:panelGrid>
                 <p:tooltip for="seccion">
                     <h:outputText value="Sigla de la seccion, ejemplo: A"/>
@@ -42,10 +42,21 @@
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{catSeccionController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"/>
+                    <p:commandButton value="Limpiar" immediate="true">
+                        <p:ajax update="p1,focus" resetValues="true" listener="#{catSeccionController.resetNuevoForm()}" oncomplete="configurarEnterTab()" />
+                    </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{catSeccionController.setIndexMenu(0)}"/>
                     </p:commandButton>
-                    
+                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
+                        <p:menuitem value="Catálogo de grados" url="#{siteUrls.catGrado}" >    
+                        </p:menuitem>
+                        <p:menuitem value="Catálogo de materias" url="#{siteUrls.catMateria}">
+                        </p:menuitem>
+                        <p:menuitem value="Catálogo Tipo de elementos de plantilla" url="#{siteUrls.catTipoElemPlantilla}">
+                        </p:menuitem>
+                    </p:tieredMenu>             
                 </div>
             </h:form>
             <div class="EmptyBox5"></div>

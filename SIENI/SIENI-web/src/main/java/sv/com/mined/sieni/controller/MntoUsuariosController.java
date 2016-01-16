@@ -68,6 +68,19 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         fill();
     }
 
+    public void cancelaModifica(UsuariosPojo modifica) {
+        if (modifica.getTipoUsuario().equals("0")) {
+            List<SieniAlumnRol> l = new ArrayList<>();
+            l.add(sieniAlumnRolFacadeRemote.find(modifica.getAlumnoRol().getIdAlumnRol()));
+            modifica = getAlumnosUsuarioPojo(l).get(0);
+        } else {
+            List<SieniDocentRol> l = new ArrayList<>();
+            l.add(sieniDocenteRolFacadeRemote.find(modifica.getDocenteRol().getIdDocenteRol()));
+            modifica = getDocenteUsuarioPojo(l).get(0);
+        }
+        this.setIndexMenu(0);
+    }
+
     private void fill() {
         this.setUsuariosList(new ArrayList<UsuariosPojo>());
         List<SieniAlumnRol> alumnos = sieniAlumnRolFacadeRemote.findAllNoInactivos();

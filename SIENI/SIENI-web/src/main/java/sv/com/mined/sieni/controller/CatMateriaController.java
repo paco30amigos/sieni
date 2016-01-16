@@ -48,6 +48,11 @@ public class CatMateriaController extends CatMateriaForm {
     private void fill() {
         this.setList(sieniCatMateriaFacadeRemote.findAllNoInactivos());
     }
+    
+    public void cancelaModifica(SieniCatMateria modifica) {
+        modifica = sieniCatMateriaFacadeRemote.find(modifica.getIdCatMateria());
+        this.setIndexMenu(0);
+    }
 
     public synchronized void guardar() {
         try {

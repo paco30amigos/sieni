@@ -38,10 +38,7 @@
                 
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarEvaluacionController.guardarModificaResp()}" update="p1,focus" oncomplete="configurarEnterTab()" />
-                    <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()" />
-                    </p:commandButton>
+                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarEvaluacionController.guardarModificaResp()}" update="p1,focus" oncomplete="configurarEnterTab()" />                    
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionarEvaluacionController.setIndexMenu(7)}"/>
                     </p:commandButton>

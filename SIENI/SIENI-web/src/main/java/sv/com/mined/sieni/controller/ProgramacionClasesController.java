@@ -76,6 +76,11 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
             this.setClasesList(sieniClaseFacadeRemote.findAllNoInactivos());
         }
     }
+    
+    public void cancelaModifica(SieniClase modifica) {
+        modifica = sieniClaseFacadeRemote.find(modifica.getIdClase());
+        this.setIndexMenu(0);
+    }
 
     public void nuevoD(){
 //        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());

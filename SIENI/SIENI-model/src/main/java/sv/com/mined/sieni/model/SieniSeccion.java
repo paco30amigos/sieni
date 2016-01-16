@@ -33,12 +33,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniSeccion.findAll", query = "SELECT s FROM SieniSeccion s"),
+    @NamedQuery(name = "SieniSeccion.findAllNoInactivos", query = "SELECT s FROM SieniSeccion s where s.scEstado"),
     @NamedQuery(name = "SieniSeccion.findByIdSeccion", query = "SELECT s FROM SieniSeccion s WHERE s.idSeccion = :idSeccion"),
     @NamedQuery(name = "SieniSeccion.findByScDescripcion", query = "SELECT s FROM SieniSeccion s WHERE s.scDescripcion = :scDescripcion"),
     @NamedQuery(name = "SieniSeccion.findByScCoordinador", query = "SELECT s FROM SieniSeccion s WHERE s.scCoordinador = :scCoordinador"),
     @NamedQuery(name = "SieniSeccion.findByAnioEscolar", query = "SELECT s FROM SieniSeccion s WHERE s.idAnioEscolar = :anio ORDER BY s.idGrado.grNombre,s.scDescripcion")
 })
 public class SieniSeccion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_seccion")
@@ -50,6 +52,8 @@ public class SieniSeccion implements Serializable {
     private String scDescripcion;
     @Column(name = "sc_coordinador")
     private BigInteger scCoordinador;
+    @Column(name = "sc_estado")
+    private Character scEstado;
     @JoinColumn(name = "id_anio_escolar", referencedColumnName = "id_anio_escolar")
     @ManyToOne
     private SieniAnioEscolar idAnioEscolar;
@@ -150,5 +154,13 @@ public class SieniSeccion implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniSeccion[ idSeccion=" + idSeccion + " ]";
     }
-    
+
+    public Character getScEstado() {
+        return scEstado;
+    }
+
+    public void setScEstado(Character scEstado) {
+        this.scEstado = scEstado;
+    }
+
 }

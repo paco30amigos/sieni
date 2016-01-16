@@ -56,9 +56,6 @@
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
                     <p:commandButton value="Guardar" action="#{gestionarDocentesController.guardarMaterias()}" update="p1,focus,consulta" oncomplete="configurarEnterTab()"  />
-                    <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()"  />
-                    </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionarDocentesController.setIndexMenu(0)}"/>
                     </p:commandButton>

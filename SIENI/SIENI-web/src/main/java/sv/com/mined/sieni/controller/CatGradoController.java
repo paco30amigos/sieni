@@ -49,6 +49,10 @@ public class CatGradoController extends CatGradoForm {
         this.setList(sieniGradoRemote.findAllNoInactivos());
     }
 
+    public void cancelaModifica(SieniGrado modifica) {
+        modifica = sieniGradoRemote.find(modifica.getIdGrado());
+        this.setIndexMenu(0);
+    }
     public synchronized void guardar() {
         try {
             if (validarNuevo(this.getNuevo())) {//valida el guardado

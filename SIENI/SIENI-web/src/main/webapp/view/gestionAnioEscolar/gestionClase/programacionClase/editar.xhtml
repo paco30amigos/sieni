@@ -67,12 +67,9 @@
                 
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton tabindex="12" value="Guardar" action="#{programacionClasesController.guardarModifica()}" update="p1,focus" oncomplete="configurarEnterTab()" />
-                    <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()" />
-                    </p:commandButton>
+                    <p:commandButton tabindex="12" value="Guardar" action="#{programacionClasesController.guardarModifica()}" update="p1,focus" oncomplete="configurarEnterTab()" />                    
                     <p:commandButton value="Cancelar" immediate="true">
-                        <p:ajax update="p1" resetValues="true" listener="#{programacionClasesController.setIndexMenu(0)}"/>
+                        <p:ajax update="p1" resetValues="true" listener="#{programacionClasesController.cancelaModifica(programacionClasesController.modifica)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

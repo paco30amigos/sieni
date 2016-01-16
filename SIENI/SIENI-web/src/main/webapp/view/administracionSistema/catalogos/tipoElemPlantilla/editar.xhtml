@@ -39,21 +39,18 @@
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{catTipoElementoPlantillaController.guardarModifica()}" update="p1,focus" oncomplete="configurarEnterTab()"/>
-                    <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,focus" resetValues="true" listener="#{catTipoElementoPlantillaController.resetNuevoForm()}" oncomplete="configurarEnterTab()" />
-                    </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
-                        <p:ajax update="p1" resetValues="true" listener="#{catTipoElementoPlantillaController.setIndexMenu(0)}"/>
+                        <p:ajax update="p1" resetValues="true" listener="#{catTipoElementoPlantillaController.cancelaModifica(catTipoElementoPlantillaController.modifica)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Componentes interactivos" url="#{siteUrls.componenteInteractiva}" >    
+                        <p:menuitem value="Catálogo de grados" url="#{siteUrls.catGrado}" >    
                         </p:menuitem>
-                        <p:menuitem value="Clase interactiva" url="#{siteUrls.claseInteractiva}">    
+                        <p:menuitem value="Catálogo secciones" url="#{siteUrls.catSeccion}">
                         </p:menuitem>
-                        <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}">
+                        <p:menuitem value="Catálogo de materias" url="#{siteUrls.catMateria}">
                         </p:menuitem>
-                    </p:tieredMenu> 
+                    </p:tieredMenu>
                 </div>
             </h:form>
             <div class="EmptyBox5"></div>

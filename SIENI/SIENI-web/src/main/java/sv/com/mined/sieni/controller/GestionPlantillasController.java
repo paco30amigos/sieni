@@ -54,6 +54,11 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         this.setPlantillaNuevo(new SieniPlantilla());
         fill();
     }
+    
+    public void cancelaModifica(SieniPlantilla modifica) {
+        modifica = sieniPlantillaFacadeRemote.find(modifica.getIdPlantilla());
+        this.setIndexMenu(0);
+    }
 
     private void fill() {
         this.setPlantillaList(sieniPlantillaFacadeRemote.findAllNoInactivas());

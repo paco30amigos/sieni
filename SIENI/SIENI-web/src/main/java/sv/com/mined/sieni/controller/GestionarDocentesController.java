@@ -74,7 +74,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     private void fill() {
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
     }
-
+    
     public void nuevo() {
         resetFotos();
         CopiaArchivos ca = new CopiaArchivos();

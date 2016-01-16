@@ -48,6 +48,10 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         fill();
     }
 
+    public void cancelaModifica(SieniAnioEscolar modifica) {
+        modifica = sieniAnioEscolarFacadeRemote.find(modifica.getIdAnioEscolar());
+        this.setIndexMenu(0);
+    }
     private void fill() {
         this.setAnioEscolarList(sieniAnioEscolarFacadeRemote.findAllNoInactivos());
     }

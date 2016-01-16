@@ -68,7 +68,7 @@
                         <f:selectItem itemValue="D"  itemLabel="Inactivo"></f:selectItem>
                     </p:selectOneMenu>
                     <p:outputLabel for="pass1" value="Contraseña: " class="  Responsive"></p:outputLabel>
-                    <p:password id="pass1" value="#{mntoUsuariosController.usuarioNuevo.pass1}" maxlength="30" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña" promptLabel="Digite una contraseña" validatorMessage="Contraseña coincide"></p:password>
+                    <p:password id="pass1" value="#{mntoUsuariosController.usuarioNuevo.pass1}" maxlength="30" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña" promptLabel="Digite una contraseña" validatorMessage="Contraseña no coincide"></p:password>
                     <p:outputLabel for="pass2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
                     <p:password id="pass2" value="#{mntoUsuariosController.usuarioNuevo.pass2}" maxlength="30" ></p:password>
                 </p:panelGrid>

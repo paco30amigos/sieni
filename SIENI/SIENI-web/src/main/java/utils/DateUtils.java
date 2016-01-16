@@ -190,6 +190,11 @@ public class DateUtils {
         fechaMinima = format.getFormatDate("01/01/1980");
         return fechaMinima;
     }
+    
+    public Date getFechaMinimaDocente() {
+        fechaMinima = format.getFormatDate("01/01/1900");
+        return fechaMinima;
+    }
 
     public Date getFechaMaxima() {
         Calendar actual = Calendar.getInstance();

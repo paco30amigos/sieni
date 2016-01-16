@@ -56,16 +56,13 @@
                         <f:selectItem itemValue="D"  itemLabel="Inactivo"></f:selectItem>
                     </p:selectOneMenu>
                     <p:outputLabel for="pass1" value="Contraseña: " class="  Responsive"></p:outputLabel>
-                    <p:password tabindex="5" id="pass1" value="#{mntoUsuariosController.usuarioModifica.pass1}" maxlength="30" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña" placeholder="Contraseña" promptLabel="Digite una contraseña" validatorMessage="Contraseña coincide"></p:password>
+                    <p:password tabindex="5" id="pass1" value="#{mntoUsuariosController.usuarioModifica.pass1}" maxlength="30" match="pass2" feedback="true" weakLabel="Seguridad Baja" goodLabel="Seguridad Media" strongLabel="Seguridad Alta"  required="true" requiredMessage="Debe ingresar una contraseña" placeholder="Contraseña" promptLabel="Digite una contraseña" validatorMessage="Contraseña no coincide"></p:password>
                     <p:outputLabel for="pass2" value="Repetir Contraseña: " class="  Responsive"></p:outputLabel>
                     <p:password tabindex="6" id="pass2" value="#{mntoUsuariosController.usuarioModifica.pass2}" maxlength="30" ></p:password>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div> 
                 <div class="Container100">
                     <p:commandButton tabindex="12" value="Guardar" action="#{mntoUsuariosController.guardarModifica()}" update="p1,focus" />
-                    <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,focus" resetValues="true" />
-                    </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{mntoUsuariosController.setIndexMenu(0)}"/>
                     </p:commandButton>

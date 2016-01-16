@@ -46,5 +46,6 @@ public interface SieniDocenteFacadeRemote {
     public SieniDocente findUsuario(String usuario);
 
     public SieniDocente findByDocenteId(Long idDocente);
-
+    
+    public boolean docenteRegistrado(SieniDocente docente);
 }

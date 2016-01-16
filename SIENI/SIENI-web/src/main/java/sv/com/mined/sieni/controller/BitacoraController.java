@@ -39,6 +39,8 @@ public class BitacoraController extends BitacoraForm {
     @PostConstruct
     public void init() {
         this.setTipoRpt(0);
+        this.setDesde(new Date());
+        this.setHasta(new Date());
         //fill();
     }
 

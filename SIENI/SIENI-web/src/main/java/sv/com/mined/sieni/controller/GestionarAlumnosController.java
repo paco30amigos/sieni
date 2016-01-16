@@ -79,6 +79,10 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.setIndexMenu(1);
     }
 
+    public void cancelaModifica(SieniAlumno modifica) {
+        modifica = sieniAlumnoFacadeRemote.find(modifica.getIdAlumno());
+        this.setIndexMenu(0);
+    }
     public synchronized void guardar() {
 //        Character tipoUsuario = ;//hay que extraer el del usuario logueado
         try {

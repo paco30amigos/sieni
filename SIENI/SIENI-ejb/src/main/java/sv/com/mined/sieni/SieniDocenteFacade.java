@@ -11,6 +11,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
 
 /**
@@ -34,7 +42,7 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
 
     @Override
     public List<SieniDocente> findDocentesSinUsuario() {
-        Query q = em.createNativeQuery("select * from sieni_docente d left outer join sieni_docent_rol dr on(d.id_docente=dr.id_docente) where dr.id_docente_rol is null",SieniDocente.class);
+        Query q = em.createNativeQuery("select * from sieni_docente d left outer join sieni_docent_rol dr on(d.id_docente=dr.id_docente) where dr.id_docente_rol is null", SieniDocente.class);
         return q.getResultList();
     }
 
@@ -119,6 +127,52 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
         } else {
             return null;
         }
+    }
+
+    public boolean docenteRegistrado(SieniDocente docente) {
+        // es necesario instalar la siguiente extencion
+        //CREATE EXTENSION unaccent;
+        boolean ret = false;
+        Character estado = 'I';
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<SieniDocente> q = cb.createQuery(SieniDocente.class);
+        Root<SieniDocente> c = q.from(SieniDocente.class);
+        Predicate p = cb.conjunction();
+        Path<String> primNombre = c.get("dcPrimNombre");
+        ParameterExpression<String> paramPrimNombre = cb.parameter(String.class);
+        Path<String> segNombre = c.get("dcSeguNombre");
+        ParameterExpression<String> paramSegNombre = cb.parameter(String.class);
+        Path<String> tercNombre = c.get("dcTercNombre");
+        ParameterExpression<String> paramTercNombre = cb.parameter(String.class);
+        Path<String> primApellido = c.get("dcPrimApe");
+        ParameterExpression<String> paramPrimApellido = cb.parameter(String.class);
+        Path<String> segApellido = c.get("dcSeguApe");
+        ParameterExpression<String> paramSegApellido = cb.parameter(String.class);
+        Path<String> tercApellido = c.get("dcTercApe");
+        ParameterExpression<String> paramTercApellido = cb.parameter(String.class);
+        Path<Character> pathEstado = c.get("dcEstado");
+        ParameterExpression<Character> paramEstado = cb.parameter(Character.class);
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(primNombre)), cb.function("unaccent", String.class, paramPrimNombre)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(segNombre)), cb.function("unaccent", String.class, paramSegNombre)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(tercNombre)), cb.function("unaccent", String.class, paramTercNombre)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(primApellido)), cb.function("unaccent", String.class, paramPrimApellido)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(segApellido)), cb.function("unaccent", String.class, paramSegApellido)));
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(tercApellido)), cb.function("unaccent", String.class, paramTercApellido)));
+        p = cb.and(p, cb.notEqual(pathEstado, paramEstado));
+        q.select(c).where(p);
+        TypedQuery<SieniDocente> query = em.createQuery(q);
+        query.setParameter(paramPrimNombre, docente.getDcPrimNombre() != null ? docente.getDcPrimNombre().toLowerCase() : null);
+        query.setParameter(paramSegNombre, docente.getDcSeguNombre() != null ? docente.getDcSeguNombre().toLowerCase() : null);
+        query.setParameter(paramTercNombre, docente.getDcTercNombre() != null ? docente.getDcTercNombre().toLowerCase() : null);
+        query.setParameter(paramPrimApellido, docente.getDcPrimApe() != null ? docente.getDcPrimApe().toLowerCase() : null);
+        query.setParameter(paramSegApellido, docente.getDcSeguApe() != null ? docente.getDcSeguApe().toLowerCase() : null);
+        query.setParameter(paramTercApellido, docente.getDcTercApe() != null ? docente.getDcTercApe().toLowerCase() : null);
+        query.setParameter(paramEstado, estado);
+        List<SieniDocente> results = query.getResultList();
+        if (results != null && !results.isEmpty()) {
+            ret = true;
+        }
+        return ret;
     }
 
 }

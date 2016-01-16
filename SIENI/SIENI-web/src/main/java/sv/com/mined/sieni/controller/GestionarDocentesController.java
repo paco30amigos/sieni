@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -17,19 +16,19 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
-import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.form.GestionarDocentesForm;
 import sv.com.mined.sieni.model.SieniArchivo;
-import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniMateriaDocente;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.CopiaArchivos;
 import utils.DateUtils;
+import utils.EmailValidator;
+import utils.FormatUtils;
 
 /**
  *
@@ -118,15 +117,30 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public boolean validarNuevo(SieniDocente nuevo) {
-        boolean ban = true;
-
-        return ban;
+        boolean valido = true;
+        DateUtils du = new DateUtils();
+        FormatUtils fu = new FormatUtils();
+        EmailValidator ev = new EmailValidator();
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        //longitud de contrasenia
+//        validaciones.add(new ValidationPojo(nuevo.getAlContrasenia().length() < 8, "La contraseña debe ser de almenos 8 caracteres", 0));
+        //alumno ya registrado
+        validaciones.add(new ValidationPojo(nuevo.getDcPrimApe().isEmpty(), "Debe ingresar Primer Apellido", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(nuevo.getDcPrimNombre().isEmpty(), "Debe ingresar Primer Nombre", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(sieniDocenteFacadeRemote.docenteRegistrado(nuevo), "El Docente ya esta registrado", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(nuevo.getAlFechaNacimiento().before(du.getFechaMinimaDocente()), "La fecha de nacimiento es menor que " + fu.getFormatedDate(du.getFechaMinimaDocente()), FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(nuevo.getAlFechaNacimiento().after(du.getFechaMaxima()), "La fecha de nacimiento es mayor que " + fu.getFormatedDate(du.getFechaMaxima()), FacesMessage.SEVERITY_ERROR));
+        if (nuevo.getDcCorreo() != null && !nuevo.getDcCorreo().isEmpty()) {//si se ingreso un correo lo valida
+            validaciones.add(new ValidationPojo(!ev.validate(nuevo.getDcCorreo()), "El correo electronico no válido", FacesMessage.SEVERITY_ERROR));
+        }
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public void cancelar() {
     }
 
-    public void getFotoNueva(FileUploadEvent event) {        
+    public void getFotoNueva(FileUploadEvent event) {
         CopiaArchivos ca = new CopiaArchivos();
         ca.setSieniArchivoFacadeRemote(sieniArchivoFacadeRemote);
         this.getFotoUsable().setArArchivo(event.getFile().getContents());
@@ -200,8 +214,8 @@ public class GestionarDocentesController extends GestionarDocentesForm {
                 registrarEnBitacora("Modificar", "Docentes", this.getDocenteModifica().getIdDocente());
                 FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                resetModificaForm();
-                this.setIndexMenu(0);
+//                resetModificaForm();
+//                this.setIndexMenu(0);
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -221,9 +235,37 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     }
 
     public boolean validarModifica(SieniDocente nuevo) {
-        boolean ban = true;
+        boolean valido = true;
+        DateUtils du = new DateUtils();
+        FormatUtils fu = new FormatUtils();
+        EmailValidator ev = new EmailValidator();
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        //alumno ya registrado
+        boolean cambio = true;
+        validaciones.add(new ValidationPojo(this.getDocenteModifica().getDcPrimApe().isEmpty(), "Debe ingresar Primer Apellido", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getDocenteModifica().getDcPrimNombre().isEmpty(), "Debe ingresar Primer Nombre", FacesMessage.SEVERITY_ERROR));
+        SieniDocente alOriginal = sieniDocenteFacadeRemote.find(this.getDocenteModifica().getIdDocente());
+        cambio = diferencia(alOriginal.getDcPrimApe(), nuevo.getDcPrimApe());
+        cambio &= diferencia(alOriginal.getDcSeguApe(), nuevo.getDcSeguApe());
+        cambio &= diferencia(alOriginal.getDcTercApe(), nuevo.getDcTercApe());
+        cambio &= diferencia(alOriginal.getDcPrimNombre(), nuevo.getDcPrimNombre());
+        cambio &= diferencia(alOriginal.getDcSeguNombre(), nuevo.getDcSeguNombre());
+        cambio &= diferencia(alOriginal.getDcTercNombre(), nuevo.getDcTercNombre());
+        if (!cambio) {
+            validaciones.add(new ValidationPojo(sieniDocenteFacadeRemote.docenteRegistrado(nuevo), "El Docente ya esta existe", FacesMessage.SEVERITY_ERROR));
+        }
+        validaciones.add(new ValidationPojo(this.getDocenteModifica().getDcFechaNacimiento().before(du.getFechaMinimaDocente()), "La fecha de nacimiento es menor que " + fu.getFormatedDate(du.getFechaMinimaDocente()), FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getDocenteModifica().getDcFechaNacimiento().after(du.getFechaMaxima()), "La fecha de nacimiento es mayor que " + fu.getFormatedDate(du.getFechaMaxima()), FacesMessage.SEVERITY_ERROR));
+        if (nuevo.getDcCorreo() != null && !nuevo.getDcCorreo().isEmpty()) {//si se ingreso un correo lo valida
+            validaciones.add(new ValidationPojo(!ev.validate(nuevo.getDcCorreo()), "El correo electronico no válido", FacesMessage.SEVERITY_ERROR));
+        }
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
+    }
 
-        return ban;
+    public void cancelaModifica(SieniDocente modifica) {
+        modifica = sieniDocenteFacadeRemote.find(modifica.getIdDocente());
+        this.setIndexMenu(0);
     }
 
     public synchronized void eliminarExpediente() {
@@ -301,5 +343,19 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     public void fillMateriasDocente() {
         List<SieniMateriaDocente> mat = sieniMateriaDocenteFacadeRemote.findByDocente(this.getDocenteModifica().getIdDocente());
         this.setMateriasDocente(mat);
+    }
+
+    public boolean diferencia(String original, String modificado) {
+        boolean ret = true;
+        if (modificado != null && original != null) {
+            if (!modificado.equals(original)) {
+                ret = false;
+            }
+        } else {
+            if (!((modificado == null && original != null) || modificado != null && original == null)) {
+                ret = false;
+            }
+        }
+        return ret;
     }
 }

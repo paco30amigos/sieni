@@ -99,7 +99,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         this.setEvaluacionItemNuevo(new SieniEvaluacionItem());
         this.setEvalRespItemNuevo(new SieniEvalRespItem());
         this.setTipoPregunta(new ArrayList<TipoP>());
-        
+
 //        this.setCalificacion(Double.valueOf(0));
         this.getTipoPregunta().add(new TipoP(1, "Seleccion unica"));
         this.getTipoPregunta().add(new TipoP(2, "Seleccion multiple"));
@@ -121,12 +121,13 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         modifica = sieniEvaluacionFacadeRemote.find(modifica.getIdEvaluacion());
         this.setIndexMenu(0);
     }
+
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 
         if (loginBean.getTipoRol().charAt(0) == '0') {
-            this.setEvaluacionList(sieniEvaluacionFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno()));            
+            this.setEvaluacionList(sieniEvaluacionFacadeRemote.findByAlumno(loginBean.getAlumno().getIdAlumno()));
         } else {
             this.setEvaluacionList(sieniEvaluacionFacadeRemote.findActivos());
             this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
@@ -158,14 +159,27 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
             if (validarNuevo(this.getEvaluacionNuevo())) {//valida el guardado
                 SieniEvaluacion existEvaluacion = new SieniEvaluacion();
+                if(!this.getEvaluacionNuevo().getEvTipo().equals("Digital")){
+                this.getEvaluacionNuevo().setEvFechaCierre(this.getEvaluacionNuevo().getEvFechaInicio());
+                }
                 this.setEvaluacionNuevo(sieniEvaluacionFacadeRemote.createAndReturn(this.getEvaluacionNuevo()));
                 registrarEnBitacora("Crear", "Evaluacion", this.getEvaluacionNuevo().getIdEvaluacion());
-                FacesMessage msg = new FacesMessage("Evaluacion Creado Exitosamente");
+                FacesMessage msg = new FacesMessage("Evaluacion Creada Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                this.setIndexMenu(0);
+                this.setEvaluacionNuevo(new SieniEvaluacion());
+                fill();
+//                this.setIndexMenu(0);
             }
-            this.setEvaluacionNuevo(new SieniEvaluacion());
-            fill();
+            this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso("Digital"));
+            this.getEvaluacionNuevo().setEvTipo("Digital");
+            
+            
+
+            
+            
+//            this.setIndexMenu(1);
+            //            fill();
+
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
@@ -284,6 +298,9 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         validaciones.add(new ValidationPojo(nuevo.getEvNombre().isEmpty(), "Debe ingresar el titulo de la evaluacion", FacesMessage.SEVERITY_ERROR));
+        
+            validaciones.add(new ValidationPojo(nuevo.getEvFechaInicio().getTime() >= nuevo.getEvFechaCierre().getTime(), "La fecha de inicio debe ser menor o igual a la de cierre", FacesMessage.SEVERITY_ERROR));
+       
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
@@ -328,34 +345,54 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         this.setEvaluacionItemResp(new SieniEvaluacion());
         this.setEvaluacionItemResp(sieniEvaluacionFacadeRemote.findEvalItemResp(modificado.getIdEvaluacion()));
-        List<SieniNota> notas=new ArrayList<>();
-        notas=sieniNotaFacadeRemote.findNotasAlumnoEv(loginBean.getAlumno().getIdAlumno(), modificado.getIdEvaluacion());
-        if(notas!=null){
-            this.setNumIntento(notas.size());
-            if(this.getNumIntento()<modificado.getEvIntentos()){
-            this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());        
-        this.setEvaluacionItemList(this.getEvaluacionItemResp().getSieniEvaluacionItemList());
-        if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
-            Collections.shuffle(this.getEvaluacionItemList());
+        List<SieniNota> notas = new ArrayList<>();
+        if (loginBean.getAlumno() != null) {
+            notas = sieniNotaFacadeRemote.findNotasAlumnoEv(loginBean.getAlumno().getIdAlumno(), modificado.getIdEvaluacion());
         }
-        this.setIndexMenu(10);
-            }else{
+
+        if (notas != null) {
+            this.setNumIntento(notas.size());
+            if (this.getNumIntento() < modificado.getEvIntentos()) {
+                this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());
+                this.setEvaluacionItemList(this.getEvaluacionItemResp().getSieniEvaluacionItemList());
+                if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
+                    Collections.shuffle(this.getEvaluacionItemList());
+                }
+                if ("Si".equals(this.getEvaluacionItemResp().getEvRespuestasAleatorias())) {
+                    for (SieniEvaluacionItem evaluacionItem : this.getEvaluacionItemList()) {
+//                evalRespItems=evaluacionItem.getSieniEvalRespItemList();
+                        Collections.shuffle(evaluacionItem.getSieniEvalRespItemList());
+                    }
+                }
+                this.setIndexMenu(10);
+            } else {
 //                FacesMessage msg;
 //            msg = new FacesMessage("La evaluacion no permite mas intentos");
 //            FacesContext.getCurrentInstance().addMessage(, msg); 
-                new ValidationPojo().printMsj("La evaluacion no permite mas intentos" ,FacesMessage.SEVERITY_WARN);
+                new ValidationPojo().printMsj("La evaluacion no permite mas intentos", FacesMessage.SEVERITY_WARN);
             }
+        } else {
+            this.setNumIntento(0);
+            this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());
+            this.setEvaluacionItemList(this.getEvaluacionItemResp().getSieniEvaluacionItemList());
+//        List<SieniEvalRespItem> evalRespItems=new ArrayList<>();
+            for (SieniEvaluacionItem evaluacionItem : this.getEvaluacionItemList()) {
+//                evalRespItems=evaluacionItem.getSieniEvalRespItemList();
+                Collections.shuffle(evaluacionItem.getSieniEvalRespItemList());
+            }
+
+            if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
+                Collections.shuffle(this.getEvaluacionItemList());
+            }
+            if ("Si".equals(this.getEvaluacionItemResp().getEvRespuestasAleatorias())) {
+                for (SieniEvaluacionItem evaluacionItem : this.getEvaluacionItemList()) {
+//                evalRespItems=evaluacionItem.getSieniEvalRespItemList();
+                    Collections.shuffle(evaluacionItem.getSieniEvalRespItemList());
+                }
+            }
+            this.setIndexMenu(10);
         }
-        else{
-        this.setNumIntento(0);
-        this.setEvaluacionItemList(new ArrayList<SieniEvaluacionItem>());        
-        this.setEvaluacionItemList(this.getEvaluacionItemResp().getSieniEvaluacionItemList());
-        if ("Si".equals(this.getEvaluacionItemResp().getEvPreguntasAleatorias())) {
-            Collections.shuffle(this.getEvaluacionItemList());
-        }
-        this.setIndexMenu(10);
-        }
-        
+
     }
 
     //metodos para modificacion de datos
@@ -401,109 +438,106 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     }
 
     public synchronized void guardarResAlumno(Boolean timeout) {
-        
+
         try {
-        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("consultaForm:consulta");
-        Boolean ultimaPagina = false;
-        List<String[]> respuestas = new ArrayList<>();
-        List<Long> idRespuestas = new ArrayList<>();
-        int totalPag = this.getEvaluacionItemResp().getSieniEvaluacionItemList().size() / this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
-        int reciduo = this.getEvaluacionItemResp().getSieniEvaluacionItemList().size() % this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
-        int numPagina = d.getPage() + 1;
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+            final DataTable d = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent("consultaForm:consulta");
+            Boolean ultimaPagina = false;
+            List<String[]> respuestas = new ArrayList<>();
+            List<Long> idRespuestas = new ArrayList<>();
+            int totalPag = this.getEvaluacionItemResp().getSieniEvaluacionItemList().size() / this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
+            int reciduo = this.getEvaluacionItemResp().getSieniEvaluacionItemList().size() % this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
+            int numPagina = d.getPage() + 1;
 
-        int fin = numPagina * this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
-        int inicio = fin - (this.getEvaluacionItemResp().getEvPreguntasPagina().intValue() - 1);
+            int fin = numPagina * this.getEvaluacionItemResp().getEvPreguntasPagina().intValue();
+            int inicio = fin - (this.getEvaluacionItemResp().getEvPreguntasPagina().intValue() - 1);
 
-        if (reciduo != 0) {
-            totalPag++;
+            if (reciduo != 0) {
+                totalPag++;
 
-            if (numPagina == totalPag) {
-                inicio = (numPagina - 1) * this.getEvaluacionItemResp().getEvPreguntasPagina().intValue() + 1;
-                fin = inicio + (reciduo - 1);
-                for (int i = inicio; i <= fin; i++) {
-                    respuestas.add(req.getParameterValues("name" + (i)));
-                    idRespuestas.add(Long.valueOf(req.getParameter("id" + (i))));
+                if (numPagina == totalPag) {
+                    inicio = (numPagina - 1) * this.getEvaluacionItemResp().getEvPreguntasPagina().intValue() + 1;
+                    fin = inicio + (reciduo - 1);
+                    for (int i = inicio; i <= fin; i++) {
+                        respuestas.add(req.getParameterValues("name" + (i)));
+                        idRespuestas.add(Long.valueOf(req.getParameter("id" + (i))));
+                    }
+
+                    ultimaPagina = true;
+                } else {
+
+                    for (int i = inicio; i <= fin; i++) {
+                        respuestas.add(req.getParameterValues("name" + (i)));
+                        idRespuestas.add(Long.valueOf(req.getParameter("id" + (i))));
+                    }
                 }
 
-                ultimaPagina = true;
             } else {
-
+                if (numPagina == totalPag) {
+                    ultimaPagina = true;
+                }
                 for (int i = inicio; i <= fin; i++) {
                     respuestas.add(req.getParameterValues("name" + (i)));
                     idRespuestas.add(Long.valueOf(req.getParameter("id" + (i))));
                 }
             }
 
-        } else {
-            if (numPagina == totalPag) {
-                ultimaPagina = true;
-            }
-            for (int i = inicio; i <= fin; i++) {
-                respuestas.add(req.getParameterValues("name" + (i)));
-                idRespuestas.add(Long.valueOf(req.getParameter("id" + (i))));
-            }
-        }
+            this.setEvalRespAlumnoList(new ArrayList<SieniEvalRespAlumno>());
 
-        this.setEvalRespAlumnoList(new ArrayList<SieniEvalRespAlumno>());
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 
-        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            for (int j = 0; j < (fin - inicio + 1); j++) {
+                SieniEvalRespAlumno respAlumno = new SieniEvalRespAlumno();
+                respAlumno.setRaRespuesta(getCadena(respuestas.get(j)));
+                SieniAlumno alumno = new SieniAlumno();
+                respAlumno.setIdAlumno(loginBean.getAlumno().getIdAlumno());
+                //Long.parseLong(params.get(String.valueOf(j)))
 
-        for (int j = 0; j < (fin - inicio + 1); j++) {
-            SieniEvalRespAlumno respAlumno = new SieniEvalRespAlumno();
-            respAlumno.setRaRespuesta(getCadena(respuestas.get(j)));
-            SieniAlumno alumno = new SieniAlumno();
-            respAlumno.setIdAlumno(loginBean.getAlumno().getIdAlumno());
-            //Long.parseLong(params.get(String.valueOf(j)))
-
-            for (SieniEvaluacionItem evItem : this.getEvaluacionItemResp().getSieniEvaluacionItemList()) {
-                if (idRespuestas.get(j).equals(evItem.getIdEvaluacionItem())) {
-                    respAlumno.setIdEvaluacionItem(evItem);
-                    break;
+                for (SieniEvaluacionItem evItem : this.getEvaluacionItemResp().getSieniEvaluacionItemList()) {
+                    if (idRespuestas.get(j).equals(evItem.getIdEvaluacionItem())) {
+                        respAlumno.setIdEvaluacionItem(evItem);
+                        break;
+                    }
                 }
-            }
-            respAlumno.setRaEstado('A');
-            this.getEvalRespAlumnoList().add(respAlumno);
+                respAlumno.setRaEstado('A');
+                this.getEvalRespAlumnoList().add(respAlumno);
 
-        }
-        FacesMessage msg;
-        sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList(),this.getNumIntento());
-        if (ultimaPagina || timeout) {            
-            Double nota = calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
-            SieniNota sieniNota = new SieniNota();            
-            sieniNota.setIdAlumno(loginBean.getAlumno().getIdAlumno());
-            sieniNota.setIdEvaluacion(this.getEvaluacionItemResp());
-            sieniNota.setNtAnio(Calendar.getInstance().get(Calendar.YEAR));
-            sieniNota.setNtEstado('A');
-            sieniNota.setNtCalificacion(nota);
-            BigDecimal notaAux = new BigDecimal(sieniNota.getNtCalificacion());
-            this.setCalificacion(notaAux.setScale(2, RoundingMode.HALF_UP).doubleValue());
-            sieniNota.setNtCalificacion(this.getCalificacion());
-            sieniNota.setNtTipoIngreso("A");
-            sieniNotaFacadeRemote.create(sieniNota);
+            }
+            FacesMessage msg;
+            sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList(), this.getNumIntento());
+            if (ultimaPagina || timeout) {
+                Double nota = calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
+                SieniNota sieniNota = new SieniNota();
+                sieniNota.setIdAlumno(loginBean.getAlumno().getIdAlumno());
+                sieniNota.setIdEvaluacion(this.getEvaluacionItemResp());
+                sieniNota.setNtAnio(Calendar.getInstance().get(Calendar.YEAR));
+                sieniNota.setNtEstado('A');
+                sieniNota.setNtCalificacion(nota);
+                BigDecimal notaAux = new BigDecimal(sieniNota.getNtCalificacion());
+                this.setCalificacion(notaAux.setScale(2, RoundingMode.HALF_UP).doubleValue());
+                sieniNota.setNtCalificacion(this.getCalificacion());
+                sieniNota.setNtTipoIngreso("A");
+                sieniNotaFacadeRemote.create(sieniNota);
 //            this.setNotaALumno(sieniNota);
-            RequestContext context = RequestContext.getCurrentInstance();
-            if("Si".equals(this.getEvaluacionItemResp().getEvNotaFin())){
-            context.execute("PF('dlgfinEvaVar').show();");
-            context.update("consultaForm:dlgfinEva");
-            }else{
-            context.execute("PF('dlgfinVar').show();");
-            context.update("consultaForm:dlgfin");
-            }
-            
-//            msg = new FacesMessage("Examen finalizado, su nota es: " + this.getCalificacion());
-        } else {
-            msg = new FacesMessage("Se guardaron las respuestas");
-            FacesContext.getCurrentInstance().addMessage(null, msg); 
-        }
+                RequestContext context = RequestContext.getCurrentInstance();
+                if ("Si".equals(this.getEvaluacionItemResp().getEvNotaFin())) {
+                    context.execute("PF('dlgfinEvaVar').show();");
+                    context.update("consultaForm:dlgfinEva");
+                } else {
+                    context.execute("PF('dlgfinVar').show();");
+                    context.update("consultaForm:dlgfin");
+                }
 
-         
-            } catch (Exception e) {
-                new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+//            msg = new FacesMessage("Examen finalizado, su nota es: " + this.getCalificacion());
+            } else {
+                msg = new FacesMessage("Se guardaron las respuestas");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
             }
-        
-        
+
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
 
     }
 
@@ -534,10 +568,10 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
                     disponible = false;
                 }
             }
-            if (!validaAlumno()) {
+            if (!validaAlumno() && !"Escrita".equals(evaluacion.getEvTipo())) {
                 disponible = true;
-            }            
-           
+            }
+
         } catch (Exception e) {
             disponible = false;
         }
@@ -571,15 +605,14 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             if (respuestLibre != null) {
                 numFalsas = 0;
                 numFalsasAlumno = 0;
-                if (respuestLibre.equals(this.getEvalRespAlumnoList().get(i).getRaRespuesta())) {                  
-                numVerdaderas = 1;
-                numVerdaderasAlumno = 1;
+                if (respuestLibre.equals(this.getEvalRespAlumnoList().get(i).getRaRespuesta())) {
+                    numVerdaderas = 1;
+                    numVerdaderasAlumno = 1;
+                } else {
+                    numVerdaderas = 1;
+                    numVerdaderasAlumno = 0;
                 }
-                else{
-                numVerdaderas = 1;
-                numVerdaderasAlumno = 0;
-                }
-                
+
             } else {
                 numFalsas = contaPalabra("NO", resAux);
                 numFalsasAlumno = contaPalabra("NO", this.getEvalRespAlumnoList().get(i).getRaRespuesta());
@@ -683,8 +716,8 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     public void onTimeout() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "BOOM", null));
     }
-    
+
     public void handleClose(CloseEvent event) {
-       setIndexMenu(0);
+        setIndexMenu(0);
     }
 }

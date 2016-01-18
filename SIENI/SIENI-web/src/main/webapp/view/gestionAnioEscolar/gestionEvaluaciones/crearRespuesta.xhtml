@@ -26,9 +26,9 @@
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
                         <p:outputLabel  value="Respuesta " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:inputTextarea  class="Container100" id="respuesta" value="#{gestionarEvaluacionController.evalRespItemNuevo.erRespuesta}" ></p:inputTextarea>
+                        <p:inputTextarea  class="Container100" id="respuesta" value="#{gestionarEvaluacionController.evalRespItemNuevo.erRespuesta}" required="true"></p:inputTextarea>
                           <p:outputLabel  value="Respuesta Correcta: " class="Contanier10 Responsive"></p:outputLabel>
-                          <p:selectOneRadio  id="console" value="#{gestionarEvaluacionController.evalRespItemNuevo.erRespCorrecta}">
+                          <p:selectOneRadio  id="console" value="#{gestionarEvaluacionController.evalRespItemNuevo.erRespCorrecta}" required="true">
                             <f:selectItem itemValue="SI" itemLabel="Si" />
                             <f:selectItem itemValue="NO" itemLabel="No" />
                         </p:selectOneRadio>

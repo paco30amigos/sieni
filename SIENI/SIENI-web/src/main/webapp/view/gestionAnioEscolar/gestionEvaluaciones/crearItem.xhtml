@@ -26,13 +26,13 @@
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
                         <p:outputLabel  value="Pregunta: " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:inputTextarea  class="Container100" id="pregunta" value="#{gestionarEvaluacionController.evaluacionItemNuevo.eiPregunta}" ></p:inputTextarea>
+                        <p:inputTextarea  class="Container100" id="pregunta" value="#{gestionarEvaluacionController.evaluacionItemNuevo.eiPregunta}" required="true"></p:inputTextarea>
                          <p:outputLabel for="tipo" value="Tipo: " class=" Responsive" ></p:outputLabel>
-                         <p:selectOneMenu id="tipo" filter="true" filterMatchMode="contains" value="#{gestionarEvaluacionController.evaluacionItemNuevo.eiTipoResp}" >
+                         <p:selectOneMenu id="tipo" filter="true" filterMatchMode="contains" value="#{gestionarEvaluacionController.evaluacionItemNuevo.eiTipoResp}" required="true">
                              <f:selectItems itemValue="#{tipoR.id}" itemLabel="#{tipoR.tipo}" value="#{gestionarEvaluacionController.tipoPregunta}" var="tipoR"></f:selectItems>
                         </p:selectOneMenu>
-                         <p:outputLabel  value="Ponderacion(Disp #{100-gestionarEvaluacionController.totalPonderacion}%): " class="Contanier10 Responsive"></p:outputLabel>
-                        <p:spinner min="0" max="100" value="#{gestionarEvaluacionController.evaluacionItemNuevo.eiPonderacion}"></p:spinner>                       
+                         <p:outputLabel  value="Ponderacion(Disp #{100-gestionarEvaluacionController.totalPonderacion}%): " class="Contanier10 Responsive" ></p:outputLabel>
+                        <p:spinner min="0" max="100" value="#{gestionarEvaluacionController.evaluacionItemNuevo.eiPonderacion}" required="true"></p:spinner>                       
                     </p:panelGrid>
                 
                 <div class="EmptyBox20"></div>

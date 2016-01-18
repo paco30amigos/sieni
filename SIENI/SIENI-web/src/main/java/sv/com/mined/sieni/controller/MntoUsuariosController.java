@@ -69,7 +69,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     }
 
     public void cancelaModifica(UsuariosPojo modifica) {
-        if (modifica.getTipoUsuario().equals("0")) {
+        if (modifica.getTipoUsuario().equals("Alumno")) {
             List<SieniAlumnRol> l = new ArrayList<>();
             l.add(sieniAlumnRolFacadeRemote.find(modifica.getAlumnoRol().getIdAlumnRol()));
             modifica = getAlumnosUsuarioPojo(l).get(0);

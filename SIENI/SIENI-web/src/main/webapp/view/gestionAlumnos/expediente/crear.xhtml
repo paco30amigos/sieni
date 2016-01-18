@@ -74,13 +74,13 @@
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" >    
+                        <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" rendered="#{loginController.mostrarA('2')}" >    
                         </p:menuitem>
-                        <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}">    
+                        <p:menuitem value="Matricula de Alumnos" url="#{siteUrls.gestionAlumnos}" rendered="#{loginController.mostrarA('1')}">    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}">
+                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}" rendered="#{loginController.mostrarA('1')}">
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}">
+                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}" rendered="#{loginController.mostrarA('1,2')}">
                         </p:menuitem>
                     </p:tieredMenu>           
                 </div>

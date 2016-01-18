@@ -55,7 +55,7 @@
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
                         <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" >    
                         </p:menuitem>
-                        <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionarAlumnos}">    
+                        <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionarAlumnos}" rendered="#{loginController.mostrarA('2,1')}">
                         </p:menuitem>
                         <p:menuitem value="Bitacora" url="#{siteUrls.bitacora}">
                         </p:menuitem>

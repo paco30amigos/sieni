@@ -22,7 +22,7 @@
                     <ui:include src="ayuda/bitacora.xhtml"></ui:include>
                 </p:dialog>
                 <div class="EmptyBox20"></div>
-                <p:panelGrid columns="5">
+                <p:panelGrid columns="4">
                     <p:outputLabel for="desde" value="Fecha desde:"></p:outputLabel>
                     <p:calendar id="desde" value="#{bitacoraController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     <p:outputLabel for="hasta" value="hasta:"></p:outputLabel>
@@ -37,9 +37,6 @@
                 </p:tooltip>
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{bitacoraController.listDatos}" 
-                             paginator="true" rows="10"
-                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                             rowsPerPageTemplate="10,20,40"
                              emptyMessage="No se encontraron datos"
                              reflow="true">
                     <p:column headerText="Accion" >

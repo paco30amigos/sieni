@@ -34,10 +34,10 @@
                 <p:remoteCommand name="updateTablaConsulta" update="consulta"></p:remoteCommand>
                 
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="consulta" value="#{gestionarConsultasController.consultasList}" 
-                             paginator="true" rows="10" emptyMessage="No hay consultas que mostrar"
+                             paginator="true" rows="10" 
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
-                             emptyMessage="No se encontraron datos"
+                             emptyMessage="No hay consultas que mostrar"
                              reflow="true">
                     
                         <p:column headerText="Fecha" filterBy="#{consulta.fechaFiltrable}" filterable="true" filterMatchMode="contains" >

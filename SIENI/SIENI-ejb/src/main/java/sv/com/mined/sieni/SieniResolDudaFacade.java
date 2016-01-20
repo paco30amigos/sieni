@@ -5,10 +5,13 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniResolDuda;
+import sv.com.mined.sieni.model.SieniTemaDuda;
 
 /**
  *
@@ -28,4 +31,11 @@ public class SieniResolDudaFacade extends AbstractFacade<SieniResolDuda> impleme
         super(SieniResolDuda.class);
     }
     
+    
+    @Override
+    public List<SieniResolDuda> findByConsulta(SieniTemaDuda consulta) {
+        Query q = em.createNamedQuery("SieniResolDuda.findByConsulta");
+        q.setParameter("idConsulta", consulta.getIdTemaDuda());
+        return q.getResultList();
+    }
 }

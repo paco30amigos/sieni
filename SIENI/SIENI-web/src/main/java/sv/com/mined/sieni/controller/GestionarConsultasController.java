@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
+import sv.com.mined.sieni.SieniResolDudaFacadeRemote;
 import sv.com.mined.sieni.SieniTemaDudaFacadeRemote;
 import sv.com.mined.sieni.form.GestionarConsultasForm;
 import sv.com.mined.sieni.model.SieniDocente;
@@ -37,6 +38,8 @@ public class GestionarConsultasController extends GestionarConsultasForm {
 
     @EJB
     private SieniTemaDudaFacadeRemote sieniConsultaFacadeRemote;
+    @EJB
+    private SieniResolDudaFacadeRemote sieniResolDudaFacadeRemote;
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
     @EJB
@@ -106,6 +109,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
 
     public void ver(SieniTemaDuda modificado) {
         this.setConsultaModifica(modificado);
+        this.getConsultaModifica().setSieniResolDudaList(sieniResolDudaFacadeRemote.findByConsulta(this.getConsultaModifica()));
         this.setIndexMenu(3);
     }
 

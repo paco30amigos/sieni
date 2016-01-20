@@ -8,6 +8,7 @@ package sv.com.mined.sieni;
 import java.util.List;
 import javax.ejb.Remote;
 import sv.com.mined.sieni.model.SieniResolDuda;
+import sv.com.mined.sieni.model.SieniTemaDuda;
 
 /**
  *
@@ -30,4 +31,6 @@ public interface SieniResolDudaFacadeRemote {
 
     int count();
     
+    
+    List<SieniResolDuda> findByConsulta(SieniTemaDuda consulta);
 }

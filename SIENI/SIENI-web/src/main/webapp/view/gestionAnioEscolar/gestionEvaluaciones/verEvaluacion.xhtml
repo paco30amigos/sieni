@@ -51,7 +51,7 @@
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Finalizar" action="#{gestionarEvaluacionController.setIndexMenu(0)}"></p:commandButton>
                     <p:ajax event="close"  listener="#{gestionarEvaluacionController.handleClose}"/>
-                    <p:commandButton value="Repetir evaluacion" action="#{gestionarEvaluacionController.setIndexMenu(10)}" ></p:commandButton>
+                    <p:commandButton value="Ver Respuestas" action="#{gestionarEvaluacionController.setIndexMenu(12)}" rendered="#{gestionarEvaluacionController.evaluacionItemResp.evVerRespuesta=='Si'}"></p:commandButton>
                     
                 </p:dialog>
                 <p:dialog id="dlgfin" widgetVar="dlgfinVar" header="Evaluacion" modal="true">
@@ -61,7 +61,8 @@
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Finalizar" action="#{gestionarEvaluacionController.setIndexMenu(0)}"></p:commandButton>
                     <p:ajax event="close"  listener="#{gestionarEvaluacionController.handleClose}"/>
-                    <p:commandButton value="Repetir evaluacion" action="#{gestionarEvaluacionController.setIndexMenu(10)}"></p:commandButton>
+                    
+                    <p:commandButton value="Ver Respuestas" action="#{gestionarEvaluacionController.setIndexMenu(12)}" rendered="#{gestionarEvaluacionController.evaluacionItemResp.evVerRespuesta=='Si'}"></p:commandButton>
                     
                 </p:dialog>
                 <p:remoteCommand name="updateTablaConsulta" update="panelEV"></p:remoteCommand>

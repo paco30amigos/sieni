@@ -207,6 +207,9 @@ public class GestionarEvaluacionForm {
             case 11:
                 sU.redirect(sU.getBasegestionEvaluacion() + "mostrar.xhtml");
                 break;
+            case 12:
+                sU.redirect(sU.getBasegestionEvaluacion() + "verRespuestas.xhtml");
+                break;
 
         }
         this.indexMenu = indexMenu;

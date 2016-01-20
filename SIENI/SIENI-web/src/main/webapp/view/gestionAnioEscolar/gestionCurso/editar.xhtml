@@ -33,23 +33,23 @@
                     </p:selectOneMenu>
                     <p:outputLabel for="mod_capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
                     <p:spinner tabindex="2" id="mod_capacidad" class=" Responsive" value="#{gestionCursoController.cursoModifica.crCapacidad}" max="999" min="1" required="true" requiredMessage="Debe ingresar la capacidad del curso"></p:spinner>
-                    <p:outputLabel for="mod_docente" value="Docente: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="3" id="mod_docente" class=" Responsive" value="#{gestionCursoController.cursoModifica.idDocente}" filter="true" filterMatchMode="contains" required="true">
-                        <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesModificaList}" var="docente" />
-                    </p:selectOneMenu>
-
                     <p:outputLabel for="mod_grado" value="Grado: " class=" Responsive" ></p:outputLabel>
-                    <p:selectOneMenu tabindex="4" id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionCursoController.cursoModifica.idGrado.idGrado}" required="true" valueChangeListener="#{gestionCursoController.getSeccionesGradoModifica}">
+                    <p:selectOneMenu tabindex="3" id="mod_grado" filter="true" filterMatchMode="contains" value="#{gestionCursoController.cursoModifica.idGrado.idGrado}" required="true" valueChangeListener="#{gestionCursoController.getSeccionesGradoModifica}">
                         <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionCursoController.gradoModificaList}" var="grado" ></f:selectItems>
-                        <p:ajax event="valueChange" update="mod_seccion,mod_materia"/>
+                        <p:ajax event="valueChange" update="mod_seccion,mod_materia,mod_docente"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="mod_seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="5" id="mod_seccion" value="#{gestionCursoController.cursoModifica.idSeccion.idSeccion}" filter="true" filterMatchMode="contains" required="true">
+                    <p:selectOneMenu tabindex="4" id="mod_seccion" value="#{gestionCursoController.cursoModifica.idSeccion.idSeccion}" filter="true" filterMatchMode="contains" required="true">
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionCursoController.seccionModificaList}" var="seccion"></f:selectItems>
                     </p:selectOneMenu>
                     <p:outputLabel for="mod_materia" value="Materia: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="6" id="mod_materia" class=" Responsive" value="#{gestionCursoController.cursoModifica.idMateria.idMateria}" filter="true" filterMatchMode="contains" required="true">
+                    <p:selectOneMenu tabindex="5" id="mod_materia" class=" Responsive" value="#{gestionCursoController.cursoModifica.idMateria.idMateria}" filter="true" filterMatchMode="contains" required="true" valueChangeListener="#{gestionCursoController.getDocenteMateriaModifica}">
                         <f:selectItems itemValue ="#{materia.idMateria}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaModificaList}" var="materia" />
+                        <p:ajax event="valueChange" update="mod_docente"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mod_docente" value="Docente: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="6" id="mod_docente" class=" Responsive" value="#{gestionCursoController.cursoModifica.idDocente}" filter="true" filterMatchMode="contains" required="true">
+                        <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesModificaList}" var="docente" />
                     </p:selectOneMenu>
                 </p:panelGrid>
 

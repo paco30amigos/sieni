@@ -20,6 +20,7 @@ import sv.com.mined.sieni.SieniCursoAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
+import sv.com.mined.sieni.SieniMateriaDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.form.GestionCursoForm;
 import sv.com.mined.sieni.model.SieniAlumno;
@@ -44,6 +45,8 @@ public class GestionCursoController extends GestionCursoForm {
 
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
+    @EJB
+    private SieniMateriaDocenteFacadeRemote sieniMateriaDocenteFacadeRemote;
     @EJB
     private SieniGradoFacadeRemote sieniGradoFacadeRemote;
     @EJB
@@ -80,7 +83,7 @@ public class GestionCursoController extends GestionCursoForm {
         this.setCursoList(new ArrayList<SieniCurso>());
         fill();
     }
-    
+
     public void cancelaModifica(SieniCurso modifica) {
         modifica = sieniCursoFacadeRemote.find(modifica.getIdCurso());
         this.setIndexMenu(0);
@@ -92,7 +95,6 @@ public class GestionCursoController extends GestionCursoForm {
     }
 
     public void nuevo() {
-        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setGradoList(sieniGradoFacadeRemote.findAllNoInactivos());
 //        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
 //        this.setSeccionList(new ArrayList<SieniSeccion>());
@@ -101,12 +103,16 @@ public class GestionCursoController extends GestionCursoForm {
                     && !this.getGradoList().get(0).getSieniSeccionList().isEmpty()) {
                 this.setSeccionList(this.getGradoList().get(0).getSieniSeccionList());
             }
-
-            if (this.getGradoList().get(0).getSieniMateriaList() != null
-                    && !this.getGradoList().get(0).getSieniMateriaList().isEmpty()) {
-                this.setMateriaList(this.getGradoList().get(0).getSieniMateriaList());
-//                this.setSeccionList(this.getGradoList().get(0).getSieniSeccionList());
+            this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(this.getGradoList().get(0).getIdGrado()));
+            if (this.getMateriaList() != null && !this.getMateriaList().isEmpty()) {
+                this.setDocentesList(sieniMateriaDocenteFacadeRemote.findByMateria(this.getMateriaList().get(0).getIdMateria()));
+            } else {
+                this.setDocentesList(new ArrayList<SieniDocente>());
             }
+        } else {
+            this.setMateriaList(new ArrayList<SieniMateria>());
+            this.setDocente(new ArrayList<SieniCurso>());
+            this.setSeccionList(new ArrayList<SieniSeccion>());
         }
         this.setIndexMenu(1);
     }
@@ -197,9 +203,10 @@ public class GestionCursoController extends GestionCursoForm {
     //metodos para modificacion de datos
     public void modificar(SieniCurso modificado) {
         //modifica
-        this.setDocentesModificaList(sieniDocenteFacadeRemote.findDocentesActivos());
+        this.setIdGradoModifica(modificado.getIdGrado().getIdGrado());
+        this.setIdMateriaModifica(modificado.getIdMateria().getIdMateria());
+        this.setIdDocenteModifica(modificado.getIdDocente());
         this.setGradoModificaList(sieniGradoFacadeRemote.findAllNoInactivos());
-        this.setMateriaModificaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(modificado.getIdGrado().getIdGrado()));
         this.setSeccionModificaList(new ArrayList<SieniSeccion>());
         if (this.getGradoModificaList() != null && !this.getGradoModificaList().isEmpty()) {
             for (SieniGrado actual : this.getGradoModificaList()) {
@@ -208,6 +215,12 @@ public class GestionCursoController extends GestionCursoForm {
                     break;
                 }
             }
+            this.setMateriaModificaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(modificado.getIdGrado().getIdGrado()));
+            this.setDocentesModificaList(sieniMateriaDocenteFacadeRemote.findByMateria(modificado.getIdMateria().getIdMateria()));
+        } else {
+            this.setSeccionModificaList(new ArrayList<SieniSeccion>());
+            this.setMateriaModificaList(new ArrayList<SieniMateria>());
+            this.setDocentesModificaList(new ArrayList<SieniDocente>());
         }
         this.setCursoModifica(modificado);
         this.setIndexMenu(2);
@@ -314,6 +327,21 @@ public class GestionCursoController extends GestionCursoForm {
         }
         this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(idGrado));
         this.setSeccionList(cod.getSieniSeccionList());
+        if (this.getMateriaList() != null && !this.getMateriaList().isEmpty()) {
+            this.setDocentesList(sieniMateriaDocenteFacadeRemote.findByMateria(this.getMateriaList().get(0).getIdMateria()));
+        } else {
+            this.setDocentesList(new ArrayList<SieniDocente>());
+        }
+    }
+
+    public void getDocenteMateria(ValueChangeEvent a) {
+        Long idMateria = (Long) a.getNewValue();
+        this.setDocentesList(sieniMateriaDocenteFacadeRemote.findByMateria(idMateria));
+    }
+
+    public void getDocenteMateriaModifica(ValueChangeEvent a) {
+        Long idMateria = (Long) a.getNewValue();
+        this.setDocentesModificaList(sieniMateriaDocenteFacadeRemote.findByMateria(idMateria));
     }
 
     public void getSeccionesGradoModifica(ValueChangeEvent a) {
@@ -326,6 +354,11 @@ public class GestionCursoController extends GestionCursoForm {
             }
         }
         this.setMateriaModificaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(idGrado));
+        if (this.getMateriaModificaList() != null && !this.getMateriaModificaList().isEmpty()) {
+            this.setDocentesModificaList(sieniMateriaDocenteFacadeRemote.findByMateria(this.getMateriaModificaList().get(0).getIdMateria()));
+        } else {
+            this.setDocentesModificaList(new ArrayList<SieniDocente>());
+        }
     }
 
     public synchronized void alumnosSeleccion() {

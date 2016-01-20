@@ -29,6 +29,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "sieni_materia_docente")
 @NamedQueries({
     @NamedQuery(name = "SieniMateriaDocente.findByDocente", query = "SELECT s FROM SieniMateriaDocente s where s.idDocente=:idDocente and s.mdEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMateriaDocente.findByMateria", query = "SELECT d FROM SieniMateriaDocente s,SieniDocente d where s.idMateria.idMateria=:idMateria and s.idDocente=d.idDocente and s.mdEstado not in (:estado)"),
     @NamedQuery(name = "SieniMateriaDocente.findAll", query = "SELECT s FROM SieniMateriaDocente s")})
 public class SieniMateriaDocente implements Serializable {
 

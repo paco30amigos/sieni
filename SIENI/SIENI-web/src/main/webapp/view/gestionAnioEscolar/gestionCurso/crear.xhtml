@@ -32,23 +32,23 @@
                     </p:selectOneMenu>
                     <p:outputLabel for="capacidad" value="Capacidad: " class=" Responsive"></p:outputLabel>
                     <p:spinner tabindex="3" id="capacidad" class=" Responsive" value="#{gestionCursoController.cursoNuevo.crCapacidad}" max="999" min="1" required="true" requiredMessage="Debe ingresar la capacidad del curso"></p:spinner>
-                    <p:outputLabel for="docente" value="Docente: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="4" id="docente" class=" Responsive" value="#{gestionCursoController.idDocente}" filter="true" filterMatchMode="contains" required="true">
-                        <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesList}" var="docente" />
-                    </p:selectOneMenu>
-
                     <p:outputLabel for="grado" value="Grado: " class=" Responsive" ></p:outputLabel>
                     <p:selectOneMenu tabindex="5" id="grado" filter="true" filterMatchMode="contains" value="#{gestionCursoController.idGrado}" valueChangeListener="#{gestionCursoController.getSeccionesGrado}" required="true">
                         <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{gestionCursoController.gradoList}" var="grado"></f:selectItems>
-                        <p:ajax event="valueChange" update="seccion,materia"/>
+                        <p:ajax event="valueChange" update="seccion,materia,docente"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
                     <p:selectOneMenu tabindex="6" id="seccion" value="#{gestionCursoController.idSeccion}"  filter="true" filterMatchMode="contains" required="true">
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{gestionCursoController.seccionList}" var="seccion"></f:selectItems>
                     </p:selectOneMenu>
                     <p:outputLabel for="materia" value="Materia: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu tabindex="7" id="materia" class=" Responsive" value="#{gestionCursoController.idMateria}" filter="true" filterMatchMode="contains" required="true" >
+                    <p:selectOneMenu tabindex="7" id="materia" class=" Responsive" value="#{gestionCursoController.idMateria}" filter="true" filterMatchMode="contains" required="true" valueChangeListener="#{gestionCursoController.getDocenteMateria}" >
                         <f:selectItems itemValue ="#{materia.idMateria}" itemLabel="#{materia.maNombre}" value="#{gestionCursoController.materiaList}" var="materia" />
+                        <p:ajax event="valueChange" update="docente"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel for="docente" value="Docente: " class="  Responsive"></p:outputLabel>
+                    <p:selectOneMenu tabindex="4" id="docente" class=" Responsive" value="#{gestionCursoController.idDocente}" filter="true" filterMatchMode="contains" required="true">
+                        <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionCursoController.docentesList}" var="docente" />
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <p:tooltip for="nombre" value="Ingrese un nombre para el curso."/>

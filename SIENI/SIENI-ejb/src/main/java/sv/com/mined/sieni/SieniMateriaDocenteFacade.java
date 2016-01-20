@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniMateriaDocente;
 
 /**
@@ -36,6 +37,15 @@ public class SieniMateriaDocenteFacade extends AbstractFacade<SieniMateriaDocent
         Character estado = 'I';
         Query q = em.createNamedQuery("SieniMateriaDocente.findByDocente");
         q.setParameter("idDocente", idDocente);
+        q.setParameter("estado", estado);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<SieniDocente> findByMateria(Long idMateria) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniMateriaDocente.findByMateria");
+        q.setParameter("idMateria", idMateria);
         q.setParameter("estado", estado);
         return q.getResultList();
     }

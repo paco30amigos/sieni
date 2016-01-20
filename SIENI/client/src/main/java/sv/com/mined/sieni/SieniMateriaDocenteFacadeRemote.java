@@ -7,6 +7,7 @@ package sv.com.mined.sieni;
 
 import java.util.List;
 import javax.ejb.Remote;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniMateriaDocente;
 
 /**
@@ -31,6 +32,8 @@ public interface SieniMateriaDocenteFacadeRemote {
     int count();
 
     public List<SieniMateriaDocente> findByDocente(Long idDocente);
+    
+    public List<SieniDocente> findByMateria(Long idMateria);
 
     public void merge(List<SieniMateriaDocente> lista, List<SieniMateriaDocente> eliminados);
 }

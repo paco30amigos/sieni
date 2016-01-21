@@ -92,6 +92,12 @@ public class SecurityFilterController implements Filter {
         }
         if (accesoDenegado) {
             res.sendRedirect(req.getContextPath() + "/faces/access-denied.xhtml");
+        } else {
+            //verifica que la contrasenia no ha vencido
+            int dias = loginBean.getDias();
+            if (dias >= 0) {
+                res.sendRedirect(req.getContextPath() + "/faces/password.xhtml");
+            }
         }
         chain.doFilter(request, response);
         return;
@@ -100,7 +106,7 @@ public class SecurityFilterController implements Filter {
     private boolean noProteger(String urlStr, HttpServletRequest req) {
         boolean ban = false;
         //url no protegidas
-        String[] urls = {"login.xhtml", "access-denied.xhtml", "error.xhtml", "404.xhtml", "password.xhtml","documentosAyuda/manualUsuario.pdf","primepush/notifyNotice"};
+        String[] urls = {"login.xhtml", "access-denied.xhtml", "error.xhtml", "404.xhtml", "password.xhtml", "documentosAyuda/manualUsuario.pdf", "primepush/notifyNotice"};
         for (String actual : urls) {
             if (urlStr.endsWith("/faces/" + actual)) {
                 ban = true;
@@ -310,6 +316,6 @@ public class SecurityFilterController implements Filter {
 
     public void log(String msg) {
         filterConfig.getServletContext().log(msg);
-        }
+    }
 
 }

@@ -31,6 +31,7 @@ import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocentRol;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
+import utils.DateUtils;
 import utils.siteUrls;
 
 /**
@@ -71,8 +72,11 @@ public class LoginController extends LoginForm {
                 SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoUsuario(this.getUsuario(), passEncriptado);
                 if (alumno == null) {
                     SieniDocente docente = sieniDocenteFacadeRemote.findDocenteUsuario(this.getUsuario(), passEncriptado);
+                    this.setPassUsr(passEncriptado);
                     if (docente != null) {
                         if (docente.getDcEstado() != null && docente.getDcEstado().equals('A')) {
+                            this.setDias(new DateUtils().getDiasAntesVencimientoContra(docente.getDcFechaContrasenia(), this.getVencimientoContra()));
+                            this.setPedirContrasenia(true);
                             this.setLogeado(true);
                             this.setTipoUsuario("D");
                             List<SieniDocentRol> r = sieniDocentRolFacadeRemote.findRoles(docente.getIdDocente());
@@ -91,6 +95,9 @@ public class LoginController extends LoginForm {
                     }
                 } else {
                     if (alumno.getAlEstado() != null && alumno.getAlEstado().equals('A')) {
+                        this.setDias(new DateUtils().getDiasAntesVencimientoContra(alumno.getAlFechaContrasenia(), this.getVencimientoContra()));
+                        this.setPassUsr(passEncriptado);
+                        this.setPedirContrasenia(true);
                         this.setLogeado(true);
                         this.setTipoUsuario("A");
                         this.setTipoRol(sieniAlumnRolFacadeRemote.findRolesAlumno(alumno.getIdAlumno()).get(0).getFRol() + "");

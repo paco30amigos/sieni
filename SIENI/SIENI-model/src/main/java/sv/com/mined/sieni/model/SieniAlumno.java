@@ -131,6 +131,9 @@ public class SieniAlumno implements Serializable {
     @Column(name = "al_fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date alFechaNacimiento;
+    @Column(name = "al_fecha_contrasenia")
+    @Temporal(TemporalType.DATE)
+    private Date alFechaContrasenia;
     @Column(name = "al_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date alFechaIngreso;
@@ -331,7 +334,6 @@ public class SieniAlumno implements Serializable {
 //    public void setSieniTemaDudaList(List<SieniTemaDuda> sieniTemaDudaList) {
 //        this.sieniTemaDudaList = sieniTemaDudaList;
 //    }
-
 //    @XmlTransient
 //    public List<SieniAlumnRol> getSieniAlumnRolList() {
 //        return sieniAlumnRolList;
@@ -340,7 +342,6 @@ public class SieniAlumno implements Serializable {
 //    public void setSieniAlumnRolList(List<SieniAlumnRol> sieniAlumnRolList) {
 //        this.sieniAlumnRolList = sieniAlumnRolList;
 //    }
-
 //    @XmlTransient
 //    public List<SieniPntosContrl> getSieniPntosContrlList() {
 //        return sieniPntosContrlList;
@@ -349,7 +350,6 @@ public class SieniAlumno implements Serializable {
 //    public void setSieniPntosContrlList(List<SieniPntosContrl> sieniPntosContrlList) {
 //        this.sieniPntosContrlList = sieniPntosContrlList;
 //    }
-
 //    @XmlTransient
 //    public List<SieniMatricula> getSieniMatriculaList() {
 //        return sieniMatriculaList;
@@ -363,11 +363,9 @@ public class SieniAlumno implements Serializable {
 //    public List<SieniNota> getSieniNotaList() {
 //        return sieniNotaList;
 //    }
-
 //    public void setSieniNotaList(List<SieniNota> sieniNotaList) {
 //        this.sieniNotaList = sieniNotaList;
 //    }
-
 //    @XmlTransient
 //    public List<AlumnoRecibeNoti> getNotificacionesList() {
 //        return notificacionesList;
@@ -376,7 +374,6 @@ public class SieniAlumno implements Serializable {
 //    public void setNotificacionesList(List<AlumnoRecibeNoti> notificacionesList) {
 //        this.notificacionesList = notificacionesList;
 //    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -521,4 +518,11 @@ public class SieniAlumno implements Serializable {
 //    public void setSieniEvalRespAlumnoList(List<SieniEvalRespAlumno> sieniEvalRespAlumnoList) {
 //        this.sieniEvalRespAlumnoList = sieniEvalRespAlumnoList;
 //    }
+    public Date getAlFechaContrasenia() {
+        return alFechaContrasenia;
+    }
+
+    public void setAlFechaContrasenia(Date alFechaContrasenia) {
+        this.alFechaContrasenia = alFechaContrasenia;
+    }
 }

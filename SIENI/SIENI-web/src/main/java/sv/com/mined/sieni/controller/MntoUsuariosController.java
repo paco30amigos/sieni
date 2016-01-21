@@ -8,6 +8,7 @@ package sv.com.mined.sieni.controller;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import org.primefaces.util.Base64;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -232,6 +233,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     alumnoRolNuevo.setIdAlumno(alumnoEdit.getIdAlumno());
                     alumnoRolNuevo.setFRol(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
                     alumnoRolNuevo.setSarEstado('A');
+                    alumnoEdit.setAlFechaContrasenia(new DateUtils().getFechaMinima());//fuerza a poner una fecha vencida para que el usuario cambie la contrasenia
                     //actualiza la contraseña y usuario
                     sieniAlumnoFacadeRemote.edit(alumnoEdit);
                     //crea el nuevo usuario
@@ -252,6 +254,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     docenteRolNuevo.setIdDocente(docenteEdit.getIdDocente());
                     docenteRolNuevo.setFRolDoc(Long.parseLong(this.getUsuarioNuevo().getCodTipoUsuario()));
                     docenteRolNuevo.setSdrEstado('A');
+                    docenteEdit.setDcFechaContrasenia(new DateUtils().getFechaMinima());//fuerza a poner una fecha vencida para que el usuario cambie la contrasenia
                     //actualiza la contraseña y usuario
                     sieniDocenteFacadeRemote.edit(docenteEdit);
                     //crea el nuevo usuario
@@ -339,6 +342,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
 
                     alumnoRolNuevo.setIdAlumno(alumnoEdit.getIdAlumno());
                     alumnoRolNuevo.setFRol(this.getUsuarioModifica().getCodTipoPermiso());
+                    alumnoEdit.setAlFechaContrasenia(new Date());
                     //actualiza la contraseña y usuario
                     sieniAlumnoFacadeRemote.edit(alumnoEdit);
                     //crea el nuevo usuario 
@@ -422,30 +426,44 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         try {
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-
+            boolean valido = false;
             if (loginBean.getTipoUsuario().charAt(0) == 'A') {
-                String antiguoPass = loginBean.getPassword();
                 SieniAlumno alumnoEdit = loginBean.getAlumno();
-                if (this.getUsuarioModPass().getPass0().equals(antiguoPass)) {
-                    if (this.getUsuarioModPass().getPass1() != null && !this.getUsuarioModPass().getPass1().isEmpty()) {
-                        alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
-                    }
+                if (validarModPass(this.getUsuarioModPass())) {
+                    alumnoEdit.setAlContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
+                    alumnoEdit.setAlFechaContrasenia(new Date());
+                    sieniAlumnoFacadeRemote.edit(alumnoEdit);
+                    valido = true;
                 }
-                sieniAlumnoFacadeRemote.edit(alumnoEdit);
             } else if (loginBean.getTipoUsuario().charAt(0) == 'D') {
-                String antiguoPass = loginBean.getPassword();
                 SieniDocente docenteEdit = loginBean.getDocente();
-                if (this.getUsuarioModPass().getPass0().equals(antiguoPass)) {
-                    if (this.getUsuarioModPass().getPass1() != null && !this.getUsuarioModPass().getPass1().isEmpty()) {
-                        docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
-                    }
+                if (validarModPass(this.getUsuarioModPass())) {
+                    docenteEdit.setDcContrasenia(encriptarContrasenia(this.getUsuarioModPass().getPass1()));
+                    docenteEdit.setDcFechaContrasenia(new Date());
+                    sieniDocenteFacadeRemote.edit(docenteEdit);
+                    valido = true;
                 }
-                sieniDocenteFacadeRemote.edit(docenteEdit);
             }
-            registrarEnBitacora("Cambio Contraseña", "Usuario", loginBean.getIdUsuario());
+            if (valido) {
+                new ValidationPojo().printMsj("Contraseña actualizada exitosamente", FacesMessage.SEVERITY_INFO);
+                registrarEnBitacora("Cambio Contraseña", "Usuario", loginBean.getIdUsuario());
+                loginBean.logout();
+            }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
 
+    public boolean validarModPass(UsuariosPojo usr) {
+        boolean ret = false;
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        if (usr.getPass1() != null && !usr.getPass1().isEmpty()) {
+            validaciones.add(new ValidationPojo(usr.getPass1().length() < 8, "La contraseña debe ser de almenos 8 caracteres", FacesMessage.SEVERITY_ERROR));
+        }
+        validaciones.add(new ValidationPojo(loginBean.getPassUsr().equals(encriptarContrasenia(usr.getPass1())), "La contraseña no puede ser igual a la anterior", FacesMessage.SEVERITY_ERROR));
+        ret = !ValidationPojo.printErrores(validaciones);
+        return ret;
+    }
 }

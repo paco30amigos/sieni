@@ -102,6 +102,9 @@ public class SieniDocente implements Serializable {
     @Column(name = "dc_fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date dcFechaNacimiento;
+    @Column(name = "dc_fecha_contrasenia")
+    @Temporal(TemporalType.DATE)
+    private Date dcFechaContrasenia;
     @Column(name = "dc_telefono_em_1")
     private String dcTelefonoEm1;
     @Column(name = "dc_telefono_em_2")
@@ -329,7 +332,6 @@ public class SieniDocente implements Serializable {
 //    public void setNotificacionesList(List<DocRecibeNoti> notificacionesList) {
 //        this.notificacionesList = notificacionesList;
 //    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -415,6 +417,14 @@ public class SieniDocente implements Serializable {
 
     public void setDcFechaIngreso(Date dcFechaIngreso) {
         this.dcFechaIngreso = dcFechaIngreso;
+    }
+
+    public Date getDcFechaContrasenia() {
+        return dcFechaContrasenia;
+    }
+
+    public void setDcFechaContrasenia(Date dcFechaContrasenia) {
+        this.dcFechaContrasenia = dcFechaContrasenia;
     }
 
 }

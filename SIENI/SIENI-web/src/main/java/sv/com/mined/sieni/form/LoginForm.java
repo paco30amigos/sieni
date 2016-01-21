@@ -27,6 +27,10 @@ public class LoginForm {
     private String tipoRol;
     private String nombreCompleto;
     private SieniAnioEscolar anioEscolarActivo;
+    private Integer dias;
+    final private Integer vencimientoContra = 90;
+    private boolean pedirContrasenia;
+    private String passUsr;
 
     public String getTipoUsuario(String cod) {
         String ret = "";
@@ -132,6 +136,34 @@ public class LoginForm {
 
     public void setAnioEscolarActivo(SieniAnioEscolar anioEscolarActivo) {
         this.anioEscolarActivo = anioEscolarActivo;
+    }
+
+    public Integer getDias() {
+        return dias;
+    }
+
+    public void setDias(Integer dias) {
+        this.dias = dias;
+    }
+
+    public Integer getVencimientoContra() {
+        return vencimientoContra;
+    }
+
+    public boolean isPedirContrasenia() {
+        return pedirContrasenia;
+    }
+
+    public void setPedirContrasenia(boolean pedirContrasenia) {
+        this.pedirContrasenia = pedirContrasenia;
+    }
+
+    public String getPassUsr() {
+        return passUsr;
+    }
+
+    public void setPassUsr(String passUsr) {
+        this.passUsr = passUsr;
     }
 
 }

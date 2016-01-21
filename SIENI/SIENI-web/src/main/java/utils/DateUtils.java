@@ -5,6 +5,7 @@
  */
 package utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -190,7 +191,7 @@ public class DateUtils {
         fechaMinima = format.getFormatDate("01/01/1980");
         return fechaMinima;
     }
-    
+
     public Date getFechaMinimaDocente() {
         fechaMinima = format.getFormatDate("01/01/1900");
         return fechaMinima;
@@ -213,7 +214,7 @@ public class DateUtils {
     public String getFormatoFecha(Date fecha) {
         java.util.Date date = new java.util.Date();
         java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
-        String fechaFormato="";
+        String fechaFormato = "";
         if (fecha != null) {
             fechaFormato = sdf.format(fecha);
         }
@@ -235,4 +236,22 @@ public class DateUtils {
         Long time = new Date().getTime();
         return time.toString();
     }
+
+    public Date addDate(Date fecha, Integer dias) {
+        Date ret = null;
+        if (fecha != null && dias != null) {
+            Calendar c = Calendar.getInstance();
+            c.setTime(fecha); //
+            c.add(Calendar.DATE, dias); // suma 30 dias de vencimiento
+            ret = c.getTime();
+        }
+        return ret;
+    }
+
+    public Integer getDiasAntesVencimientoContra(Date fecha, Integer dias) {
+        Date d2 = new Date(), d1 = addDate(fecha, dias);
+        return (int) ((d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+
+    }
+
 }

@@ -35,7 +35,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "SieniNotificacion.findByIdNotificacion", query = "SELECT s FROM SieniNotificacion s WHERE s.idNotificacion = :idNotificacion"),
     @NamedQuery(name = "SieniNotificacion.findByNfMensaje", query = "SELECT s FROM SieniNotificacion s WHERE s.nfMensaje = :nfMensaje"),
     @NamedQuery(name = "SieniNotificacion.findByNfFechaIngreso", query = "SELECT s FROM SieniNotificacion s WHERE s.nfFechaIngreso = :nfFechaIngreso"),
-    @NamedQuery(name = "SieniNotificacion.findByNfFechaFin", query = "SELECT s FROM SieniNotificacion s WHERE s.nfFechaFin = :nfFechaFin"),
     @NamedQuery(name = "SieniNotificacion.findByNfEstado", query = "SELECT s FROM SieniNotificacion s WHERE s.nfEstado = :nfEstado")
      })
 
@@ -54,9 +53,10 @@ public class SieniNotificacion implements Serializable {
     @Column(name = "nf_fecha_ingreso")
     @Temporal(TemporalType.DATE)
     private Date nfFechaIngreso;
-    @Column(name = "nf_fecha_fin")
-    @Temporal(TemporalType.DATE)
-    private Date nfFechaFin;
+    @Column(name = "nf_origen")
+    private String nfOrigen;
+    @Column(name = "nf_key")
+    private Long nfKey;
     @Column(name = "nf_estado")
     private Character nfEstado;
 
@@ -95,13 +95,23 @@ public class SieniNotificacion implements Serializable {
         this.nfFechaIngreso = nfFechaIngreso;
     }
 
-    public Date getNfFechaFin() {
-        return nfFechaFin;
+    public String getNfOrigen() {
+        return nfOrigen;
     }
 
-    public void setNfFechaFin(Date nfFechaFin) {
-        this.nfFechaFin = nfFechaFin;
+    public void setNfOrigen(String nfOrigen) {
+        this.nfOrigen = nfOrigen;
     }
+
+    public Long getNfKey() {
+        return nfKey;
+    }
+
+    public void setNfKey(Long nfKey) {
+        this.nfKey = nfKey;
+    }
+
+    
 
     public Character getNfEstado() {
         return nfEstado;

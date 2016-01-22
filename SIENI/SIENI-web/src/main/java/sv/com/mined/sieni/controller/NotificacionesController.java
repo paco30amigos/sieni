@@ -15,12 +15,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.primefaces.context.RequestContext;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
+import sv.com.mined.sieni.SieniNoticiaFacadeRemote;
 import sv.com.mined.sieni.SieniNotificacionFacadeRemote;
+import sv.com.mined.sieni.SieniTemaDudaFacadeRemote;
 import sv.com.mined.sieni.form.NotificacionesForm;
 import sv.com.mined.sieni.model.AlumnoRecibeNoti;
 import sv.com.mined.sieni.model.DocRecibeNoti;
@@ -43,6 +46,10 @@ public class NotificacionesController extends NotificacionesForm {
 
     @EJB
     private SieniNotificacionFacadeRemote sieniNotificacionFacadeRemote;
+    @EJB
+    private SieniTemaDudaFacadeRemote sieniTemaDudaFacadeRemote;
+    @EJB
+    private SieniNoticiaFacadeRemote sieniNoticiaFacadeRemote;
     @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
     @EJB
@@ -98,9 +105,11 @@ public class NotificacionesController extends NotificacionesForm {
 
     public void notificarPUSH() {
         String CHANNEL = "/notifyNotice";
-        increment();
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish(CHANNEL, String.valueOf(count));
+        eventBus.publish(CHANNEL, new FacesMessage(StringEscapeUtils.escapeHtml("Notificacion"), StringEscapeUtils.escapeHtml("Detalle")));
+  
+        //EventBus eventBus = EventBusFactory.getDefault().eventBus();
+        //eventBus.publish(CHANNEL, String.valueOf(count));
 
     }
 
@@ -110,15 +119,9 @@ public class NotificacionesController extends NotificacionesForm {
         context.execute("agrandar();");
     }
 
-    public void insertNotifyNoticia(SieniNoticia noticia) {
+    
+    public void UpdateBurbujaNotify(SieniNoticia noticia) {
         try {
-            SieniNotificacion noty = new SieniNotificacion();
-            noty.setNfEstado('A');
-            noty.setNfFechaIngreso(new Date());
-            noty.setNfFechaFin(new Date());
-            noty.setNfMensaje("NOTICIA: " + noticia.getNcMensaje() + " \nPublicado por: " + noticia.getNcPublica());
-            noty = sieniNotificacionFacadeRemote.createAndReturn(noty);
-            //obtenerNotifyUsuario();
             notificarPUSH();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -127,16 +130,20 @@ public class NotificacionesController extends NotificacionesForm {
     
     
     
-    public void insertNotifyConsulta(SieniTemaDuda consulta) {
+    public void IrNotifyOrigen(SieniNotificacion notify) {
         try {
-            SieniNotificacion noty = new SieniNotificacion();
-            noty.setNfEstado('A');
-            noty.setNfFechaIngreso(new DateUtils().getFechaActual());
-            noty.setNfFechaFin(new DateUtils().getFechaActual());
-            noty.setNfMensaje("CONSULTA: " + consulta.getTdTema()+"\n DETALLE: "+consulta.getTdConsulta());
-            sieniNotificacionFacadeRemote.create(noty);
-            obtenerNotifyUsuario();
-            notificarPUSH();
+            FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
+            switch(notify.getNfOrigen()){
+                case "sieni_tema_duda":
+                    GestionarConsultasController consultasBean = (GestionarConsultasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarConsultasController");
+                    consultasBean.ver(sieniTemaDudaFacadeRemote.find(notify.getNfKey()));
+                    break;
+                case "sieni_noticia":
+                    GestionarNoticiasController noticiasBean = (GestionarNoticiasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarNoticiaController");
+                    noticiasBean.ver(sieniNoticiaFacadeRemote.find(notify.getNfKey()));
+                    break;
+            }
+            
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }

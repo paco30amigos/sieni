@@ -19,17 +19,13 @@
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/index.xhtml"></ui:include>
                 </p:dialog>
-                <div class="EmptyBox20"></div>
+                
+                
                 <p:dataScroller value="#{notificacionesController.listNotificaciones}" var="nt" >
-                    <p:panel  header="#{nt.notify.fechaIngresoFiltrable}" closable="true">
-                        <p:outputLabel value="#{nt.notify.nfMensaje}"></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <!-- <div class="Container73" style="cursor: pointer" >
-                            <i class="fa fa-file-movie-o Fs25"></i>
-                            <i class="fa fa-file-image-o Fs25"></i>
-                            <i class="fa fa-file-audio-o Fs25"></i>
-                        </div> -->
-                        <div class<p:dataScroller value=="EmptyBox20"></div>
+                    <p:panel id="panel-notify"   header="#{nt.notify.fechaIngresoFiltrable}" closable="true"  >
+                        <p:outputLabel value="#{nt.notify.nfMensaje}" style="width: 800px;"></p:outputLabel>
+                         <br/>
+                         <p:commandLink value="VER" action="#{notificacionesController.IrNotifyOrigen(nt.notify)}" class="white Unselectable"/>
                     </p:panel>
                 </p:dataScroller>
             </h:form>

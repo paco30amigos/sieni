@@ -115,12 +115,13 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
                 HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
                 LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
                 NotificacionesController notifyBean = (NotificacionesController) req.getSession().getAttribute("notificacionesController");
+                if(notifyBean == null){ notifyBean = new NotificacionesController(); }
                 this.getNoticiaNueva().setNcEstado('A');
                 this.getNoticiaNueva().setNcPublica(loginBean.getUsuario());
                 this.setNoticiaNueva(sieniNoticiaFacadeRemote.createAndReturn(this.getNoticiaNueva()));
                 registrarEnBitacora("Crear", "Noticia", this.getNoticiaNueva().getIdNoticia());
                 
-                notifyBean.insertNotifyNoticia(this.getNoticiaNueva());
+                notifyBean.UpdateBurbujaNotify(this.getNoticiaNueva());
                 this.setNoticiaNueva(new SieniNoticia());
                 
                 FacesMessage msg = new FacesMessage("Noticia Agregada Exitosamente");

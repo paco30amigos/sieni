@@ -24,9 +24,17 @@
 
         <h:body>
 
-            <p:socket onMessage="agrandar" channel="/notifyNotice"   >
-                <p:ajax event="message"  />
+            <p:socket onMessage="handleMessage" channel="/notifyNotice"   >
+                <p:ajax event="agrandar(2)"  />
             </p:socket>
+            
+            <script type="text/javascript">
+                    function handleMessage(facesmessage) {
+                        facesmessage.severity = 'info';
+
+                        PF('growl').show([facesmessage]);
+                    }
+            </script>
             
             <audio id="notificaSound" preload="true">
                 <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}sounds/water_droplet_3.mp3" type="audio/mpeg" />

@@ -22,6 +22,7 @@ import sv.com.mined.sieni.SieniResolDudaFacadeRemote;
 import sv.com.mined.sieni.SieniTemaDudaFacadeRemote;
 import sv.com.mined.sieni.form.GestionarConsultasForm;
 import sv.com.mined.sieni.model.SieniDocente;
+import sv.com.mined.sieni.model.SieniResolDuda;
 import sv.com.mined.sieni.model.SieniTemaDuda;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.DateUtils;
@@ -88,7 +89,17 @@ public class GestionarConsultasController extends GestionarConsultasForm {
     }
 
     private void fill() {
-        this.setConsultasList(setAlumno(setDocente(sieniConsultaFacadeRemote.findConsultasActivas())));
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        
+        if(loginBean.getDocente() != null){
+            this.setConsultasList(sieniConsultaFacadeRemote.findConsultasActivasByDocente(loginBean.getDocente()));
+        }else if(loginBean.getAlumno()!= null){
+            this.setConsultasList(sieniConsultaFacadeRemote.findConsultasActivasByAlumno(loginBean.getAlumno()));
+        }else{
+            this.setConsultasList(new ArrayList<SieniTemaDuda>());
+        }
+        
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
     }
 
@@ -109,10 +120,31 @@ public class GestionarConsultasController extends GestionarConsultasForm {
 
     public void ver(SieniTemaDuda modificado) {
         this.setConsultaModifica(modificado);
-        this.getConsultaModifica().setSieniResolDudaList(sieniResolDudaFacadeRemote.findByConsulta(this.getConsultaModifica()));
+        if(this.getConsultaModifica().getIdAlumno() == null){
+            this.getConsultaModifica().setDocente(sieniDocenteFacadeRemote.findByDocenteId(this.getConsultaModifica().getIdDocente()));
+        }else{
+            this.getConsultaModifica().setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(this.getConsultaModifica().getIdAlumno()));
+        }
+        this.setRespuesta(new SieniResolDuda());
+        fillRespuestasConsulta();
         this.setIndexMenu(3);
     }
 
+    private void fillRespuestasConsulta() {
+        if(this.getConsultaModifica() != null){
+            this.getConsultaModifica().setSieniResolDudaList(sieniResolDudaFacadeRemote.findByConsulta(this.getConsultaModifica()));
+            if(this.getConsultaModifica().getSieniResolDudaList() != null){
+                for(SieniResolDuda r :this.getConsultaModifica().getSieniResolDudaList() ){
+                    if(r.getIdAlumno() == null){
+                        r.setDocente(sieniDocenteFacadeRemote.findByDocenteId(r.getIdDocente()));
+                    }else{
+                        r.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(r.getIdAlumno()));
+                    }
+                }
+            }
+        }
+    }
+    
     //metodos para modificacion de datos
     public void eliminar(SieniTemaDuda eliminado) {
         this.setEliminar(eliminado);
@@ -131,7 +163,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
                 HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
                 LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
                 this.getConsultaNueva().setTdEstado('A');
-                this.getConsultaNueva().setIdAlumno(loginBean.getAlumno().getIdAlumno());
+                if(loginBean.getAlumno() != null){ this.getConsultaNueva().setIdAlumno(loginBean.getAlumno().getIdAlumno());}
                 this.getConsultaNueva().setTdTipo('C');
                 this.getConsultaNueva().setTdFecha(new Date());
                 this.setConsultaNueva(sieniConsultaFacadeRemote.createAndReturn(this.getConsultaNueva()));
@@ -219,4 +251,29 @@ public class GestionarConsultasController extends GestionarConsultasForm {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
     }
+    
+    
+    
+    
+    public synchronized void publicar() {
+        try {
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            this.getRespuesta().setIdTemaDuda(this.getConsultaModifica());
+            this.getRespuesta().setRdFecha(new Date());
+            if(loginBean.getAlumno() != null){ this.getRespuesta().setIdAlumno(loginBean.getAlumno().getIdAlumno()); }
+            if(loginBean.getDocente()!= null){ this.getRespuesta().setIdDocente(loginBean.getDocente().getIdDocente());}
+            
+            this.setRespuesta(sieniResolDudaFacadeRemote.createAndReturn(this.getRespuesta()));
+            registrarEnBitacora("Crear", "Responder Consulta", this.getRespuesta().getIdResolDuda());
+            this.setRespuesta(new SieniResolDuda());
+            FacesMessage msg = new FacesMessage("Respuesta enviada Exitosamente");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            fillRespuestasConsulta();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
+    }
+    
+    
 }

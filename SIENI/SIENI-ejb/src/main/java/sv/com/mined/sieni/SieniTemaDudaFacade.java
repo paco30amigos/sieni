@@ -10,6 +10,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniTemaDuda;
 
 /**
@@ -30,9 +32,24 @@ public class SieniTemaDudaFacade extends AbstractFacade<SieniTemaDuda> implement
         super(SieniTemaDuda.class);
     }
     
-     @Override
+    @Override
     public List<SieniTemaDuda> findConsultasActivas() {
         Query q = em.createNamedQuery("SieniTemaDuda.findConsultasActivas");
+        return q.getResultList();
+    }
+    
+    
+    @Override
+    public List<SieniTemaDuda> findConsultasActivasByDocente(SieniDocente docente) {
+        Query q = em.createNamedQuery("SieniTemaDuda.findConsultasActivasByDocente");
+        q.setParameter("idDocente", docente.getIdDocente());
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<SieniTemaDuda> findConsultasActivasByAlumno(SieniAlumno alumno) {
+        Query q = em.createNamedQuery("SieniTemaDuda.findConsultasActivasByAlumno");
+        q.setParameter("idAlumno", alumno.getIdAlumno());
         return q.getResultList();
     }
     

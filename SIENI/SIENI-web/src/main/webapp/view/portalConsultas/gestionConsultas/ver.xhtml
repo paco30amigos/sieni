@@ -24,68 +24,52 @@
                 
                 <p:outputLabel value="Tema: #{gestionarConsultasController.consultaModifica.tdTema}" class="h2" ></p:outputLabel>
                     <p:separator></p:separator>
-                    <div class="EmptyBox20"></div>
-                    <div class="Container20">
-                        <i class="icon-round58 Fs40"></i>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="Usuario: #{gestionarConsultasController.consultaModifica.alumno.alUsuario} ,#{gestionarConsultasController.consultaModifica.fechaFiltrable}"></p:outputLabel>
-                    </div>
-                    <div class="Container73">
-                        <p:outputLabel value="Consulta" class="Container100">
-                        </p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="#{gestionarConsultasController.consultaModifica.tdConsulta}"></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container73" style="cursor: pointer" >
-                            <i class="fa fa-file-movie-o Fs25"></i>
-                            <i class="fa fa-file-image-o Fs25"></i>
-                            <i class="fa fa-file-audio-o Fs25"></i>
-                        </div>
-                    </div>
-                    <div class="EmptyBox10"></div>
-                    <p:separator></p:separator>
-                    <div class="EmptyBox20"></div>
-                    <p:dataScroller value="#{gestionarConsultasController.consultaModifica.sieniResolDudaList}"  var="cs" >
-                       
+                    <div style="border-color: red">
+                        
                         <div class="Container20">
-                        <i class="icon-round58 Fs40"></i>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="Usuario: #{cs.idResolDuda} ,#{cs.fechaFiltrable}"></p:outputLabel>
-                    </div>
-                    <div class="Container73">
-                        <p:outputLabel value="Respuesta" class="Container100">
-                        </p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <p:outputLabel value="#{cs.rdMensaje}"></p:outputLabel>
-                        <div class="EmptyBox20"></div>
-                        <div class="Container73" style="cursor: pointer" >
-                            <i class="fa fa-file-movie-o Fs25"></i>
-                            <i class="fa fa-file-image-o Fs25"></i>
-                            <i class="fa fa-file-audio-o Fs25"></i>
+                            <i class="icon-round58 Fs40"></i>
+                            <div class="EmptyBox20"></div>
+                            <p:outputLabel value="Usuario: #{gestionarConsultasController.consultaModifica.userConsulta}"></p:outputLabel>
+                            <br/>
+                            <p:outputLabel value="Fecha: #{gestionarConsultasController.consultaModifica.fechaFiltrable}"></p:outputLabel>
+                            
                         </div>
+                        <div class="Container73">
+                            <p:outputLabel value="Consulta" class="Container100">
+                            </p:outputLabel>
+                            <div class="EmptyBox20"></div>
+                            <p:editor class="Container100" id="consulta" value="#{gestionarConsultasController.consultaModifica.tdConsulta}"  disabled="true" height="100"></p:editor>
+
+                        </div>
+                        
                     </div>
-                    <div class="EmptyBox10"></div>
-                    </p:dataScroller>
                     
-                    <p:outputLabel value="Archivo"></p:outputLabel>
-                    <div class="EmptyBox20"></div>
-                    <p:fileUpload label="Buscar" cancelLabel="cancelar" uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="/(\.|\/)(jpg)$/" class="Container40 Responsive" value="#{archivosMultimediaForm.archivo}" >
-                    </p:fileUpload> 
-                    <div class="EmptyBox10"></div>
                     <p:separator></p:separator>
-                    <p:commandButton value="Responder"/>
-                    <p:commandButton value="Limpiar"/>
-                    <p:commandButton value="Cancelar"/>
-                    <div class="EmptyBox20"></div>
-                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
-                    <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Portal Noticia" >    
-                        </p:menuitem>
-                        <p:menuitem value="Portal Consulta">    
-                        </p:menuitem>
-                        <p:menuitem value="Buzon Notificaciones">    
-                        </p:menuitem>
-                    </p:tieredMenu>  
+                    <div style="float: right; width: 870px;">
+                        <p:dataScroller id="comentarios" value="#{gestionarConsultasController.consultaModifica.sieniResolDudaList}"  var="cs" >
+                            <div class="Container100" >
+                                <i class="icon-round58 Fs40"></i>
+                                <p:outputLabel value="  #{cs.userRespuesta}  - #{cs.fechaFiltrable}"></p:outputLabel>
+                                <br/>
+                                <p:outputLabel value="#{cs.rdMensaje}"></p:outputLabel>
+                            </div>
+                            <p:separator></p:separator>
+                            <div class="EmptyBox20"></div>
+                        </p:dataScroller>
+                        <br/>
+                        <div style="float: right; width: 870px;">
+                            <p:inputTextarea value="#{gestionarConsultasController.respuesta.rdMensaje}" class="Container50" id="respuesta"  maxlength="2000"  required="true" requiredMessage="Debe ingresar respuesta" ></p:inputTextarea>
+                            <br/>
+                            <p:commandButton value="Responder" action="#{gestionarConsultasController.publicar()}" update="comentarios,respuesta" />
+                        </div>
+                        
+                    </div>
+                    
+                    <br/>
+                    
+                    
+                    
+                    
             </h:form>
             <div class="EmptyBox5"></div>
         </p:panel>

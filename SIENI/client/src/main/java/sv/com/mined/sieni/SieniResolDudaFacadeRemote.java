@@ -31,6 +31,7 @@ public interface SieniResolDudaFacadeRemote {
 
     int count();
     
+    SieniResolDuda createAndReturn(SieniResolDuda sieniTemaDuda);
     
     List<SieniResolDuda> findByConsulta(SieniTemaDuda consulta);
 }

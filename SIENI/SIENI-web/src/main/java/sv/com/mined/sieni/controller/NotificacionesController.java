@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -113,11 +114,11 @@ public class NotificacionesController extends NotificacionesForm {
         try {
             SieniNotificacion noty = new SieniNotificacion();
             noty.setNfEstado('A');
-            noty.setNfFechaIngreso(new DateUtils().getFechaActual());
-            noty.setNfFechaFin(new DateUtils().getFechaActual());
+            noty.setNfFechaIngreso(new Date());
+            noty.setNfFechaFin(new Date());
             noty.setNfMensaje("NOTICIA: " + noticia.getNcMensaje() + " \nPublicado por: " + noticia.getNcPublica());
-            sieniNotificacionFacadeRemote.create(noty);
-            obtenerNotifyUsuario();
+            noty = sieniNotificacionFacadeRemote.createAndReturn(noty);
+            //obtenerNotifyUsuario();
             notificarPUSH();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);

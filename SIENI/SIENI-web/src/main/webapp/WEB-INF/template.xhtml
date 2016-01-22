@@ -27,6 +27,10 @@
             <p:socket onMessage="agrandar" channel="/notifyNotice"   >
                 <p:ajax event="message"  />
             </p:socket>
+            
+            <audio id="notificaSound" preload="true">
+                <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}sounds/water_droplet_3.mp3" type="audio/mpeg" />
+            </audio>
             <h:form>
 <!--                <p:dialog visible="true">
                     #{loginController.dias}
@@ -250,9 +254,6 @@
 
                 <h:form id="frmMenuTopBar">
                     <ui:include src="topbar.xhtml" />
-                    <audio id="notificaSound" preload="true">
-                        <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}sounds/water_droplet_3.mp3" type="audio/mpeg" />
-                    </audio>
                 </h:form>
 
                 <div id="wrapper">

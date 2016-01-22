@@ -67,6 +67,7 @@ public class SieniResolDuda implements Serializable {
     @ManyToOne
     private SieniTemaDuda idTemaDuda;
 
+    
     public SieniResolDuda() {
     }
 
@@ -117,6 +118,17 @@ public class SieniResolDuda implements Serializable {
         return fechaF;
     }
 
+    public String getUserRespuesta() {
+        String userRespuesta = "";
+        if(this.idAlumno != null && this.alumno != null){
+            userRespuesta = this.alumno.getAlUsuario();
+        }
+        if(this.idDocente != null && this.docente != null){
+            userRespuesta = this.docente.getDcUsuario();
+        }
+        return userRespuesta;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -174,5 +186,7 @@ public class SieniResolDuda implements Serializable {
     public void setIdDocente(Long idDocente) {
         this.idDocente = idDocente;
     }
+    
+    
     
 }

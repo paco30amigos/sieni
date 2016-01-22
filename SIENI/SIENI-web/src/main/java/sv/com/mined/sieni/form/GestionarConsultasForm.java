@@ -7,6 +7,7 @@ package sv.com.mined.sieni.form;
 
 import java.util.List;
 import sv.com.mined.sieni.model.SieniDocente;
+import sv.com.mined.sieni.model.SieniResolDuda;
 import sv.com.mined.sieni.model.SieniTemaDuda;
 import utils.siteUrls;
 
@@ -28,6 +29,7 @@ public class GestionarConsultasForm {
     private SieniTemaDuda consultaModifica;
     private Long idDocenteModifica;
     
+    private SieniResolDuda respuesta;
     
     public int getIndexMenu() {
         return indexMenu;
@@ -108,6 +110,14 @@ public class GestionarConsultasForm {
 
     public void setIdDocenteModifica(Long idDocenteModifica) {
         this.idDocenteModifica = idDocenteModifica;
+    }
+
+    public SieniResolDuda getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(SieniResolDuda respuesta) {
+        this.respuesta = respuesta;
     }
     
     

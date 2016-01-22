@@ -21,7 +21,7 @@ public interface SieniRolFacadeRemote {
     void edit(SieniRol sieniRol);
 
     void remove(SieniRol sieniRol);
-
+    
     SieniRol find(Object id);
 
     List<SieniRol> findAll();

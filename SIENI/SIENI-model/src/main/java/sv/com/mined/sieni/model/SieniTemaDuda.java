@@ -40,7 +40,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniTemaDuda.findAll", query = "SELECT s FROM SieniTemaDuda s"),
     @NamedQuery(name = "SieniTemaDuda.findByIdTemaDuda", query = "SELECT s FROM SieniTemaDuda s WHERE s.idTemaDuda = :idTemaDuda"),
     @NamedQuery(name = "SieniTemaDuda.findByTdTipo", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdTipo = :tdTipo"),
-    @NamedQuery(name = "SieniTemaDuda.findConsultasActivas", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A'")})
+    @NamedQuery(name = "SieniTemaDuda.findConsultasActivas", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A'"),
+    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByDocente", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND s.idDocente = :idDocente"),
+    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByAlumno", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND s.idAlumno = :idAlumno")
+})
 public class SieniTemaDuda implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -77,7 +80,8 @@ public class SieniTemaDuda implements Serializable {
     private Long idAlumno;
     @Transient
     private SieniAlumno alumno;
-
+    
+    
     public SieniTemaDuda() {
     }
 
@@ -160,6 +164,17 @@ public class SieniTemaDuda implements Serializable {
         }
         return fechaF;
     }
+    
+    public String getUserConsulta() {
+        String userConsulta = "";
+        if(this.idAlumno != null && this.alumno != null){
+            userConsulta = this.alumno.getAlUsuario();
+        }
+        if(this.idDocente != null && this.docente != null){
+            userConsulta = this.docente.getDcUsuario();
+        }
+        return userConsulta;
+    }
 
     @Override
     public int hashCode() {
@@ -217,5 +232,10 @@ public class SieniTemaDuda implements Serializable {
     public void setIdDocente(Long idDocente) {
         this.idDocente = idDocente;
     }
+
+    
+
+    
+    
 
 }

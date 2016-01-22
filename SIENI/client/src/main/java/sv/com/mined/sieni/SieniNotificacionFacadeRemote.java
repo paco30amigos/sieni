@@ -34,6 +34,8 @@ public interface SieniNotificacionFacadeRemote {
 
     int count();
     
+    SieniNotificacion createAndReturn(SieniNotificacion notify);
+    
     public List<DocRecibeNoti> findDocenteNotify(Integer iddocente);
     
     public List<AlumnoRecibeNoti> findAlumnoNotify(Integer idalumno);

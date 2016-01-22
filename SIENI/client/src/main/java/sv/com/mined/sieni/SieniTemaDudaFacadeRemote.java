@@ -7,6 +7,8 @@ package sv.com.mined.sieni;
 
 import java.util.List;
 import javax.ejb.Remote;
+import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniTemaDuda;
 
 /**
@@ -28,10 +30,14 @@ public interface SieniTemaDudaFacadeRemote {
 
     List<SieniTemaDuda> findAll();
     
-    List<SieniTemaDuda> findConsultasActivas();
 
     List<SieniTemaDuda> findRange(int[] range);
 
     int count();
     
+    List<SieniTemaDuda> findConsultasActivas();
+    
+    List<SieniTemaDuda> findConsultasActivasByDocente(SieniDocente docente);
+    
+    List<SieniTemaDuda> findConsultasActivasByAlumno(SieniAlumno alumno);
 }

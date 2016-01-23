@@ -12,6 +12,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,7 @@ import utils.DateUtils;
  *
  * @author INFORMATICA
  */
-@ViewScoped
+@SessionScoped
 @ManagedBean(name = "notificacionesController")
 public class NotificacionesController extends NotificacionesForm {
 
@@ -100,17 +101,19 @@ public class NotificacionesController extends NotificacionesForm {
             elem = new NotificacionesPojo(null,actual,alumno.getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
             this.getListNotificaciones().add(elem);
         }
-        this.setCount(this.getListNotificaciones().size());
+        count = this.getListNotificaciones().size();
     }
 
     public void notificarPUSH() {
-        String CHANNEL = "/notifyNotice";
-        EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish(CHANNEL, new FacesMessage(StringEscapeUtils.escapeHtml("Notificacion"), StringEscapeUtils.escapeHtml("Detalle")));
-  
-        //EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        //eventBus.publish(CHANNEL, String.valueOf(count));
-
+        try {
+            String CHANNEL = "/notifyNotice";
+            EventBus eventBus = EventBusFactory.getDefault().eventBus();
+                eventBus.publish(CHANNEL, new FacesMessage(StringEscapeUtils.escapeHtml("Notificacion"), StringEscapeUtils.escapeHtml("Detalle")));
+            
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+        }
+        
     }
 
     public void mensageFaces() {
@@ -119,14 +122,6 @@ public class NotificacionesController extends NotificacionesForm {
         context.execute("agrandar();");
     }
 
-    
-    public void UpdateBurbujaNotify(SieniNoticia noticia) {
-        try {
-            notificarPUSH();
-        } catch (Exception e) {
-            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
-        }
-    }
     
     
     

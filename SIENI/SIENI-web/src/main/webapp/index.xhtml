@@ -10,11 +10,12 @@
         </p:breadCrumb>
     </ui:define>
     <ui:define name="content">
-         
+         <p:socket onMessage="handleMessage" channel="/notifyNotice"    >
+                <p:ajax  event="message" onstart="agrandar(#{notificacionesController.count});" /> 
+          </p:socket>
 
         <p:panel class="Container100">
             <p:outputLabel class="h2 TexAlCenter">Bienvenido #{aperturaAnioEscolarForm.anio}</p:outputLabel>
-            
             
             
         </p:panel>

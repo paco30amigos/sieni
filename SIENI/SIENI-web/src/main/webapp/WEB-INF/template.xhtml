@@ -14,6 +14,7 @@
                 <meta name="apple-mobile-web-app-capable" content="yes" />
             </f:facet>
             <title>SIENI</title>
+            <h:outputScript name="script.js" library="js" />
             <h:outputScript name="popcorn-complete.min.js" library="js" />
             <h:outputScript name="js/ripple-effect.js" library="rio-layout"  />
             <h:outputScript name="js/perfect-scrollbar.js" library="rio-layout" />
@@ -24,22 +25,13 @@
 
         <h:body>
 
-            <p:socket onMessage="handleMessage" channel="/notifyNotice"   >
-                <!-- <p:ajax event="agrandar"  /> -->
-            </p:socket>
             
-            <script type="text/javascript">
-                    function handleMessage(facesmessage) {
-                        facesmessage.severity = 'info';
-
-                        PF('growl').show([facesmessage]);
-                    }
-            </script>
-            
-            <audio id="notificaSound" preload="true">
-                <source src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}sounds/water_droplet_3.mp3" type="audio/mpeg" />
-            </audio>
             <h:form>
+                <audio id="sound-notify" src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}/sounds/water_droplet_3.mp3" hidden="true">
+                </audio>
+               
+                <p:growl widgetVar="growl-notify" showDetail="true" />
+                
 <!--                <p:dialog visible="true">
                     #{loginController.dias}
                     #{loginController.pedirContrasenia}
@@ -237,24 +229,7 @@
                     }
 
 
-                    function removeAnimation() {
-                        setTimeout(function () {
-                            $('.burbuja').removeClass('agrandar')
-                        }, 500);
-                    }
-
-                    var notificaSound;
-                    // función que modifica el valor de la burbuja y la agranda
-                    function agrandar(data) {
-                        $('.burbuja').html(data);
-                        $('.burbuja').html().addClass('agrandar');
-                        notificaSound.play();
-                        removeAnimation();
-                    }
-                    document.addEventListener("DOMContentLoaded", function () {
-                        // Create a popcorn instance by calling Popcorn("#id-of-my-video")
-                        notificaSound = new Popcorn('#notificaSound');
-                    });
+                    
 
                 </script>
 

@@ -13,13 +13,20 @@
         <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
     </ui:define>
     <ui:define name="content">
+        
+                <p:socket onMessage="handleMessage" channel="/notifyNotice"    >
+                    <p:ajax  event="message" listener="#{notificacionesController.obtenerNotifyUsuario()}" oncomplete="agrandar(#{notificacionesController.count});" /> 
+                </p:socket>
         <div class="EmptyBox5"></div>
         <p:panel>
+            
+            
             <h:form>
+                
+               
                 <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                     <ui:include src="ayuda/index.xhtml"></ui:include>
                 </p:dialog>
-                
                 
                 <p:dataScroller value="#{notificacionesController.listNotificaciones}" var="nt" >
                     <p:panel id="panel-notify"   header="#{nt.notify.fechaIngresoFiltrable}" closable="true"  >

@@ -168,6 +168,11 @@ public class GestionarConsultasController extends GestionarConsultasForm {
                 this.getConsultaNueva().setTdFecha(new Date());
                 this.setConsultaNueva(sieniConsultaFacadeRemote.createAndReturn(this.getConsultaNueva()));
                 registrarEnBitacora("Crear", "Consulta", this.getConsultaNueva().getIdTemaDuda());
+                
+                FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
+                NotificacionesController notifyBean = (NotificacionesController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "notificacionesController");
+                notifyBean.notificarPUSH();
+                
                 this.setConsultaNueva(new SieniTemaDuda());
                 FacesMessage msg = new FacesMessage("Consulta Enviada Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);

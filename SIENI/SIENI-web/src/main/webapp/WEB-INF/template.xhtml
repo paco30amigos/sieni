@@ -25,33 +25,31 @@
 
         <h:body>
 
-            
+
             <h:form>
                 <audio id="sound-notify" src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}/sounds/water_droplet_3.mp3" hidden="true">
                 </audio>
-               
+
                 <p:growl widgetVar="growl-notify" showDetail="true" />
-                
-<!--                <p:dialog visible="true">
-                    #{loginController.dias}
-                    #{loginController.pedirContrasenia}
-                </p:dialog>-->
-                <p:panel id="contraUs">
-                    <c:choose>
-                        <c:when test="#{-loginController.dias > '0' and loginController.dias >= '-10' and loginController.pedirContrasenia}">
-                            <p:dialog widgetVar="dlgContra" closable="true" visible="true" modal="true">
-                                <p:panelGrid columns="1">
-                                    <p:outputLabel value="Su contraseña expira en #{-loginController.dias} dias">
-                                    </p:outputLabel>
-                                    <p:commandButton value="Cambiar Contraseña" action="#{loginController.cambiarPass()}" class="Container100">
-                                    </p:commandButton>
-                                    <p:commandButton value="Continuar" action="#{loginController.setPedirContrasenia(false)}" oncomplete="PF('dlgContra').hide()" class="Container100">
-                                    </p:commandButton>
-                                </p:panelGrid>
-                            </p:dialog>
-                        </c:when>
-                    </c:choose>
-                </p:panel>
+
+                <!--                <p:dialog visible="true">
+                #{loginController.dias}
+                #{loginController.pedirContrasenia}
+            </p:dialog>-->
+                <c:choose>
+                    <c:when test="#{-loginController.dias > '0' and loginController.dias >= '-10' and loginController.pedirContrasenia}">
+                        <p:dialog widgetVar="dlgContra" closable="true" visible="true" modal="true">
+                            <p:panelGrid columns="1">
+                                <p:outputLabel value="Su contraseña expira en #{-loginController.dias} dias">
+                                </p:outputLabel>
+                                <p:commandButton value="Cambiar Contraseña" action="#{loginController.cambiarPass()}" class="Container100">
+                                </p:commandButton>
+                                <p:commandButton value="Continuar" action="#{loginController.setPedirContrasenia(false)}" oncomplete="PF('dlgContra').hide()" class="Container100">
+                                </p:commandButton>
+                            </p:panelGrid>
+                        </p:dialog>
+                    </c:when>
+                </c:choose>
             </h:form>
 
 
@@ -229,7 +227,7 @@
                     }
 
 
-                    
+
 
                 </script>
 

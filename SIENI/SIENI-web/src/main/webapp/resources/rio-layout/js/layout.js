@@ -79,6 +79,10 @@ var Rio = {
             }
 
             $this.saveMenuState();
+            
+            if(!$this.mobile) {
+                $this.menuWrapper.perfectScrollbar("update");
+            }
         });
         
         this.mobileMenuButton.on('click', function() {

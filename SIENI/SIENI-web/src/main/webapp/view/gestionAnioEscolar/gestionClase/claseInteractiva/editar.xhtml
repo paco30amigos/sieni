@@ -5,22 +5,19 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="/WEB-INF/template.xhtml">
     <ui:define name="breadCrumb">
-        <p:breadCrumb class="Container90">
+        <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
             <p:menuitem value="Modificar Clase Interactiva" url="#"/>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form enctype="multipart/form-data" >
-                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
-                    <ui:include src="ayuda/editar.xhtml"></ui:include>
-                </p:dialog>
                 <p:tooltip for="estado" value="Seleccione el estado de la clase interactiva"/>
                 <p:tooltip for="plantilla" value="Seleccione una plantilla"/>
                 <p:focus id="focus" context="mod_p1"/>

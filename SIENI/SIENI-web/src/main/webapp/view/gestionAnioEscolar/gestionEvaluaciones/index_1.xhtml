@@ -19,7 +19,7 @@
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                         <ui:include src="ayuda/index_1.xhtml"></ui:include>
                     </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    
                     <div class="EmptyBox20"></div>
                     <p:remoteCommand  onstart="alert('Modificar')" update="clases" name="modificar"/>
                     <p:remoteCommand  onstart="alert('Eliminar')" update="clases" name="eliminar"/>
@@ -180,7 +180,7 @@
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    
                     <div class="EmptyBox20"></div>
                     <p:tabView >
                         <p:tab title="Preguntas">
@@ -327,7 +327,7 @@
                     <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
                         <p:outputLabel value="Esta ayuda sirve un monton"/>
                     </p:dialog>
-                    <i class="icon-question Fs25 Red" style="cursor: pointer" onclick="PF('dlgAyuda').show();"></i>
+                    
                     <div class="EmptyBox20"></div>
                     <p:dataScroller value="#{clasesForm.plantillas}" var="noticia" >
                         <p:panel  header="#{formatoPantallas.campo100}" closable="true">

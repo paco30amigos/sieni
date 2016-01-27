@@ -33,14 +33,11 @@
             <p:menuitem value="Diseño de Ejercicio" url="#"/>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        
     </ui:define>
     <ui:define name="content">
         <p:panel id="tabEj">
             <h:form id="formEj">
-                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
-                    <ui:include src="ayuda/index.xhtml"></ui:include>
-                </p:dialog>
                 <p:menubar>
                     <p:submenu label="Funciones" >   
                         <p:submenu label="Trigonometricas">

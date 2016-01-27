@@ -72,22 +72,19 @@
         </script>
     </ui:define>
     <ui:define name="breadCrumb">
-        <p:breadCrumb class="Container90">
+        <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Gestionar Clase" url="#"/>
             <p:menuitem value="Clase Interactiva" url="#"/>
             <p:menuitem value="Configuración de Video-Clase Almacenada:#{gestionVideoClaseController.claseConfig.clTema}" url="#"/>
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
-                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
-                    <ui:include src="ayuda/configurar.xhtml"></ui:include>
-                </p:dialog>
                 <div class="EmptyBox5"></div>
                 #{gestionVideoClaseController.resetMostrar()}
                 <p:outputLabel value="Curso: #{gestionVideoClaseController.claseConfig.idCurso.crNombre}"></p:outputLabel>

@@ -27,22 +27,19 @@
         </script>
     </ui:define>
     <ui:define name="breadCrumb">
-        <p:breadCrumb class="Container90">
+        <p:breadCrumb>
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Administración de Sistema" url="#"/>
             <p:menuitem value="Gestionar Componentes Interactivos" url="#"/>
             <p:menuitem value="Configuracion de Componente Interactivo: #{gestionComponentesInteractivosController.config.scNombre}" url="#"/>
             <p:separator />
         </p:breadCrumb>
-        <i class="icon-question Fs25 Red Container2 ui-breadcrumb" style="cursor: pointer;" onclick="PF('dlgAyuda').show();"></i>
+        
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div> 
         <p:panel>
             <h:form >
-                <p:dialog widgetVar="dlgAyuda" modal="true" appendTo="@(body)" header="Ayuda" width="400" maximizable="true">
-                    <ui:include src="ayuda/configurar.xhtml"></ui:include>
-                </p:dialog>
                 <p:tabView>
                     <p:tab title="Configuración Componente">
                         <c:choose>

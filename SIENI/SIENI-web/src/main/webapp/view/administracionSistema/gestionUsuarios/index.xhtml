@@ -28,25 +28,26 @@
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <div class="EmptyBox20"></div>
-                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{mntoUsuariosController.usuariosList}" 
-                             paginator="true"
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{mntoUsuariosController.usuariosList}" 
+                             paginator="true" rows="10"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              emptyMessage="No se encontraron datos"
+                             filteredValue="#{mntoUsuariosController.usuariosListFiltered}"
                              reflow="true">
-                    <p:column headerText="Usuario" filterBy="#{car.usuario}" filterMatchMode="contains" filterable="true">
+                    <p:column headerText="Usuario" filterBy="#{car.usuario}" filterMatchMode="contains">
                         #{car.usuario}
                     </p:column>
-                    <p:column headerText="Tipo de usuario" filterBy="#{car.tipoUsuario}" filterMatchMode="contains" filterable="true">
+                    <p:column headerText="Tipo de usuario" filterBy="#{car.tipoUsuario}" filterMatchMode="contains" >
                         #{car.tipoUsuario}
                     </p:column>
-                    <p:column headerText="Tipo de permiso" filterBy="#{car.tipoPermiso}" filterMatchMode="contains" filterable="true">
+                    <p:column headerText="Tipo de permiso" filterBy="#{car.tipoPermiso}" filterMatchMode="contains" >
                         #{car.tipoPermiso}
                     </p:column>
-                    <p:column headerText="Nombre" filterBy="#{car.nombre}" filterMatchMode="contains" filterable="true">
+                    <p:column headerText="Nombre" filterBy="#{car.nombre}" filterMatchMode="contains" >
                         #{car.nombre}
                     </p:column>
-                    <p:column headerText="Estado" filterBy="#{car.estado}" filterMatchMode="contains" filterable="true">
+                    <p:column headerText="Estado" filterBy="#{car.estado}" filterMatchMode="contains" >
                         #{car.estado}
                     </p:column>
                     <p:column headerText="Acciones">
@@ -61,7 +62,7 @@
                 </p:dataTable>
                 <div class="EmptyBox20"></div>
                 <p:commandButton value="Adicionar Usuario" action="#{mntoUsuariosController.crear()}"></p:commandButton>
-                <p:commandButton value="Refrescar"></p:commandButton>
+                <p:commandButton value="Refrescar" action="#{mntoUsuariosController.refresh()}"></p:commandButton>
             </h:form>
             <div class="EmptyBox5"></div>
         </p:panel>

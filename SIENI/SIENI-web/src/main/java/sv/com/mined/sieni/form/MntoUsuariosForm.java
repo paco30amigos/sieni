@@ -20,6 +20,7 @@ public class MntoUsuariosForm {
 
     // consulta de alumnos
     private List<UsuariosPojo> usuariosList;
+    private List<UsuariosPojo> usuariosListFiltered;
     //registro de alumnos
     private UsuariosPojo usuarioNuevo;
     private List<UsuariosPojo> nombresDisponibles;
@@ -28,7 +29,7 @@ public class MntoUsuariosForm {
     private List<UsuariosPojo> nombresDisponiblesModifica;
 
     private UsuariosPojo usuarioModPass;
-    
+
     public int getIndexMenu() {
         return indexMenu;
     }
@@ -37,7 +38,7 @@ public class MntoUsuariosForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasegestionUsuarios()+ "index.xhtml");
+                sU.redirect(sU.getBasegestionUsuarios() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBasegestionUsuarios() + "crear.xhtml");
@@ -107,5 +108,13 @@ public class MntoUsuariosForm {
     public void setUsuarioModPass(UsuariosPojo usuarioModPass) {
         this.usuarioModPass = usuarioModPass;
     }
-    
+
+    public List<UsuariosPojo> getUsuariosListFiltered() {
+        return usuariosListFiltered;
+    }
+
+    public void setUsuariosListFiltered(List<UsuariosPojo> usuariosListFiltered) {
+        this.usuariosListFiltered = usuariosListFiltered;
+    }
+
 }

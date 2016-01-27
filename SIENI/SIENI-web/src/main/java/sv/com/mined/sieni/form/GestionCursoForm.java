@@ -27,6 +27,7 @@ public class GestionCursoForm {
 
     // consulta de curso
     private List<SieniCurso> cursoList;
+    private List<SieniCurso> listDatosFiltered;
     //registro de curso
     private SieniCurso cursoNuevo;
     private List<SieniDocente> docentesList;
@@ -55,7 +56,6 @@ public class GestionCursoForm {
         return indexMenu;
     }
 
-    
     public void setIndexMenu(int indexMenu) {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
@@ -76,11 +76,11 @@ public class GestionCursoForm {
                 break;
             case 5:
                 sU.redirect(sU.getBasegestionarCursos() + "inscritos.xhtml");
-                break;    
+                break;
         }
         this.indexMenu = indexMenu;
     }
-    
+
     public SieniCurso getEliminar() {
         return eliminar;
     }
@@ -271,5 +271,13 @@ public class GestionCursoForm {
 
     public void setIdMateriaModifica(Long idMateriaModifica) {
         this.idMateriaModifica = idMateriaModifica;
+    }
+
+    public List<SieniCurso> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniCurso> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 }

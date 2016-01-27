@@ -33,6 +33,7 @@ public class GestionArchivoMultimediaForm {
 
     // consulta de archivo
     private List<SieniArchivo> archivoList;
+    private List<SieniArchivo> listDatosFiltered;
     //registro de archivo
     private SieniArchivo archivoNuevo;
     private StreamedContent archivoData;
@@ -242,6 +243,14 @@ public class GestionArchivoMultimediaForm {
 
     public void setTamanioArchivo(String tamanioArchivo) {
         this.tamanioArchivo = tamanioArchivo;
+    }
+
+    public List<SieniArchivo> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniArchivo> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

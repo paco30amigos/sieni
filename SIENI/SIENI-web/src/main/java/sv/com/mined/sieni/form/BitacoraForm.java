@@ -16,7 +16,7 @@ import sv.com.mined.sieni.pojos.rpt.BitacoraPojo;
  *
  * @author Laptop
  */
-public class BitacoraForm extends ReportesController{
+public class BitacoraForm extends ReportesController {
 
     private List<SieniBitacora> bitacoraList;
     private StreamedContent reporte;
@@ -24,8 +24,9 @@ public class BitacoraForm extends ReportesController{
     private String formatoRpt;
     private Date desde;
     private Date hasta;
-    
+
     private List<BitacoraPojo> listDatos;
+    private List<BitacoraPojo> listDatosFiltered;
     private Integer tipoRpt;
 
     public List<SieniBitacora> getBitacoraList() {
@@ -90,6 +91,14 @@ public class BitacoraForm extends ReportesController{
 
     public void setTipoRpt(Integer tipoRpt) {
         this.tipoRpt = tipoRpt;
+    }
+
+    public List<BitacoraPojo> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<BitacoraPojo> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

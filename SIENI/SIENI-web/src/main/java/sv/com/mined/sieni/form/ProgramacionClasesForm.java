@@ -27,6 +27,7 @@ public class ProgramacionClasesForm {
 
     // consulta de archivo
     private List<SieniClase> clasesList;
+    private List<SieniClase> listDatosFiltered;
     //registro de archivo
     private SieniClase nuevo;
     private SieniDocente docente;
@@ -50,7 +51,7 @@ public class ProgramacionClasesForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBaseprogramacionClases()+ "index.xhtml");
+                sU.redirect(sU.getBaseprogramacionClases() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBaseprogramacionClases() + "crear.xhtml");
@@ -183,6 +184,14 @@ public class ProgramacionClasesForm {
 
     public void setHorarioModificaSelected(List<Combo> horarioModificaSelected) {
         this.horarioModificaSelected = horarioModificaSelected;
+    }
+
+    public List<SieniClase> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniClase> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

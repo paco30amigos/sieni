@@ -28,6 +28,7 @@ public class GestionarDocentesForm {
 
     // consulta de alumnos
     private List<SieniDocente> alumnosList;
+    private List<SieniDocente> listDatosFiltered;
     //registro de alumnos
     private SieniDocente alumnoNuevo;
     private UploadedFile foto;
@@ -199,5 +200,13 @@ public class GestionarDocentesForm {
 
     public void setMateriaEliminada(SieniMateriaDocente materiaEliminada) {
         this.materiaEliminada = materiaEliminada;
+    }
+
+    public List<SieniDocente> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniDocente> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 }

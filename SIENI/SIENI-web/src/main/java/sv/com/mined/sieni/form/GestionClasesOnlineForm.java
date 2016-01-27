@@ -16,6 +16,7 @@ import utils.siteUrls;
 public class GestionClasesOnlineForm {
 
     private List<SieniClase> clasesOnlineList;
+    private List<SieniClase> listDatosFiltered;
     private List<String> listaUsuarios;
     private SieniClase claseActual;
     private int indexMenu;
@@ -62,6 +63,14 @@ public class GestionClasesOnlineForm {
 
     public void setClaseActual(SieniClase claseActual) {
         this.claseActual = claseActual;
+    }
+
+    public List<SieniClase> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniClase> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

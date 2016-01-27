@@ -25,6 +25,7 @@ public class CatTipoElemPlantillaForm {
 
     // consulta de archivo
     private List<SieniTipoElemPlantilla> list;
+    private List<SieniTipoElemPlantilla> listDatosFiltered;
     //registro de archivo
     private SieniTipoElemPlantilla nuevo;
     //modificacion de archivo
@@ -91,6 +92,14 @@ public class CatTipoElemPlantillaForm {
 
     public void setModifica(SieniTipoElemPlantilla modifica) {
         this.modifica = modifica;
+    }
+
+    public List<SieniTipoElemPlantilla> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniTipoElemPlantilla> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

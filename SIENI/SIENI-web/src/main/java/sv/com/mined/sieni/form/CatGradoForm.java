@@ -21,6 +21,7 @@ public class CatGradoForm {
 
     // consulta de archivo
     private List<SieniGrado> list;
+    private List<SieniGrado> listDatosFiltered;
     //registro de archivo
     private SieniGrado nuevo;
     //modificacion de archivo
@@ -34,7 +35,7 @@ public class CatGradoForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasecatGrado()+ "index.xhtml");
+                sU.redirect(sU.getBasecatGrado() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBasecatGrado() + "crear.xhtml");
@@ -87,6 +88,14 @@ public class CatGradoForm {
 
     public void setModifica(SieniGrado modifica) {
         this.modifica = modifica;
+    }
+
+    public List<SieniGrado> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniGrado> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

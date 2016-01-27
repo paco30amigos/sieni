@@ -21,6 +21,7 @@ public class CatMateriaForm {
 
     // consulta de archivo
     private List<SieniCatMateria> list;
+    private List<SieniCatMateria> listDatosFiltered;
     //registro de archivo
     private SieniCatMateria nuevo;
     //modificacion de archivo
@@ -34,7 +35,7 @@ public class CatMateriaForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasecatMateria()+ "index.xhtml");
+                sU.redirect(sU.getBasecatMateria() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBasecatMateria() + "crear.xhtml");
@@ -87,6 +88,14 @@ public class CatMateriaForm {
 
     public void setModifica(SieniCatMateria modifica) {
         this.modifica = modifica;
+    }
+
+    public List<SieniCatMateria> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniCatMateria> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

@@ -31,10 +31,11 @@
                 </p:dialog>
                                 
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="sec" value="#{catSeccionController.list}" 
-                             paginator="true" emptyMessage="NO HAY SECCIONES QUE MOSTRAR"
+                             paginator="true"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              emptyMessage="No se encontraron datos"
+                             filteredValue="#{catSeccionController.listDatosFiltered}"
                              reflow="true">
                     <p:column headerText="Grado" filterBy="#{sec.idGrado.grNombre}" filterable="true" filterMatchMode="contains">
                         #{sec.idGrado.grNombre}

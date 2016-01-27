@@ -18,11 +18,13 @@ import utils.siteUrls;
  * @author Alejandro
  */
 public class GestionMateriasForm {
+
     private int indexMenu;
     private SieniMateria eliminar;
-    
+
     // consulta de materias
     private List<SieniMateria> materiaList;
+    private List<SieniMateria> listDatosFiltered;
     //registro de materias
     private SieniMateria materiaNuevo;
     private List<SieniAlumno> alumnosList;
@@ -30,15 +32,15 @@ public class GestionMateriasForm {
     private List<SieniGrado> gradoList;
     private List<SieniCatMateria> catmateriaList;
     private Long idCatmateria;
-     //modificacion de materia
+    //modificacion de materia
     private SieniMateria materiaModifica;
     private List<SieniMateria> materiaModificaList;
     private Long idAlumnoModifica;
-    
+
     public int getIndexMenu() {
         return indexMenu;
     }
-    
+
     public void setIndexMenu(int indexMenu) {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
@@ -145,5 +147,13 @@ public class GestionMateriasForm {
     public void setIdCatmateria(Long idCatmateria) {
         this.idCatmateria = idCatmateria;
     }
- 
+
+    public List<SieniMateria> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniMateria> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
+    }
+
 }

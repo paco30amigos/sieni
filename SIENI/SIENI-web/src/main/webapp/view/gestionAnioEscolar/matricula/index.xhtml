@@ -33,6 +33,7 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              emptyMessage="No se encontraron datos"
+                             filteredValue="#{gestionMatriculaController.listDatosFiltered}"
                              reflow="true">
                     <p:column headerText="Carnet" filterBy="#{car.alumno.alCarnet}" filterMatchMode="contains" filterable="true">
                         #{car.alumno.alCarnet}

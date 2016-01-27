@@ -23,6 +23,7 @@ public class GestionarAnioEscolarForm {
 
     // consulta de anioEscolar
     private List<SieniAnioEscolar> anioEscolarList;
+    private List<SieniAnioEscolar> listDatosFiltered;
     //registro de anioEscolar
     private SieniAnioEscolar anioEscolarNuevo;
     //modificacion de anioEscolar
@@ -36,7 +37,7 @@ public class GestionarAnioEscolarForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasegestionarAnioEscolar()+ "index.xhtml");
+                sU.redirect(sU.getBasegestionarAnioEscolar() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBasegestionarAnioEscolar() + "crear.xhtml");
@@ -82,5 +83,13 @@ public class GestionarAnioEscolarForm {
 
     public void setAnioEscolarModifica(SieniAnioEscolar anioEscolarModifica) {
         this.anioEscolarModifica = anioEscolarModifica;
+    }
+
+    public List<SieniAnioEscolar> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniAnioEscolar> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 }

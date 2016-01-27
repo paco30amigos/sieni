@@ -36,6 +36,7 @@ public class GestionComponentesInteractivosForm {
 
     // consulta de archivo
     private List<SieniSuperCompon> datosList;
+    private List<SieniSuperCompon> listDatosFiltered;
     //registro de archivo
     private SieniSuperCompon nuevo;
     private List<SieniEvento> eventos;
@@ -376,6 +377,14 @@ public class GestionComponentesInteractivosForm {
 
     public void setTextoAux(String textoAux) {
         this.textoAux = textoAux;
+    }
+
+    public List<SieniSuperCompon> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniSuperCompon> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

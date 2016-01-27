@@ -16,6 +16,7 @@ import utils.siteUrls;
  * @author INFORMATICA
  */
 public class CatSeccionForm {
+
     private int indexMenu;
     private Integer idanio;
     private Integer idgrado;
@@ -26,6 +27,7 @@ public class CatSeccionForm {
     private SieniAnioEscolar anio;
     private List<SieniAnioEscolar> listAnios;
     private List<SieniGrado> listGrados;
+    private List<SieniGrado> listDatosFiltered;
     private List<SieniSeccion> list;
     //registro de archivo
     private SieniSeccion nuevo;
@@ -40,7 +42,7 @@ public class CatSeccionForm {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasecatSeccion()+ "index.xhtml");
+                sU.redirect(sU.getBasecatSeccion() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBasecatSeccion() + "crear.xhtml");
@@ -86,9 +88,6 @@ public class CatSeccionForm {
     public void setIdgrado(Integer idgrado) {
         this.idgrado = idgrado;
     }
-    
-    
-    
 
     public SieniAnioEscolar getAnio() {
         return anio;
@@ -98,8 +97,6 @@ public class CatSeccionForm {
         this.anio = anio;
     }
 
-    
-
     public List<SieniGrado> getListGrados() {
         return listGrados;
     }
@@ -108,7 +105,6 @@ public class CatSeccionForm {
         this.listGrados = listGrados;
     }
 
-    
     public List<SieniAnioEscolar> getListAnios() {
         return listAnios;
     }
@@ -117,7 +113,6 @@ public class CatSeccionForm {
         this.listAnios = listAnios;
     }
 
-    
     public List<SieniSeccion> getList() {
         return list;
     }
@@ -142,7 +137,12 @@ public class CatSeccionForm {
         this.modifica = modifica;
     }
 
-    
-    
-    
+    public List<SieniGrado> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniGrado> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
+    }
+
 }

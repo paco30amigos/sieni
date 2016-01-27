@@ -23,6 +23,7 @@ public class GestionPlantillasForm {
     private SieniPlantilla ver;
     // consulta de plantilla
     private List<SieniPlantilla> plantillaList;
+    private List<SieniPlantilla> listDatosFiltered;
     //registro de plantilla
     private SieniPlantilla plantillaNuevo;
     private List<SieniTipoElemPlantilla> tipoPlantilla;
@@ -156,6 +157,14 @@ public class GestionPlantillasForm {
 
     public void setMateria(SieniMateria materia) {
         this.materia = materia;
+    }
+
+    public List<SieniPlantilla> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniPlantilla> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

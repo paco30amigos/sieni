@@ -33,6 +33,7 @@ public class GestionVideoClaseForm {
     private SieniClase ver;
     // consulta de plantilla
     private List<SieniClase> claseList;
+    private List<SieniClase> listDatosFiltered;
     //registro de plantilla
     private SieniClase claseConfig;
     private List<SieniInteEntrComp> inteEntrCompList;
@@ -445,6 +446,14 @@ public class GestionVideoClaseForm {
 
     public void setComponentesPantallaActual(List<ComponenteInteractivoPojo> componentesPantallaActual) {
         this.componentesPantallaActual = componentesPantallaActual;
+    }
+
+    public List<SieniClase> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniClase> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

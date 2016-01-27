@@ -24,6 +24,7 @@ public class GestionMatriculaForm {
 
     // consulta de matricula
     private List<SieniMatricula> matriculaList;
+    private List<SieniMatricula> listDatosFiltered;
     //registro de matricula
     private SieniMatricula matriculaNuevo;
     private List<SieniAlumno> alumnosList;
@@ -199,6 +200,14 @@ public class GestionMatriculaForm {
 
     public void setAlumno(SieniAlumno alumno) {
         this.alumno = alumno;
+    }
+
+    public List<SieniMatricula> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniMatricula> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
     
 }

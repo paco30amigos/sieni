@@ -34,6 +34,7 @@ public class GestionarEvaluacionForm {
     private List<SieniEvaluacionItem> evaluacionItemList;
     // consulta de alumnos
     private List<SieniEvaluacion> evaluacionList;
+    private List<SieniEvaluacion> listDatosFiltered;
     
     private SieniNota notaALumno;
 
@@ -365,6 +366,14 @@ public class GestionarEvaluacionForm {
 
     public void setTipoEvaluacion(String tipoEvaluacion) {
         this.tipoEvaluacion = tipoEvaluacion;
+    }
+
+    public List<SieniEvaluacion> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniEvaluacion> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
     public class TipoP {

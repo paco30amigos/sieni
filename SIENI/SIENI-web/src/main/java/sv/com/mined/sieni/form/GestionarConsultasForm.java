@@ -16,11 +16,13 @@ import utils.siteUrls;
  * @author INFORMATICA
  */
 public class GestionarConsultasForm {
+
     private int indexMenu;
     private SieniTemaDuda eliminar;
 
     // consulta de noticias
     private List<SieniTemaDuda> consultasList;
+    private List<SieniTemaDuda> listDatosFiltered;
     //registro de noticias
     private List<SieniDocente> docentesList;
     private Long idDocente;
@@ -28,20 +30,18 @@ public class GestionarConsultasForm {
     //modificacion de noticias
     private SieniTemaDuda consultaModifica;
     private Long idDocenteModifica;
-    
+
     private SieniResolDuda respuesta;
-    
+
     public int getIndexMenu() {
         return indexMenu;
     }
 
-    
-    
     public void setIndexMenu(int indexMenu) {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
             case 0:
-                sU.redirect(sU.getBasegestionConsulta()+ "index.xhtml");
+                sU.redirect(sU.getBasegestionConsulta() + "index.xhtml");
                 break;
             case 1:
                 sU.redirect(sU.getBasegestionConsulta() + "crear.xhtml");
@@ -119,8 +119,13 @@ public class GestionarConsultasForm {
     public void setRespuesta(SieniResolDuda respuesta) {
         this.respuesta = respuesta;
     }
-    
-    
-    
+
+    public List<SieniTemaDuda> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniTemaDuda> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
+    }
 
 }

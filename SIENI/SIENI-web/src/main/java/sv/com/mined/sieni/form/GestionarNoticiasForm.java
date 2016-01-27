@@ -22,12 +22,13 @@ import utils.siteUrls;
  * @author Laptop
  */
 public class GestionarNoticiasForm {
-    
+
     private int indexMenu;
     private SieniNoticia eliminar;
 
     // consulta de noticias
     private List<SieniNoticia> noticiasList;
+    private List<SieniNoticia> listDatosFiltered;
     //registro de noticias
     private List<SieniCurso> cursosList;
     private Long idCurso;
@@ -82,8 +83,6 @@ public class GestionarNoticiasForm {
         this.idCurso = idCurso;
     }
 
-    
-
     public UploadedFile getFoto() {
         return foto;
     }
@@ -131,14 +130,11 @@ public class GestionarNoticiasForm {
     public void setFotoArchivo(byte[] fotoArchivo) {
         this.fotoArchivo = fotoArchivo;
     }
-    
 
     public int getIndexMenu() {
         return indexMenu;
     }
 
-    
-    
     public void setIndexMenu(int indexMenu) {
         siteUrls sU = new siteUrls();
         switch (indexMenu) {
@@ -190,13 +186,19 @@ public class GestionarNoticiasForm {
         this.idCursoModifica = idCursoModifica;
     }
 
-    
-    
     public SieniNoticia getEliminar() {
         return eliminar;
     }
 
     public void setEliminar(SieniNoticia eliminar) {
         this.eliminar = eliminar;
+    }
+
+    public List<SieniNoticia> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniNoticia> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 }

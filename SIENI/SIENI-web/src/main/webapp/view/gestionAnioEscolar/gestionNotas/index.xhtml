@@ -33,6 +33,7 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              emptyMessage="No se encontraron datos"
+                             filteredValue="#{gestionNotaController.listDatosFiltered}"
                              reflow="true">
                     <p:column headerText="Grado" filterBy="#{car.idEvaluacion.idCurso.idGrado.grNombre}" filterable="true" filterMatchMode="contains" style="width: 50px">
                         #{car.idEvaluacion.idCurso.idGrado.grNombre}

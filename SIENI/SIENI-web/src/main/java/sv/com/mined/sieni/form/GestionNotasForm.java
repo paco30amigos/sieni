@@ -24,6 +24,7 @@ public class GestionNotasForm {
 
     // consulta de nota
     private List<SieniNota> notaList;
+    private List<SieniNota> listDatosFiltered;
     //registro de nota
     private SieniNota notaNuevo;
     private List<SieniAlumno> alumnosList;
@@ -294,6 +295,14 @@ public class GestionNotasForm {
 
     public void setEvaluacionesExcelList(List<SieniEvaluacion> evaluacionesExcelList) {
         this.evaluacionesExcelList = evaluacionesExcelList;
+    }
+
+    public List<SieniNota> getListDatosFiltered() {
+        return listDatosFiltered;
+    }
+
+    public void setListDatosFiltered(List<SieniNota> listDatosFiltered) {
+        this.listDatosFiltered = listDatosFiltered;
     }
 
 }

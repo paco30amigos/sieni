@@ -56,7 +56,7 @@
                             <f:selectItem itemLabel="Excel" itemValue="2" />
                             <f:selectItem itemLabel="PDF" itemValue="0" />
                         </p:selectOneRadio>
-                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptParticipacionController.GenerarReporte()}"></p:commandButton>
+                        <p:commandButton  value="Exportar" ajax="false" actionListener="#{rptParticipacionController.generarReporte()}"></p:commandButton>
                         <p:commandButton value="Refrescar" actionListener="#{rptParticipacionController.refresh()}" update="consulta" ajax="true"></p:commandButton>
                     </h:panelGrid>
                 </div>

@@ -42,7 +42,7 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
 
     @Override
     public List<SieniDocente> findDocentesSinUsuario() {
-        Query q = em.createNativeQuery("select * from sieni_docente d left outer join sieni_docent_rol dr on(d.id_docente=dr.id_docente) where dr.id_docente_rol is null", SieniDocente.class);
+        Query q = em.createNativeQuery("select * from sieni_docente d left outer join sieni_docent_rol dr on(d.id_docente=dr.id_docente) where dr.id_docente_rol is null or (dr.id_docente_rol is not null and dr.sdr_estado ='I')", SieniDocente.class);
         return q.getResultList();
     }
 

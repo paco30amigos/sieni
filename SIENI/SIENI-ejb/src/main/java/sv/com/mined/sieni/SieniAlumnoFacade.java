@@ -64,7 +64,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
 
     @Override
     public List<SieniAlumno> findAlumnoSinUsuario() {
-        Query q = em.createNativeQuery("select * from sieni_alumno al left outer join sieni_alumn_rol sar on (al.id_alumno=sar.id_alumno) where sar.id_alumn_rol is null",SieniAlumno.class);
+        Query q = em.createNativeQuery("select * from sieni_alumno al left outer join sieni_alumn_rol sar on (al.id_alumno=sar.id_alumno) where sar.id_alumn_rol is null or (sar.id_alumn_rol is not null and sar.sar_estado ='I')",SieniAlumno.class);
         return q.getResultList();
     }
 

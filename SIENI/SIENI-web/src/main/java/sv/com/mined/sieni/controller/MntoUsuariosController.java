@@ -187,6 +187,12 @@ public class MntoUsuariosController extends MntoUsuariosForm {
         String cod = a.getNewValue().toString();
         this.setNombresDisponibles(getNombreUsuarioPojo(cod));
     }
+    
+    public void initNuevo(){
+        this.setUsuarioNuevo(new UsuariosPojo());
+        this.setNombresDisponibles(getNombreUsuarioPojo(null));
+        this.setIndexMenu(1);
+    }
 
     private List<UsuariosPojo> getNombreUsuarioPojo(String cod) {
         List<UsuariosPojo> ret = new ArrayList<>();
@@ -305,10 +311,6 @@ public class MntoUsuariosController extends MntoUsuariosForm {
     public void cancelar() {
     }
 
-    public void crear() {
-        this.setNombresDisponibles(getNombreUsuarioPojo(this.getUsuarioNuevo().getTipoUsuario()));
-        this.setIndexMenu(1);
-    }
 
     //metodos para modificacion de datos
     public void modificar(UsuariosPojo modificado) {

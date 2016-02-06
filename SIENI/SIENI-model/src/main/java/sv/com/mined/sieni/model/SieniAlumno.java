@@ -73,7 +73,7 @@ import javax.xml.bind.annotation.XmlTransient;
 //    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm1", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm1 = :alTelefonoEm1"),
 //    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm2", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm2 = :alTelefonoEm2"),
 //    @NamedQuery(name = "SieniAlumno.findByAlTelefonoEm3", query = "SELECT s FROM SieniAlumno s WHERE s.alTelefonoEm3 = :alTelefonoEm3"),
-    @NamedQuery(name = "SieniAlumno.findByAlUsuario", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario = :alUsuario"),
+    @NamedQuery(name = "SieniAlumno.findByAlUsuario", query = "SELECT s FROM SieniAlumno s WHERE s.alUsuario = :alUsuario and s.alEstado='A'"),
 //    @NamedQuery(name = "SieniAlumno.findByAlContrasenia", query = "SELECT s FROM SieniAlumno s WHERE s.alContrasenia = :alContrasenia"),
 //    @NamedQuery(name = "SieniAlumno.findByAlCorreo", query = "SELECT s FROM SieniAlumno s WHERE s.alCorreo = :alCorreo"),
 //    @NamedQuery(name = "SieniAlumno.findByAlFechaNacimiento", query = "SELECT s FROM SieniAlumno s WHERE s.alFechaNacimiento = :alFechaNacimiento"),

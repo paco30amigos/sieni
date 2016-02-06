@@ -19,9 +19,6 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form enctype="multipart/form-data" >
-                <p:tooltip for="mod_anio">
-                    <h:outputText value="Digite el año a registrar"/>
-                </p:tooltip>
                 <p:tooltip for="mod_fInicio">
                     <h:outputText value="Ingrese la fecha de inicio del año escolar"/>
                 </p:tooltip>
@@ -34,20 +31,20 @@
                 <p:focus id="focus" context="p1"></p:focus>
                 <p:panelGrid columns="2" id="p1">
                     <p:outputLabel for="mod_anio" value="Año: " class=" Responsive"></p:outputLabel>
-                    <p:inputText id="mod_anio" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeAnio}"></p:inputText>
+                    <p:outputLabel id="mod_anio" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeAnio}"></p:outputLabel>
                     <p:outputLabel  for="mod_fInicio" value="Fecha de inicio: " class=" Responsive"></p:outputLabel>
-                    <p:calendar id="mod_fInicio" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeInicio}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de inicio" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                    <p:calendar tabindex="1" id="mod_fInicio" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeInicio}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de inicio" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     <p:outputLabel for="mod_fFin" value="Fecha de Fin: " class=" Responsive" ></p:outputLabel>            
-                    <p:calendar id="mod_fFin" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeFin}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaFinAnioActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de fin" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                    <p:calendar tabindex="2" id="mod_fFin" value="#{gestionarAnioEscolarController.anioEscolarModifica.aeFin}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaFinAnioActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha de fin" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     <p:outputLabel for="mod_estado" value="Estado: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="mod_estado" class=" Responsive"  value="#{gestionarAnioEscolarController.anioEscolarModifica.aeEstado}" >
+                    <p:selectOneMenu tabindex="3" id="mod_estado" class=" Responsive"  value="#{gestionarAnioEscolarController.anioEscolarModifica.aeEstado}" >
                         <f:selectItem itemValue ="A" itemLabel="Activo"/>
                         <f:selectItem itemValue="N" itemLabel="Inactivo"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div> 
                 <div class="Container100">
-                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarAnioEscolarController.guardarModifica()}" update="p1,focus" />
+                    <p:commandButton tabindex="4" value="Guardar" action="#{gestionarAnioEscolarController.guardarModifica()}" update="p1,focus" />
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionarAnioEscolarController.cancelaModifica(gestionarAnioEscolarController.anioEscolarModifica)}"/>
                     </p:commandButton>

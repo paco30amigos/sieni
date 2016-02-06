@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -18,6 +19,8 @@ import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.form.GestionarAnioEscolarForm;
 import sv.com.mined.sieni.model.SieniAnioEscolar;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
+import utils.DateUtils;
+import utils.FormatUtils;
 
 /**
  *
@@ -52,6 +55,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         modifica = sieniAnioEscolarFacadeRemote.find(modifica.getIdAnioEscolar());
         this.setIndexMenu(0);
     }
+
     private void fill() {
         this.setAnioEscolarList(sieniAnioEscolarFacadeRemote.findAllNoInactivos());
     }
@@ -63,10 +67,11 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
                 registrarEnBitacora("Crear", "Anio Escolar", this.getAnioEscolarNuevo().getIdAnioEscolar());
                 FacesMessage msg = new FacesMessage("Año escolar Creado Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                this.setIndexMenu(0);
+//                this.setIndexMenu(0);
+                this.getAnioEscolarList().add(this.getAnioEscolarNuevo());
+                this.setAnioEscolarNuevo(new SieniAnioEscolar());
             }
-            this.setAnioEscolarNuevo(new SieniAnioEscolar());
-            fill();
+//            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
@@ -81,9 +86,17 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     }
 
     public boolean validarNuevo(SieniAnioEscolar nuevo) {
-        boolean ban = true;
-
-        return ban;
+        boolean valido = true;
+        DateUtils du = new DateUtils();
+        FormatUtils fu = new FormatUtils();
+        SieniAnioEscolar anioActual = sieniAnioEscolarFacadeRemote.findActivo();
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        validaciones.add(new ValidationPojo(!nuevo.getAeInicio().before(nuevo.getAeFin()), "Rango de fechas no valido", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(anioActual != null && nuevo.getAeEstado().equals('A'), "Ya existe un año activo", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(anioActual != null && anioActual.getAeAnio().equals(nuevo.getAeAnio()) && anioActual.getAeInicio().equals(nuevo.getAeInicio())
+                && anioActual.getAeFin().equals(nuevo.getAeFin()), "Ya existe ese año para ese rango de fechas", FacesMessage.SEVERITY_ERROR));
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public void cancelar() {
@@ -105,17 +118,17 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         this.setEliminar(eliminado);
     }
 
-    public synchronized  void guardarModifica() {
+    public synchronized void guardarModifica() {
         try {
             if (validarModifica(this.getAnioEscolarModifica())) {//valida el guardado
                 sieniAnioEscolarFacadeRemote.edit(this.getAnioEscolarModifica());
                 registrarEnBitacora("Modificar", "Anio Escolar", this.getAnioEscolarModifica().getIdAnioEscolar());
                 FacesMessage msg = new FacesMessage("Año escolar Modificado Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
-                resetModificaForm();
-                this.setIndexMenu(0);
+//                resetModificaForm();
+//                this.setIndexMenu(0);
             }
-            fill();
+//            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }
@@ -126,9 +139,19 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
     }
 
     public boolean validarModifica(SieniAnioEscolar nuevo) {
-        boolean ban = true;
-
-        return ban;
+        boolean valido = true;
+        DateUtils du = new DateUtils();
+        FormatUtils fu = new FormatUtils();
+        SieniAnioEscolar anioActual = sieniAnioEscolarFacadeRemote.findActivo();
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        validaciones.add(new ValidationPojo(!nuevo.getAeInicio().before(nuevo.getAeFin()), "Rango de fechas no valido", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(anioActual != null && nuevo.getAeEstado().equals('A'), "Ya existe un año activo", FacesMessage.SEVERITY_ERROR));
+        if (!anioActual.getIdAnioEscolar().equals(nuevo.getIdAnioEscolar())) {
+            validaciones.add(new ValidationPojo(anioActual != null && anioActual.getAeAnio().equals(nuevo.getAeAnio()) && anioActual.getAeInicio().equals(nuevo.getAeInicio())
+                    && anioActual.getAeFin().equals(nuevo.getAeFin()), "Ya existe ese año para ese rango de fechas", FacesMessage.SEVERITY_ERROR));
+        }
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public synchronized void eliminaraAnioEscolar() {

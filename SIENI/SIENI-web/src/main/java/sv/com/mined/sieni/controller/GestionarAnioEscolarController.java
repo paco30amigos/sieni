@@ -74,6 +74,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
 //            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -131,6 +132,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
 //            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -146,7 +148,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         validaciones.add(new ValidationPojo(!nuevo.getAeInicio().before(nuevo.getAeFin()), "Rango de fechas no valido", FacesMessage.SEVERITY_ERROR));
         validaciones.add(new ValidationPojo(anioActual != null && nuevo.getAeEstado().equals('A'), "Ya existe un año activo", FacesMessage.SEVERITY_ERROR));
-        if (!anioActual.getIdAnioEscolar().equals(nuevo.getIdAnioEscolar())) {
+        if (anioActual!=null &&!anioActual.getIdAnioEscolar().equals(nuevo.getIdAnioEscolar())) {
             validaciones.add(new ValidationPojo(anioActual != null && anioActual.getAeAnio().equals(nuevo.getAeAnio()) && anioActual.getAeInicio().equals(nuevo.getAeInicio())
                     && anioActual.getAeFin().equals(nuevo.getAeFin()), "Ya existe ese año para ese rango de fechas", FacesMessage.SEVERITY_ERROR));
         }
@@ -162,6 +164,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
             fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 }

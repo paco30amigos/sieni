@@ -275,6 +275,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -284,6 +285,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             passEncriptado = Arrays.toString(Base64.encodeToByte((digest.digest(pass.getBytes("UTF-8"))), false));
         } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return passEncriptado;
     }
@@ -372,6 +374,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -416,6 +419,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -453,6 +457,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 

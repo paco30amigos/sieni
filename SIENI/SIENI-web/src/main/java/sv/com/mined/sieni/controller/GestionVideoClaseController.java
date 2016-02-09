@@ -126,12 +126,12 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     public SieniClase setInfoDocente(SieniClase matActual) {
         if (matActual.getIdCurso() != null && matActual.getIdCurso().getIdDocente() != null) {
             matActual.getIdCurso().setDocente(sieniDocenteFacadeRemote.findByDocenteId(matActual.getIdCurso().getIdDocente()));
-        } else {            
+        } else {
             matActual.getIdCurso().setDocente(new SieniDocente());
         }
         return matActual;
     }
-    
+
     public void cancelaModifica(SieniClase modifica) {
         modifica = sieniClaseFacadeRemote.find(modifica.getIdClase());
         this.setIndexMenu(0);
@@ -411,6 +411,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             new ValidationPojo().printMsj("Configuracion guardada exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
 //        this.setIndexMenu(6);
     }
@@ -655,6 +656,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -677,6 +679,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -703,6 +706,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             this.getClaseList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -733,6 +737,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             guardarPuntosControl();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -747,6 +752,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             new ValidationPojo().printMsj("Configuración guardada exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -820,12 +826,14 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
 
     private boolean tieneInteraccion(SieniInteEntrComp nueva, List<SieniInteEntrComp> listaInteracActual) {
         boolean ret = false;
-        for (SieniInteEntrComp inteAc : listaInteracActual) {
-            if (nueva.getIeSupC1().getIdSuperCompon().equals(inteAc.getIeSupC1().getIdSuperCompon())
-                    && nueva.getIeSupC2().getIdSuperCompon().equals(inteAc.getIeSupC2().getIdSuperCompon())
-                    && nueva.getIeEventoC1().getIdEvento().equals(inteAc.getIeEventoC1().getIdEvento())
-                    && nueva.getIeEventoC2().getIdEvento().equals(inteAc.getIeEventoC2().getIdEvento())) {
-                ret = true;
+        if (listaInteracActual != null) {
+            for (SieniInteEntrComp inteAc : listaInteracActual) {
+                if (nueva.getIeSupC1().getIdSuperCompon().equals(inteAc.getIeSupC1().getIdSuperCompon())
+                        && nueva.getIeSupC2().getIdSuperCompon().equals(inteAc.getIeSupC2().getIdSuperCompon())
+                        && nueva.getIeEventoC1().getIdEvento().equals(inteAc.getIeEventoC1().getIdEvento())
+                        && nueva.getIeEventoC2().getIdEvento().equals(inteAc.getIeEventoC2().getIdEvento())) {
+                    ret = true;
+                }
             }
         }
         return ret;

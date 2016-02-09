@@ -128,8 +128,8 @@ public class RptNotasController extends RptNotasForm {
             }
         }
         this.setGrado(cod);
-        this.setSeccion(new SieniSeccion());
         this.setSeccionesList(cod.getSieniSeccionList());
+        this.setSeccion(this.getSeccionesList() != null && !this.getSeccionesList().isEmpty() ? this.getSeccionesList().get(0) : null);
     }
 
 }

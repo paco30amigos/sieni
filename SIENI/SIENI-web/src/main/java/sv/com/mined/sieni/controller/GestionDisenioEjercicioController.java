@@ -119,8 +119,9 @@ public class GestionDisenioEjercicioController extends GestionEjercicioForm {
 //           graphicText=new ByteArrayContent(os.toByteArray(), "image/jpg");
          os.close();            
 	    
-	} catch (IOException ex) {
-            System.out.println(ex.getMessage());
+	} catch (IOException e) {
+//            System.out.println(ex.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 

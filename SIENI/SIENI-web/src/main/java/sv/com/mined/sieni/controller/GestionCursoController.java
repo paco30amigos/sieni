@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -166,6 +167,7 @@ public class GestionCursoController extends GestionCursoForm {
 //        fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -225,7 +227,7 @@ public class GestionCursoController extends GestionCursoForm {
         this.setCursoModifica(modificado);
         this.setIndexMenu(2);
     }
-
+    
     public void ver(SieniCurso modificado) {
         this.setCursoModifica(modificado);
         this.setIndexMenu(3);
@@ -281,6 +283,7 @@ public class GestionCursoController extends GestionCursoForm {
 //        fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -302,6 +305,7 @@ public class GestionCursoController extends GestionCursoForm {
             this.getCursoList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -313,6 +317,7 @@ public class GestionCursoController extends GestionCursoForm {
             sieniCursoAlumnoFacadeRemote.remove(this.getEliminarInscrito());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 

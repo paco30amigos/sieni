@@ -125,6 +125,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -268,6 +269,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -289,6 +291,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             this.getDatosList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -381,6 +384,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             fillConfigura(this.getConfig());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 

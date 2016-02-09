@@ -103,6 +103,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
 //        fill();
     }
@@ -219,6 +220,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
 //        fill();
     }
@@ -276,6 +278,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
             fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
 
     }
@@ -321,6 +324,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
             fillMateriasDocente();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 

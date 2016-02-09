@@ -59,7 +59,7 @@
                     </p:column>
                     <p:column headerText="Acciones" style="width: 20%">
 
-                        <p:commandLink action="#{gestionarEvaluacionController.mostrar(car)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Consultar Evaluacion" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarEvaluacionController.mostrar(car)}" rendered="#{loginController.mostrarA('2,3,4')}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Consultar Evaluacion" ></i></p:commandLink>
                         <p:commandLink action="#{gestionarEvaluacionController.verEvaluacion(car)}" rendered="#{gestionarEvaluacionController.evaluacionDisponible(car)}"><i class="icon-list88 Fs30 Red MarRight10" title="Realizar Evaluacion" ></i></p:commandLink>
                         <p:commandLink action="#{gestionarEvaluacionController.modificar(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno()}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Evaluacion" ></i></p:commandLink>
                         <p:commandLink action="#{gestionarEvaluacionController.gestionarItemsEvaluacion(car)}" rendered="#{!gestionarEvaluacionController.validaAlumno() and car.evTipo!='Escrita'}" ><i class="icon-portfolio Fs25 Red MarRight10" title="Agregar items" ></i></p:commandLink>                        

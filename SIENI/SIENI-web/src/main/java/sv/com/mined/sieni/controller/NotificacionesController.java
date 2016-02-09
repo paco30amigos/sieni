@@ -112,6 +112,7 @@ public class NotificacionesController extends NotificacionesForm {
             
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
         
     }
@@ -141,6 +142,7 @@ public class NotificacionesController extends NotificacionesForm {
             
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 }

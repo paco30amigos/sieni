@@ -30,12 +30,12 @@
                 connection.dontCaptureUserMedia = true;
                 connection.userid = usuarioActual;//usuario unico
                 connection.media.min(320, 240);
-                connection.media.max(640, 480);
+                connection.media.max(320, 240);
                 connection.mediaConstraints.mandatory = {
                     minWidth: 320,
-                    maxWidth: 640,
+                    maxWidth: 320,
                     minHeight: 240,
-                    maxHeight: 480,
+                    maxHeight: 240,
                     minFrameRate: 25
                 };
                 connection.bandwidth = {

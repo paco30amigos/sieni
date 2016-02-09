@@ -116,7 +116,7 @@ public class siteUrls {
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect(contextPath + url);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

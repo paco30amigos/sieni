@@ -129,6 +129,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -160,6 +161,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -205,6 +207,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
             fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 }

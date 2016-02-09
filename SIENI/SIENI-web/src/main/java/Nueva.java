@@ -23,7 +23,7 @@ public class Nueva {
             FileInputStream fis = new FileInputStream(new File("D:\\paco\\SIENI\\sieni\\SIENI\\SIENI-web\\src\\main\\webapp\\resources\\video\\20150828_113341s.mp4"));
             ret = new DefaultStreamedContent(fis, "video/mp4");
         } catch (Exception e) { 
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return ret;
     }
@@ -33,7 +33,7 @@ public class Nueva {
             FileInputStream fis = new FileInputStream(new File("D:\\paco\\SIENI\\sieni\\SIENI\\SIENI-web\\src\\main\\webapp\\resources\\video\\20150828_113341.mp4"));
             ret = new DefaultStreamedContent(fis, "video/mp4");
         } catch (Exception e) { 
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return ret;
     }

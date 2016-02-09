@@ -71,6 +71,7 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -116,6 +117,7 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -147,6 +149,7 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
             this.getList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 }

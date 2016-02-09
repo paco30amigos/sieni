@@ -66,7 +66,12 @@ public class ValidationPojo {
     }
 
     public void printMsj(String msj, Severity severity) {
-        FacesMessage msg = new FacesMessage(severity, msj, null);
+        FacesMessage msg = new FacesMessage(severity, msj, " ");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
+    public void printMsj(String msj,String descripcion, Severity severity) {
+        FacesMessage msg = new FacesMessage(severity, msj, descripcion);
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
 }

@@ -78,6 +78,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -153,6 +154,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -188,6 +190,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             this.getArchivoList().remove(this.getEliminar());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 

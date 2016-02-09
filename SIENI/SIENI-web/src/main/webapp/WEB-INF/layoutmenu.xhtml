@@ -143,13 +143,11 @@
             <c:if test="#{loginController.tipoRol=='4'}">
                 <pr:menu >                    
                     <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
-                    <p:submenu label="Administración de Sistema">
-                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}" />
+                    <p:submenu label="Administración de Sistema">                        
                         <p:menuitem value="Bitácora" url="#{siteUrls.bitacora}" />
                     </p:submenu>
                     <p:submenu label="Gestionar Año Escolar">
                         <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
-                        <p:menuitem value="Mantenimiento de Año escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
                     </p:submenu>
                     <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
                     <p:menuitem value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />

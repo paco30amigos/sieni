@@ -77,6 +77,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -125,6 +126,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -152,6 +154,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
 //            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -185,6 +188,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             fillElemPlantillaPlantilla(this.getPlantillaModifica());
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 

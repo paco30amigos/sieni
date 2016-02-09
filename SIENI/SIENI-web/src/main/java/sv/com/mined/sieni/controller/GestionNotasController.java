@@ -49,7 +49,7 @@ public class GestionNotasController extends GestionNotasForm {
 
     @EJB
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
-    
+
     @EJB
     private SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
 
@@ -75,7 +75,21 @@ public class GestionNotasController extends GestionNotasForm {
         this.setMateriasModificaList(new ArrayList());
         fill();
     }
-    
+
+    public boolean verificarAnioEscolar(Date fecha) {
+        boolean ret = false;
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        //la fecha debe estar dentro del rango de fechas del periodo escolar
+        //fecha>=fechaInicio&&fecha<=fechaFin
+        if (!fecha.before(loginBean.getAnioEscolarActivo().getAeInicio()) && !fecha.after(loginBean.getAnioEscolarActivo().getAeFin())) {
+            ret = true;
+        } else {
+            new ValidationPojo().printMsj("El registro no se puede modificar para el año escolar actual", "fecha:" + new FormatUtils().getFormatedDate(fecha), FacesMessage.SEVERITY_ERROR);
+        }
+        return ret;
+    }
+
     private List<SieniNota> setAlumnos(List<SieniNota> notas) {
         List<SieniNota> ret = new ArrayList<>();
         for (SieniNota actual : notas) {
@@ -88,7 +102,7 @@ public class GestionNotasController extends GestionNotasForm {
         matActual.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(matActual.getIdAlumno()));
         return matActual;
     }
-    
+
     public void cancelaModifica(SieniNota modifica) {
         modifica = sieniNotaFacadeRemote.find(modifica.getIdNota());
         this.setIndexMenu(0);
@@ -145,6 +159,7 @@ public class GestionNotasController extends GestionNotasForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -174,23 +189,25 @@ public class GestionNotasController extends GestionNotasForm {
 
     //metodos para modificacion de datos
     public void modificar(SieniNota modificado) {
-        //TODO verificar si el docente logueado es el coordinador de la materia
-        //si es asi puede modificar todas las notas, sino solo las ingresadas por el
-        if (validarUsuarioModificaNota(modificado)) {
-            //llena los datos a utilizar en el formulario
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-            this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar()));
-            this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(modificado.getIdAlumno()));
-            if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
-                this.setEvaluacionesModificaList(modificado.getIdEvaluacion().getIdMateria().getSieniEvaluacionList());
-            }
-            this.setIdMateriaModifica(modificado.getIdEvaluacion().getIdMateria());
-            this.setNotaModifica(modificado);
-            this.setIdAlumnoModifica(sieniAlumnoFacadeRemote.findAlumnoById(modificado.getIdAlumno()));
-            this.setIdEvaluacionModifica(modificado.getIdEvaluacion());
+        if (verificarAnioEscolar(modificado.getNtFechaIngreso())) {
+            //TODO verificar si el docente logueado es el coordinador de la materia
+            //si es asi puede modificar todas las notas, sino solo las ingresadas por el
+            if (validarUsuarioModificaNota(modificado)) {
+                //llena los datos a utilizar en el formulario
+                HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+                this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar()));
+                this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(modificado.getIdAlumno()));
+                if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
+                    this.setEvaluacionesModificaList(modificado.getIdEvaluacion().getIdMateria().getSieniEvaluacionList());
+                }
+                this.setIdMateriaModifica(modificado.getIdEvaluacion().getIdMateria());
+                this.setNotaModifica(modificado);
+                this.setIdAlumnoModifica(sieniAlumnoFacadeRemote.findAlumnoById(modificado.getIdAlumno()));
+                this.setIdEvaluacionModifica(modificado.getIdEvaluacion());
 
-            this.setIndexMenu(2);
+                this.setIndexMenu(2);
+            }
         }
     }
 
@@ -254,6 +271,7 @@ public class GestionNotasController extends GestionNotasForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -290,13 +308,16 @@ public class GestionNotasController extends GestionNotasForm {
 
     public synchronized void eliminarNota() {
         try {
-            registrarEnBitacora("Eliminar", "Nota", this.getEliminar().getIdNota());
-            this.getEliminar().setNtEstado('I');
-            sieniNotaFacadeRemote.edit(this.getEliminar());
-            this.getNotaList().remove(this.getEliminar());
-            this.setIndexMenu(0);
+            if (verificarAnioEscolar(this.getEliminar().getNtFechaIngreso())) {
+                registrarEnBitacora("Eliminar", "Nota", this.getEliminar().getIdNota());
+                this.getEliminar().setNtEstado('I');
+                sieniNotaFacadeRemote.edit(this.getEliminar());
+                this.getNotaList().remove(this.getEliminar());
+                this.setIndexMenu(0);
+            }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -306,7 +327,7 @@ public class GestionNotasController extends GestionNotasForm {
         if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {
             this.setIdMateria(this.getMateriasList().get(0));
             this.setEvaluacionesList(sieniEvaluacionFacadeRemote.findIdMateria(this.getMateriasList().get(0).getIdMateria()));
-            
+
         } else {
             this.setEvaluacionesList(new ArrayList<SieniEvaluacion>());
         }
@@ -354,6 +375,7 @@ public class GestionNotasController extends GestionNotasForm {
             eu.closeWorkbook();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 
@@ -409,6 +431,7 @@ public class GestionNotasController extends GestionNotasForm {
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
         }
     }
 

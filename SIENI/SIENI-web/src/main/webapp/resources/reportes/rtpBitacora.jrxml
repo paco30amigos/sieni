@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2016-01-09T09:51:00 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
+<!-- 2016-02-08T21:42:59 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<parameter name="fechaGeneracion" class="java.lang.String"/>
 	<parameter name="desde" class="java.lang.String"/>
 	<parameter name="hasta" class="java.lang.String"/>
@@ -18,6 +27,8 @@
 	<field name="hora" class="java.util.Date"/>
 	<field name="fuente" class="java.lang.String"/>
 	<field name="responsable" class="java.lang.String"/>
+	<field name="tipoPerfil" class="java.lang.String"/>
+	<field name="usuario" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -28,7 +39,7 @@
 				<imageExpression><![CDATA["../images/mined.jpg"]]></imageExpression>
 			</image>
 			<textField evaluationTime="Report">
-				<reportElement x="386" y="52" width="164" height="20" uuid="75bb6e7c-fc1a-40d3-ae69-4b44302311ec"/>
+				<reportElement x="566" y="54" width="164" height="20" uuid="75bb6e7c-fc1a-40d3-ae69-4b44302311ec"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["F. Generación:"+ $P{fechaGeneracion}]]></textFieldExpression>
 			</textField>
@@ -37,11 +48,11 @@
 				<textFieldExpression><![CDATA[$P{hasta}]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="530" y="9" width="32" height="30" uuid="a31928d4-a260-4953-8203-a4f167c77f7d"/>
+				<reportElement x="710" y="11" width="32" height="30" uuid="a31928d4-a260-4953-8203-a4f167c77f7d"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="184" y="0" width="205" height="29" uuid="894a9733-bd60-4b93-8246-4864a9626db4"/>
+				<reportElement x="274" y="3" width="205" height="29" uuid="894a9733-bd60-4b93-8246-4864a9626db4"/>
 				<textElement textAlignment="Center">
 					<font size="11" isBold="true"/>
 				</textElement>
@@ -57,7 +68,7 @@ Reporte de Bitacora]]></text>
 				<text><![CDATA[Desde:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="390" y="9" width="136" height="30" uuid="9cc0c67c-e099-405f-9d11-0ee7097fb59e"/>
+				<reportElement x="570" y="11" width="136" height="30" uuid="9cc0c67c-e099-405f-9d11-0ee7097fb59e"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Pág "+$V{PAGE_NUMBER}+" de "]]></textFieldExpression>
 			</textField>
@@ -68,9 +79,9 @@ Reporte de Bitacora]]></text>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="32" splitType="Stretch">
+		<band height="36" splitType="Stretch">
 			<staticText>
-				<reportElement x="425" y="2" width="133" height="30" uuid="80c5ba43-45b4-4e9c-ba32-fbb051bc6889"/>
+				<reportElement x="608" y="1" width="133" height="30" uuid="80c5ba43-45b4-4e9c-ba32-fbb051bc6889"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -83,7 +94,7 @@ Reporte de Bitacora]]></text>
 				<text><![CDATA[Responsable]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="252" y="2" width="173" height="30" uuid="152f8358-b2c2-41e5-b3ab-bf8132774ebc"/>
+				<reportElement x="435" y="1" width="173" height="30" uuid="152f8358-b2c2-41e5-b3ab-bf8132774ebc"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -96,7 +107,7 @@ Reporte de Bitacora]]></text>
 				<text><![CDATA[Fuente de Datos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="171" y="2" width="81" height="30" uuid="bc2266c1-21fc-4f51-8e01-4e715faa56d8"/>
+				<reportElement x="354" y="1" width="81" height="30" uuid="bc2266c1-21fc-4f51-8e01-4e715faa56d8"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -109,7 +120,7 @@ Reporte de Bitacora]]></text>
 				<text><![CDATA[Hora]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="91" y="2" width="80" height="30" uuid="d348fb74-797d-4547-ba1b-557b6d477318"/>
+				<reportElement x="274" y="1" width="80" height="30" uuid="d348fb74-797d-4547-ba1b-557b6d477318"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -122,7 +133,7 @@ Reporte de Bitacora]]></text>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="15" y="2" width="76" height="30" uuid="f39509f5-8670-45cc-ae93-3468bb355268"/>
+				<reportElement x="198" y="1" width="76" height="30" uuid="f39509f5-8670-45cc-ae93-3468bb355268"/>
 				<box padding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -134,13 +145,39 @@ Reporte de Bitacora]]></text>
 				</textElement>
 				<text><![CDATA[Accion]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="15" y="1" width="98" height="30" uuid="30aa20ab-696f-4591-89c5-bb05e0daec59"/>
+				<box padding="1">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Usuario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="1" width="85" height="30" uuid="13d660d6-0baa-457e-b570-22b8cb47e95d"/>
+				<box padding="1">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo de Perfil]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="24" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="true">
-				<reportElement x="15" y="0" width="76" height="20" uuid="4a395093-2340-4a1f-b65e-12d3e3d985c6">
+				<reportElement x="198" y="-1" width="76" height="20" uuid="4a395093-2340-4a1f-b65e-12d3e3d985c6">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -154,7 +191,7 @@ Reporte de Bitacora]]></text>
 				<textFieldExpression><![CDATA[$F{accion}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
-				<reportElement x="91" y="0" width="80" height="20" uuid="3df7f151-9dc0-425c-8620-696be7117ae1"/>
+				<reportElement x="274" y="-1" width="80" height="20" uuid="3df7f151-9dc0-425c-8620-696be7117ae1"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -165,7 +202,7 @@ Reporte de Bitacora]]></text>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<textField pattern="h:mm a" isBlankWhenNull="true">
-				<reportElement key="" x="171" y="0" width="81" height="20" uuid="8ea24002-7bcb-4cc4-9948-81cf4c7d6378"/>
+				<reportElement key="" x="354" y="-1" width="81" height="20" uuid="8ea24002-7bcb-4cc4-9948-81cf4c7d6378"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -176,7 +213,7 @@ Reporte de Bitacora]]></text>
 				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="252" y="0" width="173" height="20" uuid="cda90867-8b9a-4213-8062-fda95551bb0e"/>
+				<reportElement x="435" y="-1" width="173" height="20" uuid="cda90867-8b9a-4213-8062-fda95551bb0e"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -186,7 +223,7 @@ Reporte de Bitacora]]></text>
 				<textFieldExpression><![CDATA[$F{fuente}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="425" y="0" width="133" height="20" uuid="f9f774a1-f275-48e0-b713-09baa1807783"/>
+				<reportElement x="608" y="-1" width="133" height="20" uuid="f9f774a1-f275-48e0-b713-09baa1807783"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -195,6 +232,34 @@ Reporte de Bitacora]]></text>
 				</box>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{responsable}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="114" y="-1" width="84" height="20" uuid="2078793c-cd51-414b-8018-e931d0c9c1cb">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tipoPerfil}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="15" y="-1" width="98" height="20" uuid="d22a68c3-13dd-4f43-98e7-cfc5957ca8d3">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{usuario}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -209,7 +274,7 @@ Reporte de Bitacora]]></text>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="15" y="0" width="543" height="30" uuid="684f4eb8-6c63-4e39-be3d-dcfae0834137"/>
+				<reportElement x="15" y="0" width="726" height="30" uuid="684f4eb8-6c63-4e39-be3d-dcfae0834137"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

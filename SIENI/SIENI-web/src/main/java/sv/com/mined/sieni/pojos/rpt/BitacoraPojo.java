@@ -14,6 +14,8 @@ import java.util.Date;
  */
 public class BitacoraPojo implements Serializable{
     
+    private String usuario;
+    private String tipoPerfil;
     private String accion;
     private Date fecha;
     private Date hora;
@@ -23,7 +25,9 @@ public class BitacoraPojo implements Serializable{
     public BitacoraPojo() {
     }
 
-    public BitacoraPojo(String accion, Date fecha, Date hora, String fuente, String responsable) {
+    public BitacoraPojo(String usuario, String tipoPerfil, String accion, Date fecha, Date hora, String fuente, String responsable) {
+        this.usuario = usuario;
+        this.tipoPerfil = tipoPerfil;
         this.accion = accion;
         this.fecha = fecha;
         this.hora = hora;
@@ -31,6 +35,22 @@ public class BitacoraPojo implements Serializable{
         this.responsable = responsable;
     }
 
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getTipoPerfil() {
+        return tipoPerfil;
+    }
+
+    public void setTipoPerfil(String tipoPerfil) {
+        this.tipoPerfil = tipoPerfil;
+    }
+    
     public String getAccion() {
         return accion;
     }

@@ -18,7 +18,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import net.sf.jasperreports.engine.JRException;
+import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.BitacoraForm;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.pojos.rpt.BitacoraPojo;
@@ -35,6 +37,12 @@ public class BitacoraController extends BitacoraForm {
 
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
+    
+    @EJB
+    private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
+    
+    @EJB
+    private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
 
     @PostConstruct
     public void init() {
@@ -49,7 +57,13 @@ public class BitacoraController extends BitacoraForm {
         List<SieniBitacora> bitacoras = sieniBitacoraFacadeRemote.findByFecha(this.getDesde(), this.getHasta());
         this.setListDatos(new ArrayList<BitacoraPojo>());
         for (SieniBitacora actual : bitacoras) {
-            elem = new BitacoraPojo(actual.getBitAccion(), actual.getBitFechaHoraIngreso(), actual.getBitFechaHoraIngreso(), actual.getBitTabla(), actual.getBitIp());
+            String usuario;
+            if(actual.getBitTipoUsuario()=='A'){
+                usuario = sieniAlumnoFacadeRemote.findAlumnoById(actual.getBitIdUsuario()).getAlUsuario();
+            }else {
+                usuario = sieniDocenteFacadeRemote.findByDocenteId(actual.getBitIdUsuario()).getDcUsuario();
+            }
+            elem = new BitacoraPojo(usuario, actual.getBitTipoUsuario().toString(), actual.getBitAccion(), actual.getBitFechaHoraIngreso(), actual.getBitFechaHoraIngreso(), actual.getBitTabla(), actual.getBitIp());
             this.getListDatos().add(elem);
         }
         this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));

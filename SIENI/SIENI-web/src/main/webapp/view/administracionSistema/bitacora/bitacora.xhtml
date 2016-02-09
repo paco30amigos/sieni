@@ -36,6 +36,12 @@
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{bitacoraController.listDatos}" 
                              emptyMessage="No se encontraron datos"
                              reflow="true">
+                    <p:column headerText="Usuario" >
+                        #{car.usuario}
+                    </p:column>
+                    <p:column headerText="Tipo de Perfil" >
+                        #{car.tipoPerfil}
+                    </p:column>
                     <p:column headerText="Accion" >
                         #{car.accion}
                     </p:column>

@@ -58,12 +58,15 @@ public class BitacoraController extends BitacoraForm {
         this.setListDatos(new ArrayList<BitacoraPojo>());
         for (SieniBitacora actual : bitacoras) {
             String usuario;
+            String perfil;
             if(actual.getBitTipoUsuario()=='A'){
                 usuario = sieniAlumnoFacadeRemote.findAlumnoById(actual.getBitIdUsuario()).getAlUsuario();
+                perfil = "Alumno";
             }else {
                 usuario = sieniDocenteFacadeRemote.findByDocenteId(actual.getBitIdUsuario()).getDcUsuario();
+                perfil = "Docente";
             }
-            elem = new BitacoraPojo(usuario, actual.getBitTipoUsuario().toString(), actual.getBitAccion(), actual.getBitFechaHoraIngreso(), actual.getBitFechaHoraIngreso(), actual.getBitTabla(), actual.getBitIp());
+            elem = new BitacoraPojo(usuario, perfil, actual.getBitAccion(), actual.getBitFechaHoraIngreso(), actual.getBitFechaHoraIngreso(), actual.getBitTabla(), actual.getBitIp());
             this.getListDatos().add(elem);
         }
         this.setTotalTransacciones(Long.parseLong(this.getListDatos().size() + ""));

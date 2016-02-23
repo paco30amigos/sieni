@@ -114,7 +114,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     }
 
     public void initNuevo() {
-        this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso("Digital"));
+        this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
         this.setEvaluacionNuevo(new SieniEvaluacion());
         this.getEvaluacionNuevo().setEvTipo("Digital");
         this.setIndexMenu(1);
@@ -173,7 +173,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
                 fill();
 //                this.setIndexMenu(0);
             }
-            this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso("Digital"));
+            this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
             this.getEvaluacionNuevo().setEvTipo("Digital");
 
 //            this.setIndexMenu(1);

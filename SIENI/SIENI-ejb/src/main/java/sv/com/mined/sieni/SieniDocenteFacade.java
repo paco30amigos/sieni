@@ -175,4 +175,25 @@ public class SieniDocenteFacade extends AbstractFacade<SieniDocente> implements 
         return ret;
     }
 
+    @Override
+    public SieniDocente findByNombreCompleto(String nombreCompleto) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<SieniDocente> q = cb.createQuery(SieniDocente.class);
+        Root<SieniDocente> c = q.from(SieniDocente.class);
+        Predicate p = cb.conjunction();
+//        nombreCompleto="alberto francisco medina malcía ";
+        Path<String> pathNombreCompleto = c.get("dcNombreCompleto");
+        ParameterExpression<String> nombre = cb.parameter(String.class);
+        p = cb.and(p, cb.equal(cb.function("unaccent", String.class, cb.lower(pathNombreCompleto)), cb.function("unaccent", String.class, nombre)));
+        q.select(c).where(p);
+        TypedQuery<SieniDocente> query = em.createQuery(q);
+        query.setParameter(nombre, nombreCompleto != null ? nombreCompleto.toLowerCase() : null);
+        List<SieniDocente> res = query.getResultList();
+        if (res != null && !res.isEmpty()) {
+            return res.get(0);
+        } else {
+            return null;
+        }
+    }
+
 }

@@ -29,9 +29,11 @@ public interface SieniDocentRolFacadeRemote {
     List<SieniDocentRol> findRange(int[] range);
 
     int count();
-    
+
     public List<SieniDocentRol> findAllNoInactivos();
-    
+
     public List<SieniDocentRol> findRoles(Long idDocente);
-    
+
+    public List<SieniDocentRol> findAdmins();
+
 }

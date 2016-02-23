@@ -92,6 +92,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
                     Long fotoId = guardarFoto(this.getFotoUsable());
                     this.getDocenteNuevo().setDcFoto(fotoId);
                 }
+                this.getDocenteNuevo().setDcNombreCompleto(this.getDocenteNuevo().getNombreCompleto());
                 this.setDocenteNuevo(sieniDocenteFacadeRemote.createAndReturn(this.getDocenteNuevo()));
                 registrarEnBitacora("Crear", "Docentes", this.getDocenteNuevo().getIdDocente());
                 FacesMessage msg = new FacesMessage("Expediente Creado Exitosamente");
@@ -211,6 +212,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
             if (validarModifica(this.getDocenteModifica())) {//valida el guardado
                 Long fotoId = guardarFoto(this.getFotoUsableModifica());
                 this.getDocenteModifica().setDcFoto(fotoId);
+                this.getDocenteModifica().setDcNombreCompleto(this.getDocenteModifica().getNombreCompleto());
                 sieniDocenteFacadeRemote.edit(this.getDocenteModifica());
                 registrarEnBitacora("Modificar", "Docentes", this.getDocenteModifica().getIdDocente());
                 FacesMessage msg = new FacesMessage("Expediente Modificado Exitosamente");

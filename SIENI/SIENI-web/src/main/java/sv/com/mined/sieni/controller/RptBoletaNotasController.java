@@ -64,24 +64,24 @@ public class RptBoletaNotasController extends RptBoletaNotasForm {
         this.setAlumnos(new ArrayList<SieniAlumno>());
         this.setAlumno(new SieniAlumno());
         this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
-            this.setSeccionesList(new ArrayList<SieniSeccion>());
-            if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
-                if (this.getGradosList().get(0).getSieniSeccionList() != null
-                        && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
-                    this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
-                    this.setSeccion(new SieniSeccion());
-                    this.setSeccion(this.getSeccionesList().get(0));
+        this.setSeccionesList(new ArrayList<SieniSeccion>());
+        if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
+            if (this.getGradosList().get(0).getSieniSeccionList() != null
+                    && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
+                this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
+                this.setSeccion(new SieniSeccion());
+                this.setSeccion(this.getSeccionesList().get(0));
 //                    String anio = "2015";
 //                    if (getDesde() != null) {
 //                        anio = new FormatUtils().getFormatedAnio(getDesde());
 //                    } else if (getHasta() != null) {
 //                        anio = new FormatUtils().getFormatedAnio(getDesde());
 //                    }
-                    this.setAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion()));
-                } else {
-                    this.setAlumnos(new ArrayList<SieniAlumno>());
-                }
+                this.setAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion()));
+            } else {
+                this.setAlumnos(new ArrayList<SieniAlumno>());
             }
+        }
 //        fill();
     }
 
@@ -193,7 +193,12 @@ public class RptBoletaNotasController extends RptBoletaNotasForm {
 
         String txtGrado = "", txtSeccion = "";
         if (this.getGrado() != null && this.getGrado().getIdGrado() != null && !this.getGrado().getIdGrado().equals(0L)) {
-            txtGrado = this.getGrado().getGrNombre();
+            for (SieniGrado actual : this.getGradosList()) {
+                if (actual.getIdGrado().equals(this.getGrado().getIdGrado())) {
+                    txtGrado = actual.getGrNombre();
+                    break;
+                }
+            }
         } else {
             txtGrado = "Todos";
         }

@@ -106,7 +106,7 @@ public class SecurityFilterController implements Filter {
     private boolean noProteger(String urlStr, HttpServletRequest req) {
         boolean ban = false;
         //url no protegidas
-        String[] urls = {"login.xhtml", "access-denied.xhtml", "error.xhtml", "404.xhtml", "password.xhtml", "documentosAyuda/manualUsuario.pdf", "primepush/notifyNotice"};
+        String[] urls = {"login.xhtml", "access-denied.xhtml", "error.xhtml", "404.xhtml", "password.xhtml", "documentosAyuda/manualUsuario.pdf", "primepush/notifyNotice","resetPass.xhtml"};
         for (String actual : urls) {
             if (urlStr.endsWith("/faces/" + actual)) {
                 ban = true;

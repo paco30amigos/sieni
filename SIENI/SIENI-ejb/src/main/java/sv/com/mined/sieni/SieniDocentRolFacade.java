@@ -18,6 +18,7 @@ import sv.com.mined.sieni.model.SieniDocentRol;
  */
 @Stateless
 public class SieniDocentRolFacade extends AbstractFacade<SieniDocentRol> implements sv.com.mined.sieni.SieniDocentRolFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -29,15 +30,26 @@ public class SieniDocentRolFacade extends AbstractFacade<SieniDocentRol> impleme
     public SieniDocentRolFacade() {
         super(SieniDocentRol.class);
     }
+
     @Override
-    public List<SieniDocentRol> findAllNoInactivos(){
+    public List<SieniDocentRol> findAllNoInactivos() {
         Character estado = 'I';
         Query q = em.createNamedQuery("SieniDocentRol.findAllNoInactivos");
         q.setParameter("estado", estado);
         return q.getResultList();
     }
+
     @Override
-    public List<SieniDocentRol> findRoles(Long idDocente){
+    public List<SieniDocentRol> findAdmins() {
+        Character estado = 'A';
+        Query q = em.createNamedQuery("SieniDocentRol.findAdmins");
+        q.setParameter("estado", estado);
+        q.setParameter("rol", new Long("2"));
+        return q.getResultList();
+    }
+
+    @Override
+    public List<SieniDocentRol> findRoles(Long idDocente) {
         Character estado = 'I';
         Query q = em.createNamedQuery("SieniDocentRol.findRoles");
         q.setParameter("estado", estado);

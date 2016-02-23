@@ -61,6 +61,8 @@ public class siteUrls {
 
     private final String ejerciciosRes = "/faces/view/gestionAnioEscolar/gestionClase/ejerciciosRes/index.xhtml";
     private final String reporteRendimientoAlumno = "/faces/view/rpt/rendimientoAlumno/index.xhtml";
+    private final String resetPass = "/faces/resetPass.xhtml";
+    private final String login = "/faces/login.xhtml";
 
     ////
     private final String basegestionarAnioEscolar = "/faces/view/gestionAnioEscolar/MntoAnioEscolar/";
@@ -442,6 +444,14 @@ public class siteUrls {
 
     public String getBaseboletaNota() {
         return baseboletaNota;
+    }
+
+    public void getResetPass() {
+        this.redirect(resetPass);
+    }
+
+    public void getReturnLogin() {
+        this.redirect(login);
     }
 
 }

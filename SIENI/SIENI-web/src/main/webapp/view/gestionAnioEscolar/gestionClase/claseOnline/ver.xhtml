@@ -26,6 +26,7 @@
             var transmitiendo = false;
             var connection;
             var ver = function () {
+//                alert("id_#{gestionClasesOnlineController.claseActual.idClase}");
                 connection = new RTCMultiConnection('id_#{gestionClasesOnlineController.claseActual.idClase}');
                 connection.dontCaptureUserMedia = true;
                 connection.userid = usuarioActual;//usuario unico

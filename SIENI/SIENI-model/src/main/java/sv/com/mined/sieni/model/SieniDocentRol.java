@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniDocentRol.findAllNoInactivos", query = "SELECT s FROM SieniDocentRol s where s.sdrEstado not in (:estado) order by s.idDocenteRol"),
+    @NamedQuery(name = "SieniDocentRol.findAdmins", query = "SELECT s FROM SieniDocentRol s where s.fRolDoc=:rol and s.sdrEstado=:estado"),
     @NamedQuery(name = "SieniDocentRol.findAll", query = "SELECT s FROM SieniDocentRol s"),
     @NamedQuery(name = "SieniDocentRol.findRoles", query = "SELECT s FROM SieniDocentRol s where s.idDocente=:idDocente and s.sdrEstado not in (:estado)"),
     @NamedQuery(name = "SieniDocentRol.findByIdDocenteRol", query = "SELECT s FROM SieniDocentRol s WHERE s.idDocenteRol = :idDocenteRol"),

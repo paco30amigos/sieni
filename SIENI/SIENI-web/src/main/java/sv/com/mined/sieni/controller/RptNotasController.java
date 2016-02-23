@@ -58,8 +58,8 @@ public class RptNotasController extends RptNotasForm {
         this.setTotalTransacciones(0);
         this.setTipoRpt(0);
         this.setListaDatos(new ArrayList<RptNotasPojo>());
-        this.setGrado(new SieniGrado());
-        this.setSeccion(new SieniSeccion());
+        this.setGrado(new SieniGrado(0L));
+        this.setSeccion(new SieniSeccion(0L));
         fill();
     }
 
@@ -127,9 +127,15 @@ public class RptNotasController extends RptNotasForm {
                 break;
             }
         }
-        this.setGrado(cod);
-        this.setSeccionesList(cod.getSieniSeccionList());
-        this.setSeccion(this.getSeccionesList() != null && !this.getSeccionesList().isEmpty() ? this.getSeccionesList().get(0) : null);
+        if (cod.getIdGrado() == null) {
+            this.setGrado(new SieniGrado(0L));
+            this.setSeccion(new SieniSeccion(0L));
+            this.setSeccionesList(new ArrayList<SieniSeccion>());
+        } else {
+            this.setGrado(cod);
+            this.setSeccionesList(cod.getSieniSeccionList());
+            this.setSeccion(this.getSeccionesList() != null && !this.getSeccionesList().isEmpty() ? this.getSeccionesList().get(0) : null);
+        }
     }
 
 }

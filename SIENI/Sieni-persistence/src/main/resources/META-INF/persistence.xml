@@ -29,6 +29,7 @@
         <class>sv.com.mined.sieni.model.SieniMateriaDocente</class>
         <class>sv.com.mined.sieni.model.SieniMatricula</class>
         <class>sv.com.mined.sieni.model.SieniNota</class>
+        <class>sv.com.mined.sieni.model.SieniNotasModHist</class>
         <class>sv.com.mined.sieni.model.SieniNoticia</class>
         <class>sv.com.mined.sieni.model.SieniNotificacion</class>
         <class>sv.com.mined.sieni.model.SieniPlantilla</class>

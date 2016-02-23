@@ -25,11 +25,13 @@ import sv.com.mined.sieni.SieniAnioEscolarFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniDocentRolFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
+import sv.com.mined.sieni.SieniTemaDudaFacadeRemote;
 import sv.com.mined.sieni.form.LoginForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniBitacora;
 import sv.com.mined.sieni.model.SieniDocentRol;
 import sv.com.mined.sieni.model.SieniDocente;
+import sv.com.mined.sieni.model.SieniTemaDuda;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.DateUtils;
 import utils.siteUrls;
@@ -54,6 +56,9 @@ public class LoginController extends LoginForm {
     private SieniAlumnRolFacadeRemote sieniAlumnRolFacadeRemote;
     @EJB
     private SieniDocentRolFacadeRemote sieniDocentRolFacadeRemote;
+
+    @EJB
+    private SieniTemaDudaFacadeRemote sieniConsultaFacadeRemote;
 
     public void onIdle() {
         logout();
@@ -145,5 +150,28 @@ public class LoginController extends LoginForm {
     public void registrarTransaccion(String accion, String tabla, Long regAfectado) {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         sieniBitacoraFacadeRemote.create(new SieniBitacora(new Date(), accion, tabla, this.getIdUsuario(), this.getTipoUsuario().charAt(0), req.getRemoteAddr(), regAfectado));
+    }
+
+    public void registrarCambioPass() {
+        SieniTemaDuda duda = new SieniTemaDuda();
+
+        SieniAlumno alumno = sieniAlumnoFacadeRemote.findByNombreCompleto(this.getNombreCompleto());
+        if (alumno != null) {
+            List<SieniDocentRol> docentes = sieniDocentRolFacadeRemote.findAdmins();
+            for (SieniDocentRol dc : docentes) {
+                duda = new SieniTemaDuda();
+                duda.setIdDocente(dc.getIdDocente());
+                duda.setIdAlumno(alumno.getIdAlumno());
+                duda.setTdConsulta("Necesito reestablecer contraseña: " + this.getNombreCompleto() + ", usuario: " + this.getUsuario());
+                duda.setTdTema("Contraseña olvidada");
+                duda.setTdTipo('C');
+                duda.setTdFecha(new Date());
+                duda.setTdEstado('A');
+                sieniConsultaFacadeRemote.create(duda);
+            }
+            new ValidationPojo().printMsj("Su solicitud ha sido enviada al administrador del sistema", FacesMessage.SEVERITY_INFO);
+        } else {
+            new ValidationPojo().printMsj("El nombre no corresponde a ningun alumno", FacesMessage.SEVERITY_INFO);
+        }
     }
 }

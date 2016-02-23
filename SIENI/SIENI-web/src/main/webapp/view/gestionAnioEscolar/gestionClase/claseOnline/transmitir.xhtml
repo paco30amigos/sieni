@@ -25,6 +25,7 @@
             var streamId = "";
             var grabando = false;
             var transmitir = function () {
+//                alert("id_#{gestionClasesOnlineController.claseActual.idClase}");
                 connection = new RTCMultiConnection('id_#{gestionClasesOnlineController.claseActual.idClase}');
                 connection.media.min(320, 240);
                 connection.media.max(320, 240);

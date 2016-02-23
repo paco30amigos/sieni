@@ -108,7 +108,7 @@ public class NotificacionesController extends NotificacionesForm {
         try {
             String CHANNEL = "/notifyNotice";
             EventBus eventBus = EventBusFactory.getDefault().eventBus();
-                eventBus.publish(CHANNEL, new FacesMessage(StringEscapeUtils.escapeHtml("Notificacion"), StringEscapeUtils.escapeHtml("Detalle")));
+                eventBus.publish(CHANNEL, new FacesMessage("Notificacion", "Detalle"));
             
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);

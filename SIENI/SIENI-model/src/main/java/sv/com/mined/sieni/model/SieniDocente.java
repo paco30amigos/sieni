@@ -111,6 +111,8 @@ public class SieniDocente implements Serializable {
     private String dcTelefonoEm2;
     @Column(name = "dc_telefono_em_3")
     private String dcTelefonoEm3;
+    @Column(name = "dc_nombre_completo")
+    private String dcNombreCompleto;
     @Column(name = "dc_fecha_baja")
     @Temporal(TemporalType.DATE)
     private Date dcFechaBaja;
@@ -425,6 +427,14 @@ public class SieniDocente implements Serializable {
 
     public void setDcFechaContrasenia(Date dcFechaContrasenia) {
         this.dcFechaContrasenia = dcFechaContrasenia;
+    }
+
+    public String getDcNombreCompleto() {
+        return dcNombreCompleto;
+    }
+
+    public void setDcNombreCompleto(String dcNombreCompleto) {
+        this.dcNombreCompleto = dcNombreCompleto;
     }
 
 }

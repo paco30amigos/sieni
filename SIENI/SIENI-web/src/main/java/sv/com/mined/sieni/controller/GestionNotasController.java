@@ -24,11 +24,13 @@ import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
 import sv.com.mined.sieni.SieniNotaFacadeRemote;
+import sv.com.mined.sieni.SieniNotasModHistFacadeRemote;
 import sv.com.mined.sieni.form.GestionNotasForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniEvaluacion;
 import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
+import sv.com.mined.sieni.model.SieniNotasModHist;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.ExcelUtils;
 import utils.FormatUtils;
@@ -52,6 +54,9 @@ public class GestionNotasController extends GestionNotasForm {
 
     @EJB
     private SieniEvaluacionFacadeRemote sieniEvaluacionFacadeRemote;
+
+    @EJB
+    private SieniNotasModHistFacadeRemote sieniNotasModHistFacadeRemote;
 
 //docente->curso->materia->grado
 //docente->materia->grado->poner notas
@@ -265,10 +270,29 @@ public class GestionNotasController extends GestionNotasForm {
             if (validarModifica(this.getNotaModifica())) {//valida el guardado
                 BigDecimal nota = new BigDecimal(this.getNotaModifica().getNtCalificacion());
                 this.getNotaModifica().setNtCalificacion(nota.setScale(2, RoundingMode.HALF_UP).doubleValue());
+                setNotaModHistorial("Modificacion", this.getNotaModifica());
                 sieniNotaFacadeRemote.edit(this.getNotaModifica());
                 registrarEnBitacora("Modificar", "Nota", this.getNotaModifica().getIdNota());
                 new ValidationPojo().printMsj("Nota Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
             }
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void setNotaModHistorial(String tipo, SieniNota nota) {
+        try {
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            SieniNota modifica = sieniNotaFacadeRemote.find(nota.getIdNota());
+            SieniNotasModHist notaHist = new SieniNotasModHist();
+            notaHist.setNtCalificacion(modifica.getNtCalificacion());
+            notaHist.setNtFechaMod(new Date());
+            notaHist.setNtTipoModificacion(tipo);
+            notaHist.setIdNotas(modifica.getIdNota());
+            notaHist.setNtDocente(loginBean.getDocente().getIdDocente());
+            sieniNotasModHistFacadeRemote.create(notaHist);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());
@@ -311,6 +335,7 @@ public class GestionNotasController extends GestionNotasForm {
             if (verificarAnioEscolar(this.getEliminar().getNtFechaIngreso())) {
                 registrarEnBitacora("Eliminar", "Nota", this.getEliminar().getIdNota());
                 this.getEliminar().setNtEstado('I');
+                setNotaModHistorial("Eliminacion", this.getEliminar());
                 sieniNotaFacadeRemote.edit(this.getEliminar());
                 this.getNotaList().remove(this.getEliminar());
                 this.setIndexMenu(0);

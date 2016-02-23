@@ -34,21 +34,20 @@
                             <h:panelGrid columns="2" class="Wid100">
                                 <p:outputLabel for="usuario" value="Usuario:"></p:outputLabel>
                                 <p:inputText id="usuario" autocomplete="false" tabindex="1"  placeholder="Usuario" value="#{loginController.usuario}" maxlength="30" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar usuario" />
-                                <p:outputLabel for="pass" value="Contraseña:"></p:outputLabel>
-                                <p:inputText id="pass" autocomplete="false" tabindex="2" type="password" value="#{loginController.password}" placeholder="Contraseña" maxlength="30" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar contraseña"/>
+                                <p:outputLabel for="nombre" value="Nombre completo:"></p:outputLabel>
+                                <p:inputText id="nombre" autocomplete="false" tabindex="1"  placeholder="Nombre" value="#{loginController.nombreCompleto}" maxlength="30" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar su nombre completo" />
                             </h:panelGrid>
                             <p:tooltip for="usuario">
                                 <h:outputText value="Usuario registrado en el sistema" />
                             </p:tooltip>
-                            <p:tooltip for="pass">
-                                <h:outputText value="Contraseña de usuario registrado" />
+                            <p:tooltip for="nombre">
+                                <h:outputText value="Nombre completo"/>
                             </p:tooltip>
                         </div>
                         <div class="EmptyBox20"></div>
-                        <p:commandButton value="Ingresar" icon="fa fa-sign-in" styleClass="Wid60 Fs18 White RaisedButton " actionListener="#{loginController.login}" update="form" class="Wid100" />
-                        <div class="EmptyBox30"></div>                        
-                        <div class="Wid100">
-                            <p:commandButton value="¿Olvidó su contraseña?" immediate="true" actionListener="#{siteUrls.getResetPass()}" icon="fa fa-lock" styleClass="RedButton Wid60 Fs18 White RaisedButton"></p:commandButton></div>
+                        <p:commandButton value="Enviar Solicitud" icon="fa fa-sign-in" styleClass="Wid60 Fs18 White RaisedButton " actionListener="#{loginController.registrarCambioPass()}" class="Wid100" />
+                        <div class="EmptyBox30"></div>
+                        <p:commandButton value="Regresar al login" styleClass="Wid60 Fs18 White RaisedButton " immediate="true" actionListener="#{siteUrls.getReturnLogin()}" update="form" class="Wid100" />
                     </div>
                     <div class="Wid100 TexAlCenter MarTop20 Fs14 FontRobotoRegular WhiteBlue">
                         <i class="fa fa-copyright"></i>  Copyright UES/FIA/EISI © 2015

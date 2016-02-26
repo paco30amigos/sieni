@@ -35,7 +35,7 @@
                             <p:outputLabel  value="Título: " class="Contanier10 Responsive"></p:outputLabel>
                             <p:inputText id="titulo" value="#{gestionarEvaluacionController.evaluacionNuevo.evNombre}" ></p:inputText>
                             <p:outputLabel for="Curso" value="Curso: " class=" Responsive" ></p:outputLabel>
-                            <p:selectOneMenu id="Curso" filter="true" filterMatchMode="contains" value="#{gestionarEvaluacionController.idCurso}" >
+                            <p:selectOneMenu id="Curso" filter="true" filterMatchMode="contains" value="#{gestionarEvaluacionController.idCurso}" required="true" requiredMessage="Debe seleccionar un curso">
                                 <f:selectItems itemValue="#{curso.idCurso}" itemLabel="#{curso.crNombre}" value="#{gestionarEvaluacionController.cursoList}" var="curso"></f:selectItems>
                             </p:selectOneMenu>
                             <p:outputLabel  value="Ponderacion de la evaluación (%): " class="Contanier10 Responsive"></p:outputLabel>

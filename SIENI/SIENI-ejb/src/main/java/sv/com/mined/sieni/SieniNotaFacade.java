@@ -75,16 +75,16 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
         }
         return ret;
     }
-   
+
     @Override
-    public List<SieniNota> findNotasAlumnoEv(Long idAlumno,Long idEvaluacion) {
-        
+    public List<SieniNota> findNotasAlumnoEv(Long idAlumno, Long idEvaluacion) {
+
         Query q = em.createNamedQuery("SieniNota.findNotasAlumnoEv");
         q.setParameter("idAlumno", idAlumno);
-        q.setParameter("idEvaluacion", idEvaluacion);        
+        q.setParameter("idEvaluacion", idEvaluacion);
         List<SieniNota> res = q.getResultList();
         return res;
-       
+
     }
 
     @Override
@@ -158,6 +158,20 @@ public class SieniNotaFacade extends AbstractFacade<SieniNota> implements sv.com
         q.setParameter("hasta", hasta);
         q.setParameter("idAlumno", idAlumno);
         ret = q.getResultList();
+        return ret;
+    }
+
+    @Override
+    public SieniNota findById(Long id) {
+        List<SieniNota> res;
+        SieniNota ret = null;
+        Query q = null;
+        q = em.createNamedQuery("SieniNota.findById");
+        q.setParameter("id", id);
+        res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            ret = res.get(0);
+        }
         return ret;
     }
 }

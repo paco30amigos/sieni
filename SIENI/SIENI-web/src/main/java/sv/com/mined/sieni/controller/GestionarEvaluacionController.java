@@ -319,7 +319,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     //metodos para modificacion de datos
     public void modificar(SieniEvaluacion modificado) {
         if (verificarAnioEscolar(modificado.getEvFechaCierre())) {
-            this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso(modificado.getIdCurso().getCrTipoCurso()));
+            this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
             this.setEvaluacionModifica(modificado);
             this.setIndexMenu(2);
         }
@@ -524,6 +524,8 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
                 sieniNota.setNtAnio(Calendar.getInstance().get(Calendar.YEAR));
                 sieniNota.setNtEstado('A');
                 sieniNota.setNtCalificacion(nota);
+                sieniNota.setNtFechaIngreso(new Date());
+//                sieniNota.setNtDocente(this.getEvaluacionItemResp().getIdMateria().getMaCoordinador());
                 BigDecimal notaAux = new BigDecimal(sieniNota.getNtCalificacion());
                 this.setCalificacion(notaAux.setScale(2, RoundingMode.HALF_UP).doubleValue());
                 sieniNota.setNtCalificacion(this.getCalificacion());
@@ -724,7 +726,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
     public void actualizarTipoCurso(ValueChangeEvent a) {
         String cod = (String) a.getNewValue();
-        this.setCursoList(sieniCursoFacadeRemote.findByTipoCurso(cod));
+        this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
     }
 
     public void onTimeout() {

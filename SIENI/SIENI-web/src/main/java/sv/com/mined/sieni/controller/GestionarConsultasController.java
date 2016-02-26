@@ -21,6 +21,7 @@ import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniResolDudaFacadeRemote;
 import sv.com.mined.sieni.SieniTemaDudaFacadeRemote;
 import sv.com.mined.sieni.form.GestionarConsultasForm;
+import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniResolDuda;
 import sv.com.mined.sieni.model.SieniTemaDuda;
@@ -91,15 +92,37 @@ public class GestionarConsultasController extends GestionarConsultasForm {
     private void fill() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        
-        if(loginBean.getDocente() != null){
+
+        if (loginBean.getDocente() != null) {
             this.setConsultasList(sieniConsultaFacadeRemote.findConsultasActivasByDocente(loginBean.getDocente()));
-        }else if(loginBean.getAlumno()!= null){
+            for (SieniTemaDuda cta : this.getConsultasList()) {
+                if (cta.getTdTipoUsr().equals("D")) {
+                    SieniDocente dct = sieniDocenteFacadeRemote.findByDocenteId(cta.getIdAlumno());
+                    cta.setNombreAl(dct.getNombreCompleto());
+                } else {
+                    SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoById(cta.getIdAlumno());
+                    cta.setNombreAl(alumno.getNombreCompleto());
+                }
+                SieniDocente dct = sieniDocenteFacadeRemote.findByDocenteId(cta.getIdDocente());
+                cta.setNombreDc(dct.getNombreCompleto());
+            }
+        } else if (loginBean.getAlumno() != null) {
             this.setConsultasList(sieniConsultaFacadeRemote.findConsultasActivasByAlumno(loginBean.getAlumno()));
-        }else{
+            for (SieniTemaDuda cta : this.getConsultasList()) {
+                if (cta.getTdTipoUsr().equals("D")) {
+                    SieniDocente dct = sieniDocenteFacadeRemote.findByDocenteId(cta.getIdAlumno());
+                    cta.setNombreAl(dct.getNombreCompleto());
+                } else {
+                    SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoById(cta.getIdAlumno());
+                    cta.setNombreAl(alumno.getNombreCompleto());
+                }
+                SieniDocente dct = sieniDocenteFacadeRemote.findByDocenteId(cta.getIdDocente());
+                cta.setNombreDc(dct.getNombreCompleto());
+            }
+        } else {
             this.setConsultasList(new ArrayList<SieniTemaDuda>());
         }
-        
+
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
     }
 
@@ -110,7 +133,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
     //metodos para modificacion de datos
     public void modificar(SieniTemaDuda modificado) {
         this.setConsultaModifica(modificado);
-        if (modificado.getIdDocente() != null) {
+        if (modificado.getTdTipoUsr().equals("D")) {
             this.setIdDocenteModifica(modificado.getIdDocente());
         } else {
             this.setIdDocenteModifica(null);
@@ -120,9 +143,9 @@ public class GestionarConsultasController extends GestionarConsultasForm {
 
     public void ver(SieniTemaDuda modificado) {
         this.setConsultaModifica(modificado);
-        if(this.getConsultaModifica().getIdAlumno() == null){
+        if (this.getConsultaModifica().getTdTipoUsr().equals("D")) {
             this.getConsultaModifica().setDocente(sieniDocenteFacadeRemote.findByDocenteId(this.getConsultaModifica().getIdDocente()));
-        }else{
+        } else {
             this.getConsultaModifica().setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(this.getConsultaModifica().getIdAlumno()));
         }
         this.setRespuesta(new SieniResolDuda());
@@ -131,20 +154,20 @@ public class GestionarConsultasController extends GestionarConsultasForm {
     }
 
     private void fillRespuestasConsulta() {
-        if(this.getConsultaModifica() != null){
+        if (this.getConsultaModifica() != null) {
             this.getConsultaModifica().setSieniResolDudaList(sieniResolDudaFacadeRemote.findByConsulta(this.getConsultaModifica()));
-            if(this.getConsultaModifica().getSieniResolDudaList() != null){
-                for(SieniResolDuda r :this.getConsultaModifica().getSieniResolDudaList() ){
-                    if(r.getIdAlumno() == null){
+            if (this.getConsultaModifica().getSieniResolDudaList() != null) {
+                for (SieniResolDuda r : this.getConsultaModifica().getSieniResolDudaList()) {
+                    if (r.getRdTipoUsr().equals("D")) {
                         r.setDocente(sieniDocenteFacadeRemote.findByDocenteId(r.getIdDocente()));
-                    }else{
+                    } else {
                         r.setAlumno(sieniAlumnoFacadeRemote.findAlumnoById(r.getIdAlumno()));
                     }
                 }
             }
         }
     }
-    
+
     //metodos para modificacion de datos
     public void eliminar(SieniTemaDuda eliminado) {
         this.setEliminar(eliminado);
@@ -163,16 +186,21 @@ public class GestionarConsultasController extends GestionarConsultasForm {
                 HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
                 LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
                 this.getConsultaNueva().setTdEstado('A');
-                if(loginBean.getAlumno() != null){ this.getConsultaNueva().setIdAlumno(loginBean.getAlumno().getIdAlumno());}
+                if (loginBean.getAlumno() != null) {
+                    this.getConsultaNueva().setIdAlumno(loginBean.getAlumno().getIdAlumno());
+                } else {
+                    this.getConsultaNueva().setIdAlumno(loginBean.getDocente().getIdDocente());
+                }
                 this.getConsultaNueva().setTdTipo('C');
                 this.getConsultaNueva().setTdFecha(new Date());
+                this.getConsultaNueva().setTdTipoUsr(loginBean.getTipoUsuario());
                 this.setConsultaNueva(sieniConsultaFacadeRemote.createAndReturn(this.getConsultaNueva()));
                 registrarEnBitacora("Crear", "Consulta", this.getConsultaNueva().getIdTemaDuda());
-                
+
                 FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
                 NotificacionesController notifyBean = (NotificacionesController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "notificacionesController");
                 notifyBean.notificarPUSH();
-                
+
                 this.setConsultaNueva(new SieniTemaDuda());
                 FacesMessage msg = new FacesMessage("Consulta Enviada Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -259,19 +287,21 @@ public class GestionarConsultasController extends GestionarConsultasForm {
             System.out.println(e.getMessage());
         }
     }
-    
-    
-    
-    
+
     public synchronized void publicar() {
         try {
             HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
             LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             this.getRespuesta().setIdTemaDuda(this.getConsultaModifica());
             this.getRespuesta().setRdFecha(new Date());
-            if(loginBean.getAlumno() != null){ this.getRespuesta().setIdAlumno(loginBean.getAlumno().getIdAlumno()); }
-            if(loginBean.getDocente()!= null){ this.getRespuesta().setIdDocente(loginBean.getDocente().getIdDocente());}
-            
+            this.getRespuesta().setRdTipoUsr(loginBean.getTipoUsuario());
+            if (loginBean.getAlumno() != null) {
+                this.getRespuesta().setIdAlumno(loginBean.getAlumno().getIdAlumno());
+            }
+            if (loginBean.getDocente() != null) {
+                this.getRespuesta().setIdDocente(loginBean.getDocente().getIdDocente());
+            }
+
             this.setRespuesta(sieniResolDudaFacadeRemote.createAndReturn(this.getRespuesta()));
             registrarEnBitacora("Crear", "Responder Consulta", this.getRespuesta().getIdResolDuda());
             this.setRespuesta(new SieniResolDuda());
@@ -283,6 +313,5 @@ public class GestionarConsultasController extends GestionarConsultasForm {
             System.out.println(e.getMessage());
         }
     }
-    
-    
+
 }

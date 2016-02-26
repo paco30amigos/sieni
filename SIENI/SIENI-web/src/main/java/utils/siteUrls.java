@@ -49,6 +49,7 @@ public class siteUrls {
     private final String reporteEstadisticoAvanceAlumno = "/faces/view/rpt/reporteEstadisticoAvanceAlumnos/index.xhtml";
     private final String reporteNotasAlumnoAnioEscolar = "/faces/view/rpt/reporteNotasAlumnoAnioEscolar/index.xhtml";
     private final String boletaNota = "/faces/view/rpt/boletaNota/index.xhtml";
+    private final String reporteNotasModificadas = "/faces/view/administracionSistema/reporteNotasModificadas/index.xhtml";
     private final String reporteEvaluaciones = "/faces/view/rpt/reporteEvaluaciones/index.xhtml";
     private final String reporteClases = "/faces/view/rpt/reporteClases/index.xhtml";
     private final String reporteDocentes = "/faces/view/rpt/reporteDocentes/index.xhtml";
@@ -452,6 +453,10 @@ public class siteUrls {
 
     public void getReturnLogin() {
         this.redirect(login);
+    }
+
+    public String getReporteNotasModificadas() {
+        return reporteNotasModificadas;
     }
 
 }

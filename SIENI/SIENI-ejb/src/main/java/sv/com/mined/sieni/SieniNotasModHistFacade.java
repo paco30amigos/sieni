@@ -5,9 +5,12 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import sv.com.mined.sieni.model.SieniNotasModHist;
 
 /**
@@ -16,6 +19,7 @@ import sv.com.mined.sieni.model.SieniNotasModHist;
  */
 @Stateless
 public class SieniNotasModHistFacade extends AbstractFacade<SieniNotasModHist> implements sv.com.mined.sieni.SieniNotasModHistFacadeRemote {
+
     @PersistenceContext(unitName = "sieni_PU")
     private EntityManager em;
 
@@ -27,5 +31,11 @@ public class SieniNotasModHistFacade extends AbstractFacade<SieniNotasModHist> i
     public SieniNotasModHistFacade() {
         super(SieniNotasModHist.class);
     }
-    
+
+    public List<SieniNotasModHist> findByFecha(Date fi, Date ff) {
+        Query q = em.createNamedQuery("SieniNotasModHist.findByFecha");
+        q.setParameter("fi", fi);
+        q.setParameter("ff", ff);
+        return q.getResultList();
+    }
 }

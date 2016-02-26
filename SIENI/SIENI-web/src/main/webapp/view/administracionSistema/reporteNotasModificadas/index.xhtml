@@ -1,0 +1,84 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="breadCrumb">
+        <p:breadCrumb>
+            <p:menuitem value="Home" url="/"/>
+            <p:menuitem value="Administración de sistema" url="#"/>
+            <p:menuitem value="Bitacora del Sistema" url="#"/>
+            <p:separator />
+        </p:breadCrumb>
+        <!---->
+    </ui:define>
+    <ui:define name="content">
+        <div class="EmptyBox5"></div>
+        <p:panel>
+            <h:form id="consultaForm">                
+                <div class="EmptyBox20"></div>
+                <p:panelGrid columns="4">
+                    <p:outputLabel for="desde" value="Fecha desde:"></p:outputLabel>
+                    <p:calendar id="desde" value="#{rptNotasModificadasController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                    <p:outputLabel for="hasta" value="hasta:"></p:outputLabel>
+                    <p:calendar id="hasta" value="#{rptNotasModificadasController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                    <p:commandButton value="generar" actionListener="#{rptNotasModificadasController.fill()}" update="consulta" ajax="true"></p:commandButton>
+                </p:panelGrid>
+                <p:tooltip for="desde">
+                    <h:outputText value="Ingrese la fecha de inicio a consultar"/>
+                </p:tooltip>
+                <p:tooltip for="hasta">
+                    <h:outputText value="Ingrese la fecha de fin a consultar"/>
+                </p:tooltip>
+                <div class="EmptyBox20"></div>
+                <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{rptNotasModificadasController.listDatos}" 
+                             emptyMessage="No se encontraron datos"
+                             reflow="true">
+                    <p:column headerText="Docente" >
+                        #{car.docente}
+                    </p:column>
+                    <p:column headerText="Accion" >
+                        #{car.accion}
+                    </p:column>
+                    <p:column headerText="Nota anterior" >
+                        #{car.notaAnterior}
+                    </p:column>
+                    <p:column headerText="Nota actual" >
+                        #{car.nota}
+                    </p:column>
+                    <p:column headerText="Fecha" >
+                        #{car.fecha}
+                    </p:column>
+                    <p:column headerText="Hora" >
+                        #{car.hora}
+                    </p:column>
+                    <p:column headerText="Alumno" >
+                        #{car.alumno}
+                    </p:column>
+                    <p:column headerText="Evaluacion" >
+                        #{car.evaluacion}
+                    </p:column>
+                    <f:facet name="footer">
+                        Total de Registros #{rptNotasModificadasController.totalTransacciones}
+                    </f:facet>
+                </p:dataTable>
+
+                <div class="EmptyBox20"></div>
+                <div class="TexAlCenter">
+
+                    <h:panelGrid columns="4" class="TexAlCenter" style="margin-bottom:10px" cellpadding="5">
+                        <p:outputLabel value="Exportar a:"></p:outputLabel>
+                        <p:selectOneRadio  id="console" value="#{rptNotasModificadasController.tipoRpt}">
+                            <f:selectItem itemLabel="Excel" itemValue="2" />
+                            <f:selectItem itemLabel="PDF" itemValue="0" />
+                        </p:selectOneRadio>
+                        <p:commandButton  value="Exportar" action="#{rptNotasModificadasController.generarReporte()}" update="consulta" ajax="false"></p:commandButton>
+                        <p:commandButton value="Refrescar" action="#{rptNotasModificadasController.refresh()}" update="consulta"></p:commandButton>
+                    </h:panelGrid>
+                </div>
+            </h:form>
+        </p:panel>
+    </ui:define>
+</ui:composition>

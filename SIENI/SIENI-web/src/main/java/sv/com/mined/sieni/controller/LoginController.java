@@ -156,8 +156,9 @@ public class LoginController extends LoginForm {
         SieniTemaDuda duda = new SieniTemaDuda();
 
         SieniAlumno alumno = sieniAlumnoFacadeRemote.findByNombreCompleto(this.getNombreCompleto());
+        SieniDocente docente = sieniDocenteFacadeRemote.findByNombreCompleto(this.getNombreCompleto());
+        List<SieniDocentRol> docentes = sieniDocentRolFacadeRemote.findAdmins();
         if (alumno != null) {
-            List<SieniDocentRol> docentes = sieniDocentRolFacadeRemote.findAdmins();
             for (SieniDocentRol dc : docentes) {
                 duda = new SieniTemaDuda();
                 duda.setIdDocente(dc.getIdDocente());
@@ -167,11 +168,25 @@ public class LoginController extends LoginForm {
                 duda.setTdTipo('C');
                 duda.setTdFecha(new Date());
                 duda.setTdEstado('A');
+                duda.setTdTipoUsr("A");
                 sieniConsultaFacadeRemote.create(duda);
             }
             new ValidationPojo().printMsj("Su solicitud ha sido enviada al administrador del sistema", FacesMessage.SEVERITY_INFO);
+        } else if (docente != null) {
+            for (SieniDocentRol dc : docentes) {
+                duda = new SieniTemaDuda();
+                duda.setIdDocente(dc.getIdDocente());
+                duda.setIdAlumno(docente.getIdDocente());
+                duda.setTdConsulta("Necesito reestablecer contraseña: " + this.getNombreCompleto() + ", usuario: " + this.getUsuario());
+                duda.setTdTema("Contraseña olvidada");
+                duda.setTdTipo('C');
+                duda.setTdFecha(new Date());
+                duda.setTdEstado('A');
+                duda.setTdTipoUsr("D");
+                sieniConsultaFacadeRemote.create(duda);
+            }
         } else {
-            new ValidationPojo().printMsj("El nombre no corresponde a ningun alumno", FacesMessage.SEVERITY_INFO);
+            new ValidationPojo().printMsj("El nombre no corresponde a ningun usuario", FacesMessage.SEVERITY_ERROR);
         }
     }
 }

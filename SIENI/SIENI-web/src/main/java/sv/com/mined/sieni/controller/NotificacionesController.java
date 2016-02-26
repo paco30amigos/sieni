@@ -11,6 +11,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
@@ -41,7 +42,7 @@ import utils.DateUtils;
  *
  * @author INFORMATICA
  */
-@SessionScoped
+@ApplicationScoped
 @ManagedBean(name = "notificacionesController")
 public class NotificacionesController extends NotificacionesForm {
 
@@ -83,7 +84,7 @@ public class NotificacionesController extends NotificacionesForm {
 
         NotificacionesPojo elem = new NotificacionesPojo();
         this.setListNotificaciones(new ArrayList<NotificacionesPojo>());
-        
+
         List<DocRecibeNoti> notifyDocente = new ArrayList<DocRecibeNoti>();
         List<AlumnoRecibeNoti> notifyAlumno = new ArrayList<AlumnoRecibeNoti>();
         if (loginBean.getDocente() != null) {
@@ -92,13 +93,13 @@ public class NotificacionesController extends NotificacionesForm {
             notifyAlumno = sieniNotificacionFacadeRemote.findAlumnoNotify(loginBean.getAlumno().getIdAlumno().intValue());
         }
         for (DocRecibeNoti actual : notifyDocente) {
-            SieniDocente d=sieniDocenteFacadeRemote.findByDocenteId(actual.getDocRecibeNotiPK().getIdDocente());
-            elem = new NotificacionesPojo(actual,null,d.getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
+            SieniDocente d = sieniDocenteFacadeRemote.findByDocenteId(actual.getDocRecibeNotiPK().getIdDocente());
+            elem = new NotificacionesPojo(actual, null, d.getNombreCompleto(), actual.getIdNotificacion(), actual.getNotiVisto());
             this.getListNotificaciones().add(elem);
         }
         for (AlumnoRecibeNoti actual : notifyAlumno) {
-            SieniAlumno alumno=sieniAlumnoFacadeRemote.findAlumnoById(actual.getAlumnoRecibeNotiPK().getIdAlumno());
-            elem = new NotificacionesPojo(null,actual,alumno.getNombreCompleto(),actual.getIdNotificacion(),actual.getNotiVisto());
+            SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoById(actual.getAlumnoRecibeNotiPK().getIdAlumno());
+            elem = new NotificacionesPojo(null, actual, alumno.getNombreCompleto(), actual.getIdNotificacion(), actual.getNotiVisto());
             this.getListNotificaciones().add(elem);
         }
         count = this.getListNotificaciones().size();
@@ -108,13 +109,13 @@ public class NotificacionesController extends NotificacionesForm {
         try {
             String CHANNEL = "/notifyNotice";
             EventBus eventBus = EventBusFactory.getDefault().eventBus();
-                eventBus.publish(CHANNEL, new FacesMessage("Notificacion", "Detalle"));
-            
+            eventBus.publish(CHANNEL, new FacesMessage("Nueva Notificacion"));
+
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());
         }
-        
+
     }
 
     public void mensageFaces() {
@@ -123,13 +124,10 @@ public class NotificacionesController extends NotificacionesForm {
         context.execute("agrandar();");
     }
 
-    
-    
-    
     public void IrNotifyOrigen(SieniNotificacion notify) {
         try {
             FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
-            switch(notify.getNfOrigen()){
+            switch (notify.getNfOrigen()) {
                 case "sieni_tema_duda":
                     GestionarConsultasController consultasBean = (GestionarConsultasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarConsultasController");
                     consultasBean.ver(sieniTemaDudaFacadeRemote.find(notify.getNfKey()));
@@ -139,7 +137,7 @@ public class NotificacionesController extends NotificacionesForm {
                     noticiasBean.ver(sieniNoticiaFacadeRemote.find(notify.getNfKey()));
                     break;
             }
-            
+
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

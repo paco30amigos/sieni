@@ -41,8 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniTemaDuda.findByIdTemaDuda", query = "SELECT s FROM SieniTemaDuda s WHERE s.idTemaDuda = :idTemaDuda"),
     @NamedQuery(name = "SieniTemaDuda.findByTdTipo", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdTipo = :tdTipo"),
     @NamedQuery(name = "SieniTemaDuda.findConsultasActivas", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A'"),
-    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByDocente", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND s.idDocente = :idDocente"),
-    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByAlumno", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND s.idAlumno = :idAlumno")
+    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByDocente", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND (s.idDocente = :idDocente AND s.tdTipoUsr='D') OR (s.idAlumno=:idDocente and s.tdTipoUsr='D') order by s.idTemaDuda"),
+    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByAlumno", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND (s.idAlumno = :idAlumno AND S.tdTipoUsr='A') OR (S.idAlumno=:idAlumno and s.tdTipoUsr='A') order by s.idTemaDuda")
 })
 public class SieniTemaDuda implements Serializable {
 
@@ -60,6 +60,8 @@ public class SieniTemaDuda implements Serializable {
     private String tdTema;
     @Column(name = "td_consulta")
     private String tdConsulta;
+    @Column(name = "td_tipo_usr")
+    private String tdTipoUsr;
     @Column(name = "td_tipo")
     private Character tdTipo;
     @Column(name = "td_estado")
@@ -80,8 +82,13 @@ public class SieniTemaDuda implements Serializable {
     private Long idAlumno;
     @Transient
     private SieniAlumno alumno;
-    
-    
+
+    @Transient
+    private String nombreAl;
+
+    @Transient
+    private String nombreDc;
+
     public SieniTemaDuda() {
     }
 
@@ -164,13 +171,13 @@ public class SieniTemaDuda implements Serializable {
         }
         return fechaF;
     }
-    
+
     public String getUserConsulta() {
         String userConsulta = "";
-        if(this.idAlumno != null && this.alumno != null){
+        if (this.idAlumno != null && this.alumno != null) {
             userConsulta = this.alumno.getAlUsuario();
         }
-        if(this.idDocente != null && this.docente != null){
+        if (this.idDocente != null && this.docente != null) {
             userConsulta = this.docente.getDcUsuario();
         }
         return userConsulta;
@@ -233,9 +240,28 @@ public class SieniTemaDuda implements Serializable {
         this.idDocente = idDocente;
     }
 
-    
+    public String getTdTipoUsr() {
+        return tdTipoUsr;
+    }
 
-    
-    
+    public void setTdTipoUsr(String tdTipoUsr) {
+        this.tdTipoUsr = tdTipoUsr;
+    }
+
+    public String getNombreAl() {
+        return nombreAl;
+    }
+
+    public void setNombreAl(String nombreAl) {
+        this.nombreAl = nombreAl;
+    }
+
+    public String getNombreDc() {
+        return nombreDc;
+    }
+
+    public void setNombreDc(String nombreDc) {
+        this.nombreDc = nombreDc;
+    }
 
 }

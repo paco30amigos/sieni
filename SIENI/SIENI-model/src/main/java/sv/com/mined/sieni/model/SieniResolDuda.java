@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniResolDuda.findByConsulta", query = "SELECT s FROM SieniResolDuda s WHERE s.idTemaDuda.idTemaDuda = :idConsulta")
 })
 public class SieniResolDuda implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_resol_duda")
@@ -51,7 +52,10 @@ public class SieniResolDuda implements Serializable {
     private Date rdFecha;
     @Column(name = "rd_mensaje")
     private String rdMensaje;
-    
+
+    @Column(name = "rd_tipo_usr")
+    private String rdTipoUsr;
+
     @Column(name = "id_docente")
     private Long idDocente;
     @Transient
@@ -62,12 +66,11 @@ public class SieniResolDuda implements Serializable {
     private Long idAlumno;
     @Transient
     private SieniAlumno alumno;
-    
+
     @JoinColumn(name = "id_tema_duda", referencedColumnName = "id_tema_duda")
     @ManyToOne
     private SieniTemaDuda idTemaDuda;
 
-    
     public SieniResolDuda() {
     }
 
@@ -91,7 +94,6 @@ public class SieniResolDuda implements Serializable {
         this.rdFecha = rdFecha;
     }
 
-
     public String getRdMensaje() {
         return rdMensaje;
     }
@@ -107,8 +109,7 @@ public class SieniResolDuda implements Serializable {
     public void setIdTemaDuda(SieniTemaDuda idTemaDuda) {
         this.idTemaDuda = idTemaDuda;
     }
-    
-    
+
     public String getFechaFiltrable() {
         String fechaF = null;
         SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM/yyyy");
@@ -120,15 +121,15 @@ public class SieniResolDuda implements Serializable {
 
     public String getUserRespuesta() {
         String userRespuesta = "";
-        if(this.idAlumno != null && this.alumno != null){
+        if (this.idAlumno != null && this.alumno != null) {
             userRespuesta = this.alumno.getAlUsuario();
         }
-        if(this.idDocente != null && this.docente != null){
+        if (this.idDocente != null && this.docente != null) {
             userRespuesta = this.docente.getDcUsuario();
         }
         return userRespuesta;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -153,8 +154,7 @@ public class SieniResolDuda implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniResolDuda[ idResolDuda=" + idResolDuda + " ]";
     }
-    
-    
+
     public Long getIdAlumno() {
         return idAlumno;
     }
@@ -186,7 +186,13 @@ public class SieniResolDuda implements Serializable {
     public void setIdDocente(Long idDocente) {
         this.idDocente = idDocente;
     }
-    
-    
-    
+
+    public String getRdTipoUsr() {
+        return rdTipoUsr;
+    }
+
+    public void setRdTipoUsr(String rdTipoUsr) {
+        this.rdTipoUsr = rdTipoUsr;
+    }
+
 }

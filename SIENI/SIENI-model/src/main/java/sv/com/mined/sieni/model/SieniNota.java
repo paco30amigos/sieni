@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
         @NamedQuery(name = "SieniNota.findAllNoEliminadas", query = "SELECT s FROM SieniNota s,SieniAlumno al where s.idAlumno=al.idAlumno and s.ntEstado not in (:estado) and al.alEstado not in (:estado) ORDER BY s.idNota"),
     @NamedQuery(name = "SieniNota.findAll", query = "SELECT s FROM SieniNota s"),
+    @NamedQuery(name = "SieniNota.findById", query = "SELECT s FROM SieniNota s where s.idNota=:id"),
     @NamedQuery(name = "SieniNota.findNotasAlumnoEv", query = "SELECT s FROM SieniNota s WHERE s.idAlumno=:idAlumno AND s.idEvaluacion.idEvaluacion=:idEvaluacion"),
     @NamedQuery(name = "SieniNota.findByAlumno", query = "SELECT s FROM SieniNota s,SieniAlumno al where s.idAlumno=al.idAlumno and al.idAlumno=:idAlumno and s.ntEstado not in (:estado)"),
     @NamedQuery(name = "SieniNota.findRango", query = "SELECT s FROM SieniNota s where s.ntFechaIngreso>=:desde and s.ntFechaIngreso<=:hasta and s.ntEstado='A'"),

@@ -18,7 +18,7 @@ import sv.com.mined.sieni.model.SieniNota;
 public interface SieniNotaFacadeRemote {
 
     void create(SieniNota sieniNota);
-    
+
     SieniNota createAndReturn(SieniNota sieniNota);
 
     void edit(SieniNota sieniNota);
@@ -26,6 +26,8 @@ public interface SieniNotaFacadeRemote {
     void remove(SieniNota sieniNota);
 
     SieniNota find(Object id);
+
+    SieniNota findById(Long id);
 
     List<SieniNota> findAll();
 
@@ -36,18 +38,18 @@ public interface SieniNotaFacadeRemote {
     public void merge(List<SieniNota> notas);
 
     public List<SieniNota> getNotasRangoFecha(Date desde, Date hasta);
-    
-    public List<SieniNota> getNotasRpt(Date desde, Date hasta,Long grado,Long seccion);
-    
-    public List<SieniNota> getBoletaNotasRpt(Date desde, Date hasta,Long grado,Long seccion,Long idAlumno);
+
+    public List<SieniNota> getNotasRpt(Date desde, Date hasta, Long grado, Long seccion);
+
+    public List<SieniNota> getBoletaNotasRpt(Date desde, Date hasta, Long grado, Long seccion, Long idAlumno);
 
     List<SieniNota> findAllNoEliminadas();
 
     public boolean findNotaRegistrada(SieniNota nota);
-    
+
     public List<SieniNota> findByAlumno(Long idAlumno);
 
     public List<SieniNota> findByGradoSecMatRpt(Date desde, Date hasta, Long grado, Long seccion, Long materia, Long idEvaluacion);
-    
-    public List<SieniNota> findNotasAlumnoEv(Long idAlumno,Long idEvaluacion); 
+
+    public List<SieniNota> findNotasAlumnoEv(Long idAlumno, Long idEvaluacion);
 }

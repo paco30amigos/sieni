@@ -90,7 +90,7 @@ public class GestionNotasController extends GestionNotasForm {
         if (!fecha.before(loginBean.getAnioEscolarActivo().getAeInicio()) && !fecha.after(loginBean.getAnioEscolarActivo().getAeFin())) {
             ret = true;
         } else {
-            new ValidationPojo().printMsj("El registro no se puede modificar para el año escolar actual", "fecha:" + new FormatUtils().getFormatedDate(fecha), FacesMessage.SEVERITY_ERROR);
+            new ValidationPojo().printMsj("El registro no se puede modificar para el año escolar " + loginBean.getAnioEscolarActivo().getAeAnio().toString() + ", fecha: " + new FormatUtils().getFormatedDate(fecha), FacesMessage.SEVERITY_ERROR);
         }
         return ret;
     }

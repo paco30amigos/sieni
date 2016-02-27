@@ -26,6 +26,7 @@ public class LoginForm {
     private String tipoUsuario;
     private String tipoRol;
     private String nombreCompleto;
+    private String email;
     private SieniAnioEscolar anioEscolarActivo;
     private Integer dias;
     final private Integer vencimientoContra = 90;
@@ -164,6 +165,14 @@ public class LoginForm {
 
     public void setPassUsr(String passUsr) {
         this.passUsr = passUsr;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

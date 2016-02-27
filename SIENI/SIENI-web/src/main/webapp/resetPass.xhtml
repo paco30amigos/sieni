@@ -35,7 +35,9 @@
                                 <p:outputLabel for="usuario" value="Usuario:"></p:outputLabel>
                                 <p:inputText id="usuario" autocomplete="false" tabindex="1"  placeholder="Usuario" value="#{loginController.usuario}" maxlength="30" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar usuario" />
                                 <p:outputLabel for="nombre" value="Nombre completo:"></p:outputLabel>
-                                <p:inputText id="nombre" autocomplete="false" tabindex="1"  placeholder="Nombre" value="#{loginController.nombreCompleto}" maxlength="30" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar su nombre completo" />
+                                <p:inputText id="nombre" autocomplete="false" tabindex="2"  placeholder="Nombre" value="#{loginController.nombreCompleto}" maxlength="300" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar su nombre completo" />
+                                <p:outputLabel for="email" value="Correo electronico:"></p:outputLabel>
+                                <p:inputText id="email" type="email" autocomplete="false" tabindex="3"  placeholder="Correo electronico" value="#{loginController.email}" maxlength="50" styleClass="Wid80 TexAlCenter Fs18" required="true" requiredMessage="Debe ingresar Correo electrónico"> </p:inputText>
                             </h:panelGrid>
                             <p:tooltip for="usuario">
                                 <h:outputText value="Usuario registrado en el sistema" />

@@ -18,7 +18,7 @@
         <p:panel>
             <h:form>
                 <div class="EmptyBox20"></div>
-                <p:panelGrid columns="4">
+                <p:panelGrid id="p1" columns="4">
                     <p:outputLabel for="anioDesde" value="Registrado desde:"></p:outputLabel>
                     <p:calendar id="anioDesde" value="#{rptNotasController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true">
                         <p:ajax event="dateSelect" update="anioHasta"></p:ajax>
@@ -37,7 +37,7 @@
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptNotasController.seccionesList}" var="seccion"></f:selectItems>
                         <p:ajax event="valueChange" update="seccion"/>
                     </p:selectOneMenu>
-                    <p:commandButton value="Generar" actionListener="#{rptNotasController.refresh()}" update="consulta" ajax="true"></p:commandButton>
+                    <p:commandButton value="Generar" actionListener="#{rptNotasController.refresh()}" update="p1,consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta" paginatorPosition="bottom" var="car" value="#{rptNotasController.listaDatos}" 

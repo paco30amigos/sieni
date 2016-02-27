@@ -33,141 +33,139 @@
 
             <c:if test="#{loginController.tipoRol=='0'}">
                 <pr:menu >
-                    <p:submenu label="Año Escolar">
+                    <p:submenu icon="icon-add" label="Año Escolar">
                         <p:submenu label="Clases">
-                            <p:menuitem value="Programación de Clases" url="#{siteUrls.programacionClases}" />
-                            <p:menuitem value="Clase en Vivo" url="#{siteUrls.claseOnline}" />
-                            <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}" />
-                            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}" />
-                            <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}" />
+                            <p:menuitem icon="icon-circumference" value="Programación de Clases" url="#{siteUrls.programacionClases}" />
+                            <p:menuitem icon="icon-circumference" value="Clase en Vivo" url="#{siteUrls.claseOnline}" />
+                            <p:menuitem icon="icon-circumference" value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}" />
+                            <p:menuitem icon="icon-circumference" value="Clase Interactiva" url="#{siteUrls.claseInteractiva}" />
+                            <p:menuitem icon="icon-circumference" value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}" />
                         </p:submenu>
-                        <p:menuitem value="Evaluaciones" url="#{siteUrls.gestionEvaluacion}" />
-                        <p:menuitem value="Notas" url="#{siteUrls.gestionNota}" />
+                        <p:menuitem icon="icon-check52" value="Evaluaciones" url="#{siteUrls.gestionEvaluacion}" />
+                        <p:menuitem icon="icon-check52" value="Notas" url="#{siteUrls.gestionNota}" />
                     </p:submenu>
-                    <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
-                    <p:menuitem value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
-                    <p:menuitem value="Buzón de Notificaciones" url="#{siteUrls.buzonNotificacion}"/>
+                    <p:menuitem icon="icon-add" value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
+                    <p:menuitem icon="icon-add" value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
+                    <p:menuitem icon="icon-add" value="Buzón de Notificaciones" url="#{siteUrls.buzonNotificacion}"/>
                     <p:separator />
                 </pr:menu>
             </c:if>
             <c:if test="#{loginController.tipoRol=='1'}">
                 <pr:menu >
-                    <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
-                    <p:submenu label="Administración de Sistema">
-                        <p:menuitem value="Mantenimiento de Archivos Multimedia" url="#{siteUrls.gestionArchivosMultimedia}" />
-                        <p:menuitem value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}" />
-                        <p:menuitem value="Gestionar Plantillas" url="#{siteUrls.gestionPlantilla}" />
+                    <p:menuitem icon="icon-add" value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
+                    <p:submenu icon="icon-add" label="Administración de Sistema">
+                        <p:menuitem icon="icon-check52" value="Mantenimiento de Archivos Multimedia" url="#{siteUrls.gestionArchivosMultimedia}" />
+                        <p:menuitem icon="icon-check52" value="Gestionar Componentes Interactivos" url="#{siteUrls.componenteInteractiva}" />
+                        <p:menuitem icon="icon-check52" value="Gestionar Plantillas" url="#{siteUrls.gestionPlantilla}" />
                     </p:submenu>
-                    <p:submenu label="Gestionar Año Escolar">
-                        <p:menuitem value="Matricula de Alumno" url="#{siteUrls.gestionAlumnos}" />
-                        <p:menuitem value="Mantenimiento de Curso" url="#{siteUrls.gestionarCursos}" />
-                        <p:submenu label="Gestionar Clases">
-                            <p:menuitem value="Programación de Clases" url="#{siteUrls.programacionClases}" />
-                            <p:menuitem value="Clase en Vivo" url="#{siteUrls.claseOnline}" />
-                            <p:menuitem value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}" />
-                            <p:menuitem value="Clase Interactiva" url="#{siteUrls.claseInteractiva}" />
-                            <p:menuitem value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}" />
+                    <p:submenu icon="icon-add" label="Gestionar Año Escolar">
+                        <p:menuitem icon="icon-check52" value="Matricula de Alumno" url="#{siteUrls.gestionAlumnos}" />
+                        <p:menuitem icon="icon-check52" value="Mantenimiento de Curso" url="#{siteUrls.gestionarCursos}" />
+                        <p:submenu icon="icon-check52" label="Gestionar Clases">
+                            <p:menuitem icon="icon-circumference" value="Programación de Clases" url="#{siteUrls.programacionClases}" />
+                            <p:menuitem icon="icon-circumference" value="Clase en Vivo" url="#{siteUrls.claseOnline}" />
+                            <p:menuitem icon="icon-circumference" value="Video-Clase Almacenada" url="#{siteUrls.claseVideoAlmacenada}" />
+                            <p:menuitem icon="icon-circumference" value="Clase Interactiva" url="#{siteUrls.claseInteractiva}" />
+                            <p:menuitem icon="icon-circumference" value="Ejercicios" url="#{siteUrls.ejerciciosResueltos}" />
                         </p:submenu>
-                        <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
-                        <p:menuitem value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" />
-                        <p:menuitem value="Gestionar Notas" url="#{siteUrls.gestionNota}" />
+                        <p:menuitem icon="icon-check52" value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
+                        <p:menuitem icon="icon-check52" value="Gestionar Evaluaciones" url="#{siteUrls.gestionEvaluacion}" />
+                        <p:menuitem icon="icon-check52" value="Gestionar Notas" url="#{siteUrls.gestionNota}" />
                     </p:submenu>
-                    <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
-                    <p:menuitem value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
-                    <p:menuitem value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
-                    <p:submenu label="Generar Reportes">
-                        <p:menuitem value="Reporte de Matricula" url="#{siteUrls.reporteMatricula}" />
-                        <p:menuitem value="Reporte de Rendimiento" url="#{siteUrls.reporteRendimientoAlumno}" />
-                        <p:menuitem value="Reporte de Avance" url="#{siteUrls.reporteEstadisticoAvanceAlumno}" />
-                        <p:menuitem value="Reporte de Notas" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}" />
-                        <p:menuitem value="Boleta de Notas" url="#{siteUrls.boletaNota}" />
-                        <p:menuitem value="Reporte de Evaluaciones" url="#{siteUrls.reporteEvaluaciones}" />
-                        <p:menuitem value="Reporte de Clases" url="#{siteUrls.reporteClases}" />
-                        <p:menuitem value="Reporte de Participación de clases" url="#{siteUrls.reporteParticipacionClases}" />
-                        <p:menuitem value="Reporte de Cursos" url="#{siteUrls.reporteCursos}" />
-                        <p:menuitem value="Reporte de Alumnos" url="#{siteUrls.reporteAlumnos}" />
-                        <p:menuitem value="Reporte de Docentes" url="#{siteUrls.reporteDocentes}" />
-                        <p:menuitem value="Reporte de Usuarios" url="#{siteUrls.reporteUsuarios}" />
+                    <p:menuitem icon="icon-add" value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
+                    <p:menuitem icon="icon-add" value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
+                    <p:menuitem icon="icon-add" value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
+                    <p:submenu icon="icon-add" label="Generar Reportes">
+                        <p:menuitem icon="icon-check52" value="Reporte de Matricula" url="#{siteUrls.reporteMatricula}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Rendimiento" url="#{siteUrls.reporteRendimientoAlumno}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Avance" url="#{siteUrls.reporteEstadisticoAvanceAlumno}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Notas" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}" />
+                        <p:menuitem icon="icon-check52" value="Boleta de Notas" url="#{siteUrls.boletaNota}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Evaluaciones" url="#{siteUrls.reporteEvaluaciones}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Clases" url="#{siteUrls.reporteClases}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Participación de clases" url="#{siteUrls.reporteParticipacionClases}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Cursos" url="#{siteUrls.reporteCursos}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Alumnos" url="#{siteUrls.reporteAlumnos}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Docentes" url="#{siteUrls.reporteDocentes}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Usuarios" url="#{siteUrls.reporteUsuarios}" />
                     </p:submenu>
                     <p:separator />
                 </pr:menu>
             </c:if>
             <c:if test="#{loginController.tipoRol=='2'}">
                 <pr:menu >
-                    <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
-                    <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
-                    <p:submenu label="Administración de Sistema">
-                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}" />
-                        <p:menuitem value="Bitácora" url="#{siteUrls.bitacora}" />
+                    <p:menuitem icon="icon-add" value="Gestionar Alumnos" url="#{siteUrls.expedienteAlumnos}"/>
+                    <p:menuitem icon="icon-add" value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
+                    <p:submenu icon="icon-add" label="Administración de Sistema">
+                        <p:menuitem  icon="icon-check52" value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}" />
+                        <p:menuitem icon="icon-check52" value="Bitácora" url="#{siteUrls.bitacora}" />
                     </p:submenu>
-                    <p:submenu label="Gestionar Catálogos">
-                        <p:menuitem value="Tipo de elementos de plantilla" url="#{siteUrls.catTipoElemPlantilla}" />
-                        <p:menuitem value="Materias" url="#{siteUrls.catMateria}" />
-                        <p:menuitem value="Grados" url="#{siteUrls.catGrado}" />
-                        <p:menuitem value="Secciones" url="#{siteUrls.catSeccion}"/>
+                    <p:submenu icon="icon-add" label="Gestionar Catálogos">
+                        <p:menuitem icon="icon-check52" value="Tipo de elementos de plantilla" url="#{siteUrls.catTipoElemPlantilla}" />
+                        <p:menuitem icon="icon-check52" value="Materias" url="#{siteUrls.catMateria}" />
+                        <p:menuitem icon="icon-check52" value="Grados" url="#{siteUrls.catGrado}" />
+                        <p:menuitem icon="icon-check52" value="Secciones" url="#{siteUrls.catSeccion}"/>
                     </p:submenu>
-                    <p:menuitem value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
+                    <p:menuitem icon="icon-add" value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
+                    <p:menuitem icon="icon-add" value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
                     <p:separator />
                 </pr:menu>
             </c:if>
             <c:if test="#{loginController.tipoRol=='3'}">
                 <pr:menu >                    
-                    <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
+                    <p:menuitem icon="icon-add" value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
                     <p:submenu label="Administración de Sistema">                        
-                        <p:menuitem value="Bitácora" url="#{siteUrls.bitacora}" />
-                        <p:menuitem value="Reporte de Notas Modificadas" url="#{siteUrls.reporteNotasModificadas}" />
+                        <p:menuitem icon="icon-check52" value="Bitácora" url="#{siteUrls.bitacora}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Notas Modificadas" url="#{siteUrls.reporteNotasModificadas}" />
                     </p:submenu>
-                    <p:submenu label="Gestionar Año Escolar">
-                        <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
-                    </p:submenu>
-                    <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
-                    <p:menuitem value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
-                    <p:menuitem value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
-                    <p:submenu label="Generar Reportes">
-                        <p:menuitem value="Reporte de Matricula" url="#{siteUrls.reporteMatricula}" />
-                        <p:menuitem value="Reporte de Rendimiento" url="#{siteUrls.reporteRendimientoAlumno}" />
-                        <p:menuitem value="Reporte de Avance" url="#{siteUrls.reporteEstadisticoAvanceAlumno}" />
-                        <p:menuitem value="Reporte de Notas" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}" />
-                        <p:menuitem value="Boleta de Notas" url="#{siteUrls.boletaNota}" />
-                        <p:menuitem value="Reporte de Evaluaciones" url="#{siteUrls.reporteEvaluaciones}" />
-                        <p:menuitem value="Reporte de Clases" url="#{siteUrls.reporteClases}" />
-                        <p:menuitem value="Reporte de Participación de clases" url="#{siteUrls.reporteParticipacionClases}" />
-                        <p:menuitem value="Reporte de Cursos" url="#{siteUrls.reporteCursos}" />
-                        <p:menuitem value="Reporte de Alumnos" url="#{siteUrls.reporteAlumnos}" />
-                        <p:menuitem value="Reporte de Docentes" url="#{siteUrls.reporteDocentes}" />
-                        <p:menuitem value="Reporte de Usuarios" url="#{siteUrls.reporteUsuarios}" />
+                    <p:menuitem icon="icon-add" value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
+                    <p:menuitem icon="icon-add" value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
+                    <p:menuitem icon="icon-add" value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
+                    <p:submenu icon="icon-add" label="Generar Reportes">
+                        <p:menuitem icon="icon-check52" value="Reporte de Matricula" url="#{siteUrls.reporteMatricula}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Rendimiento" url="#{siteUrls.reporteRendimientoAlumno}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Avance" url="#{siteUrls.reporteEstadisticoAvanceAlumno}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Notas" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}" />
+                        <p:menuitem icon="icon-check52" value="Boleta de Notas" url="#{siteUrls.boletaNota}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Evaluaciones" url="#{siteUrls.reporteEvaluaciones}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Clases" url="#{siteUrls.reporteClases}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Participación de clases" url="#{siteUrls.reporteParticipacionClases}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Cursos" url="#{siteUrls.reporteCursos}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Alumnos" url="#{siteUrls.reporteAlumnos}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Docentes" url="#{siteUrls.reporteDocentes}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Usuarios" url="#{siteUrls.reporteUsuarios}" />
                     </p:submenu>
                     <p:separator />
                 </pr:menu>
             </c:if>
             <c:if test="#{loginController.tipoRol=='4'}">
                 <pr:menu >
-                    <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
-                    <p:submenu label="Administración de Sistema">
-                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}" />
-                        <p:menuitem value="Bitácora" url="#{siteUrls.bitacora}" />
-                        <p:menuitem value="Reporte de Notas Modificadas" url="#{siteUrls.reporteNotasModificadas}" />
+                    <p:menuitem icon="icon-add" value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}" />
+                    <p:submenu icon="icon-add" label="Administración de Sistema">
+                        <p:menuitem icon="icon-check52" value="Gestionar Usuarios" url="#{siteUrls.gestionUsuarios}" />
+                        <p:menuitem icon="icon-check52" value="Bitácora" url="#{siteUrls.bitacora}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Notas Modificadas" url="#{siteUrls.reporteNotasModificadas}" />
                     </p:submenu>
-                    <p:submenu label="Gestionar Año Escolar">
-                        <p:menuitem value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
-                        <p:menuitem value="Mantenimiento de Año escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
+                    <p:submenu icon="icon-add" label="Gestionar Año Escolar">
+                        <p:menuitem icon="icon-check52" value="Gestionar Materias" url="#{siteUrls.gestionMateria}"/>
+                        <p:menuitem icon="icon-check52" value="Mantenimiento de Año escolar" url="#{siteUrls.gestionarAnioEscolar}"/>
                     </p:submenu>
-                    <p:menuitem value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
-                    <p:menuitem value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
-                    <p:menuitem value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
-                    <p:submenu label="Generar Reportes">
-                        <p:menuitem value="Reporte de Matricula" url="#{siteUrls.reporteMatricula}" />
-                        <p:menuitem value="Reporte de Rendimiento" url="#{siteUrls.reporteRendimientoAlumno}" />
-                        <p:menuitem value="Reporte de Avance" url="#{siteUrls.reporteEstadisticoAvanceAlumno}" />
-                        <p:menuitem value="Reporte de Notas" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}" />
-                        <p:menuitem value="Boleta de Notas" url="#{siteUrls.boletaNota}" />
-                        <p:menuitem value="Reporte de Evaluaciones" url="#{siteUrls.reporteEvaluaciones}" />
-                        <p:menuitem value="Reporte de Clases" url="#{siteUrls.reporteClases}" />
-                        <p:menuitem value="Reporte de Participación de clases" url="#{siteUrls.reporteParticipacionClases}" />
-                        <p:menuitem value="Reporte de Cursos" url="#{siteUrls.reporteCursos}" />
-                        <p:menuitem value="Reporte de Alumnos" url="#{siteUrls.reporteAlumnos}" />
-                        <p:menuitem value="Reporte de Docentes" url="#{siteUrls.reporteDocentes}" />
-                        <p:menuitem value="Reporte de Usuarios" url="#{siteUrls.reporteUsuarios}" />
+                    <p:menuitem icon="icon-add" value="Portal de Noticias" url="#{siteUrls.gestionNoticia}" />
+                    <p:menuitem icon="icon-add" value="Portal de Consultas" url="#{siteUrls.gestionConsulta}" />
+                    <p:menuitem icon="icon-add" value="Buzón de notificaciones" url="#{siteUrls.buzonNotificacion}"/>
+                    <p:submenu icon="icon-add" label="Generar Reportes">
+                        <p:menuitem icon="icon-check52" value="Reporte de Matricula" url="#{siteUrls.reporteMatricula}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Rendimiento" url="#{siteUrls.reporteRendimientoAlumno}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Avance" url="#{siteUrls.reporteEstadisticoAvanceAlumno}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Notas" url="#{siteUrls.reporteNotasAlumnoAnioEscolar}" />
+                        <p:menuitem icon="icon-check52" value="Boleta de Notas" url="#{siteUrls.boletaNota}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Evaluaciones" url="#{siteUrls.reporteEvaluaciones}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Clases" url="#{siteUrls.reporteClases}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Participación de clases" url="#{siteUrls.reporteParticipacionClases}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Cursos" url="#{siteUrls.reporteCursos}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Alumnos" url="#{siteUrls.reporteAlumnos}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Docentes" url="#{siteUrls.reporteDocentes}" />
+                        <p:menuitem icon="icon-check52" value="Reporte de Usuarios" url="#{siteUrls.reporteUsuarios}" />
                     </p:submenu>
                     <p:separator />
                 </pr:menu>

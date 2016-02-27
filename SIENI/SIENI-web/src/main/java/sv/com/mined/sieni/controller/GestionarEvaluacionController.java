@@ -108,7 +108,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         if (!fecha.before(loginBean.getAnioEscolarActivo().getAeInicio()) && !fecha.after(loginBean.getAnioEscolarActivo().getAeFin())) {
             ret = true;
         } else {
-            new ValidationPojo().printMsj("El registro no se puede modificar para el año escolar actual", "fecha:" + new FormatUtils().getFormatedDate(fecha), FacesMessage.SEVERITY_ERROR);
+            new ValidationPojo().printMsj("El registro no se puede modificar para el año escolar " + loginBean.getAnioEscolarActivo().getAeAnio().toString() + ", fecha: " + new FormatUtils().getFormatedDate(fecha), FacesMessage.SEVERITY_ERROR);
         }
         return ret;
     }
@@ -518,6 +518,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             sieniEvalRespAlumnoFacadeRemote.guardarRespuestasAlumno(this.getEvalRespAlumnoList(), this.getNumIntento());
             if (ultimaPagina || timeout) {
                 Double nota = calcularNotas(loginBean.getAlumno(), this.getEvaluacionItemResp());
+                updateNotasAnteriores();
                 SieniNota sieniNota = new SieniNota();
                 sieniNota.setIdAlumno(loginBean.getAlumno().getIdAlumno());
                 sieniNota.setIdEvaluacion(this.getEvaluacionItemResp());
@@ -552,6 +553,17 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    //pone las notas anteriores como inactivas
+    public void updateNotasAnteriores() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        List<SieniNota> notas = sieniNotaFacadeRemote.findNotasAlumnoEv(loginBean.getAlumno().getIdAlumno(), this.getEvaluacionItemResp().getIdEvaluacion());
+        for (SieniNota actual : notas) {
+            actual.setNtEstado('I');
+        }
+        sieniNotaFacadeRemote.merge(notas);
     }
 
     public String getCadena(String[] cad) {

@@ -60,20 +60,26 @@ public class RptNotasController extends RptNotasForm {
         this.setListaDatos(new ArrayList<RptNotasPojo>());
         this.setGrado(new SieniGrado(0L));
         this.setSeccion(new SieniSeccion(0L));
+        initCombos();
         fill();
+    }
+
+    public void initCombos() {
+        this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
+        this.setSeccionesList(new ArrayList<SieniSeccion>());
+        if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
+            if (this.getSeccion().getIdSeccion().equals(0L)) { 
+                if (this.getGradosList().get(0).getSieniSeccionList() != null
+                        && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
+                    this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
+                }
+            }
+        }
     }
 
     private void fill() {
         Date desde = this.getDesde();
         Date hasta = this.getHasta();
-        this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
-        this.setSeccionesList(new ArrayList<SieniSeccion>());
-        if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
-            if (this.getGradosList().get(0).getSieniSeccionList() != null
-                    && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
-                this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
-            }
-        }
         this.setListaDatos(new ArrayList<RptNotasPojo>());
         for (SieniNota nota : sieniNotasFacadeRemote.getNotasRpt(desde, hasta, this.getGrado().getIdGrado(), this.getSeccion().getIdSeccion())) {
             SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoById(nota.getIdAlumno());

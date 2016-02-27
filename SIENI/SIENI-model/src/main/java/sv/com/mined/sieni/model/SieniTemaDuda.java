@@ -41,8 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniTemaDuda.findByIdTemaDuda", query = "SELECT s FROM SieniTemaDuda s WHERE s.idTemaDuda = :idTemaDuda"),
     @NamedQuery(name = "SieniTemaDuda.findByTdTipo", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdTipo = :tdTipo"),
     @NamedQuery(name = "SieniTemaDuda.findConsultasActivas", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A'"),
-    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByDocente", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND (s.idDocente = :idDocente AND s.tdTipoUsr='D') OR (s.idAlumno=:idDocente and s.tdTipoUsr='D') order by s.idTemaDuda"),
-    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByAlumno", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND (s.idAlumno = :idAlumno AND S.tdTipoUsr='A') OR (S.idAlumno=:idAlumno and s.tdTipoUsr='A') order by s.idTemaDuda")
+    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByDocente", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND ((s.idDocente = :idDocente OR s.idAlumno=:idDocente) and s.tdTipoUsr='D') or (s.idDocente = :idDocente and s.tdTipoUsr='A') order by s.idTemaDuda"),
+    @NamedQuery(name = "SieniTemaDuda.findConsultasActivasByAlumno", query = "SELECT s FROM SieniTemaDuda s WHERE s.tdEstado = 'A' AND ((s.idAlumno = :idAlumno OR S.idDocente=:idAlumno) and s.tdTipoUsr='A') or (s.idAlumno = :idAlumno and s.tdTipoUsr='D') order by s.idTemaDuda")
 })
 public class SieniTemaDuda implements Serializable {
 

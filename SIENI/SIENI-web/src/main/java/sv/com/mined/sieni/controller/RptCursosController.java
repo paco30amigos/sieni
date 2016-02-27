@@ -56,7 +56,7 @@ public class RptCursosController extends RptCursosForm {
     public void fill() {
         RptCursosPojo elem = new RptCursosPojo();
 
-        List<SieniCurso> curso = sieniCursoFacadeRemote.findAll();
+        List<SieniCurso> curso = sieniCursoFacadeRemote.findActivos();
 //        List<SieniCurso> docente2= sieniDocenteFacadeRemote.findDocentesDesdeHasta(this.getDesde(), this.getHasta());
 
         this.setListDatos(new ArrayList<RptCursosPojo>());

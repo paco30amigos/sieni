@@ -22,10 +22,6 @@
             <h:form enctype="multipart/form-data" >
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
-                    <p:outputLabel for="anio" value="Año Escolar: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="anio" class=" Responsive" value="#{catSeccionController.idanio}" required="true" requiredMessage="Debe seleccionar Año Escolar">
-                        <f:selectItems itemValue ="#{an.idAnioEscolar}" itemLabel="#{an.aeAnio}" value="#{catSeccionController.listAnios}" var="an" />
-                    </p:selectOneMenu>
                     <p:outputLabel for="grado" value="Grado: " class="  Responsive"></p:outputLabel>
                     <p:selectOneMenu id="grado" class=" Responsive" value="#{catSeccionController.idgrado}" required="true" requiredMessage="Debe seleccionar grado">
                         <f:selectItems itemValue ="#{gr.idGrado}" itemLabel="#{gr.grNombre}" value="#{catSeccionController.listGrados}" var="gr" />

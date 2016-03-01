@@ -74,17 +74,20 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
 //            this.setClasesList(sieniClaseFacadeRemote.findClaseByAlumno(loginBean.getAlumno().getIdAlumno()));
         } else {
             this.setClasesList(sieniClaseFacadeRemote.findAllNoInactivos());
+//            this.setClasesList(sieniClaseFacadeRemote.findByDocente(loginBean.getDocente().getIdDocente()));
         }
     }
-    
+
     public void cancelaModifica(SieniClase modifica) {
         modifica = sieniClaseFacadeRemote.find(modifica.getIdClase());
         this.setIndexMenu(0);
     }
 
-    public void nuevoD(){
-//        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
-        this.setCursosList(sieniCursoFacadeRemote.findByTipoCurso("Digital"));
+    public void nuevoD() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+        this.setCursosList(sieniCursoFacadeRemote.findActivos());
+//        this.setCursosList(sieniCursoFacadeRemote.findByDocente(loginBean.getDocente().getIdDocente()));
         this.setHorarioSelected(new ArrayList<String>());
         this.setIndexMenu(1);
     }
@@ -141,9 +144,9 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
 
     public boolean validarNuevo(SieniClase nuevo) {
         boolean ban = false;
-//        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
-//        validaciones.add(new ValidationPojo(this.getArchivoUsable() == null, "Debe subir un archivo", FacesMessage.SEVERITY_ERROR));
-//        ban = ValidationPojo.printErrores(validaciones);
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+//        validaciones.add(new ValidationPojo(this.getCursosList() == null, "Debe tener un curso asignado", FacesMessage.SEVERITY_ERROR));
+        ban = ValidationPojo.printErrores(validaciones);
         return !ban;
     }
 
@@ -215,9 +218,11 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
     }
 
     public boolean validarModifica(SieniClase nuevo) {
-        boolean ban = true;
+        boolean ban = false;
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
-        return ban;
+//        validaciones.add(new ValidationPojo(this.getCursosList() == null, "Debe tener un curso asignado", FacesMessage.SEVERITY_ERROR));
+        ban = ValidationPojo.printErrores(validaciones);
+        return !ban;
     }
 
     public synchronized void eliminarArchivo() {

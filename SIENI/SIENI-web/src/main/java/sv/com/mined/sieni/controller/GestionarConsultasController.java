@@ -198,7 +198,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
                 registrarEnBitacora("Crear", "Consulta", this.getConsultaNueva().getIdTemaDuda());
 
                 FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
-                NotificacionesController notifyBean = (NotificacionesController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "notificacionesController");
+                NotificacionesPushController notifyBean = (NotificacionesPushController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "notificacionesPushController");
                 notifyBean.notificarPUSH();
 
                 this.setConsultaNueva(new SieniTemaDuda());

@@ -31,6 +31,8 @@ public interface SieniCursoFacadeRemote {
     List<SieniCurso> findRange(int[] range);
 
     List<SieniCurso> findByEstado(Character estado);
+    
+    List<SieniCurso> findByDocente(Long idDocente);
 
     public List<SieniCurso> findByTipoCurso(String tipoCurso);
 

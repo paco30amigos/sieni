@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DocRecibeNoti.findAll", query = "SELECT d FROM DocRecibeNoti d"),
-    @NamedQuery(name = "DocRecibeNoti.findByIdDocente", query = "SELECT d FROM DocRecibeNoti d WHERE d.docRecibeNotiPK.idDocente = :idDocente"),
+    @NamedQuery(name = "DocRecibeNoti.findByIdDocente", query = "SELECT d FROM DocRecibeNoti d WHERE d.docRecibeNotiPK.idDocente = :idDocente and d.idNotificacion.nfEstado='A'"),
     @NamedQuery(name = "DocRecibeNoti.findByIdNotificacion", query = "SELECT d FROM DocRecibeNoti d WHERE d.docRecibeNotiPK.idNotificacion = :idNotificacion"),
     @NamedQuery(name = "DocRecibeNoti.findByNotiVisto", query = "SELECT d FROM DocRecibeNoti d WHERE d.notiVisto = :notiVisto")})
 public class DocRecibeNoti implements Serializable {

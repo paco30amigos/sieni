@@ -346,7 +346,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
 
                     alumnoRolNuevo.setIdAlumno(alumnoEdit.getIdAlumno());
                     alumnoRolNuevo.setFRol(this.getUsuarioModifica().getCodTipoPermiso());
-                    alumnoEdit.setAlFechaContrasenia(new Date());
+                    alumnoEdit.setAlFechaContrasenia(new DateUtils().getFechaMinima());
                     //actualiza la contraseña y usuario
                     sieniAlumnoFacadeRemote.edit(alumnoEdit);
                     //crea el nuevo usuario 
@@ -363,6 +363,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     docenteEdit.setDcUsuario(this.getUsuarioModifica().getUsuario());
                     docenteRolNuevo.setIdDocente(docenteEdit.getIdDocente());
                     docenteRolNuevo.setFRolDoc(this.getUsuarioModifica().getCodTipoPermiso());
+                    docenteEdit.setDcFechaContrasenia(new DateUtils().getFechaMinima());                    
                     //actualiza la contraseña y usuario
                     sieniDocenteFacadeRemote.edit(docenteEdit);
                     //crea el nuevo usuario

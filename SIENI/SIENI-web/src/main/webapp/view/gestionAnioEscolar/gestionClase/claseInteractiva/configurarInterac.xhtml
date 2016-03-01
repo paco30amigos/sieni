@@ -42,8 +42,8 @@
                             <p:selectOneMenu id="e2" value="#{gestionClaseInteracController.nuevaInterac.ieEventoC2}" converter="evento" filter="true" filterMatchMode="contains">
                                 <f:selectItems value="#{gestionClaseInteracController.evn2}" var="evn2" itemLabel="#{evn2.evDescripcion}" itemValue="#{evn2}"></f:selectItems>
                             </p:selectOneMenu>
-                            <p:outputLabel value="Retraso"></p:outputLabel>
-                            <p:spinner value="#{gestionClaseInteracController.nuevaInterac.ieRetraso}" max="10000" min="0"></p:spinner>
+                            <p:outputLabel value="Retraso (milisegundos)"></p:outputLabel>
+                            <p:spinner value="#{gestionClaseInteracController.nuevaInterac.ieRetraso}" max="10000" min="0" stepFactor="500"></p:spinner>
                             <p:commandButton value="Agregar Interaccion" action="#{gestionClaseInteracController.agregarInteraccion()}" update="consultaForm:clase,panel"></p:commandButton>
                         </p:panelGrid> 
                     </p:tab>
@@ -88,8 +88,8 @@
                                                 <f:selectItems value="#{comps2Seleccionados.eventos}" var="evts" itemLabel="#{evts.evDescripcion}" itemValue="#{evts}"></f:selectItems>
                                             </p:selectOneMenu>
                                         </p:column>
-                                        <p:column headerText="Retraso">
-                                            <p:spinner value="#{comps2Seleccionados.interaccionEntreComps.ieRetraso}" max="10000" min="0"></p:spinner>
+                                        <p:column headerText="Retraso (milisegundos)">
+                                            <p:spinner value="#{comps2Seleccionados.interaccionEntreComps.ieRetraso}" max="10000" min="0" stepFactor="500"></p:spinner>
                                         </p:column>
                                     </p:dataTable>
                                     <p:commandButton value="Guardar Interacciones múltiples" action="#{gestionClaseInteracController.agregarInteraccionesMultiples()}"></p:commandButton>
@@ -123,7 +123,7 @@
                     <p:column headerText="Evento 2" filterBy="#{interacc.ieEventoC2.evDescripcion}" filterable="true" filterMatchMode="contains">
                         #{interacc.ieEventoC2.evDescripcion}
                     </p:column>
-                    <p:column headerText="Retraso">
+                    <p:column headerText="Retraso (milisegundos)">
                         #{interacc.ieRetraso}
                     </p:column>
                     <p:column headerText="Acciones">

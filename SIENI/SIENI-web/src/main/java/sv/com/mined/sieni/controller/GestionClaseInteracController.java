@@ -143,6 +143,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             //*******fill
             //clases interact
             listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('I'));//clases interactivas
+//            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('I',loginBean.getDocente().getIdDocente()));//clases interactivas
         }
         updateEstadoClase(listaClases);
         this.setClaseList(listaClases);

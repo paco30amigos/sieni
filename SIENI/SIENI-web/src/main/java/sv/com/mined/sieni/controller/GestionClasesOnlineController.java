@@ -73,6 +73,7 @@ public class GestionClasesOnlineController extends GestionClasesOnlineForm {
             //*******fill
             //clases interact
             listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('O'));//clases online
+//            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('O',loginBean.getDocente().getIdDocente()));//clases online
         }
         updateEstadoClase(listaClases);
         this.setClasesOnlineList(listaClases);

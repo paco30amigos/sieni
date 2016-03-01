@@ -13,7 +13,7 @@
             <p:menuitem value="Adicionar Usuario" url="#"/>
             <p:separator />
         </p:breadCrumb>
-        
+
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
@@ -45,16 +45,23 @@
                     <p:selectOneMenu id="tipoUsuario" value="#{mntoUsuariosController.usuarioNuevo.codTipoUsuario}" valueChangeListener="#{mntoUsuariosController.getNombreUsuarios}" immediate="true" tabindex="0" required="true" requiredMessage="Debe seleccionar tipo de usuario">
                         <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
                         <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
-                        <p:ajax event="valueChange" update="nombre"/>
+                        <p:ajax event="valueChange" update="p1"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="tipoPermiso" value="Tipo de Permiso: " class=" Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="tipoPermiso" value="#{mntoUsuariosController.usuarioNuevo.codTipoPermiso}" tabindex="0"  required="true" requiredMessage="Debe seleccionar tipo de permiso">
-                        <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
-                        <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
-                        <f:selectItem itemValue="2" itemLabel="Administrador"></f:selectItem>
-                        <f:selectItem itemValue="3" itemLabel="Subdirector"></f:selectItem>
-                        <f:selectItem itemValue="4" itemLabel="Director"></f:selectItem>
-                    </p:selectOneMenu>
+                    <c:if test="${empty mntoUsuariosController.usuarioNuevo.codTipoUsuario or mntoUsuariosController.usuarioNuevo.codTipoUsuario==0 }">
+                        <p:selectOneMenu id="tipoPermiso" value="#{mntoUsuariosController.usuarioNuevo.codTipoPermiso}" tabindex="0"  required="true" requiredMessage="Debe seleccionar tipo de permiso">
+                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>                            
+                        </p:selectOneMenu>
+                    </c:if>
+                    <c:if test="${mntoUsuariosController.usuarioNuevo.codTipoUsuario==1}">
+                        <p:selectOneMenu id="tipoPermiso" value="#{mntoUsuariosController.usuarioNuevo.codTipoPermiso}" tabindex="0"  required="true" requiredMessage="Debe seleccionar tipo de permiso">
+                            <f:selectItem itemValue="0" itemLabel="Alumno"></f:selectItem>
+                            <f:selectItem itemValue="1" itemLabel="Docente"></f:selectItem>
+                            <f:selectItem itemValue="2" itemLabel="Administrador"></f:selectItem>
+                            <f:selectItem itemValue="3" itemLabel="Subdirector"></f:selectItem>
+                            <f:selectItem itemValue="4" itemLabel="Director"></f:selectItem>
+                        </p:selectOneMenu>
+                    </c:if>
                     <p:outputLabel for="nombre" value="Nombre: " class=" Responsive" ></p:outputLabel>
                     <p:selectOneMenu id="nombre"  filter="true" filterMatchMode="contains" value="#{mntoUsuariosController.usuarioNuevo.idUsuario}" tabindex="0"  required="true" requiredMessage="Debe seleccionar nombre">
                         <f:selectItems value="#{mntoUsuariosController.nombresDisponibles}" var="nomb" itemValue="${nomb.idUsuario}" itemLabel="${nomb.nombre}"></f:selectItems>

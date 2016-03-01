@@ -150,6 +150,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             //*******fill
             //clases interact
             listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('V'));//video clases
+//            listaClases = setDocente(sieniClaseFacadeRemote.findClaseByTipo('V', loginBean.getDocente().getIdDocente()));//video clases
         }
         updateEstadoClase(listaClases);
         this.setClaseList(listaClases);

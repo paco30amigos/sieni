@@ -162,31 +162,40 @@ public class LoginController extends LoginForm {
             SieniDocente docente = sieniDocenteFacadeRemote.findByNombreCompleto(this.getNombreCompleto());
             List<SieniDocentRol> docentes = sieniDocentRolFacadeRemote.findAdmins();
             if (alumno != null) {
-                for (SieniDocentRol dc : docentes) {
-                    duda = new SieniTemaDuda();
-                    duda.setIdDocente(dc.getIdDocente());
-                    duda.setIdAlumno(alumno.getIdAlumno());
-                    duda.setTdConsulta("Necesito reestablecer contraseña: " + this.getNombreCompleto() + ", usuario: " + this.getUsuario());
-                    duda.setTdTema("Contraseña olvidada");
-                    duda.setTdTipo('C');
-                    duda.setTdFecha(new Date());
-                    duda.setTdEstado('A');
-                    duda.setTdTipoUsr("A");
-                    sieniConsultaFacadeRemote.create(duda);
+                if (this.getUsuario().equals(alumno.getAlUsuario())) {
+                    for (SieniDocentRol dc : docentes) {
+                        duda = new SieniTemaDuda();
+                        duda.setIdDocente(dc.getIdDocente());
+                        duda.setIdAlumno(alumno.getIdAlumno());
+                        duda.setTdConsulta("Necesito reestablecer contraseña: " + this.getNombreCompleto() + ", usuario: " + this.getUsuario() + ", correo electrónico: " + this.getEmail());
+                        duda.setTdTema("Contraseña olvidada");
+                        duda.setTdTipo('C');
+                        duda.setTdFecha(new Date());
+                        duda.setTdEstado('A');
+                        duda.setTdTipoUsr("A");
+                        sieniConsultaFacadeRemote.create(duda);
+                    }
+                    new ValidationPojo().printMsj("Su solicitud ha sido enviada al administrador del sistema", FacesMessage.SEVERITY_INFO);
+                } else {
+                    new ValidationPojo().printMsj("Usuario y nombre no coinciden", FacesMessage.SEVERITY_ERROR);
                 }
-                new ValidationPojo().printMsj("Su solicitud ha sido enviada al administrador del sistema", FacesMessage.SEVERITY_INFO);
             } else if (docente != null) {
-                for (SieniDocentRol dc : docentes) {
-                    duda = new SieniTemaDuda();
-                    duda.setIdDocente(dc.getIdDocente());
-                    duda.setIdAlumno(docente.getIdDocente());
-                    duda.setTdConsulta("Necesito reestablecer contraseña: " + this.getNombreCompleto() + ", usuario: " + this.getUsuario() + ", correo electrónico: " + this.getEmail());
-                    duda.setTdTema("Contraseña olvidada");
-                    duda.setTdTipo('C');
-                    duda.setTdFecha(new Date());
-                    duda.setTdEstado('A');
-                    duda.setTdTipoUsr("D");
-                    sieniConsultaFacadeRemote.create(duda);
+                if (this.getUsuario().equals(docente.getDcUsuario())) {
+                    for (SieniDocentRol dc : docentes) {
+                        duda = new SieniTemaDuda();
+                        duda.setIdDocente(dc.getIdDocente());
+                        duda.setIdAlumno(docente.getIdDocente());
+                        duda.setTdConsulta("Necesito reestablecer contraseña: " + this.getNombreCompleto() + ", usuario: " + this.getUsuario() + ", correo electrónico: " + this.getEmail());
+                        duda.setTdTema("Contraseña olvidada");
+                        duda.setTdTipo('C');
+                        duda.setTdFecha(new Date());
+                        duda.setTdEstado('A');
+                        duda.setTdTipoUsr("D");
+                        sieniConsultaFacadeRemote.create(duda);
+                    }
+                    new ValidationPojo().printMsj("Su solicitud ha sido enviada al administrador del sistema", FacesMessage.SEVERITY_INFO);
+                } else {
+                    new ValidationPojo().printMsj("Usuario y nombre no coinciden", FacesMessage.SEVERITY_ERROR);
                 }
             } else {
                 new ValidationPojo().printMsj("El nombre no corresponde a ningun usuario", FacesMessage.SEVERITY_ERROR);

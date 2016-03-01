@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "sieni_curso")
 @XmlRootElement
 @NamedQueries({
+    @NamedQuery(name = "SieniCurso.findByDocente", query = "SELECT DISTINCT s FROM SieniCurso s,SieniMateriaDocente md where md.idDocente=:idDocente and s.idMateria.idMateria=md.idMateria.idMateria AND s.crEstado='A' and md.idMateria.maEstado='A'"),
     @NamedQuery(name = "SieniCurso.findAll", query = "SELECT s FROM SieniCurso s"),
     @NamedQuery(name = "SieniCurso.findByTipoCurso", query = "SELECT s FROM SieniCurso s where s.crTipoCurso=:tipoCurso and s.crEstado='A'"),
     @NamedQuery(name = "SieniCurso.findAllByMateria", query = "SELECT s FROM SieniCurso s where s.idMateria.idMateria=:idMateria and s.crEstado!='I'"),

@@ -19,7 +19,7 @@ import sv.com.mined.sieni.model.SieniCurso;
 public interface SieniClaseFacadeRemote {
 
     void create(SieniClase sieniClase);
-    
+
     SieniClase createAndReturn(SieniClase sieniClase);
 
     void edit(SieniClase sieniClase);
@@ -35,17 +35,20 @@ public interface SieniClaseFacadeRemote {
     int count();
 
     public List<SieniClase> findAllNoInactivos();
+
+    public List<SieniClase> findByDocente(Long idDocente);
+
+    public List<SieniClase> findClaseByTipo(Character tipoClase, Long idDocente);
     
     public List<SieniClase> findClaseByTipo(Character tipoClase);
-    
-    public List<SieniClase> findClasesRpt(SieniCurso curso,Integer tipo,Integer estado);
-    
-    public List<SieniClase> findClaseByTipoAlumno(Character tipoClase,Long idAlumno);
-    
+
+    public List<SieniClase> findClasesRpt(SieniCurso curso, Integer tipo, Integer estado);
+
+    public List<SieniClase> findClaseByTipoAlumno(Character tipoClase, Long idAlumno);
+
     public List<SieniClase> findClaseByAlumno(Long idAlumno);
-    
+
     public void merge(List<SieniClase> clases);
-    
-    
+
     public List<SieniClase> findRptAvance(Long idAlumno);
 }

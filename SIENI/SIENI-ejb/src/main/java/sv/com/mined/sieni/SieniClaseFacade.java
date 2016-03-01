@@ -45,6 +45,30 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
     }
 
     @Override
+    public List<SieniClase> findByDocente(Long idDocente) {
+        Query q = em.createNamedQuery("SieniClase.findByDocente");
+        q.setParameter("idDocente", idDocente);
+        List<SieniClase> ret = q.getResultList();
+        for (SieniClase actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
+    }
+
+    @Override
+    public List<SieniClase> findClaseByTipo(Character tipoClase, Long idDocente) {
+        Character estado = 'I';
+        Query q = em.createNamedQuery("SieniClase.findClaseByTipoDocente");
+        q.setParameter("idDocente", idDocente);
+        q.setParameter("tipoClase", tipoClase);
+        List<SieniClase> ret = q.getResultList();
+        for (SieniClase actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
+    }
+    
+    @Override
     public List<SieniClase> findClaseByTipo(Character tipoClase) {
         Character estado = 'I';
         Query q = em.createNamedQuery("SieniClase.findClaseByTipo");
@@ -204,7 +228,7 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         //for (SieniClase actual : ret) {
         //    em.refresh(actual);
         //}
-        return ret;        
+        return ret;
     }
 
     @Override
@@ -221,7 +245,7 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         for (SieniClase actual : ret) {
             em.refresh(actual);
         }
-        return ret;        
+        return ret;
     }
 
     @Override
@@ -237,7 +261,7 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         for (SieniClase actual : ret) {
             em.refresh(actual);
         }
-        return ret;        
+        return ret;
     }
 
     @Override
@@ -251,8 +275,7 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         }
         em.flush();
     }
-    
-    
+
     @Override
     public List<SieniClase> findRptAvance(Long idAlumno) {
         Query q = em.createNamedQuery("SieniClase.rptAvanceClases");

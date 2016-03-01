@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -42,7 +43,7 @@ import utils.DateUtils;
  *
  * @author INFORMATICA
  */
-@ApplicationScoped
+@RequestScoped
 @ManagedBean(name = "notificacionesController")
 public class NotificacionesController extends NotificacionesForm {
 
@@ -105,19 +106,6 @@ public class NotificacionesController extends NotificacionesForm {
         count = this.getListNotificaciones().size();
     }
 
-    public void notificarPUSH() {
-        try {
-            String CHANNEL = "/notifyNotice";
-            EventBus eventBus = EventBusFactory.getDefault().eventBus();
-            eventBus.publish(CHANNEL, new FacesMessage("Nueva Notificacion"));
-
-        } catch (Exception e) {
-            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
-            System.out.println(e.getMessage());
-        }
-
-    }
-
     public void mensageFaces() {
         RequestContext context = RequestContext.getCurrentInstance();
         context.showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "MENSAJE", "SI SE"));
@@ -130,10 +118,15 @@ public class NotificacionesController extends NotificacionesForm {
             switch (notify.getNfOrigen()) {
                 case "sieni_tema_duda":
                     GestionarConsultasController consultasBean = (GestionarConsultasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarConsultasController");
-                    consultasBean.ver(sieniTemaDudaFacadeRemote.find(notify.getNfKey()));
+                    notify.setNfEstado('I');
+                    sieniNotificacionFacadeRemote.edit(notify);
+                    SieniTemaDuda duda = sieniTemaDudaFacadeRemote.find(notify.getNfKey());
+                    consultasBean.ver(duda);
                     break;
                 case "sieni_noticia":
                     GestionarNoticiasController noticiasBean = (GestionarNoticiasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarNoticiaController");
+                    notify.setNfEstado('I');
+                    sieniNotificacionFacadeRemote.edit(notify);
                     noticiasBean.ver(sieniNoticiaFacadeRemote.find(notify.getNfKey()));
                     break;
             }

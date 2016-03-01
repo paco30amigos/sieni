@@ -92,6 +92,10 @@ public class GestionCursoController extends GestionCursoForm {
 
     private void fill() {
         this.setCursoList(setDocente(sieniCursoFacadeRemote.findByEstado('A')));
+        
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+//        this.setCursoList(setDocente(sieniCursoFacadeRemote.findByDocente(loginBean.getDocente().getIdDocente())));
         //nuevo        
     }
 

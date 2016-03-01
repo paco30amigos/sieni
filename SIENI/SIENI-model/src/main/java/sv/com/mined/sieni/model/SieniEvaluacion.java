@@ -53,6 +53,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniEvaluacion.findbyRendimientoRpt", query = "SELECT s FROM SieniEvaluacion s where s.evFechaInicio BETWEEN :desde AND :hasta"),
     @NamedQuery(name = "SieniEvaluacion.findByMateria", query = "SELECT s FROM SieniEvaluacion s where s.evEstado='A' and s.idMateria.idMateria=:idMateria")})
 public class SieniEvaluacion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "sec_sieni_evaluacion")
@@ -93,7 +94,9 @@ public class SieniEvaluacion implements Serializable {
     private String evRespuestasAleatorias;
     @Column(name = "ev_ver_respuesta")
     private String evVerRespuesta;
-    
+    @Column(name = "id_docente")
+    private Long idDocente;
+
     @OneToMany(mappedBy = "idEvaluacion")
     private List<SieniEvalSupComp> sieniEvalSupCompList;
     @OneToMany(mappedBy = "idEvaluacion")
@@ -106,8 +109,8 @@ public class SieniEvaluacion implements Serializable {
     private SieniMateria idMateria;
     @OneToMany(mappedBy = "idEvaluacion")
     private List<SieniEvalSoluc> sieniEvalSolucList;
-    
-     @OneToMany(mappedBy = "idEvaluacion", fetch = FetchType.EAGER)
+
+    @OneToMany(mappedBy = "idEvaluacion", fetch = FetchType.EAGER)
     private List<SieniEvaluacionItem> sieniEvaluacionItemList;
 
     public SieniEvaluacion() {
@@ -214,7 +217,7 @@ public class SieniEvaluacion implements Serializable {
     public void setIdMateria(SieniMateria idMateria) {
         this.idMateria = idMateria;
     }
-    
+
     public Long getEvDuracion() {
         return evDuracion;
     }
@@ -287,7 +290,7 @@ public class SieniEvaluacion implements Serializable {
     public void setSieniEvalSolucList(List<SieniEvalSoluc> sieniEvalSolucList) {
         this.sieniEvalSolucList = sieniEvalSolucList;
     }
-    
+
     @XmlTransient
     public List<SieniEvaluacionItem> getSieniEvaluacionItemList() {
         return sieniEvaluacionItemList;
@@ -321,5 +324,13 @@ public class SieniEvaluacion implements Serializable {
     public String toString() {
         return "sv.com.mined.sieni.model.SieniEvaluacion[ idEvaluacion=" + idEvaluacion + " ]";
     }
-    
+
+    public Long getIdDocente() {
+        return idDocente;
+    }
+
+    public void setIdDocente(Long idDocente) {
+        this.idDocente = idDocente;
+    }
+
 }

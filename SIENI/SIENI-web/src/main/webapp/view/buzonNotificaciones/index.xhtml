@@ -19,7 +19,7 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form>               
-                <p:dataScroller value="#{notificacionesController.listNotificaciones}" var="nt" >
+                <p:dataScroller value="#{notificacionesController.listNotificaciones}" var="nt">
                     <p:panel id="panel-notify"   header="#{nt.notify.fechaIngresoFiltrable}" closable="true"  >
                         <p:outputLabel value="#{nt.notify.nfMensaje}" style="width: 800px;"></p:outputLabel>
                         <br/>

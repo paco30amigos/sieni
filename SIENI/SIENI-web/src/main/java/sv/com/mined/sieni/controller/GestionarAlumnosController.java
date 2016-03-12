@@ -72,7 +72,7 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosNoInactivos());
     }
 
-    public void nuevo() {
+    public void initNuevo() {
         resetFotos();
         CopiaArchivos ca = new CopiaArchivos();
         this.getFotoUsable().setArRuta(ca.getFotoDefault());
@@ -84,7 +84,6 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
         this.setIndexMenu(0);
     }
     public synchronized void guardar() {
-//        Character tipoUsuario = ;//hay que extraer el del usuario logueado
         try {
             CopiaArchivos ca = new CopiaArchivos();
             quitarFormato(this.getAlumnoNuevo());//quita el formato de los campos
@@ -102,7 +101,6 @@ public class GestionarAlumnosController extends GestionarAlumnosForm {
                 this.getAlumnosList().add(this.getAlumnoNuevo());
                 this.setAlumnoNuevo(new SieniAlumno());
                 new ValidationPojo().printMsj("Expediente Creado Exitosamente", FacesMessage.SEVERITY_INFO);
-//            fill();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);

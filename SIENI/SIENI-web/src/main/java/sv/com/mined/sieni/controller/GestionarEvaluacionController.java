@@ -159,29 +159,21 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
                     break;
                 }
             }
-
             this.getEvaluacionNuevo().setEvEstado('A');
-
             if (validarNuevo(this.getEvaluacionNuevo())) {//valida el guardado
-                SieniEvaluacion existEvaluacion = new SieniEvaluacion();
                 if (!this.getEvaluacionNuevo().getEvTipo().equals("Digital")) {
                     this.getEvaluacionNuevo().setEvFechaCierre(this.getEvaluacionNuevo().getEvFechaInicio());
                 }
                 this.getEvaluacionNuevo().setIdDocente(loginBean.getDocente().getIdDocente());
-
                 this.setEvaluacionNuevo(sieniEvaluacionFacadeRemote.createAndReturn(this.getEvaluacionNuevo()));
                 registrarEnBitacora("Crear", "Evaluacion", this.getEvaluacionNuevo().getIdEvaluacion());
                 FacesMessage msg = new FacesMessage("Evaluacion Creada Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 this.setEvaluacionNuevo(new SieniEvaluacion());
                 fill();
-//                this.setIndexMenu(0);
             }
             this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
             this.getEvaluacionNuevo().setEvTipo("Digital");
-
-//            this.setIndexMenu(1);
-            //            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

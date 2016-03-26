@@ -7,6 +7,7 @@
         <class>sv.com.mined.sieni.model.SieniAlumno</class>
         <class>sv.com.mined.sieni.model.SieniAnioEscolar</class>
         <class>sv.com.mined.sieni.model.SieniArchivo</class>
+        <class>sv.com.mined.sieni.model.SieniArchivo2</class>
         <class>sv.com.mined.sieni.model.SieniCatMateria</class>
         <class>sv.com.mined.sieni.model.SieniCatPuntos</class>
         <class>sv.com.mined.sieni.model.SieniClase</class>
@@ -55,7 +56,9 @@
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.jdbc.batch-writing" value="JDBC"/>
-            <property name="eclipselink.weaving" value="false"/>
+            <property name="eclipselink.weaving" value="static"/>
+            <property name="eclipselink.weaving.lazy" value="false"/>
+            <property name="eclipselink.weaving.eager" value="false"/>
             <property name="eclipselink.jdbc.batch-writing.size" value="4"/>
             <property name="eclipselink.persistence-context.flush-mode" value="commit"/>
             <property name="eclipselink.persistence-context.close-on-commit" value="true"/>

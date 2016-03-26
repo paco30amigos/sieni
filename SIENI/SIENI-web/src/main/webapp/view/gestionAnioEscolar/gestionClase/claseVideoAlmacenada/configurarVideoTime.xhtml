@@ -52,7 +52,7 @@
                     </p:column>
                     <p:column headerText="Acciones">
                         <p:commandLink action="#{gestionVideoClaseController.setSeccionInteractivaEliminada(puntosVid)}" onclick="PF('dlgEliminar').show();" immediate="true" >
-                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Clase"></i>
+                            <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar"></i>
                         </p:commandLink>
                     </p:column>
                 </p:dataTable>
@@ -69,8 +69,6 @@
                         </p:commandButton>
                         <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                         <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                            <p:menuitem value="Gestionar Docentes" >    
-                            </p:menuitem>
                             <p:menuitem value="Gestionar Alumnos">    
                             </p:menuitem>
                             <p:menuitem value="Gestionar Cursos">    

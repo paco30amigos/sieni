@@ -22,21 +22,19 @@
             <h:form enctype="multipart/form-data" >
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
-                    <p:outputLabel for="nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel id="nombre" value="#{catGradoController.ver.grNombre}"></p:outputLabel>
-                    <p:outputLabel for="numero"  value="Numero " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel id="numero" value="#{catGradoController.ver.grNumero}"></p:outputLabel>
-                    <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
-                    <p:outputLabel id="estado" value="#{catGradoController.ver.estado}"></p:outputLabel> 
+                    <p:outputLabel for="nombre"  value="Grado: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="nombre" value="#{catSeccionController.ver.idGrado.grNombre}"></p:outputLabel>
+                    <p:outputLabel for="numero"  value="Seccion" class=" Responsive"></p:outputLabel>
+                    <p:outputLabel id="numero" value="#{catSeccionController.ver.scDescripcion}"></p:outputLabel>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton value="Modificar" action="#{catGradoController.modificar(catGradoController.ver)}" immediate="true" >
+                    <p:commandButton value="Modificar" action="#{catSeccionController.modificar(catSeccionController.ver)}" immediate="true" >
                     </p:commandButton>
-                    <p:commandButton value="Eliminar" action="#{catGradoController.eliminar(catGradoController.ver)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                    <p:commandButton value="Eliminar" action="#{catSeccionController.eliminar(catSeccionController.ver)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                     </p:commandButton>
                     <p:commandButton value="Regresar" immediate="true">
-                        <p:ajax resetValues="true" listener="#{catGradoController.setIndexMenu(0)}"/>
+                        <p:ajax resetValues="true" listener="#{catSeccionController.setIndexMenu(0)}"/>
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">

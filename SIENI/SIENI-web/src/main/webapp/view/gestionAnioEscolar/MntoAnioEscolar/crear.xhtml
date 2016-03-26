@@ -10,7 +10,7 @@
             <p:menuitem value="Home" url="/"/>
             <p:menuitem value="Gestionar Año Escolar" url="#"/>
             <p:menuitem value="Mantenimiento de Año Escolar" url="#"/>
-            <p:menuitem value="Búsqueda de Año Escolar"></p:menuitem>
+            <p:menuitem value="Adicionar Año Escolar"></p:menuitem>
             <p:separator />
         </p:breadCrumb>
         
@@ -56,11 +56,7 @@
                     </p:commandButton>
                     <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
-                        <p:menuitem value="Gestionar Usuarios" url="#{siteUrls.gestionEvaluacion}" >    
-                        </p:menuitem>
                         <p:menuitem value="Matricula de alumnos" url="#{siteUrls.gestionAlumnos}">    
-                        </p:menuitem>
-                        <p:menuitem value="Gestionar Alumnos" url="#{siteUrls.gestionarAlumnos}">    
                         </p:menuitem>
                         <p:menuitem value="Gestionar Docentes" url="#{siteUrls.gestionDocentes}">    
                         </p:menuitem>

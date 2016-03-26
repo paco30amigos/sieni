@@ -52,7 +52,7 @@
                             #{noti.idCurso == null?'TODOS LOS CURSOS':noti.idCurso.crNombre}
                         </p:column>
                     <p:column headerText="Acciones" style="width: 12%">
-                        <p:commandLink action="#{gestionarNoticiasController.ver(noti)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Consultar Noticia" ></i></p:commandLink>
+                        <p:commandLink action="#{gestionarNoticiasController.ver(noti)}"><i class="icon-visibility1 Fs30 Red MarRight10" title="Ver consulta" ></i></p:commandLink>
                         <p:commandLink action="#{gestionarNoticiasController.modificar(noti)}"><i class="icon-compose Fs25 Red MarRight10" title="Modificar Noticia" ></i></p:commandLink>
                         <p:commandLink action="#{gestionarNoticiasController.eliminar(noti)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                             <i class="icon-close Fs25 Red MarRight10" title="Eliminar Noticia"></i>

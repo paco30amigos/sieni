@@ -34,7 +34,7 @@ public class SieniArchivoFacade extends AbstractFacade<SieniArchivo> implements 
     @Override
     public byte[] getArchivoLazy(Long idArchivo) {
         String estado = "I";
-        Query q = em.createNamedQuery("SieniArchivo.findArchivoLazy");
+        Query q = em.createNamedQuery("SieniArchivo2.findArchivoLazy");
         q.setParameter("idArchivo", idArchivo);
         q.setParameter("estado", estado);        
 //        em.refresh(q.getSingleResult());

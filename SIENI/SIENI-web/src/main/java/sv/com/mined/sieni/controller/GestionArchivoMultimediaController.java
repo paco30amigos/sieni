@@ -16,9 +16,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.FileUploadEvent;
+import sv.com.mined.sieni.SieniArchivo2FacadeRemote;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.form.GestionArchivoMultimediaForm;
 import sv.com.mined.sieni.model.SieniArchivo;
+import sv.com.mined.sieni.model.SieniArchivo2;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import utils.CopiaArchivos;
 import utils.TamanioUtils;
@@ -33,6 +35,8 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
 
     @EJB
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
+    @EJB
+    private SieniArchivo2FacadeRemote sieniArchivo2FacadeRemote;
 
     private void registrarEnBitacora(String accion, String tabla, Long id) {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -66,7 +70,8 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
             this.getArchivoNuevo().setArArchivo(this.getArchivoUsable());
             if (validarNuevo(this.getArchivoNuevo())) {//valida el guardado
                 guardarCopia();
-                this.setArchivoNuevo(sieniArchivoFacadeRemote.createAndReturn(this.getArchivoNuevo()));
+                SieniArchivo2 nuevo = sieniArchivo2FacadeRemote.createAndReturn(convertToArchivo2(this.getArchivoNuevo()));
+                this.setArchivoNuevo(convertToArchivo(nuevo));
                 registrarEnBitacora("Guardar", "Archivo", this.getArchivoNuevo().getIdArchivo());
                 new ValidationPojo().printMsj("Archivo Creado Exitosamente", FacesMessage.SEVERITY_INFO);
                 //agrega el nuevo archivo a la lista de la tabla actual para no hacer el fill
@@ -148,7 +153,8 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
                     this.getArchivoModifica().setArArchivo(this.getArchivoUsableModifica());
                     actualizarCopia();
                 }
-                sieniArchivoFacadeRemote.edit(this.getArchivoModifica());
+                SieniArchivo2 editar = convertToArchivo2(this.getArchivoModifica());
+                sieniArchivo2FacadeRemote.edit(editar);
                 registrarEnBitacora("Modificar", "Archivo", this.getArchivoModifica().getIdArchivo());
                 new ValidationPojo().printMsj("Archivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             }
@@ -261,4 +267,31 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
         new ValidationPojo().printMsj("Archivo subido correctamente", FacesMessage.SEVERITY_INFO);
     }
 
+    public SieniArchivo2 convertToArchivo2(SieniArchivo archivo) {
+        SieniArchivo2 ret = new SieniArchivo2();
+        ret.setArArchivo(archivo.getArArchivo());
+        ret.setArEstado(archivo.getArEstado());
+        ret.setArNombre(archivo.getArNombre());
+        ret.setArRuta(archivo.getArRuta());
+        ret.setArTipo(archivo.getArTipo());
+        ret.setEstado(archivo.getEstado());
+        ret.setIdArchivo(archivo.getIdArchivo());
+        ret.setIdComponente(archivo.getIdComponente());
+        ret.setTipoArchivo(archivo.getTipoArchivo());
+        return ret;
+    }
+
+    public SieniArchivo convertToArchivo(SieniArchivo2 archivo) {
+        SieniArchivo ret = new SieniArchivo();
+        ret.setArArchivo(archivo.getArArchivo());
+        ret.setArEstado(archivo.getArEstado());
+        ret.setArNombre(archivo.getArNombre());
+        ret.setArRuta(archivo.getArRuta());
+        ret.setArTipo(archivo.getArTipo());
+        ret.setEstado(archivo.getEstado());
+        ret.setIdArchivo(archivo.getIdArchivo());
+        ret.setIdComponente(archivo.getIdComponente());
+        ret.setTipoArchivo(archivo.getTipoArchivo());
+        return ret;
+    }
 }

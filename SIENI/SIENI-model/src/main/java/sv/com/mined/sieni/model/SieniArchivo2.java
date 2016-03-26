@@ -32,17 +32,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_archivo")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SieniArchivo.findAllNoInactivos", query = "SELECT s FROM SieniArchivo s where s.arEstado NOT IN (:estado) and s.arTipo in ('A','V','I') ORDER BY s.idArchivo"),
-    @NamedQuery(name = "SieniArchivo.findByIdSuperComp", query = "SELECT s FROM SieniArchivo s,SieniComponente c where s.idArchivo=c.idArchivo and c.idSuperCompon.idSuperCompon=:idSuperCompon and s.arEstado NOT IN (:estado) ORDER BY C.cpOrden"),
-//    @NamedQuery(name = "SieniArchivo.findArchivoLazy", query = "SELECT s.arArchivo FROM SieniArchivo s where s.idArchivo=:idArchivo and s.arEstado NOT IN (:estado)"),
-    @NamedQuery(name = "SieniArchivo.findByNombre", query = "SELECT s FROM SieniArchivo s where s.arNombre=:nombre"),
-    @NamedQuery(name = "SieniArchivo.findAll", query = "SELECT s FROM SieniArchivo s"),
-//    @NamedQuery(name = "SieniArchivo.findByIdArchivo", query = "SELECT s FROM SieniArchivo s WHERE s.idArchivo = :idArchivo"),
-    @NamedQuery(name = "SieniArchivo.findByArRuta", query = "SELECT s FROM SieniArchivo s WHERE s.arRuta = :arRuta"),
-    @NamedQuery(name = "SieniArchivo.findByArTipoActivo", query = "SELECT s FROM SieniArchivo s WHERE s.arTipo = :arTipo and s.arEstado='A'"),
-    @NamedQuery(name = "SieniArchivo.findByArNombre", query = "SELECT s FROM SieniArchivo s WHERE s.arNombre = :arNombre"),
-    @NamedQuery(name = "SieniArchivo.findByArEstado", query = "SELECT s FROM SieniArchivo s WHERE s.arEstado = :arEstado")})
-public class SieniArchivo implements Serializable {
+    @NamedQuery(name = "SieniArchivo2.findAllNoInactivos", query = "SELECT s FROM SieniArchivo2 s where s.arEstado NOT IN (:estado) and s.arTipo in ('A','V','I') ORDER BY s.idArchivo"),
+    @NamedQuery(name = "SieniArchivo2.findByIdSuperComp", query = "SELECT s FROM SieniArchivo2 s,SieniComponente c where s.idArchivo=c.idArchivo and c.idSuperCompon.idSuperCompon=:idSuperCompon and s.arEstado NOT IN (:estado) ORDER BY C.cpOrden"),
+    @NamedQuery(name = "SieniArchivo2.findArchivoLazy", query = "SELECT s.arArchivo FROM SieniArchivo2 s where s.idArchivo=:idArchivo and s.arEstado NOT IN (:estado)"),
+    @NamedQuery(name = "SieniArchivo2.findByNombre", query = "SELECT s FROM SieniArchivo2 s where s.arNombre=:nombre"),
+    @NamedQuery(name = "SieniArchivo2.findAll", query = "SELECT s FROM SieniArchivo2 s"),
+    @NamedQuery(name = "SieniArchivo2.findByIdArchivo", query = "SELECT s FROM SieniArchivo2 s WHERE s.idArchivo = :idArchivo"),
+    @NamedQuery(name = "SieniArchivo2.findByArRuta", query = "SELECT s FROM SieniArchivo2 s WHERE s.arRuta = :arRuta"),
+    @NamedQuery(name = "SieniArchivo2.findByArTipoActivo", query = "SELECT s FROM SieniArchivo2 s WHERE s.arTipo = :arTipo and s.arEstado='A'"),
+    @NamedQuery(name = "SieniArchivo2.findByArNombre", query = "SELECT s FROM SieniArchivo2 s WHERE s.arNombre = :arNombre"),
+    @NamedQuery(name = "SieniArchivo2.findByArEstado", query = "SELECT s FROM SieniArchivo2 s WHERE s.arEstado = :arEstado")})
+public class SieniArchivo2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -55,10 +55,9 @@ public class SieniArchivo implements Serializable {
     private String arRuta;
     @Column(name = "ar_tipo")
     private Character arTipo;
-//    @Basic(fetch = FetchType.LAZY)
-//    @Lob
-//    @Column(name = "ar_archivo")
-    @Transient
+    @Basic(fetch = FetchType.LAZY)
+    @Lob
+    @Column(name = "ar_archivo")
     private byte[] arArchivo;
     @Column(name = "ar_nombre")
     private String arNombre;
@@ -72,10 +71,10 @@ public class SieniArchivo implements Serializable {
     @Transient
     private String tipoArchivo;
 
-    public SieniArchivo() {
+    public SieniArchivo2() {
     }
 
-    public SieniArchivo(Long idArchivo) {
+    public SieniArchivo2(Long idArchivo) {
         this.idArchivo = idArchivo;
     }
 
@@ -187,10 +186,10 @@ public class SieniArchivo implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SieniArchivo)) {
+        if (!(object instanceof SieniArchivo2)) {
             return false;
         }
-        SieniArchivo other = (SieniArchivo) object;
+        SieniArchivo2 other = (SieniArchivo2) object;
         if ((this.idArchivo == null && other.idArchivo != null) || (this.idArchivo != null && !this.idArchivo.equals(other.idArchivo))) {
             return false;
         }
@@ -199,7 +198,7 @@ public class SieniArchivo implements Serializable {
 
     @Override
     public String toString() {
-        return "sv.com.mined.sieni.model.SieniArchivo[ idArchivo=" + idArchivo + " ]";
+        return "sv.com.mined.sieni.model.SieniArchivo2[ idArchivo=" + idArchivo + " ]";
     }
 
 }

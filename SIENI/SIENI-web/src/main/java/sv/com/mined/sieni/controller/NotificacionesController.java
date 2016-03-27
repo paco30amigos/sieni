@@ -135,10 +135,11 @@ public class NotificacionesController extends NotificacionesForm {
                     respuestaBean.ver(respuesta.getIdTemaDuda());
                     break;
                 case "sieni_noticia":
-                    GestionarNoticiasController noticiasBean = (GestionarNoticiasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarNoticiaController");
+                    GestionarNoticiasController noticiasBean = (GestionarNoticiasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarNoticiasController");
                     notify.setNfEstado('I');
                     sieniNotificacionFacadeRemote.edit(notify);
-                    noticiasBean.ver(sieniNoticiaFacadeRemote.find(notify.getNfKey()));
+                    SieniNoticia noticia = sieniNoticiaFacadeRemote.find(notify.getNfKey());
+                    noticiasBean.ver(noticia);
                     break;
             }
 

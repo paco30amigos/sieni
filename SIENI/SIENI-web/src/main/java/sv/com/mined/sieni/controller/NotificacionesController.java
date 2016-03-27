@@ -26,6 +26,7 @@ import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniNoticiaFacadeRemote;
 import sv.com.mined.sieni.SieniNotificacionFacadeRemote;
+import sv.com.mined.sieni.SieniResolDudaFacadeRemote;
 import sv.com.mined.sieni.SieniTemaDudaFacadeRemote;
 import sv.com.mined.sieni.form.NotificacionesForm;
 import sv.com.mined.sieni.model.AlumnoRecibeNoti;
@@ -35,6 +36,7 @@ import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.model.SieniNoticia;
 import sv.com.mined.sieni.model.SieniNotificacion;
 import sv.com.mined.sieni.model.SieniTemaDuda;
+import sv.com.mined.sieni.model.SieniResolDuda;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import sv.com.mined.sieni.pojos.rpt.NotificacionesPojo;
 import utils.DateUtils;
@@ -51,6 +53,8 @@ public class NotificacionesController extends NotificacionesForm {
     private SieniNotificacionFacadeRemote sieniNotificacionFacadeRemote;
     @EJB
     private SieniTemaDudaFacadeRemote sieniTemaDudaFacadeRemote;
+    @EJB
+    private SieniResolDudaFacadeRemote sieniResolDudaFacadeRemote;
     @EJB
     private SieniNoticiaFacadeRemote sieniNoticiaFacadeRemote;
     @EJB
@@ -122,6 +126,13 @@ public class NotificacionesController extends NotificacionesForm {
                     sieniNotificacionFacadeRemote.edit(notify);
                     SieniTemaDuda duda = sieniTemaDudaFacadeRemote.find(notify.getNfKey());
                     consultasBean.ver(duda);
+                    break;
+                case "sieni_resol_duda":
+                    GestionarConsultasController respuestaBean = (GestionarConsultasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarConsultasController");
+                    notify.setNfEstado('I');
+                    sieniNotificacionFacadeRemote.edit(notify);
+                    SieniResolDuda respuesta = sieniResolDudaFacadeRemote.find(notify.getNfKey());
+                    respuestaBean.ver(respuesta.getIdTemaDuda());
                     break;
                 case "sieni_noticia":
                     GestionarNoticiasController noticiasBean = (GestionarNoticiasController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "gestionarNoticiaController");

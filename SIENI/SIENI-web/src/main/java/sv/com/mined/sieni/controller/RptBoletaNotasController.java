@@ -214,8 +214,9 @@ public class RptBoletaNotasController extends RptBoletaNotasForm {
         parameterMap.put("hasta", new FormatUtils().getFormatedDate(this.getHasta()));
         parameterMap.put("grado", txtGrado);
         parameterMap.put("seccion", txtSeccion);
-        parameterMap.put("alumno", "alumno");
-        parameterMap.put("carnet", "carnet");
+        SieniAlumno alumno = sieniAlumnoFacadeRemote.findAlumnoById(this.getAlumno().getIdAlumno());
+        parameterMap.put("alumno", alumno != null ? alumno.getNombreCompleto() : "");
+        parameterMap.put("carnet", alumno != null ? alumno.getAlCarnet() : "");
         parameterMap.put("promedioTotal", this.getTotal().setScale(2, RoundingMode.HALF_UP).toString());
         parameterMap.put("fechaGeneracion", new FormatUtils().getFormatedDate(new DateUtils().getFechaActual()));
 

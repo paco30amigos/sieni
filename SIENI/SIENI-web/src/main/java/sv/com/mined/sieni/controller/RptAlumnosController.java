@@ -70,7 +70,7 @@ public class RptAlumnosController extends RptAlumnosForm {
         this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
         this.setSeccionesList(new ArrayList<SieniSeccion>());
         if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
-            if (this.getIdSeccion()==null||this.getIdSeccion().equals(0L)) {
+            if (this.getIdSeccion() == null || this.getIdSeccion().equals(0L)) {
                 if (this.getGradosList().get(0).getSieniSeccionList() != null
                         && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
                     this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
@@ -136,6 +136,26 @@ public class RptAlumnosController extends RptAlumnosForm {
                 txtMatriculado = "No";
                 break;
         }
+        this.setGrado(null);
+        this.setSeccion(null);
+        if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
+            for (SieniGrado actual:this.getGradosList()) {
+                if(actual.getIdGrado().equals(this.getIdGrado())){
+                    this.setGrado(actual.getGrNombre());
+                    break;
+                }
+            }
+        }
+        
+        if (this.getSeccionesList()!= null && !this.getSeccionesList().isEmpty()) {
+            for (SieniSeccion actual:this.getSeccionesList()) {
+                if(actual.getIdSeccion().equals(this.getIdSeccion())){
+                    this.setSeccion(actual.getScDescripcion());
+                    break;
+                }
+            }
+        }
+
         String path = "resources/reportes/rtpAlumnos.jasper";
         Map parameterMap = new HashMap();
         parameterMap.put("desde", new FormatUtils().getFormatedDate(this.getAnioDesde()));

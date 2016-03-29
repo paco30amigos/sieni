@@ -116,7 +116,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
             case 1:
                 switch (matriculadoAnioActual) {
                     case 0:
-                        q = em.createNamedQuery("SieniAlumno.findAnioGrado");
+                        q = em.createNamedQuery("SieniAlumno.findAnio");
                         break;
                     case 1:
                         q = em.createNamedQuery("SieniAlumno.findAnioGradoMatriculadoActual");
@@ -129,7 +129,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
             case 2:
                 switch (matriculadoAnioActual) {
                     case 0:
-                        q = em.createNamedQuery("SieniAlumno.findAnioGradoSeccion");
+                        q = em.createNamedQuery("SieniAlumno.findAnio");
                         break;
                     case 1:
                         q = em.createNamedQuery("SieniAlumno.findAnioGradoSeccionMatriculadoActual");

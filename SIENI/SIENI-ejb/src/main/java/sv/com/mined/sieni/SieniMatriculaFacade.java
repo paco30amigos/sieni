@@ -35,7 +35,7 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
 
     @Override
     public List<SieniMatricula> getMatriculasAnio(Integer anio) {
-        Character estado='A';
+        Character estado = 'A';
         Query q = em.createNamedQuery("SieniMatricula.findMatriculasByAnioEstado");
         q.setParameter("anio", anio.toString());
         q.setParameter("estado", estado);
@@ -59,7 +59,7 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
         q.setParameter("hasta", hasta);
         return q.getResultList();
     }
-    
+
     @Override
     public List<SieniAlumno> findAlumNoInactivos(Date desde, Date hasta) {
         Character estado = 'I';
@@ -115,6 +115,18 @@ public class SieniMatriculaFacade extends AbstractFacade<SieniMatricula> impleme
         SieniMatricula ret = null;
         if (res != null && !res.isEmpty()) {
             ret = res.get(0);
+        }
+        return ret;
+    }
+
+    @Override
+    public SieniMatricula findUltimaMatriculaAlumno(Long idAlumno) {
+        Query q = em.createNamedQuery("SieniMatricula.findUltimaMatriculaAlumno");
+        q.setParameter("idAlumno", idAlumno);
+        List<SieniMatricula> res = q.getResultList();
+        SieniMatricula ret = null;
+        if (res != null && !res.isEmpty() && res.get(0) != null) {
+            ret = this.find(res.get(0));
         }
         return ret;
     }

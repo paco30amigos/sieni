@@ -17,7 +17,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +28,7 @@ import sv.com.mined.sieni.SieniMatriculaFacadeRemote;
 import sv.com.mined.sieni.form.RptAlumnosForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniGrado;
+import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniSeccion;
 import sv.com.mined.sieni.pojos.rpt.RptAlumnosPojo;
 import utils.DateUtils;
@@ -62,7 +62,21 @@ public class RptAlumnosController extends RptAlumnosForm {
         this.setTipoRpt(0);
         this.setMatriculado(0);
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
+        initCombos();
         fill();
+    }
+
+    public void initCombos() {
+        this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
+        this.setSeccionesList(new ArrayList<SieniSeccion>());
+        if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
+            if (this.getIdSeccion()==null||this.getIdSeccion().equals(0L)) {
+                if (this.getGradosList().get(0).getSieniSeccionList() != null
+                        && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
+                    this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
+                }
+            }
+        }
     }
 
     public void fill() {
@@ -81,9 +95,14 @@ public class RptAlumnosController extends RptAlumnosForm {
         String seccion = "";
         String gradoSeccion = "";
         for (SieniAlumno actual : alumnos) {
-            if (actual.getMatriculaActual() != null) {
-                grado = actual.getMatriculaActual().getIdGrado().getGrNombre();
-                seccion = actual.getMatriculaActual().getIdSeccion().getScDescripcion();
+
+//            SieniMatricula matriculaActual=sieniMatriculaFacadeRemote.findUltimaMatriculaAlumno(actual.getIdAlumno());
+            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+            SieniMatricula matriculaActual = sieniMatriculaFacadeRemote.findByIdAlumnoAnio(actual.getIdAlumno(), loginBean.getAnioEscolarActivo().getAeAnio() + "");
+            if (matriculaActual != null) {
+                grado = matriculaActual.getIdGrado().getGrNombre();
+                seccion = matriculaActual.getIdSeccion().getScDescripcion();
                 gradoSeccion = grado + seccion;
             } else {
                 gradoSeccion = "N.M.";
@@ -99,18 +118,11 @@ public class RptAlumnosController extends RptAlumnosForm {
             this.getListDatos().add(elem);
         }
         this.setTotalAlumnos("" + this.getListDatos().size());
-        this.setGradosList(sieniGradoFacadeRemote.findAll());
-        this.setSeccionesList(new ArrayList<SieniSeccion>());
-        if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
-            if (this.getGradosList().get(0).getSieniSeccionList() != null
-                    && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
-                this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
-            }
-        }
+
     }
 
     public void generarReporte() {
-        fill();
+
         String txtMatriculado = "";
         Integer matriculado = this.getMatriculado();
         switch (matriculado) {
@@ -152,11 +164,17 @@ public class RptAlumnosController extends RptAlumnosForm {
     public void getSeccionesGrado(ValueChangeEvent a) {
         Long idGrado = (Long) a.getNewValue();
         SieniGrado cod = new SieniGrado();
-        for (SieniGrado actual : this.getGradosList()) {
-            if (actual.getIdGrado().equals(idGrado)) {
-                cod = actual;
-                break;
+        Long noSelec = 0L;
+        if (!noSelec.equals(idGrado)) {
+            for (SieniGrado actual : this.getGradosList()) {
+                if (actual.getIdGrado().equals(idGrado)) {
+                    cod = actual;
+                    this.setIdGrado(actual.getIdGrado());
+                    break;
+                }
             }
+        } else {
+            this.setIdGrado(0L);
         }
         this.setIdSeccion(0L);
         this.setSeccionesList(cod.getSieniSeccionList());

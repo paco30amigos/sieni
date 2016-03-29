@@ -18,7 +18,7 @@
         <p:panel>
             <h:form>      
                 <div class="EmptyBox20"></div>
-                <p:panelGrid columns="4">
+                <p:panelGrid columns="4" id="pan">
                     <p:outputLabel for="anioDesde" value="Registrado desde:"></p:outputLabel>
                     <p:calendar id="anioDesde" value="#{rptAlumnosController.anioDesde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+20" navigator="true">
                         <p:ajax event="dateSelect" update="anioHasta"></p:ajax>
@@ -29,12 +29,13 @@
                     <p:selectOneMenu id="grado" filter="true" filterMatchMode="contains" value="#{rptAlumnosController.idGrado}" valueChangeListener="#{rptAlumnosController.getSeccionesGrado}">
                         <f:selectItem itemValue="0" itemLabel="Último matriculado"></f:selectItem>
                         <f:selectItems itemValue="#{grado.idGrado}" itemLabel="#{grado.grNombre}" value="#{rptAlumnosController.gradosList}" var="grado"></f:selectItems>
-                        <p:ajax event="valueChange" update="seccion"/>
+                        <p:ajax event="valueChange" update="seccion,pan"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
                     <p:selectOneMenu id="seccion" value="#{rptAlumnosController.idSeccion}">
                         <f:selectItem itemValue="0" itemLabel="Última matriculada"></f:selectItem>
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptAlumnosController.seccionesList}" var="seccion"></f:selectItems>
+                        <p:ajax event="valueChange" update="pan"/>
                     </p:selectOneMenu>
                     <p:outputLabel value="Matriculado año actual"></p:outputLabel>
                     <p:selectOneMenu value="#{rptAlumnosController.matriculado}">
@@ -42,7 +43,7 @@
                         <f:selectItem itemLabel="Si" itemValue="1"></f:selectItem>
                         <f:selectItem itemLabel="No" itemValue="2"></f:selectItem>
                     </p:selectOneMenu>
-                    <p:commandButton value="Generar" actionListener="#{rptAlumnosController.fill()}" update="consulta" ajax="true"></p:commandButton>
+                    <p:commandButton value="Generar" actionListener="#{rptAlumnosController.fill()}" update="consulta,pan" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <div class="EmptyBox20"></div>
                 <p:dataTable id="consulta"  var="car" value="#{rptAlumnosController.listDatos}" 

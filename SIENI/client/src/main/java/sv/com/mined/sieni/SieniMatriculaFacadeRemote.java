@@ -46,4 +46,5 @@ public interface SieniMatriculaFacadeRemote {
 
     public SieniMatricula findByIdAlumnoAnio(Long idAlumno, String mtAnio);
 
+    public SieniMatricula findUltimaMatriculaAlumno(Long idAlumno);
 }

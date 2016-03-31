@@ -25,8 +25,7 @@ import javax.persistence.criteria.Root;
 import org.primefaces.model.SortOrder;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.pojos.PagedResult;
-import org.eclipse.persistence.config.HintValues;
-import org.eclipse.persistence.config.QueryHints;
+import sv.com.mined.sieni.model.SieniAlumno;
 
 /**
  *
@@ -296,9 +295,10 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     public SieniAlumno findAlumnoById(Long id) {
         Query q = em.createNamedQuery("SieniAlumno.findAlumnoById");
         q.setParameter("id", id);
-        SieniAlumno res = (SieniAlumno) q.getSingleResult();
+        List<SieniAlumno> res = (List<SieniAlumno>) q.getResultList();
+//        SieniAlumno res = (SieniAlumno) q.getSingleResult();
         if (res != null) {
-            return res;
+            return res.get(0);
         } else {
             return null;
         }

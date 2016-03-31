@@ -330,13 +330,18 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         //si es el que ingreso la evaluacion o el coordinador de la materia
-        if (modificado.getIdDocente() != null && modificado.getIdDocente().equals(loginBean.getDocente().getIdDocente())
-                || loginBean.getDocente().getIdDocente().equals(modificado.getIdMateria().getMaCoordinador())) {
+        if (loginBean.getAlumno() != null) {
             ban = true;
         } else {
-            new ValidationPojo().printMsj("Unicamente el creador de la evaluación y el coordinador de la materia puede modificar la evaluacion", FacesMessage.SEVERITY_ERROR);
+            if (modificado.getIdDocente() != null && modificado.getIdDocente().equals(loginBean.getDocente().getIdDocente())
+                    || loginBean.getDocente().getIdDocente().equals(modificado.getIdMateria().getMaCoordinador())) {
+                ban = true;
+            } else {
+                new ValidationPojo().printMsj("Unicamente el creador de la evaluación y el coordinador de la materia puede modificar la evaluacion", FacesMessage.SEVERITY_ERROR);
+            }
         }
         return ban;
+
     }
 
     public void modificarItem(SieniEvaluacionItem modificadoItem) {

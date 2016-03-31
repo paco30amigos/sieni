@@ -74,7 +74,7 @@ public class GestionarDocentesController extends GestionarDocentesForm {
     private void fill() {
         this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
     }
-    
+
     public void nuevo() {
         resetFotos();
         CopiaArchivos ca = new CopiaArchivos();
@@ -307,12 +307,16 @@ public class GestionarDocentesController extends GestionarDocentesForm {
         nuevo.setIdMateria(this.getMateria());
         nuevo.setMdEstado('A');
         nuevo.setIdMateriaDocente(-Long.parseLong(new DateUtils().getTime()));
-        this.getMateriasDocente().add(nuevo);
+        boolean encontrado = false;
         for (int i = 0; i < this.getMaterias().size(); i++) {
             if (nuevo.getIdMateria().getIdMateria().equals(this.getMaterias().get(i).getIdMateria())) {
                 this.getMaterias().remove(i);
+                encontrado = true;
                 break;
             }
+        }
+        if (encontrado) {
+            this.getMateriasDocente().add(nuevo);
         }
 //        sieniMateriaDocenteFacadeRemote.create(nuevo);
     }

@@ -297,7 +297,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         q.setParameter("id", id);
         List<SieniAlumno> res = (List<SieniAlumno>) q.getResultList();
 //        SieniAlumno res = (SieniAlumno) q.getSingleResult();
-        if (res != null) {
+        if (res != null && !res.isEmpty()) {
             return res.get(0);
         } else {
             return null;

@@ -36,6 +36,7 @@ public class CatMateriaForm {
         switch (indexMenu) {
             case 0:
                 sU.redirect(sU.getBasecatMateria() + "index.xhtml");
+                //sU.resetearFitrosTabla("consulta");
                 break;
             case 1:
                 sU.redirect(sU.getBasecatMateria() + "crear.xhtml");

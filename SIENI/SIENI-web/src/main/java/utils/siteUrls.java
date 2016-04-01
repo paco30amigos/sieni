@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.component.datatable.DataTable;
 
 /**
  *
@@ -123,6 +124,12 @@ public class siteUrls {
         }
     }
 
+    
+    public void resetearFitrosTabla(String id) {
+        DataTable table = (DataTable) FacesContext.getCurrentInstance().getViewRoot().findComponent(id);
+        table.reset();
+    }
+    
     public String getEjerciciosResueltos() {
         return ejerciciosResueltos;
     }
@@ -458,5 +465,10 @@ public class siteUrls {
     public String getReporteNotasModificadas() {
         return reporteNotasModificadas;
     }
+    
+    
+    
+    
+    
 
 }

@@ -26,8 +26,8 @@
                     <p:inputText tabindex="1" id="nombre" value="#{catMateriaController.nuevo.catNombre}" required="true" requiredMessage="Debe ingresar un nombre a la materia" maxlength="#{tamanioUtils.nombreArchivoMax}"></p:inputText>
                     <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu tabindex="2" id="estado" class=" Responsive" value="#{catMateriaController.nuevo.catEstado}">
-                        <f:selectItem itemValue ="A" itemLabel="Activo"/>
-                        <f:selectItem itemValue="P" itemLabel="Trabajando"/>
+                        <f:selectItem itemValue ="A" itemLabel="Disponible"/>
+                        <f:selectItem itemValue="T" itemLabel="No Disponible"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <p:tooltip for="nombre">
@@ -35,9 +35,9 @@
                 </p:tooltip>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{catMateriaController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"/>
+                    <p:commandButton value="Guardar" action="#{catMateriaController.guardar()}" update="p1" oncomplete="configurarEnterTab()"/>
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,focus" resetValues="true" listener="#{catMateriaController.resetNuevoForm()}" oncomplete="configurarEnterTab()" />
+                        <p:ajax update="p1" resetValues="true" listener="#{catMateriaController.resetNuevoForm()}" oncomplete="configurarEnterTab()" />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{catMateriaController.setIndexMenu(0)}"/>

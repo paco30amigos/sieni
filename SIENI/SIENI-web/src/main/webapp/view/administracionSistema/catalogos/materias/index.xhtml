@@ -18,35 +18,47 @@
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
+        <script type="text/javascript">
+            $(document).ready(function() {
+                document.getElementById('#consulta').focus();
+            });
+        </script>
         <p:panel>
-            <h:form id="consultaForm">                
+            <h:form id="consultaForm" >                
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
                     <p:commandButton value="Si" action="#{catMateriaController.eliminarCatMateria()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
-                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{catMateriaController.list}" 
+                
+                
+                
+                <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="cat" value="#{catMateriaController.list}" 
                              paginator="true"
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,20,40"
                              emptyMessage="No se encontraron datos"
                              filteredValue="#{catMateriaController.listDatosFiltered}"
-                             reflow="true">
-                    <p:column headerText="Nombre" filterBy="#{car.catNombre}" filterable="true" filterMatchMode="contains">
-                        #{car.catNombre}
+                             reflow="true"
+                             widgetVar="tblconsulta"
+                             >
+                    
+                    
+                    <p:column headerText="Nombre" filterBy="#{cat.catNombre}" filterable="true" filterMatchMode="contains">
+                        #{cat.catNombre}
                     </p:column>
-                    <p:column headerText="Estado" filterBy="#{car.estado}" filterable="true" filterMatchMode="contains">
-                        #{car.estado}
+                    <p:column headerText="Estado" filterBy="#{cat.estado}" filterable="true" filterMatchMode="contains">
+                        #{cat.estado}
                     </p:column>
                     <p:column headerText="Acciones">
-                        <p:commandLink action="#{catMateriaController.mostrar(car)}" >
+                        <p:commandLink action="#{catMateriaController.mostrar(cat)}" >
                             <i class="icon-visibility1 Fs30 Red MarRight10" style="cursor: pointer" title="Consultar Tipo de elemento de plantilla"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{catMateriaController.modificar(car)}">
+                        <p:commandLink action="#{catMateriaController.modificar(cat)}">
                             <i class="icon-compose Fs25 Red MarRight10" style="cursor: pointer" title="Modificar Tipo de elemento de plantilla"></i>
                         </p:commandLink>
-                        <p:commandLink action="#{catMateriaController.eliminar(car)}" onclick="PF('dlgEliminar').show();" immediate="true" >
+                        <p:commandLink action="#{catMateriaController.eliminar(cat)}" onclick="PF('dlgEliminar').show();" immediate="true" >
                             <i class="icon-close Fs25 Red MarRight10" style="cursor: pointer" title="Eliminar Tipo de elemento de plantilla"></i>
                         </p:commandLink>
                     </p:column>

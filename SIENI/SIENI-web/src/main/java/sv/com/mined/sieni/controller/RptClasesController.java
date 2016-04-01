@@ -92,6 +92,7 @@ public class RptClasesController extends RptClasesForm{
         switch (this.getTipo()) {
             case 0:
                 parameterMap.put("tipoClase", "TODOS");
+                break;
             case 1:
                 parameterMap.put("tipoClase", "Clase en vivo");
                 break;

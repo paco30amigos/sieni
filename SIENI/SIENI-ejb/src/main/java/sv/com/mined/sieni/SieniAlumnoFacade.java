@@ -77,11 +77,11 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
-    public List<SieniAlumno> findAlumnosMatriculados(Long idAnio) {
+    public List<SieniAlumno> findAlumnosMatriculados(Long idAnio,String anio) {
         Character estado = 'A';
         Query q = em.createNamedQuery("SieniAlumno.findAlumnosMatriculados");
         q.setParameter("estado", estado);
-        q.setParameter("idAnio", "2015");
+        q.setParameter("idAnio", anio);
         return q.getResultList();
     }
 

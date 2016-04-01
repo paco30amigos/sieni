@@ -127,7 +127,7 @@ public class GestionNotasController extends GestionNotasForm {
     public void nuevo() {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-        this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar()));
+        this.setAlumnosList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar(),loginBean.getAnioEscolarActivo().getAeAnio().toString()));
         if (this.getAlumnosList() != null && !this.getAlumnosList().isEmpty()) {
             this.setMateriasList(sieniMateriaFacadeRemote.findByAlumno(this.getAlumnosList().get(0).getIdAlumno()));
             if (this.getMateriasList() != null && !this.getMateriasList().isEmpty()) {
@@ -201,7 +201,7 @@ public class GestionNotasController extends GestionNotasForm {
                 //llena los datos a utilizar en el formulario
                 HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
                 LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-                this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar()));
+                this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar(),loginBean.getAnioEscolarActivo().getAeAnio().toString()));
                 this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(modificado.getIdAlumno()));
                 if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
                     this.setEvaluacionesModificaList(modificado.getIdEvaluacion().getIdMateria().getSieniEvaluacionList());

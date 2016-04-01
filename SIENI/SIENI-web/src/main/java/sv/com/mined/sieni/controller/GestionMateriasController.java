@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -61,7 +62,7 @@ public class GestionMateriasController extends GestionMateriasForm {
         this.setMateriaList(new ArrayList<SieniMateria>());
         fill();
     }
-    
+
     public void cancelaModifica(SieniMateria modifica) {
         modifica = sieniMateriaFacadeRemote.find(modifica.getIdMateria());
         this.setIndexMenu(0);
@@ -69,12 +70,13 @@ public class GestionMateriasController extends GestionMateriasForm {
 
     public void fill() {
         this.setMateriaList(sieniMateriaFacadeRemote.findAllNoInactivas());
-        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
+//        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
     }
 
     public void initNuevo() {
         this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAllActivos());
-        this.setGradoList(sieniGradoFacadeRemote.findAll());
+        this.setGradoList(sieniGradoFacadeRemote.findAllNoInactivos());
+        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setIndexMenu(1);
     }
 
@@ -86,12 +88,14 @@ public class GestionMateriasController extends GestionMateriasForm {
         try {
             if (validarNuevo(this.getMateriaNuevo())) {
                 if (validarMateria(matSelected, gradoSelected, turnoSelected, estado)) {
+                    this.getMateriaNuevo().setMaFechaIngreso(new Date());
                     this.setMateriaNuevo(sieniMateriaFacadeRemote.createAndReturn(this.getMateriaNuevo()));
                     registrarEnBitacora("Crear", "Materia", this.getMateriaNuevo().getIdMateria());
                     this.setMateriaNuevo(new SieniMateria());
                     new ValidationPojo().printMsj("Materia Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                     this.getMateriaList().add(this.getMateriaNuevo());
                     this.setMateriaNuevo(new SieniMateria());
+                    fill();
                 } else {
                     new ValidationPojo().printMsj("La materia seleccionada ya existe para ese grado y seccion", FacesMessage.SEVERITY_ERROR);
                 }
@@ -110,8 +114,9 @@ public class GestionMateriasController extends GestionMateriasForm {
 
     public void modificar(SieniMateria modificado) {
         this.setCatmateriaList(sieniCatMateriaFacadeRemote.findAllActivos());
-        this.setGradoList(sieniGradoFacadeRemote.findAll());
+        this.setGradoList(sieniGradoFacadeRemote.findAllNoInactivos());
         this.setMateriaModifica(modificado);
+        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos());
         this.setIndexMenu(2);
     }
 
@@ -122,7 +127,7 @@ public class GestionMateriasController extends GestionMateriasForm {
         Character estado = this.getMateriaModifica().getMaEstado();
         try {
             if (validarModifica(this.getMateriaModifica())) {//valida el guardado            
-                if (validarMateria(matSelected, gradoSelected, turnoSelected, estado)) {
+                if (validarMateriaModifica(this.getMateriaModifica().getIdMateria(), matSelected, gradoSelected, turnoSelected, estado)) {
                     sieniMateriaFacadeRemote.edit(this.getMateriaModifica());
                     registrarEnBitacora("Modificar", "Materia", this.getMateriaModifica().getIdMateria());
                     new ValidationPojo().printMsj("Archivo Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
@@ -160,6 +165,7 @@ public class GestionMateriasController extends GestionMateriasForm {
 
     public void ver(SieniMateria modificado) {
         this.setMateriaModifica(modificado);
+        this.setDocentesList(sieniDocenteFacadeRemote.findDocentesActivos()); 
         this.setIndexMenu(3);
     }
 
@@ -169,6 +175,19 @@ public class GestionMateriasController extends GestionMateriasForm {
             for (SieniMateria actual : mat) {
 //                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado()=='I') {
                 if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado().equals(estado)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean validarMateriaModifica(Long idMateria, String materia, Integer grado, String turno, Character estado) {
+        List<SieniMateria> mat = sieniMateriaFacadeRemote.findByMaNombre(materia);
+        if (mat != null) {
+            for (SieniMateria actual : mat) {
+//                if ((actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado()=='I') {
+                if (!actual.getIdMateria().equals(idMateria) && (actual.getIdGrado().getGrNumero().equals(grado)) && (actual.getMaTurno().equals(turno)) && actual.getMaEstado().equals(estado)) {
                     return false;
                 }
             }

@@ -156,4 +156,17 @@ public class GestionMateriasForm {
         this.listDatosFiltered = listDatosFiltered;
     }
 
+    public String getCoordinadorV(Long idDocente) {
+        String ret = "";
+        if (this.getDocentesList() != null && !this.getDocentesList().isEmpty()) {
+            for (SieniDocente actual : this.getDocentesList()) {
+                if (idDocente.equals(actual.getIdDocente())) {
+                    ret = actual.getNombreCompleto();
+                    break;
+                }
+            }
+        }
+        return ret;
+    }
+
 }

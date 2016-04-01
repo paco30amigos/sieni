@@ -25,6 +25,10 @@
                     <p:selectOneMenu id="nombre" class=" Responsive" value="#{gestionMateriasController.materiaModifica.maNombre}">
                         <f:selectItems itemValue="#{nombre.catNombre}" itemLabel="#{nombre.catNombre}" value="#{gestionMateriasController.catmateriaList}" var="nombre"></f:selectItems>
                     </p:selectOneMenu>
+                    <p:outputLabel  value="Coordinador: " class=" Responsive"></p:outputLabel>
+                    <p:selectOneMenu id="docente" class=" Responsive" value="#{gestionMateriasController.materiaModifica.maCoordinador}">
+                        <f:selectItems itemValue ="#{docente.idDocente}" itemLabel="#{docente.nombreCompleto}" value="#{gestionMateriasController.docentesList}" var="docente" />
+                    </p:selectOneMenu>
                     <p:outputLabel value="Grado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu class=" Responsive" value="#{gestionMateriasController.materiaModifica.idGrado}" converter="grado">
                         <f:selectItems itemValue="#{grado}" itemLabel="#{grado.grNombre}" value="#{gestionMateriasController.gradoList}" var="grado"></f:selectItems>

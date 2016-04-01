@@ -30,6 +30,8 @@
                 <p:panelGrid columns="2" class="Container100 Responsive" id="p1">
                     <p:outputLabel value="Nombre: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel class=" Responsive" value="#{gestionMateriasController.materiaModifica.maNombre}"></p:outputLabel>
+                    <p:outputLabel value="Coordinador: " class=" Responsive"></p:outputLabel>
+                    <p:outputLabel class=" Responsive" value="#{gestionMateriasController.getCoordinadorV(gestionMateriasController.materiaModifica.maCoordinador)}"></p:outputLabel>
                     <p:outputLabel value="Grado: " class=" Responsive"></p:outputLabel>
                     <p:outputLabel class=" Responsive" value="#{gestionMateriasController.materiaModifica.idGrado.grNombre}"></p:outputLabel>
                     <p:outputLabel value="Estado: " class=" Responsive"></p:outputLabel>

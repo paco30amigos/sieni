@@ -197,15 +197,14 @@ public class GestionarConsultasController extends GestionarConsultasForm {
                 this.setConsultaNueva(sieniConsultaFacadeRemote.createAndReturn(this.getConsultaNueva()));
                 registrarEnBitacora("Crear", "Consulta", this.getConsultaNueva().getIdTemaDuda());
 
-                FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
-                NotificacionesPushController notifyBean = (NotificacionesPushController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "notificacionesPushController");
-                notifyBean.notificarPUSH();
-
                 this.setConsultaNueva(new SieniTemaDuda());
                 FacesMessage msg = new FacesMessage("Consulta Enviada Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 fill();
 
+                FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
+                NotificacionesController notifyBean = (NotificacionesController) context.getApplication().getELResolver().getValue(context.getELContext(), null, "notificacionesController");
+                notifyBean.notificarPUSH("Nueva Consulta");
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);

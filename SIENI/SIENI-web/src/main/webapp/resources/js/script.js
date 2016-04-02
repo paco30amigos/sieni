@@ -4,28 +4,31 @@
  * and open the template in the editor.
  */
 
-
-
-                    
+             
+             
 function handleMessage(facesmessage) {
-    facesmessage.severity = 'info';
-
-    PF('growl-notify').show([facesmessage]);
+    
 }
 
-function agrandar(count) {
-    document.getElementById('sound-notify').play();
-    var anterior = $('.burbuja').data();
-    if(anterior < count){
-        $('.burbuja').data(count);
-        $('.burbuja').html().addClass('agrandar');
+
+
+
+function notificar(count) {
+    var burbuja = document.getElementById("burbuja");
+    if(burbuja.textContent < count){
+        document.getElementById('sound-notify').play();
+        burbuja.textContent = count;
+        msgnotify.severity = 'info';
+        PF('growl-notify').show([msgnotify]);
+        burbuja.classList.add('agrandar');
         removeAnimation();
-    }
-    
+    }    
 }
 
 function removeAnimation() {
     setTimeout(function () {
-        $('.burbuja').removeClass('agrandar')
+        $('.burbuja-notify').removeClass('agrandar')
     }, 500);
 }
+
+            

@@ -27,10 +27,8 @@
 
 
             <h:form>
-                <audio id="sound-notify" src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}/sounds/water_droplet_3.mp3" hidden="true">
-                </audio>
-
-                <p:growl widgetVar="growl-notify" showDetail="true" />
+                
+                
 
                 <!--                <p:dialog visible="true">
                 #{loginController.dias}
@@ -130,6 +128,9 @@
                     height: auto;
                     width: 220px;
                 }
+                
+                
+
 
             </style>
             <style>
@@ -197,6 +198,7 @@
                             $(tb).keydown(enter2tab);
                         }
                     });
+                    
                     function enter2tab(e) {
                         if (e.keyCode == 13) {
                             if ($('.ui-datepicker').css('display') == 'block') {
@@ -225,13 +227,16 @@
                             $(':input[tabindex=\'' + (cb + 1) + '\']').select();
                         }
                     }
-
-
-
+                    
+      
 
                 </script>
 
+                
+                <audio id="sound-notify" src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}/sounds/water_droplet_3.mp3" hidden="true">
+                </audio>
 
+                <p:growl widgetVar="growl-notify" showDetail="true" />
 
                 <h:form id="frmMenuTopBar">
                     <ui:include src="topbar.xhtml" />

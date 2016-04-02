@@ -110,12 +110,7 @@ public class NotificacionesController extends NotificacionesForm {
         count = this.getListNotificaciones().size();
     }
 
-    public void mensageFaces() {
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.showMessageInDialog(new FacesMessage(FacesMessage.SEVERITY_INFO, "MENSAJE", "SI SE"));
-        context.execute("agrandar();");
-    }
-
+    
     public void IrNotifyOrigen(SieniNotificacion notify) {
         try {
             FacesContext context = javax.faces.context.FacesContext.getCurrentInstance();
@@ -147,5 +142,20 @@ public class NotificacionesController extends NotificacionesForm {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());
         }
+    }
+    
+    
+    
+    public void notificarPUSH(String mensaje) {
+        try {
+            String CHANNEL = "/notify";
+            EventBus eventBus = EventBusFactory.getDefault().eventBus();
+            eventBus.publish(CHANNEL, new FacesMessage(mensaje));
+
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
+        }
+
     }
 }

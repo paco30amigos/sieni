@@ -27,6 +27,8 @@ public interface SieniPlantillaFacadeRemote {
     SieniPlantilla find(Object id);
     
     SieniPlantilla refresh(SieniPlantilla sieniPlantilla);
+    
+    SieniPlantilla findByIdPlantilla(Long id);
 
     List<SieniPlantilla> findAll();
 

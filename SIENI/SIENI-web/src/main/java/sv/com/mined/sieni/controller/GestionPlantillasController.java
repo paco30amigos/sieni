@@ -54,7 +54,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         this.setPlantillaNuevo(new SieniPlantilla());
         fill();
     }
-    
+
     public void cancelaModifica(SieniPlantilla modifica) {
         modifica = sieniPlantillaFacadeRemote.find(modifica.getIdPlantilla());
         this.setIndexMenu(0);
@@ -160,6 +160,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
 
     public void configurar(SieniPlantilla plantilla) {
         this.setElemPlantillaSelected(null);
+        this.setPlantillaModifica(plantilla);
         fillElemPlantillaPlantilla(plantilla);
         this.setIndexMenu(4);
     }
@@ -208,12 +209,26 @@ public class GestionPlantillasController extends GestionPlantillasForm {
         this.setElemPlantillaEliminado(materia);
     }
 
+    public List<SieniElemPlantilla> quitarEliminados(List<SieniElemPlantilla> lista) {
+        List<SieniElemPlantilla> ret = new ArrayList<>();
+        if (lista != null && !lista.isEmpty()) {
+            for (SieniElemPlantilla actual : lista) {
+                if ('I' != (actual.getEpEstado())) {
+                    ret.add(actual);
+                }
+            }
+        }
+        return ret;
+    }
+
     public void fillElemPlantillaPlantilla(SieniPlantilla plantilla) {
-        plantilla = sieniPlantillaFacadeRemote.refresh(plantilla);
+        plantilla.setSieniElemPlantillaList(sieniElemPlantillaFacadeRemote.findByIdPlantilla(plantilla.getIdPlantilla()));
+//        plantilla.setSieniElemPlantillaList(quitarEliminados(plantilla.getSieniElemPlantillaList()));
         this.setPlantillaModifica(plantilla);
         this.setTipoPlantilla(sieniTipoElemPlantillaFacadeRemote.findAllActivos());
         this.setNuevoElem(new SieniTipoElemPlantilla());
         this.setElemPlantillaEliminados(new ArrayList<SieniElemPlantilla>());
+//        this.setElemPlantillaSelected(quitarEliminados(this.getElemPlantillaSelected()));
         if (this.getElemPlantillaSelected() == null) {
 //            this.setElemPlantillaSelected(new ArrayList<SieniElemPlantilla>());
             this.setElemPlantillaSelected(this.getPlantillaModifica().getSieniElemPlantillaList());

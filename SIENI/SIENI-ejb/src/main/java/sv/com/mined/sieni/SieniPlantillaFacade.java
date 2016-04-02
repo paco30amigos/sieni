@@ -43,13 +43,26 @@ public class SieniPlantillaFacade extends AbstractFacade<SieniPlantilla> impleme
         }
         return ret;
     }
-    
+
     @Override
-    public SieniPlantilla refresh(SieniPlantilla sieniPlantilla){
+    public SieniPlantilla refresh(SieniPlantilla sieniPlantilla) {
         em.flush();
-        sieniPlantilla=find(sieniPlantilla.getIdPlantilla());
+        sieniPlantilla = find(sieniPlantilla.getIdPlantilla());
         em.refresh(sieniPlantilla);
         return sieniPlantilla;
+    }
+
+    @Override
+    public SieniPlantilla findByIdPlantilla(Long id) {
+        Query q = em.createNamedQuery("SieniPlantilla.findByIdPlantilla");
+        q.setParameter("idPlantilla", id);
+        List<SieniPlantilla> res = q.getResultList();
+        SieniPlantilla ret = null;
+        if (res != null && !res.isEmpty()) {
+            ret = res.get(0);
+        }
+
+        return ret;
     }
 
     @Override

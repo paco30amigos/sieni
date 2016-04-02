@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.primefaces.event.RowEditEvent;
 import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.SieniAccionFacadeRemote;
+import sv.com.mined.sieni.SieniArchivo2FacadeRemote;
 import sv.com.mined.sieni.SieniArchivoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
 import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
@@ -30,7 +31,7 @@ import sv.com.mined.sieni.SieniTipoSuperComponFacadeRemote;
 import sv.com.mined.sieni.form.GestionComponentesInteractivosForm;
 import sv.com.mined.sieni.model.SieniAccion;
 import sv.com.mined.sieni.model.SieniArchivo;
-import sv.com.mined.sieni.model.SieniBitacora;
+import sv.com.mined.sieni.model.SieniArchivo2;
 import sv.com.mined.sieni.model.SieniCompInteraccion;
 import sv.com.mined.sieni.model.SieniComponente;
 import sv.com.mined.sieni.model.SieniEvento;
@@ -64,6 +65,8 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     private SieniTipoSuperComponFacadeRemote sieniTipoSuperComponFacadeRemote;
     @EJB
     private SieniArchivoFacadeRemote sieniArchivoFacadeRemote;
+    @EJB
+    private SieniArchivo2FacadeRemote sieniArchivo2FacadeRemote;
     @EJB
     private SieniCompInteraccionFacadeRemote sieniCompInteraccionFacadeRemote;
 
@@ -100,7 +103,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setIndexMenu(1);
     }
-    
+
     public void cancelaModifica(SieniSuperCompon modifica) {
         modifica = sieniSuperComponFacadeRemote.find(modifica.getIdSuperCompon());
         this.setIndexMenu(0);
@@ -557,7 +560,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
 
     //guarda texto como archivo
     public synchronized List<SieniArchivo> guardarArchivoNoMultimedia(List<SieniArchivo> list) {
-        list = sieniArchivoFacadeRemote.merge(list, new ArrayList());
+        list = convertToListArchivo(sieniArchivo2FacadeRemote.merge(convertToListArchivo2(list), new ArrayList()));
         return list;
     }
 
@@ -589,7 +592,55 @@ public class GestionComponentesInteractivosController extends GestionComponentes
         ret.setArArchivo(this.getTexto().getBytes());
         ret.setArEstado("A");
         list.add(ret);
-        list = sieniArchivoFacadeRemote.merge(list, new ArrayList<SieniArchivo>());
+        list = convertToListArchivo(sieniArchivo2FacadeRemote.merge(convertToListArchivo2(list), new ArrayList<SieniArchivo2>()));
         return list.get(0);
+    }
+
+    public List<SieniArchivo2> convertToListArchivo2(List<SieniArchivo> archivos) {
+        List<SieniArchivo2> ret = new ArrayList<>();
+        if (archivos != null) {
+            for (SieniArchivo actual : archivos) {
+                ret.add(convertToArchivo2(actual));
+            }
+        }
+        return ret;
+    }
+
+    public List<SieniArchivo> convertToListArchivo(List<SieniArchivo2> archivos) {
+        List<SieniArchivo> ret = new ArrayList<>();
+        if (archivos != null) {
+            for (SieniArchivo2 actual : archivos) {
+                ret.add(convertToArchivo(actual));
+            }
+        }
+        return ret;
+    }
+
+    public SieniArchivo2 convertToArchivo2(SieniArchivo archivo) {
+        SieniArchivo2 ret = new SieniArchivo2();
+        ret.setArArchivo(archivo.getArArchivo());
+        ret.setArEstado(archivo.getArEstado());
+        ret.setArNombre(archivo.getArNombre());
+        ret.setArRuta(archivo.getArRuta());
+        ret.setArTipo(archivo.getArTipo());
+        ret.setEstado(archivo.getEstado());
+        ret.setIdArchivo(archivo.getIdArchivo());
+        ret.setIdComponente(archivo.getIdComponente());
+        ret.setTipoArchivo(archivo.getTipoArchivo());
+        return ret;
+    }
+
+    public SieniArchivo convertToArchivo(SieniArchivo2 archivo) {
+        SieniArchivo ret = new SieniArchivo();
+        ret.setArArchivo(archivo.getArArchivo());
+        ret.setArEstado(archivo.getArEstado());
+        ret.setArNombre(archivo.getArNombre());
+        ret.setArRuta(archivo.getArRuta());
+        ret.setArTipo(archivo.getArTipo());
+        ret.setEstado(archivo.getEstado());
+        ret.setIdArchivo(archivo.getIdArchivo());
+        ret.setIdComponente(archivo.getIdComponente());
+        ret.setTipoArchivo(archivo.getTipoArchivo());
+        return ret;
     }
 }

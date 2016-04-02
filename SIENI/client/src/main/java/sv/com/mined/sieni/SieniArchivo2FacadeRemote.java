@@ -7,6 +7,7 @@ package sv.com.mined.sieni;
 
 import java.util.List;
 import javax.ejb.Remote;
+import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniArchivo2;
 
 /**
@@ -31,5 +32,9 @@ public interface SieniArchivo2FacadeRemote {
     List<SieniArchivo2> findRange(int[] range);
 
     int count();
+    
+    public List<SieniArchivo2> merge(List<SieniArchivo2> lista, List<SieniArchivo2> eliminados);
+    
+    public SieniArchivo2 merge(SieniArchivo2 dato);
 
 }

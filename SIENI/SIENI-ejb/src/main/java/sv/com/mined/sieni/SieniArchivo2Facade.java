@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,5 +28,37 @@ public class SieniArchivo2Facade extends AbstractFacade<SieniArchivo2> implement
 
     public SieniArchivo2Facade() {
         super(SieniArchivo2.class);
+    }
+
+    @Override
+    public List<SieniArchivo2> merge(List<SieniArchivo2> lista, List<SieniArchivo2> eliminados) {
+        for (SieniArchivo2 actual : lista) {
+            if (actual.getIdArchivo() != null) {
+                this.edit(actual);
+            } else {
+                this.create(actual);
+            }
+        }
+
+        for (SieniArchivo2 actual : eliminados) {
+            if (actual.getIdArchivo() != null) {
+                actual.setArEstado("I");//eliminacion logica
+                this.edit(actual);
+            }
+        }
+        em.flush();
+
+        return lista;
+    }
+
+    @Override
+    public SieniArchivo2 merge(SieniArchivo2 dato) {
+
+        if (dato.getIdArchivo() != null) {
+            this.edit(dato);
+        } else {
+            this.create(dato);
+        }
+        return dato;
     }
 }

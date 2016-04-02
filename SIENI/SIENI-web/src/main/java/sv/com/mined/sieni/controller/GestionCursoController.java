@@ -92,24 +92,27 @@ public class GestionCursoController extends GestionCursoForm {
 
     private void fill() {
         this.setCursoList(setDocente(sieniCursoFacadeRemote.findByEstado('A')));
-        
+
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
 //        this.setCursoList(setDocente(sieniCursoFacadeRemote.findByDocente(loginBean.getDocente().getIdDocente())));
         //nuevo        
     }
 
-    public void nuevo() {
+    public void initNuevo() {
         this.setGradoList(sieniGradoFacadeRemote.findAllNoInactivos());
 //        this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivas());
 //        this.setSeccionList(new ArrayList<SieniSeccion>());
         if (this.getGradoList() != null && !this.getGradoList().isEmpty()) {
+            this.setIdGrado(this.getGradoList().get(0).getIdGrado());
             if (this.getGradoList().get(0).getSieniSeccionList() != null
                     && !this.getGradoList().get(0).getSieniSeccionList().isEmpty()) {
+                this.setIdSeccion(this.getGradoList().get(0).getSieniSeccionList().get(0).getIdSeccion());
                 this.setSeccionList(this.getGradoList().get(0).getSieniSeccionList());
             }
             this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(this.getGradoList().get(0).getIdGrado()));
             if (this.getMateriaList() != null && !this.getMateriaList().isEmpty()) {
+                this.setIdMateria(this.getMateriaList().get(0).getIdMateria());
                 this.setDocentesList(sieniMateriaDocenteFacadeRemote.findByMateria(this.getMateriaList().get(0).getIdMateria()));
             } else {
                 this.setDocentesList(new ArrayList<SieniDocente>());
@@ -231,7 +234,7 @@ public class GestionCursoController extends GestionCursoForm {
         this.setCursoModifica(modificado);
         this.setIndexMenu(2);
     }
-    
+
     public void ver(SieniCurso modificado) {
         this.setCursoModifica(modificado);
         this.setIndexMenu(3);

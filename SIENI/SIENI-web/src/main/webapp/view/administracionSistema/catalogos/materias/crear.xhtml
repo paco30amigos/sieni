@@ -35,9 +35,9 @@
                 </p:tooltip>
                 <div class="EmptyBox20"></div>
                 <div class="Container100 Responsive">
-                    <p:commandButton value="Guardar" action="#{catMateriaController.guardar()}" update="p1" oncomplete="configurarEnterTab()"/>
+                    <p:commandButton value="Guardar" action="#{catMateriaController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()"/>
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1" resetValues="true" listener="#{catMateriaController.resetNuevoForm()}" oncomplete="configurarEnterTab()" />
+                        <p:ajax update="p1,focus" resetValues="true" listener="#{catMateriaController.resetNuevoForm()}" oncomplete="configurarEnterTab()" />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{catMateriaController.setIndexMenu(0)}"/>

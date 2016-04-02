@@ -72,6 +72,12 @@ public class CatSeccionController extends CatSeccionForm {
         this.setList(sieniSeccionRemote.findAllNoInactivos());
     }
     
+    private void resetFiltros(){
+        this.setFiltroGrado(null);
+        this.setFiltroSeccion(null);
+        this.setListDatosFiltered(null);
+    }
+    
     public void cancelaModifica(SieniSeccion modifica) {
         modifica = sieniSeccionRemote.find(modifica.getIdSeccion());
         this.setIndexMenu(0);
@@ -103,6 +109,8 @@ public class CatSeccionController extends CatSeccionForm {
                 this.getList().add(this.getNuevo());
                 //limpia los datos para un registro nuevo
                 this.setNuevo(new SieniSeccion());
+                
+                resetFiltros();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -162,6 +170,8 @@ public class CatSeccionController extends CatSeccionForm {
                 sieniSeccionRemote.edit(this.getModifica());
                 registrarEnBitacora("Modificar", "Seccion", this.getModifica().getIdSeccion());
                 new ValidationPojo().printMsj("Seccion Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
+                
+                resetFiltros();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -196,6 +206,8 @@ public class CatSeccionController extends CatSeccionForm {
             sieniSeccionRemote.remove(this.getEliminar());
             //elimina el archivo de la lista de datos para no volver a hacer el fill
             this.getList().remove(this.getEliminar());
+            
+            resetFiltros();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

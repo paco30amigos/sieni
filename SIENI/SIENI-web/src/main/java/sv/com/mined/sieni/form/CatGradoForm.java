@@ -26,6 +26,11 @@ public class CatGradoForm {
     private SieniGrado nuevo;
     //modificacion de archivo
     private SieniGrado modifica;
+    
+    //Filtros
+    private String filtroNombre;
+    private String filtroNumero;
+    private String filtroEstado;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -98,4 +103,29 @@ public class CatGradoForm {
         this.listDatosFiltered = listDatosFiltered;
     }
 
+    public String getFiltroNombre() {
+        return filtroNombre;
+    }
+
+    public void setFiltroNombre(String filtroNombre) {
+        this.filtroNombre = filtroNombre;
+    }
+
+    public String getFiltroNumero() {
+        return filtroNumero;
+    }
+
+    public void setFiltroNumero(String filtroNumero) {
+        this.filtroNumero = filtroNumero;
+    }
+
+    public String getFiltroEstado() {
+        return filtroEstado;
+    }
+
+    public void setFiltroEstado(String filtroEstado) {
+        this.filtroEstado = filtroEstado;
+    }
+
+    
 }

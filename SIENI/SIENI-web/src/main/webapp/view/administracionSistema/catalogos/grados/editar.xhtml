@@ -28,8 +28,8 @@
                     <p:spinner tabindex="1" id="numero" value="#{catGradoController.modifica.grNumero}" required="true" requiredMessage="Debe ingresar un numero de grado" max="99" min="1"></p:spinner>
                     <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu tabindex="2" id="estado" class=" Responsive" value="#{catGradoController.modifica.grEstado}">
-                        <f:selectItem itemValue ="A" itemLabel="Activo"/>
-                        <f:selectItem itemValue="P" itemLabel="Trabajando"/>
+                        <f:selectItem itemValue ="A" itemLabel="Disponible"/>
+                        <f:selectItem itemValue="T" itemLabel="No Disponible"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <p:tooltip for="nombre">

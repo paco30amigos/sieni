@@ -171,7 +171,7 @@ public class SieniGrado implements Serializable {
                     estado = "Disponible";
                     break;
                 case 'T':
-                    estado = "Trabajando";
+                    estado = "No Disponible";
                     break;
                 case 'I':
                     estado = "Eliminado";

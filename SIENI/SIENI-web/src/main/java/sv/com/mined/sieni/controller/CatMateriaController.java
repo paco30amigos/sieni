@@ -49,6 +49,12 @@ public class CatMateriaController extends CatMateriaForm {
         this.setList(sieniCatMateriaFacadeRemote.findAllNoInactivos());
     }
     
+    public void resetFiltros(){
+        this.setFiltroNombre(null);
+        this.setFiltroEstado(null);
+        this.setListDatosFiltered(null);
+    }
+    
     public void cancelaModifica(SieniCatMateria modifica) {
         modifica = sieniCatMateriaFacadeRemote.find(modifica.getIdCatMateria());
         this.setIndexMenu(0);
@@ -64,7 +70,8 @@ public class CatMateriaController extends CatMateriaForm {
                 this.getList().add(this.getNuevo());
                 //limpia los datos para un registro nuevo
                 this.setNuevo(new SieniCatMateria());
-                refresh();
+                
+                resetFiltros();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -107,10 +114,11 @@ public class CatMateriaController extends CatMateriaForm {
     public synchronized void guardarModifica() {
         try {
             if (validarModifica(this.getModifica())) {//valida el guardado
-
                 sieniCatMateriaFacadeRemote.edit(this.getModifica());
                 registrarEnBitacora("Modificar", "CatMateria", this.getModifica().getIdCatMateria());
                 new ValidationPojo().printMsj("Materia Modificada Exitosamente", FacesMessage.SEVERITY_INFO);
+                
+                resetFiltros();
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -144,6 +152,8 @@ public class CatMateriaController extends CatMateriaForm {
             sieniCatMateriaFacadeRemote.edit(this.getEliminar());
             //elimina el archivo de la lista de datos para no volver a hacer el fill
             this.getList().remove(this.getEliminar());
+            
+            resetFiltros();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

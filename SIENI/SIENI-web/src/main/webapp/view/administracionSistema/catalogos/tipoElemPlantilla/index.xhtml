@@ -20,10 +20,13 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
+                
+                <p:remoteCommand name="rcReload" autoRun="true" update="consulta"  />
+                
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{catTipoElementoPlantillaController.eliminarTipoElemPlantilla()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{catTipoElementoPlantillaController.eliminarTipoElemPlantilla()}" onsuccess="rcReload()" update="consulta:columnNombre,consulta:columnEstado"  oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{catTipoElementoPlantillaController.list}" 
@@ -33,10 +36,10 @@
                              emptyMessage="No se encontraron datos"
                              filteredValue="#{catTipoElementoPlantillaController.listDatosFiltered}"
                              reflow="true">
-                    <p:column headerText="Nombre" filterBy="#{car.teDescripcion}" filterable="true" filterMatchMode="contains">
+                    <p:column id="columnNombre" headerText="Nombre" filterBy="#{car.teDescripcion}" filterable="true" filterMatchMode="contains" filterValue="#{catTipoElementoPlantillaController.filtroNombre}">
                         #{car.teDescripcion}
                     </p:column>
-                    <p:column headerText="Estado" filterBy="#{car.estado}" filterable="true" filterMatchMode="contains">
+                    <p:column id="columnEstado" headerText="Estado" filterBy="#{car.estado}" filterable="true" filterMatchMode="contains" filterValue="#{catTipoElementoPlantillaController.filtroEstado}">
                         #{car.estado}
                     </p:column>
                     <p:column headerText="Acciones">

@@ -20,10 +20,13 @@
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="consultaForm">
+                
+                <p:remoteCommand name="rcReload" autoRun="true" update="consulta"  />
+                
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{catSeccionController.eliminarSeccion()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{catSeccionController.eliminarSeccion()}" onsuccess="rcReload()" update="consulta:columnGrado,consulta:columnSeccion" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                                 
@@ -34,10 +37,10 @@
                              emptyMessage="No se encontraron datos"
                              filteredValue="#{catSeccionController.listDatosFiltered}"
                              reflow="true">
-                    <p:column headerText="Grado" filterBy="#{sec.idGrado.grNombre}" filterable="true" filterMatchMode="contains">
+                    <p:column id="columnGrado" headerText="Grado" filterBy="#{sec.idGrado.grNombre}" filterable="true" filterMatchMode="contains" filterValue="#{catSeccionController.filtroGrado}">
                         #{sec.idGrado.grNombre}
                     </p:column>
-                    <p:column headerText="Seccion" filterBy="#{sec.scDescripcion}" filterable="true" filterMatchMode="contains">
+                    <p:column id="columnSeccion" headerText="Seccion" filterBy="#{sec.scDescripcion}" filterable="true" filterMatchMode="contains" filterValue="#{catSeccionController.filtroSeccion}">
                         #{sec.scDescripcion}
                     </p:column>
                     <p:column headerText="Acciones">

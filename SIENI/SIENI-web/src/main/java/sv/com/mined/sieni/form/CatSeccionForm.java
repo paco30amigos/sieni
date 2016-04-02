@@ -33,6 +33,9 @@ public class CatSeccionForm {
     private SieniSeccion nuevo;
     //modificacion de archivo
     private SieniSeccion modifica;
+    
+    private String filtroGrado;
+    private String filtroSeccion;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -145,4 +148,21 @@ public class CatSeccionForm {
         this.listDatosFiltered = listDatosFiltered;
     }
 
+    public String getFiltroGrado() {
+        return filtroGrado;
+    }
+
+    public void setFiltroGrado(String filtroGrado) {
+        this.filtroGrado = filtroGrado;
+    }
+
+    public String getFiltroSeccion() {
+        return filtroSeccion;
+    }
+
+    public void setFiltroSeccion(String filtroSeccion) {
+        this.filtroSeccion = filtroSeccion;
+    }
+
+    
 }

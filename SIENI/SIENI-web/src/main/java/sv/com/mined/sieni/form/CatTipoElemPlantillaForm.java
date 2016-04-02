@@ -30,6 +30,9 @@ public class CatTipoElemPlantillaForm {
     private SieniTipoElemPlantilla nuevo;
     //modificacion de archivo
     private SieniTipoElemPlantilla modifica;
+    
+    private String filtroNombre;
+    private String filtroEstado;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -102,4 +105,21 @@ public class CatTipoElemPlantillaForm {
         this.listDatosFiltered = listDatosFiltered;
     }
 
+    public String getFiltroNombre() {
+        return filtroNombre;
+    }
+
+    public void setFiltroNombre(String filtroNombre) {
+        this.filtroNombre = filtroNombre;
+    }
+
+    public String getFiltroEstado() {
+        return filtroEstado;
+    }
+
+    public void setFiltroEstado(String filtroEstado) {
+        this.filtroEstado = filtroEstado;
+    }
+
+    
 }

@@ -18,17 +18,17 @@
     </ui:define>
     <ui:define name="content">
         <div class="EmptyBox5"></div>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                document.getElementById('#consulta').focus();
-            });
-        </script>
+        
         <p:panel>
-            <h:form id="consultaForm" >                
+            <h:form id="consultaForm" > 
+                
+                <p:remoteCommand name="rcReload" autoRun="true" update="consulta"  />
+                
+                
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{catMateriaController.eliminarCatMateria()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{catMateriaController.eliminarCatMateria()}" onsuccess="rcReload()" update="consulta:columnNombre,consulta:columnEstado" oncomplete="PF('dlgEliminar').hide()" ></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 
@@ -41,14 +41,12 @@
                              emptyMessage="No se encontraron datos"
                              filteredValue="#{catMateriaController.listDatosFiltered}"
                              reflow="true"
-                             widgetVar="tblconsulta"
                              >
                     
-                    
-                    <p:column headerText="Nombre" filterBy="#{cat.catNombre}" filterable="true" filterMatchMode="contains">
+                    <p:column id="columnNombre" headerText="Nombre" filterBy="#{cat.catNombre}" filterable="true" filterMatchMode="contains" filterValue="#{catMateriaController.filtroNombre}" >
                         #{cat.catNombre}
                     </p:column>
-                    <p:column headerText="Estado" filterBy="#{cat.estado}" filterable="true" filterMatchMode="contains">
+                    <p:column id="columnEstado"  headerText="Estado" filterBy="#{cat.estado}" filterable="true" filterMatchMode="contains" filterValue="#{catMateriaController.filtroEstado}" >
                         #{cat.estado}
                     </p:column>
                     <p:column headerText="Acciones">

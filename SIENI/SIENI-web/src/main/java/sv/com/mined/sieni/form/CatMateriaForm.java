@@ -26,6 +26,10 @@ public class CatMateriaForm {
     private SieniCatMateria nuevo;
     //modificacion de archivo
     private SieniCatMateria modifica;
+    
+    
+    private String filtroNombre;
+    private String filtroEstado;
 
     public int getIndexMenu() {
         return indexMenu;
@@ -98,5 +102,23 @@ public class CatMateriaForm {
     public void setListDatosFiltered(List<SieniCatMateria> listDatosFiltered) {
         this.listDatosFiltered = listDatosFiltered;
     }
+
+    public String getFiltroNombre() {
+        return filtroNombre;
+    }
+
+    public void setFiltroNombre(String filtroNombre) {
+        this.filtroNombre = filtroNombre;
+    }
+
+    public String getFiltroEstado() {
+        return filtroEstado;
+    }
+
+    public void setFiltroEstado(String filtroEstado) {
+        this.filtroEstado = filtroEstado;
+    }
+
+    
 
 }

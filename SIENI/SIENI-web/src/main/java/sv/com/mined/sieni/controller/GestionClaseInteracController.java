@@ -400,6 +400,10 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
     //metodos para modificacion de datos
     public void modificar(SieniClase modificado) {
         this.setPlantillaModificaList(sieniPlantillaFacadeRemote.findByMateria(modificado.getIdCurso().getIdMateria().getIdMateria()));
+        //establece el la plantilla cuando solo existe una
+        if (modificado.getIdPlantilla() != null && modificado.getIdPlantilla().getIdPlantilla() == null && this.getPlantillaModificaList() != null && this.getPlantillaModificaList().size() == 1) {
+            modificado.setIdPlantilla(this.getPlantillaModificaList().get(0));
+        }
         this.setClaseModifica(modificado);
         this.setIndexMenu(2);
     }

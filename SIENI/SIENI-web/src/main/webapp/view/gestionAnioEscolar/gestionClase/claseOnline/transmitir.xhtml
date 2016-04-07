@@ -17,7 +17,7 @@
         
     </ui:define>
     <ui:define name="head">
-        <h:outputScript name="RTCMultiConnection.js" library="js" />
+        <script src="//cdn.webrtc-experiment.com/RTCMultiConnection.js"></script>
         <script>
             var usuarioActual = '#{loginController.nombreCompleto}';
             var transmitiendo = false;
@@ -43,7 +43,7 @@
                     video: true
                 };
                 connection.bandwidth = {
-                    audio: 25,
+                    //audio: 25,
                     video: 128,
                     data: 1638400,
                     screen: 128      // 300kbps

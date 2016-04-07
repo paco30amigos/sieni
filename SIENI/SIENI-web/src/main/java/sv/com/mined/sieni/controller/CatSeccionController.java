@@ -101,6 +101,7 @@ public class CatSeccionController extends CatSeccionForm {
             if (validarNuevo(this.getNuevo())) {//valida el guardado
                 this.getNuevo().setIdAnioEscolar(new SieniAnioEscolar(1L));
 //                this.getNuevo().setScCoordinador(BigInteger.ZERO);
+                this.getNuevo().setScEstado('A');
                 this.setNuevo(sieniSeccionRemote.createAndReturn(this.getNuevo()));
 //                sieniGradoRemote.create(this.getNuevo());
                 registrarEnBitacora("Guardar", "Seccion", this.getNuevo().getIdSeccion());

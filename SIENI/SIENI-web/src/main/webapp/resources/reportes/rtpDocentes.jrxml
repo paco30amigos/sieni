@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
-<!-- 2016-03-31T22:44:34 -->
+<!-- 2016-04-07T20:10:47 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -211,7 +211,7 @@
 	<summary>
 		<band height="24">
 			<textField>
-				<reportElement x="1" y="0" width="571" height="20" uuid="443ddb15-8659-4060-92bc-95c952cef492"/>
+				<reportElement x="1" y="1" width="571" height="20" uuid="443ddb15-8659-4060-92bc-95c952cef492"/>
 				<box>
 					<pen lineStyle="Double" lineColor="#000000"/>
 					<topPen lineWidth="1.0" lineStyle="Double" lineColor="#000000"/>

@@ -23,7 +23,7 @@
                     <p:outputLabel for="desde" value="Fecha desde:"></p:outputLabel>
                     <p:calendar id="desde" value="#{rptNotasModificadasController.desde}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha desde" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     <p:outputLabel for="hasta" value="hasta:"></p:outputLabel>
-                    <p:calendar id="hasta" value="#{rptNotasModificadasController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
+                    <p:calendar id="hasta" value="#{rptNotasModificadasController.hasta}" mindate="#{dateUtils.fechaMinima}" maxdate="#{dateUtils.fechaFinAnioActual}" mask="99/99/9999" pattern="dd/MM/yyyy" required="true" requiredMessage="Debe ingresar fecha hasta" placeholder="dd/mm/yyyy" yearRange="c-20:c+0" navigator="true"></p:calendar>
                     <p:commandButton value="generar" actionListener="#{rptNotasModificadasController.fill()}" update="consulta" ajax="true"></p:commandButton>
                 </p:panelGrid>
                 <p:tooltip for="desde">

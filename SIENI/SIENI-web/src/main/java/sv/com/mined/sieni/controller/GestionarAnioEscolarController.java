@@ -162,6 +162,7 @@ public class GestionarAnioEscolarController extends GestionarAnioEscolarForm {
             this.getEliminar().setAeEstado('I');
             sieniAnioEscolarFacadeRemote.edit(this.getEliminar());
             fill();
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

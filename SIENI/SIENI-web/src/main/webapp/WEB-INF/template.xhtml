@@ -27,8 +27,8 @@
 
 
             <h:form>
-                
-                
+
+
 
                 <!--                <p:dialog visible="true">
                 #{loginController.dias}
@@ -128,8 +128,8 @@
                     height: auto;
                     width: 220px;
                 }
-                
-                
+
+
 
 
             </style>
@@ -198,7 +198,7 @@
                             $(tb).keydown(enter2tab);
                         }
                     });
-                    
+
                     function enter2tab(e) {
                         if (e.keyCode == 13) {
                             if ($('.ui-datepicker').css('display') == 'block') {
@@ -228,15 +228,16 @@
                         }
                     }
                     
-      
+                    function configMsg(){
+                        $("#g\\:messages_container").effect("pulsate", { times:3 }, 2000);
+                    }
+
 
                 </script>
 
-                
+
                 <audio id="sound-notify" src="#{copiaArchivos.contexto}#{copiaArchivos.relativeBaseResourcesUrl}/sounds/water_droplet_3.mp3" hidden="true">
                 </audio>
-
-                <p:growl widgetVar="growl-notify" showDetail="true" />
 
                 <h:form id="frmMenuTopBar">
                     <ui:include src="topbar.xhtml" />
@@ -286,9 +287,9 @@
                         <p:ajax event="idle" listener="#{loginController.onIdle}" update="messages" />
                     </p:idleMonitor>
                     <p:remoteCommand name="updatemessages" update="messages"></p:remoteCommand>
-                    <p:growl sticky="true" id="messages" autoUpdate="true" showDetail="true">
+                    <p:growl sticky="true" id="messages" autoUpdate="true" showDetail="true" widgetVar="growl-notify">
                         <h:outputScript>
-                            $("#g\\:messages_container").effect("pulsate", { times:3 }, 2000);
+                            configMsg();
                         </h:outputScript>
                     </p:growl>
                 </h:form>

@@ -8,6 +8,7 @@ package utils;
 import java.io.IOException;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 import javax.servlet.http.HttpServletRequest;
 import org.primefaces.component.datatable.DataTable;
 
@@ -117,6 +118,10 @@ public class siteUrls {
         HttpServletRequest origRequest = (HttpServletRequest) context.getExternalContext().getRequest();
         String contextPath = origRequest.getContextPath();
         try {
+            Flash flash = context.getExternalContext().getFlash();
+            flash.doPostPhaseActions(context);
+            flash.setKeepMessages(true);
+            flash.setRedirect(true);
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect(contextPath + url);
         } catch (IOException e) {

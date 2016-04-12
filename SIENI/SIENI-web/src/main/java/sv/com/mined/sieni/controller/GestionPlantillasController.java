@@ -151,6 +151,7 @@ public class GestionPlantillasController extends GestionPlantillasForm {
             this.getEliminar().setPlEstado('I');
             sieniPlantillaFacadeRemote.edit(this.getEliminar());
             this.getPlantillaList().remove(this.getEliminar());
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
 //            fill();
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);

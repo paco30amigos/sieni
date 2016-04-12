@@ -274,15 +274,38 @@ public class GestionarDocentesController extends GestionarDocentesForm {
 
     public synchronized void eliminarExpediente() {
         try {
-            registrarEnBitacora("Eliminar", "Docentes", this.getEliminar().getIdDocente());
-            this.getEliminar().setDcEstado(new Character('I'));
-            sieniDocenteFacadeRemote.edit(this.getEliminar());
-            fill();
+            if (validaEliminacion(this.getEliminar())) {
+                registrarEnBitacora("Eliminar", "Docentes", this.getEliminar().getIdDocente());
+                this.getEliminar().setDcEstado(new Character('I'));
+                sieniDocenteFacadeRemote.edit(this.getEliminar());
+                fill();
+                new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
+                this.setIndexMenu(0);
+            }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public boolean validaEliminacion(SieniDocente eliminado) {
+        boolean valido = true;
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        validaciones.add(new ValidationPojo(validarMateriasDocente(eliminado), "El docente tiene materias asignadas, no puede ser eliminado", FacesMessage.SEVERITY_ERROR));
+
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
+    }
+
+    public boolean validarMateriasDocente(SieniDocente docente) {
+        boolean ban = false;
+        List<SieniMateriaDocente> a = sieniMateriaDocenteFacadeRemote.findByDocente(docente.getIdDocente());
+        if (a != null && !a.isEmpty()) {
+            ban = true;
+        }
+//        ban=true;
+        return ban;
     }
 
     public void gestionarMateriasDocente(SieniDocente docente) {

@@ -755,6 +755,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
                     this.getEliminar().setEvEstado(new Character('I'));
                     sieniEvaluacionFacadeRemote.edit(this.getEliminar());
                     fill();
+                    new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
                 }
             }
         } catch (Exception e) {

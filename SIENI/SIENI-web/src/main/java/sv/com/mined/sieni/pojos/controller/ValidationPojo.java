@@ -9,6 +9,8 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -65,12 +67,23 @@ public class ValidationPojo {
         return ret;
     }
 
+    public void printMsjSaved(String msj, Severity severity) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Flash flash = facesContext.getExternalContext().getFlash();
+//        flash.clear();
+        flash.setKeepMessages(true);
+//        flash.setRedirect(true);
+        RequestContext requestContext = RequestContext.getCurrentInstance();
+        facesContext.addMessage(null, new FacesMessage(severity, msj, " "));
+        requestContext.execute("configMsg();");
+    }
+
     public void printMsj(String msj, Severity severity) {
         FacesMessage msg = new FacesMessage(severity, msj, " ");
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-    
-    public void printMsj(String msj,String descripcion, Severity severity) {
+
+    public void printMsj(String msj, String descripcion, Severity severity) {
         FacesMessage msg = new FacesMessage(severity, msj, descripcion);
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }

@@ -205,6 +205,7 @@ public class GestionarNoticiasController extends GestionarNoticiasForm {
             this.getEliminar().setNcEstado(new Character('I'));
             sieniNoticiaFacadeRemote.edit(this.getEliminar());
             fill();
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

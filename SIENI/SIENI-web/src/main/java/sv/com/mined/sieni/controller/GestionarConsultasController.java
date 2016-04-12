@@ -281,6 +281,7 @@ public class GestionarConsultasController extends GestionarConsultasForm {
             this.getEliminar().setTdEstado(new Character('I'));
             sieniConsultaFacadeRemote.edit(this.getEliminar());
             fill();
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

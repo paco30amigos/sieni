@@ -708,6 +708,7 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             this.getEliminar().setClEstado('I');
             sieniClaseFacadeRemote.edit(this.getEliminar());
             this.getClaseList().remove(this.getEliminar());
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

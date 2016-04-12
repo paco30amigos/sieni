@@ -292,6 +292,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
             this.getEliminar().setScEstado('I');
             sieniSuperComponFacadeRemote.edit(this.getEliminar());
             this.getDatosList().remove(this.getEliminar());
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

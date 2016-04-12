@@ -338,6 +338,7 @@ public class GestionNotasController extends GestionNotasForm {
                 setNotaModHistorial("Eliminacion", this.getEliminar());
                 sieniNotaFacadeRemote.edit(this.getEliminar());
                 this.getNotaList().remove(this.getEliminar());
+                new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
                 this.setIndexMenu(0);
             }
         } catch (Exception e) {

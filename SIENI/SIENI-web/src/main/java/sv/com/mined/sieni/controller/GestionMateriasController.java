@@ -157,6 +157,7 @@ public class GestionMateriasController extends GestionMateriasForm {
             this.getEliminar().setMaEstado(new Character('I'));
             sieniMateriaFacadeRemote.edit(this.getEliminar());
             this.getMateriaList().remove(this.getEliminar());
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

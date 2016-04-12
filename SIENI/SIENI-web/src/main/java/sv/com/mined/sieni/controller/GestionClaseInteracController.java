@@ -490,6 +490,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             registrarEnBitacora("Eliminar", "Clase interactiva", this.getEliminar().getIdClase());
             this.getEliminar().setClEstado('I');
             sieniClaseFacadeRemote.edit(this.getEliminar());
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
         }

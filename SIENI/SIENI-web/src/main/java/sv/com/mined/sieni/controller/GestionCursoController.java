@@ -310,6 +310,7 @@ public class GestionCursoController extends GestionCursoForm {
             this.getEliminar().setCrEstado('I');
             sieniCursoFacadeRemote.edit(this.getEliminar());
             this.getCursoList().remove(this.getEliminar());
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());
@@ -322,6 +323,7 @@ public class GestionCursoController extends GestionCursoForm {
             this.getEliminar().setCrEstado('I');
             sieniCursoFacadeRemote.edit(this.getEliminar());
             sieniCursoAlumnoFacadeRemote.remove(this.getEliminarInscrito());
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

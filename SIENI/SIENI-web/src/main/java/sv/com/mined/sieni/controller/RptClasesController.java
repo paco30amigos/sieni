@@ -7,6 +7,7 @@ package sv.com.mined.sieni.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -71,7 +72,38 @@ public class RptClasesController extends RptClasesForm{
         }
         clases = sieniClaseFacadeRemote.findClasesRpt(this.getCurso(),this.getTipoC(),this.getEstadoC());
         for (SieniClase actual : clases) {
-             elem = new RptClasesPojo(actual.getIdCurso(),actual.getClTema(),actual.getClTipo(),actual.getClHora(),actual.getClHorario(),actual.getClEstado());
+            
+            String horario = actual.getClHorario();
+            String dias[] = horario.split(",");
+            String horarioMod = "";
+            
+            for(int i=0; i<dias.length; i++){
+                switch(dias[i]){
+                    case "L": dias[i]="Lu";
+                    horarioMod += dias[i] + ", ";
+                        break;
+                    case "M": dias[i]="Ma";
+                    horarioMod += dias[i] + ", ";
+                        break;
+                    case "X": dias[i]="Mi";
+                    horarioMod += dias[i] + ", ";
+                        break;
+                    case "J": dias[i]="Ju";
+                    horarioMod += dias[i] + ", ";
+                        break;
+                    case "V": dias[i]="Vi";
+                    horarioMod += dias[i] + ", ";
+                        break;
+                    case "S": dias[i]="Sa";
+                    horarioMod += dias[i] + ", ";
+                        break;
+                    case "D": dias[i]="Do";
+                    horarioMod += dias[i];
+                        break;    
+                }
+            }
+            
+            elem = new RptClasesPojo(actual.getIdCurso(),actual.getClTema(),actual.getClTipo(),actual.getClHora(),horarioMod,actual.getClEstado());
             this.getListDatos().add(elem);
         }
         this.setTotalClases("" + this.getListDatos().size());

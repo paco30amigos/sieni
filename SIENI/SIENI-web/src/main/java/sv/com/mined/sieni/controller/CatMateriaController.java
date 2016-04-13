@@ -155,9 +155,16 @@ public class CatMateriaController extends CatMateriaForm {
             
             resetFiltros();
             new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
+            this.setMsjEliminado(true);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());
+        }
+    }
+    public void printMensajeEliminado() {
+        if (this.isMsjEliminado()) {
+            this.setMsjEliminado(false);
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         }
     }
 }

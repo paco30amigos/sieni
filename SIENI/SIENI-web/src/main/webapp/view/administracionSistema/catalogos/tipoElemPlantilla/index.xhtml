@@ -21,12 +21,12 @@
         <p:panel>
             <h:form id="consultaForm">
                 
-                <p:remoteCommand name="rcReload" autoRun="true" update="consulta"  />
+                <p:remoteCommand name="rcReload" autoRun="true" update="consulta" actionListener="#{catTipoElementoPlantillaController.printMensajeEliminado()}"  />
                 
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{catTipoElementoPlantillaController.eliminarTipoElemPlantilla()}" onsuccess="rcReload()" update="consulta:columnNombre,consulta:columnEstado"  oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{catTipoElementoPlantillaController.eliminarTipoElemPlantilla()}" onsuccess="rcReload()"  oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
                 <p:dataTable id="consulta" paginatorPosition="bottom" rows="10" var="car" value="#{catTipoElementoPlantillaController.list}" 

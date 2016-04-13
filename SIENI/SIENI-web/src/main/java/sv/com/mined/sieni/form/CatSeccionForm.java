@@ -23,6 +23,15 @@ public class CatSeccionForm {
     private SieniSeccion eliminar;
     private SieniSeccion ver;
 
+    private boolean msjEliminado;
+
+    public boolean isMsjEliminado() {
+        return msjEliminado;
+    }
+
+    public void setMsjEliminado(boolean msjEliminado) {
+        this.msjEliminado = msjEliminado;
+    }
     // consulta de archivo
     private SieniAnioEscolar anio;
     private List<SieniAnioEscolar> listAnios;

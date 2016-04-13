@@ -18,6 +18,15 @@ public class CatGradoForm {
     private int indexMenu;
     private SieniGrado eliminar;
     private SieniGrado ver;
+    private boolean msjEliminado;
+
+    public boolean isMsjEliminado() {
+        return msjEliminado;
+    }
+
+    public void setMsjEliminado(boolean msjEliminado) {
+        this.msjEliminado = msjEliminado;
+    }
 
     // consulta de archivo
     private List<SieniGrado> list;

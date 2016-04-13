@@ -19,6 +19,15 @@ public class CatMateriaForm {
     private SieniCatMateria eliminar;
     private SieniCatMateria ver;
 
+    private boolean msjEliminado;
+
+    public boolean isMsjEliminado() {
+        return msjEliminado;
+    }
+
+    public void setMsjEliminado(boolean msjEliminado) {
+        this.msjEliminado = msjEliminado;
+    }
     // consulta de archivo
     private List<SieniCatMateria> list;
     private List<SieniCatMateria> listDatosFiltered;

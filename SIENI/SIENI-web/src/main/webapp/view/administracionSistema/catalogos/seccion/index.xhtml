@@ -21,7 +21,7 @@
         <p:panel>
             <h:form id="consultaForm">
                 
-                <p:remoteCommand name="rcReload" autoRun="true" update="consulta"  />
+                <p:remoteCommand name="rcReload" autoRun="true" update="consulta" actionListener="#{catSeccionController.printMensajeEliminado()}"  />
                 
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>

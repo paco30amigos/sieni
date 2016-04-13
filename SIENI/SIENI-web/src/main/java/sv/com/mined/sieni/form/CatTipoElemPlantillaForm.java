@@ -22,6 +22,7 @@ public class CatTipoElemPlantillaForm {
     private int indexMenu;
     private SieniTipoElemPlantilla eliminar;
     private SieniTipoElemPlantilla ver;
+    private boolean msjEliminado;
 
     // consulta de archivo
     private List<SieniTipoElemPlantilla> list;
@@ -30,7 +31,7 @@ public class CatTipoElemPlantillaForm {
     private SieniTipoElemPlantilla nuevo;
     //modificacion de archivo
     private SieniTipoElemPlantilla modifica;
-    
+
     private String filtroNombre;
     private String filtroEstado;
 
@@ -121,5 +122,12 @@ public class CatTipoElemPlantillaForm {
         this.filtroEstado = filtroEstado;
     }
 
-    
+    public boolean isMsjEliminado() {
+        return msjEliminado;
+    }
+
+    public void setMsjEliminado(boolean msjEliminado) {
+        this.msjEliminado = msjEliminado;
+    }
+
 }

@@ -49,14 +49,13 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
     private void fill() {
         this.setList(sieniTipoElemPlantillaFacadeRemote.findAllNoInactivos());
     }
-    
-    
-    public void resetFiltros(){
+
+    public void resetFiltros() {
         this.setFiltroNombre(null);
         this.setFiltroEstado(null);
         this.setListDatosFiltered(null);
     }
-    
+
     public void cancelaModifica(SieniTipoElemPlantilla modifica) {
         modifica = sieniTipoElemPlantillaFacadeRemote.find(modifica.getIdTipoElemPlantilla());
         this.setIndexMenu(0);
@@ -65,7 +64,7 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
     public synchronized void guardar() {
         try {
             if (validarNuevo(this.getNuevo())) {//valida el guardado
-               
+
                 this.setNuevo(sieniTipoElemPlantillaFacadeRemote.createAndReturn(this.getNuevo()));
 //                sieniTipoElemPlantillaFacadeRemote.create(this.getNuevo());
                 registrarEnBitacora("Guardar", "TipoElemPlantilla", this.getNuevo().getIdTipoElemPlantilla());
@@ -74,7 +73,7 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
                 this.getList().add(this.getNuevo());
                 //limpia los datos para un registro nuevo
                 this.setNuevo(new SieniTipoElemPlantilla());
-                
+
                 resetFiltros();
             }
         } catch (Exception e) {
@@ -122,7 +121,7 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
                 sieniTipoElemPlantillaFacadeRemote.edit(this.getModifica());
                 registrarEnBitacora("Modificar", "TipoElemPlantilla", this.getModifica().getIdTipoElemPlantilla());
                 new ValidationPojo().printMsj("TipoElemPlantilla Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
-                
+
                 resetFiltros();
             }
         } catch (Exception e) {
@@ -157,12 +156,20 @@ public class CatTipoElementoPlantillaController extends CatTipoElemPlantillaForm
             sieniTipoElemPlantillaFacadeRemote.edit(this.getEliminar());
             //elimina el archivo de la lista de datos para no volver a hacer el fill
             this.getList().remove(this.getEliminar());
-            
+
             resetFiltros();
             new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
+            this.setMsjEliminado(true);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());
+        }
+    }
+
+    public void printMensajeEliminado() {
+        if (this.isMsjEliminado()) {
+            this.setMsjEliminado(false);
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         }
     }
 }

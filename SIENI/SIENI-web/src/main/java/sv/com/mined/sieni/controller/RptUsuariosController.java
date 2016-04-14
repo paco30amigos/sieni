@@ -19,11 +19,15 @@ import javax.ejb.EJB;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import net.sf.jasperreports.engine.JRException;
+import sv.com.mined.sieni.SieniAlumnRolFacadeRemote;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniBitacoraFacadeRemote;
+import sv.com.mined.sieni.SieniDocentRolFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.form.RptUsuariosForm;
+import sv.com.mined.sieni.model.SieniAlumnRol;
 import sv.com.mined.sieni.model.SieniAlumno;
+import sv.com.mined.sieni.model.SieniDocentRol;
 import sv.com.mined.sieni.model.SieniDocente;
 import sv.com.mined.sieni.pojos.rpt.RptUsuariosPojo;
 import utils.DateUtils;
@@ -41,7 +45,13 @@ public class RptUsuariosController extends RptUsuariosForm {
     SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
 
     @EJB
+    SieniAlumnRolFacadeRemote sieniAlumnoRolFacadeRemote;
+    
+    @EJB
     SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
+    
+    @EJB
+    SieniDocentRolFacadeRemote sieniDocenteRolFacadeRemote;
 
     @EJB
     private SieniBitacoraFacadeRemote sieniBitacoraFacadeRemote;
@@ -59,26 +69,28 @@ public class RptUsuariosController extends RptUsuariosForm {
     public void fill() {
         RptUsuariosPojo elem = new RptUsuariosPojo();
         this.setListDatos(new ArrayList<RptUsuariosPojo>());
-        List<SieniDocente> docentes = new ArrayList<SieniDocente>();
-        List<SieniAlumno> alumnos = new ArrayList<SieniAlumno>();
+        List<SieniDocentRol> docentes = new ArrayList<SieniDocentRol>();
+        List<SieniAlumnRol> alumnos = new ArrayList<SieniAlumnRol>();
         switch (this.getTipoUser()) {
             case 0://TODOS
-                docentes = sieniDocenteFacadeRemote.findUsuariosRpt(this.getEstadoUser());
-                alumnos = sieniAlumnoFacadeRemote.findUsuariosRpt(this.getEstadoUser());
+                docentes = sieniDocenteRolFacadeRemote.findUsuariosRpt(this.getEstadoUser());
+                alumnos = sieniAlumnoRolFacadeRemote.findUsuariosRpt(this.getEstadoUser());
                 break;
             case 1: //DOCENTES
-                docentes = sieniDocenteFacadeRemote.findUsuariosRpt(this.getEstadoUser());
+                docentes = sieniDocenteRolFacadeRemote.findUsuariosRpt(this.getEstadoUser());
                 break;
             case 2: //ALUMNOS
-                alumnos = sieniAlumnoFacadeRemote.findUsuariosRpt(this.getEstadoUser());
+                alumnos = sieniAlumnoRolFacadeRemote.findUsuariosRpt(this.getEstadoUser());
                 break;
         }
-        for (SieniDocente actual : docentes) {
-            elem = new RptUsuariosPojo(null, actual, actual.getDcUsuario(), actual.getNombreCompleto(), 1, actual.getDcFechaIngreso(), actual.getDcEstado());
+        for (SieniDocentRol actual : docentes) {
+            SieniDocente d = sieniDocenteFacadeRemote.findByDocenteId(actual.getIdDocente());
+            elem = new RptUsuariosPojo(null, actual, d.getDcUsuario(), d.getNombreCompleto(), 1, actual.getSdrFechaIngreso(), actual.getSdrEstado());
             this.getListDatos().add(elem);
         }
-        for (SieniAlumno actual : alumnos) {
-            elem = new RptUsuariosPojo(actual, null, actual.getAlUsuario(), actual.getNombreCompleto(), 2, actual.getAlFechaIngreso(), actual.getAlEstado());
+        for (SieniAlumnRol actual : alumnos) {
+            SieniAlumno a = sieniAlumnoFacadeRemote.findAlumnoById(actual.getIdAlumno());
+            elem = new RptUsuariosPojo(actual, null, a.getAlUsuario(), a.getNombreCompleto(), 2, actual.getSarFechaIngreso(), actual.getSarEstado());
             this.getListDatos().add(elem);
         }
         this.setTotalUsuarios("" + this.getListDatos().size());

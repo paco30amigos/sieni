@@ -35,5 +35,9 @@ public interface SieniDocentRolFacadeRemote {
     public List<SieniDocentRol> findRoles(Long idDocente);
 
     public List<SieniDocentRol> findAdmins();
+    
+    public SieniDocentRol findByFIngreso(Long idDocente);
+
+    public List<SieniDocentRol> findUsuariosRpt(Integer estadoUser);
 
 }

@@ -48,4 +48,29 @@ public class SieniAlumnRolFacade extends AbstractFacade<SieniAlumnRol> implement
         return q.getResultList();
     }
 
+    @Override
+    public SieniAlumnRol findByFIngreso(Long idAlumno) {
+        Query q = em.createNamedQuery("SieniAlumnRol.findByFIngreso");
+        q.setParameter("idAlumno", idAlumno);
+        return (SieniAlumnRol) q.getSingleResult();
+    }
+
+    @Override
+    public List<SieniAlumnRol> findUsuariosRpt(Integer estadoUser) {
+        Query q = em.createNamedQuery("SieniAlumnRol.findAll");
+        switch (estadoUser) {
+            case 0: //TODOS
+                q = em.createNamedQuery("SieniAlumnRol.findAll");
+                break;
+            case 1: //ACTIVOS
+                q = em.createNamedQuery("SieniAlumnRol.findByEstado");
+                q.setParameter("sarEstado", 'A');
+                break;
+            case 2: //INACTIVOS
+                q = em.createNamedQuery("SieniAlumnRol.findByEstado");
+                q.setParameter("sarEstado", 'I');
+                break;
+        }
+        return q.getResultList();
+    }
 }

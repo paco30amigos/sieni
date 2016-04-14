@@ -7,15 +7,15 @@ package sv.com.mined.sieni.pojos.rpt;
 
 import java.io.Serializable;
 import java.util.Date;
-import sv.com.mined.sieni.model.SieniAlumno;
-import sv.com.mined.sieni.model.SieniDocente;
+import sv.com.mined.sieni.model.SieniAlumnRol;
+import sv.com.mined.sieni.model.SieniDocentRol;
 /**
  *
  * @author PD08004
  */
 public class RptUsuariosPojo  implements Serializable {
-    private SieniAlumno alumnoEntity;
-    private SieniDocente docenteEntity;
+    private SieniAlumnRol alumnoEntity;
+    private SieniDocentRol docenteEntity;
     private String usuario;
     private String nombre;
     private Integer tipoUser;
@@ -27,7 +27,7 @@ public class RptUsuariosPojo  implements Serializable {
     public RptUsuariosPojo() {
     }
 
-    public RptUsuariosPojo(SieniAlumno alumnoEntity, SieniDocente docenteEntity, String usuario, String nombre, Integer tipoUser,Date fechaIngreso, Character estado) {
+    public RptUsuariosPojo(SieniAlumnRol alumnoEntity, SieniDocentRol docenteEntity, String usuario, String nombre, Integer tipoUser, Date fechaIngreso, Character estado) {
         this.alumnoEntity = alumnoEntity;
         this.docenteEntity = docenteEntity;
         this.usuario = usuario;
@@ -37,11 +37,11 @@ public class RptUsuariosPojo  implements Serializable {
         this.estado = estado;
     }
 
-    public SieniAlumno getAlumnoEntity() {
+    public SieniAlumnRol getAlumnoEntity() {
         return alumnoEntity;
     }
 
-    public SieniDocente getDocenteEntity() {
+    public SieniDocentRol getDocenteEntity() {
         return docenteEntity;
     }
 

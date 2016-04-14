@@ -35,4 +35,9 @@ public interface SieniAlumnRolFacadeRemote {
     public List<SieniAlumnRol> findAllNoInactivos();
     
     public List<SieniAlumnRol> findRolesAlumno(Long idAlumno);
+    
+    public SieniAlumnRol findByFIngreso(Long idAlumno);
+
+    public List<SieniAlumnRol> findUsuariosRpt(Integer estadoUser);
+    
 }

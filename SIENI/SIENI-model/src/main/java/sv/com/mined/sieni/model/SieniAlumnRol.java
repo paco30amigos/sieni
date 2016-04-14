@@ -6,6 +6,7 @@
 package sv.com.mined.sieni.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +18,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrePersist;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -34,7 +38,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniAlumnRol.findRolesAlumno", query = "SELECT s FROM SieniAlumnRol s where s.idAlumno=:idAlumno and s.sarEstado not in(:estado)"),
     @NamedQuery(name = "SieniAlumnRol.findAllNoInactivos", query = "SELECT s FROM SieniAlumnRol s where s.sarEstado not in (:estado) order by s.idAlumnRol"),
     @NamedQuery(name = "SieniAlumnRol.findByIdAlumnRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.idAlumnRol = :idAlumnRol"),
-    @NamedQuery(name = "SieniAlumnRol.findByFRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.fRol = :fRol")})
+    @NamedQuery(name = "SieniAlumnRol.findByFRol", query = "SELECT s FROM SieniAlumnRol s WHERE s.fRol = :fRol"),
+    @NamedQuery(name = "SieniAlumnRol.findByEstado", query = "SELECT s FROM SieniAlumnRol s WHERE s.sarEstado = :sarEstado"),
+    @NamedQuery(name = "SieniAlumnRol.findByFIngreso", query = "SELECT s FROM SieniAlumnRol s, SieniAlumno a WHERE s.idAlumno = :idAlumno AND s.idAlumno=a.idAlumno")})
 public class SieniAlumnRol implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -48,6 +54,14 @@ public class SieniAlumnRol implements Serializable {
     private long fRol;
     @Column(name = "sar_estado")
     private Character sarEstado;
+    @Column(name = "sar_fecha_ingreso", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date sarFechaIngreso;
+
+    @PrePersist
+    protected void onCreate() {
+        sarFechaIngreso = new Date();
+    }
 //    @JoinColumn(name = "id_alumno", referencedColumnName = "id_alumno")
 //    @ManyToOne
     @Column(name = "id_alumno")
@@ -134,6 +148,14 @@ public class SieniAlumnRol implements Serializable {
 
     public void setAlumno(SieniAlumno alumno) {
         this.alumno = alumno;
+    }
+
+    public Date getSarFechaIngreso() {
+        return sarFechaIngreso;
+    }
+
+    public void setSarFechaIngreso(Date sarFechaIngreso) {
+        this.sarFechaIngreso = sarFechaIngreso;
     }
     
 }

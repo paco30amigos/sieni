@@ -128,8 +128,14 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
             } else {
                 totalPuntos = 0;
             }
-
-            elem = new RptEstadisticoAvancePojo(actual, null, actual.getIdCurso().getIdMateria().getMaNombre(), actual.getClTema(), actual.getTipo(), totalPuntos, puntosAl);
+            float porcentaje;
+            if(totalPuntos!=0){
+                porcentaje = puntosAl * 100 / totalPuntos;
+            }else{
+                porcentaje = 0;
+            }
+            
+            elem = new RptEstadisticoAvancePojo(actual, null, actual.getIdCurso().getIdMateria().getMaNombre(), actual.getClTema(), actual.getTipo(), totalPuntos, puntosAl, Float.toString(porcentaje) + " %");
             this.getListDatos().add(elem);
         }
         this.setTotalAlumnos("" + this.getListDatos().size());

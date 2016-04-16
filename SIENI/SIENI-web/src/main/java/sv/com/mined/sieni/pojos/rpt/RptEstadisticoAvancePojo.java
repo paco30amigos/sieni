@@ -26,12 +26,12 @@ public class RptEstadisticoAvancePojo implements Serializable {
     private String tipo;
     private Integer total;
     private Integer acumulado;
-    private float porcentaje;
+    private String porcentaje;
 
     public RptEstadisticoAvancePojo() {
     }
 
-    public RptEstadisticoAvancePojo(SieniClase claseEntity, SieniAlumno alumnoEntity, String materia, String clase, String tipo, Integer total, Integer acumulado) {
+    public RptEstadisticoAvancePojo(SieniClase claseEntity, SieniAlumno alumnoEntity, String materia, String clase, String tipo, Integer total, Integer acumulado, String porcentaje) {
         this.claseEntity = claseEntity;
         this.alumnoEntity = alumnoEntity;
         this.clase = clase;
@@ -70,13 +70,7 @@ public class RptEstadisticoAvancePojo implements Serializable {
         return acumulado;
     }
 
-    public float getPorcentaje() {
-        if (this.total != 0) {
-            porcentaje = this.acumulado * 100 / this.total;
-        } else {
-            porcentaje = 0;
-        }
-
+    public String getPorcentaje() {
         return porcentaje;
     }
 

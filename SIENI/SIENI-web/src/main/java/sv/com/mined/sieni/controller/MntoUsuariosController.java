@@ -243,6 +243,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     //actualiza la contraseña y usuario
                     sieniAlumnoFacadeRemote.edit(alumnoEdit);
                     //crea el nuevo usuario
+                    alumnoRolNuevo.setSarFechaIngreso(new Date());
                     sieniAlumnRolFacadeRemote.create(alumnoRolNuevo);
                 } else {
                     for (UsuariosPojo actual : this.getNombresDisponibles()) {
@@ -264,6 +265,7 @@ public class MntoUsuariosController extends MntoUsuariosForm {
                     //actualiza la contraseña y usuario
                     sieniDocenteFacadeRemote.edit(docenteEdit);
                     //crea el nuevo usuario
+                    docenteEdit.setDcFechaIngreso(new Date());
                     sieniDocenteRolFacadeRemote.create(docenteRolNuevo);
                 }
                 registrarEnBitacora("Crear", "Usuario", this.getUsuarioNuevo().getIdUsuario());

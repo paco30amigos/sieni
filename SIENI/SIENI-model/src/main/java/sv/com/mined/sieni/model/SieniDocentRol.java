@@ -59,10 +59,10 @@ public class SieniDocentRol implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date sdrFechaIngreso;
 
-    @PrePersist
-    protected void onCreate() {
-        sdrFechaIngreso = new Date();
-    }
+//    @PrePersist
+//    protected void onCreate() {
+//        sdrFechaIngreso = new Date();
+//    }
 //    @JoinColumn(name = "id_docente", referencedColumnName = "id_docente")
 //    @ManyToOne
 //    private SieniDocente idDocente;

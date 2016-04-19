@@ -51,8 +51,9 @@ public class RptNotasModificadasController extends RptNotasModificadasForm {
     @PostConstruct
     public void init() {
         this.setTipoRpt(0);
-        this.setDesde(new Date());
-        this.setHasta(new Date());
+        FormatUtils fu =new FormatUtils();
+        this.setDesde(fu.getFormatDate(fu.getFormatedDate(new Date())));
+        this.setHasta(fu.getFormatDate(fu.getFormatedDate(new Date())));
         //fill();
     }
 

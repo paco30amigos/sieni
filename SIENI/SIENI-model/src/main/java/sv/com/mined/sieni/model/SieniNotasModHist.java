@@ -29,7 +29,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "sieni_notas_mod_hist")
 @NamedQueries({
-    @NamedQuery(name = "SieniNotasModHist.findByFecha", query = "SELECT s FROM SieniNotasModHist s where s.ntFechaMod between :fi and :ff"),
+    @NamedQuery(name = "SieniNotasModHist.findByFecha", query = "SELECT s FROM SieniNotasModHist s where s.ntFechaMod>= :fi and s.ntFechaMod<= :ff"),
     @NamedQuery(name = "SieniNotasModHist.findAll", query = "SELECT s FROM SieniNotasModHist s")})
 public class SieniNotasModHist implements Serializable {
 

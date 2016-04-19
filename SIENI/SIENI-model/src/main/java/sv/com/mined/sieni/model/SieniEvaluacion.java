@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniEvaluacion.findByEvNombre", query = "SELECT s FROM SieniEvaluacion s WHERE s.evNombre = :evNombre"),
     @NamedQuery(name = "SieniEvaluacion.findActivos", query = "SELECT s FROM SieniEvaluacion s  WHERE s.evEstado NOT IN ('I')"),
     @NamedQuery(name = "SieniEvaluacion.findEvalItemResp", query = "SELECT s FROM SieniEvaluacion s  join fetch s.sieniEvaluacionItemList item join fetch item.sieniEvalRespItemList res where s.idEvaluacion = :idEvaluacion"),
-    @NamedQuery(name = "SieniEvaluacion.findByDesdeHasta", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado in('A') AND s.evFechaInicio>=:desde AND s.evFechaCierre<=:hasta"),
+    @NamedQuery(name = "SieniEvaluacion.findByDesdeHasta", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado in('A') AND s.evFechaInicio>=:desde or s.evFechaCierre<=:hasta"),
     @NamedQuery(name = "SieniEvaluacion.findByEvPonderacion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evPonderacion = :evPonderacion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvVersion", query = "SELECT s FROM SieniEvaluacion s WHERE s.evVersion = :evVersion"),
     @NamedQuery(name = "SieniEvaluacion.findByEvEstado", query = "SELECT s FROM SieniEvaluacion s WHERE s.evEstado = :evEstado"),

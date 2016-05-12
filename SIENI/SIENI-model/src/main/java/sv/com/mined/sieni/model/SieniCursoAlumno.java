@@ -53,6 +53,16 @@ public class SieniCursoAlumno implements Serializable {
     private SieniCurso idCurso;
     @Transient
     private SieniAlumno alumno;
+    @Column(name = "cra_estado")
+    private Character craEstado;
+
+    public Character getCraEstado() {
+        return craEstado;
+    }
+
+    public void setCraEstado(Character craEstado) {
+        this.craEstado = craEstado;
+    }
 
     public SieniCursoAlumno() {
     }

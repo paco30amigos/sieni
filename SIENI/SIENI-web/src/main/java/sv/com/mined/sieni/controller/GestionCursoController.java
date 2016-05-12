@@ -324,9 +324,10 @@ public class GestionCursoController extends GestionCursoForm {
     public synchronized void eliminarInscripcionCurso() {
         try {
             registrarEnBitacora("Eliminar", "Inscripcion", this.getEliminarInscrito().getIdAlumno());
-            this.getEliminar().setCrEstado('I');
-            sieniCursoFacadeRemote.edit(this.getEliminar());
-            sieniCursoAlumnoFacadeRemote.remove(this.getEliminarInscrito());
+            this.getEliminarInscrito().setCraEstado('I');
+            sieniCursoAlumnoFacadeRemote.edit(this.getEliminarInscrito());
+            
+//            sieniCursoAlumnoFacadeRemote.remove(this.getEliminarInscrito());
             new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -390,6 +391,7 @@ public class GestionCursoController extends GestionCursoForm {
             for (SieniAlumno alumno : this.getSelectedAlumnoList()) {
                 cursoAlumno.setIdAlumno(alumno.getIdAlumno());
                 cursoAlumno.setIdCurso(this.getCursoModifica());
+                cursoAlumno.setCraEstado('A');
                 sieniCursoAlumnoFacadeRemote.create(cursoAlumno);
 
                 alumnos = alumnos + alumno.getAlNombreCompleto() + "\n";

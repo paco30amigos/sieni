@@ -45,6 +45,11 @@ public class CatSeccionController extends CatSeccionForm {
         loginBean.registrarTransaccion(accion, tabla, id);
 
     }
+    
+    public void initNuevo(){
+            this.setListGrados(sieniGradoRemote.findAllNoInactivos());
+            this.setIndexMenu(1);
+    }
 
     @PostConstruct
     public void init() {
@@ -137,6 +142,7 @@ public class CatSeccionController extends CatSeccionForm {
     //metodos para modificacion de datos
     public void modificar(SieniSeccion modificado) {
         this.setModifica(modificado);
+        this.setListGrados(sieniGradoRemote.findAllNoInactivos());
 //        this.setIdanio(this.getModifica().getIdAnioEscolar().getIdAnioEscolar().intValue());
 //        this.setIdgrado(this.getModifica().getIdGrado().getIdGrado().intValue());
         this.setIndexMenu(2);

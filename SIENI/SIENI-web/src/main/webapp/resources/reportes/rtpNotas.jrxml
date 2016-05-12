@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2015-10-27T21:02:44 -->
+<!-- 2016-05-12T00:20:39 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -205,7 +205,7 @@ Reporte de Notas de Alumnos]]></text>
 	</columnHeader>
 	<detail>
 		<band height="30" splitType="Stretch">
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="342" y="-5" width="48" height="30" uuid="2e5b58ec-11ed-4769-a89c-1db7b8553d42"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -216,7 +216,7 @@ Reporte de Notas de Alumnos]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{seccion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="390" y="-5" width="168" height="30" uuid="2005aca6-dfaa-44ca-bb41-e909c8b78818"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -226,7 +226,7 @@ Reporte de Notas de Alumnos]]></text>
 				</box>
 				<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="558" y="-5" width="68" height="30" uuid="595e14ef-9c02-4b87-8cb0-be2dded3ff6c"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -237,7 +237,7 @@ Reporte de Notas de Alumnos]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{tipoEvaluacion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="626" y="-5" width="64" height="30" uuid="817135f9-9545-4839-8ee5-4746ddf32348"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -245,10 +245,10 @@ Reporte de Notas de Alumnos]]></text>
 					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" markup="none"/>
 				<textFieldExpression><![CDATA[$F{evaluacion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="115" y="-5" width="179" height="30" uuid="86df671e-2b3c-481f-81a3-19cc7bdae722"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -258,7 +258,7 @@ Reporte de Notas de Alumnos]]></text>
 				</box>
 				<textFieldExpression><![CDATA[$F{alumno}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="294" y="-5" width="48" height="30" uuid="41ec8b5b-0a04-4bc0-8357-049423460f7d"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -269,7 +269,7 @@ Reporte de Notas de Alumnos]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{grado}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="27" y="-5" width="88" height="30" uuid="3d1db746-3825-43d9-a1bf-7795f3b9bbe5"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -279,7 +279,7 @@ Reporte de Notas de Alumnos]]></text>
 				</box>
 				<textFieldExpression><![CDATA[$F{carnet}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="690" y="-5" width="40" height="30" uuid="a67f503d-48cb-4650-895c-da832be9fd21"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>

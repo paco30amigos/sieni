@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
+<!-- 2016-05-12T00:29:35 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="612" pageHeight="792" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -166,27 +168,27 @@
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="2" y="0" width="174" height="20" uuid="295d927a-6f37-47a8-805b-9c6a0a1acbd0"/>
 				<textFieldExpression><![CDATA[$F{nombreEvaluacion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="175" y="0" width="54" height="20" uuid="2e3242bc-b83a-45da-a292-bf8b2b75c4a0"/>
 				<textFieldExpression><![CDATA[$F{ponderacion}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="229" y="0" width="57" height="20" uuid="6bcf6fe1-b873-4e12-82e7-ac969f7c061d"/>
 				<textFieldExpression><![CDATA[$F{fechaInicio}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="286" y="0" width="68" height="20" uuid="f0bf412f-9e88-492d-9581-53357a158434"/>
 				<textFieldExpression><![CDATA[$F{fechaCierre}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="354" y="0" width="129" height="20" uuid="773e4c14-c655-4f3a-8730-95f9ceba126a"/>
 				<textFieldExpression><![CDATA[$F{docente}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="483" y="0" width="89" height="20" uuid="28b302bf-7b2a-4e1d-b8de-c1aab1c99356"/>
 				<textFieldExpression><![CDATA[$F{gradoResponsable}]]></textFieldExpression>
 			</textField>

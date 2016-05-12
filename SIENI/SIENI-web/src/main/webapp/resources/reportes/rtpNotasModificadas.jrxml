@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2016-02-25T23:19:39 -->
+<!-- 2016-05-12T00:30:51 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rptAlumnos" pageWidth="792" pageHeight="612" orientation="Landscape" columnWidth="752" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="075ed306-8898-40c6-b065-aa7be29049d9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="bd_sieni"/>
 	<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.HorizontalRowLayout"/>
@@ -190,7 +190,7 @@ Reporte de Notas Modificadas]]></text>
 	<detail>
 		<band height="19" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="198" y="-1" width="76" height="20" uuid="4a395093-2340-4a1f-b65e-12d3e3d985c6">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -204,7 +204,7 @@ Reporte de Notas Modificadas]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{notaAnterior}]]></textFieldExpression>
 			</textField>
-			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="274" y="-1" width="56" height="20" uuid="3df7f151-9dc0-425c-8620-696be7117ae1"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -215,7 +215,7 @@ Reporte de Notas Modificadas]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{nota}]]></textFieldExpression>
 			</textField>
-			<textField pattern="h:mm a" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" pattern="h:mm a" isBlankWhenNull="true">
 				<reportElement key="" x="330" y="-1" width="81" height="20" uuid="8ea24002-7bcb-4cc4-9948-81cf4c7d6378"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -226,7 +226,7 @@ Reporte de Notas Modificadas]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="411" y="-1" width="81" height="20" uuid="cda90867-8b9a-4213-8062-fda95551bb0e"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -237,7 +237,7 @@ Reporte de Notas Modificadas]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{hora}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="492" y="-1" width="133" height="20" uuid="f9f774a1-f275-48e0-b713-09baa1807783"/>
 				<box padding="1" topPadding="1" leftPadding="1" bottomPadding="1" rightPadding="1">
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -248,7 +248,7 @@ Reporte de Notas Modificadas]]></text>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{alumno}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="114" y="-1" width="84" height="20" uuid="2078793c-cd51-414b-8018-e931d0c9c1cb">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -262,7 +262,7 @@ Reporte de Notas Modificadas]]></text>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{accion}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement x="15" y="-1" width="98" height="20" uuid="d22a68c3-13dd-4f43-98e7-cfc5957ca8d3">
 					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
@@ -276,7 +276,7 @@ Reporte de Notas Modificadas]]></text>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{docente}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isStretchWithOverflow="true">
 				<reportElement x="625" y="-1" width="100" height="20" uuid="0b7e820c-bb54-4bf1-a978-1312281dfc44"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression><![CDATA[$F{evaluacion}]]></textFieldExpression>

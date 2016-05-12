@@ -185,7 +185,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     public synchronized void guardarItem() {
 
         try {
-            if (this.getEvaluacionItemNuevo().getEiPonderacion() ==0.0) {
+            if (this.getEvaluacionItemNuevo().getEiPonderacion() == 0.0) {
                 new ValidationPojo().printMsj("La ponderación de la pregunta no puede ser cero", FacesMessage.SEVERITY_ERROR);
             } else if ((this.getTotalPonderacion() + this.getEvaluacionItemNuevo().getEiPonderacion()) <= 100.0) {
                 this.getEvaluacionItemNuevo().setEiEstado('A');
@@ -768,5 +768,23 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
     public void handleClose(CloseEvent event) {
         setIndexMenu(0);
+    }
+
+    public void eliminaRespuesta(SieniEvalRespItem eliminar) {
+        this.setEvalRespItemElimina(eliminar);
+
+    }
+
+    public void eliminarRespuesta() {
+        try {
+            this.getEvalRespItemElimina().setErEstado(new Character('I'));
+            sieniEvalRespItemFacadeRemote.edit(this.getEvalRespItemElimina());
+            registrarEnBitacora("Eliminar", "Respuesta de Evaluacion", this.getEvalRespItemElimina().getIdEvalRespItem());
+            new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
+            fillItemsResp();
+        } catch (Exception e) {
+            new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
+            System.out.println(e.getMessage());
+        }
     }
 }

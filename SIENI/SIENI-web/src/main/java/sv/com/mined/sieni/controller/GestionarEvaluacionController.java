@@ -169,7 +169,9 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
                 registrarEnBitacora("Crear", "Evaluacion", this.getEvaluacionNuevo().getIdEvaluacion());
                 FacesMessage msg = new FacesMessage("Evaluacion Creada Exitosamente");
                 FacesContext.getCurrentInstance().addMessage(null, msg);
+                this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
                 this.setEvaluacionNuevo(new SieniEvaluacion());
+                this.getEvaluacionNuevo().setEvTipo("Digital");
                 fill();
             }
             this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
@@ -299,8 +301,10 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
         List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
         validaciones.add(new ValidationPojo(nuevo.getEvNombre().isEmpty(), "Debe ingresar el titulo de la evaluacion", FacesMessage.SEVERITY_ERROR));
-
-        validaciones.add(new ValidationPojo(nuevo.getEvFechaInicio().getTime() >= nuevo.getEvFechaCierre().getTime(), "La fecha de inicio debe ser menor o igual a la de cierre", FacesMessage.SEVERITY_ERROR));
+        if (nuevo.getEvTipo() != null && nuevo.getEvTipo().equals("Digital")) {
+            validaciones.add(new ValidationPojo(nuevo.getEvFechaInicio() == null, "Debe ingresar la fecha de de cierre", FacesMessage.SEVERITY_ERROR));
+            validaciones.add(new ValidationPojo(nuevo.getEvFechaInicio() == null || (nuevo.getEvFechaInicio().getTime() >= nuevo.getEvFechaCierre().getTime()), "La fecha de inicio debe ser menor o igual a la de cierre", FacesMessage.SEVERITY_ERROR));
+        }
 
         valido = !ValidationPojo.printErrores(validaciones);
         return valido;
@@ -706,30 +710,17 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
     public boolean validarModifica(SieniEvaluacion nuevo) {
         boolean valido = true;
-//        DateUtils du = new DateUtils();
-//        FormatUtils fu = new FormatUtils();
-//        EmailValidator ev = new EmailValidator();
-//        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
-//        //alumno ya registrado
-//        boolean cambio = true;
-//        validaciones.add(new ValidationPojo(this.getAlumnoModifica().getAlPrimApe().isEmpty(), "Debe ingresar Primer Apellido", FacesMessage.SEVERITY_ERROR));
-//        validaciones.add(new ValidationPojo(this.getAlumnoModifica().getAlPrimNombre().isEmpty(), "Debe ingresar Primer Nombre", FacesMessage.SEVERITY_ERROR));
-//        SieniAlumno alOriginal = sieniAlumnoFacadeRemote.find(this.getAlumnoModifica().getIdAlumno());
-//        cambio = diferencia(alOriginal.getAlPrimApe(), nuevo.getAlPrimApe());
-//        cambio &= diferencia(alOriginal.getAlSeguApe(), nuevo.getAlSeguApe());
-//        cambio &= diferencia(alOriginal.getAlTercApe(), nuevo.getAlTercApe());
-//        cambio &= diferencia(alOriginal.getAlPrimNombre(), nuevo.getAlPrimNombre());
-//        cambio &= diferencia(alOriginal.getAlSeguNombre(), nuevo.getAlSeguNombre());
-//        cambio &= diferencia(alOriginal.getAlTercNombre(), nuevo.getAlTercNombre());
-//        if (!cambio) {
-//            validaciones.add(new ValidationPojo(sieniAlumnoFacadeRemote.alumnoRegistrado(nuevo), "El Alumno ya esta existe", FacesMessage.SEVERITY_ERROR));
-//        }
-//        validaciones.add(new ValidationPojo(this.getAlumnoModifica().getAlFechaNacimiento().before(du.getFechaMinima()), "La fecha de nacimiento es menor que " + fu.getFormatedDate(du.getFechaMinima()), FacesMessage.SEVERITY_ERROR));
-//        validaciones.add(new ValidationPojo(this.getAlumnoModifica().getAlFechaNacimiento().after(du.getFechaMaxima()), "La fecha de nacimiento es mayor que " + fu.getFormatedDate(du.getFechaMaxima()), FacesMessage.SEVERITY_ERROR));
-//        if (nuevo.getAlCorreo() != null && !nuevo.getAlCorreo().isEmpty()) {//si se ingreso un correo lo valida
-//            validaciones.add(new ValidationPojo(!ev.validate(nuevo.getAlCorreo()), "El correo electronico no válido", FacesMessage.SEVERITY_ERROR));
-//        }
-//        valido = !ValidationPojo.printErrores(validaciones);
+        DateUtils du = new DateUtils();
+        FormatUtils fu = new FormatUtils();
+
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        validaciones.add(new ValidationPojo(nuevo.getEvNombre().isEmpty(), "Debe ingresar el titulo de la evaluacion", FacesMessage.SEVERITY_ERROR));
+        if (nuevo.getEvTipo() != null && nuevo.getEvTipo().equals("Digital")) {
+            validaciones.add(new ValidationPojo(nuevo.getEvFechaInicio() == null, "Debe ingresar la fecha de de cierre", FacesMessage.SEVERITY_ERROR));
+            validaciones.add(new ValidationPojo(nuevo.getEvFechaInicio() == null || (nuevo.getEvFechaInicio().getTime() >= nuevo.getEvFechaCierre().getTime()), "La fecha de inicio debe ser menor o igual a la de cierre", FacesMessage.SEVERITY_ERROR));
+        }
+
+        valido = !ValidationPojo.printErrores(validaciones);
         return valido;
     }
 

@@ -21,7 +21,7 @@
             <h:form enctype="multipart/form-data" >              
                 <div class="EmptyBox20"></div>
                 <p:focus id="focus" context="p1"/>
-                <p:panelGrid columns="2">
+                <p:panelGrid columns="2" id="pp">
                     <p:outputLabel value="Tipo de Evaluación"></p:outputLabel>
                     <p:selectOneMenu value="#{gestionarEvaluacionController.evaluacionNuevo.evTipo}" valueChangeListener="#{gestionarEvaluacionController.actualizarTipoCurso}">
                         <f:selectItem itemLabel="Escrita" itemValue="Escrita"></f:selectItem>
@@ -104,9 +104,9 @@
 
                 <div class="EmptyBox20"></div>
                 <div class="Container100">
-                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarEvaluacionController.guardar()}" update="p1,focus" oncomplete="configurarEnterTab()" />
+                    <p:commandButton tabindex="12" value="Guardar" action="#{gestionarEvaluacionController.guardar()}" update="p1,focus,pp" oncomplete="configurarEnterTab()" />
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1,focus" resetValues="true" oncomplete="configurarEnterTab()" />
+                        <p:ajax update="p1,focus,pp" resetValues="true" oncomplete="configurarEnterTab()" />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionarEvaluacionController.setIndexMenu(0)}"/>

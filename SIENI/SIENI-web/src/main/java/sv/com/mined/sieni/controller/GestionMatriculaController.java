@@ -29,7 +29,6 @@ import sv.com.mined.sieni.model.SieniGrado;
 import sv.com.mined.sieni.model.SieniMatricula;
 import sv.com.mined.sieni.model.SieniSeccion;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
-import utils.FormatUtils;
 
 /**
  *
@@ -100,7 +99,9 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
             if (this.getGradosList().get(0).getSieniSeccionList() != null
                     && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
-                this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
+                List<SieniSeccion> sec=sieniSeccionFacadeRemote.findByGrado(this.getGradosList().get(0).getIdGrado());
+                this.setSeccionesList(sec);
+//                this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
             }
         }
         this.setMatriculaNuevo(new SieniMatricula());
@@ -184,7 +185,9 @@ public class GestionMatriculaController extends GestionMatriculaForm {
         if (this.getGradosModificaList() != null && !this.getGradosModificaList().isEmpty()) {
             if (this.getGradosModificaList().get(0).getSieniSeccionList() != null
                     && !this.getGradosModificaList().get(0).getSieniSeccionList().isEmpty()) {
-                this.setSeccionesModificaList(this.getGradosModificaList().get(0).getSieniSeccionList());
+                List<SieniSeccion> sec=sieniSeccionFacadeRemote.findByGrado(this.getGradosModificaList().get(0).getIdGrado());
+                this.setSeccionesModificaList(sec);
+//                this.setSeccionesModificaList(this.getGradosModificaList().get(0).getSieniSeccionList());
             }
         }
         this.setMatriculaModifica(modificado);

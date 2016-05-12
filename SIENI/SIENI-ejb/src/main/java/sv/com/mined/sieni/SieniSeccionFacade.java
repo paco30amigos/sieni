@@ -92,4 +92,12 @@ public class SieniSeccionFacade extends AbstractFacade<SieniSeccion> implements 
         return ret;
     }
 
+    @Override
+    public List<SieniSeccion> findByGrado(Long idGrado) {
+        Query q = em.createNamedQuery("SieniSeccion.findByGrado");
+        q.setParameter("idGrado", idGrado);
+        List<SieniSeccion> ret = q.getResultList();
+        return ret;
+    }
+
 }

@@ -41,4 +41,6 @@ public interface SieniSeccionFacadeRemote {
 
     public List<SieniSeccion> findAllNoInactivos();
     
+    public List<SieniSeccion> findByGrado(Long idGrado);
+    
 }

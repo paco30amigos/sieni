@@ -6,7 +6,6 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,6 +22,7 @@ import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniGradoFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
+import sv.com.mined.sieni.SieniSeccionFacadeRemote;
 import sv.com.mined.sieni.form.GestionCursoForm;
 import sv.com.mined.sieni.model.SieniAlumno;
 import sv.com.mined.sieni.model.SieniCurso;
@@ -56,6 +56,8 @@ public class GestionCursoController extends GestionCursoForm {
     private SieniAlumnoFacadeRemote sieniAlumnoFacadeRemote;
     @EJB
     private SieniCursoAlumnoFacadeRemote sieniCursoAlumnoFacadeRemote;
+    @EJB
+    private SieniSeccionFacadeRemote sieniSeccionFacadeRemote;
 
     private void registrarEnBitacora(String accion, String tabla, Long id) {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -108,7 +110,8 @@ public class GestionCursoController extends GestionCursoForm {
             if (this.getGradoList().get(0).getSieniSeccionList() != null
                     && !this.getGradoList().get(0).getSieniSeccionList().isEmpty()) {
                 this.setIdSeccion(this.getGradoList().get(0).getSieniSeccionList().get(0).getIdSeccion());
-                this.setSeccionList(this.getGradoList().get(0).getSieniSeccionList());
+                List<SieniSeccion> sec=sieniSeccionFacadeRemote.findByGrado(this.getGradoList().get(0).getIdGrado());
+                this.setSeccionList(sec);
             }
             this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(this.getGradoList().get(0).getIdGrado()));
             if (this.getMateriaList() != null && !this.getMateriaList().isEmpty()) {
@@ -220,7 +223,8 @@ public class GestionCursoController extends GestionCursoForm {
         if (this.getGradoModificaList() != null && !this.getGradoModificaList().isEmpty()) {
             for (SieniGrado actual : this.getGradoModificaList()) {
                 if (actual.getIdGrado().equals(modificado.getIdGrado().getIdGrado())) {
-                    this.setSeccionModificaList(actual.getSieniSeccionList());
+                    List<SieniSeccion> sec=sieniSeccionFacadeRemote.findByGrado(actual.getIdGrado());
+                    this.setSeccionModificaList(sec);
                     break;
                 }
             }
@@ -340,7 +344,8 @@ public class GestionCursoController extends GestionCursoForm {
             }
         }
         this.setMateriaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(idGrado));
-        this.setSeccionList(cod.getSieniSeccionList());
+        List<SieniSeccion> sec=sieniSeccionFacadeRemote.findByGrado(idGrado);
+        this.setSeccionList(sec);
         if (this.getMateriaList() != null && !this.getMateriaList().isEmpty()) {
             this.setDocentesList(sieniMateriaDocenteFacadeRemote.findByMateria(this.getMateriaList().get(0).getIdMateria()));
         } else {
@@ -368,6 +373,8 @@ public class GestionCursoController extends GestionCursoForm {
             }
         }
         this.setMateriaModificaList(sieniMateriaFacadeRemote.findMateriasActivasByGrado(idGrado));
+        List<SieniSeccion> sec=sieniSeccionFacadeRemote.findByGrado(idGrado);
+        this.setSeccionModificaList(sec);
         if (this.getMateriaModificaList() != null && !this.getMateriaModificaList().isEmpty()) {
             this.setDocentesModificaList(sieniMateriaDocenteFacadeRemote.findByMateria(this.getMateriaModificaList().get(0).getIdMateria()));
         } else {

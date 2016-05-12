@@ -185,7 +185,9 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     public synchronized void guardarItem() {
 
         try {
-            if ((this.getTotalPonderacion() + this.getEvaluacionItemNuevo().getEiPonderacion()) <= 100.0) {
+            if (this.getEvaluacionItemNuevo().getEiPonderacion() ==0.0) {
+                new ValidationPojo().printMsj("La ponderación de la pregunta no puede ser cero", FacesMessage.SEVERITY_ERROR);
+            } else if ((this.getTotalPonderacion() + this.getEvaluacionItemNuevo().getEiPonderacion()) <= 100.0) {
                 this.getEvaluacionItemNuevo().setEiEstado('A');
                 this.getEvaluacionItemNuevo().setIdEvaluacion(this.getEvaluacionModifica());
 

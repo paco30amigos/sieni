@@ -31,9 +31,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniCursoAlumno.findAll", query = "SELECT s FROM SieniCursoAlumno s"),
-    @NamedQuery(name = "SieniCursoAlumno.findByIdAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idAlumno=:idAlumno"),
-    @NamedQuery(name = "SieniCursoAlumno.findByIdCursoIdAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idCurso.idCurso=:idCurso AND s.idAlumno=:idAlumno"),
-    @NamedQuery(name = "SieniCursoAlumno.findByIdCursoAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idCursoAlumno = :idCursoAlumno")})
+    @NamedQuery(name = "SieniCursoAlumno.findByIdAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idAlumno=:idAlumno and s.craEstado='A'"),
+    @NamedQuery(name = "SieniCursoAlumno.findByIdCursoIdAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idCurso.idCurso=:idCurso AND s.idAlumno=:idAlumno and s.craEstado='A'"),
+    @NamedQuery(name = "SieniCursoAlumno.findByIdCursoAlumno", query = "SELECT s FROM SieniCursoAlumno s WHERE s.idCursoAlumno = :idCursoAlumno and s.craEstado='A'")})
 public class SieniCursoAlumno implements Serializable {
 
     private static final long serialVersionUID = 1L;

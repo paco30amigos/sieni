@@ -329,6 +329,8 @@ public class GestionCursoController extends GestionCursoForm {
             
 //            sieniCursoAlumnoFacadeRemote.remove(this.getEliminarInscrito());
             new ValidationPojo().printMsj("Registro eliminado exitosamente", FacesMessage.SEVERITY_INFO);
+            gestionarAlumnoInscrito(this.getEliminarInscrito().getIdCurso());
+            
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());

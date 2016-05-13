@@ -23,7 +23,7 @@
                 <p:focus id="focus" context="p1"/>
                 <p:panelGrid columns="4" class="Container100 Responsive" id="p1">
                     <p:outputLabel for="nombre"  value="Nombre: " class=" Responsive"></p:outputLabel>
-                    <p:inputText tabindex="1" id="nombre" value="#{catTipoElementoPlantillaController.modifica.teDescripcion}" required="true" requiredMessage="Debe ingresar un nombre al archivo" maxlength="#{tamanioUtils.nombreArchivoMax}"></p:inputText>
+                    <p:inputText tabindex="1" id="nombre" value="#{catTipoElementoPlantillaController.modifica.teDescripcion}" required="true" requiredMessage="Debe ingresar un nombre al elemento de plantilla" maxlength="#{tamanioUtils.nombreArchivoMax}"></p:inputText>
                     <p:outputLabel for="estado" value="Estado: " class=" Responsive"></p:outputLabel>
                     <p:selectOneMenu tabindex="2" id="estado" class=" Responsive" value="#{catTipoElementoPlantillaController.modifica.teEstado}">
                         <f:selectItem itemValue ="A" itemLabel="Disponible"/>

@@ -32,7 +32,7 @@
                         <p:ajax event="valueChange" update="seccion"/>
                     </p:selectOneMenu>
                     <p:outputLabel for="seccion" value="Sección del grado: " class="  Responsive"></p:outputLabel>
-                    <p:selectOneMenu id="seccion" value="#{rptNotasController.seccion.idSeccion}">
+                    <p:selectOneMenu id="seccion" value="#{rptNotasController.seccion.idSeccion}" valueChangeListener="#{rptNotasController.getSeccionChange}">
                         <f:selectItem itemValue="0" itemLabel="Todos"></f:selectItem>
                         <f:selectItems itemValue="#{seccion.idSeccion}" itemLabel="#{seccion.scDescripcion}" value="#{rptNotasController.seccionesList}" var="seccion"></f:selectItems>
                         <p:ajax event="valueChange" update="seccion"/>

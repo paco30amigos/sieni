@@ -204,7 +204,7 @@ public class GestionNotasController extends GestionNotasForm {
                 this.setAlumnosModificaList(sieniAlumnoFacadeRemote.findAlumnosMatriculados(loginBean.getAnioEscolarActivo().getIdAnioEscolar(),loginBean.getAnioEscolarActivo().getAeAnio().toString()));
                 this.setMateriasModificaList(sieniMateriaFacadeRemote.findByAlumno(modificado.getIdAlumno()));
                 if (this.getMateriasModificaList() != null && !this.getMateriasModificaList().isEmpty()) {
-                    this.setEvaluacionesModificaList(modificado.getIdEvaluacion().getIdMateria().getSieniEvaluacionList());
+                    this.setEvaluacionesModificaList(sieniEvaluacionFacadeRemote.findByMateria(modificado.getIdEvaluacion().getIdMateria().getIdMateria()));
                 }
                 this.setIdMateriaModifica(modificado.getIdEvaluacion().getIdMateria());
                 this.setNotaModifica(modificado);

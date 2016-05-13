@@ -68,7 +68,7 @@ public class RptNotasController extends RptNotasForm {
         this.setGradosList(sieniGradoFacadeRemote.findAllNoInactivos());
         this.setSeccionesList(new ArrayList<SieniSeccion>());
         if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
-            if (this.getSeccion().getIdSeccion().equals(0L)) { 
+            if (this.getSeccion().getIdSeccion().equals(0L)) {
                 if (this.getGradosList().get(0).getSieniSeccionList() != null
                         && !this.getGradosList().get(0).getSieniSeccionList().isEmpty()) {
                     this.setSeccionesList(this.getGradosList().get(0).getSieniSeccionList());
@@ -141,6 +141,25 @@ public class RptNotasController extends RptNotasForm {
             this.setGrado(cod);
             this.setSeccionesList(cod.getSieniSeccionList());
             this.setSeccion(this.getSeccionesList() != null && !this.getSeccionesList().isEmpty() ? this.getSeccionesList().get(0) : null);
+        }
+    }
+
+    public void getSeccionChange(ValueChangeEvent a) {
+        Long idSeccion = (Long) a.getNewValue();
+        SieniSeccion cod = new SieniSeccion();
+        
+            this.setSeccion(new SieniSeccion());
+        
+        if (idSeccion != null&&idSeccion!=0L) {
+            for (SieniSeccion actual : this.getSeccionesList()) {
+                if (actual.getIdSeccion().equals(idSeccion)) {
+                    cod = actual;
+                    this.getSeccion().setIdSeccion(idSeccion);
+                    break;
+                }
+            }
+        } else {
+            this.getSeccion().setIdSeccion(0L);
         }
     }
 

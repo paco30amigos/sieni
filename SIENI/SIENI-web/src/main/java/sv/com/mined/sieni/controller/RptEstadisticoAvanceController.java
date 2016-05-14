@@ -84,7 +84,11 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
 //                    anio = new FormatUtils().getFormatedAnio(getDesde());
 //                }
                 this.setListAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion()));
-                this.setAlumno(this.getListAlumnos().get(0));
+                if (this.getListAlumnos() != null && !this.getListAlumnos().isEmpty()) {
+                    this.setAlumno(this.getListAlumnos().get(0));
+                }else{
+                    this.setAlumno(null);
+                }
             } else {
                 this.setListAlumnos(new ArrayList<SieniAlumno>());
             }
@@ -129,12 +133,12 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
                 totalPuntos = 0;
             }
             float porcentaje;
-            if(totalPuntos!=0){
+            if (totalPuntos != 0) {
                 porcentaje = puntosAl * 100 / totalPuntos;
-            }else{
+            } else {
                 porcentaje = 0;
             }
-            
+
             elem = new RptEstadisticoAvancePojo(actual, null, actual.getIdCurso().getIdMateria().getMaNombre(), actual.getClTema(), actual.getTipo(), totalPuntos, puntosAl, Float.toString(porcentaje) + " %");
             this.getListDatos().add(elem);
         }

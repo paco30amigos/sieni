@@ -6,6 +6,8 @@
 package sv.com.mined.sieni.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -100,10 +102,10 @@ public class RptRendimientoController extends RptRendimientoForm {
                     Integer totalAlumnos = notas.size();
                     float aprobados = 0;
                     float reprobados = 0;
-                    float totalAprobados = 0;
-                    float totalReprobados = 0;
+                    double totalAprobados = 0;
+                    double totalReprobados = 0;
                     float suma = 0;
-                    float promedio = 0;
+                    double promedio = 0;
 
                     for (SieniNota actual : notas) {
                         if (actual.getNtCalificacion() >= 6.00) {
@@ -114,9 +116,15 @@ public class RptRendimientoController extends RptRendimientoForm {
                         suma += actual.getNtCalificacion();
                     }
 
-                    totalAprobados = (float) ((aprobados * 100) / totalNotas);
-                    totalReprobados = (float) ((reprobados * 100) / totalNotas);
+                    totalAprobados = (double) ((aprobados * 100) / totalNotas);
+                    totalReprobados = (double) ((reprobados * 100) / totalNotas);
+                    BigDecimal aprob = new BigDecimal(totalAprobados);
+                    BigDecimal reprob = new BigDecimal(totalReprobados);
+                    aprob = aprob.setScale(2, RoundingMode.HALF_UP);
+                    reprob = reprob.setScale(2, RoundingMode.HALF_UP);
                     promedio = suma / notas.size();
+                    BigDecimal prom = new BigDecimal(promedio);
+                    prom = prom.setScale(2, RoundingMode.HALF_UP);
 
                     SieniGrado grado = sieniGradoFacadeRemote.findByIdGrado(this.getIdGrado());
                     SieniSeccion seccion = sieniSeccionFacadeRemote.findByIdSeccion(this.getIdSeccion());
@@ -124,7 +132,7 @@ public class RptRendimientoController extends RptRendimientoForm {
                     if (totalAlumnos == 0) {
                         elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual.getEvTipo(), "No Definido", "No Definido", "No Definido", tipoActual.getEvNombre());
                     } else {
-                        elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual.getEvTipo(), Float.toString(totalAprobados) + " %", Float.toString(totalReprobados) + " %", Float.toString(promedio), tipoActual.getEvNombre());
+                        elem = new RptRendimientoPojo(grado.getGrNombre(), seccion.getScDescripcion(), materia.getMaNombre(), String.valueOf(totalAlumnos), tipoActual.getEvTipo(), aprob.toString() + " %", reprob.toString() + " %", prom.toString(), tipoActual.getEvNombre());
                     }
                     this.getListDatos().add(elem);
                 }

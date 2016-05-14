@@ -80,6 +80,8 @@ public class RptAlumnosController extends RptAlumnosForm {
     }
 
     public void fill() {
+        HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+        LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
         RptAlumnosPojo elem = new RptAlumnosPojo();
         if (this.getIdGrado() != null && this.getIdGrado().equals(0L)) {
             this.setIdGrado(null);
@@ -87,7 +89,7 @@ public class RptAlumnosController extends RptAlumnosForm {
         if (this.getIdSeccion() != null && this.getIdSeccion().equals(0L)) {
             this.setIdSeccion(null);
         }
-        List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findAlumnoRpt(this.getAnioDesde(), this.getAnioHasta(), this.getIdGrado(), this.getIdSeccion(), this.getMatriculado());
+        List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findAlumnoRpt(this.getAnioDesde(), this.getAnioHasta(), this.getIdGrado(), this.getIdSeccion(), this.getMatriculado(), loginBean.getAnioEscolarActivo().getAeAnio());
 
 //        List<SieniMatricula> alumnos = sieniMatriculaFacadeRemote.findAlumnoRpt(this.getAnioDesde(), this.getAnioHasta(), this.getIdGrado(), this.getIdSeccion());
         this.setListDatos(new ArrayList<RptAlumnosPojo>());
@@ -97,8 +99,6 @@ public class RptAlumnosController extends RptAlumnosForm {
         for (SieniAlumno actual : alumnos) {
 
 //            SieniMatricula matriculaActual=sieniMatriculaFacadeRemote.findUltimaMatriculaAlumno(actual.getIdAlumno());
-            HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-            LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
             SieniMatricula matriculaActual = sieniMatriculaFacadeRemote.findByIdAlumnoAnio(actual.getIdAlumno(), loginBean.getAnioEscolarActivo().getAeAnio() + "");
             if (matriculaActual != null) {
                 grado = matriculaActual.getIdGrado().getGrNombre();
@@ -139,17 +139,17 @@ public class RptAlumnosController extends RptAlumnosForm {
         this.setGrado(null);
         this.setSeccion(null);
         if (this.getGradosList() != null && !this.getGradosList().isEmpty()) {
-            for (SieniGrado actual:this.getGradosList()) {
-                if(actual.getIdGrado().equals(this.getIdGrado())){
+            for (SieniGrado actual : this.getGradosList()) {
+                if (actual.getIdGrado().equals(this.getIdGrado())) {
                     this.setGrado(actual.getGrNombre());
                     break;
                 }
             }
         }
-        
-        if (this.getSeccionesList()!= null && !this.getSeccionesList().isEmpty()) {
-            for (SieniSeccion actual:this.getSeccionesList()) {
-                if(actual.getIdSeccion().equals(this.getIdSeccion())){
+
+        if (this.getSeccionesList() != null && !this.getSeccionesList().isEmpty()) {
+            for (SieniSeccion actual : this.getSeccionesList()) {
+                if (actual.getIdSeccion().equals(this.getIdSeccion())) {
                     this.setSeccion(actual.getScDescripcion());
                     break;
                 }

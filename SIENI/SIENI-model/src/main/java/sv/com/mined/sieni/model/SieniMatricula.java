@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SieniMatricula.findAlumNoInactivos", query = "SELECT al FROM SieniMatricula s,SieniAlumno al where s.idAlumno=al.idAlumno and s.mtEstado not in (:estado) AND s.mtFechaIngreso BETWEEN :desde AND :hasta"),
     @NamedQuery(name = "SieniMatricula.findMatriculasByAnioEstado", query = "SELECT s FROM SieniMatricula s where s.mtAnio=:anio and s.mtEstado=:estado"),
     @NamedQuery(name = "SieniMatricula.findByIdMatricula", query = "SELECT s FROM SieniMatricula s WHERE s.idMatricula = :idMatricula"),
-    @NamedQuery(name = "SieniMatricula.findByIdAlumnoAnio", query = "SELECT s FROM SieniMatricula s,SieniAlumno al WHERE s.idAlumno=al.idAlumno and al.idAlumno = :idAlumno AND s.mtAnio=:mtAnio and al.alEstado='A'"),
+    @NamedQuery(name = "SieniMatricula.findByIdAlumnoAnio", query = "SELECT s FROM SieniMatricula s,SieniAlumno al WHERE s.idAlumno=al.idAlumno and al.idAlumno = :idAlumno AND s.mtAnio=:mtAnio and al.alEstado not in ('I') and s.mtEstado not in ('I')"),
     @NamedQuery(name = "SieniMatricula.findUltimaMatriculaAlumno", query = "SELECT max(s.idMatricula) FROM SieniMatricula s,SieniAlumno al WHERE s.idAlumno=al.idAlumno and al.idAlumno = :idAlumno and al.alEstado='A'"),
     @NamedQuery(name = "SieniMatricula.findByMtFechaIngreso", query = "SELECT s FROM SieniMatricula s WHERE s.mtFechaIngreso = :mtFechaIngreso"),
     @NamedQuery(name = "SieniMatricula.findByMtEstado", query = "SELECT s FROM SieniMatricula s WHERE s.mtEstado = :mtEstado"),

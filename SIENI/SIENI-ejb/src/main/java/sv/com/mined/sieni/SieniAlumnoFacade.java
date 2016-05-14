@@ -101,7 +101,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
     }
 
     @Override
-    public List<SieniAlumno> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion, Integer matriculadoAnioActual) {
+    public List<SieniAlumno> findAlumnoRpt(Date desde, Date hasta, Long grado, Long seccion, Integer matriculadoAnioActual,Integer anioActual) {
         Character estado = 'I';
         int tipo = 0;
         if (grado != null) {
@@ -162,7 +162,7 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
             }
         }
         if (matriculadoAnioActual > 0) {
-            q.setParameter("anio", getFormatedAnio(new Date()));
+            q.setParameter("anio", anioActual.toString());
         }
 
         List<SieniAlumno> res = q.getResultList();

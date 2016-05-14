@@ -86,7 +86,7 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
                 this.setListAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(this.getSeccion().getIdGrado().getIdGrado(), this.getSeccion().getIdSeccion()));
                 if (this.getListAlumnos() != null && !this.getListAlumnos().isEmpty()) {
                     this.setAlumno(this.getListAlumnos().get(0));
-                }else{
+                } else {
                     this.setAlumno(null);
                 }
             } else {
@@ -214,7 +214,12 @@ public class RptEstadisticoAvanceController extends RptEstadisticoAvanceForm imp
         }
         if (selec != null) {
             this.setListAlumnos(sieniAlumnoFacadeRemote.findAlumnosGradoSeccionAnio(selec.getIdGrado().getIdGrado(), selec.getIdSeccion()));
-            this.setAlumno(this.getListAlumnos().get(0));
+            if (this.getListAlumnos() != null && !this.getListAlumnos().isEmpty()) {
+                this.setAlumno(this.getListAlumnos().get(0));
+            } else {
+                this.setAlumno(null);
+            }
+
         }
     }
 }

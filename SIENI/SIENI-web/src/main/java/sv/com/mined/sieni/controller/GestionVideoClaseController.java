@@ -314,7 +314,13 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
 
     public List<SieniTipoElemPlantilla> getTipoElemPlantilla() {
         List<SieniTipoElemPlantilla> ret = new ArrayList<>();
-        for (SieniElemPlantilla actual : this.getClaseConfig().getIdPlantilla().getSieniElemPlantillaList()) {
+        List<SieniElemPlantilla> res;
+        try {
+            res = sieniElemPlantillaFacadeRemote.findByIdPlantilla(this.getClaseConfig().getIdPlantilla().getIdPlantilla());
+        } catch (Exception e) {
+            res = new ArrayList<>();
+        }
+        for (SieniElemPlantilla actual : res) {
             ret.add(actual.getIdTipoElemPlantilla());
         }
         return ret;

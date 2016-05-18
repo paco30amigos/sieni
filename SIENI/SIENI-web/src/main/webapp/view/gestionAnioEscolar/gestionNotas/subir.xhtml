@@ -75,7 +75,7 @@
                 <div class="Container100 Responsive">
                     <p:commandButton value="Guardar" action="#{gestionNotaController.guardarNotasExcel()}" update="p1,consulta" />
                     <p:commandButton value="Limpiar" immediate="true">
-                        <p:ajax update="p1" resetValues="true" />
+                        <p:ajax update="dataForm" resetValues="true" listener="#{gestionNotaController.limpiarNotasExcel()}" />
                     </p:commandButton>
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionNotaController.setIndexMenu(0)}"/>

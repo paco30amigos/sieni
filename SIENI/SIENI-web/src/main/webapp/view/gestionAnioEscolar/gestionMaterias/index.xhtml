@@ -22,7 +22,7 @@
                 <p:dialog widgetVar="dlgEliminar" header="Eliminar" modal="true">
                     <p:outputLabel value="¿Está seguro de eliminar el registro?" class="TexAlCenter" ></p:outputLabel>
                     <div class="EmptyBox20"></div>
-                    <p:commandButton value="Si" action="#{gestionMateriasController.eliminarArchivo()}" update="consultaForm" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
+                    <p:commandButton value="Si" action="#{gestionMateriasController.eliminarArchivo()}" update="consultaForm,consulta" oncomplete="PF('dlgEliminar').hide()"></p:commandButton>
                     <p:commandButton value="No" onclick="PF('dlgEliminar').hide();" ></p:commandButton>
                 </p:dialog>
 
@@ -32,7 +32,7 @@
                              rowsPerPageTemplate="10,20,40"
                              emptyMessage="No se encontraron datos"
                              filteredValue="#{gestionMateriasController.listDatosFiltered}"
-                             reflow="true">   
+                             reflow="true" widgetVar="tbl">   
                     <p:column headerText="Nombre" filterBy="#{car.maNombre}" filterable="true" filterMatchMode="contains">
                         #{car.maNombre}
                     </p:column>

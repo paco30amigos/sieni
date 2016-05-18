@@ -39,9 +39,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "SieniMateria.findByAlumno", query = "SELECT DISTINCT s FROM SieniAlumno al, SieniMateria s join fetch s.idGrado.sieniMatriculaList m where al.idAlumno=m.idAlumno and al.idAlumno=:idAlumno and s.maEstado not in (:estado) and m.mtEstado not in (:estado)"),
     @NamedQuery(name = "SieniMateria.findAll", query = "SELECT s FROM SieniMateria s"),
-    @NamedQuery(name = "SieniMateria.findMateriasByEstado", query = "SELECT s FROM SieniMateria s WHERE s.maEstado =:estado"),
-    @NamedQuery(name = "SieniMateria.findMateriasActivasByGrado", query = "SELECT s FROM SieniMateria s WHERE s.maEstado =:estado and s.idGrado.idGrado=:grado and s.idGrado.grEstado=:estado"),
-    @NamedQuery(name = "SieniMateria.findAllNoInactivas", query = "SELECT s FROM SieniMateria s WHERE s.maEstado not in (:estado)"),
+    @NamedQuery(name = "SieniMateria.findMateriasByEstado", query = "SELECT s FROM SieniMateria s WHERE s.maEstado =:estado order by s.idMateria"),
+    @NamedQuery(name = "SieniMateria.findMateriasActivasByGrado", query = "SELECT s FROM SieniMateria s WHERE s.maEstado =:estado and s.idGrado.idGrado=:grado and s.idGrado.grEstado=:estado order by s.idMateria"),
+    @NamedQuery(name = "SieniMateria.findAllNoInactivas", query = "SELECT s FROM SieniMateria s WHERE s.maEstado not in (:estado) order by s.idMateria"),
     @NamedQuery(name = "SieniMateria.findByIdMateria", query = "SELECT s FROM SieniMateria s WHERE s.idMateria = :idMateria"),
     @NamedQuery(name = "SieniMateria.findByMaNombre", query = "SELECT s FROM SieniMateria s WHERE s.maNombre = :maNombre"),
     @NamedQuery(name = "SieniMateria.findByMaCodigo", query = "SELECT s FROM SieniMateria s WHERE s.maCodigo = :maCodigo"),

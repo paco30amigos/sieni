@@ -49,6 +49,7 @@ public class GestionArchivoMultimediaController extends GestionArchivoMultimedia
     public void init() {
         this.setArchivoNuevo(new SieniArchivo());
         this.setArchivoModifica(new SieniArchivo());
+        this.getArchivoNuevo().setArTipo('A');
         this.setArchivoList(new ArrayList<SieniArchivo>());
         this.setFormatoArchivo(this.getFormatosAudio());
         this.setTamanioArchivo(getTamanioMaxArchivoByCod("A"));//tamanio para audio

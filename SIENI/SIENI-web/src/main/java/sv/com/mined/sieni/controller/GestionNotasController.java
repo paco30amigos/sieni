@@ -8,6 +8,7 @@ package sv.com.mined.sieni.controller;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -304,10 +305,14 @@ public class GestionNotasController extends GestionNotasForm {
     }
 
     public void cargarDesdeExcel() {
+        this.setListaNotasSubidas(new ArrayList<SieniNota>());
+        this.setMateriaSubir(null);
+        this.setEvaluacionSubir(null);
+        
         this.setMateriasExcelList(sieniMateriaFacadeRemote.findAllNoInactivas());
         if (this.getMateriasExcelList() != null && !this.getMateriasExcelList().isEmpty()) {
             this.setIdMateria(this.getMateriasExcelList().get(0));
-            this.setEvaluacionesExcelList(this.getIdMateria().getSieniEvaluacionList());
+            this.setEvaluacionesExcelList(sieniEvaluacionFacadeRemote.findByMateria(this.getIdMateria().getIdMateria()));
         } else {
             this.setEvaluacionesExcelList(new ArrayList<SieniEvaluacion>());
         }
@@ -463,5 +468,19 @@ public class GestionNotasController extends GestionNotasForm {
 
     public void mostrarErrores(SieniNota nota) {
         this.setError(nota);
+    }
+    
+    public void limpiarNotasExcel(){
+        this.setListaNotasSubidas(new ArrayList<SieniNota>());
+        this.setMateriaSubir(null);
+        this.setEvaluacionSubir(null);
+        
+        this.setMateriasExcelList(sieniMateriaFacadeRemote.findAllNoInactivas());
+        if (this.getMateriasExcelList() != null && !this.getMateriasExcelList().isEmpty()) {
+            this.setIdMateria(this.getMateriasExcelList().get(0));
+            this.setEvaluacionesExcelList(sieniEvaluacionFacadeRemote.findByMateria(this.getIdMateria().getIdMateria()));
+        } else {
+            this.setEvaluacionesExcelList(new ArrayList<SieniEvaluacion>());
+        }
     }
 }

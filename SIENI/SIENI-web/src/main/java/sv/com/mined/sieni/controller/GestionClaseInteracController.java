@@ -938,6 +938,7 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
             }
 
         }
+        setIndexMenu(3);
     }
 
     public List<SieniInteEntrComp> convertSuperCompon2ToInteractEntreCompon(List<SieniSuperCompon> componentes) {

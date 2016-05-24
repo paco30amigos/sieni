@@ -116,15 +116,23 @@ public class RptRendimientoController extends RptRendimientoForm {
                         suma += actual.getNtCalificacion();
                     }
 
-                    totalAprobados = (double) ((aprobados * 100) / totalNotas);
-                    totalReprobados = (double) ((reprobados * 100) / totalNotas);
-                    BigDecimal aprob = new BigDecimal(totalAprobados);
-                    BigDecimal reprob = new BigDecimal(totalReprobados);
-                    aprob = aprob.setScale(2, RoundingMode.HALF_UP);
-                    reprob = reprob.setScale(2, RoundingMode.HALF_UP);
-                    promedio = suma / notas.size();
-                    BigDecimal prom = new BigDecimal(promedio);
-                    prom = prom.setScale(2, RoundingMode.HALF_UP);
+                    BigDecimal aprob=BigDecimal.ZERO;
+                    BigDecimal reprob=BigDecimal.ZERO;
+                    BigDecimal prom=BigDecimal.ZERO;
+                    if (totalNotas > 0) {
+                        totalAprobados = (double) ((aprobados * 100) / totalNotas);
+                        totalReprobados = (double) ((reprobados * 100) / totalNotas);
+                        aprob = new BigDecimal(totalAprobados);
+                        reprob = new BigDecimal(totalReprobados);
+                        aprob = aprob.setScale(2, RoundingMode.HALF_UP);
+                        reprob = reprob.setScale(2, RoundingMode.HALF_UP);
+                        promedio = suma / notas.size();
+                        prom = new BigDecimal(promedio);
+                        prom = prom.setScale(2, RoundingMode.HALF_UP);
+                    } else {
+                        totalAprobados = 0;
+                        totalReprobados = 0;
+                    }
 
                     SieniGrado grado = sieniGradoFacadeRemote.findByIdGrado(this.getIdGrado());
                     SieniSeccion seccion = sieniSeccionFacadeRemote.findByIdSeccion(this.getIdSeccion());

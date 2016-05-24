@@ -167,8 +167,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
                 this.getEvaluacionNuevo().setIdDocente(loginBean.getDocente().getIdDocente());
                 this.setEvaluacionNuevo(sieniEvaluacionFacadeRemote.createAndReturn(this.getEvaluacionNuevo()));
                 registrarEnBitacora("Crear", "Evaluacion", this.getEvaluacionNuevo().getIdEvaluacion());
-                FacesMessage msg = new FacesMessage("Evaluacion Creada Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                new ValidationPojo().printMsj("Evaluacion Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                 this.setCursoList(sieniCursoFacadeRemote.findByEstado('A'));
                 this.setEvaluacionNuevo(new SieniEvaluacion());
                 this.getEvaluacionNuevo().setEvTipo("Digital");
@@ -185,27 +184,29 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     public synchronized void guardarItem() {
 
         try {
-            if (this.getEvaluacionItemNuevo().getEiPonderacion() == 0.0) {
-                new ValidationPojo().printMsj("La ponderación de la pregunta no puede ser cero", FacesMessage.SEVERITY_ERROR);
-            } else if ((this.getTotalPonderacion() + this.getEvaluacionItemNuevo().getEiPonderacion()) <= 100.0) {
-                this.getEvaluacionItemNuevo().setEiEstado('A');
-                this.getEvaluacionItemNuevo().setIdEvaluacion(this.getEvaluacionModifica());
+            if (validaItems(this.getEvaluacionItemNuevo())) {
+                if (this.getEvaluacionItemNuevo().getEiPonderacion() == 0.0) {
+                    new ValidationPojo().printMsj("La ponderación de la pregunta no puede ser cero", FacesMessage.SEVERITY_ERROR);
+                } else if ((this.getTotalPonderacion() + this.getEvaluacionItemNuevo().getEiPonderacion()) <= 100.0) {
+                    this.getEvaluacionItemNuevo().setEiEstado('A');
+                    this.getEvaluacionItemNuevo().setIdEvaluacion(this.getEvaluacionModifica());
 
-                HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
-                SieniEvaluacion existEvaluacion = new SieniEvaluacion();
+                    HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                    LoginController loginBean = (LoginController) req.getSession().getAttribute("loginController");
+                    SieniEvaluacion existEvaluacion = new SieniEvaluacion();
 
-                sieniEvaluacionItemFacadeRemote.create(this.getEvaluacionItemNuevo());
-                registrarEnBitacora("Crear", "Evaluacion item", this.getEvaluacionItemNuevo().getIdEvaluacionItem());
-                FacesMessage msg = new FacesMessage("Pregutna Creada Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
-                this.setIndexMenu(4);
-                this.setEvaluacionItemNuevo(new SieniEvaluacionItem());
+                    sieniEvaluacionItemFacadeRemote.create(this.getEvaluacionItemNuevo());
+                    registrarEnBitacora("Crear", "Evaluacion item", this.getEvaluacionItemNuevo().getIdEvaluacionItem());
+                    new ValidationPojo().printMsj("Pregunta Creada Exitosamente", FacesMessage.SEVERITY_INFO);
+//                    FacesMessage msg = new FacesMessage("Pregutna Creada Exitosamente");
+//                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    this.setIndexMenu(4);
+                    this.setEvaluacionItemNuevo(new SieniEvaluacionItem());
 
-                fillItemsEvaluacion();
-            } else {
-                FacesMessage msg = new FacesMessage("La ponderacion excede el 100% de la evaluacion, puede asignar un maximo de " + (100.0 - this.getTotalPonderacion()) + " puntos");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                    fillItemsEvaluacion();
+                } else {
+                    new ValidationPojo().printMsj("La ponderacion excede el 100% de la evaluacion, puede asignar un maximo de " + (100.0 - this.getTotalPonderacion()) + " puntos", FacesMessage.SEVERITY_ERROR);
+                }
             }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
@@ -225,16 +226,14 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
             if (this.getEvaluacionItemModifica().getEiTipoResp().equals("3")) {
                 if (this.getEvalRespItemList().size() == 2) {
                     guardarBoolean = false;
-                    FacesMessage msg = new FacesMessage("Solo pueden haber para esta pregunta 2 respuestas tipo F/V");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    new ValidationPojo().printMsj("Solo pueden haber para esta pregunta 2 respuestas tipo F/V", FacesMessage.SEVERITY_ERROR);
                 }
                 this.getEvalRespItemNuevo().setErTipoInput("radio");
             }
             if (this.getEvaluacionItemModifica().getEiTipoResp().equals("4")) {
                 if (this.getEvalRespItemList().size() == 1) {
                     guardarBoolean = false;
-                    FacesMessage msg = new FacesMessage("Solo pueden haber para esta pregunta 1 respuestas");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    new ValidationPojo().printMsj("Solo pueden haber para esta pregunta 1 respuestas", FacesMessage.SEVERITY_ERROR);
                 }
                 this.getEvalRespItemNuevo().setErTipoInput("text");
                 this.getEvalRespItemNuevo().setErRespCorrecta("");
@@ -249,8 +248,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 
                 sieniEvalRespItemFacadeRemote.create(this.getEvalRespItemNuevo());
                 registrarEnBitacora("Crear", "Evaluacion resp item", this.getEvalRespItemNuevo().getIdEvalRespItem());
-                FacesMessage msg = new FacesMessage("Respuesta Creada Exitosamente");
-                FacesContext.getCurrentInstance().addMessage(null, msg);
+                new ValidationPojo().printMsj("Respuesta Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                 this.setIndexMenu(7);
                 this.setEvalRespItemNuevo(new SieniEvalRespItem());
 
@@ -405,7 +403,7 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
 //                FacesMessage msg;
 //            msg = new FacesMessage("La evaluacion no permite mas intentos");
 //            FacesContext.getCurrentInstance().addMessage(, msg); 
-                        new ValidationPojo().printMsj("La evaluacion no permite mas intentos", FacesMessage.SEVERITY_WARN);
+                        new ValidationPojo().printMsj("La evaluacion no permite mas intentos", FacesMessage.SEVERITY_ERROR);
                     }
                 } else {
                     this.setNumIntento(0);
@@ -455,14 +453,31 @@ public class GestionarEvaluacionController extends GestionarEvaluacionForm {
     public synchronized void guardarModificaItem() {
 
         try {
+//            if (validaItems(this.getEvaluacionItemModifica())) {
             sieniEvaluacionItemFacadeRemote.edit(this.getEvaluacionItemModifica());
             registrarEnBitacora("Modificar", "Evaluacion item", this.getEvaluacionItemModifica().getIdEvaluacionItem());
             new ValidationPojo().printMsj("Item Modificado Exitosamente", FacesMessage.SEVERITY_INFO);
             fillItemsEvaluacion();
+//            }
         } catch (Exception e) {
             new ValidationPojo().printMsj("Ocurrió un error:" + e, FacesMessage.SEVERITY_ERROR);
             System.out.println(e.getMessage());
         }
+    }
+
+    public boolean validaItems(SieniEvaluacionItem items) {
+        boolean valido = true;
+        DateUtils du = new DateUtils();
+        FormatUtils fu = new FormatUtils();
+
+        List<ValidationPojo> validaciones = new ArrayList<ValidationPojo>();
+        validaciones.add(new ValidationPojo(this.getEvaluacionModifica().getEvTotalPreguntas() == null
+                || this.getEvaluacionModifica().getEvTotalPreguntas() <= 0, "La evaluación no tiene un total de preguntas asignadas", FacesMessage.SEVERITY_ERROR));
+        validaciones.add(new ValidationPojo(this.getEvaluacionModifica().getEvTotalPreguntas() != null
+                && this.getEvaluacionModifica().getEvTotalPreguntas() <= this.getEvaluacionItemList().size(), "Ya no se pueden asignar items a la evaluacion", FacesMessage.SEVERITY_ERROR));
+
+        valido = !ValidationPojo.printErrores(validaciones);
+        return valido;
     }
 
     public synchronized void guardarModificaResp() {

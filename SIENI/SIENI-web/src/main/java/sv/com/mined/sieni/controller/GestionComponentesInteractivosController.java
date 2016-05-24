@@ -101,6 +101,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
 
     public void initNuevo() {
         this.setListaTipo(this.sieniTipoSuperComponFacadeRemote.findAll());
+        setTipoSuperCompon(null);
         this.setNuevo(new SieniSuperCompon());
         if (this.getListaTipo() != null && !this.getListaTipo().isEmpty()) {
             this.getNuevo().setIdTipoSuperCompon(getListaTipo().get(0));
@@ -163,6 +164,7 @@ public class GestionComponentesInteractivosController extends GestionComponentes
     public void modificar(SieniSuperCompon modificado) {
         this.setListaTipoModifica(this.sieniTipoSuperComponFacadeRemote.findAll());
         this.setModifica(modificado);
+        setTipoSuperComponModifica(modificado.getIdTipoSuperCompon().getIdTipoSuperCompon());
         this.setIndexMenu(2);
     }
 

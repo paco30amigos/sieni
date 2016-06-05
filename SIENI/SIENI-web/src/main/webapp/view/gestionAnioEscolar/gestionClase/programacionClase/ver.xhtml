@@ -47,7 +47,7 @@
                     <p:commandButton value="Regresar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{programacionClasesController.setIndexMenu(0)}"/>
                     </p:commandButton>
-                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" rendered="#{loginController.mostrarA('1,2')}" />
+                    <p:commandButton id="otrasOpciones" value="Accesos Rápidos" type="button" icon="ui-icon-extlink" rendered="#{loginController.mostrarA('1,2')}" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px" >                       
                         <p:menuitem value="Gestionar Alumnos">    
                         </p:menuitem>

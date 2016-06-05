@@ -47,7 +47,7 @@
                     <p:commandButton value="Cancelar" immediate="true">
                         <p:ajax update="p1" resetValues="true" listener="#{gestionPlantillasController.cancelaModifica(gestionPlantillasController.plantillaModifica)}"/>
                     </p:commandButton>
-                    <p:commandButton id="otrasOpciones" value="Otras opciones" type="button" icon="ui-icon-extlink" />
+                    <p:commandButton id="otrasOpciones" value="Accesos Rápidos" type="button" icon="ui-icon-extlink" />
                     <p:tieredMenu overlay="true" trigger="otrasOpciones" my="left top" at="left bottom" style="width:200px">
                         <p:menuitem value="Programacion de clases" url="#{siteUrls.programacionClases}" >    
                         </p:menuitem>

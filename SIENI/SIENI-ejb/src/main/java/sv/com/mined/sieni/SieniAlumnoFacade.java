@@ -337,6 +337,13 @@ public class SieniAlumnoFacade extends AbstractFacade<SieniAlumno> implements sv
         return q.getResultList();
 
     }
+    
+    @Override
+    public List<SieniAlumno> findByCarnet(String carnet){
+    Query q = em.createNamedQuery("SieniAlumno.findByCarnet");
+        q.setParameter("carnet", carnet);
+        return q.getResultList();
+    }
 
     @Override
     public List<SieniAlumno> findAlumnosGradoSeccionAnio(Long idGrado, Long idSeccion) {

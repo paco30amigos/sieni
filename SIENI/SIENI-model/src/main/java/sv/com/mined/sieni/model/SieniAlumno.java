@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniAlumno.findAnio", query = "SELECT s FROM SieniAlumno s where s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado)"),
+    @NamedQuery(name = "SieniAlumno.findByCarnet", query = "SELECT s FROM SieniAlumno s where s.alEstado='A' and s.alCarnet=:carnet"),
     @NamedQuery(name = "SieniAlumno.findAnioGrado", query = "SELECT s FROM SieniAlumno s  ,SieniMatricula mat join fetch mat.idGrado gr where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAnioGradoSeccion", query = "SELECT s FROM SieniAlumno s  ,SieniMatricula mat join fetch mat.idGrado gr join fetch mat.idSeccion sec where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and gr.idGrado=:grado and sec.idSeccion=:seccion and s.alEstado not in (:estado) and mat.mtEstado not in (:estado) and gr.grEstado not in (:estado)"),
     @NamedQuery(name = "SieniAlumno.findAnioMatriculadoActual", query = "SELECT distinct s FROM SieniAlumno s ,SieniMatricula mat where s.idAlumno=mat.idAlumno and s.alFechaIngreso>=:anioDesde and s.alFechaIngreso<=:anioHasta and s.alEstado not in (:estado) and mat.mtAnio=:anio and mat.mtEstado not in (:estado)"),

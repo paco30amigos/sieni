@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "sieni_nota")
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "SieniNota.findAllNoEliminadas", query = "SELECT s FROM SieniNota s,SieniAlumno al where s.idAlumno=al.idAlumno and s.ntEstado not in (:estado) and al.alEstado not in (:estado) ORDER BY s.idNota"),
+    @NamedQuery(name = "SieniNota.findAllNoEliminadas", query = "SELECT s FROM SieniNota s,SieniAlumno al where s.idAlumno=al.idAlumno and s.ntEstado not in (:estado) and al.alEstado not in (:estado) ORDER BY s.idNota"),
     @NamedQuery(name = "SieniNota.findAll", query = "SELECT s FROM SieniNota s"),
     @NamedQuery(name = "SieniNota.findById", query = "SELECT s FROM SieniNota s where s.idNota=:id"),
     @NamedQuery(name = "SieniNota.findNotasAlumnoEv", query = "SELECT s FROM SieniNota s WHERE s.idAlumno=:idAlumno AND s.idEvaluacion.idEvaluacion=:idEvaluacion"),
@@ -84,6 +84,8 @@ public class SieniNota implements Serializable {
     private String tipoIngreso;
     @Transient
     private String nombreCompleto;
+    @Transient
+    private String carnet;
     @Transient
     private List<String> errores;
 
@@ -231,6 +233,14 @@ public class SieniNota implements Serializable {
 
     public void setIdAlumno(Long idAlumno) {
         this.idAlumno = idAlumno;
+    }
+
+    public String getCarnet() {
+        return carnet;
+    }
+
+    public void setCarnet(String carnet) {
+        this.carnet = carnet;
     }
 
 }

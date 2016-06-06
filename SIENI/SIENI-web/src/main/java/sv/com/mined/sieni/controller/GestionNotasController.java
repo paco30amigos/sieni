@@ -5,13 +5,18 @@
  */
 package sv.com.mined.sieni.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URISyntaxException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -19,8 +24,27 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.io.IOUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFPictureData;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.ClientAnchor;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Picture;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
 import sv.com.mined.sieni.SieniEvaluacionFacadeRemote;
 import sv.com.mined.sieni.SieniMateriaFacadeRemote;
@@ -483,4 +507,136 @@ public class GestionNotasController extends GestionNotasForm {
             this.setEvaluacionesExcelList(new ArrayList<SieniEvaluacion>());
         }
     }
+    
+    
+    
+    
+    
+    
+    /* IMPORTAR EXCEL */
+    private UploadedFile file;
+    private StreamedContent filePlantilla;
+    
+    public StreamedContent getFilePlantilla() {
+        filePlantilla = null;
+        try{
+            if (this.getEvaluacionSubir() != null && this.getEvaluacionSubir().getIdEvaluacion() != null) {
+                InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/templates/PlantillaImport.xlsx");
+                byte[] buffer = IOUtils.toByteArray(stream);
+                InputStream copy = new ByteArrayInputStream(buffer);
+                filePlantilla = new DefaultStreamedContent(copy, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AlumnosEval.xlsx");
+                
+                //HSSFSheet sheetP = plantilla.getSheetAt(0); 
+                //LEER DATOS
+//                List<SieniAlumno> alumnosEval = sieniAlumnoFacadeRemote.findAlumnosInscritos(getEvaluacionSubir().getIdCurso().getIdCurso());
+//                if(alumnosEval != null && alumnosEval.size() > 0){
+//                    //Filas que ocupa el encabezado de plantilla
+//                    int encabezado = 3;
+//                    //Copiar contenido a plantilla
+//                    for (int f = 0; f < alumnosEval.size(); f++) {
+//                        HSSFRow fila = sheetP.getRow(f+encabezado);
+//                        //CARNET
+//                        HSSFCell cellCarnet = fila.getCell(0);
+//                        cellCarnet.setCellValue(alumnosEval.get(f).getAlCarnet());
+//                        //ALUMNO
+//                        HSSFCell cellAlumno = fila.getCell(1);
+//                        cellAlumno.setCellValue(alumnosEval.get(f).getAlNombreCompleto());
+//                        //NOTA
+//                        HSSFCell cellNota = fila.getCell(2);
+//                        cellNota.setCellValue(0.0);
+//                    }
+//
+//                    //Ajustar Columna a texto
+////                    for(int f=encabezado; f < sheetP.getPhysicalNumberOfRows();f++){
+////                        for(int c=1; c <= sheetP.getRow(f).getPhysicalNumberOfCells();c++ ){
+////                            try{
+////                                sheetP.getRow(f).getCell(c).getCellStyle().setWrapText(true);
+////                            }catch(Exception ex){}
+////                        }
+////                    }
+//                }else{
+//                    new ValidationPojo().printMsj("No existen alumnos inscritos al curso", FacesMessage.SEVERITY_ERROR);
+//                }
+                
+                
+            }else{
+                new ValidationPojo().printMsj("Seleccione una evaluacion", FacesMessage.SEVERITY_ERROR);
+            }
+        }catch(Exception exc){ new ValidationPojo().printMsj("Ocurrio un error al descargar plantilla ... consulte con el administrador", FacesMessage.SEVERITY_ERROR); }
+        return filePlantilla;
+    }
+    
+    
+    
+    public static void copyRow(HSSFSheet worksheetSource, HSSFSheet worksheetDestination, int sourceRowNum, int destinationRowNum) {
+        // Get the source / new row
+        HSSFRow origen = worksheetSource.getRow(sourceRowNum);
+        HSSFRow destino = worksheetDestination.createRow(destinationRowNum);
+        
+        // Loop through source columns to add to new row
+        for (int i = 0; i < origen.getLastCellNum(); i++) {
+            // Grab a copy of the old/new cell
+            HSSFCell oldCell = origen.getCell(i);
+            HSSFCell newCell = destino.createCell(i);
+            // If the old cell is null jump to next cell
+            if (oldCell == null) {
+                newCell = null;
+                continue;
+            }
+            
+            //Ajustar tamaños columnas
+            worksheetDestination.setColumnWidth(i, worksheetSource.getColumnWidth(i));
+                       
+            // Copy style from old cell and apply to new cell
+            HSSFCellStyle newCellStyle = newCell.getSheet().getWorkbook().createCellStyle();
+            newCellStyle.cloneStyleFrom(oldCell.getCellStyle());
+            newCell.setCellStyle(newCellStyle);
+
+            // If there is a cell comment, copy
+            if (oldCell.getCellComment() != null) {
+                newCell.setCellComment(oldCell.getCellComment());
+            }
+             
+
+            // If there is a cell hyperlink, copy
+            if (oldCell.getHyperlink() != null) {
+                newCell.setHyperlink(oldCell.getHyperlink());
+            }
+
+            // Set the cell data type
+            newCell.setCellType(oldCell.getCellType());
+            // Set the cell data value
+            switch (oldCell.getCellType()) {
+                case Cell.CELL_TYPE_BLANK:
+                    newCell.setCellValue(oldCell.getStringCellValue());
+                    break;
+                case Cell.CELL_TYPE_BOOLEAN:
+                    newCell.setCellValue(oldCell.getBooleanCellValue());
+                    break;
+                case Cell.CELL_TYPE_ERROR:
+                    newCell.setCellErrorValue(oldCell.getErrorCellValue());
+                    break;
+                case Cell.CELL_TYPE_FORMULA:
+                    newCell.setCellFormula(oldCell.getCellFormula());
+                    break;
+                case Cell.CELL_TYPE_NUMERIC:
+                    newCell.setCellValue(oldCell.getNumericCellValue());
+                    break;
+                case Cell.CELL_TYPE_STRING:
+                    newCell.setCellValue(oldCell.getRichStringCellValue());
+                    break;
+            }
+            
+            
+            
+        }
+    
+    }
+    
+    
+    
+    
+    
+    
+    
 }

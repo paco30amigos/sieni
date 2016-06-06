@@ -30,9 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SieniCatPuntos.findAll", query = "SELECT s FROM SieniCatPuntos s"),
-    @NamedQuery(name = "SieniCatPuntos.findByClase", query = "SELECT s FROM SieniCatPuntos s where s.idClase.idClase=:idClase"),
-    @NamedQuery(name = "SieniCatPuntos.findByIdCatPuntos", query = "SELECT s FROM SieniCatPuntos s WHERE s.idCatPuntos = :idCatPuntos"),
-    @NamedQuery(name = "SieniCatPuntos.rptAvanceClases", query = "SELECT s FROM SieniCatPuntos s JOIN FETCH s.idClase.sieniPntosContrlList p WHERE s.cpEstado = 'A'") })
+    @NamedQuery(name = "SieniCatPuntos.findByClase", query = "SELECT distinct s FROM SieniCatPuntos s where s.idClase.idClase=:idClase"),
+    @NamedQuery(name = "SieniCatPuntos.findByIdCatPuntos", query = "SELECT distinct s FROM SieniCatPuntos s WHERE s.idCatPuntos = :idCatPuntos"),
+    @NamedQuery(name = "SieniCatPuntos.rptAvanceClases", query = "SELECT distinct s FROM SieniCatPuntos s JOIN FETCH s.idClase.sieniPntosContrlList p WHERE s.cpEstado = 'A'") })
 public class SieniCatPuntos implements Serializable {
 
     private static final long serialVersionUID = 1L;

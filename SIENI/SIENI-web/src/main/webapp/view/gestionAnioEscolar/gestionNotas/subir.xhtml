@@ -16,6 +16,15 @@
         
     </ui:define>
     <ui:define name="content">
+        <script type="text/javascript">
+            function start() {
+                PF('statusDialog').show();
+            }
+
+            function stop() {
+                PF('statusDialog').hide();
+            }
+            </script>
         <div class="EmptyBox5"></div>
         <p:panel>
             <h:form id="dataForm">                
@@ -32,6 +41,9 @@
                     </p:selectOneMenu>
                 </p:panelGrid>
                 <div class="Container100">
+                    <p:commandButton value="Plantilla" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s" style="float: right;">
+                        <p:fileDownload value="#{gestionNotaController.filePlantilla}" />
+                    </p:commandButton>
                     <p:fileUpload id="archivo" label="Buscar" cancelLabel="cancelar" fileUploadListener="#{gestionNotaController.getArchivoNuevo}"
                                   uploadLabel="Subir archivo" multiple="false" mode="advanced" skinSimple="true" allowTypes="#{gestionNotaController.formatoArchivo}" 
                                   value="#{gestionNotaController.archivoSubidoNuevo}" sizeLimit="${gestionNotaController.tamanioMaxExcel}"

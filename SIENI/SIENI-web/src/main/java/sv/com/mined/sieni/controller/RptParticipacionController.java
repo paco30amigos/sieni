@@ -125,8 +125,9 @@ public class RptParticipacionController extends RptParticipacionForm {
                         }
                         cursoActual = claseActual.getIdCurso();
                     }
-                    BigDecimal participacion = new BigDecimal((totalRecibido + 0.0)/(totalClasesAl + 0.0)*100.0).setScale(2, RoundingMode.HALF_UP);
-                    elem = new RptParticipacionPojo(alumnoActual.getAlNombreCompleto(), cursoActual.getCrNombre(), totalClasesAl.toString(), totalRecibido.toString(), participacion.doubleValue() + " %");
+                    int tamanio=clasesAct.get(key).size();
+                    BigDecimal participacion = new BigDecimal((totalRecibido + 0.0)/(tamanio + 0.0)*100.0).setScale(2, RoundingMode.HALF_UP);
+                    elem = new RptParticipacionPojo(alumnoActual.getAlNombreCompleto(), cursoActual.getCrNombre(), tamanio+"", totalRecibido.toString(), participacion.doubleValue() + " %");
                     this.getListDatos().add(elem);
                 }
             }

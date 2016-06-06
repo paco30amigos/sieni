@@ -292,6 +292,7 @@ public class GestionNotasController extends GestionNotasForm {
             notaHist.setNtFechaMod(new Date());
             notaHist.setNtTipoModificacion(tipo);
             notaHist.setIdNotas(modifica.getIdNota());
+            notaHist.setNtAnio(loginBean.getAnioEscolarActivo().getAeAnio());
             notaHist.setNtDocente(loginBean.getDocente().getIdDocente());
             sieniNotasModHistFacadeRemote.create(notaHist);
         } catch (Exception e) {

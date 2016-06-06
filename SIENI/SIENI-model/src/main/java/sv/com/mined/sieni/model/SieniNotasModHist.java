@@ -54,6 +54,8 @@ public class SieniNotasModHist implements Serializable {
     @Size(max = 20)
     @Column(name = "nt_tipo_modificacion")
     private String ntTipoModificacion;
+    @Column(name = "nt_anio")
+    private Integer ntAnio;
 
     public SieniNotasModHist() {
     }
@@ -133,6 +135,14 @@ public class SieniNotasModHist implements Serializable {
 
     public void setNtDocente(Long ntDocente) {
         this.ntDocente = ntDocente;
+    }
+
+    public Integer getNtAnio() {
+        return ntAnio;
+    }
+
+    public void setNtAnio(Integer ntAnio) {
+        this.ntAnio = ntAnio;
     }
 
 }

@@ -71,6 +71,9 @@
                         <p:commandLink action="#{gestionVideoClaseController.configurarTiemposVisualizacion(car)}"  rendered="#{loginController.mostrarA('1,2')}">
                             <i class="icon-photo212 Fs25 Red MarRight10" style="cursor: pointer" title="Configurar tiempos de visualización de pantallas"></i>
                         </p:commandLink>
+                        <p:commandLink action="#{gestionVideoClaseController.copiarClase(car)}"  rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="fa-copy Fs25 Red MarRight10" style="cursor: pointer" title="Copiar clase"></i>
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>

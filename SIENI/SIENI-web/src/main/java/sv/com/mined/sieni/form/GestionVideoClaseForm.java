@@ -11,6 +11,7 @@ import sv.com.mined.sieni.model.SieniArchivo;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
 import sv.com.mined.sieni.model.SieniClaseVidPtos;
+import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
@@ -36,6 +37,8 @@ public class GestionVideoClaseForm {
     private List<SieniClase> listDatosFiltered;
     //registro de plantilla
     private SieniClase claseConfig;
+    private SieniClase claseCopia;
+    private List<SieniCurso> cursosCopiaList;
     private List<SieniInteEntrComp> inteEntrCompList;
 //    private List<SieniClaseSupComp> superCompList;
     private List<SieniPlantilla> plantillaList;
@@ -109,6 +112,10 @@ public class GestionVideoClaseForm {
             case 6:
                 sU.redirect(sU.getBaseclaseVideoAlmacenada() + "configurarVideoTime.xhtml");
                 break;
+            case 7:
+                sU.redirect(sU.getBaseclaseVideoAlmacenada() + "copiaClase.xhtml");
+                break;
+
         }
         this.indexMenu = indexMenu;
     }
@@ -454,6 +461,22 @@ public class GestionVideoClaseForm {
 
     public void setListDatosFiltered(List<SieniClase> listDatosFiltered) {
         this.listDatosFiltered = listDatosFiltered;
+    }
+
+    public SieniClase getClaseCopia() {
+        return claseCopia;
+    }
+
+    public void setClaseCopia(SieniClase claseCopia) {
+        this.claseCopia = claseCopia;
+    }
+
+    public List<SieniCurso> getCursosCopiaList() {
+        return cursosCopiaList;
+    }
+
+    public void setCursosCopiaList(List<SieniCurso> cursosCopiaList) {
+        this.cursosCopiaList = cursosCopiaList;
     }
 
 }

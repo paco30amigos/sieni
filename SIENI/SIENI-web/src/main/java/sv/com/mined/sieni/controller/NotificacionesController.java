@@ -6,20 +6,14 @@
 package sv.com.mined.sieni.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.primefaces.context.RequestContext;
 import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
 import sv.com.mined.sieni.SieniAlumnoFacadeRemote;
@@ -39,7 +33,6 @@ import sv.com.mined.sieni.model.SieniTemaDuda;
 import sv.com.mined.sieni.model.SieniResolDuda;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
 import sv.com.mined.sieni.pojos.rpt.NotificacionesPojo;
-import utils.DateUtils;
 
 /**
  *

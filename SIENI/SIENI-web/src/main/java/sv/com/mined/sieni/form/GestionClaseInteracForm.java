@@ -9,6 +9,7 @@ import java.util.List;
 import org.primefaces.model.DualListModel;
 import sv.com.mined.sieni.model.SieniClase;
 import sv.com.mined.sieni.model.SieniClaseSupComp;
+import sv.com.mined.sieni.model.SieniCurso;
 import sv.com.mined.sieni.model.SieniEvento;
 import sv.com.mined.sieni.model.SieniInteEntrComp;
 import sv.com.mined.sieni.model.SieniPlantilla;
@@ -34,6 +35,8 @@ public class GestionClaseInteracForm {
     //registro de plantilla
     private SieniClase claseConfig;
     private List<SieniInteEntrComp> inteEntrCompList;
+    private SieniClase claseCopia;
+    private List<SieniCurso> cursosCopiaList;
 //    private List<SieniClaseSupComp> superCompList;
     private List<SieniPlantilla> plantillaList;
     private List<PantallaPojo> pantallasEliminadas;
@@ -97,6 +100,9 @@ public class GestionClaseInteracForm {
                 break;
             case 6:
                 sU.redirect(sU.getBaseclaseInteractiva() + "ver2.xhtml");
+                break;
+            case 7:
+                sU.redirect(sU.getBaseclaseInteractiva() + "copiaClase.xhtml");
                 break;
         }
         this.indexMenu = indexMenu;
@@ -379,6 +385,22 @@ public class GestionClaseInteracForm {
 
     public void setListDatosFiltered(List<SieniClase> listDatosFiltered) {
         this.listDatosFiltered = listDatosFiltered;
+    }
+
+    public SieniClase getClaseCopia() {
+        return claseCopia;
+    }
+
+    public void setClaseCopia(SieniClase claseCopia) {
+        this.claseCopia = claseCopia;
+    }
+
+    public List<SieniCurso> getCursosCopiaList() {
+        return cursosCopiaList;
+    }
+
+    public void setCursosCopiaList(List<SieniCurso> cursosCopiaList) {
+        this.cursosCopiaList = cursosCopiaList;
     }
 
 }

@@ -68,6 +68,9 @@
                         <p:commandLink action="#{gestionClaseInteracController.configurarInterac(car)}" rendered="#{loginController.mostrarA('1,2')}" >
                             <i class="icon-magic20 Fs25 Red MarRight10" style="cursor: pointer" title="Configurar Interacciones entre componentes"></i>
                         </p:commandLink>
+                        <p:commandLink action="#{gestionClaseInteracController.copiarClase(car)}"  rendered="#{loginController.mostrarA('1,2')}">
+                            <i class="fa-copy Fs25 Red MarRight10" style="cursor: pointer" title="Copiar clase"></i>
+                        </p:commandLink>
                     </p:column>
                 </p:dataTable>
                 <div class="EmptyBox20"></div>                

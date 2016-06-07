@@ -27,6 +27,7 @@ import sv.com.mined.sieni.SieniClaseSupCompFacadeRemote;
 import sv.com.mined.sieni.SieniClaseVidPtosFacadeRemote;
 import sv.com.mined.sieni.SieniCompInteraccionFacadeRemote;
 import sv.com.mined.sieni.SieniComponenteFacadeRemote;
+import sv.com.mined.sieni.SieniCursoFacadeRemote;
 import sv.com.mined.sieni.SieniDocenteFacadeRemote;
 import sv.com.mined.sieni.SieniElemPlantillaFacadeRemote;
 import sv.com.mined.sieni.SieniInteEntrCompFacadeRemote;
@@ -93,6 +94,8 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
     private SieniCatPuntosFacadeRemote sieniCatPuntosFacadeRemote;
     @EJB
     private SieniDocenteFacadeRemote sieniDocenteFacadeRemote;
+    @EJB
+    private SieniCursoFacadeRemote sieniCursoFacadeRemote;
 
     private void registrarEnBitacora(String accion, String tabla, Long id) {
         HttpServletRequest req = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -442,6 +445,57 @@ public class GestionVideoClaseController extends GestionVideoClaseForm {
             }
         }
         return ret;
+    }
+    
+    public void copiarClaseFull(){
+        SieniClase copia=new SieniClase();
+        copia.setIdClase(null);
+        copia.setClAlto(this.getClaseCopia().getClAlto());
+        copia.setClAncho(this.getClaseCopia().getClAncho());
+        copia.setClEstado(this.getClaseCopia().getClEstado());
+        copia.setClHora(this.getClaseCopia().getClHora());
+        copia.setClHorario(this.getClaseCopia().getClHorario());
+        copia.setClTema(this.getClaseCopia().getClTema());
+        copia.setClTipo(this.getClaseCopia().getClTipo());
+        copia.setClTipoPublicacion(this.getClaseCopia().getClTipoPublicacion());
+        copia.setIdArchivo(this.getClaseCopia().getIdArchivo());
+        copia.setIdCurso(this.getClaseCopia().getIdCurso());
+        copia.setIdPlantilla(this.getClaseCopia().getIdPlantilla());
+        
+        copia=sieniClaseFacadeRemote.createAndReturn(copia);
+        
+        List<SieniClaseSupComp> listaComp = sieniClaseSupCompFacadeRemote.findByClase(this.getClaseCopia().getIdClase());
+        for(SieniClaseSupComp actual:listaComp){
+            actual.setIdClaseSupComp(null);
+            actual.setIdClase(copia);
+        }
+        sieniClaseSupCompFacadeRemote.merge(listaComp, new ArrayList<SieniClaseSupComp>());
+        
+        
+        List<SieniInteEntrComp> interacciones=sieniInteEntrCompFacadeRemote.findByClase(this.getClaseCopia().getIdClase());
+        for(SieniInteEntrComp actual:interacciones){
+            actual.setIdInteEntreComp(null);
+            actual.setIdClase(copia.getIdClase());
+        }
+        sieniInteEntrCompFacadeRemote.merge(interacciones, new ArrayList<SieniInteEntrComp>());
+        
+        List<SieniClaseVidPtos> vidPntos = sieniClaseVidPtosFacadeRemote.findByClase(this.getClaseCopia().getIdClase());
+        for(SieniClaseVidPtos actual: vidPntos){
+            actual.setIdClase(copia);
+            actual.setIdClaseVideoPtosAct(null);
+        }
+        sieniClaseVidPtosFacadeRemote.merge(vidPntos, new ArrayList<SieniClaseVidPtos>());
+        
+        this.getClaseList().add(copia);
+        new ValidationPojo().printMsj("La clase copiada exitosamente", FacesMessage.SEVERITY_INFO);
+        this.setIndexMenu(1);
+    }
+    
+    public void copiarClase(SieniClase claseCopia){
+        this.setClaseCopia(claseCopia);
+//        this.setClaseList(setDocente(sieniClaseFacadeRemote.findClaseByTipo('V')));
+        this.setCursosCopiaList(sieniCursoFacadeRemote.findActivos());
+        this.setIndexMenu(7);
     }
 
     private boolean fillConfigura(SieniClase clase) {

@@ -487,11 +487,11 @@ public class GestionClaseInteracController extends GestionClaseInteracForm {
 //            actual.setIdClase(copia);
 //            actual.setIdClaseVideoPtosAct(null);
 //        }
-//        sieniClaseVidPtosFacadeRemote.merge(vidPntos, new ArrayList<SieniClaseVidPtos>());
-        
-        this.getClaseList().add(copia);
+//        sieniClaseVidPtosFacadeRemote.merge(vidPntos, new ArrayList<SieniClaseVidPtos>());        
+//        this.getClaseList().add(copia);
+        fill();
         new ValidationPojo().printMsj("La clase copiada exitosamente", FacesMessage.SEVERITY_INFO);
-        this.setIndexMenu(1);
+        this.setIndexMenu(0);
     }
     
     public void copiarClase(SieniClase claseCopia){

@@ -6,7 +6,10 @@
 package sv.com.mined.sieni.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -15,6 +18,7 @@ import java.net.URISyntaxException;
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -29,7 +33,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.io.IOUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFPictureData;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -38,8 +44,13 @@ import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
 import org.apache.poi.ss.usermodel.Picture;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -57,6 +68,7 @@ import sv.com.mined.sieni.model.SieniMateria;
 import sv.com.mined.sieni.model.SieniNota;
 import sv.com.mined.sieni.model.SieniNotasModHist;
 import sv.com.mined.sieni.pojos.controller.ValidationPojo;
+import utils.CopiaArchivos;
 import utils.ExcelUtils;
 import utils.FormatUtils;
 
@@ -515,55 +527,49 @@ public class GestionNotasController extends GestionNotasForm {
     
     
     /* IMPORTAR EXCEL */
-    private UploadedFile file;
     private StreamedContent filePlantilla;
     
     public StreamedContent getFilePlantilla() {
         filePlantilla = null;
+        String ruthPath = null;
         try{
             if (this.getEvaluacionSubir() != null && this.getEvaluacionSubir().getIdEvaluacion() != null) {
-                InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/templates/PlantillaImport.xlsx");
-                byte[] buffer = IOUtils.toByteArray(stream);
-                InputStream copy = new ByteArrayInputStream(buffer);
-                filePlantilla = new DefaultStreamedContent(copy, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AlumnosEval.xlsx");
-                
-                //HSSFSheet sheetP = plantilla.getSheetAt(0); 
-                //LEER DATOS
-//                List<SieniAlumno> alumnosEval = sieniAlumnoFacadeRemote.findAlumnosInscritos(getEvaluacionSubir().getIdCurso().getIdCurso());
-//                if(alumnosEval != null && alumnosEval.size() > 0){
-//                    //Filas que ocupa el encabezado de plantilla
-//                    int encabezado = 3;
-//                    //Copiar contenido a plantilla
-//                    for (int f = 0; f < alumnosEval.size(); f++) {
-//                        HSSFRow fila = sheetP.getRow(f+encabezado);
-//                        //CARNET
-//                        HSSFCell cellCarnet = fila.getCell(0);
-//                        cellCarnet.setCellValue(alumnosEval.get(f).getAlCarnet());
-//                        //ALUMNO
-//                        HSSFCell cellAlumno = fila.getCell(1);
-//                        cellAlumno.setCellValue(alumnosEval.get(f).getAlNombreCompleto());
-//                        //NOTA
-//                        HSSFCell cellNota = fila.getCell(2);
-//                        cellNota.setCellValue(0.0);
-//                    }
-//
-//                    //Ajustar Columna a texto
-////                    for(int f=encabezado; f < sheetP.getPhysicalNumberOfRows();f++){
-////                        for(int c=1; c <= sheetP.getRow(f).getPhysicalNumberOfCells();c++ ){
-////                            try{
-////                                sheetP.getRow(f).getCell(c).getCellStyle().setWrapText(true);
-////                            }catch(Exception ex){}
-////                        }
-////                    }
-//                }else{
-//                    new ValidationPojo().printMsj("No existen alumnos inscritos al curso", FacesMessage.SEVERITY_ERROR);
-//                }
-                
-                
+                // Se crea el libro
+                XSSFWorkbook libro = new XSSFWorkbook();
+                // Se crea una hoja dentro del libro
+                XSSFSheet hoja = libro.createSheet();
+                //Obtener lista de alumnos del curso
+                List<SieniAlumno> alumnosEval = sieniAlumnoFacadeRemote.findAlumnosInscritos(this.getEvaluacionSubir().getIdCurso().getIdCurso());
+                //Leer datos y colocarlos en la hoja
+                int f = 0;
+                for(SieniAlumno alumno : alumnosEval){
+                    // Se crea una fila dentro de la hoja
+                    XSSFRow fila = hoja.createRow(f);
+                    // Se crea las celdas dentro de la fila
+                    XSSFCell celdaCarnet = fila.createCell((short) 0);
+                    XSSFCell celdaAlumno = fila.createCell((short) 1);
+                    XSSFCell celdaNota = fila.createCell((short) 2);
+                    // Se crea el contenido
+                    XSSFRichTextString txtCarnet = new XSSFRichTextString(alumno.getAlCarnet());
+                    XSSFRichTextString txtAlumno = new XSSFRichTextString(alumno.getNombreCompleto());
+                    //Colocar valor en celda
+                    celdaCarnet.setCellValue(txtCarnet);
+                    celdaAlumno.setCellValue(txtAlumno);
+                    celdaNota.setCellValue(0.00);
+                    f++;
+                }
+                // Se salva el libro.
+                FileOutputStream elFichero = new FileOutputStream("listaAlumnos.xlsx");
+                libro.write(elFichero);
+                elFichero.close();
+                //Leer libro para descarga
+                FileInputStream file = new FileInputStream(new File("listaAlumnos.xlsx"));
+                filePlantilla = new DefaultStreamedContent(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AlumnosEval.xlsx");
+	
             }else{
                 new ValidationPojo().printMsj("Seleccione una evaluacion", FacesMessage.SEVERITY_ERROR);
             }
-        }catch(Exception exc){ new ValidationPojo().printMsj("Ocurrio un error al descargar plantilla ... consulte con el administrador", FacesMessage.SEVERITY_ERROR); }
+        }catch(Exception exc){ new ValidationPojo().printMsj("Ocurrio un error al descargar plantilla ... consulte con el administrador" + ruthPath, FacesMessage.SEVERITY_ERROR); }
         return filePlantilla;
     }
     

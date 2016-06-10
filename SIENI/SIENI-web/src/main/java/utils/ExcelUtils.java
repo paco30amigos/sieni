@@ -90,78 +90,82 @@ public class ExcelUtils {
         Sheet sheet = workbook.getSheetAt(worksheetIndex);
         Iterator rows = sheet.rowIterator();
         SieniNota notaActual;
+        int rowIndex = 0;
         while (rows.hasNext()) {
             XSSFRow row = (XSSFRow) rows.next();
-            notaActual = new SieniNota();
-            notaActual.setErrores(new ArrayList<String>());
-            int celdaCarnet = 0;
-            int celdaNombre = 1;
-            int celdaNota = 2;
-            Long idCarnet = null, idAlumno = null;
-            String carnet = null;
+            if(rowIndex > 2){
+                notaActual = new SieniNota();
+                notaActual.setErrores(new ArrayList<String>());
+                int celdaCarnet = 0;
+                int celdaNombre = 1;
+                int celdaNota = 2;
+                Long idCarnet = null, idAlumno = null;
+                String carnet = null;
 
-            if (row.getCell(celdaCarnet) == null&&row.getCell(celdaNombre) == null&&row.getCell(celdaNota) == null) {
-                break;
-            }
+                if (row.getCell(celdaCarnet) == null&&row.getCell(celdaNombre) == null&&row.getCell(celdaNota) == null) {
+                    break;
+                }
 
-            if (row.getCell(celdaCarnet) != null && row.getCell(celdaCarnet).getCellType() == Cell.CELL_TYPE_STRING) {
-                carnet = row.getCell(celdaCarnet) != null ? row.getCell(celdaCarnet).getStringCellValue() : null;
-            }
+                if (row.getCell(celdaCarnet) != null && row.getCell(celdaCarnet).getCellType() == Cell.CELL_TYPE_STRING) {
+                    carnet = row.getCell(celdaCarnet) != null ? row.getCell(celdaCarnet).getStringCellValue() : null;
+                }
 
-            if (row.getCell(celdaNombre) != null && row.getCell(celdaNombre).getCellType() == Cell.CELL_TYPE_STRING) {
-                notaActual.setNombreCompleto(row.getCell(celdaNombre) != null ? row.getCell(celdaNombre).getStringCellValue() : null);//nombre
-            }
+                if (row.getCell(celdaNombre) != null && row.getCell(celdaNombre).getCellType() == Cell.CELL_TYPE_STRING) {
+                    notaActual.setNombreCompleto(row.getCell(celdaNombre) != null ? row.getCell(celdaNombre).getStringCellValue() : null);//nombre
+                }
 
-            if (row.getCell(celdaNota) != null && row.getCell(celdaNota).getCellType() == Cell.CELL_TYPE_NUMERIC) {
-                notaActual.setNtCalificacion(row.getCell(celdaNota) != null ? row.getCell(celdaNota).getNumericCellValue() : null);//nota
-            } else if (row.getCell(celdaNota) != null && row.getCell(celdaNota).getCellType() == Cell.CELL_TYPE_STRING) {
-                String val = row.getCell(celdaNota).getStringCellValue();
-                try {
-                    val = val.replaceAll(",", ".");
-                    notaActual.setNtCalificacion(Double.parseDouble(val));
-                } catch (Exception e) {
-                    notaActual.setNtCalificacion(null);
+                if (row.getCell(celdaNota) != null && row.getCell(celdaNota).getCellType() == Cell.CELL_TYPE_NUMERIC) {
+                    notaActual.setNtCalificacion(row.getCell(celdaNota) != null ? row.getCell(celdaNota).getNumericCellValue() : null);//nota
+                } else if (row.getCell(celdaNota) != null && row.getCell(celdaNota).getCellType() == Cell.CELL_TYPE_STRING) {
+                    String val = row.getCell(celdaNota).getStringCellValue();
+                    try {
+                        val = val.replaceAll(",", ".");
+                        notaActual.setNtCalificacion(Double.parseDouble(val));
+                    } catch (Exception e) {
+                        notaActual.setNtCalificacion(null);
+                        notaActual.getErrores().add("Nota no valida");
+                    }
+                } else {
                     notaActual.getErrores().add("Nota no valida");
                 }
-            } else {
-                notaActual.getErrores().add("Nota no valida");
-            }
 
-            if (carnet != null) {
-                List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findByCarnet(carnet);
-                if (alumnos == null || alumnos.isEmpty()) {
-                    notaActual.setCarnet("");
-                    notaActual.getErrores().add("Carnet no se encontró");
-                } else {
-                    idCarnet = alumnos.get(0).getIdAlumno();
-                    notaActual.setCarnet(carnet);
+                if (carnet != null) {
+                    List<SieniAlumno> alumnos = sieniAlumnoFacadeRemote.findByCarnet(carnet);
+                    if (alumnos == null || alumnos.isEmpty()) {
+                        notaActual.setCarnet("");
+                        notaActual.getErrores().add("Carnet no se encontró");
+                    } else {
+                        idCarnet = alumnos.get(0).getIdAlumno();
+                        notaActual.setCarnet(carnet);
+                    }
                 }
-            }
 
-            if (notaActual.getNtCalificacion() != null && (notaActual.getNtCalificacion() < 0.0 || notaActual.getNtCalificacion() > 10.0)) {
-                notaActual.getErrores().add("Nota no valida");
-            }
-            if (notaActual.getNombreCompleto() != null || notaActual.getNtCalificacion() != null) {
-                SieniAlumno alumno = sieniAlumnoFacadeRemote.findByNombreCompleto(notaActual.getNombreCompleto());
-                if (alumno == null) {
-                    notaActual.getErrores().add("Nombre de alumno no se encontró");
-                } else {
-                    notaActual.setIdAlumno(alumno.getIdAlumno());
-                    idAlumno = alumno.getIdAlumno();
+                if (notaActual.getNtCalificacion() != null && (notaActual.getNtCalificacion() < 0.0 || notaActual.getNtCalificacion() > 10.0)) {
+                    notaActual.getErrores().add("Nota no valida");
                 }
-            }
-            if (notaActual.getNombreCompleto() == null) {
-                notaActual.getErrores().add("No se ingresó un nombre para el alumno");
-            } else if (notaActual.getNtCalificacion() == null) {
-                notaActual.getErrores().add("No se ingresó una nota para el alumno");
-            }
+                if (notaActual.getNombreCompleto() != null || notaActual.getNtCalificacion() != null) {
+                    SieniAlumno alumno = sieniAlumnoFacadeRemote.findByNombreCompleto(notaActual.getNombreCompleto());
+                    if (alumno == null) {
+                        notaActual.getErrores().add("Nombre de alumno no se encontró");
+                    } else {
+                        notaActual.setIdAlumno(alumno.getIdAlumno());
+                        idAlumno = alumno.getIdAlumno();
+                    }
+                }
+                if (notaActual.getNombreCompleto() == null) {
+                    notaActual.getErrores().add("No se ingresó un nombre para el alumno");
+                } else if (notaActual.getNtCalificacion() == null) {
+                    notaActual.getErrores().add("No se ingresó una nota para el alumno");
+                }
 
-            if (idCarnet != null && idAlumno != null && !idCarnet.equals(idAlumno)) {
-                notaActual.getErrores().add("Carnet y Nombre de alumno no coinciden");
-            } else if (idCarnet == null || idAlumno == null) {
-                notaActual.getErrores().add("Carnet y Nombre de alumno no coinciden");
+                if (idCarnet != null && idAlumno != null && !idCarnet.equals(idAlumno)) {
+                    notaActual.getErrores().add("Carnet y Nombre de alumno no coinciden");
+                } else if (idCarnet == null || idAlumno == null) {
+                    notaActual.getErrores().add("Carnet y Nombre de alumno no coinciden");
+                }
+                notas.add(notaActual);
             }
-            notas.add(notaActual);
+            rowIndex++;
         }
         return notas;
     }

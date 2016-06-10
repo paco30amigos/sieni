@@ -43,11 +43,14 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Picture;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -537,33 +540,54 @@ public class GestionNotasController extends GestionNotasForm {
                 // Se crea el libro
                 XSSFWorkbook libro = new XSSFWorkbook();
                 // Se crea una hoja dentro del libro
-                XSSFSheet hoja = libro.createSheet();
+                XSSFSheet sheetD = libro.createSheet();
                 //Obtener lista de alumnos del curso
                 List<SieniAlumno> alumnosEval = sieniAlumnoFacadeRemote.findAlumnosInscritos(this.getEvaluacionSubir().getIdCurso().getIdCurso());
                 //Leer datos y colocarlos en la hoja
                 int f = 0;
+                //Guardar datos en celda
                 for(SieniAlumno alumno : alumnosEval){
                     // Se crea una fila dentro de la hoja
-                    XSSFRow fila = hoja.createRow(f);
+                    XSSFRow fila = sheetD.createRow(f);f++;
                     // Se crea las celdas dentro de la fila
                     XSSFCell celdaCarnet = fila.createCell((short) 0);
                     XSSFCell celdaAlumno = fila.createCell((short) 1);
                     XSSFCell celdaNota = fila.createCell((short) 2);
-                    // Se crea el contenido
-                    XSSFRichTextString txtCarnet = new XSSFRichTextString(alumno.getAlCarnet());
-                    XSSFRichTextString txtAlumno = new XSSFRichTextString(alumno.getNombreCompleto());
                     //Colocar valor en celda
-                    celdaCarnet.setCellValue(txtCarnet);
-                    celdaAlumno.setCellValue(txtAlumno);
-                    celdaNota.setCellValue(0.00);
-                    f++;
+                    celdaCarnet.setCellValue(alumno.getAlCarnet());
+                    celdaAlumno.setCellValue(alumno.getNombreCompleto());
+                    celdaNota.setCellValue((double)0.00);
                 }
+                //Encabezados desde plantilla
+                InputStream stream = ((ServletContext)FacesContext.getCurrentInstance().getExternalContext().getContext()).getResourceAsStream("/resources/templates/PlantillaAlumnosEval.xlsx");
+                StreamedContent plantillaXLS = new DefaultStreamedContent(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Plantilla.xlsx");
+                XSSFWorkbook plantilla = new XSSFWorkbook(plantillaXLS.getStream());
+                XSSFSheet sheetP = plantilla.getSheetAt(0);
+                
+                //Filas que ocupa el encabezado de plantilla
+                int encabezado = 3;
+                //Quitar encabezado y desplazar Datos
+                sheetD.shiftRows(0, sheetD.getLastRowNum(), encabezado);
+                //Copiar contenido de plantilla a la hoja del reporte
+                int inicio = 0;
+                for (int row = 0; row < encabezado; row++) {
+                    copyRow(sheetP, sheetD, row, inicio);
+                    inicio++;
+                }
+                //Combinar las columnas al igual que la plantilla
+                for (int m = 0; m < sheetP.getNumMergedRegions(); m++) {
+                        CellRangeAddress cellRangeAddress = sheetP.getMergedRegion(m).copy();
+                        sheetD.addMergedRegion(cellRangeAddress);
+                }
+                //Evaluacion
+                XSSFCell celdaEval = sheetD.getRow(0).getCell(1);
+                celdaEval.setCellValue(this.getEvaluacionSubir().getEvNombre());
                 // Se salva el libro.
-                FileOutputStream elFichero = new FileOutputStream("listaAlumnos.xlsx");
+                FileOutputStream elFichero = new FileOutputStream("ListaAlumnos.xlsx");
                 libro.write(elFichero);
                 elFichero.close();
                 //Leer libro para descarga
-                FileInputStream file = new FileInputStream(new File("listaAlumnos.xlsx"));
+                FileInputStream file = new FileInputStream(new File("ListaAlumnos.xlsx"));
                 filePlantilla = new DefaultStreamedContent(file, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "AlumnosEval.xlsx");
 	
             }else{
@@ -575,16 +599,16 @@ public class GestionNotasController extends GestionNotasForm {
     
     
     
-    public static void copyRow(HSSFSheet worksheetSource, HSSFSheet worksheetDestination, int sourceRowNum, int destinationRowNum) {
+    public static void copyRow(XSSFSheet worksheetSource, XSSFSheet worksheetDestination, int sourceRowNum, int destinationRowNum) {
         // Get the source / new row
-        HSSFRow origen = worksheetSource.getRow(sourceRowNum);
-        HSSFRow destino = worksheetDestination.createRow(destinationRowNum);
+        XSSFRow origen = worksheetSource.getRow(sourceRowNum);
+        XSSFRow destino = worksheetDestination.createRow(destinationRowNum);
         
         // Loop through source columns to add to new row
         for (int i = 0; i < origen.getLastCellNum(); i++) {
             // Grab a copy of the old/new cell
-            HSSFCell oldCell = origen.getCell(i);
-            HSSFCell newCell = destino.createCell(i);
+            XSSFCell oldCell = origen.getCell(i);
+            XSSFCell newCell = destino.createCell(i);
             // If the old cell is null jump to next cell
             if (oldCell == null) {
                 newCell = null;
@@ -595,7 +619,7 @@ public class GestionNotasController extends GestionNotasForm {
             worksheetDestination.setColumnWidth(i, worksheetSource.getColumnWidth(i));
                        
             // Copy style from old cell and apply to new cell
-            HSSFCellStyle newCellStyle = newCell.getSheet().getWorkbook().createCellStyle();
+            XSSFCellStyle newCellStyle = newCell.getSheet().getWorkbook().createCellStyle();
             newCellStyle.cloneStyleFrom(oldCell.getCellStyle());
             newCell.setCellStyle(newCellStyle);
 

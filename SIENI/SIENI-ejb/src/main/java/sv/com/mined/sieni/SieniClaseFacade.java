@@ -68,7 +68,7 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         }
         return ret;
     }
-    
+
     @Override
     public List<SieniClase> findClaseByTipo(Character tipoClase) {
         Character estado = 'I';
@@ -287,11 +287,29 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
 
     @Override
     public Boolean findByHorarioExiste(String horario, Date clHora) {
-        Query q = em.createNamedQuery("SieniClase.findByHorarioExiste");
-        q.setParameter("horario", horario);
+        boolean ban = true;
+        Query q = em.createNamedQuery("SieniClase.findByHorarioExiste2");
+//        q.setParameter("horario", horario);
         q.setParameter("clHora", clHora);
-        boolean res;
-        res = q.getResultList().isEmpty();
-        return res;
+
+        String dias[] = horario.split(",");
+        List<SieniClase> res = q.getResultList();
+        if (res != null && !res.isEmpty()) {
+            for (String diaHorarioNuevo : dias) {
+                for (SieniClase actual : res) {
+                    String[] horarioActual;
+                    if (actual.getClHorario() != null && !actual.getClHorario().isEmpty()) {
+                        horarioActual = actual.getClHorario().split(",");
+                        for (String actual2 : horarioActual) {
+                            if (diaHorarioNuevo.equals(actual2)) {
+                                ban = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return ban;
     }
 }

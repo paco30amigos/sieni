@@ -106,28 +106,25 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
             }
             DateUtils du = new DateUtils();
             if ('O' == this.getNuevo().getClTipo()) {
-                if (sieniClaseFacadeRemote.findByHorarioExiste(horario, this.getModifica().getClHora())) {
+                if (sieniClaseFacadeRemote.findByHorarioExiste(horario, this.getNuevo().getClHora())) {
                     this.getNuevo().setClHorario(horario);
                     if (validarNuevo(this.getNuevo())) {//valida el guardado
                         this.setNuevo(sieniClaseFacadeRemote.createAndReturn(this.getNuevo()));
                         registrarEnBitacora("Crear", "Programacion de clases", this.getNuevo().getIdClase());
-                        FacesMessage msg = new FacesMessage("Programación Creada Exitosamente");
-                        FacesContext.getCurrentInstance().addMessage(null, msg);
+                        new ValidationPojo().printMsj("Programación Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                         this.setNuevo(new SieniClase());
                         this.setHorarioSelected(new ArrayList<String>());
                         fill();
                     }
                 } else {
-                    FacesMessage msg = new FacesMessage("Ya existe una programacion en ese horario");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    new ValidationPojo().printMsj("Ya existe una clase en vivo en ese horario", FacesMessage.SEVERITY_ERROR);
                 }
             } else {
                 this.getNuevo().setClHorario(horario);
                 if (validarNuevo(this.getNuevo())) {//valida el guardado
                     this.setNuevo(sieniClaseFacadeRemote.createAndReturn(this.getNuevo()));
                     registrarEnBitacora("Crear", "Programacion de clases", this.getNuevo().getIdClase());
-                    FacesMessage msg = new FacesMessage("Programación Creada Exitosamente");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
+                    new ValidationPojo().printMsj("Programación Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                     this.setNuevo(new SieniClase());
                     this.setHorarioSelected(new ArrayList<String>());
                     fill();
@@ -213,20 +210,19 @@ public class ProgramacionClasesController extends ProgramacionClasesForm {
             }
             DateUtils du = new DateUtils();
             boolean repetido;
-            if ('O' == this.getModifica().getClTipo()) {
-                if (sieniClaseFacadeRemote.findByHorarioExiste(horario, this.getModifica().getClHora())) {
+//            if ('O' == this.getModifica().getClTipo()) {
+//                if (sieniClaseFacadeRemote.findByHorarioExiste(horario, this.getModifica().getClHora())) {
                     this.getModifica().setClHorario(horario);
                     if (validarModifica(this.getModifica())) {//valida el guardado
                         sieniClaseFacadeRemote.edit(this.getModifica());
                         registrarEnBitacora("Modificar", "Programacion de clases", this.getModifica().getIdClase());
-                        FacesMessage msg = new FacesMessage("Programación modificada Exitosamente");
-                        FacesContext.getCurrentInstance().addMessage(null, msg);
+                        new ValidationPojo().printMsj("Programación Creada Exitosamente", FacesMessage.SEVERITY_INFO);
                         fill();
-                    }
-                } else {
-                    FacesMessage msg = new FacesMessage("Ya existe una programacion en ese horario");
-                    FacesContext.getCurrentInstance().addMessage(null, msg);
-                }
+//                    }
+//                } else {
+//                    FacesMessage msg = new FacesMessage("Ya existe una programacion en ese horario");
+//                    FacesContext.getCurrentInstance().addMessage(null, msg);
+//                }
             } else {
                 this.getModifica().setClHorario(horario);
                 if (validarModifica(this.getModifica())) {//valida el guardado

@@ -5,6 +5,7 @@
  */
 package sv.com.mined.sieni;
 
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -281,6 +282,16 @@ public class SieniClaseFacade extends AbstractFacade<SieniClase> implements sv.c
         Query q = em.createNamedQuery("SieniClase.rptAvanceClases");
         q.setParameter("idAlumno", idAlumno);
         List<SieniClase> res = q.getResultList();
+        return res;
+    }
+
+    @Override
+    public Boolean findByHorarioExiste(String horario, Date clHora) {
+        Query q = em.createNamedQuery("SieniClase.findByHorarioExiste");
+        q.setParameter("horario", horario);
+        q.setParameter("clHora", clHora);
+        boolean res;
+        res = q.getResultList().isEmpty();
         return res;
     }
 }

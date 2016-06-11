@@ -58,7 +58,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "SieniClase.findClasesRptByCursoTipo", query = "SELECT s FROM SieniClase s WHERE s.clTipo = :clTipo AND s.clEstado != 'I' AND s.idCurso.idCurso = :idCurso"),
 
     @NamedQuery(name = "SieniClase.rptAvanceClases", query = "SELECT DISTINCT s FROM SieniClase s left JOIN FETCH s.sieniCatPuntosList pt left JOIN FETCH s.sieniPntosContrlList pa WHERE s.clEstado = 'A' and pa.idAlumno=:idAlumno"),
-    @NamedQuery(name = "SieniClase.findByHorarioExiste", query = "SELECT s FROM SieniClase s WHERE s.clHorario = :horario AND s.clHora = :clHora AND s.clTipo='O' AND s.clEstado='A'")})
+    @NamedQuery(name = "SieniClase.findByHorarioExiste", query = "SELECT s FROM SieniClase s WHERE s.clHorario = :horario AND s.clHora = :clHora AND s.clTipo='O' AND s.clEstado != 'I'")})
 public class SieniClase implements Serializable {
 
     @OneToMany(mappedBy = "idClase")

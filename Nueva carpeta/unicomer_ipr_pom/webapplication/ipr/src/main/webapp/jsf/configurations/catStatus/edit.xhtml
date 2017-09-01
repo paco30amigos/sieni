@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <p:dialog id="edit_dlg" modal="true" appendTo="@(body)" header="#{BundleIpr.ui_ipr_editStatus}" widgetVar="editStatus">
+            <h:form id="edit_form">
+                <p:panelGrid columns="2">	
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_statusDescription}"></p:outputLabel>
+                    <p:inputTextarea maxlength="500" value="#{CatStatusController.statusDesc}"></p:inputTextarea>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_active}"></p:outputLabel>
+                    <p:selectBooleanCheckbox value="#{CatStatusController.active}"></p:selectBooleanCheckbox>		            
+                </p:panelGrid>
+                <p:commandButton value="#{BundleIpr.ui_ipr_save}" actionListener="#{CatStatusController.saveEditStatus()}" oncomplete="PF('editStatus').hide();PF('status-wv').clearFilters();" update=":mainTab:selectProductForm"></p:commandButton>
+                <p:commandButton value="#{BundleIpr.ui_ipr_cancel}" oncomplete="PF('editStatus').hide()" ></p:commandButton>
+            </h:form>
+        </p:dialog>
+    </body>
+</html>

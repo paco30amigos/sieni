@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <body>
+        <h:form id="transactionDetailForm">
+            <p:panelGrid>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel for="tdf-trxNum" value="#{BundleIpr.ui_ipr_trxNum}"></p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="tdf-trxNum" value="#{SelectedProductRepossessedController.trxSelected.trxNum}" readonly="true"></p:inputText>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_creditNoteNumber}"></p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="tdf-creditNoteNumber" value="#{SelectedProductRepossessedController.trxSelected.creditNoteNumber}" readonly="true"></p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_accNum}"></p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="tdf-accNum" value="#{SelectedProductRepossessedController.trxSelected.accNum}" readonly="true"></p:inputText>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_FarNumber}"></p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="tdf-farNumber" value="#{SelectedProductRepossessedController.trxSelected.farNumber}" readonly="true"></p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_trxDate}"></p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="tdf-trxDate" value="#{SelectedProductRepossessedController.trxSelected.trxDate}" readonly="true">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </p:inputText>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_transactionAmount} #{SelectedProductRepossessedController.trxSelected.currency}"></p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="tdf-transactionAmount" value="#{SelectedProductRepossessedController.trxSelected.currencySimbol} #{SelectedProductRepossessedController.trxSelected.transactionAmount}" readonly="true"></p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_storeCode}"></p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="tdf-storeCode" value="#{SelectedProductRepossessedController.trxSelected.storeRiCode}" readonly="true"></p:inputText>
+                    </p:column>
+                    <p:column>
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_storeName}"></p:outputLabel>
+                    </p:column>
+                    <p:column>
+                        <p:inputText id="tdf-storeName" value="#{SelectedProductRepossessedController.trxSelected.storeName}" readonly="true"></p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="1">
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_storeResponsable}"></p:outputLabel>
+                    </p:column>
+                    <p:column colspan="3">
+                        <p:inputText id="tdf-storeResponsable" value="#{SelectedProductRepossessedController.trxSelected.storeResponsable}" readonly="true" style="width: 100%"></p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="1">
+                        <p:outputLabel value="#{BundleIpr.ui_ipr_customerName}"></p:outputLabel>
+                    </p:column>
+                    <p:column colspan="3">
+                        <p:inputText id="tdf-customerName" value="#{SelectedProductRepossessedController.trxSelected.customerName}" readonly="true" style="width: 100%"></p:inputText>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="4">
+                        <p:commandButton value="#{BundleIpr.ui_ipr_saveRespossessedProduct}" onclick="PF('dlg-confirmSelectedProducts-wb').show();">
+                        </p:commandButton>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+            <p:dataTable id="tdf-table" value="#{SelectedProductRepossessedController.trxSelected.productList}" 
+                         selection="#{SelectedProductRepossessedController.trxSelected.productsSelected}" var="prd"
+                         rowKey="#{prd.lineItemId}"
+                         >
+                <p:ajax event="filter" ignoreAutoUpdate="true" />
+                <f:facet name="header">#{BundleIpr.ui_ipr_repossessedProducts}</f:facet>
+                <p:column headerText="#{BundleIpr.ui_ipr_upc}">
+                    <p:outputLabel value="#{prd.upc}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_brand}">
+                    <p:outputLabel value="#{prd.brand}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_model}">
+                    <p:outputLabel value="#{prd.model}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_quantity}">
+                    <p:outputLabel value="#{prd.quantity}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column selectionMode="multiple" style="width:16px;text-align:center"/>
+            </p:dataTable>
+        </h:form>
+    </body>
+</html>

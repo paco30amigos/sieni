@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition template="/common/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <ui:define name="windowTitle">
+        <h:outputText value="#{Bundle.ui_index_window_title}" />
+    </ui:define>
+
+    <ui:define name="menuBar">
+        <h:outputStylesheet library="awesome/css" name="font-awesome.css" />
+        <ui:include src="/common/application_menuTab.xhtml" />
+        <ui:include src="/common/module_menuTab.xhtml" />
+    </ui:define>		
+    <ui:define name="menu">
+        <ui:include src="/common/option_menu.xhtml" />
+    </ui:define>
+    <ui:define name="body">
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="#{BundleIpr.ui_ipr_yes}" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" update=":mainTab" />
+            <p:commandButton value="#{BundleIpr.ui_ipr_no}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+        </p:confirmDialog>
+        <p:tabView id="mainTab">
+            <p:tab title="#{BundleIpr.ui_ipr_resendProductsToRi}">
+                <h:form > 
+                    <p:panelGrid columns="2">
+
+                        <p:outputLabel for="spf-trxNum" value="#{BundleIpr.ui_ipr_trxNum}"></p:outputLabel>
+                        <p:inputText id="spf-trxNum" value="#{ResendProductController.searchFields.transactionId}"></p:inputText>
+                        <p:outputLabel for="dateMin" value="#{BundleIpr.ui_ipr_dateMin}"></p:outputLabel>
+                        <p:calendar required="true" id="dateMin" value="#{ResendProductController.searchFields.dateMin}" pattern="dd/MM/yyyy"  maxdate="#{ResendProductController.currentDate}"
+                                    requiredMessage="#{BundleIpr.ui_ipr_dateMinRequired}">
+                            <p:ajax event="dateSelect" update="dateMax" process="@this"/>
+                        </p:calendar>
+                        <p:outputLabel for="dateMax" value="#{BundleIpr.ui_ipr_dateMax}"></p:outputLabel>
+                        <p:calendar required="true" id="dateMax" value="#{ResendProductController.searchFields.dateMax}" pattern="dd/MM/yyyy"
+                                    mindate="#{ResendProductController.searchFields.dateMin}" maxdate="#{ResendProductController.currentDate}"
+                                    requiredMessage="#{BundleIpr.ui_ipr_dateMaxRequired}"></p:calendar>
+                        <p:outputLabel for="spf-batchNum" value="#{BundleIpr.ui_ipr_batchNumber}"></p:outputLabel>
+                        <p:inputText id="spf-batchNum" value="#{ResendProductController.searchFields.batchNum}"></p:inputText>
+                        <p:outputLabel for="spf-statusId" value="#{BundleIpr.ui_ipr_prodStatus}"></p:outputLabel>
+                        <p:selectOneMenu id="spf-statusId" value="#{ResendProductController.searchFields.statusId}" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{ResendProductController.statusList}" var="status" itemLabel="#{status.label}" itemValue="#{status.value}"> </f:selectItems>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton value="#{BundleIpr.ui_ipr_search}" actionListener="#{ResendProductController.search()}" update="tdf-table @form" oncomplete="PF('prod-wb').clearFilters();PF('prod-wb').clearSelection();"></p:commandButton>
+                    <p:commandButton value="#{BundleIpr.ui_ipr_resendProductsToRi}" actionListener="#{ResendProductController.resendSelected()}" update="tdf-table">
+                        <p:confirm message="#{BundleIpr.ui_ipr_msg_confirmResend}" icon="ui-icon-alert">
+                        </p:confirm>
+                    </p:commandButton>
+                    <p:dataTable id="tdf-table" value="#{ResendProductController.resendProductModel}" 
+                                 selection="#{ResendProductController.trxSelected}" 
+                                 var="prd"
+                                 widgetVar="prod-wb"
+                                 rowKey="#{prd.batchDetId}"
+                                 paginator="true" 
+                                 rows="5" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 >
+                        <f:facet name="header">
+                            <p:outputLabel value="#{BundleIpr.ui_ipr_productSendedToRi}"></p:outputLabel>
+                        </f:facet>
+                        <p:column headerText="#{BundleIpr.ui_ipr_batch}" filterMatchMode="contains" filterBy="#{prd.batchNum}">
+                            <p:outputLabel value="#{prd.batchNum}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_trxNum}" filterMatchMode="contains" filterBy="#{prd.transactionId}">
+                            <p:outputLabel value="#{prd.transactionId}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_date}" filterMatchMode="contains" filterBy="#{prd.dateTrxString}">
+                            <p:outputLabel value="#{prd.dateTrxString}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_upc}" filterMatchMode="contains" filterBy="#{prd.upc}">
+                            <p:outputLabel value="#{prd.upc}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_brand}" filterMatchMode="contains" filterBy="#{prd.brand}">
+                            <p:outputLabel value="#{prd.brand}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_model}" filterMatchMode="contains" filterBy="#{prd.model}">
+                            <p:outputLabel value="#{prd.model}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_quantity}" filterMatchMode="contains" filterBy="#{prd.quantity}">
+                            <p:outputLabel value="#{prd.quantity}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_color}" filterMatchMode="contains" filterBy="#{prd.color}">
+                            <p:outputLabel value="#{prd.color}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_status}" filterMatchMode="contains" filterBy="#{prd.status}">
+                            <p:outputLabel value="#{prd.status}">
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column selectionMode="multiple" style="width:16px;text-align:center" toggleable="false"/>
+                    </p:dataTable>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+    <ui:define name="messages">
+        <p:messages id="messages" showDetail="true"  autoUpdate="true"/>
+    </ui:define>
+</ui:composition>

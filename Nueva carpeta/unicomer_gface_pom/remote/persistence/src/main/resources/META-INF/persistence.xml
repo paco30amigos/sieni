@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+	
+	<persistence-unit name="EAgfacePersistence">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>jdbc/IHGface</jta-data-source>  
+	    
+	    <class>com.unicomer.opos.inhouse.gface.entity.GfaceAssocDoc</class>    
+	    <class>com.unicomer.opos.inhouse.gface.entity.GfaceBtchFiles</class>
+	    <class>com.unicomer.opos.inhouse.gface.entity.GfaceDocErrDtl</class>
+	    <class>com.unicomer.opos.inhouse.gface.entity.GfaceDtlDoc</class>
+	    <class>com.unicomer.opos.inhouse.gface.entity.GfaceErrRegCtg</class>
+	    <class>com.unicomer.opos.inhouse.gface.entity.GfaceHdrDoc</class>
+	    <class>com.unicomer.opos.inhouse.gface.entity.GfaceStReg</class>
+	    
+	    <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthAccountingDet</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthAccountingEntry</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthAccountingHead</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthCategory</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthChains</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthClass</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthCompany</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthConcept</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthDepartment</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthDivision</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthEmployee</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthFlexfield</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthJobs</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthProcDefn</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthProduct</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthProductHist</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthRegions</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthServiceDefn</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthServiceType</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthSubclass</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnBrand</class>	
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnNoInventoryItem</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnNoInvenItemPrice</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnModel</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnParameter</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnParameterImpl</class>	    
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnAmbient</class>	
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthCostCenter</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthCostCenterLang</class>  	    
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthDeposit</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthRetailTransaction</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthTenderLineItem</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthTransaction</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthTrxLineItem</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthMerchandiseType</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthFlexValueEbs</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthCodeCombinationEb</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.OthProductType</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnNoInvItemConfiguration</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.UnNoInvItemPriceConfig</class>
+        <class>com.unicomer.opos.inhouse.adminHoTh.entities.NoInvConfigurationLevel</class>
+	    
+        <!-- ENTIDADES SEGURIDAD -->
+        <class>com.unicomer.opos.inhouse.security.entities.UnUserRole</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnUserHierarchy</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnUser</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnRole</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnRetailstoreHierarchygroup</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnRetailStore</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnProcessRole</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnProcess</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnOptionRole</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnOption</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnModuleRole</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnModule</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnHierarchyGroup</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnHierarchyFunction</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnApplicationRole</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnApplication</class>		
+        <class>com.unicomer.opos.inhouse.security.entities.UnUserCountry</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnCountry</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnApplicationI18n</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnModuleI18n</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnOptionI18n</class>
+        <class>com.unicomer.opos.inhouse.security.entities.UnCountryRi</class>		
+		
+	    
+		<properties>
+			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.format_sql" value="false" />
+			<property name="hibernate.use_sql_comments" value="false" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle12cDialect" />
+			<property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory" />
+			<property name="hibernate.transaction.jta.platform" value="org.hibernate.service.jta.platform.internal.WeblogicJtaPlatform" />
+			<property name="hibernate.max_fetch_depth" value="1" />
+			<property name="hibernate.bytecode.use_reflection_optimizer" value="false" />
+		</properties>
+	</persistence-unit>
+</persistence>

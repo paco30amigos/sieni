@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<weblogic-web-app xmlns="http://xmlns.oracle.com/weblogic/weblogic-web-app" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd http://xmlns.oracle.com/weblogic/weblogic-web-app http://xmlns.oracle.com/weblogic/weblogic-web-app/1.7/weblogic-web-app.xsd">
+	
+	<context-root>unicomer_gface_webapplication_gface</context-root>
+	
+	<weblogic-version>12.1.3</weblogic-version>
+
+	<security-role-assignment>
+		<role-name>SecuredUser</role-name>
+		<externally-defined/>
+	</security-role-assignment>
+	
+	<container-descriptor>
+		<index-directory-enabled>true</index-directory-enabled>
+	</container-descriptor>
+	
+	<library-ref>
+		<library-name>unicomer_inhouse_common_web</library-name>
+		<exact-match>false</exact-match>
+	</library-ref>
+	
+</weblogic-web-app>

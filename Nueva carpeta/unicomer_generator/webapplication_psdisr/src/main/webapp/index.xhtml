@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <style type="text/css">
+            .fixed-size{
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <p:fieldset toggleable="true" legend="#{BundlePsdisr.ui_psdisr_configOrigDest_configuration}" collapsed="true">
+            <ui:include src="views/generators/configOrigDest.xhtml"></ui:include>
+        </p:fieldset>
+        <p:fieldset toggleable="true" legend="#{BundlePsdisr.ui_psdisr_globalConfig_configuration}" collapsed="true">
+            <ui:include src="views/generators/configGlobal.xhtml"></ui:include>
+        </p:fieldset>
+        <p:fieldset toggleable="true" legend="#{BundlePsdisr.ui_psdisr_selectionConfig_searchDiferences}" collapsed="true">
+            <ui:include src="views/generators/selectionConfig.xhtml"></ui:include>
+        </p:fieldset>
+
+        <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+        <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+            <p:outputLabel value="#{BundlePsdisr.ui_psdisr_loading}" />
+        </p:dialog>
+    </h:body>
+</html>
+

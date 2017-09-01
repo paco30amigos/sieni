@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        <p:dialog id="edit_dlg" modal="true" appendTo="@(body)" header="#{BundleIpr.ui_ipr_editResponsable}" widgetVar="editResponsable">
+            <h:form id="edit_form">
+                <p:panelGrid columns="2">	
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_responsableCode}"></p:outputLabel>
+                    <p:inputText maxlength="20" value="#{CatResponsableController.respCode}"></p:inputText>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_responsable}"></p:outputLabel>
+                    <p:inputText maxlength="200" value="#{CatResponsableController.respName}"></p:inputText>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_responsableType}"></p:outputLabel>
+                    <p:selectOneMenu value="#{CatResponsableController.respType}" disabled="true">
+                        <f:selectItems value="#{CatResponsableController.roleTypesList}" var="roleType" itemLabel="#{roleType.label}" itemValue="#{roleType.value}"></f:selectItems>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_active}"></p:outputLabel>
+                    <p:selectBooleanCheckbox value="#{CatResponsableController.isActive}"></p:selectBooleanCheckbox>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_observationResponsability}"></p:outputLabel>
+                    <p:inputTextarea maxlength="500" value="#{CatResponsableController.observationResponsability}"></p:inputTextarea> 		            
+                </p:panelGrid>
+                <p:commandButton value="#{BundleIpr.ui_ipr_save}" actionListener="#{CatResponsableController.saveEditResponsable()}" oncomplete="PF('editResponsable').hide();PF('responsable-wv').clearFilters();" update=":mainTab:selectProductForm"></p:commandButton>
+                <p:commandButton value="#{BundleIpr.ui_ipr_cancel}" oncomplete="PF('editResponsable').hide()" ></p:commandButton>
+            </h:form>
+        </p:dialog>
+    </body>
+</html>

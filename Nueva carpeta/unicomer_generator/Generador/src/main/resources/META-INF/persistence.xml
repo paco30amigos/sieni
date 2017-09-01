@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.mycompany_GeneradorI18N_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.mycompany.generadori18n.model.UnModuleRole</class>
+    <class>com.mycompany.generadori18n.model.UnProcess</class>
+    <class>com.mycompany.generadori18n.model.UnApplicationRole</class>
+    <class>com.mycompany.generadori18n.model.UnApplication</class>
+    <class>com.mycompany.generadori18n.model.UnApplicationI18n</class>
+    <class>com.mycompany.generadori18n.model.UnUser</class>
+    <class>com.mycompany.generadori18n.model.UnHierarchyFunction</class>
+    <class>com.mycompany.generadori18n.model.UnUserCountry</class>
+    <class>com.mycompany.generadori18n.model.UnModule</class>
+    <class>com.mycompany.generadori18n.model.UnRole</class>
+    <class>com.mycompany.generadori18n.model.UnUserHierarchy</class>
+    <class>com.mycompany.generadori18n.model.UnModuleI18n</class>
+    <class>com.mycompany.generadori18n.model.UnHierarchyGroup</class>
+    <class>com.mycompany.generadori18n.model.UnRetailstoreHierarchygroup</class>
+    <class>com.mycompany.generadori18n.model.UnOption</class>
+    <class>com.mycompany.generadori18n.model.UnOptionI18n</class>
+    <class>com.mycompany.generadori18n.model.UnUserRole</class>
+    <class>com.mycompany.generadori18n.model.UnOptionRole</class>
+    <class>com.mycompany.generadori18n.model.UnProcessRole</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@10.100.131.132:1521:IHDBSIT"/>
+      <property name="javax.persistence.jdbc.user" value="lchong"/>
+      <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+      <property name="javax.persistence.jdbc.password" value="Un1c0m3r"/>
+    </properties>
+  </persistence-unit>
+</persistence>

@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="loc_hist_form">
+        <p:panelGrid>
+            <p:row>
+                <p:column styleClass="em10">
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_upc}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em10">
+                    <p:outputLabel value="#{TrxProductRepossessedController.trxSelected.productSelected.upc}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em10">
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_model}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em10">
+                    <p:outputLabel value="#{TrxProductRepossessedController.trxSelected.productSelected.model}"></p:outputLabel>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column styleClass="em10">
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_brand}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em10">
+                    <p:outputLabel value="#{TrxProductRepossessedController.trxSelected.productSelected.brand}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em10">
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_quantity}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em10">
+                    <p:outputLabel value="#{TrxProductRepossessedController.trxSelected.productSelected.quantity}"></p:outputLabel>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+        <p:commandButton value="#{BundleIpr.ui_ipr_addLocation}" actionListener="#{TrxProductRepossessedController.addLocation()}" update=":mainTab:dlg-new-location"></p:commandButton>
+        <p:commandButton value="#{BundleIpr.ui_ipr_editLocation}" actionListener="#{TrxProductRepossessedController.editLocation()}" update=":mainTab:dlg-edit-location"></p:commandButton>
+        <p:dataTable id="loc_hist_form-table" 
+                     value="#{TrxProductRepossessedController.currentHistoryLocations}"
+                     var="prodHist" 
+                     rowKey="#{prodHist.locHistId}"
+                     selection="#{TrxProductRepossessedController.locationHistSelected}"
+                     selectionMode="single"
+                     widgetVar="spf-table-wv"
+                     paginator="true" 
+                     rows="5" 
+                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                     rowsPerPageTemplate="5,10,15"
+                     >
+            <p:ajax event="filter" ignoreAutoUpdate="true" />
+            <f:facet name="header">#{BundleIpr.ui_ipr_locationHistory}</f:facet>
+            <p:column headerText="#{BundleIpr.ui_ipr_storeCode}">
+                <p:outputLabel value="#{prodHist.storeRiCode}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_storeName}">
+                <p:outputLabel value="#{prodHist.storeName}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_responsableCode}">
+                <p:outputLabel value="#{prodHist.storeRespCode}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_responsable}">
+                <p:outputLabel value="#{prodHist.storeResponsable}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_responsableRole}">
+                <p:outputLabel value="#{prodHist.responsableRole}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_auditLocationDate}">
+                <p:outputLabel value="#{prodHist.lastModDate}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </p:outputLabel>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</html>

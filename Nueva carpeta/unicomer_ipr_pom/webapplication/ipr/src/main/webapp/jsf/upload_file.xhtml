@@ -1,0 +1,37 @@
+<ui:composition template="/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <!-- <ui:composition template="/template.xhtml" >
+    -->
+
+    <ui:define name="windowTitle">
+        <h:outputText value="#{Bundle.ui_index_window_title}" />
+    </ui:define>
+
+    <ui:define name="title">
+        <div align="left" >
+            <h:outputText value="#{Bundle.ui_index_title}" />
+        </div>
+        <div align="right">
+            <h:graphicImage value="#{Bundle.ui_index_top_image1}" width="300" height="60" />
+        </div>
+    </ui:define>
+
+    <ui:define name="body">
+
+        <h:panelGroup id="messagePanel" layout="block">
+            <!--<h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>-->
+            <p:messages id="messages"/>
+        </h:panelGroup>
+        <h:form>
+            <h:panelGrid columns="2">
+                <p:fileUpload  fileUploadListener="#{fileUploadController.upload}" allowTypes="/(\.|\/)(csv|txt)$/" sizeLimit="100000" uploadLabel="Select File"/>						
+            </h:panelGrid>			
+        </h:form>
+    </ui:define>
+</ui:composition>
+

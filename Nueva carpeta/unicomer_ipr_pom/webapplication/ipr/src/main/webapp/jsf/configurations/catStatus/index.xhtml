@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition template="/common/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <ui:define name="windowTitle">
+        <h:outputText value="#{Bundle.ui_index_window_title}" />
+    </ui:define>
+
+    <ui:define name="menuBar">
+        <h:outputStylesheet library="awesome/css" name="font-awesome.css" />
+        <ui:include src="/common/application_menuTab.xhtml" />
+        <ui:include src="/common/module_menuTab.xhtml" />
+    </ui:define>		
+    <ui:define name="menu">
+        <ui:include src="/common/option_menu.xhtml" />
+    </ui:define>
+    <ui:define name="body">
+        <ui:include src="new.xhtml"></ui:include>
+        <ui:include src="edit.xhtml"></ui:include>
+        <p:tabView id="mainTab">
+            <p:tab title="#{BundleIpr.ui_ipr_statusCatalog}">
+                <h:form id="selectProductForm">
+                    <p:commandButton value="#{BundleIpr.ui_ipr_add}" actionListener="#{CatStatusController.newStatus()}" update=":new_dlg"></p:commandButton>
+                    <p:commandButton value="#{BundleIpr.ui_ipr_edit}" actionListener="#{CatStatusController.editStatus()}" update=":edit_dlg"></p:commandButton>
+                    <p:dataTable value="#{CatStatusController.statusModel}" 
+                                 var="status" 
+                                 widgetVar="status-wv"
+                                 selection="#{CatStatusController.statusSelected}"
+                                 selectionMode="single"
+                                 rowKey="#{status.statusProdId}"
+                                 paginator="true" 
+                                 rows="5" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 >
+                        <p:ajax event="filter" ignoreAutoUpdate="true" />
+                        <f:facet name="header">#{BundleIpr.ui_ipr_statusList}</f:facet>
+                        <p:column headerText="#{BundleIpr.ui_ipr_statusCode}" filterMatchMode="contains" filterBy="#{status.statusProdId}">
+                            <p:outputLabel value="#{status.statusProdId}"></p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_statusDescription}" filterMatchMode="contains" filterBy="#{status.statusDesc}">
+                            <p:outputLabel value="#{status.statusDesc}"></p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_active}" filterMatchMode="contains" filterBy="#{status.active}">
+                            <p:outputLabel value="#{status.active}"></p:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+    <ui:define name="messages">
+        <p:messages id="messages" showDetail="true"  autoUpdate="true"/>
+    </ui:define>
+</ui:composition>
+

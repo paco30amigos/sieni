@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[unicomer_gface_ejb] [%d{ISO8601}] [%5p] [%C{1}.%M() - %L] %m%n" />
+		</layout>
+	</appender>
+
+	<appender name="file" class="org.apache.log4j.rolling.RollingFileAppender">
+		<param name="file" value="${Log4jPath}/inhouse/gface/unicomer_gface_ejb.log" />
+		<param name="Append" value="true" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+	    	<param name="fileNamePattern" value="${Log4jPath}/inhouse/gface/unicomer_gface_ejb.%d{yyyy-MM-dd}.zip"/>
+	    </rollingPolicy>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[unicomer_gface_ejb] [%d{ISO8601}] [%5p] [%C{1}.%M() - %L] %m%n" />
+		</layout>
+	</appender>
+	
+	<logger name="com.unicomer.ejb.opos.inhouse.gface">
+        <level value="info" />
+    </logger>
+
+	<logger name="org.hibernate">
+        <level value="info" />
+    </logger>
+	
+	<logger name="weblogic">
+        <level value="info" />
+    </logger>
+
+	<logger name="javax.persistence">
+        <level value="info" />
+    </logger>
+	
+	<logger name="oracle.jdbc">
+        <level value="info" />
+    </logger>
+	<!-- Root Logger -->
+	<root>
+		<priority value="info" />
+		<appender-ref ref="console" />
+		<appender-ref ref="file" />
+		<!--
+		 -->
+	</root>
+
+</log4j:configuration>

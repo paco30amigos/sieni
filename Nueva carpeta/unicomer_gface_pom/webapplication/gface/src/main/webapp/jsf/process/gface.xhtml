@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition template="/common/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <ui:define name="windowTitle">
+        <h:outputText value="#{Bundle.ui_index_window_title}" />
+    </ui:define>
+
+    <ui:define name="menuBar">
+    	<h:outputStylesheet library="awesome/css" name="font-awesome.css" />
+        <ui:include src="/common/application_menuTab.xhtml" />
+        <ui:include src="/common/module_menuTab.xhtml" />
+    </ui:define>		
+    <ui:define name="menu">
+        <ui:include src="/common/option_menu.xhtml" />
+    </ui:define>
+    <ui:define name="body">
+		<script type="text/javascript">
+function start() {
+    PF('statusDialog').show();
+}
+ 
+function stop() {
+    PF('statusDialog').hide();
+}
+</script>
+		<style>
+                .ui-fileupload-buttonbar {
+                    margin: 0px 0px 0px 0px !important;
+                    padding: 0px 0px 0px 0px !important;
+                    border: none;
+                }
+                .ui-fileupload {
+                    margin: 0px 0px 0px 0px !important;
+                    padding: 0px 0px 0px 0px !important;
+                    display: inline-block;
+                    border: none;
+                }
+                .ui-fileupload-content {
+                    display: none;  
+                }
+            </style>
+        <p:tabView id="tabViewDebugErrors" >
+            <p:tab title="#{Bundlegface.gface_moduleDebugErrors}" disabled="false">
+                <h:form id="fr-gface">
+					<p:dialog modal="true"  appendTo="@(body)"  widgetVar="statusDialog" header="#{Bundlegface.gface_downloadingErrors}" draggable="false" closable="false" resizable="false">
+    					<p:graphicImage name="/resources/images/ajaxloadingbar.gif" />
+					</p:dialog>
+					<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+						<p:commandButton value="#{Bundlegface.gface_yes}" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+						<p:commandButton value="#{Bundlegface.gface_no}" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+					<p:panelGrid columns="2">
+                        <p:outputLabel value="#{Bundlegface.gface_docDate}"></p:outputLabel> 
+                        <p:outputPanel>
+                            <p:calendar value="#{GfaceDepuracionErroresController.docDateIni}" showButtonPanel="true" maxdate="#{GfaceDepuracionErroresController.fechaActual}" >
+                            <p:ajax
+			                        event="dateSelect"
+			                        update="@form :tabViewDebugErrors:fr-gface:calEndDate" 
+			                        process="@this"
+			                        />
+                            </p:calendar>
+                            <p:calendar id="calEndDate" value="#{GfaceDepuracionErroresController.docDateFin}" showButtonPanel="true" maxdate="#{GfaceDepuracionErroresController.fechaActual}" mindate="#{GfaceDepuracionErroresController.docDateIni}" ></p:calendar>
+                        </p:outputPanel>
+                        <p:outputLabel value="#{Bundlegface.gface_docType}"></p:outputLabel>
+                        <p:selectOneMenu value="#{GfaceDepuracionErroresController.documentType}">
+                            <f:selectItem itemLabel="#{Bundlegface.gface_all}" value="#{null}" />
+                            <f:selectItems var="doc" value="#{GfaceDepuracionErroresController.docTypeList}" itemLabel="#{doc.description}" itemValue="#{doc.id}"></f:selectItems>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{Bundlegface.gface_warnings}"></p:outputLabel>
+                        <p:selectOneMenu value="#{GfaceDepuracionErroresController.warning}">
+                            <f:selectItem itemLabel="#{Bundlegface.gface_all}" value="#{null}" />
+                            <f:selectItems var="war" value="#{GfaceDepuracionErroresController.warningsList}" itemLabel="#{war.description}" itemValue="#{war.id}"></f:selectItems>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{Bundlegface.gface_errors}"></p:outputLabel>
+                        <p:selectOneMenu value="#{GfaceDepuracionErroresController.error}">
+                            <f:selectItem itemLabel="#{Bundlegface.gface_all}" value="#{null}" />
+                            <f:selectItems var="err" value="#{GfaceDepuracionErroresController.errorsList}"  itemLabel="#{err.description}" itemValue="#{err.id}"></f:selectItems>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:panelGrid columns="5">
+                    	<p:commandButton value="#{Bundlegface.gface_search}" action="#{GfaceDepuracionErroresController.initd()}" update="resume"></p:commandButton>
+                        <p:commandButton value="#{Bundlegface.gface_debugSelected}" action="#{GfaceDepuracionErroresController.initEdit()}" update=":tabViewDebugErrors:dlg"></p:commandButton>
+                        <p:commandButton value="#{Bundlegface.gface_downloadErrors}"  ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                        	<p:fileDownload value="#{GfaceDepuracionErroresController.archivoErrores}" />
+                        </p:commandButton>
+                        <p:fileUpload auto="true" label="#{Bundlegface.gface_loadSelected}" fileUploadListener="#{GfaceDepuracionErroresController.getCargarArchivos}" mode="advanced" update=":tabViewDebugErrors:fr-gface">
+                        </p:fileUpload>
+                        <p:commandButton value="#{Bundlegface.gface_sendTransacToGuatefacturas}" actionListener="#{GfaceDepuracionErroresController.enviarAGuatefacturas()}" update=":tabViewDebugErrors:fr-gface">
+                        	<p:confirm header="#{Bundlegface.gface_confirmSendToGuatefacturasHeader}" message="#{Bundlegface.gface_confirmSendToGuatefacturas}" icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <!-- 
+                        <p:commandButton value="Recibir datos de Guatefacturas" actionListener="#{GfaceDepuracionErroresController.getDatosGuatefacturas()}">                        	
+                        </p:commandButton>
+                         -->
+                    </p:panelGrid>
+                    <p:panelGrid columns="6">
+                        <p:outputLabel value="#{Bundlegface.gface_ErrorTransactions}"></p:outputLabel>
+                        <p:outputLabel value="#{GfaceDepuracionErroresController.transacErrors}"></p:outputLabel>
+                        <p:outputLabel value="#{Bundlegface.gface_warningTransactions}"></p:outputLabel>
+                        <p:outputLabel value="#{GfaceDepuracionErroresController.transacWarning}"></p:outputLabel>
+                        <p:outputLabel value="#{Bundlegface.gface_pendingTransactionsToSend}"></p:outputLabel>
+                        <p:outputLabel value="#{GfaceDepuracionErroresController.transacPendingToSend}"></p:outputLabel>
+                    </p:panelGrid>
+                    <p:dataTable id="resume" value="${GfaceDepuracionErroresController.tabla}" var="item" selection="#{GfaceDepuracionErroresController.seleccionados}" rowKey="#{item.datos.hdrFuente.hdrId}">
+                        <p:column selectionMode="multiple" style="width:70px;text-align:center" headerText="#{Bundlegface.gface_select}"/>
+                        <p:column headerText="#{Bundlegface.gface_docType}">
+                            #{item.docType}
+                        </p:column>
+                        <p:column headerText="#{Bundlegface.gface_serie}">
+                            #{item.serie}
+                        </p:column>
+                        <p:column headerText="#{Bundlegface.gface_docDate}">
+                            #{item.docDate}
+                        </p:column>
+                        <p:column headerText="#{Bundlegface.gface_hasErrors}">
+                            #{item.tieneError}
+                        </p:column>
+                        <p:column headerText="#{Bundlegface.gface_hasWarnings}">
+                            #{item.tieneAdvertencia}
+                        </p:column>                        
+                    </p:dataTable>
+                </h:form>
+                <p:dialog visible="false" fitViewport="true" modal="true" widgetVar="edit-dlg" appendTo="@(body)" resizable="false" id="dlg">
+                    <h:form id="fr-gface2">
+                        <p:panelGrid columns="4" id="nTransac"  style="margin: 0 auto">
+                            <p:commandButton value="&#60;" title="Anterior" immediate="true" action="#{GfaceDepuracionErroresController.prevIndex()}" update="dataContent,nTransac" styleClass="ui-button ui-carousel-prev-button">
+                            </p:commandButton>
+                            <p:outputLabel value="#{GfaceDepuracionErroresController.index+1} #{Bundlegface.gface_edit_of} #{GfaceDepuracionErroresController.seleccionados.size()}"></p:outputLabel>
+                            <p:commandButton value="&#62;" title="Siguiente" immediate="true" action="#{GfaceDepuracionErroresController.nextIndex()}" update="dataContent,nTransac" styleClass="ui-button ui-carousel-next-button">
+                            </p:commandButton>
+                        </p:panelGrid>
+                        <p:panel id="dataContent">
+                            <p:panel header="#{Bundlegface.gface_header}" toggleable="true" collapsed="false">
+                                <p:panelGrid columns="8">
+                                    <p:outputLabel value="#{Bundlegface.gface_header_docDate}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.docDate}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banDocDate==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banDocDate}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banDocDate==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banDocDate}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_docType}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.docType}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banDocType==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banDocType}"  readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banDocType==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banDocType}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_serie}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.serieNum}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSerieNum==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSerieNum}"  readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSerieNum==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSerieNum}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_number}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.corrNum}" diabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCorrNum==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCorrNum}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCorrNum==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCorrNum}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_fiscalDocument}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.fsclCtIde}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banFsclCtIde==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banFsclCtIde}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banFsclCtIde==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banFsclCtIde}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_customerName}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.nameCt}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banNameCt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banNameCt}"  readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banNameCt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banNameCt}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_address}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.adrsCt}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banAdrsCt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banAdrsCt}"  readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banAdrsCt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banAdrsCt}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_phone}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.phoneCt}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banPhoneCt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banPhoneCt}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banPhoneCt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banPhoneCt}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_currencyCode}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.crcyCode}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCrcyCode==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCrcyCode}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCrcyCode==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCrcyCode}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_exchangeRate}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.crcyExcRt}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCrcyExcRt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCrcyExcRt}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCrcyExcRt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCrcyExcRt}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_docStatus}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.stDoc}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banStDoc==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banStDoc}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banStDoc==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banStDoc}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_voidedDate}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.cnclDt}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCnclDt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCnclDt}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCnclDt==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCnclDt}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_externalOrder}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.extOrder}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banExtOrder==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banExtOrder}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banExtOrder==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banExtOrder}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_saleType}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.slsTy}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSlsTy==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSlsTy}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSlsTy==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSlsTy}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_saleDst}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.slsDstn}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSlsDstn==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSlsDstn}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSlsDstn==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSlsDstn}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_voidedMotive}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.cnclDsc}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCnclDsc==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCnclDsc}" readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCnclDsc==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banCnclDsc}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_header_sendEmail}"></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.sendEmail}" disabled="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSendEmail==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSendEmail}"  readonly="#{GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSendEmail==null||!GfaceDepuracionErroresController.datoActual.datos.hdrFuente.copiado.banSendEmail}"></p:inputText>
+                                </p:panelGrid>
+                            </p:panel>
+                            <p:panel header="#{Bundlegface.gface_detail}" toggleable="true" collapsed="false">
+                                <p:dataTable id="trn" value="#{GfaceDepuracionErroresController.datoActual.datos.detFuente}" var="det" editable="false" scrollable="true">
+                                    
+                                    <p:column headerText="#{Bundlegface.gface_detail_qty}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.qty}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.qty}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_measurement}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.msrUnitCode}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.msrUnitCode}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_unitPrice}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.unitPrice}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.unitPrice}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_discRate}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.dscRt}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.dscRt}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_discMnt}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.dscMnt}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.dscMnt}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_grsMnt}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.grsMnt}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.grsMnt}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_exemptMnt}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.xmpMnt}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.xmpMnt}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_netMnt}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.netMnt}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.netMnt}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_vatMnt}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.vatMnt}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.vatMnt}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_othersMnt}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.thrMnt}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.thrMnt}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_totalMnt}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.copiado.totMnt}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.copiado.totMnt}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_product}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.histProdId.proName}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:inputText value="#{det.histProdId.proName}"></p:inputText>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    <p:column headerText="#{Bundlegface.gface_detail_description}">
+                                        <p:cellEditor>
+                                            <f:facet name="output">
+                                                <p:outputLabel value="#{det.histProdId.proName}"></p:outputLabel>
+                                            </f:facet>
+                                            <f:facet name="input">
+                                                <p:outputLabel value="#{det.copiado.histProdId.proName}"></p:outputLabel>
+                                            </f:facet>
+                                        </p:cellEditor>
+                                    </p:column>
+                                    
+                                </p:dataTable>
+                            </p:panel>
+                            <p:panel header="#{Bundlegface.gface_assocDoc}" toggleable="true" collapsed="false">
+                                <p:panelGrid columns="8">
+                                    <p:outputLabel value="#{Bundlegface.gface_doc_documentType}" ></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.docFuente.copiado.docTy}" disabled="true" readonly="true"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_doc_serie}" ></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.docFuente.copiado.serieNum}" disabled="true"  readonly="true"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_doc_number}" ></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.docFuente.copiado.corrNum}" disabled="true" readonly="true"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_doc_date}" ></p:outputLabel>
+                                    <p:inputText value="#{GfaceDepuracionErroresController.datoActual.datos.docFuente.copiado.docDate}" disabled="true" readonly="true"></p:inputText>
+                                </p:panelGrid>
+                            </p:panel>
+                            <p:panel header="#{Bundlegface.gface_totalDocuments}" toggleable="true" collapsed="false">
+                                <p:panelGrid columns="8">
+                                    <p:outputLabel value="#{Bundlegface.gface_total_grsMnt}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.grsMnt}"></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_discMnt}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.dscMnt}"  ></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_exemptMnt}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.xmpMnt}"  ></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_netMnt}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.netMnt}"  ></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_vatMnt}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.vatMnt}"  ></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_othersMnt}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.thrMnt}"  ></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_totalMnt}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.totMnt}"  ></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_IsrRate}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.isrRt}" ></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_numDetail}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.regQty}" ></p:inputText>
+                                    <p:outputLabel value="#{Bundlegface.gface_total_docAsociated}" ></p:outputLabel>
+                                    <p:inputText disabled="true" readonly="true" value="#{GfaceDepuracionErroresController.datoActual.datos.totalDocumento.docAssocQty}" ></p:inputText>
+                                </p:panelGrid>
+                            </p:panel>
+                            <p:panel>
+                                <p:tabView>
+                                    <p:tab title="#{Bundlegface.gface_errors}">
+                                        <p:dataTable value="#{GfaceDepuracionErroresController.datoActual.datos.errores}" var="error" >
+                                            <p:column style="width:16px">
+                                                <p:rowToggler />
+                                            </p:column>
+                                            <p:column headerText="#{Bundlegface.gface_errors_code}">
+                                                #{error.erregId.erregCode}
+                                            </p:column>
+                                            <p:column headerText="#{Bundlegface.gface_errors_type}">
+                                                #{error.erregId.descErrorTy}
+                                            </p:column>
+                                            <p:column headerText="#{Bundlegface.gface_errors_desc}">
+                                                #{error.erregId.erregDsc}
+                                            </p:column>
+                                            <p:rowExpansion>
+                                                <p:panelGrid  columns="8">
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_fiscalDoc}" />
+                                                    <h:outputText value="#{error.fsclCtIde}" />
+
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_customerName}" />
+                                                    <h:outputText value="#{error.nameCt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_address}" />
+                                                    <h:outputText value="#{error.adrsCt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_phone}" />
+                                                    <h:outputText value="#{error.phoneCt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_generate}" />
+                                                    <h:outputText value="#{error.generate}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_saleType}" />
+                                                    <h:outputText value="#{error.slsTy}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_docType}" />
+                                                    <h:outputText value="#{error.docType}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_resolution}" />
+                                                    <h:outputText value="#{error.resol}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_serie}" />
+                                                    <h:outputText value="#{error.serieNum}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_prePrint}" />
+                                                    <h:outputText value="#{error.preprint}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_docDate}" />
+                                                    <h:outputText value="#{error.docDate}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_voidedDate}" />
+                                                    <h:outputText value="#{error.cnclDt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_externalOrder}" />
+                                                    <h:outputText value="#{error.extOrder}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_currencyCode}" />
+                                                    <h:outputText value="#{error.crcyCode}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_exchangeRate}" />
+                                                    <h:outputText value="#{error.crcExcRt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_totalMnt}" />
+                                                    <h:outputText value="#{error.totMnt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_vatMnt}" />
+                                                    <h:outputText value="#{error.vatMnt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_netMnt}" />
+                                                    <h:outputText value="#{error.netMnt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_grssMnt}" />
+                                                    <h:outputText value="#{error.grsMnt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_descMnt}" />
+                                                    <h:outputText value="#{error.dscMnt}" />
+                                                </p:panelGrid>
+                                            </p:rowExpansion>
+                                        </p:dataTable>
+                                    </p:tab>
+                                    <p:tab title="#{Bundlegface.gface_warnings}">
+                                        <p:dataTable value="#{GfaceDepuracionErroresController.datoActual.datos.advertencias}" var="advertencia" >
+                                            <p:column style="width:16px">
+                                                <p:rowToggler />
+                                            </p:column>
+                                            <p:column headerText="#{Bundlegface.gface_warning_code}">
+                                                #{advertencia.erregId.erregCode}
+                                            </p:column>
+                                            <p:column headerText="#{Bundlegface.gface_warning_type}">
+                                                #{advertencia.erregId.descErrorTy}
+                                            </p:column>
+                                            <p:column headerText="#{Bundlegface.gface_warning_desc}">
+                                                #{advertencia.erregId.erregDsc}
+                                            </p:column>
+                                            <p:rowExpansion>
+                                                <p:panelGrid  columns="8">
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_fiscalDoc}" />
+                                                    <h:outputText value="#{advertencia.fsclCtIde}" />
+
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_customerName}" />
+                                                    <h:outputText value="#{advertencia.nameCt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_address}" />
+                                                    <h:outputText value="#{advertencia.adrsCt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_phone}" />
+                                                    <h:outputText value="#{advertencia.phoneCt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_generate}" />
+                                                    <h:outputText value="#{advertencia.generate}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_saleType}" />
+                                                    <h:outputText value="#{advertencia.slsTy}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_docType}" />
+                                                    <h:outputText value="#{advertencia.docType}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_resolution}" />
+                                                    <h:outputText value="#{advertencia.resol}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_serie}" />
+                                                    <h:outputText value="#{advertencia.serieNum}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_prePrint}" />
+                                                    <h:outputText value="#{advertencia.preprint}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_docDate}" />
+                                                    <h:outputText value="#{advertencia.docDate}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_voidedDate}" />
+                                                    <h:outputText value="#{advertencia.cnclDt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_externalOrder}" />
+                                                    <h:outputText value="#{advertencia.extOrder}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_currencyCode}" />
+                                                    <h:outputText value="#{advertencia.crcyCode}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_exchangeRate}" />
+                                                    <h:outputText value="#{advertencia.crcExcRt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_totalMnt}" />
+                                                    <h:outputText value="#{advertencia.totMnt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_vatMnt}" />
+                                                    <h:outputText value="#{advertencia.vatMnt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_netMnt}" />
+                                                    <h:outputText value="#{advertencia.netMnt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_grssMnt}" />
+                                                    <h:outputText value="#{advertencia.grsMnt}" />
+                                                    
+                                                    <h:outputText value="#{Bundlegface.gface_errors_det_descMnt}" />
+                                                    <h:outputText value="#{advertencia.dscMnt}" />
+                                                </p:panelGrid>
+                                            </p:rowExpansion>
+                                        </p:dataTable>
+                                    </p:tab>
+                                </p:tabView>
+                            </p:panel>
+                        </p:panel>
+                        <p:panelGrid columns="4" id="acciones"  style="margin: 0 auto">
+                            <p:commandButton value="#{Bundlegface.gface_edit_save}" action="#{GfaceDepuracionErroresController.saveEdit()}" oncomplete="PF('edit-dlg').hide()" update="fr-gface2 :tabViewDebugErrors:fr-gface">
+                            </p:commandButton>
+                            <p:commandButton value="#{Bundlegface.gface_edit_cancel}" action="#{GfaceDepuracionErroresController.cancelEdit()}" oncomplete="PF('edit-dlg').hide()" update="fr-gface2 :tabViewDebugErrors:fr-gface" >
+                            </p:commandButton>
+                        </p:panelGrid>
+                    </h:form>                        
+                </p:dialog>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+    <ui:define name="messages">
+        <p:messages id="messages" showDetail="true"  autoUpdate="true"/>
+    </ui:define>
+</ui:composition>

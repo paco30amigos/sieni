@@ -1,0 +1,5 @@
+package com.unicomer.inhouse.coupons.util;
+
+public class EjbCouponsConstants {
+	public static final String APPLICATION_NAME = "Coupons";
+}

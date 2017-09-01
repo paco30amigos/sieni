@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition template="/common/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets" >
+	<ui:define name="windowTitle">
+		<h:outputText value="#{Bundle.ui_index_window_title}" />
+	</ui:define>
+	
+<ui:define name="menuBar">
+	<ui:include src="/common/application_menuTab.xhtml" />
+	<ui:include src="/common/module_menuTab.xhtml" />
+</ui:define>		
+<ui:define name="menu">
+	<ui:include src="/common/option_menu.xhtml" />
+</ui:define>
+	
+	
+	<ui:define name="body">
+
+
+	        <h:form>
+		        <h:panelGrid columns="2">
+				<h:outputLabel id="fl" value="from:" for="fromu"  />
+				<p:inputText id="fromu" value="#{SendMailController.from}"  />
+				<h:outputLabel id="tl" value="to:" for="tou" />
+				<p:inputText id="tou" value="#{SendMailController.to}" />
+				<h:outputLabel id="sl" value="subject:" for="titleu" />
+				<p:inputText id="titleu" value="#{SendMailController.title}" />
+				<h:outputLabel id="ml" value="Message"  />
+				<p:inputTextarea id="messageu" value="#{SendMailController.message}" ></p:inputTextarea>
+				</h:panelGrid>
+				<p:commandButton id="psend" value="Send" actionListener="#{SendMailController.sendMessage}"  />
+			</h:form>	
+	
+	</ui:define>
+	<ui:define name="messages">
+		<p:messages id="messages" showDetail="true"  autoUpdate="true"/>
+	</ui:define>
+
+</ui:composition>
+

@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <h:form id="configOrigDest">
+            <!--            <p:ribbon>
+                            <p:tab title="Archivo">
+                                <p:ribbonGroup>
+                                    <p:commandButton value="Guardar"></p:commandButton>
+                                </p:ribbonGroup>
+                            </p:tab>
+                        </p:ribbon>-->
+            <p:tabView id="tabViewConfigOrigDest">
+                <p:tab title="#{BundlePsdisr.ui_psdisr_configOrigDest_source}">
+                    <p:panelGrid columns="4" layout="grid">
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_configOrigDest_sourceName}"></p:outputLabel>
+                        <p:inputText value="#{generator.sourceVal.name}"></p:inputText>
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_configOrigDest_conectionUrl}"></p:outputLabel>
+                        <p:inputText value="#{generator.sourceVal.conectionUrl}"></p:inputText>
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_configOrigDest_user}"></p:outputLabel>
+                        <p:inputText value="#{generator.sourceVal.conectionUsr}"></p:inputText>
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_configOrigDest_pass}"></p:outputLabel>
+                        <p:inputText value="#{generator.sourceVal.conectionPass}"></p:inputText>
+                    </p:panelGrid>
+                    <p:commandButton icon="fa fa-search" actionListener="#{generator.updateData()}" />
+                </p:tab>
+                <p:tab title="#{BundlePsdisr.ui_psdisr_configOrigDest_targets}">
+                    <p:panelGrid columns="4" layout="grid">
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_configOrigDest_sourceName}"></p:outputLabel>
+                        <p:inputText value="#{generator.targetVal.name}"></p:inputText>
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_configOrigDest_conectionUrl}"></p:outputLabel>
+                        <p:inputText value="#{generator.targetVal.conectionUrl}"></p:inputText>
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_configOrigDest_user}"></p:outputLabel>
+                        <p:inputText value="#{generator.targetVal.conectionUsr}"></p:inputText>
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_configOrigDest_pass}"></p:outputLabel>
+                        <p:inputText value="#{generator.targetVal.conectionPass}"></p:inputText>
+                        <p:commandButton icon="fa fa-plus" title="#{BundlePsdisr.ui_psdisr_configOrigDest_addTarget}" update="targetOut @parent"  action="#{generator.reinit}">
+                            <p:collector value="#{generator.targetVal}" addTo="#{generator.tableTarget}" unique="true"/>
+                        </p:commandButton>
+                    </p:panelGrid>
+                    <p:outputPanel id="targetOut">
+                        <p:dataTable id="targetTable" value="#{generator.tableTarget}" var="target" reflow="true" editable="true" editMode="cell">
+                            <p:column headerText="#{BundlePsdisr.ui_psdisr_configOrigDest_sourceName}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{target.name}" /></f:facet>
+                                    <f:facet name="input"><p:inputTextarea value="#{target.name}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="#{BundlePsdisr.ui_psdisr_configOrigDest_conectionUrl}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{target.conectionUrl}" /></f:facet>
+                                    <f:facet name="input"><p:inputTextarea value="#{target.conectionUrl}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+
+                            </p:column>
+                            <p:column headerText="#{BundlePsdisr.ui_psdisr_configOrigDest_user}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{target.conectionUsr}" /></f:facet>
+                                    <f:facet name="input"><p:inputTextarea value="#{target.conectionUsr}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column headerText="#{BundlePsdisr.ui_psdisr_configOrigDest_pass}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{target.conectionPass}" /></f:facet>
+                                    <f:facet name="input"><p:inputTextarea value="#{target.conectionPass}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column style="width: 50px">
+                                <p:commandButton icon="fa fa-trash" title="#{BundlePsdisr.ui_psdisr_configOrigDest_delete}" update=":configOrigDest:tabViewConfigOrigDest:targetOut">
+                                    <p:collector value="#{target}" removeFrom="#{generator.tableTarget}" unique="true"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </h:body>
+</html>
+

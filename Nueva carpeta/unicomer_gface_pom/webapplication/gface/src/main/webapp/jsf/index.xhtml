@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+ template="/common/template.xhtml" >
+	<ui:define name="windowTitle">
+		<h:outputText value="#{Bundle.ui_index_window_title}" />
+	</ui:define>
+
+<ui:define name="menuBar">
+	<ui:include src="/common/application_menuTab.xhtml" />
+	<ui:include src="/common/module_menuTab.xhtml" />
+</ui:define>		
+<ui:define name="menu">
+	<ui:include src="/common/option_menu.xhtml" />
+</ui:define>
+	<ui:define name="body">
+		<h:outputText id="txuser" value="USUARIO: #{CountryControllerJSF.userLogged}" />
+		<br />
+		<h:outputText id="dbtext" value="#{CountryControllerJSF.texto}" />
+		<br />		
+		<h:outputText id="id-version-PCA" value="#{ControlVersionPrintDocument.versionPCA()}" />  
+	</ui:define>
+</ui:composition>
+

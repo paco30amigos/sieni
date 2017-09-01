@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <body>
+        <p:dialog appendTo="@(body)" modal="true" header="#{BundleIpr.ui_ipr_addLocation}" widgetVar="dlg-add-location-wb">
+            <h:form id="dlg-new-location">
+                <p:panelGrid>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{BundleIpr.ui_ipr_store}"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{TrxProductRepossessedController.store}"  filter="true" filterMatchMode="contains">
+                                <p:ajax event="valueChange" update="dlg-new-location" listener="#{TrxProductRepossessedController.storeResponsableChange()}"></p:ajax>
+                                <f:selectItems value="#{TrxProductRepossessedController.locations}" var="location" itemLabel="#{location.label}" itemValue="#{location.value}"></f:selectItems>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{BundleIpr.ui_ipr_responsable}"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{TrxProductRepossessedController.storeResposable}" filter="true" filterMatchMode="contains">
+                                <f:selectItems value="#{TrxProductRepossessedController.responsableLocation}" var="resp" itemLabel="#{resp.label}" itemValue="#{resp.value}"></f:selectItems>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{BundleIpr.ui_ipr_responsableRole}"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{TrxProductRepossessedController.storeResposableRole}"></p:outputLabel>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="#{BundleIpr.ui_ipr_observationResponsability}"></p:outputLabel>
+                        </p:column>
+                        <p:column>
+                            <p:outputLabel value="#{TrxProductRepossessedController.observationResponsability}"></p:outputLabel>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:commandButton value="#{BundleIpr.ui_ipr_save}" actionListener="#{TrxProductRepossessedController.saveNewLocation()}" oncomplete="PF('dlg-add-location-wb').hide()" update=":mainTab:prodInfoTab:loc_hist_form:loc_hist_form-table" ></p:commandButton>
+                <p:commandButton value="#{BundleIpr.ui_ipr_cancel}" oncomplete="PF('dlg-add-location-wb').hide()" update=":mainTab:transactionDetailForm:tdf-table" ></p:commandButton>
+            </h:form>
+        </p:dialog>
+    </body>
+</html>

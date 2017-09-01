@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config version="2.0" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xi="http://www.w3.org/2001/XInclude"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+
+
+ <!--  <factory>
+ 	<exception-handler-factory>com.unicomer.inhouse.security.exception.ViewExpiredExceptionExceptionHandler</exception-handler-factory>
+ </factory> -->
+
+	 <application>
+	 	
+		  <locale-config>
+		  	<default-locale>es</default-locale>
+		  	<supported-locale>en</supported-locale>
+		  </locale-config>
+		  <resource-bundle>
+		   <base-name>com.unicomer.inhouse.ipr.utilities.i18n.BundleIpr</base-name>
+		   <var>BundleIpr</var>
+		  </resource-bundle>
+		 <resource-bundle>
+		   <base-name>com.unicomer.inhouse.utilities.i18n.Bundle</base-name>
+		   <var>Bundle</var>
+		 </resource-bundle>
+		  <resource-bundle>
+		  	<base-name>com.unicomer.inhouse.parameters.Parameters</base-name>
+		  	<var>Params</var>
+		  </resource-bundle>
+	 </application>
+	 
+ <factory>
+    <exception-handler-factory>org.omnifaces.exceptionhandler.FullAjaxExceptionHandlerFactory</exception-handler-factory>
+</factory>
+<lifecycle>
+	<phase-listener>org.omnifaces.eventlistener.ResetInputAjaxActionListener</phase-listener>
+</lifecycle>
+</faces-config>

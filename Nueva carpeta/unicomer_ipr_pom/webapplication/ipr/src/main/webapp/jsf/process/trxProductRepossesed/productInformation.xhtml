@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <h:form id="prod_info_form">
+        <p:panelGrid>
+            <p:row>
+                <p:column  styleClass="em15">
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_upc}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em15">
+                    <p:outputLabel value="#{TrxProductRepossessedController.trxSelected.productSelected.upc}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em15">
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_model}"></p:outputLabel>
+                </p:column>
+                <p:column styleClass="em15">
+                    <p:outputLabel value="#{TrxProductRepossessedController.trxSelected.productSelected.model}"></p:outputLabel>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_brand}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{TrxProductRepossessedController.trxSelected.productSelected.brand}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_quantity}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{TrxProductRepossessedController.trxSelected.productSelected.quantity}"></p:outputLabel>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_color}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu value="#{TrxProductRepossessedController.colorSelected}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{TrxProductRepossessedController.color}" var="color" itemLabel="#{color.label}" itemValue="#{color.value}"></f:selectItems>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_status}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu value="#{TrxProductRepossessedController.statusSelected}" filter="true" filterMatchMode="contains">
+                        <f:selectItems value="#{TrxProductRepossessedController.statusProd}" var="stat" itemLabel="#{stat.label}" itemValue="#{stat.value}"></f:selectItems>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_accesories}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputTextarea maxlength="500" value="#{TrxProductRepossessedController.accesories}"></p:inputTextarea>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_observations}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputTextarea maxlength="500" value="#{TrxProductRepossessedController.obsservations}"></p:inputTextarea>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+        <p:commandButton value="#{BundleIpr.ui_ipr_updateInformation}" actionListener="#{TrxProductRepossessedController.saveEditProductProp()}" update="prod_info_form :mainTab:transactionDetailForm:tdf-table"></p:commandButton>
+    </h:form>
+</html>

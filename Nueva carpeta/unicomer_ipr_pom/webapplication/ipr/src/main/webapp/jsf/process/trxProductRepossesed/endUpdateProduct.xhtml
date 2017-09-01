@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+        <h:form id="finish-form">
+            <p:commandButton value="#{BundleIpr.ui_ipr_finishEdit}" onclick="PF('dlg-confirmSelectedProducts-wb').show()"></p:commandButton>
+            <p:dataTable id="finish-table" value="#{TrxProductRepossessedController.productsToFinish}" 
+                         var="prd"
+                         >
+                <f:facet name="header">#{BundleIpr.ui_ipr_repossessedProducts}</f:facet>
+                <p:column headerText="#{BundleIpr.ui_ipr_upc}">
+                    <p:outputLabel value="#{prd.upc}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_brand}">
+                    <p:outputLabel value="#{prd.brand}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_model}">
+                    <p:outputLabel value="#{prd.model}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_quantity}">
+                    <p:outputLabel value="#{prd.quantity}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_color}">
+                    <p:outputLabel value="#{prd.color}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_status}">
+                    <p:outputLabel value="#{prd.status}">
+                    </p:outputLabel>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </body>
+</html>

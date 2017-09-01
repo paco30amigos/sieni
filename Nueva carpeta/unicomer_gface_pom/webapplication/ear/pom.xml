@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.unicomer.inhouse</groupId>
+		<artifactId>unicomer_gface_webapplication</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<artifactId>unicomer_gface_webapplication_ear</artifactId>
+	<packaging>ear</packaging>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.unicomer.inhouse</groupId>
+			<artifactId>unicomer_gface_webapplication_gface</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.10.1</version>
+				<configuration>
+					<fileNameMapping>no-version</fileNameMapping>
+					<finalName>${project.artifactId}</finalName>
+					<defaultLibBundleDir>APP-INF/lib</defaultLibBundleDir>
+					<modules>
+						<webModule>
+							<groupId>com.unicomer.inhouse</groupId>
+							<artifactId>unicomer_gface_webapplication_gface</artifactId>
+							<contextRoot>/gface</contextRoot>
+						</webModule>
+					</modules>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.oracle.weblogic</groupId>
+				<artifactId>weblogic-maven-plugin</artifactId>
+				<configuration>
+					<adminurl>t3://localhost:7001</adminurl>
+					<user>weblogic</user>
+					<password>administrador1</password>
+					<upload>true</upload>
+					<isLibrary>false</isLibrary>
+					<action>deploy</action>
+					<remote>false</remote>
+					<verbose>true</verbose>
+                    <targets>WebServer</targets>
+					<source>target/${project.artifactId}.${project.packaging}</source>
+					<name>${project.artifactId}</name>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <body>
+        <h:form id="selectProductForm">
+            <p:panelGrid columns="4">
+                <p:outputLabel for="spf-accNum" value="#{BundleIpr.ui_ipr_accNum}"></p:outputLabel>
+                <p:inputText id="spf-accNum" value="#{SelectedProductRepossessedController.searchFields.accNum}"></p:inputText>
+                <p:outputLabel for="spf-trxNum" value="#{BundleIpr.ui_ipr_trxNum}"></p:outputLabel>
+                <p:inputText id="spf-trxNum" value="#{SelectedProductRepossessedController.searchFields.trxNum}"></p:inputText>
+                <p:outputLabel for="spf-mainIdeNum" value="#{BundleIpr.ui_ipr_mainIdeNum}"></p:outputLabel>
+                <p:inputText id="spf-mainIdeNum" value="#{SelectedProductRepossessedController.searchFields.mainIdeNum}"></p:inputText>
+                <p:outputLabel for="spf-fiscalIde" value="#{BundleIpr.ui_ipr_fiscalIde}"></p:outputLabel>
+                <p:inputText id="spf-fiscalIde" value="#{SelectedProductRepossessedController.searchFields.fiscalIde}"></p:inputText>
+                <p:outputLabel for="dateMin" value="#{BundleIpr.ui_ipr_dateMin}"></p:outputLabel>
+                <p:calendar required="true" id="dateMin" value="#{SelectedProductRepossessedController.searchFields.dateMin}" pattern="dd/MM/yyyy"  maxdate="#{SelectedProductRepossessedController.currentDate}"
+                            requiredMessage="#{BundleIpr.ui_ipr_dateMinRequired}">
+                    <p:ajax event="dateSelect" update="dateMax" process="@this"/>
+                </p:calendar>
+                <p:outputLabel for="dateMax" value="#{BundleIpr.ui_ipr_dateMax}"></p:outputLabel>
+                <p:calendar required="true" id="dateMax" value="#{SelectedProductRepossessedController.searchFields.dateMax}" pattern="dd/MM/yyyy"
+                            mindate="#{SelectedProductRepossessedController.searchFields.dateMin}" maxdate="#{SelectedProductRepossessedController.currentDate}"
+                            requiredMessage="#{BundleIpr.ui_ipr_dateMaxRequired}"></p:calendar>
+            </p:panelGrid>
+            <p:commandButton value="#{BundleIpr.ui_ipr_search}" actionListener="#{SelectedProductRepossessedController.search()}" update="spf-table :mainTab" oncomplete="PF('spf-table-wv').clearFilters()"></p:commandButton>
+            <p:commandButton value="#{BundleIpr.ui_ipr_DetTrx}" actionListener="#{SelectedProductRepossessedController.showTransactionDetail()}" update=":mainTab"></p:commandButton>
+            <p:dataTable id="spf-table" value="#{SelectedProductRepossessedController.selectedProductRepossessedModel}" 
+                         var="trx" 
+                         rowKey="#{trx.trxNum}" 
+                         selection="#{SelectedProductRepossessedController.trxSelected}"
+                         widgetVar="spf-table-wv"
+                         selectionMode="single"
+                         paginator="true" 
+                         rows="5" 
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15"
+                         >
+
+                <p:ajax event="filter" ignoreAutoUpdate="true" />
+                <f:facet name="header">#{BundleIpr.ui_ipr_trx}</f:facet>
+                <p:column headerText="#{BundleIpr.ui_ipr_accNum}" filterMatchMode="contains" filterBy="#{trx.accNum}">
+                    <p:outputLabel value="#{trx.accNum}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_trxNum}" filterMatchMode="contains" filterBy="#{trx.trxNum}">
+                    <p:outputLabel value="#{trx.trxNum}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_mainIdeNum}" filterMatchMode="contains" filterBy="#{trx.mainIdeNum}">
+                    <p:outputLabel value="#{trx.mainIdeNum}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_fiscalIde}" filterMatchMode="contains" filterBy="#{trx.fiscalIde}">
+                    <p:outputLabel value="#{trx.fiscalIde}">
+                    </p:outputLabel>
+                </p:column>
+                <p:column headerText="#{BundleIpr.ui_ipr_lastLocation}" filterMatchMode="contains" filterBy="#{trx.lastLocation}">
+                    <p:outputLabel value="#{trx.lastLocation}">
+                    </p:outputLabel>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </body>
+</html>

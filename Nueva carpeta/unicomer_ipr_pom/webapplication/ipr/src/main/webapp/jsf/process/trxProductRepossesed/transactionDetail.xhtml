@@ -1,0 +1,130 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:form id="transactionDetailForm">
+        <p:panelGrid>
+            <p:row>
+                <p:column>
+                    <p:outputLabel for="tdf-trxNum" value="#{BundleIpr.ui_ipr_trxNum}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputText id="tdf-trxNum" value="#{TrxProductRepossessedController.trxSelected.trxNum}" readonly="true"></p:inputText>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_creditNoteNumber}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputText id="tdf-creditNoteNumber" value="#{TrxProductRepossessedController.trxSelected.creditNoteNumber}" readonly="true"></p:inputText>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_accNum}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputText id="tdf-accNum" value="#{TrxProductRepossessedController.trxSelected.accNum}" readonly="true"></p:inputText>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_FarNumber}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputText id="tdf-farNumber" value="#{TrxProductRepossessedController.trxSelected.farNumber}" readonly="true"></p:inputText>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_trxDate}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputText id="tdf-trxDate" value="#{TrxProductRepossessedController.trxSelected.trxDate}" readonly="true">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </p:inputText>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_transactionAmount} #{TrxProductRepossessedController.trxSelected.currency}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputText id="tdf-transactionAmount" value="#{TrxProductRepossessedController.trxSelected.currencySimbol} #{TrxProductRepossessedController.trxSelected.transactionAmount}" readonly="true"></p:inputText>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_storeCode}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputText id="tdf-storeCode" value="#{TrxProductRepossessedController.trxSelected.storeRiCode}" readonly="true"></p:inputText>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_storeName}"></p:outputLabel>
+                </p:column>
+                <p:column>
+                    <p:inputText id="tdf-storeName" value="#{TrxProductRepossessedController.trxSelected.storeName}" readonly="true"></p:inputText>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="1">
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_storeResponsable}"></p:outputLabel>
+                </p:column>
+                <p:column colspan="3">
+                    <p:inputText id="tdf-storeResponsable" value="#{TrxProductRepossessedController.trxSelected.storeResponsable}" readonly="true" style="width: 100%"></p:inputText>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="1">
+                    <p:outputLabel value="#{BundleIpr.ui_ipr_customerName}"></p:outputLabel>
+                </p:column>
+                <p:column colspan="3">
+                    <p:inputText id="tdf-customerName" value="#{TrxProductRepossessedController.trxSelected.customerName}" readonly="true" style="width: 100%"></p:inputText>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+
+        <p:dataTable id="tdf-table" value="#{TrxProductRepossessedController.trxSelected.productList}" 
+                     selectionMode="single"
+                     selection="#{TrxProductRepossessedController.trxSelected.productSelected}" var="prd"
+                     rowKey="#{prd.lineItemId}"
+                     >
+            <p:ajax event="filter" ignoreAutoUpdate="true" />
+            <f:facet name="header">#{BundleIpr.ui_ipr_repossessedProducts}</f:facet>
+            <p:ajax event="rowSelect" update=":mainTab:prodInfoTab" listener="#{TrxProductRepossessedController.onRowProductSelect()}" ></p:ajax>
+            <p:column headerText="#{BundleIpr.ui_ipr_upc}">
+                <p:outputLabel value="#{prd.upc}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_brand}">
+                <p:outputLabel value="#{prd.brand}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_model}">
+                <p:outputLabel value="#{prd.model}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_quantity}">
+                <p:outputLabel value="#{prd.quantity}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_color}">
+                <p:outputLabel value="#{prd.color}">
+                </p:outputLabel>
+            </p:column>
+            <p:column headerText="#{BundleIpr.ui_ipr_status}">
+                <p:outputLabel value="#{prd.status}">
+                </p:outputLabel>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+    <p:tabView id="prodInfoTab">
+        <p:tab title="#{BundleIpr.ui_ipr_productInformation}">
+            <ui:include src="productInformation.xhtml"></ui:include>
+        </p:tab>
+        <p:tab title="#{BundleIpr.ui_ipr_locations}">
+            <ui:include src="locationsHist.xhtml"></ui:include>
+        </p:tab>
+    </p:tabView>
+
+    <ui:include src="newLocation.xhtml"></ui:include>
+    <ui:include src="editLocation.xhtml"></ui:include>
+
+</html>

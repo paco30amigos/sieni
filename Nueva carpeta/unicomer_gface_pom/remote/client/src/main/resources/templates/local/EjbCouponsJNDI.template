@@ -1,0 +1,6 @@
+package com.unicomer.inhouse.coupons.util;
+
+public class EjbCouponsJNDI {
+	public static final String JNDI_BASE = "java:global/unicomer_coupons_ear/unicomer_coupons_ejb";
+	public static final String EJB_CpnCouponEjbImpl = JNDI_BASE + "/CpnCouponEjbImpl!com.unicomer.inhouse.coupons.ejb.CpnCouponEjb";
+}

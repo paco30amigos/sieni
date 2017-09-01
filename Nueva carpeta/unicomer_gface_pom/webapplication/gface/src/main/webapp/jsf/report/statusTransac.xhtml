@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition template="/common/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <ui:define name="windowTitle">
+        <h:outputText value="#{Bundle.ui_index_window_title}" />
+    </ui:define>
+
+    <ui:define name="menuBar">
+        <ui:include src="/common/application_menuTab.xhtml" />
+        <ui:include src="/common/module_menuTab.xhtml" />
+    </ui:define>		
+    <ui:define name="menu">
+        <ui:include src="/common/option_menu.xhtml" />
+    </ui:define>	
+    <ui:define name="body">
+            <p:tabView id="reportTaxbook">
+                <p:tab title="#{Bundlegface.gface_moduleStatus}" >
+                    <h:form id="rep-status-status">				
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{Bundlegface.gface_rpt_docType}"></p:outputLabel>
+                            <p:selectOneMenu id="docType" value="#{GfaceReportController.typeDoc}">
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_docTypeCFACE}" itemValue="FCACE" />
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_docTypeCNC}" itemValue="CNC" />
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_docTypeCND}" itemValue="CND" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{Bundlegface.gface_docDate}"></p:outputLabel>
+                            <p:outputPanel>
+                                <p:calendar value="#{GfaceReportController.stDate}"  maxdate="#{GfaceReportController.fechaActual}">
+                                 <p:ajax
+			                        event="dateSelect"
+			                        update=":reportTaxbook:rep-status-status:calEndDate" 
+			                        />
+			                     </p:calendar>
+                                <p:calendar id="calEndDate" value="#{GfaceReportController.endDate}" mindate="#{GfaceReportController.stDate}" maxdate="#{GfaceReportController.fechaActual}" ></p:calendar>
+                            </p:outputPanel>
+                            <p:outputLabel value="#{Bundlegface.gface_serie}"></p:outputLabel>
+                            <p:inputText value="#{GfaceReportController.serie}" ></p:inputText>
+                            <p:outputLabel value="#{Bundlegface.gface_number}"></p:outputLabel>
+                            <p:inputText value="#{GfaceReportController.numero}" ></p:inputText>
+                            <p:outputLabel value="#{Bundlegface.gface_rptNitCustomer}"></p:outputLabel>
+                            <p:inputText value="#{GfaceReportController.nitComprador}" ></p:inputText>
+                            <p:outputLabel value="#{Bundlegface.gface_rpt_store}"></p:outputLabel>
+                            <p:inputText value="#{GfaceReportController.tienda}" ></p:inputText>
+                            <h:outputLabel value="#{Bundlegface.gface_rpt_status}:" for="status" />
+                            <p:selectOneMenu id="status" value="#{GfaceReportController.status}" required="true" requiredMessage="#{Bundle.ui_msg_requiredField} #{Bundlegface.reportFormat}">
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_statusPendingValidation}" itemValue="0" />
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_statusReadyToSend}" itemValue="1"  />
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_statusSendSucces}" itemValue="2"  />
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_statusAutoriced}" itemValue="3"  />
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_statusValidationInProcess}" itemValue="4"  />
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_statusInvalidExternalErrors}" itemValue="-2"  />
+                                <f:selectItem itemLabel="#{Bundlegface.gface_rpt_statusInvalidInternalErrors}" itemValue="-1"  />
+                            </p:selectOneMenu>
+                            <h:outputLabel value="#{Bundlegface.gface_rpt_format}:" />
+                            <p:selectOneMenu id="som-rep-format" value="#{GfaceReportController.reportFormat}" required="true" requiredMessage="#{Bundle.ui_msg_requiredField} #{Bundlegface.gface_rpt_format}">
+                                <f:selectItem itemLabel="EXCEL" itemValue="excel"/>
+                            </p:selectOneMenu>									
+                        </p:panelGrid>
+                        <p:commandButton id="downloadLink" value="#{Bundlegface.gface_rpt_download}" ajax="false" onclick="PrimeFaces.monitorDownload(null, function () {
+                                    $('#messages').css('display', 'none');
+                                    $('.ui-state-error').removeClass('ui-state-error');
+                                })"   
+                                         icon="ui-icon-arrowthichk-s" >  
+                            <p:fileDownload  value="#{GfaceReportController.reportStatus}" />  
+                        </p:commandButton> 			
+                    </h:form>								
+                </p:tab>
+            </p:tabView>       
+    </ui:define>
+    <ui:define name="messages">
+        <p:messages id="messages" showDetail="true"  autoUpdate="true"/>
+    </ui:define>
+
+</ui:composition>
+

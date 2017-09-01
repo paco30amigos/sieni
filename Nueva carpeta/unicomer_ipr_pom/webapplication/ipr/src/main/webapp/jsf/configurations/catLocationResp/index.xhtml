@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<ui:composition template="/common/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" >
+    <ui:define name="windowTitle">
+        <h:outputText value="#{Bundle.ui_index_window_title}" />
+    </ui:define>
+
+    <ui:define name="menuBar">
+        <h:outputStylesheet library="awesome/css" name="font-awesome.css" />
+        <ui:include src="/common/application_menuTab.xhtml" />
+        <ui:include src="/common/module_menuTab.xhtml" />
+    </ui:define>		
+    <ui:define name="menu">
+        <ui:include src="/common/option_menu.xhtml" />
+    </ui:define>
+    <ui:define name="body">
+        <ui:include src="new.xhtml"></ui:include>
+        <ui:include src="edit.xhtml"></ui:include>
+        <p:tabView id="mainTab">
+            <p:tab title="#{BundleIpr.ui_ipr_locationCat}">
+                <h:form id="selectProductForm">
+                    <p:commandButton value="#{BundleIpr.ui_ipr_add}" actionListener="#{CatLocationRespController.newLocationResponsable()}" update=":new_dlg"></p:commandButton>
+                    <p:commandButton value="#{BundleIpr.ui_ipr_edit}" actionListener="#{CatLocationRespController.editLocationResponsable()}" update=":edit_dlg"></p:commandButton>
+                    <p:dataTable id="loc-table" 
+                                 value="#{CatLocationRespController.locationResp}" 
+                                 var="loc" 
+                                 widgetVar="loc-wv"
+                                 selectionMode="single"
+                                 selection="#{CatLocationRespController.locationRespSelected}"
+                                 rowKey="#{loc.iprLocationResp.locationId}"
+                                 paginator="true" 
+                                 rows="5" 
+                                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 >
+                        <p:ajax event="filter" ignoreAutoUpdate="true" />
+                        <f:facet name="header">#{BundleIpr.ui_ipr_locations}</f:facet>
+                        <p:column headerText="#{BundleIpr.ui_ipr_locationCode}" filterBy="#{loc.locationCode}" filterMatchMode="contains">
+                            <p:outputLabel value="#{loc.locationCode}"></p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_locationName}" filterBy="#{loc.locationName}" filterMatchMode="contains">
+                            <p:outputLabel value="#{loc.locationName}"></p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_responsableType}" filterBy="#{loc.responsableType}" filterMatchMode="contains">
+                            <p:outputLabel value="#{loc.responsableType}"></p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_responsableCode}" filterBy="#{loc.responsableCode}" filterMatchMode="contains">
+                            <p:outputLabel value="#{loc.responsableCode}"></p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_responsable}" filterBy="#{loc.responsableName}" filterMatchMode="contains">
+                            <p:outputLabel value="#{loc.responsableName}"></p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_responsableRole}" filterBy="#{loc.responsableRole}" filterMatchMode="contains">
+                            <p:outputLabel value="#{loc.responsableRole}"></p:outputLabel>
+                        </p:column>
+                        <p:column headerText="#{BundleIpr.ui_ipr_active}" filterBy="#{loc.active}" filterMatchMode="contains">
+                            <p:outputLabel value="#{loc.active}"></p:outputLabel>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+    <ui:define name="messages">
+        <p:messages id="messages" showDetail="true"  autoUpdate="true"/>
+    </ui:define>
+</ui:composition>
+

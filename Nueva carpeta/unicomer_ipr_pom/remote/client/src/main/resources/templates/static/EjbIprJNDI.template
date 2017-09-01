@@ -1,0 +1,14 @@
+package com.unicomer.opos.inhouse.ipr.util;
+
+public class EjbIprJNDI {
+
+    public static final String JNDI_EJB_SEC = "java:global/UnicomerEnterpriseSecurity/Ejb-Security";
+    public static final String JNDI_EJB_OTH = "java:global/UnicomerEnterpriseOthers/Ejb-AdminHoth";
+    public static final String JNDI_EJB_SEC_HR = "java:global/UnicomerEnterpriseSecurity/Ejb-Hr";
+    public static final String JNDI_EJB_SCHEDULER = "java:global/unicomer_scheduler-ear/unicomer_scheduler-ejb";
+
+    public static final String EJB_BASE = "java:global/unicomer_ipr-ear/unicomer_ipr-ejb";
+    public static final String EJB_IprOthersMigrationEjbRemote = EJB_BASE + "/IprOthersMigrationEjbLocalImpl!com.unicomer.ejb.opos.inhouse.ipr.IprOthersMigrationEjbRemote";
+    public static final String EJB_IprSendDataToRiEjbRemote = EJB_BASE + "/IprSendDataToRiEjbRemoteImpl!com.unicomer.ejb.opos.inhouse.ipr.IprSendDataToRiEjbRemote";
+
+}

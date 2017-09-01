@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <p:tabView id="tabViewSelectionConfig" activeIndex="#{generator.currentTab}">
+            <p:ajax event="tabChange" update=":tabViewSelectionConfig:finalScript" listener="#{generator.resetFinalScripts()}" />
+            <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_schemaConfig}">
+                <h:form id="squemaConfig">
+                    <p:panelGrid columns="2" layout="grid">
+                        <p:outputLabel value="#{BundlePsdisr.ui_psdisr_selectionConfig_schemaToCompare}"/>
+                        <p:inputText value="#{generator.squemaVal.name}" />
+                        <p:commandButton icon="fa fa-plus" title="#{BundlePsdisr.ui_psdisr_configOrigDest_addTarget}" update="schemaOut @parent"  action="#{generator.reinit}">
+                            <p:collector value="#{generator.squemaVal}" addTo="#{generator.squemaTable}" unique="true"/>
+                        </p:commandButton>
+                    </p:panelGrid>
+                    <p:outputPanel id="schemaOut">
+                        <p:dataTable id="schemaTable" value="#{generator.squemaTable}" var="schema" reflow="true" editable="true" editMode="cell">
+                            <p:column headerText="#{BundlePsdisr.ui_psdisr_selectionConfig_schema}">
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{schema.name}" /></f:facet>
+                                    <f:facet name="input"><p:inputTextarea value="#{schema.name}" style="width:100%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column style="width: 50px">
+                                <p:commandButton icon="fa fa-trash" title="#{BundlePsdisr.ui_psdisr_configOrigDest_delete}" update=":tabViewSelectionConfig:squemaConfig:schemaOut">
+                                    <p:collector value="#{schema}" removeFrom="#{generator.squemaTable}" unique="true"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:outputPanel>
+                </h:form>
+            </p:tab>
+            <p:tab title="#{BundlePsdisr.ui_psdisr_globalConfig_filterSelection}">
+                <h:form id="selectionConfig">
+                    <p:panelGrid columns="1" layout="grid">
+                        <p:selectBooleanButton value="#{generator.selectAllselectionConfig}" offLabel="Seleccionar todos" onLabel="Deseleccionar todos">
+                            <p:ajax event="valueChange" listener="#{generator.selectionConfigBooleanAction()}" update="selectionConfigItems"/>
+                        </p:selectBooleanButton>
+                        <p:selectManyCheckbox id="selectionConfigItems" value="#{generator.selectionConfigItemsSelected}" layout="grid" columns="2">
+                            <p:ajax event="valueChange" listener="#{generator.updateData()}"/> 
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_selectionConfig_diferentTables}" itemValue="#{generator.constantes.f_GET_DIFERENT_TABLES}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_selectionConfig_diferentColumns}" itemValue="#{generator.constantes.f_GET_DIFERENT_COLUMNS}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_selectionConfig_diferentSequences}" itemValue="#{generator.constantes.f_GET_DIFERENT_SEQUENCES}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_selectionConfig_diferentPk}" itemValue="#{generator.constantes.f_GET_DIFERENT_PK}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_selectionConfig_diferentFK}" itemValue="#{generator.constantes.f_GET_DIFERENT_FK}"/>
+                        </p:selectManyCheckbox> 
+                        <p:commandButton icon="fa fa-search" title="#{BundlePsdisr.ui_psdisr_selectionConfig_searchDiferences}" actionListener="#{generator.findDiferences()}" update=":tabViewSelectionConfig"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+            <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_found}">
+                <h:form id="resultSelectionConfig">
+                    <p:treeTable value="#{generator.root}" var="elements" resizableColumns="true" styleClass="fixed-size" selectionMode="checkbox" selection="#{generator.selectedNodes}" >
+                        <p:ajax event="select" listener="#{generator.updateData()}" />
+                        <p:ajax event="unselect" listener="#{generator.updateData()}" />
+                        <p:column headerText="#{BundlePsdisr.ui_psdisr_selectionConfig_objectType}">
+                            #{elements.objectType}
+                        </p:column>
+                        <p:column headerText="#{BundlePsdisr.ui_psdisr_selectionConfig_objectName}">
+                            #{elements.name}
+                        </p:column>
+                        <p:column headerText="#{BundlePsdisr.ui_psdisr_selectionConfig_objectAction}">
+                            #{elements.action}
+                        </p:column>
+                        <p:column style="width: 50px">
+                            <p:commandButton icon="fa fa-list-alt" title="#{BundlePsdisr.ui_psdisr_selectionConfig_objectDetail}" actionListener="#{generator.getDetails(elements)}" update=":selectionConfigDlgDetail"/>
+                        </p:column>
+                    </p:treeTable>
+                </h:form>
+            </p:tab>
+            <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_finalScript}">
+                <h:form id="finalScript">
+                    <p:panelGrid layout="grid" columns="1">
+                        <p:selectOneMenu value="#{generator.targetSelected}">
+                            <p:ajax event="valueChange" update="finalScript" listener="#{generator.setFinalScripts()}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_selectionConfig_selectTarget}" itemValue="" />
+                            <f:selectItems value="#{generator.tableTarget}" var="tar" itemLabel="#{tar.name}" itemValue="#{tar.name}" />
+                        </p:selectOneMenu>
+                        <p:tabView>
+                            <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_script}">
+                                <p:textEditor value="#{generator.finalScript}"  height="300"></p:textEditor> 
+                            </p:tab>
+                            <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_comments}">
+                                <p:textEditor value="#{generator.finalCommentsScript}"  height="300"></p:textEditor> 
+                            </p:tab>
+                        </p:tabView>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+        <p:dialog id="selectionConfigDlgDetail" widgetVar="selectionConfigDlgDetail" modal="true" fitViewport="true" appendTo="@(body)">
+            <p:tabView id="selectionConfigDlgTabView" activeIndex="#{generator.currentDetailTab}">
+                <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_changeDetail}">
+                    <h:form>
+                        <p:dataTable value="#{generator.columns}" var="col" rowIndexVar="colIndex">
+                            <p:column>
+                                #{col}
+                            </p:column>
+                            <p:column headerText="#{BundlePsdisr.ui_psdisr_configOrigDest_source}">
+                                #{generator.source.values[colIndex]}
+                            </p:column>
+                            <p:column headerText="#{BundlePsdisr.ui_psdisr_configOrigDest_target}">
+                                #{generator.target.values[colIndex]}
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:tab>
+                <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_scriptNode}">
+                    <p:textEditor value="#{generator.detSelected.completeScript}" height="300" >
+                    </p:textEditor>
+                </p:tab>
+                <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_comments}">
+                    <p:textEditor value="#{generator.detSelected.completeCommentScript}" height="300" >
+                    </p:textEditor>
+                </p:tab>
+                <p:tab title="#{BundlePsdisr.ui_psdisr_selectionConfig_setMaxTableColumnToSequence}" rendered="#{generator.enableSequenceTableMaxVal}">
+                    <h:form id="setMaxTableValSeq">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="#{BundlePsdisr.ui_psdisr_selectionConfig_sequenceName}" />
+                            <p:outputLabel value="#{generator.detSelected.name}"/>
+                            <p:outputLabel value="#{BundlePsdisr.ui_psdisr_selectionConfig_tableName}" />
+                            <p:selectOneMenu value="#{generator.tableHSelected}" filter="true" filterMatchMode="contains">
+                                <p:ajax event="valueChange" listener="#{generator.refreshTableColumns()}" update="fsetMaxTableValSeqColumns"/>
+                                <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_selectionConfig_selectTable}" itemValue=""/>
+                                <f:selectItems value="#{generator.tableC}" var="t" itemLabel="#{t.table.tableName}" itemValue="#{t.table.tableName}" />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{BundlePsdisr.ui_psdisr_selectionConfig_column}" />
+                            <p:selectOneMenu id="fsetMaxTableValSeqColumns" value="#{generator.columnHSelected}" filter="true" filterMatchMode="contains">
+                                <p:ajax event="valueChange" update="generateSeq"/>
+                                <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_selectionConfig_selectColumn}" itemValue="" />
+                                <f:selectItems value="#{generator.columnC}" var="c" itemLabel="#{c.column.columnName}" itemValue="#{c.column.columnName}" /> 
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{BundlePsdisr.ui_psdisr_selectionConfig_setMaxTableColumnToSequence}"/>
+                            <p:outputLabel id="maxColVal" value="#{generator.maxColValue}"/>
+                        </p:panelGrid>
+                        <p:panelGrid layout="grid" columns="2">
+                            <p:commandButton id="searchMaxColVal" value="#{BundlePsdisr.ui_psdisr_selectionConfig_searchMaxValue}" actionListener="#{generator.searchMaxColValForSequence()}" update="maxColVal" />
+                            <p:commandButton id="generateSeq" value="#{BundlePsdisr.ui_psdisr_selectionConfig_updateSequence}" actionListener="#{generator.updateSequenceScript()}" update="selectionConfigDlgTabView :tabViewSelectionConfig:resultSelectionConfig" />
+                        </p:panelGrid>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+        </p:dialog>
+    </h:body>
+</html>
+

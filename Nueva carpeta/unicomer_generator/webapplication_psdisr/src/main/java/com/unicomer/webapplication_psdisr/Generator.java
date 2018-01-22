@@ -574,6 +574,11 @@ public class Generator extends GeneratorForm implements Serializable {
             this.getTableTargetH().put(getTargetVal().getName(), getTargetVal());
         }
         this.setTargetVal(new ConnectionData());
+        this.setSquemaVal(new SchemaPojo());
+        return null;
+    }
+    public String reinitSchemaVal() {
+        this.setSquemaVal(new SchemaPojo());
         return null;
     }
 

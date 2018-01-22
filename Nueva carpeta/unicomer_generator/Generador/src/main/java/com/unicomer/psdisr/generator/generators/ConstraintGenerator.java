@@ -80,7 +80,7 @@ public class ConstraintGenerator {
                 if ((evaluateFilters != null && evaluateFilters)) {
                     //si se ha seleccionado el parametro para eliminar columnas que no existen en origen
                     String dropConstraintQuery = properties.getProperty(Constants.Q_CONSTRAINT_DROP_QUERY);
-                    actualScript = new StringBuilder(origenActual.getConstraint().dropConstraintScript(dropConstraintQuery, origenActual.getConstraint().getPkColumnName()))
+                    actualScript = new StringBuilder(origenActual.getConstraint().dropConstraintScript(dropConstraintQuery, origenActual.getConstraint().getConstraintName()))
                             .append(Constants.QUERY_LINE_END);
                     query.append(actualScript);
                     origenActual.setScript(actualScript);
@@ -99,12 +99,13 @@ public class ConstraintGenerator {
                     if ((evaluateFilters != null && evaluateFilters)) {
                         //eliminar constraint, para sobreescribirlo despues
                         String dropConstraintQuery = properties.getProperty(Constants.Q_CONSTRAINT_DROP_QUERY);
-                        query.append(origenActual.getConstraint().dropConstraintScript(dropConstraintQuery, origenActual.getConstraint().getPkColumnName()))
+                        actualScript=new StringBuilder(origenActual.getConstraint().dropConstraintScript(dropConstraintQuery, origenActual.getConstraint().getConstraintName()))
                                 .append(Constants.QUERY_LINE_END);
+                        query.append(actualScript);
 
                         //crear nuevo constraint, con los parametros correctos
                         String createConstraint = properties.getProperty(Constants.Q_CONSTRAINT_CREATE_PK_QUERY);
-                        actualScript = new StringBuilder(origenActual.getConstraint().createPkScript(createConstraint))
+                        actualScript.append(origenActual.getConstraint().createPkScript(createConstraint))
                                 .append(Constants.QUERY_LINE_END);
                         query.append(actualScript);
                         origenActual.setScript(actualScript);
@@ -129,7 +130,7 @@ public class ConstraintGenerator {
                     //crear alter de columna
                     String dropConstraintQuery = properties.getProperty(Constants.Q_CONSTRAINT_DROP_QUERY);
                     actualScript = new StringBuilder(destinoActual.getConstraint().dropConstraintScript(dropConstraintQuery,
-                            destinoActual.getConstraint().getPkColumnName()))
+                            destinoActual.getConstraint().getConstraintName()))
                             .append(Constants.QUERY_LINE_END);
                     query.append(actualScript);
                     destinoActual.setScript(actualScript);
@@ -203,7 +204,7 @@ public class ConstraintGenerator {
                 if ((evaluateFilters != null && evaluateFilters)) {
                     //si se ha seleccionado el parametro para eliminar columnas que no existen en origen
                     String dropConstraintQuery = properties.getProperty(Constants.Q_CONSTRAINT_DROP_QUERY);
-                    actualScript = new StringBuilder(origenActual.getConstraint().dropConstraintScript(dropConstraintQuery, origenActual.getConstraint().getPkColumnName()))
+                    actualScript = new StringBuilder(origenActual.getConstraint().dropConstraintScript(dropConstraintQuery, origenActual.getConstraint().getConstraintName()))
                             .append(Constants.QUERY_LINE_END);
                     query.append(actualScript);
                     origenActual.setScript(actualScript);
@@ -222,7 +223,7 @@ public class ConstraintGenerator {
                     if ((evaluateFilters != null && evaluateFilters)) {
                         //eliminar constraint, para sobreescribirlo despues
                         String dropConstraintQuery = properties.getProperty(Constants.Q_CONSTRAINT_DROP_QUERY);
-                        actualScript = new StringBuilder(origenActual.getConstraint().dropConstraintScript(dropConstraintQuery, origenActual.getConstraint().getPkColumnName()))
+                        actualScript = new StringBuilder(origenActual.getConstraint().dropConstraintScript(dropConstraintQuery, origenActual.getConstraint().getConstraintName()))
                                 .append(Constants.QUERY_LINE_END);
 
                         //crear nuevo constraint, con los parametros correctos
@@ -255,7 +256,7 @@ public class ConstraintGenerator {
                     //crear alter de columna
                     String dropConstraintQuery = properties.getProperty(Constants.Q_CONSTRAINT_DROP_QUERY);
                     actualScript = new StringBuilder(destinoActual.getConstraint().dropConstraintScript(dropConstraintQuery,
-                            destinoActual.getConstraint().getPkColumnName()))
+                            destinoActual.getConstraint().getConstraintName()))
                             .append(Constants.QUERY_LINE_END);
                     query.append(actualScript);
                     destinoActual.setScript(actualScript);

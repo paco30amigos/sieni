@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<oracle.dbtools.crest.model.design.relational.RelationalDesign>
+   <object objectType="Table" objectID="37D310A9-14FC-81C2-F47E-D01410DD0443" name="gga_general_data" seqName="seg_0"/>
+   <object objectType="Table" objectID="82AF952F-4E9C-4196-3283-4F52883BA6BB" name="gga_generaldata_link" seqName="seg_0"/>
+   <object objectType="Table" objectID="AB0BBB1D-D63C-0B7E-1C79-2086E3BBD31B" name="gga_link" seqName="seg_0"/>
+   <object objectType="Table" objectID="EA4FA8B9-3F57-9CA8-D036-467392D343E9" name="gga_link_extra_data" seqName="seg_0"/>
+   <object objectType="Table" objectID="437CD55B-0075-FBA6-3FF7-DDC6A93D7BA9" name="gga_playlist" seqName="seg_0"/>
+   <object objectType="Table" objectID="450ACF1D-08EA-3739-9334-124048440600" name="gga_playlist_link" seqName="seg_0"/>
+   <object objectType="FKIndexAssociation" objectID="FD21FF60-DD38-07B2-1CD2-9E744F57B314" name="gdatalink_gdata_FK" seqName="seg_0" containerID="82AF952F-4E9C-4196-3283-4F52883BA6BB" refContainerID="37D310A9-14FC-81C2-F47E-D01410DD0443"/>
+   <object objectType="FKIndexAssociation" objectID="8E1B8E5B-C2F5-7295-1CCF-1B7902729317" name="backlink_FK" seqName="seg_0" containerID="82AF952F-4E9C-4196-3283-4F52883BA6BB" refContainerID="82AF952F-4E9C-4196-3283-4F52883BA6BB"/>
+   <object objectType="FKIndexAssociation" objectID="2BEFF664-7902-B3FD-621D-5033ED769DEE" name="nextlink_FK" seqName="seg_0" containerID="82AF952F-4E9C-4196-3283-4F52883BA6BB" refContainerID="82AF952F-4E9C-4196-3283-4F52883BA6BB"/>
+   <object objectType="FKIndexAssociation" objectID="211654D0-353F-91C5-2C8E-C8F45A9F5272" name="gdatalink_link_FK" seqName="seg_0" containerID="82AF952F-4E9C-4196-3283-4F52883BA6BB" refContainerID="AB0BBB1D-D63C-0B7E-1C79-2086E3BBD31B"/>
+   <object objectType="FKIndexAssociation" objectID="E59A5821-3FD5-0C65-8C10-75C8561EFA09" name="linkextradata_link_FK" seqName="seg_0" containerID="EA4FA8B9-3F57-9CA8-D036-467392D343E9" refContainerID="AB0BBB1D-D63C-0B7E-1C79-2086E3BBD31B"/>
+   <object objectType="FKIndexAssociation" objectID="C871CCA7-C8AA-11A9-75CA-338304F4B526" name="playlist_generaldata_FK" seqName="seg_0" containerID="437CD55B-0075-FBA6-3FF7-DDC6A93D7BA9" refContainerID="37D310A9-14FC-81C2-F47E-D01410DD0443"/>
+   <object objectType="FKIndexAssociation" objectID="E4140924-51BC-E3B1-2A58-088D7520A584" name="playlistlink_link_FK" seqName="seg_0" containerID="450ACF1D-08EA-3739-9334-124048440600" refContainerID="AB0BBB1D-D63C-0B7E-1C79-2086E3BBD31B"/>
+   <object objectType="FKIndexAssociation" objectID="448EC3E5-0878-0FAF-753A-EAFDBA19C611" name="playlistlink_playlist_FK" seqName="seg_0" containerID="450ACF1D-08EA-3739-9334-124048440600" refContainerID="437CD55B-0075-FBA6-3FF7-DDC6A93D7BA9"/>
+</oracle.dbtools.crest.model.design.relational.RelationalDesign>

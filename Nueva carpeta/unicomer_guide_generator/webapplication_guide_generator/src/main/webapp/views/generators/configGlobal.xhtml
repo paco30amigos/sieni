@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <p:tabView id="tabViewConfigGlobales">
+            <p:tab title="#{BundlePsdisr.ui_psdisr_globalConfig_filterSelection}"> 
+                <h:form id="configGlobales">
+                    <p:panelGrid layout="grid" columns="1">
+                        <p:selectBooleanButton value="#{generator.selectAllGlobalConfig}" offLabel="Seleccionar todos" onLabel="Deseleccionar todos">
+                            <p:ajax event="valueChange" listener="#{generator.selectGlobalItemsBooleanAction()}" update="globalConfigItems"/>
+                        </p:selectBooleanButton>
+                        <p:selectManyCheckbox id="globalConfigItems" value="#{generator.globalConfigItemsSelected}" layout="grid" columns="2">
+                            <p:ajax event="valueChange" listener="#{generator.updateData()}"/> 
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_createAllTables}" itemValue="#{generator.constantes.f_CREATE_ALL_TABLE}" />
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_dropAllTableNotFounOnSource}" itemValue="#{generator.constantes.f_DROP_ALL_TABLE_NOT_FOUND_ON_DEST}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_createAllColumns}" itemValue="#{generator.constantes.f_CREATE_ALL_COLUMN}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_alterAllColumns}" itemValue="#{generator.constantes.f_ALTER_ALL_COLUMN}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_alterAllFk}" itemValue="#{generator.constantes.f_ALTER_ALL_FK}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_createAllColumnsRemarks}" itemValue="#{generator.constantes.f_CREATE_ALL_ALTER_COLUMN_REMARKS}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_allEqualsSequences}" itemValue="#{generator.constantes.f_SET_EQUALS_SEQUENCES}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_createAllSequences}" itemValue="#{generator.constantes.f_CREATE_ALL_SEQUENCE}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_createAllConstraints}" itemValue="#{generator.constantes.f_CREATE_ALL_CONSTRAINT}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_dropAllPkNotFoundOnSource}" itemValue="#{generator.constantes.f_DROP_ALL_PK_NOT_FOUND_ON_ORIG}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_dropAllFkNotFoundOnSource}" itemValue="#{generator.constantes.f_DROP_ALL_FK_NOT_FOUND_ON_ORIG}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_createAllPK}" itemValue="#{generator.constantes.f_CREATE_ALL_PK}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_alterAllPk}" itemValue="#{generator.constantes.f_ALTER_ALL_PK}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_createAllFK}" itemValue="#{generator.constantes.f_CREATE_ALL_FK}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_alterAllFk}" itemValue="#{generator.constantes.f_ALTER_ALL_FK}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_alterNotNullToNull}" itemValue="#{generator.constantes.f_ALTER_COLUMN_NOTNULL_TO_NULL}"/>
+                            <f:selectItem itemLabel="#{BundlePsdisr.ui_psdisr_globalConfig_alterNullToNotNull}" itemValue="#{generator.constantes.f_ALTER_COLUMN_NULL_TO_NOTNULL}"/>
+                        </p:selectManyCheckbox>
+                    </p:panelGrid>
+                </h:form>
+            </p:tab>
+        </p:tabView>
+
+    </h:body>
+</html>
+

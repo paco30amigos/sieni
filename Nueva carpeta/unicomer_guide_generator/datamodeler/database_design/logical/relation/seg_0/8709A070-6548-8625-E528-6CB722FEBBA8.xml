@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="playlist_playlistLink" directorySegmentName="seg_0" id="8709A070-6548-8625-E528-6CB722FEBBA8">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:06:47 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="false"/>
+</engineerTo>
+<sourcePk>5EB74BF9-65DC-D942-7194-C7844532D25A</sourcePk>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>true</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>A2041CFA-5299-FA3B-DB84-FAAEB6F174B2</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>CAFB7F7F-2593-F1ED-9917-8C0E3C131369</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

@@ -1,0 +1,95 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="EA4FA8B9-3F57-9CA8-D036-467392D343E9" name="gga_link_extra_data">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>63859164-9CB3-F779-1391-135589341CA1</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="link_extra_data_id" id="2AF159C2-9911-3043-3737-95BA9C807BE5">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>1D1057BA-9DD0-659B-9263-1D33147E4B90</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="content" id="2E57F254-2B24-59AA-1F08-CBEE9F3A6BC0">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>2C4F7F88-8B2C-A5CE-8A71-9697581EBEC9</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT028</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="show_at" id="FA686B4B-6D2F-C1C1-3BA1-3255232046EF">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>D9805AD5-94B2-7C47-375A-748FFB6CCB29</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="pause_on_show" id="B9C6A961-55FA-5D8D-161F-4518F00370BE">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>1E9AFAA0-7C6C-1CAF-B4F6-4527F1A10659</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="link_id" id="AEC87F25-8F0A-92B3-DDC2-5648CC2AC14A">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>90B1FE54-2321-9C84-F663-CEA020819CE6</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E59A5821-3FD5-0C65-8C10-75C8561EFA09" referredColumn="3DE3F73F-C05A-DB3C-C9FE-4A6C828FC4F7"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="7B3307EB-EC73-42D9-AA93-2154EA5B384E" name="gga_link_extra_data_PK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>9964F19D-85E1-7BB2-AD5B-BF1853AB1F54</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2AF159C2-9911-3043-3737-95BA9C807BE5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="657F6C08-5BF3-28FE-12D5-1E5296E11B07" name="linkextradata_link_FK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>CE5A69E0-F7BA-0E17-625E-0CD470AD975A</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="AEC87F25-8F0A-92B3-DDC2-5648CC2AC14A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,102 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="32FA697F-6B5F-F9F9-4226-60EA2F626DB5" name="gga_generaldata_link">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 17:32:07 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="link_id" id="FDEF4A69-E4BC-D058-6EFC-88109329F30D">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 17:33:58 UTC</createdTime>
+<generatorID>315C4F94-B0C9-C43E-DE08-9EDF9D884D6F</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>9D0D62A3-98C7-BE92-B0F6-2D3C66B78ABD</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Attribute>
+<Attribute name="general_data_id" id="8188A2ED-32EC-62B7-7579-52B036FBD2EC">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 17:35:12 UTC</createdTime>
+<comment>PK</comment>
+<generatorID>39787FF5-6A65-4EC1-63A1-E376A7938AD3</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>DD377539-A314-D61E-E329-864F68338FE5</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Attribute>
+<Attribute name="generaldata_link_id" id="4FF30EDD-A0D5-78BB-A00A-18AFFB4020B0">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 17:36:16 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Attribute>
+<Attribute name="generaldata_link_id1" id="4307289F-0BFC-0A56-1979-864A610B58BE">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 17:37:03 UTC</createdTime>
+<generatorID>60D6CC76-7868-DCC8-7FD7-C9A3FE5DE5DE</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="true"/>
+</engineerTo>
+<referedAttribute>4FF30EDD-A0D5-78BB-A00A-18AFFB4020B0</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Attribute>
+<Attribute name="generaldata_link_id2" id="EFAAFC72-30EE-B9AF-1F0B-5262DE55A33C">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 17:38:06 UTC</createdTime>
+<generatorID>8E67932B-FF1C-F02E-20AF-3D0BCF4BA97A</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="true"/>
+</engineerTo>
+<referedAttribute>4FF30EDD-A0D5-78BB-A00A-18AFFB4020B0</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="7DF4D479-1E5C-BC4E-E8A8-4DFFB09CC5D0" name="gga_generaldata_link PK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 17:36:44 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>4FF30EDD-A0D5-78BB-A00A-18AFFB4020B0</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

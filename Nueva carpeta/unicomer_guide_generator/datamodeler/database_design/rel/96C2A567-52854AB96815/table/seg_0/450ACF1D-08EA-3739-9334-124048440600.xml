@@ -1,0 +1,99 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="450ACF1D-08EA-3739-9334-124048440600" name="gga_playlist_link">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>CAFB7F7F-2593-F1ED-9917-8C0E3C131369</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="playlist_link_id" id="266E44A3-1B9B-486C-37AA-FD7DD2C20D06">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>157A53E4-0394-B29C-20D5-3F93DA47414D</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="playlist_id" id="F91F384F-E5BB-2496-8B63-BF32E6599DAB">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<comment>pk</comment>
+<generatorID>9A5D1795-B5E5-FBA6-DCEE-F5F0A51B9FB1</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="448EC3E5-0878-0FAF-753A-EAFDBA19C611" referredColumn="874A5EF0-4BBE-E80B-84C7-E118D0C0FA4A"/>
+</associations>
+</Column>
+<Column name="link_id" id="ECA14F95-1639-7BA6-D031-28B585C0C2CE">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>BDF976B9-C4DB-7039-753C-4260E60C1AFF</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E4140924-51BC-E3B1-2A58-088D7520A584" referredColumn="3DE3F73F-C05A-DB3C-C9FE-4A6C828FC4F7"/>
+</associations>
+</Column>
+<Column name="order_num" id="4E8167E4-73C8-223B-9D66-8538D4DC9685">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:27:39 UTC</createdTime>
+<generatorID>F71B640B-5438-B2F5-E991-5BBC57D6B7F3</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="FFA39E23-69A5-9644-514B-2CB60FD5B3D6" name="gga_playlist_link_PK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:27:39 UTC</createdTime>
+<generatorID>D1576426-6DD4-331A-40FF-0A3E8BA906BE</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="266E44A3-1B9B-486C-37AA-FD7DD2C20D06"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A5FBA269-C9D8-500D-2F80-DF0499921057" name="playlistlink_link_FK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>954F5CDD-E145-9B97-187D-8E661AD667FA</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ECA14F95-1639-7BA6-D031-28B585C0C2CE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2540EFF7-D812-4B9F-D606-3CB0A0CA2E3A" name="playlistlink_playlist_FK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>8709A070-6548-8625-E528-6CB722FEBBA8</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F91F384F-E5BB-2496-8B63-BF32E6599DAB"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,164 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="82AF952F-4E9C-4196-3283-4F52883BA6BB" name="gga_generaldata_link">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>32FA697F-6B5F-F9F9-4226-60EA2F626DB5</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="generaldata_link_id" id="5073F12B-4563-3C7D-7055-E8004BB3EF03">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>4FF30EDD-A0D5-78BB-A00A-18AFFB4020B0</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="link_id" id="757C033B-5FE2-014E-AC37-F317F8093B0A">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>FDEF4A69-E4BC-D058-6EFC-88109329F30D</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="211654D0-353F-91C5-2C8E-C8F45A9F5272" referredColumn="3DE3F73F-C05A-DB3C-C9FE-4A6C828FC4F7"/>
+</associations>
+</Column>
+<Column name="general_data_id" id="04FF49FC-3612-4609-AB5A-99BE3335CC89">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<comment>PK</comment>
+<generatorID>8188A2ED-32EC-62B7-7579-52B036FBD2EC</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="FD21FF60-DD38-07B2-1CD2-9E744F57B314" referredColumn="BAC04CA4-8BC9-99AD-38BE-EECA346CF935"/>
+</associations>
+</Column>
+<Column name="next_link_id" id="0D153D7E-EEEA-91EF-59BB-F1FFEEF70E21">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>4307289F-0BFC-0A56-1979-864A610B58BE</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2BEFF664-7902-B3FD-621D-5033ED769DEE" referredColumn="5073F12B-4563-3C7D-7055-E8004BB3EF03"/>
+</associations>
+</Column>
+<Column name="back_link_id" id="2840A1E7-496C-0738-966B-809EE4022914">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>EFAAFC72-30EE-B9AF-1F0B-5262DE55A33C</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8E1B8E5B-C2F5-7295-1CCF-1B7902729317" referredColumn="5073F12B-4563-3C7D-7055-E8004BB3EF03"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2927189E-9FFB-C731-5EFB-9011405AE351" name="gga_generaldata_link_PK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>7DF4D479-1E5C-BC4E-E8A8-4DFFB09CC5D0</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="5073F12B-4563-3C7D-7055-E8004BB3EF03"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="428EBFCE-0902-9E82-024D-48A3DF773FF0" name="gga_generaldata_link__IDX">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>8E67932B-FF1C-F02E-20AF-3D0BCF4BA97A</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="2840A1E7-496C-0738-966B-809EE4022914"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="287905F9-FA92-B2BD-95E7-AA03CAC6EAE8" name="gga_generaldata_link__IDXv1">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>60D6CC76-7868-DCC8-7FD7-C9A3FE5DE5DE</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="0D153D7E-EEEA-91EF-59BB-F1FFEEF70E21"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="580E7172-EC8B-879C-0716-BA47FB4A663B" name="backlink_FK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>8E67932B-FF1C-F02E-20AF-3D0BCF4BA97A</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2840A1E7-496C-0738-966B-809EE4022914"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="B427D8BD-3F0B-3315-8305-A83CE56A83D3" name="gdatalink_gdata_FK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>39787FF5-6A65-4EC1-63A1-E376A7938AD3</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="04FF49FC-3612-4609-AB5A-99BE3335CC89"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FFEC627F-8C40-53B7-6A71-357AE67EBB4C" name="gdatalink_link_FK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>315C4F94-B0C9-C43E-DE08-9EDF9D884D6F</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="757C033B-5FE2-014E-AC37-F317F8093B0A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="52D601AE-DC45-78B7-3F5C-43639032EBCD" name="nextlink_FK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-26 18:12:27 UTC</createdTime>
+<generatorID>60D6CC76-7868-DCC8-7FD7-C9A3FE5DE5DE</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0D153D7E-EEEA-91EF-59BB-F1FFEEF70E21"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

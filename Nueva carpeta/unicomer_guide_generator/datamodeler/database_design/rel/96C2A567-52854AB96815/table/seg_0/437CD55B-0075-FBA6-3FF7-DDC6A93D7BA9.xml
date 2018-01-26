@@ -1,0 +1,87 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="437CD55B-0075-FBA6-3FF7-DDC6A93D7BA9" name="gga_playlist">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>A2041CFA-5299-FA3B-DB84-FAAEB6F174B2</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="playlist_id" id="874A5EF0-4BBE-E80B-84C7-E118D0C0FA4A">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<comment>pk</comment>
+<generatorID>F0AAC2F1-7BB8-A7D5-2D80-0124266B0AEC</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="playlist_name" id="3A0C99A2-DA07-E356-2AA2-307E325BD72E">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>C74716D9-1E1D-FB08-94DF-3D5D3B9BF861</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>300</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="is_active" id="1ABA3B07-06D2-20AE-00A3-628DD38E9726">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<comment>Y or N</comment>
+<generatorID>C06092FB-B8AF-3FA4-4ECD-992A62378FD2</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="general_data_id" id="1CFAF8CB-1400-C18A-D9EE-CFC23A0799D1">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<comment>PK</comment>
+<generatorID>475818CA-6C06-D30F-B46B-86BFBFCEAA2F</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="C871CCA7-C8AA-11A9-75CA-338304F4B526" referredColumn="BAC04CA4-8BC9-99AD-38BE-EECA346CF935"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="42039F57-797C-0841-B729-DF3B7614691D" name="gga_playlist_PK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>5EB74BF9-65DC-D942-7194-C7844532D25A</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="874A5EF0-4BBE-E80B-84C7-E118D0C0FA4A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="14BF009B-331D-10E2-9FD5-A289A9F4A01E" name="playlist_generaldata_FK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:23:28 UTC</createdTime>
+<generatorID>36587DBB-55EE-6309-44FD-3EB49B852EDB</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1CFAF8CB-1400-C18A-D9EE-CFC23A0799D1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

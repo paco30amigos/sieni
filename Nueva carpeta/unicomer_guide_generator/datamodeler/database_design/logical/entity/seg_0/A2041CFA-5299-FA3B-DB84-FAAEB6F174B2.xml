@@ -1,0 +1,97 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="A2041CFA-5299-FA3B-DB84-FAAEB6F174B2" name="gga_playlist">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 17:48:50 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="false"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="playlist_id" id="F0AAC2F1-7BB8-A7D5-2D80-0124266B0AEC">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 18:00:59 UTC</createdTime>
+<comment>pk</comment>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="false"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Attribute>
+<Attribute name="playlist_name" id="C74716D9-1E1D-FB08-94DF-3D5D3B9BF861">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 17:50:00 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>300</dataTypeSize>
+</Attribute>
+<Attribute name="is_active" id="C06092FB-B8AF-3FA4-4ECD-992A62378FD2">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 17:56:16 UTC</createdTime>
+<comment>Y or N</comment>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="false"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+</Attribute>
+<Attribute name="general_data_id" id="475818CA-6C06-D30F-B46B-86BFBFCEAA2F">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 17:58:59 UTC</createdTime>
+<comment>PK</comment>
+<generatorID>36587DBB-55EE-6309-44FD-3EB49B852EDB</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="false"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>DD377539-A314-D61E-E329-864F68338FE5</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="5EB74BF9-65DC-D942-7194-C7844532D25A" name="gga_playlist PK">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 18:01:15 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
+<engineerTo>
+<item key="96C2A567-FCAD-0A4E-E3D0-52854AB96815" value="false"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>F0AAC2F1-7BB8-A7D5-2D80-0124266B0AEC</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

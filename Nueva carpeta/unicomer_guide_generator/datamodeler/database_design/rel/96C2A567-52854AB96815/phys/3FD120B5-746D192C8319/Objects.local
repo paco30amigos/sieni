@@ -1,0 +1,12 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<oracle.dbtools.crest.model.design.storage.oracle.v12c.StorageDesignOraclev12c>
+   <object objectType="User" objectID="PUBLIC" name="PUBLIC" seqName="seg_0"/>
+   <object objectType="User" objectID="MDSYS" name="MDSYS" seqName="seg_0"/>
+   <object objectType="SType" objectID="47E390DE-0671-C4B1-8428-0F45CBEE18F8" name="SDO_GEOMETRY" seqName="seg_0"/>
+   <object objectType="SType" objectID="F72C39E0-D1CA-8821-2AD7-A1E95A37D3D1" name="XMLTYPE" seqName="seg_0"/>
+   <object objectType="Table" objectID="37D310A9-14FC-81C2-F47E-D01410DD0443" name="gga_general_data" seqName="seg_0"/>
+   <object objectType="Table" objectID="437CD55B-0075-FBA6-3FF7-DDC6A93D7BA9" name="gga_playlist" seqName="seg_0"/>
+   <object objectType="Table" objectID="450ACF1D-08EA-3739-9334-124048440600" name="gga_playlist_link" seqName="seg_0"/>
+   <object objectType="Table" objectID="AB0BBB1D-D63C-0B7E-1C79-2086E3BBD31B" name="gga_link" seqName="seg_0"/>
+   <object objectType="Table" objectID="EA4FA8B9-3F57-9CA8-D036-467392D343E9" name="gga_link_extra_data" seqName="seg_0"/>
+</oracle.dbtools.crest.model.design.storage.oracle.v12c.StorageDesignOraclev12c>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<oracle.dbtools.crest.model.design.logical.LogicalDesign>
+   <object objectType="Entity" objectID="83F823D1-4E61-C2B2-22C0-5D70CE91E90E" name="gga_general_data" seqName="seg_0"/>
+   <object objectType="Entity" objectID="32FA697F-6B5F-F9F9-4226-60EA2F626DB5" name="gga_generaldata_link" seqName="seg_0"/>
+   <object objectType="Entity" objectID="8B78390E-867A-AA5A-BA64-8ED269E95554" name="gga_link" seqName="seg_0"/>
+   <object objectType="Entity" objectID="63859164-9CB3-F779-1391-135589341CA1" name="gga_link_extra_data" seqName="seg_0"/>
+   <object objectType="Entity" objectID="A2041CFA-5299-FA3B-DB84-FAAEB6F174B2" name="gga_playlist" seqName="seg_0"/>
+   <object objectType="Entity" objectID="CAFB7F7F-2593-F1ED-9917-8C0E3C131369" name="gga_playlist_link" seqName="seg_0"/>
+   <object objectType="Relation" objectID="8E67932B-FF1C-F02E-20AF-3D0BCF4BA97A" name="back_link" seqName="seg_0"/>
+   <object objectType="Relation" objectID="36587DBB-55EE-6309-44FD-3EB49B852EDB" name="generak_data_playlist" seqName="seg_0"/>
+   <object objectType="Relation" objectID="39787FF5-6A65-4EC1-63A1-E376A7938AD3" name="generaldata_generaldatalink" seqName="seg_0"/>
+   <object objectType="Relation" objectID="315C4F94-B0C9-C43E-DE08-9EDF9D884D6F" name="link_generaldatalink" seqName="seg_0"/>
+   <object objectType="Relation" objectID="CE5A69E0-F7BA-0E17-625E-0CD470AD975A" name="link_linkExtraData" seqName="seg_0"/>
+   <object objectType="Relation" objectID="60D6CC76-7868-DCC8-7FD7-C9A3FE5DE5DE" name="next_link" seqName="seg_0"/>
+   <object objectType="Relation" objectID="954F5CDD-E145-9B97-187D-8E661AD667FA" name="playlistLink_link" seqName="seg_0"/>
+   <object objectType="Relation" objectID="8709A070-6548-8625-E528-6CB722FEBBA8" name="playlist_playlistLink" seqName="seg_0"/>
+</oracle.dbtools.crest.model.design.logical.LogicalDesign>

@@ -1,0 +1,47 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<TableProxyOraclev12c class="oracle.dbtools.crest.model.design.storage.oracle.v12c.TableProxyOraclev12c" name="gga_link" directorySegmentName="seg_0" id="AB0BBB1D-D63C-0B7E-1C79-2086E3BBD31B">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:31:04 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<logging>YES</logging>
+<partitionedRowMovement>DISABLE</partitionedRowMovement>
+<temporaryChanged>false</temporaryChanged>
+<accessDriverType>oracle_loader</accessDriverType>
+<rejectLimit></rejectLimit>
+<columnProxies itemClass="oracle.dbtools.crest.model.design.storage.oracle.v12c.ColumnProxyOraclev12c">
+<ColumnProxy name="starts_at" id="16AC5C54-4FFC-E70E-EC6F-BB109B631F1B">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:31:04 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="link_id" id="3DE3F73F-C05A-DB3C-C9FE-4A6C828FC4F7">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:31:04 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="ends_at" id="7B264A1A-9AAF-DA7A-5FA4-62ABBFCD6E85">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:31:04 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+</ColumnProxy>
+<ColumnProxy name="url_video" id="C99A5857-E1B3-6738-10B6-67B487BC3442">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:31:04 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+</ColumnProxy>
+</columnProxies>
+<primaryKeys>
+<PrimaryKey class="oracle.dbtools.crest.model.design.storage.oracle.v10g.PKProxyOraclev10g" name="gga_link_PK" id="A62928FD-C9E0-0B80-B9EC-13F1BA3860CA">
+<createdBy>francisco_medina</createdBy>
+<createdTime>2018-01-25 20:31:04 UTC</createdTime>
+<generatorID>Generado por el Usuario</generatorID>
+<ownerDesignName>database_design</ownerDesignName>
+<indexSort>SORTED</indexSort>
+</PrimaryKey>
+</primaryKeys>
+</TableProxyOraclev12c>

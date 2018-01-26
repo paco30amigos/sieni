@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <style type="text/css">
+            .fixed-size{
+                table-layout: fixed;
+                word-wrap: break-word;
+            }
+            .hidden{
+                display: none
+            }
+        </style>
+        <h:outputScript name="popcorn-complete.min.js" library="js" />
+        <h:outputScript name="jquery-1.11.3.min.js" library="js" />
+        <script type="text/javascript">
+
+            var videoPpal;
+            document.addEventListener("DOMContentLoaded", function () {
+                videoPpal = Popcorn("#videoPpal");
+            }, false);
+
+//            jQuery(window).load(function () {
+//                videoPpal.listen("timeupdate", function () {
+//                    jQuery(".duracion").val(parseInt(this.currentTime()));
+//                    //updateOutput();
+//                });
+//            });
+
+            function setCurrentTime() {
+                videoPpal = Popcorn("#videoPpal");
+                var currentTime = jQuery(".duracion").val();
+                videoPpal.currentTime(currentTime).play();
+                programUpdate();
+            }
+
+            var programUpdate = function () {
+                jQuery(".textValues .data").each(function () {
+                    var self = jQuery(this);
+                    var information = self.children(".information").html();
+                    var timeToShow = self.children(".timeToShow").html();
+                    var stopOnShow = self.children(".stopOnShow").html();
+                    videoPpal.exec(timeToShow, function () {
+                        if (stopOnShow === "true") {
+                            //analizar si se bloquea en el segundo en el que hace stop
+                            videoPpal.pause();
+                        }
+                        jQuery(".inf").text(information);
+                    });
+                });
+            }
+        </script>
+
+    </h:head>
+    <h:body>
+        <h:form id="mainForm">
+            <div class="ui-fluid">
+                <p:inputText  id="duracion" class="duracion hidden" value="#{MainClassController.selectedNode.data.timeInit}" />
+                <p:panelGrid id="responsiveMainPanel" layout="grid" columns="2" columnClasses="ui-grid-col-10,ui-grid-col-2">
+                    <p:panel id="videoPanel" class="ui-grid-col-10">
+                        <video id="videoPpal" controls="true" class="ui-grid-col-12" preload="true" autoplay="true" >
+                            <source src="#{MainClassController.selectedNode.data.fileSrc}" type="video/mp4" />
+                        </video>
+                    </p:panel>
+                    <p:tree id="opciones" value="#{MainClassController.root}" var="node" selectionMode="single" selection="#{MainClassController.selectedNode}"
+                            class="ui-grid-col-2" >
+                        <p:ajax event="select" update=":mainForm" oncomplete="setCurrentTime()" />
+                        <p:treeNode>
+                            <h:outputText value="#{node.displayName}" />
+                        </p:treeNode>
+                    </p:tree>
+                    <h:outputText id="informationText" class="inf" value="#{MainClassController.information}" escape="false"/>
+
+                </p:panelGrid>
+                <div class="textValues hidden">
+                    <ui:repeat value="#{MainClassController.selectedNode.data.informationAboutMultimedia}" var="inf">
+                        <div class="data">
+                            <div class="information">#{inf.information}</div>
+                            <div class="timeToShow">#{inf.timeToShow}</div>
+                            <div class="stopOnShow">#{inf.stopOnShow}</div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+</html>
+

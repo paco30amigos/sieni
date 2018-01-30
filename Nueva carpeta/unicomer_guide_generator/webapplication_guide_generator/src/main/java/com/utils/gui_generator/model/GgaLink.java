@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -48,15 +49,18 @@ public class GgaLink implements Serializable {
     @Size(max = 300)
     @Column(name = "URL_VIDEO")
     private String urlVideo;
+    @Size(max = 300)
+    @Column(name = "LINK_NAME")
+    private String linkName;
     @Column(name = "STARTS_AT")
     private BigInteger startsAt;
     @Column(name = "ENDS_AT")
     private BigInteger endsAt;
-    @OneToMany(mappedBy = "linkId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "linkId", fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private Set<GgaPlaylistLink> ggaPlaylistLinkSet;
-    @OneToMany(mappedBy = "linkId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "linkId", fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private Set<GgaLinkExtraData> ggaLinkExtraDataSet;
-    @OneToMany(mappedBy = "linkId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "linkId", fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private Set<GgaGeneraldataLink> ggaGeneraldataLinkSet;
 
     public GgaLink() {
@@ -148,6 +152,14 @@ public class GgaLink implements Serializable {
 
     public void setGgaGeneraldataLinkSet(Set<GgaGeneraldataLink> ggaGeneraldataLinkSet) {
         this.ggaGeneraldataLinkSet = ggaGeneraldataLinkSet;
+    }
+
+    public String getLinkName() {
+        return linkName;
+    }
+
+    public void setLinkName(String linkName) {
+        this.linkName = linkName;
     }
 
 }

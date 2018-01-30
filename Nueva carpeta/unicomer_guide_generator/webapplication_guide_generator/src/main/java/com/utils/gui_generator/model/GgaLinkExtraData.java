@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -50,7 +51,7 @@ public class GgaLinkExtraData implements Serializable {
     @Column(name = "PAUSE_ON_SHOW")
     private BigInteger pauseOnShow;
     @JoinColumn(name = "LINK_ID", referencedColumnName = "LINK_ID")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private GgaLink linkId;
 
     public GgaLinkExtraData() {

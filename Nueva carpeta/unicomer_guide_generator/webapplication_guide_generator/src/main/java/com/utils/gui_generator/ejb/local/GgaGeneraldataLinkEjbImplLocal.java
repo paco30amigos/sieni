@@ -6,6 +6,7 @@
 package com.utils.gui_generator.ejb.local;
 
 import com.utils.gui_generator.model.GgaGeneraldataLink;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -29,5 +30,7 @@ public interface GgaGeneraldataLinkEjbImplLocal {
     List<GgaGeneraldataLink> findRange(int[] range);
 
     int count();
-    
+
+    List<GgaGeneraldataLink> findByParentId(BigDecimal parentId);
+
 }

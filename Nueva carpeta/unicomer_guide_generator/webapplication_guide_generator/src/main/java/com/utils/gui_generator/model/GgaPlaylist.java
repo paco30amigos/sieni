@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -52,10 +53,10 @@ public class GgaPlaylist implements Serializable {
     @NotNull
     @Column(name = "IS_ACTIVE")
     private Character isActive;
-    @OneToMany(mappedBy = "playlistId",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "playlistId",fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private Set<GgaPlaylistLink> ggaPlaylistLinkSet;
     @JoinColumn(name = "GENERAL_DATA_ID", referencedColumnName = "GENERAL_DATA_ID")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private GgaGeneralData generalDataId;
 
     public GgaPlaylist() {

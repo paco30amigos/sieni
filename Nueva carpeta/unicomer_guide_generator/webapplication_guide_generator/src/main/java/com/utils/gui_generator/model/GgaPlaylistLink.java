@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -43,14 +44,11 @@ public class GgaPlaylistLink implements Serializable {
     @Column(name = "ORDER_NUM")
     private BigInteger orderNum;
     @JoinColumn(name = "LINK_ID", referencedColumnName = "LINK_ID")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private GgaLink linkId;
     @JoinColumn(name = "PLAYLIST_ID", referencedColumnName = "PLAYLIST_ID")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private GgaPlaylist playlistId;
-    @JoinColumn(name = "NEXT_LINK", referencedColumnName = "PLAYLIST_LINK_ID")
-    @ManyToOne
-    private GgaPlaylistLink nextLink;
     
 
     public GgaPlaylistLink() {

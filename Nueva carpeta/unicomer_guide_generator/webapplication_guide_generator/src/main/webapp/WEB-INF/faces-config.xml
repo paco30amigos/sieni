@@ -10,8 +10,8 @@
             <supported-locale>en</supported-locale>
         </locale-config>
         <resource-bundle>
-            <base-name>com.unicomer.psdisr.utilities.i18n.BundlePsdisr</base-name>
-            <var>BundlePsdisr</var>
+            <base-name>com.utils.i18n.BundleGga</base-name>
+            <var>BundleGga</var>
         </resource-bundle>
     </application>
 </faces-config>

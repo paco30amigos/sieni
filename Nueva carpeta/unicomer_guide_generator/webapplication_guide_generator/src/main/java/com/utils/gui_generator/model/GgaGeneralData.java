@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,8 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "GGA_GENERAL_DATA")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "GgaGeneralData.findAll", query = "SELECT g FROM GgaGeneralData g")
-    ,@NamedQuery(name = "GgaGeneralData.findAllFetch", query = "SELECT g FROM GgaGeneralData g JOIN FETCH g.ggaPlaylistSet p join fetch p.ggaPlaylistLinkSet pl join fetch pl.linkId l join fetch l.ggaLinkExtraDataSet led")
+    @NamedQuery(name = "GgaGeneralData.findAll", query = "SELECT g FROM GgaGeneralData g") 
+    ,@NamedQuery(name = "GgaGeneralData.findAllFetch", query = "SELECT distinct g FROM GgaGeneralData g join fetch  g.ggaGeneraldataLinkSet gdle where gdle.parentLinkId IS NULL")
     , @NamedQuery(name = "GgaGeneralData.findByGeneralDataId", query = "SELECT g FROM GgaGeneralData g WHERE g.generalDataId = :generalDataId")
     , @NamedQuery(name = "GgaGeneralData.findByTitle", query = "SELECT g FROM GgaGeneralData g WHERE g.title = :title")
     , @NamedQuery(name = "GgaGeneralData.findByDescription", query = "SELECT g FROM GgaGeneralData g WHERE g.description = :description")})
@@ -52,9 +53,9 @@ public class GgaGeneralData implements Serializable {
     @Size(max = 500)
     @Column(name = "DESCRIPTION")
     private String description;
-    @OneToMany(mappedBy = "generalDataId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "generalDataId", fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private Set<GgaPlaylist> ggaPlaylistSet;
-    @OneToMany(mappedBy = "generalDataId", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "generalDataId", fetch = FetchType.LAZY,cascade = CascadeType.REFRESH)
     private Set<GgaGeneraldataLink> ggaGeneraldataLinkSet;
 
     public GgaGeneralData() {

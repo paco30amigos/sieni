@@ -10,6 +10,9 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import com.utils.gui_generator.model.GgaGeneraldataLink;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,5 +32,18 @@ public class GgaGeneraldataLinkEjbImpl extends AbstractFacade<GgaGeneraldataLink
     public GgaGeneraldataLinkEjbImpl() {
         super(GgaGeneraldataLink.class);
     }
-    
+
+    @Override
+    public List<GgaGeneraldataLink> findByParentId(BigDecimal parentId) {
+        Query q = em.createNamedQuery("GgaGeneraldataLink.findByParentId");
+        q.setParameter("parentLinkId", parentId);
+        List<GgaGeneraldataLink> ret = q.getResultList();
+        if (ret != null && !ret.isEmpty()) {
+            for (GgaGeneraldataLink actual : ret) {
+                em.refresh(actual);
+                em.refresh(actual.getLinkId());
+            }
+        }
+        return ret;
+    }
 }

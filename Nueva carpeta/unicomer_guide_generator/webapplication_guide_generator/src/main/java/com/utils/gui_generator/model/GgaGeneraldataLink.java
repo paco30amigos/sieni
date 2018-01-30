@@ -19,7 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlRootElement; 
 
 /**
  *
@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "GGA_GENERALDATA_LINK")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "GgaGeneraldataLink.findAll", query = "SELECT g FROM GgaGeneraldataLink g")
+    @NamedQuery(name = "GgaGeneraldataLink.findAll", query = "SELECT g FROM GgaGeneraldataLink g") 
+    , @NamedQuery(name = "GgaGeneraldataLink.findByParentId", query = "SELECT g FROM GgaGeneraldataLink g join fetch g.parentLinkId pl WHERE pl.generaldataLinkId=:parentLinkId ")
     , @NamedQuery(name = "GgaGeneraldataLink.findByGeneraldataLinkId", query = "SELECT g FROM GgaGeneraldataLink g WHERE g.generaldataLinkId = :generaldataLinkId")})
 public class GgaGeneraldataLink implements Serializable {
 
@@ -41,21 +42,24 @@ public class GgaGeneraldataLink implements Serializable {
     @Column(name = "GENERALDATA_LINK_ID")
     private BigDecimal generaldataLinkId;
     @JoinColumn(name = "GENERAL_DATA_ID", referencedColumnName = "GENERAL_DATA_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private GgaGeneralData generalDataId;
-    @OneToOne(mappedBy = "nextLinkId", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "nextLinkId")
     private GgaGeneraldataLink ggaGeneraldataLink;
     @JoinColumn(name = "NEXT_LINK_ID", referencedColumnName = "GENERALDATA_LINK_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private GgaGeneraldataLink nextLinkId;
-    @OneToOne(mappedBy = "backLinkId", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "backLinkId")
     private GgaGeneraldataLink ggaGeneraldataLink1;
     @JoinColumn(name = "BACK_LINK_ID", referencedColumnName = "GENERALDATA_LINK_ID")
     @OneToOne(fetch = FetchType.LAZY)
     private GgaGeneraldataLink backLinkId;
     @JoinColumn(name = "LINK_ID", referencedColumnName = "LINK_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private GgaLink linkId;
+    @JoinColumn(name = "PARENT_LINK_ID", referencedColumnName = "GENERALDATA_LINK_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private GgaGeneraldataLink parentLinkId;
 
     public GgaGeneraldataLink() {
     }
@@ -143,6 +147,14 @@ public class GgaGeneraldataLink implements Serializable {
     @Override
     public String toString() {
         return "com.utils.gui_generator.model.GgaGeneraldataLink[ generaldataLinkId=" + generaldataLinkId + " ]";
+    }
+
+    public GgaGeneraldataLink getParentLinkId() {
+        return parentLinkId;
+    }
+
+    public void setParentLinkId(GgaGeneraldataLink parentLinkId) {
+        this.parentLinkId = parentLinkId;
     }
 
 }

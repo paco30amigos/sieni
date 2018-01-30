@@ -15,28 +15,42 @@
             .hidden{
                 display: none
             }
+            .autoWidth{
+                width: 100%
+            }
         </style>
         <h:outputScript name="popcorn-complete.min.js" library="js" />
         <h:outputScript name="jquery-1.11.3.min.js" library="js" />
         <script type="text/javascript">
-
+            //<![CDATA[
+            var globalCurrentVideo = "";
             var videoPpal;
             document.addEventListener("DOMContentLoaded", function () {
                 videoPpal = Popcorn("#videoPpal");
             }, false);
 
-//            jQuery(window).load(function () {
-//                videoPpal.listen("timeupdate", function () {
-//                    jQuery(".duracion").val(parseInt(this.currentTime()));
-//                    //updateOutput();
-//                });
-//            });
-
             function setCurrentTime() {
                 videoPpal = Popcorn("#videoPpal");
-                var currentTime = jQuery(".duracion").val();
-                videoPpal.currentTime(currentTime).play();
+                var startsAt = jQuery(".startsAt").val();
+                var endsAt = jQuery(".endsAt").val();
+                videoPpal.currentTime(startsAt).play();
+                var currentVideo = jQuery(".urlVid").val();
+
+
+                if (endsAt !== 'undefined') {
+                    videoPpal.exec(endsAt, function () {
+                        videoPpal.pause();
+                    });
+                }
+                if (globalCurrentVideo !== currentVideo) {
+                    globalCurrentVideo = currentVideo;
+//                    updateVideoContainer();
+                }
                 programUpdate();
+
+            }
+            var updateVideoContainer = function () {
+                updateVideoPanel();
             }
 
             var programUpdate = function () {
@@ -46,46 +60,74 @@
                     var timeToShow = self.children(".timeToShow").html();
                     var stopOnShow = self.children(".stopOnShow").html();
                     videoPpal.exec(timeToShow, function () {
-                        if (stopOnShow === "true") {
-                            //analizar si se bloquea en el segundo en el que hace stop
+                        if (stopOnShow === "1") {
+                            //analizar si se bloquea en el segundo en el que hace la pausa
                             videoPpal.pause();
                         }
-                        jQuery(".inf").text(information);
+                        jQuery(".ql-editor").text(information);
                     });
                 });
+                if (jQuery(".textValues").empty()) {
+                    jQuery(".ql-editor").text("");
+                }
             }
+            //]]>
         </script>
 
     </h:head>
     <h:body>
         <h:form id="mainForm">
+
             <div class="ui-fluid">
-                <p:inputText  id="duracion" class="duracion hidden" value="#{MainClassController.selectedNode.data.timeInit}" />
-                <p:panelGrid id="responsiveMainPanel" layout="grid" columns="2" columnClasses="ui-grid-col-10,ui-grid-col-2">
-                    <p:panel id="videoPanel" class="ui-grid-col-10">
-                        <video id="videoPpal" controls="true" class="ui-grid-col-12" preload="true" autoplay="true" >
-                            <source src="#{MainClassController.selectedNode.data.fileSrc}" type="video/mp4" />
-                        </video>
-                    </p:panel>
-                    <p:tree id="opciones" value="#{MainClassController.root}" var="node" selectionMode="single" selection="#{MainClassController.selectedNode}"
-                            class="ui-grid-col-2" >
-                        <p:ajax event="select" update=":mainForm" oncomplete="setCurrentTime()" />
+                <p:inputText  id="startsAt" class="startsAt hidden" value="#{MainClassController.currentLinkSelected.linkId.startsAt}" />
+                <p:inputText  id="endsAt" class="endsAt hidden" value="#{MainClassController.currentLinkSelected.linkId.endsAt}" />
+                <p:inputText  id="urlVid" class="urlVid hidden" value="#{MainClassController.currentLinkSelected.linkId.urlVideo}" />
+                <p:remoteCommand name="updateVideoPanel" update=":mainForm:videoPanel" />
+                <p:menubar >
+                    <p:submenu label="#{BundleGga.ui_general_option}" icon="fa fa-fw fa-server" >
+                        <p:menuitem value="#{BundleGga.ui_general_option_add}" icon="ui-icon-contact" />
+                        <p:menuitem value="#{BundleGga.ui_general_option_edit}" icon="ui-icon-pencil"/>
+                    </p:submenu>
+                    <p:submenu label="#{BundleGga.ui_video_options}"  icon="fa fa-fw fa-file-movie-o" >
+                        <p:menuitem value="#{BundleGga.ui_video_add}" icon="ui-icon-contact"/>
+                        <p:menuitem value="#{BundleGga.ui_video_edit}" icon="ui-icon-pencil"/>
+                    </p:submenu>
+                    <p:submenu label="#{BundleGga.ui_extra_data_options}" icon="fa fa-fw fa-file-text-o">
+                        <p:menuitem value="#{BundleGga.ui_extra_data_add}" icon="ui-icon-contact"/>
+                        <p:menuitem value="#{BundleGga.ui_extra_data_edit}" icon="ui-icon-pencil"/>
+                    </p:submenu>
+                </p:menubar>
+                <p:panelGrid id="responsiveMainPanel" layout="grid" columns="2" columnClasses="ui-grid-col-4,ui-grid-col-8" >
+                    <p:tree id="opciones" value="#{MainClassController.root}" var="node" selectionMode="single" selection="#{MainClassController.selectedNode}" class="fixed-size">
+                        <p:ajax event="select" listener="#{MainClassController.selectCurrentNode()}" update=":mainForm:startsAt :mainForm:endsAt :mainForm:urlVid :mainForm:extraData :mainForm:videoPanel" oncomplete="setCurrentTime()" />
                         <p:treeNode>
-                            <h:outputText value="#{node.displayName}" />
+                            <h:outputText value="#{node.nodeName}" style="fixed-size" />
                         </p:treeNode>
                     </p:tree>
-                    <h:outputText id="informationText" class="inf" value="#{MainClassController.information}" escape="false"/>
-
+                    <p:panel id="videoPanel" class="ui-grid-col-12">
+                        <video id="videoPpal" controls="true" class="ui-grid-col-12" preload="true" autoplay="true" >
+                            <source src="#{MainClassController.currentLinkSelected.linkId.urlVideo}" type="video/mp4" />
+                        </video>
+                    </p:panel>
+                    <br />
+                    <p:textEditor id="informationText" value="" class="inf" readonly="true"   >
+                        <f:facet name="toolbar">
+                            <span class="ql-formats hidden">
+                            </span>
+                        </f:facet>
+                    </p:textEditor>
                 </p:panelGrid>
-                <div class="textValues hidden">
-                    <ui:repeat value="#{MainClassController.selectedNode.data.informationAboutMultimedia}" var="inf">
-                        <div class="data">
-                            <div class="information">#{inf.information}</div>
-                            <div class="timeToShow">#{inf.timeToShow}</div>
-                            <div class="stopOnShow">#{inf.stopOnShow}</div>
-                        </div>
-                    </ui:repeat>
-                </div>
+                <p:panel id="extraData" class="hidden">
+                    <div class="textValues">
+                        <ui:repeat value="#{MainClassController.currentLinkExtraData}" var="inf">
+                            <div class="data">
+                                <div class="information">#{inf.content}</div>
+                                <div class="timeToShow">#{inf.showAt}</div>
+                                <div class="stopOnShow">#{inf.pauseOnShow}</div>
+                            </div>
+                        </ui:repeat>
+                    </div>
+                </p:panel>
             </div>
         </h:form>
     </h:body>

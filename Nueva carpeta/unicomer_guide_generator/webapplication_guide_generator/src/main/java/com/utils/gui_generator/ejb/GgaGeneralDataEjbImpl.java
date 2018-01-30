@@ -34,8 +34,13 @@ public class GgaGeneralDataEjbImpl extends AbstractFacade<GgaGeneralData> implem
 
     @Override
     public List<GgaGeneralData> getAllGeneralDataFetch() {
+        List<GgaGeneralData> ret;
         Query q = em.createNamedQuery("GgaGeneralData.findAllFetch");
-        return q.getResultList();
+        ret = q.getResultList();
+        for (GgaGeneralData actual : ret) {
+            em.refresh(actual);
+        }
+        return ret;
     }
 
 }
